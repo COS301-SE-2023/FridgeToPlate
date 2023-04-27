@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "15.9.2",
+    "@nxrocks/nx-spring-boot": "^7.0.0",
     "nx": "15.9.2"
   }
 }
