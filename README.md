@@ -1,11 +1,11 @@
 # Spice Girls Inc. 
-# FridgeToPlate
+## FridgeToPlate
 
 FridgeToPlate is a user-friendly app that utilizes preference AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
 COS301 Capstone Project for [Amazon Web Services](https://aws.amazon.com/).
 
-# Development Team
+## Development Team
 
 ### Ryan Trickett
 Descr
@@ -56,9 +56,9 @@ Descr
 ## Contact Us:
 <a href="mailto: spicegirlsincorp@gmail.com">
     <img alt="ion" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-</a><br><br>
+</a><br>
 
-# Tech Stack
+## Tech Stack
 
 **Client:** <br>
 <a href="https://angular.io/docs">
@@ -80,17 +80,17 @@ Descr
 </a>
 <a href="https://graphql.org/">
     <img alt="ion" src="https://img.shields.io/badge/GraphQl-E10098?style=for-the-badge&logo=graphql&logoColor=white" />
-</a><br><br>
+</a><br>
 
-# Project Information
-## GitHub Project Board:
+## Project Information
+### GitHub Project Board:
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
-## Functional Requirements:
+### Functional Requirements:
 <a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
-## Demos:
+### Demos:
