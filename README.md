@@ -26,14 +26,15 @@ Descr
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
 ### Paul Pilane
-Descr
-<br>
-<a href="https://github.com/ryanbasiltrickett">
+I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing enviroments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation. 
+
+<a href="https://github.com/PaulPilane">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
-<a href="https://www.linkedin.com/in/ryan-trickett/">
+<a href="https://www.linkedin.com/in/paul-pilane/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
+
 ### Kopano Phutiyagae
 Descr
 <br>
