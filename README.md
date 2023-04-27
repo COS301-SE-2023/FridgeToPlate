@@ -84,7 +84,7 @@ Descr
 
 ## Project Information
 ### GitHub Project Board:
-<a href="https://github.com/ryanbasiltrickett">
+<a href="https://github.com/orgs/COS301-SE-2023/projects/5">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
