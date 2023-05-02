@@ -20,7 +20,6 @@ A final year Computer Science student at the University of Pretoria. I am a fast
 ### Azola Lukhozi
 Descr
 
-<br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
@@ -41,7 +40,6 @@ I am a Final-Year Computer Science student at the University of Pretoria. I am a
 ### Kopano Phutiyagae
 Descr
 
-<br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
@@ -52,7 +50,6 @@ Descr
 ### Simphiwe Nonabe
 Descr
 
-<br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
