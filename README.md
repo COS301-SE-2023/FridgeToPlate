@@ -17,8 +17,10 @@ A final year Computer Science student at the University of Pretoria. I am a fast
 <a href="https://www.linkedin.com/in/ryan-trickett/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
+
 ### Azola Lukhozi
 Descr
+
 <br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
@@ -26,6 +28,7 @@ Descr
 <a href="https://www.linkedin.com/in/ryan-trickett/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
+
 ### Paul Pilane
 I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing enviroments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation. 
 
@@ -38,6 +41,7 @@ I am a Final-Year Computer Science student at the University of Pretoria. I am a
 
 ### Kopano Phutiyagae
 Descr
+
 <br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
@@ -45,8 +49,10 @@ Descr
 <a href="https://www.linkedin.com/in/ryan-trickett/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
+
 ### Simphiwe Nonabe
 Descr
+
 <br>
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
