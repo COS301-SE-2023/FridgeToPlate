@@ -2,7 +2,14 @@
   "name": "fridge-to-plate",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:app:dev": "npx nx run app:serve --configuration=development",
+    "start:app:prod": "npx nx run app:serve --configuration=production",
+    "start:api": "npx nx run api:serve",
+    "build:app:dev": "npx nx run app:build --configuration=development",
+    "build:app:prod": "npx nx run app:build --configuration=production",
+    "build:api": "npx nx run api:build"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~15.2.0",
