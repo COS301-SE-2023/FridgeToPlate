@@ -8,16 +8,27 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
       }
     }
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "test": {
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js"
+      ]
     },
     "lint": {
       "inputs": [
@@ -41,5 +52,8 @@
     "@nrwl/angular:component": {
       "style": "scss"
     }
-  }
+  },
+  "plugins": [
+    "@nxrocks/nx-spring-boot"
+  ]
 }
