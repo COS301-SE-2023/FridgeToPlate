@@ -49,12 +49,7 @@ Descr
 
 ### Simphiwe Nonabe
 I am a 3rd year Computer Science student who constantly seeks opportunities wherein I can improve
-my knowledge and skillset for the betterment of myself, those around me and my environment. I can work by
-myself and with a team. I can work well under immense pressure, and I always attempt to do my absolute best
-at every task in which I partake as I believe that it is not necessarily what you do that counts but rather how
-you do it, as that often determines the level of your success. I believe that I possess exceptional qualities which
-make me extremely helpful and useful in different working environments and if, by chance, I do not then I am
-willing to put in the time and energy to learn.
+my knowledge and skillset for the betterment of myself, those around me and my environment. I can work by myself and with a team. I can work well under immense pressure, and I always attempt to do my absolute best at every task in which I partake as I believe that it is not necessarily what you do that counts but rather how you do it, as that often determines the level of your success. I believe that I possess exceptional qualities which make me extremely helpful and useful in different working environments and if, by chance, I do not then I am willing to put in the time and energy to learn.
 
 <a href="https://github.com/simphiwe-nonabe">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
