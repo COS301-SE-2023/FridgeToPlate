@@ -38,12 +38,12 @@ I am a Final-Year Computer Science student at the University of Pretoria. I am a
 </a><br>
 
 ### Kopano Phutiyagae
-Descr
+I am a final year computer science student with a burning passion for learning more about technology. I am motivated to solve problems through efficient solutions and aim to provide modern solutions to modern problems.
 
-<a href="https://github.com/ryanbasiltrickett">
+<a href="https://github.com/kphutiyagae">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
-<a href="https://www.linkedin.com/in/ryan-trickett/">
+<a href="https://www.linkedin.com/in/kopano-phutiyagae/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
 
