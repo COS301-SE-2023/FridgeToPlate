@@ -7,18 +7,18 @@ COS301 Capstone Project for [Amazon Web Services](https://aws.amazon.com/).
 
 ## Development Team
 
-### Ryan Trickett
+### Ryan Trickett (Team Lead)
 A final year Computer Science student at the University of Pretoria. I am a fast learning and passionate developer with interests in DevOps, Backend Technologies and Data Security. Technology and innovation inspire me to develop and create software that impacts peoples lives positively.
 
-<a href="https://github.com/ryanbasiltrickett">
+<a href="https://github.com/Shojiki-Lukhozi">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
-<a href="https://www.linkedin.com/in/ryan-trickett/">
+<a href="https://www.linkedin.com/in/azola-lukhozi/">
     <img alt="ion" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a><br>
 
 ### Azola Lukhozi
-Descr
+Final year Computer Science student at the University of Pretoria. I'm an enthusiastic and compassionate engineer with the desire to thrive in areas such as Software Engineering, Application and Web Develpment. I'm always up for an intellectually stimulating challenge.
 
 <a href="https://github.com/ryanbasiltrickett">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
