@@ -29,4 +29,29 @@ jobs:
       run: npm run test:api
       
     - name: Build API
-      run: npm run build:api
+      run: npm run build:api 
+
+  test_build_app:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v23
+      with:
+        node-version: '16.x'
+
+    - name: Setup NX
+      uses: nrwl/nx-set-shas@v3
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Test App
+      run: npm run test:app
+      
+    - name: Build App
+      run: npm run build:app
