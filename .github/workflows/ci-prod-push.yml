@@ -1,0 +1,33 @@
+name: Production CI on Push
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  test_build_api:
+
+    runs-on: windows-latest
+    environment: Production 
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+    
+    - name: Setup JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup NX
+      uses: nrwl/nx-set-shas@v3
+
+    - name: Test API
+      run: npm run test:api
+      
+    - name: Build API
+      run: npm run build:api
