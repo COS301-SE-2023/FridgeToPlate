@@ -44,7 +44,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup NX
-      uses: nrwl/nx-set-shas@v3
+      run: npm install --global nx@latest
 
     - name: Install Dependencies
       run: npm install
@@ -53,7 +53,7 @@ jobs:
       run: npx nx run app:lint
 
     - name: Test App
-      run: npm run test:app:dev
+      run: npm run test:app
       
     - name: Build App
       run: npm run build:app:dev

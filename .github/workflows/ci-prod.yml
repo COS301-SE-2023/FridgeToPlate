@@ -26,7 +26,7 @@ jobs:
         distribution: 'temurin'
         
     - name: Setup NX
-      uses: nrwl/nx-set-shas@v3
+      run: npm install --global nx@latest
 
     - name: Test API
       run: npm run test:api
@@ -56,7 +56,7 @@ jobs:
       run: npm ci
 
     - name: Test App
-      run: npm run test:app:prod
+      run: npm run test:app
       
     - name: Build App
       run: npm run build:app:prod
