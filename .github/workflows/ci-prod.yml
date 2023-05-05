@@ -2,9 +2,9 @@ name: Production CI
 
 on:
   push:
-    branches: [ dev, feat/* ]
+    branches: [ main ]
   pull_request:
-    branches: [ dev, feat/* ]
+    branches: [ main ]
 
 permissions:
   contents: read
