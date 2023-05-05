@@ -1,4 +1,4 @@
-name: Development CI on PR
+name: Development CI
 
 on:
   push:
