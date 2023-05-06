@@ -61,6 +61,12 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: Test App
+      run: npm run test:app:ci
+      
+    - name: Build App
+      run: npm run build:app:prod
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -68,9 +74,3 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         projectBaseDir: apps/app/
-
-    - name: Test App
-      run: npm run test:app
-      
-    - name: Build App
-      run: npm run build:app:prod
