@@ -18,12 +18,19 @@ jobs:
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v3
+
+    - name: Setup NodeJS and Cache
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
     
-    - name: Setup JDK 17
+    - name: Setup JDK 17 and Cache
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'gradle'
         
     - name: Setup NX
       run: npm install nx@latest
@@ -43,7 +50,7 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Setup NodeJS
+    - name: Setup NodeJS and Cache
       uses: actions/setup-node@v3
       with:
         node-version: 16
