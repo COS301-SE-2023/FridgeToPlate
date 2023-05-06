@@ -26,7 +26,7 @@ jobs:
         distribution: 'temurin'
         
     - name: Setup NX
-      run: npm install --global nx@latest
+      run: npm install nx@latest
 
     - name: Test API
       run: npm run test:api
@@ -43,17 +43,17 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Setup NodeJS
-      uses: actions/setup-node@v3
+    - name: Cache Dependencies
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-node-modules
       with:
-        node-version: 16
-        cache: 'npm'
-
-    - name: Setup NX
-      run: npm install --global nx@latest
+        path: |
+          **/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install Dependencies
-      run: npm ci
+      run: npm install
 
     - name: Test App
       run: npm run test:app
