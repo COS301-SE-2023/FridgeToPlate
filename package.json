@@ -11,7 +11,8 @@
     "build:api": "npx nx run api:build",
     "e2e:app:prod": "npx nx run app-e2e:e2e --configuration=production",
     "e2e:app:ci": "npx nx run app-e2e:e2e --configuration=ci",
-    "test:app:ci": "npx nx run app:test --configuration=ci",
+    "test:app": "npx nx run app:test",
+    "test:app:ci": "npx nx run app:test --codeCoverage=true --coverageReporters=lcov --parallel=true",
     "test:api": "npx nx run api:test"
   },
   "private": true,
