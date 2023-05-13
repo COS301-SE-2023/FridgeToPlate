@@ -1,0 +1,45 @@
+name: Development CI/CD
+
+on:
+  push:
+    branches: [ dev ]
+
+permissions:
+  contents: read
+
+jobs:
+  ci-workflow:
+    uses: COS301-SE-2023/FridgeToPlate/.github/workflows/ci-dev.yml@main
+
+  # deploy-app:
+
+  #   name: App Deployment
+  #   needs: ci-workflow
+  #   runs-on: ubuntu-latest
+  #   environment: Development  
+    
+  #   steps:
+  #   - name: Checkout Repo
+  #     uses: actions/checkout@v3
+
+  #   - name: Configure AWS Credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: sa-east-1
+
+  #   - name: Setup NodeJS and Cache
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: 16
+  #       cache: 'npm'
+
+  #   - name: Install Dependencies
+  #     run: npm install
+      
+  #   - name: Build App
+  #     run: npm run build:app:dev
+
+  #   - name: Deploy App
+  #     run: aws s3 sync ./dist/angular-github-actions-amazon-s3 s3://angular-github-actions-amazon-s3
