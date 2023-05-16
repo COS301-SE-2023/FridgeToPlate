@@ -1,12 +1,12 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppComponent } from "./app.component";
+import { CoreShell } from "./core.shell";
 import { NxWelcomeComponent } from "./nx-welcome.component";
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
+  declarations: [CoreShell, NxWelcomeComponent],
   imports: [BrowserModule],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [CoreShell],
 })
-export class AppModule {}
+export class CoreModule {}
