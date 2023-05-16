@@ -4,10 +4,11 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 
 const routes: Routes = [
     {
-        path: 'home',
+        path: '',
         pathMatch: 'full',
         component: NxWelcomeComponent,
     },
+
 ];
 
 @NgModule({

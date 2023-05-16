@@ -10,8 +10,8 @@ import { IonicRouteStrategy } from '@ionic/angular';
 @NgModule({
   declarations: [CoreShell, NxWelcomeComponent],
   imports: [
-    BrowserModule, 
-    // CoreRouting, 
+    BrowserModule,
+     CoreRouting,
     IonicModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
