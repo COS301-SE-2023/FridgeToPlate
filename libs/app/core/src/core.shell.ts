@@ -2,9 +2,9 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "fridge-to-plate-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  templateUrl: "./core.shell.html",
+  styleUrls: ["./core.shell.scss"],
 })
-export class AppComponent {
+export class CoreShell {
   title = "FridgeToPlate";
 }
