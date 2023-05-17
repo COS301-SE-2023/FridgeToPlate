@@ -2,9 +2,10 @@ name: Development CI
 
 on:
   push:
-    branches: [ dev, feat/* ]
+    branches: [ feat/* ]
   pull_request:
     branches: [ dev, feat/* ]
+  workflow_call:
 
 permissions:
   contents: read
