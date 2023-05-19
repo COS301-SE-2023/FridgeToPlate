@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
