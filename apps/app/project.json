@@ -15,8 +15,25 @@
         "main": "apps/app/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/app/tsconfig.app.json",
-        "assets": ["apps/app/src/favicon.ico", "apps/app/src/assets"],
-        "styles": ["apps/app/src/styles.scss"],
+        "assets": [
+          "apps/app/src/favicon.ico",
+          {
+            "glob": "**/*",
+            "input": "apps/app/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/ionicons/dist/ionicons/svg",
+            "output": "./svg"
+          }
+        ],
+        "styles": [
+          "apps/app/src/styles.scss",
+          {
+            "input": "apps/app/src/theme/variables.scss"
+          }
+        ],
         "scripts": []
       },
       "configurations": {
