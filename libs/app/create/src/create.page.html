@@ -1,0 +1,21 @@
+<div class="h-screen overflow-y-scroll">
+    <h1 class="text-2xl font-bold mb-4">Recipe Ingredients Form</h1>
+  
+    <form [formGroup]="ingredientsForm" (ngSubmit)="submitForm()" class="space-y-4">
+      
+      <label for="recipe-name" class="font-bold block mb-2">Recipe Name:</label>
+      <input type="text" id="recipe-name" formControlName="recipeName" class="w-full border-gray-300 rounded px-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline-blue" />
+      
+      <div formArrayName="ingredients" class="w-full">
+        <div *ngFor="let ingredient of ingredientControls; let i=index" class="flex flex-col mb-4">
+          <label for="ingredient-{{i}}" class="font-bold block mb-2">Ingredient {{i+1}}:</label>
+          <input type="text" id="ingredient-{{i}}" [formControlName]="i" class="w-full border-gray-300 rounded px-4 py-2 focus:border-blue-500 focus:outline-none, focus:shadow-outline-blue" />
+        </div>
+      </div>
+  
+      <button type="button" (click)="addIngredient()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Ingredient</button><br><br>
+  
+      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+  
+    </form>
+</div>
