@@ -8,6 +8,11 @@ const routes: Routes = [
         pathMatch: 'full',
         component: NxWelcomeComponent,
     },
+    {
+        path: 'create',
+        loadChildren: () =>
+          import('@fridge-to-plate/app/create').then((m) => m.CreateModule),
+    },
 
 ];
 
