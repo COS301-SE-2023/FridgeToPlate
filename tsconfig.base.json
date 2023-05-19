@@ -17,7 +17,8 @@
     "paths": {
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
-      ]
+      ],
+      "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]
