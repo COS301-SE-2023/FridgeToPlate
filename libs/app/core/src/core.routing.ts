@@ -8,7 +8,10 @@ const routes: Routes = [
         pathMatch: 'full',
         component: NxWelcomeComponent,
     },
-
+    {
+        path: 'profile',
+        loadChildren: () => import('@fridge-to-plate/app/profile/feature').then((m) => m.ProfileModule),
+    },
 ];
 
 @NgModule({
