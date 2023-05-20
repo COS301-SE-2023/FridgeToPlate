@@ -13,7 +13,9 @@ module.exports = {
         'background-light': '#F8F8F8',
         'background-dark': '#010127',
         'primary': '#C35214',
-        'primary-highlight': '#E26310'
+        'primary-highlight': '#E26310',
+        'accept': '#2bc917',
+        'reject': '#d70b0b'
       },
       gridTemplateRows: {
         10: "repeat(10, minmax(0,1fr))",
