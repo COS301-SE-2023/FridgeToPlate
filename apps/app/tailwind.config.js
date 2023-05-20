@@ -34,6 +34,10 @@ module.exports = {
         12: "12",
         13: "13",
       },
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+        'wix-display': ['Wix Madefor Display', 'sans-serif']
+      }
     }
 
   },
