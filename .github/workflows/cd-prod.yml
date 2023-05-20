@@ -2,14 +2,14 @@ name: CI/CD
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
 permissions:
   contents: read
 
 jobs:
   ci-workflow:
-    uses: COS301-SE-2023/FridgeToPlate/.github/workflows/ci-prod.yml@main
+    uses: ./.github/workflows/ci-prod.yml
 
   deploy-app:
 
