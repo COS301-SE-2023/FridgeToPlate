@@ -1,1 +1,1 @@
-export * from './lib/app-recipe-recommendation.module';
+export * from './app-recipe-recommendation.module';
