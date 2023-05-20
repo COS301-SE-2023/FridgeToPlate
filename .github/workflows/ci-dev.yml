@@ -83,3 +83,4 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_APP }}
       with:
         projectBaseDir: apps/app/
+        projectKey: COS301-SE-2023_FridgeToPlate
