@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-// import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ProfilePage } from './profile.page';
 import { ProfileRouting } from './profile.routing';
@@ -8,7 +8,7 @@ import { ProfileRouting } from './profile.routing';
   imports: [
     CommonModule,
     ProfileRouting,
-    // IonicModule,
+    IonicModule,
   ],
   declarations: [ProfilePage],
   exports: [ProfilePage],
