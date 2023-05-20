@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   ci-workflow:
-    uses: COS301-SE-2023/FridgeToPlate/.github/workflows/ci-dev.yml@main
+    uses: ./.github/workflows/ci-dev.yml
 
   deploy-app:
 
