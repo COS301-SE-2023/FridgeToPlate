@@ -9,11 +9,31 @@ module.exports = {
   ],
   theme: {
     extend: {
-      'background-light': '#F8F8F8',
-      'background-dark': '#010127',
-      'primary': '#C35214',
-      'primary-highlight': '#E26310'
-    },
+      colors: {
+        'background-light': '#F8F8F8',
+        'background-dark': '#010127',
+        'primary': '#C35214',
+        'primary-highlight': '#E26310'
+      },
+      gridTemplateRows: {
+        10: "repeat(10, minmax(0,1fr))",
+        12: "repeat(12, minmax(0,1fr))",
+      },
+      gridRowStart: {
+        8: "8",
+        9: "9",
+        10: "10",
+      },
+      gridRowEnd: {
+        8: "8",
+        9: '9',
+        10: "10",
+        11: "11",
+        12: "12",
+        13: "13",
+      },
+    }
+
   },
   plugins: [],
 };
