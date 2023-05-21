@@ -1,14 +1,17 @@
 <div>
-<nz-steps [nzCurrent]="1">
+<nz-steps [nzCurrent]="currentStep">
   <nz-step></nz-step>
   <nz-step></nz-step>
   <nz-step></nz-step>
 </nz-steps>
 
-  <div>Step content</div>
+  <div>{{stepContent}}</div>
   <div class="step-actions">
-    <button (click)="nextStep()">
+    <button (click)="nextStep()" *ngIf="currentStep < 3">
       <span>Next</span>
+    </button>
+    <button (click)="previousStep()" *ngIf="currentStep > 0">
+      <span>Previous</span>
     </button>
   </div>
 </div>
