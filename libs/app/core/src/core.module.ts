@@ -5,9 +5,10 @@ import { NxWelcomeComponent } from "./nx-welcome.component";
 import { CoreRouting } from "./core.routing";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
 import { RouteReuseStrategy } from "@angular/router";
+import {TabbedComponent} from "./tabbed-component/tabbed-component";
 
 @NgModule({
-  declarations: [CoreShell, NxWelcomeComponent],
+  declarations: [CoreShell, NxWelcomeComponent, TabbedComponent],
   imports: [
     BrowserModule,
      CoreRouting,
