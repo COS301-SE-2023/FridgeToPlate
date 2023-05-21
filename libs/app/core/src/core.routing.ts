@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import {
-  RecipeRecommendationPage
-} from "../../recipe-recommendation/src/components/RecipeRecommendationPage/recipe-recommendation-page";
 
 const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
         component: NxWelcomeComponent,
-    }, { path: 'recommendations', component: RecipeRecommendationPage}
+    }, { path: 'recommendations', loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then( (m) => m.AppRecipeRecommendationModule)}
 ];
 
 @NgModule({

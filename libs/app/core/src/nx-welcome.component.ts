@@ -9,7 +9,7 @@ import { Component, ViewEncapsulation } from "@angular/core";
     color: #ff69b4;
     text-align: center;
   }
-  
+
   h2 {
     font-size: 24px;
     font-weight: normal;
