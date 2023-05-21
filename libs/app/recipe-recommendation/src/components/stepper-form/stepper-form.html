@@ -1,17 +1,20 @@
-<div>
-<nz-steps [nzCurrent]="currentStep">
-  <nz-step></nz-step>
-  <nz-step></nz-step>
-  <nz-step></nz-step>
-</nz-steps>
+<div class="w-full h-full ">
+  <div class="w-full">
+    <nz-steps [nzCurrent]="currentStep" class="flex flex-row justify-between items-center">
+      <nz-step ></nz-step>
+      <nz-step ></nz-step>
+      <nz-step ></nz-step>
+    </nz-steps>
+  </div>
 
-  <div>{{stepContent}}</div>
-  <div class="step-actions">
+  <div class="step-action">
     <button (click)="nextStep()" *ngIf="currentStep < 3">
       <span>Next</span>
     </button>
-    <button (click)="previousStep()" *ngIf="currentStep > 0">
+    <button (click)="previousStep()" *ngIf="currentStep > 1">
       <span>Previous</span>
     </button>
   </div>
+  <div class="steps-content">{{stepContent}}</div>
+
 </div>
