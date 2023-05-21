@@ -4,9 +4,10 @@ import { RecipeRecommendationPage } from "./components/RecipeRecommendationPage/
 import {RecommendationRouting} from "./recommendation.routing";
 import {IonicModule} from "@ionic/angular";
 import {StepperForm} from "./components/stepper-form/stepper-form";
+import {NzStepsModule} from "ng-zorro-antd/steps";
 
 @NgModule({
   declarations: [RecipeRecommendationPage, StepperForm],
-  imports: [CommonModule, RecommendationRouting, IonicModule],
+  imports: [CommonModule, RecommendationRouting, IonicModule, NzStepsModule],
 })
 export class AppRecipeRecommendationModule {}

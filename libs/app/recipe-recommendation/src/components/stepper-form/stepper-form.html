@@ -1,3 +1,14 @@
 <div>
-  Stepper
+<nz-steps [nzCurrent]="1">
+  <nz-step></nz-step>
+  <nz-step></nz-step>
+  <nz-step></nz-step>
+</nz-steps>
+
+  <div>Step content</div>
+  <div class="step-actions">
+    <button (click)="nextStep()">
+      <span>Next</span>
+    </button>
+  </div>
 </div>
