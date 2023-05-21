@@ -8,6 +8,10 @@ const routes: Routes = [
         pathMatch: 'full',
         component: NxWelcomeComponent,
     },
+    {
+        path: 'login',
+        loadChildren: () => import('@fri').then((m) => m.LoginModule),
+    },
 
 ];
 
