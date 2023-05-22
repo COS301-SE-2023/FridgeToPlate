@@ -5,8 +5,21 @@ import { Component } from "@angular/core";
   templateUrl: "./login.page.html",
   styleUrls: ["./login.page.scss"],
 })
-export class LoginPage {}
-
-function login() {
+export class LoginPage {
+  login() {
+    alert("Logging In...");
+  }
   
+  reset() {
+    alert("Resetting...");
+  }
+  
+  create() {
+    alert("Creating Account...");
+  }
+
+  guest() {
+    alert("Entering Guest...");
+  }
 }
+
