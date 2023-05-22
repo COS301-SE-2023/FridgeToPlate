@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        loadChildren: () => import('@fri').then((m) => m.LoginModule),
+        loadChildren: () => import('@fridge-to-plate/app/login/feature').then((m) => m.LoginModule),
     },
 
 ];
