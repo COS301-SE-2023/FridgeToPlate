@@ -1,1 +1,1 @@
-export * from './lib/app-signup-feature';
+export * from './signup.module';

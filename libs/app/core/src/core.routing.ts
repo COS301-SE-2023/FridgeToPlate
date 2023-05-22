@@ -8,6 +8,10 @@ const routes: Routes = [
         pathMatch: 'full',
         component: NxWelcomeComponent,
     },
+    {
+      path: 'signup',
+      loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
+  },
 
 ];
 
