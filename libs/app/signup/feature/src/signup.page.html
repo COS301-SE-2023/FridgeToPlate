@@ -1,31 +1,43 @@
 <ion-content>
 
-  <div class="container">
+  <div class="flex flex-col justify-center min-h-screen px-10 text-left">
 
-      <h1 class="header">Create <br> New Account</h1>
+      <h1 class="text-3x1 md:text-5x1 text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
 
-      <div class="text">
-        <p>Already have an account? <a href="Create-Page">Login</a></p>
+      <div class="text-left mb-4 py-1 space-x-12">
+        <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a href="Create-Page" class="text-black">Login</a></p>
       </div>
 
-      <div class="input-container">
-        <input type="text" placeholder="Username">
-        <br><br>
-        <input type="text" placeholder="Email">
-        <br><br>
-        <input type="password" placeholder="Password">
-        <br><br>
-        <input type="password" placeholder="Confirm Password">
-        <br><br>
+      <div class="w-full max-w-md py-1">
+        <input type="text" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
+        <input type="email" placeholder="Email" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
+        <input type="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
+        <input type="password" placeholder="Confirm Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
       </div>
 
-      <button class="login-button">Create Account</button>
-      <div class="text">
 
-        <p><a href="Create-Recipe-Page">Continue as guest</a></p>
+      <button onclick="signup()" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full max-w-md mb-4"><a href="Create-Recipe-Page">Create Account</a></button>
+
+      <div class="text-center py-4">
+        <p><a href="Create-Recipe-Page" class="text-gray-500 item">Continue as guest</a></p>
       </div>
 
   </div>
+
+  <!-- <div class="flex flex-col items-center justify-center min-h-screen px-10 text-left">
+
+    <div class="text-left mb-4 py-1 space-x-12">
+      <p class="text-sm md:text-base text-gray-500 py-1"></p>Do not have an account? <a href="Create-Page" class="text-black">Create</a>
+    </div>
+
+    <div class="w-full max-w-md py-1 space-y-6">
+      <input type="text" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1 ">
+      <input type="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
+    </div>
+
+    <button class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Create Account</button>
+
+  </div> -->
 
 
 </ion-content>
