@@ -29,6 +29,16 @@ export class ProfilePage {
       difficulty: "Easy",
       tags: ["Winter", "Hearty"]
     },
+    {
+      name: "Beef Stew",
+      difficulty: "Easy",
+      tags: ["Winter", "Hearty"]
+    },
+    {
+      name: "Beef Stew",
+      difficulty: "Easy",
+      tags: ["Winter", "Hearty"]
+    },
   ]
 
   ingredients = [
@@ -45,7 +55,7 @@ export class ProfilePage {
       amount: "200g"
     },
     {
-      name: "Stock",
+      name: "Chicken Stock",
       amount: "500ml"
     },
   ]
