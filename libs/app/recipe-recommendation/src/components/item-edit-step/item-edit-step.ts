@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {IngredientItem} from "../../data-access/mock-data/ingredients";
-import {getAllIngredients} from "../../data-access/store/state";
+import {getAllIngredients, removeIngredient} from "../../data-access/store/state";
 import {Observable, BehaviorSubject} from "rxjs";
 
 @Component({
@@ -13,6 +13,10 @@ export class ItemEditStep {
   items: IngredientItem[] = getAllIngredients();
 
   ingredientItems$ = new BehaviorSubject<IngredientItem[]>(this.items);
+
+  removeItem(item: IngredientItem){
+    this.ingredientItems$.next(removeIngredient(item, this.items));
+  }
 
   constructor() {
     console.log(this.items);
