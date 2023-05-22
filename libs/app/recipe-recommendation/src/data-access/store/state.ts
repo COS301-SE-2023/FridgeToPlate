@@ -1,4 +1,5 @@
 import {IngredientItem, ingredientsArray} from "../mock-data/ingredients";
+import {recipeArray} from "../mock-data/recipes";
 
 export function getAllIngredients() {
   return ingredientsArray;
@@ -26,3 +27,6 @@ export function removeIngredient(ingredient: IngredientItem, ingredients: Ingred
   return ingredients;
 }
 
+export function getRecommenedRecipes() {
+  return recipeArray;
+}
