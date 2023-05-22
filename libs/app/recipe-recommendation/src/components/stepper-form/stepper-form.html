@@ -12,9 +12,9 @@
     </div>
   </div>
 
-  <div class="step-action h-24 flex flex-row justify-between">
+  <div class="step-action h-24 flex flex-row justify-between px-6">
     <button (click)="previousStep()"  class="bg-primary h-8 rounded-md w-32 ml-2 disabled:bg-slate-500">
-      <span>Previous</span>
+      <span class="text-white">Previous</span>
     </button>
 
     <button (click)="nextStep()" *ngIf="currentStep < 3" class=" bg-primary h-8 rounded-md w-32">
