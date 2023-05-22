@@ -1,24 +1,13 @@
-<!-- 
-<div class="max-w-sm rounded overflow-hidden shadow-lg">
-  <img [src]="imageUrl" alt="Image Description" class="w-full">
-  <input type="file" (change)="handleImageUpload($event)" accept="image/*">
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">Image Card Title</div>
-    <p class="text-gray-700 text-base">Image Card Description</p>
-  </div>
-</div> -->
-
-
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="overflow-y-auto bg-white rounded-md shadow-md p-4">
   <div class="flex justify-center space-y-6">
     <img
-    src="https://tecdn.b-cdn.net/img/new/standard/city/041.webp"
-    class="h-auto max-w-sm rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
-    alt="" />
+    src="https://photos.bigoven.com/recipe/hero/lowfat-vegetable-lasagna-1336994.jpg"
+    class="h-25 rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
+    alt="Recipe Image" />
   </div>
   <br>
   <div class="mb-4">
-    <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-red-500">*</span></label>
+    <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
     <input type="text" id="name" formControlName="name" placeholder="Name" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
   </div>
 
@@ -30,13 +19,16 @@
    <div class="mb-4">
     <div class="flex justify-between mb-4">
       <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
-      <button type="button" (click)="addIngredient()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-blue-600">Add</button>
+      <button type="button" (click)="addIngredient()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Add</button>
     </div>
     <div formArrayName="ingredients">
       <div *ngFor="let ingredientControl of ingredientControls; let i = index" class="mb-2 ">
         <div class="flex items-center">
-          <input type="text" placeholder="Add Ingredient" id="ingredient-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
-          <button *ngIf="i !== 0" type="button" (click)="removeIngredient(i)" class="ml-2 px-2 py-1 bg-red-600 text-white  rounded-none hover:bg-red-500">Remove</button>
+          <input type="text" placeholder="Add Ingredient" id="ingredient-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" [readonly]="i !== instructionControls.length - 1" required>
+          <button type="button" (click)="addIngredient()"><ion-icon name="create-outline" size="large"></ion-icon>
+          </button>
+          <button type="button" (click)="removeIngredient(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon>
+          </button>
         </div>
       </div>
     </div>
@@ -45,13 +37,15 @@
   <div class="mb-4">
     <div class="flex justify-between mb-4">
       <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
-      <button type="button" (click)="addInstruction()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-blue-600">Add</button>
+      <button type="button" (click)="addInstruction()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Add</button>
     </div>
     <div formArrayName="instructions">
       <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2 ">
         <div class="flex items-center">
-          <input type="text" placeholder="Add Instruction" id="instruction-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
-          <button *ngIf="i !== 0" type="button" (click)="removeInstruction(i)" class="ml-2 px-2 py-1 bg-red-600 text-white rounded-none  hover:bg-red-500">Remove</button>
+          <input type="text" placeholder="Add Instruction" id="instruction-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"  [readonly]="i !== instructionControls.length - 1" required>
+          <button type="button" (click)="editInstruction(i)"><ion-icon name="create-outline" size="large"></ion-icon>
+          </button>
+          <button type="button" (click)="removeInstruction(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon></button>
         </div>
       </div>
     </div>
@@ -79,6 +73,5 @@
   <div class=" flex justify-center">
     <button type="submit" class="flex justify-center bg-orange-700 text-white hover:bg-orange-500 py-2 px-4 rounded-md">Create Recipe</button>
   </div>
-
 
 </form>
