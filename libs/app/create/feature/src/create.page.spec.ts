@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { CreatePage } from './create.page';
 
 describe('ComponentName', () => {
@@ -10,6 +10,7 @@ describe('ComponentName', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePage ],
+      imports: [ReactiveFormsModule],
       providers: [ FormBuilder ]
     })
     .compileComponents();
@@ -90,7 +91,9 @@ describe('toggleDietaryPlan', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [ CreatePage ],
       providers: [FormBuilder],
+      imports: [ReactiveFormsModule]
     });
     component = TestBed.createComponent(CreatePage).componentInstance;
     fb = TestBed.inject(FormBuilder);
