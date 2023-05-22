@@ -3,11 +3,11 @@
     <div class="h-2/3">
       <h2 class="text-3xl font-bold pt-24 pl-6">{{stepContent}}</h2>
     </div>
-    <div class="w-full h-1/3 px-6">
-      <nz-steps [nzCurrent]="currentStep" class="flex flex-row justify-between items-center">
-        <nz-step></nz-step>
-        <nz-step ></nz-step>
-        <nz-step ></nz-step>
+    <div class="w-full h-1/3 px-6 mt-4">
+      <nz-steps [nzProgressDot] [nzCurrent]="currentStep" class="flex flex-row justify-center items-center">
+        <nz-step class="mx-4"></nz-step>
+        <nz-step class="mx-4"></nz-step>
+        <nz-step class="mx-4"></nz-step>
       </nz-steps>
     </div>
   </div>
