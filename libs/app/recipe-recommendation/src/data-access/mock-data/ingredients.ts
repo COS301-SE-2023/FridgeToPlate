@@ -1,5 +1,16 @@
-const ingredientsArray = [
+export interface IngredientItem {
+  id: number;
+  name: string;
+  quantity: number;
+  metadata ?: {
+    amountPerUnit?: number;
+    unit?: string;
+  }
+}
+
+export const ingredientsArray: IngredientItem[] = [
   {
+    id: 0,
     name: 'Milk',
     quantity: 1,
     metadata: {
@@ -8,6 +19,7 @@ const ingredientsArray = [
     }
   },
   {
+    id: 1,
     name: 'Onions',
     quantity: 5,
     metadata: {
@@ -16,6 +28,7 @@ const ingredientsArray = [
     }
   },
   {
+    id: 2,
     name: 'Beef',
     quantity: 2,
     metadata: {
@@ -24,6 +37,7 @@ const ingredientsArray = [
     }
   },
   {
+    id: 3,
     name: 'Pasta',
     quantity: 3,
     metadata: {
@@ -32,6 +46,7 @@ const ingredientsArray = [
     }
   },
   {
+    id: 4,
     name: 'Tomatoes',
     quantity: 4,
     metadata: {
@@ -40,6 +55,7 @@ const ingredientsArray = [
     }
   },
   {
+    id: 5,
     name: 'Chicken',
     quantity: 5,
     metadata: {
