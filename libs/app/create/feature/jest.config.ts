@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-create-feature',
+  displayName: 'create',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/app/create/feature',

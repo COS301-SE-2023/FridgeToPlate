@@ -1,5 +1,5 @@
 {
-  "name": "app-create-feature",
+  "name": "create",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/app/create/feature/src",
   "prefix": "fridge-to-plate",
