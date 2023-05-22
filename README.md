@@ -5,7 +5,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
 ![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)
 [![Commits](https://img.shields.io/github/commit-activity/w/COS301-SE-2023/WriteToPdf)](https://github.com/COS301-SE-2023/WriteToPdf/issues)
-<hr>
 
 FridgeToPlate is a user-friendly app that utilizes preference AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
