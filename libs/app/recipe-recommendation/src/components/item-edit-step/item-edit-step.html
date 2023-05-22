@@ -3,16 +3,23 @@
     <div class="h-2/3">
       <nz-list>
         <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
-          <div class="bg-blue-200 mb-2 mx-6 h-24 flex flex-row">
-            <div class="bg-red-300 w-1/4 flex flex-row justify-center items-center">
-              <ion-thumbnail>
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          <div class="bg-primary-highlight mb-2 mx-6 h-24 flex flex-row rounded-md ">
+            <div class="w-1/4 flex flex-row justify-center items-center">
+              <ion-thumbnail class="h-16 w-16">
+                <img class="h-full w-full" alt="Silhouette of mountains"
+                     src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
               </ion-thumbnail>
             </div>
-            <div class="bg-purple-300 w-2/4">
-              {{item.name}}
+            <div class="w-2/4">
+              <p class="mt-3 ml-1 text-md font-semibold text-white ">{{item.name}}</p>
+              <p class="mt-[0.5] ml-1 text-md text-slate-400 font-medium">Quantity: {{item.quantity}}</p>
+              <div class="flex flex-row mt-1">
+                <div *ngFor="let tag of item?.metadata?.tags">
+                  <span class="bg-primary rounded-lg ml-1 h-4 px-2 text-white">{{tag}}</span>
+                </div>
+              </div>
             </div>
-            <div class="w-1/4 h-full bg-pink-400 flex flex-row justify-end items-center">
+            <div class="w-1/4 h-full flex flex-row justify-end items-center">
               <button class=" p-1.5 mr-6" (click)="removeItem(item)">
                 <span class="text-reject flex justify-center items-center">
                   <svg viewBox="64 64 896 896"

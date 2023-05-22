@@ -5,6 +5,7 @@ export interface IngredientItem {
   metadata ?: {
     amountPerUnit?: number;
     unit?: string;
+    tags?: string[];
   }
 }
 
@@ -15,7 +16,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 1,
     metadata: {
       amountPerUnit: 1000,
-      unit: 'ml'
+      unit: 'ml',
+      tags: ['Dairy', 'Protiens']
     }
   },
   {
@@ -24,7 +26,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 5,
     metadata: {
       amountPerUnit: 100,
-      unit: 'g'
+      unit: 'g',
+      tags: ['Vegetable', 'Aromatic']
     }
   },
   {
@@ -33,7 +36,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 2,
     metadata: {
       amountPerUnit: 1000,
-      unit: 'g'
+      unit: 'g',
+      tags: ['Proteins']
     }
   },
   {
@@ -42,7 +46,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 3,
     metadata: {
       amountPerUnit: 500,
-      unit: 'g'
+      unit: 'g',
+      tags: ['Wheat']
     }
   },
   {
@@ -51,7 +56,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 4,
     metadata: {
       amountPerUnit: 100,
-      unit: 'g'
+      unit: 'g',
+      tags: ['Vegetable',]
     }
   },
   {
@@ -60,7 +66,8 @@ export const ingredientsArray: IngredientItem[] = [
     quantity: 5,
     metadata: {
       amountPerUnit: 1000,
-      unit: 'g'
+      unit: 'g',
+      tags: ['Proteins']
     }
   }
 
