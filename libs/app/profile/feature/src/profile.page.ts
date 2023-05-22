@@ -7,7 +7,11 @@ import { Component } from "@angular/core";
 })
 export class ProfilePage {
 
-  subpage = "saved";
+  subpage : string = "saved";
+ 
+  name : string = "John Doe";
+  email : string = "jdoe@gmail.com";
+
   recipes = [
     {
       name: "Shrimp Pasta",
@@ -59,13 +63,9 @@ export class ProfilePage {
       amount: "500ml"
     },
   ]
-  
-  displayIngredients() {
-    this.subpage = "ingredients";
-  }
 
-  displaySaved() {
-    this.subpage = "saved";
+  displaySubpage(subpageName : string) {
+    this.subpage = subpageName;
   }
 
   removeIngredient(ingredientID: number) {
