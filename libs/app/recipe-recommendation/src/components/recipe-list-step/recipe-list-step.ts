@@ -13,7 +13,7 @@ export class RecipeListStep {
   recipes: IRecipe[] = getRecommenedRecipes();
 
   recipeRecommendation$ = new BehaviorSubject<IRecipe[]>(this.recipes).pipe(
-    debounceTime(1000),
+    //debounceTime(1000),
     map( recipes => recipes)
   );
 
