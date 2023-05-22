@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
+      "@fridge-to-plate/app/signup": ["libs/app/signup/src/index.ts"],
+      "@fridge-to-plate/app/signup/feature": ["libs/app/signup/feature/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
