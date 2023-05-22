@@ -10,7 +10,7 @@ import { RouteReuseStrategy } from "@angular/router";
   declarations: [CoreShell, NxWelcomeComponent],
   imports: [
     BrowserModule,
-     CoreRouting,
+    CoreRouting,
     IonicModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
