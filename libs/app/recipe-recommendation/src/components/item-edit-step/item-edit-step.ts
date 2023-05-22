@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {IngredientItem} from "../../data-access/mock-data/ingredients";
+import {getAllIngredients} from "../../data-access/store/state";
 
 @Component({
   selector: 'app-item-edit-step',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class ItemEditStep {
 
+  items: IngredientItem[] = getAllIngredients();
+
+  constructor() {
+    console.log(this.items);
+  }
 }

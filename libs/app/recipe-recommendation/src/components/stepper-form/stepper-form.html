@@ -15,6 +15,16 @@
       <span>Previous</span>
     </button>
   </div>
-  <div class="steps-content">{{step}}</div>
+  <div class="steps-content">
+    <ng-container *ngIf="currentStep === 1">
+      <app-item-edit-step/>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 2">
+      <div>Step 2</div>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 3">
+      <div>Step 3</div>
+    </ng-container>
+  </div>
 
 </div>
