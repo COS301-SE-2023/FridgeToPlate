@@ -1,3 +1,50 @@
 <div>
-  recipe Prefs Step
+  <div>
+    <h3>Diet</h3>
+  </div>
+  <div>
+    <div *ngFor="let category of dietCategories">{{category}}</div>
+  </div>
+
+  <div>
+    <h3>Keywords</h3>
+  </div>
+  <div>
+    <div *ngFor="let category of dietCategories">{{category}}</div>
+  </div>
+
+  <div>
+    <h3>Other options</h3>
+  </div>
+  <div>
+    <div>
+      <label>Difficulty</label>
+      <select>
+        <option> </option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+    </div>
+    <div>
+      <label>Rating</label>
+      <select>
+        <option> </option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <div>
+      <label>Servings</label>
+      <select>
+        <option> </option>
+        <option>1</option>
+        <option>1-2</option>
+        <option>2+</option>
+      </select>
+    </div>
+  </div>
 </div>

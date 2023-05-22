@@ -1,3 +1,12 @@
-<div>
-  Recipe list result
+<div class="w-full h-full">
+  <ng-container *ngIf="(recipeRecommendation$| async); else noRecommendations">
+    <div class=" h-full grid grid-cols-2">
+      <div *ngFor="let recipe of (recipeRecommendation$| async)" cla>
+        {{recipe.name}}
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noRecommendations>
+    <h2>Loading....</h2>
+  </ng-template>
 </div>
