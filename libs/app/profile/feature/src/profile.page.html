@@ -1,0 +1,69 @@
+<div class="bg-background-light h-full overflow-y-scroll">
+    <div class="text-center">
+        <div class="relative inline-block">
+            <img 
+            src="https://source.unsplash.com/150x150/?portrait" 
+            alt="Profile Pic" 
+            class="self-center w-40 border rounded-full mx-auto mt-16" />
+            <button class="absolute bottom-0.5 right-0.5 text-white bg-primary hover:bg-primary-highlight font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="pencil-outline"></ion-icon></button>
+        </div>
+    </div>
+
+    <div class="my-8 space-y-1 text-center">
+        <h2 class="text-xl font-semibold sm:text-2xl">{{ name }}</h2>
+        <p class="px-5 text-xs sm:text-base text-gray-400">{{ email }}</p>
+    </div>
+
+    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
+        <ul class="flex flex-wrap -mb-px">
+            <li class="mx-auto cursor-pointer">
+                <a
+                [ngClass]="subpage == 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                (click)="displaySubpage('saved')">
+                    <ion-icon name="bookmark-outline"></ion-icon>
+                    Saved
+                </a>
+            </li>
+            <li class="mx-auto cursor-pointer">
+                <a
+                [ngClass]="subpage == 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                (click)="displaySubpage('ingredients')">
+                    <ion-icon name="list-outline"></ion-icon>
+                    Ingredients 
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="subpage == 'saved'" class="mt-5 ml-4">
+        <button 
+            id="sortDropdownButton" 
+            data-dropdown-toggle="dropdown" 
+            class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3" 
+            type="button">
+            Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
+        </button>
+        
+        <div class="mr-4 my-2 grid grid-flow-row gap-3 grid-cols-2 md:grid-cols-4 md:[&>*]:mb-2 md:gap-6">
+            <div *ngFor="let recipe of recipes" class="w-full rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300">
+                <img src="https://source.unsplash.com/500x500/?food" class="w-full aspect-square" />
+                <div class="absolute bottom-0 px-4 py-3 bg-gray-500/90 w-full">
+                    <h1 class="text-white font-semibold text-sm"> {{ recipe.name }} </h1>
+                    <p class="text-gray-200 text-xs">Difficulty: {{ recipe.difficulty }}</p>
+                    <span *ngFor="let tag of recipe.tags" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
+        <div class="mr-4 my-2 md:columns-2 [&>*]:mb-4">
+            <div *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" class="w-full rounded-lg overflow-hidden shadow-lg py-3 bg-primary">
+                <div class="my-4 flex justify-between px-3">
+                    <div class="flex items-center gap-2">
+                        <p class="text-white md:max-w-[375px] truncate max-w-[280px] place-self-auto"> {{ingredient.name }} {{ ingredient.amount }} </p>
+                    </div> 
+                    <span (click)="removeIngredient(i)" class="h-8 cursor-pointer w-8 flex justify-center items-center border border-white rounded-full "><ion-icon name="trash-outline" class="text-white"></ion-icon></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
