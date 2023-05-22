@@ -1,4 +1,13 @@
-# Spice Girls Inc. - FridgeToPlate - Project Description
+# <center>Spice Girls Inc. - FridgeToPlate - Project Description</center>
+
+<div align="center">
+<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=coverage)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_e-Mall) -->
+![Website](https://img.shields.io/website?url=http%3A%2F%2Fdev-fridgetoplate.s3-website.af-south-1.amazonaws.com%2F)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
+![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)
+[![Commits](https://img.shields.io/github/commit-activity/w/COS301-SE-2023/WriteToPdf)](https://github.com/COS301-SE-2023/WriteToPdf/issues)
+</div>
+<hr>
 
 FridgeToPlate is a user-friendly app that utilizes preference AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
@@ -47,8 +56,7 @@ I am a final year computer science student with a burning passion for learning m
 </a><br>
 
 ### Simphiwe Nonabe
-I am a 3rd year Computer Science student who constantly seeks opportunities wherein I can improve
-my knowledge and skillset for the betterment of myself, those around me and my environment. I can work by myself and with a team. I can work well under immense pressure, and I always attempt to do my absolute best at every task in which I partake as I believe that it is not necessarily what you do that counts but rather how you do it, as that often determines the level of your success. I believe that I possess exceptional qualities which make me extremely helpful and useful in different working environments and if, by chance, I do not then I am willing to put in the time and energy to learn.
+I am a 3rd year Computer Science student who constantly seeks opportunities wherein I can improve my knowledge and skillset for the betterment of myself, those around me and my environment. I can work by myself and with a team, even when under immense pressure. I believe that I possess exceptional qualities which make me extremely helpful and useful in different working environments.
 
 <a href="https://github.com/simphiwe-nonabe">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
@@ -87,14 +95,18 @@ my knowledge and skillset for the betterment of myself, those around me and my e
 </a><br>
 
 ## Project Information
+### Branching Technique:
+**Git Flow** is a branching technique that uses two main branches, master and develop, to manage software development. Feature branches are created from develop for new features, release branches for preparing releases, and hotfix branches for critical production issues. This approach ensures a structured workflow and allows for parallel development while maintaining stability in the master branch.
+
 ### GitHub Project Board:
 <a href="https://github.com/orgs/COS301-SE-2023/projects/5">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
-### Functional Requirements:
-<a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki">
+### System Requirements Specification:
+<a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki/System-Requirements-Specifications">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
 ### Demos:
+
