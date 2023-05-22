@@ -12,9 +12,10 @@ import {NzListModule} from "ng-zorro-antd/list";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 @NgModule({
   declarations: [RecipeRecommendationPage, StepperForm, ItemEditStep, RecipePreferencesStep, RecipeListStep],
-  imports: [CommonModule, RecommendationRouting, IonicModule, NzStepsModule, NzListModule, ReactiveFormsModule, NzFormModule, NzInputModule],
+  imports: [CommonModule, RecommendationRouting, IonicModule, NzStepsModule, NzListModule, ReactiveFormsModule, NzFormModule, NzInputModule, NzIconModule],
 })
 export class AppRecipeRecommendationModule {}

@@ -10,7 +10,7 @@ import {ItemEditStep} from "../item-edit-step/item-edit-step";
 
 export class StepperForm implements OnInit{
 
-  currentStep = 3;
+  currentStep = 1;
 
   recipeRecommendForm!: FormGroup;
 
