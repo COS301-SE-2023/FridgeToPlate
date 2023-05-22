@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ItemEditStep} from "../item-edit-step/item-edit-step";
 
 @Component({
   selector: 'app-stepper-form',
@@ -14,6 +15,8 @@ export class StepperForm implements OnInit{
   recipeRecommendForm!: FormGroup;
 
   stepContent = `Start`;
+
+  step = ItemEditStep;
 
   recipePreferencesForm!: FormGroup;
   changeContent(): void {
