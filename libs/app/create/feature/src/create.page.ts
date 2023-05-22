@@ -10,6 +10,8 @@ export class CreatePage {
 
   recipeForm!: FormGroup;
   imageUrl: string = "https://img.icons8.com/ios-filled/50/cooking-book--v1.png";
+  editableIndex: number = -1;
+  edit = false;
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -22,10 +24,9 @@ export class CreatePage {
       servings: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([
-        this.fb.control('', Validators.required)
+      
       ]),
       instructions: this.fb.array([
-        this.fb.control('', Validators.required)
       ]),
       dietaryPlans: this.fb.array([])
       
@@ -82,7 +83,7 @@ export class CreatePage {
   onSubmit() {
     console.log(this.recipeForm.value);
     
-    alert(JSON.stringify(this.recipeForm.value));
+    this.getIngredientsContent()
   }
 
   handleImageUpload(event: any) {
@@ -90,5 +91,35 @@ export class CreatePage {
     const file: File = event.target.files[0];
     this.imageUrl = file.name
   }
+
+  getIngredientsContent() {
+
+    for (let i = 0; i < this.ingredientControls.length; i++) {
+      const ingredientControl = this.ingredientControls[i];
+      console.log(ingredientControl.value)
+      // do something with the ingredient control
+    }
+  }
+
+  editIngredient(index: number): void {
+    this.editableIndex = index;
+    this.edit = true;
+  }
+  
+  editInstruction(index: number): void {
+    this.editableIndex = index;
+    this.edit = true;
+  }
+
+  cancelEditIngredients(): void {
+    this.editableIndex = -1;
+    this.edit = true;
+  }
+
+  done() {
+      this.edit = false;
+  }
+
+
     
 }
