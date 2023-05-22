@@ -14,15 +14,15 @@ export function addIngredient(ingredient: IngredientItem, ingredents: Ingredient
   ingredents.push(ingredient);
 }
 
-export function removeIngredient(ingredient: IngredientItem, ingredients: IngredientItem[]){
-  if(!ingredient) return;
+export function removeIngredient(ingredient: IngredientItem, ingredients: IngredientItem[]): IngredientItem[]{
+  if(!ingredient) return ingredients;
 
   const item = ingredients.find( (item) => item.id === ingredient.id);
 
-  if(!item) return;
+  if(!item) return ingredients;
 
-  ingredients.filter( (ing) => ing.id !== item.id);
+  ingredients = ingredients.filter( (ing) => ing.id !== item.id);
 
-  return
+  return ingredients;
 }
 

@@ -12,15 +12,15 @@
     </div>
   </div>
 
-  <div class="step-action bg-orange-400 h-24">
-    <button (click)="nextStep()" *ngIf="currentStep < 3" class="bg-primary">
-      <span>Next</span>
+  <div class="step-action h-24">
+    <button (click)="nextStep()" *ngIf="currentStep < 3" class="bg-primary h-8 w-12 rounded-md">
+      <span class="text-white">Next</span>
     </button>
     <button (click)="previousStep()" *ngIf="currentStep > 1">
       <span>Previous</span>
     </button>
   </div>
-  <div class="steps-content">
+  <div class=" h-full">
     <ng-container *ngIf="currentStep === 1">
       <app-item-edit-step/>
     </ng-container>
