@@ -10,8 +10,8 @@
     </div>
 
     <div class="my-8 space-y-1 text-center">
-        <h2 class="text-xl font-semibold sm:text-2xl">John Doe</h2>
-        <p class="px-5 text-xs sm:text-base text-gray-400">jdoe@gmail.com</p>
+        <h2 class="text-xl font-semibold sm:text-2xl">{{ name }}</h2>
+        <p class="px-5 text-xs sm:text-base text-gray-400">{{ email }}</p>
     </div>
 
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
@@ -19,7 +19,7 @@
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage == 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
-                (click)="displaySaved()">
+                (click)="displaySubpage('saved')">
                     <ion-icon name="bookmark-outline"></ion-icon>
                     Saved
                 </a>
@@ -27,7 +27,7 @@
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage == 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
-                (click)="displayIngredients()">
+                (click)="displaySubpage('ingredients')">
                     <ion-icon name="list-outline"></ion-icon>
                     Ingredients 
                 </a>
