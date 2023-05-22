@@ -86,12 +86,6 @@ export class CreatePage {
     this.getIngredientsContent()
   }
 
-  handleImageUpload(event: any) {
-    // Retrieve the selected or uploaded image file
-    const file: File = event.target.files[0];
-    this.imageUrl = file.name
-  }
-
   getIngredientsContent() {
 
     for (let i = 0; i < this.ingredientControls.length; i++) {

@@ -12,7 +12,11 @@ import { IonicModule } from '@ionic/angular';
     FormsModule,
     CreateRouting,
     IonicModule,
-    ReactiveFormsModule],
-    declarations: [CreatePage]
+    ReactiveFormsModule
+  ],
+  declarations: [CreatePage],
+  exports: [
+    ReactiveFormsModule
+  ]
 })
 export class CreateModule {}
