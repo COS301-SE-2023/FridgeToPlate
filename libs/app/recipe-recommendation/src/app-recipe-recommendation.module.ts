@@ -8,9 +8,10 @@ import {NzStepsModule} from "ng-zorro-antd/steps";
 import {ItemEditStep} from "./components/item-edit-step/item-edit-step";
 import {RecipePreferencesStep} from "./components/recipe-preferences-step/recipe-preferences-step";
 import {RecipeListStep} from "./components/recipe-list-step/recipe-list-step";
+import {NzListModule} from "ng-zorro-antd/list";
 
 @NgModule({
   declarations: [RecipeRecommendationPage, StepperForm, ItemEditStep, RecipePreferencesStep, RecipeListStep],
-  imports: [CommonModule, RecommendationRouting, IonicModule, NzStepsModule],
+  imports: [CommonModule, RecommendationRouting, IonicModule, NzStepsModule, NzListModule],
 })
 export class AppRecipeRecommendationModule {}
