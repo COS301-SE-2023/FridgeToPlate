@@ -1,6 +1,6 @@
 # Spice Girls Inc. - FridgeToPlate - Project Description
 
-<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=coverage)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_e-Mall) -->
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=coverage)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
 ![Website](https://img.shields.io/website?url=http%3A%2F%2Fdev-fridgetoplate.s3-website.af-south-1.amazonaws.com%2F)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
 ![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)
@@ -101,7 +101,7 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 </a>
 
 ### System Requirements Specification:
-<a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki/System-Requirements-Specifications">
+<a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki">
     <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
 </a>
 
