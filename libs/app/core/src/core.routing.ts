@@ -9,10 +9,13 @@ const routes: Routes = [
         component: NxWelcomeComponent,
     },
     {
-      path: 'signup',
-      loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
-  },
-
+        path: 'login',
+        loadChildren: () => import('@fridge-to-plate/app/login/feature').then((m) => m.LoginModule),
+    },
+    {
+        path: 'signup',
+        loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
+    },
 ];
 
 @NgModule({
