@@ -11,8 +11,8 @@ import { ReactiveFormsModule } from "@angular/forms";
   declarations: [CoreShell, NxWelcomeComponent],
   imports: [
     BrowserModule,
-     CoreRouting,
-     ReactiveFormsModule ,
+    CoreRouting,
+    ReactiveFormsModule,
     IonicModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
