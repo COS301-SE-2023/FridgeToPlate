@@ -16,6 +16,14 @@ const routes: Routes = [
         path: 'signup',
         loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
     },
+    {
+        path: 'profile',
+        loadChildren: () => import('@fridge-to-plate/app/profile/feature').then((m) => m.ProfileModule),
+    },
+    {
+        path: 'create',
+        loadChildren: () => import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
+    },
 ];
 
 @NgModule({
