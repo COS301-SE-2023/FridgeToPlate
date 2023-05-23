@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fridge-to-plate/app/recipe-recommendation": ["libs/app/recipe-recommendation/src/index.ts"],
       "@fridge-to-plate/app/profile/feature": ["libs/app/profile/feature/src/index.ts"],
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
       "@fridge-to-plate/app/create/feature": ["libs/app/create/feature/src/index.ts"],

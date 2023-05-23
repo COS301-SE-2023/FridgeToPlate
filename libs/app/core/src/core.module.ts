@@ -5,15 +5,23 @@ import { NxWelcomeComponent } from "./nx-welcome.component";
 import { CoreRouting } from "./core.routing";
 import { IonicModule, IonicRouteStrategy } from "@ionic/angular";
 import { RouteReuseStrategy } from "@angular/router";
+import {TabbedComponent} from "./tabbed-component/tabbed-component";
+import {NzStepsModule} from "ng-zorro-antd/steps";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzIconModule} from "ng-zorro-antd/icon";
 import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [CoreShell, NxWelcomeComponent],
+  declarations: [CoreShell, NxWelcomeComponent, TabbedComponent],
   imports: [
     BrowserModule,
     CoreRouting,
     ReactiveFormsModule,
-    IonicModule.forRoot()],
+    IonicModule.forRoot(),
+    NzStepsModule, 
+    NzFormModule, 
+    NzIconModule
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
 })
