@@ -8,12 +8,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "MjUwN2Y4YzctZDY3YS00NTIzLWJkZjctYmExMzJjNjA2MGVhfHJlYWQtd3JpdGU=",
         "url": "http://staging.nx.app"
       }
@@ -21,16 +16,10 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/jest.preset.js"
-      ]
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
     },
     "lint": {
       "inputs": [
@@ -53,9 +42,20 @@
     },
     "@nrwl/angular:component": {
       "style": "scss"
+    },
+    "@nx/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "none"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   },
-  "plugins": [
-    "@nxrocks/nx-spring-boot"
-  ]
+  "plugins": ["@nxrocks/nx-spring-boot"]
 }
