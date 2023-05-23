@@ -19,6 +19,5 @@ export class ItemEditStep {
   }
 
   constructor() {
-    console.log(this.items);
   }
 }
