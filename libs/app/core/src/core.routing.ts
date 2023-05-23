@@ -7,7 +7,20 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: NxWelcomeComponent,
-    }, { path: 'recommendations', loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then( (m) => m.AppRecipeRecommendationModule)}
+    }, 
+    { 
+        path: 'recommendations', 
+        loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then((m) => m.AppRecipeRecommendationModule),
+    },
+    {
+        path: 'profile',
+        loadChildren: () => import('@fridge-to-plate/app/profile/feature').then((m) => m.ProfileModule),
+    },
+    {
+        path: 'create',
+        loadChildren: () =>
+          import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
+    },
 ];
 
 @NgModule({

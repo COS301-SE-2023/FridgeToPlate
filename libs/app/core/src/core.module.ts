@@ -9,13 +9,19 @@ import {TabbedComponent} from "./tabbed-component/tabbed-component";
 import {NzStepsModule} from "ng-zorro-antd/steps";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [CoreShell, NxWelcomeComponent, TabbedComponent],
   imports: [
     BrowserModule,
-     CoreRouting,
-    IonicModule.forRoot(), NzStepsModule, NzFormModule, NzIconModule],
+    CoreRouting,
+    ReactiveFormsModule,
+    IonicModule.forRoot(),
+    NzStepsModule, 
+    NzFormModule, 
+    NzIconModule
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
 })
