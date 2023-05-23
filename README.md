@@ -1,6 +1,6 @@
 # Spice Girls Inc. - FridgeToPlate - Project Description
 
-<!-- [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=coverage)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate) -->
+[![CI/CD](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml/badge.svg)](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml)
 ![Website](https://img.shields.io/website?url=http%3A%2F%2Fdev-fridgetoplate.s3-website.af-south-1.amazonaws.com%2F)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
 ![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)
