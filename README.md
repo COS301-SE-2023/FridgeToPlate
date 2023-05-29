@@ -102,8 +102,9 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 
 ### System Requirements Specification:
 <a href="https://github.com/COS301-SE-2023/FridgeToPlate/wiki">
-    <img alt="ion" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+    <img alt="ion" src="https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge" />
 </a>
 
 ### Demos:
+ - [Demo One](https://youtu.be/Q8OAO0uY0jg)
 
