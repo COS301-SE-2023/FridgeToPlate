@@ -2,10 +2,12 @@
 
 # Spice Girls Inc. - FridgeToPlate - Project Description
 
+<br>
+  
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
 ![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)
 [![Commits](https://img.shields.io/github/commit-activity/w/COS301-SE-2023/FridgeToPlate)](https://github.com/COS301-SE-2023/FridgeToPlate/issues)
-
+  
 [![CI/CD](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml/badge.svg)](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml)
 ![Website](https://img.shields.io/website?url=http%3A%2F%2Fdev-fridgetoplate.s3-website.af-south-1.amazonaws.com%2F)
 
@@ -13,7 +15,7 @@
 
 </div>
 
-## Overview
+<br>
 
 FridgeToPlate is a user-friendly app that utilizes preference AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
