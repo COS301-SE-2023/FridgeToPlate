@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {IngredientItem} from "../../data-access/mock-data/ingredients";
-import {getAllIngredients, removeIngredient} from "../../data-access/store/state";
+import {IngredientItem} from "../../../feature/src/data-access/mock-data/ingredients";
+import {getAllIngredients, removeIngredient} from "../../../feature/src/data-access/store/state";
 import {Observable, BehaviorSubject} from "rxjs";
 
 @Component({

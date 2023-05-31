@@ -31,6 +31,9 @@
       "@fridge-to-plate/app/recommend/feature": [
         "libs/app/recommend/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/recommend/ui": [
+        "libs/app/recommend/ui/src/index.ts"
+      ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
       ]

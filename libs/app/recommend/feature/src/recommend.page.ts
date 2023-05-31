@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './recipe-recommendation-page.html',
   styleUrls: ['./recipe-recommendation-page.scss']
 })
-export class RecipeRecommendationPage {
-
-}
+export class RecommendPage {}
