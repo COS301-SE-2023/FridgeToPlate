@@ -10,7 +10,7 @@ const routes: Routes = [
     }, 
     { 
         path: 'recommendations', 
-        loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then((m) => m.AppRecipeRecommendationModule),
+        loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.AppRecipeRecommendationModule),
     },
     {
         path: 'login',
