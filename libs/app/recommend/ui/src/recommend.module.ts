@@ -6,13 +6,13 @@ import { RecipePreferencesStep } from './recipe-preferences-step/recipe-preferen
 import { StepperForm } from './stepper-form/stepper-form';
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [
     ItemEditStep,
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm
   ],
+  imports: [CommonModule],
   exports: [
     ItemEditStep,
     RecipeListStep,

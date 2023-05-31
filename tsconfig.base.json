@@ -28,6 +28,9 @@
       "@fridge-to-plate/app/recipe-recommendation": [
         "libs/app/recipe-recommendation/src/index.ts"
       ],
+      "@fridge-to-plate/app/recommend/data-access": [
+        "libs/app/recommend/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/recommend/feature": [
         "libs/app/recommend/feature/src/index.ts"
       ],

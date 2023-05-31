@@ -9,8 +9,8 @@ const routes: Routes = [
         component: NxWelcomeComponent,
     }, 
     { 
-        path: 'recommendations', 
-        loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.AppRecipeRecommendationModule),
+        path: 'recommend', 
+        loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.RecommendModule),
     },
     {
         path: 'login',

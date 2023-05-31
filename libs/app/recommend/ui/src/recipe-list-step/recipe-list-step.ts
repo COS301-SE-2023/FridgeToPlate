@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import {IngredientItem} from "../../data-access/mock-data/ingredients";
-import {getAllIngredients, getRecommenedRecipes} from "../../data-access/store/state";
+import {getRecommenedRecipes} from "@fridge-to-plate/app/recommend/data-access";
 import {BehaviorSubject, debounceTime, map} from "rxjs";
-import {IRecipe} from "../../data-access/mock-data/recipes";
+import {IRecipe} from "@fridge-to-plate/app/recommend/data-access";
 
 @Component({
-  selector: 'app-recipe-list-step',
+  selector: 'recipe-list-step',
   templateUrl: './recipe-list-step.html',
   styleUrls: ['recipe-list-step.scss']
 })
