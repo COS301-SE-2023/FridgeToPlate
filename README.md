@@ -53,7 +53,7 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 
 ## Contact Us:
 <a href="mailto: spicegirlsincorp@gmail.com">
-    <img alt="ion" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+    <img alt="ion" src="https://img.shields.io/badge/Contact%20Us-Email-red?style=for-the-badge" />
 </a><br>
 
 ## Tech Stack
