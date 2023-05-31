@@ -78,7 +78,7 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 
 <div align="center">
 
-[![GitHub Project](https://img.shields.io/badge/View-Website-blue?style=for-the-badge)](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)&ensp;
+[![Website](https://img.shields.io/badge/View-Website-blue?style=for-the-badge)](http://fridgetoplate.s3-website.af-south-1.amazonaws.com/)&ensp;
  [![GitHub Project](https://img.shields.io/badge/View-Github%20Project-blue?style=for-the-badge)](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)&ensp;
   [![Demo One](https://img.shields.io/badge/View-System%20Documentation-blue?style=for-the-badge)](https://youtu.be/Q8OAO0uY0jg)
 
