@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-recipe-preferences-step',
+  selector: 'recipe-preferences-step',
   templateUrl: './recipe-preferences-step.html',
   styleUrls: ['recipe-preferences-step.scss']
 })

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {IngredientItem} from "../../../feature/src/data-access/mock-data/ingredients";
-import {getAllIngredients, removeIngredient} from "../../../feature/src/data-access/store/state";
+import {IngredientItem} from "@fridge-to-plate/app/recommend/data-access";
+import {getAllIngredients, removeIngredient} from "@fridge-to-plate/app/recommend/data-access";
 import {Observable, BehaviorSubject} from "rxjs";
 
 @Component({
-  selector: 'app-item-edit-step',
+  selector: 'item-edit-step',
   templateUrl: './item-edit-step.html',
   styleUrls: ['item-edit-step.scss']
 })

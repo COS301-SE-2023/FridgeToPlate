@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RecommendationRouting} from "./recommend.routing";
+import {RecommendRouting} from "./recommend.routing";
 import {IonicModule} from "@ionic/angular";
 import {NzStepsModule} from "ng-zorro-antd/steps";
 import {ItemEditStep} from "../../ui/src/item-edit-step/item-edit-step";
@@ -10,14 +10,12 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import { RecommendUIModule } from '../../ui/src';
+import { RecommendPage } from './recommend.page';
 
 @NgModule({
-  declarations: [
-    ItemEditStep, 
-  ],
   imports: [
     CommonModule, 
-    RecommendationRouting, 
+    RecommendRouting, 
     IonicModule, 
     NzStepsModule, 
     NzListModule, 
@@ -25,7 +23,9 @@ import { RecommendUIModule } from '../../ui/src';
     NzFormModule, 
     NzInputModule, 
     NzIconModule,
-    RecommendUIModule
+    RecommendUIModule,
   ],
+  declarations: [RecommendPage],
+  exports: [RecommendPage],
 })
-export class AppRecipeRecommendationModule {}
+export class RecommendModule {}

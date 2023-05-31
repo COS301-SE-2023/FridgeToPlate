@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ItemEditStep} from "../item-edit-step/item-edit-step";
 
 @Component({
-  selector: 'app-stepper-form',
+  selector: 'stepper-form',
   templateUrl: './stepper-form.html',
   styleUrls: ['./stepper-form.scss']
 })

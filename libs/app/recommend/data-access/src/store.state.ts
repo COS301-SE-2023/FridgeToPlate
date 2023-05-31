@@ -1,5 +1,5 @@
-import {IngredientItem, ingredientsArray} from "../mock-data/ingredients";
-import {recipeArray} from "../mock-data/recipes";
+import {IngredientItem, ingredientsArray} from "./ingredients.mock";
+import {recipeArray} from "./recipes.mock";
 
 export function getAllIngredients() {
   return ingredientsArray;
