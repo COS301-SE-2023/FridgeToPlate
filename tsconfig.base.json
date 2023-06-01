@@ -10,12 +10,17 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
+      "@fridge-to-plate/app/core": [
+        "libs/app/core/src/index.ts"
+      ],
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
       ],
@@ -24,9 +29,6 @@
       ],
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
-      ],
-      "@fridge-to-plate/app/recipe-recommendation": [
-        "libs/app/recipe-recommendation/src/index.ts"
       ],
       "@fridge-to-plate/app/recommend/data-access": [
         "libs/app/recommend/data-access/src/index.ts"
@@ -42,5 +44,8 @@
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

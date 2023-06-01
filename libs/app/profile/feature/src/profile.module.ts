@@ -11,6 +11,6 @@ import { ProfileRouting } from './profile.routing';
     IonicModule,
   ],
   declarations: [ProfilePage],
-  exports: [ProfilePage],
+  // exports: [ProfilePage],
 })
 export class ProfileModule {}

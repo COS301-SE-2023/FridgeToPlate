@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {RecommendRouting} from "./recommend.routing";
 import {IonicModule} from "@ionic/angular";
 import {NzStepsModule} from "ng-zorro-antd/steps";
-import {ItemEditStep} from "../../ui/src/item-edit-step/item-edit-step";
 import {NzListModule} from "ng-zorro-antd/list";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";

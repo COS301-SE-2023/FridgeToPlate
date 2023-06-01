@@ -15,7 +15,11 @@ import { NzStepsModule} from "ng-zorro-antd/steps";
     RecipePreferencesStep,
     StepperForm,
   ],
-  imports: [CommonModule, NzListModule, IonicModule, NzStepsModule],
+  imports: [
+    CommonModule, 
+    NzListModule, 
+    IonicModule, 
+    NzStepsModule],
   exports: [
     ItemEditStep,
     RecipeListStep,
