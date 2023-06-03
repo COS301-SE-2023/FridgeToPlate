@@ -1,0 +1,62 @@
+<div class="w-full h-full">
+  <ng-container *ngIf="(ingredientItems$ | async); else noData">
+    <div class="h-2/3">
+      <nz-list>
+        <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
+          <div
+            class="bg-primary-highlight mb-2 mx-6 h-24 flex flex-row rounded-md"
+          >
+            <div class="w-1/4 flex flex-row justify-center items-center">
+              <ion-thumbnail class="h-16 w-16">
+                <img
+                  class="h-full w-full"
+                  alt="Silhouette of mountains"
+                  src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+                />
+              </ion-thumbnail>
+            </div>
+            <div class="w-2/4">
+              <p class="mt-3 ml-1 text-md font-semibold text-white">
+                {{item.name}}
+              </p>
+              <p class="mt-[0.5] ml-1 text-md text-slate-400 font-medium">
+                Quantity: {{item.quantity}}
+              </p>
+              <div class="flex flex-row mt-1">
+                <div *ngFor="let tag of item?.metadata?.tags">
+                  <span class="bg-primary rounded-lg ml-1 h-4 px-2 text-white"
+                    >{{tag}}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="w-1/4 h-full flex flex-row justify-end items-center">
+              <button class="p-1.5 mr-6" (click)="removeItem(item)">
+                <span class="text-reject flex justify-center items-center">
+                  <svg
+                    viewBox="64 64 896 896"
+                    focusable="false"
+                    fill="currentColor"
+                    width="1em"
+                    height="1em"
+                    data-icon="delete"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32
+                    32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8
+                    63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z"
+                    ></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </nz-list-item>
+      </nz-list>
+    </div>
+  </ng-container>
+  <ng-template #noData>
+    <div>Oops, your fridge is empty</div>
+  </ng-template>
+</div>
