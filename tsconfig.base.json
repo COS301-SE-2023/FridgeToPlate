@@ -25,6 +25,9 @@
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/recipe-detail/data-access": [
+        "libs/app/recipe-detail/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/recipe-detail/feature": [
         "libs/app/recipe-detail/feature/src/index.ts"
       ],
