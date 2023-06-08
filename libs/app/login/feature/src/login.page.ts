@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
     //       Username: this.email_address,
     //       Password: this.password,
     //   });
-    //   let poolData = {
+    //   const poolData = {
     //     // UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
     //     // ClientId: environment.cognitoAppClientId // Your client id here
     //     UserPoolId: "temp", // Your user pool id here
@@ -65,6 +65,7 @@ export class LoginPage implements OnInit {
   
   create() {
     alert("Creating Account...");
+    this.router.navigate(["/signup"])
   }
 
   guest() {
