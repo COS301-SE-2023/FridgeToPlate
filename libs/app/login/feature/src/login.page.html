@@ -25,7 +25,7 @@
       <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Hey, <br> Welcome Back.</h1>
 
       <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
-        <p class="text-sm md:text-base text-gray-500 py-1">Do not have an account? </p> <a href="#" (click)="create()" class="text-black text-sm md:text-base py-1">Create</a>
+        <p class="text-sm md:text-base text-gray-500 py-1">Do not have an account? </p> <a (click)="create()" class="text-black text-sm md:text-base py-1">Create</a>
       </div>
       
       <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg py-1 space-y-6 place-content-center">
@@ -37,7 +37,7 @@
         <div class="text-left mb-4 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-grid">
 
           <p class="text-sm md:text-base text-gray-500 py-1 pt-4 inline">Forgot Password?  </p>
-          <a href="#" (click)="reset()" class="text-black text-sm md:text-base py-1 pt-4">Reset</a>
+          <a (click)="reset()" class="text-black text-sm md:text-base py-1 pt-4">Reset</a>
   
         </div>
         <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Login</button>
@@ -46,7 +46,7 @@
       
       
       <div class="text-center py-4">
-        <p><a href="#" (click)="guest()" class="text-gray-500 ">Continue as guest</a></p>
+        <p><a (click)="guest()" class="text-gray-500 ">Continue as guest</a></p>
       </div>
 
     </div>
