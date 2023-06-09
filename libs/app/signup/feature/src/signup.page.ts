@@ -13,7 +13,6 @@ export class SignupPage {
   constructor(private router: Router) {}
 
   login() {
-    alert("login");
     this.router.navigate(['/login']);
   }
 
