@@ -17,7 +17,7 @@ public class ProfileRepository {
     private DynamoDBMapper dynamoDBMapper;
 
     public Profile save(Profile profile){
-        // dynamoDBMapper.save(profile);
+        dynamoDBMapper.save(profile);
         return profile;
     }
 
