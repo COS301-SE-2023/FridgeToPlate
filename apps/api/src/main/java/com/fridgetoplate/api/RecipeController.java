@@ -4,10 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.fridgetoplate.model.Recipe;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.model.Recipe;
 
 @RestController
 @RequestMapping("/recipe")
@@ -16,7 +15,7 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @PostMapping
+    @PostMapping("/create")
     public Recipe save(@RequestBody Recipe recipe){
         return recipeRepository.save(recipe);
     }
@@ -30,12 +29,7 @@ public class RecipeController {
     @GetMapping
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
-    }
-
-    @GetMapping("/testing")
-    public String test() {
-        return "Tesing: hello world";
-    }
+    } 
 
     @PutMapping("/{id}")
     public String update(@PathVariable(value = "id") String id,
