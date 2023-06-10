@@ -43,15 +43,8 @@
             Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
         </button>
         
-        <div class="mr-4 my-2 grid grid-flow-row gap-3 grid-cols-2 md:grid-cols-4 md:[&>*]:mb-2 md:gap-6">
-            <div *ngFor="let recipe of recipes" class="w-full rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300">
-                <img src="https://source.unsplash.com/500x500/?food" class="w-full aspect-square" />
-                <div class="absolute bottom-0 px-4 py-3 bg-gray-500/90 w-full">
-                    <h1 class="text-white font-semibold text-sm"> {{ recipe.name }} </h1>
-                    <p class="text-gray-200 text-xs">Difficulty: {{ recipe.difficulty }}</p>
-                    <span *ngFor="let tag of recipe.tags" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
-                </div>
-            </div>
+        <div class="mr-4 my-2 grid grid-flow-row gap-3 grid-cols-2 md:grid-cols-3 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
+           <recipe-card *ngFor="let recipe of recipes" [recipe]="recipe"></recipe-card>
         </div>
     </div>
     <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
