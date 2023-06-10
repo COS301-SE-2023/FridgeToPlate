@@ -27,6 +27,7 @@ dependencies {
 	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.857'
 	implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 }
 
 tasks.named('test') {
