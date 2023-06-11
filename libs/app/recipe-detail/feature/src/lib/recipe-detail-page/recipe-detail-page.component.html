@@ -1,1 +1,26 @@
-<p>recipe-detail-page works!</p>
+<div class="w-full h-full flex flex-col">
+  <div class="py-12 flex flex-row">
+    <button
+      class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
+    >
+      <svg
+        stroke="currentColor"
+        fill="none"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        height="1em"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </button>
+  </div>
+  <div class="w-full h-full flex flex-col items-center overflow-scroll bg-pink-400">
+    <fridge-to-plate-recipe-info-card></fridge-to-plate-recipe-info-card>
+    <div class="w-5/6 h-screen bg-blue-500">Ingredients</div>
+  </div>
+</div>
