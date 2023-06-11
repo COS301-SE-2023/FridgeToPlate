@@ -49,14 +49,7 @@
     </div>
     <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
         <div class="mr-4 my-2 md:columns-2 [&>*]:mb-4">
-            <div *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" class="w-full rounded-lg overflow-hidden shadow-lg py-3 bg-primary">
-                <div class="my-4 flex justify-between px-3">
-                    <div class="flex items-center gap-2">
-                        <p class="text-white md:max-w-[375px] truncate max-w-[280px] place-self-auto"> {{ingredient.name }} {{ ingredient.amount }} </p>
-                    </div> 
-                    <span (click)="removeIngredient(i)" class="h-8 cursor-pointer w-8 flex justify-center items-center border border-white rounded-full "><ion-icon name="trash-outline" class="text-white"></ion-icon></span>
-                </div>
-            </div>
+            <ingredient-card *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" (removeEvent)="removeIngredient(i)" [ingredient]="ingredient"></ingredient-card>
         </div>
     </div>
 </div>
