@@ -4,13 +4,15 @@ import { RouterModule } from '@angular/router';
 import { appRecipeDetailFeatureRoutes } from './lib.routes';
 import {RecipeDetailPageComponent} from "./recipe-detail-page/recipe-detail-page.component";
 import {AppRecipeDetailUiModule} from "@fridge-to-plate/app/recipe-detail/ui";
+import {IonicModule} from "@ionic/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(appRecipeDetailFeatureRoutes),
     RouterModule.forChild(appRecipeDetailFeatureRoutes),
-    AppRecipeDetailUiModule
+    AppRecipeDetailUiModule,
+    IonicModule
   ],
   declarations: [RecipeDetailPageComponent]
 })
