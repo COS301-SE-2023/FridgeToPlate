@@ -48,7 +48,7 @@
         </div>
     </div>
     <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
-        <div class="mr-4 my-2 md:columns-2 [&>*]:mb-4">
+        <div class="mr-4 my-2 md:columns-2">
             <ingredient-card *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" (removeEvent)="removeIngredient(i)" [ingredient]="ingredient"></ingredient-card>
         </div>
     </div>
