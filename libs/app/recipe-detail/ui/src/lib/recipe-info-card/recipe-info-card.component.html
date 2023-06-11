@@ -1,5 +1,5 @@
 <div class="bg-background-light w-full h-full">
-  <div class="card-container grid grid-cols-3 grid-rows-3 mt-4">
+  <div class="card-container grid grid-cols-3 grid-rows-3 mt-4 overflow-hidden">
     <div class="w-full row-start-1 row-end-4 col-start-1 col-end-4">
       <ion-img
         class="text-transparent h-full w-full"
@@ -7,19 +7,19 @@
         alt="Recipe image"
       ></ion-img>
     </div>
-    <div class="card-info-overlay row-start-3 row-end-4 col-start-1 col-end-4 z-50 flex flex-row justify-between items-center">
+    <div class="card-info-overlay pl-4 pr-4 row-start-3 row-end-4 col-start-1 col-end-4 z-50 flex flex-row justify-between items-center">
       <div>
         <div class="flex flex-row w-full ion-align-items-baseline">
           <ion-icon name="star" class="text-white mr-3"></ion-icon>
-          <p class="font-semibold text-md text-white">{{recipe?.rating ?? '5'}}/10</p>
+          <p class="font-semibold text-md text-white">{{recipe?.rating ?? '5'}}/<span class="text-sm"> 10</span></p>
         </div>
         <div>
-          <p class="font-bold text-lg text-white mt-3">{{recipe?.name ?? 'Unknown'}}</p>
-          <p class="font-semibold text-md text-gray-700">Difficulty: {{recipe?.difficulty}}</p>
+          <p class="font-bold text-lg text-white mt-1 mb-1">{{recipe?.name ?? 'Unknown'}}</p>
+          <p class="font-semibold text-md text-subtitle">Difficulty: {{recipe?.difficulty}}</p>
         </div>
       </div>
       <div>
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row items-center  py-5">
           <button class="bg-primary p-4 rounded-xl mt-1 text-white hover:bg-primary-highlight focus:bg-primary-highlight mx-1">
             <svg stroke="currentColor"
                  fill="none"
