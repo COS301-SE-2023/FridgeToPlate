@@ -8,4 +8,12 @@ import {IRecipe} from "../../../../../../../models/irecipe";
 })
 export class RecipeInfoCardComponent {
   @Input() recipe: IRecipe | undefined;
+
+  beginRecipe() {
+    console.log("Cooking recipe")
+  }
+
+  addToFavourites() {
+    console.log("Added recipe to favourites")
+  }
 }
