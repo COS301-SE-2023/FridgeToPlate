@@ -21,8 +21,19 @@
   </div>
   <div class="w-full h-full flex flex-col items-center overflow-scroll bg-pink-400">
     <div class="bg-red-500 w-5/6 h-screen">
-      <fridge-to-plate-recipe-info-card/>
+      <fridge-to-plate-recipe-info-card [recipe]="recipe"/>
     </div>
-    <div class="w-5/6 h-screen bg-blue-500">Ingredients</div>
+    <div class="w-5/6 h-screen bg-blue-500">
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Ingredients</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let ingredient of recipe?.ingredients">
+          <div>
+            {{ingredient?.name ?? 'Unknown ingredient'}}
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 </div>

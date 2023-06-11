@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { recipeList} from "../../../../data-access/mock-data/mock-recipe-data";
+import { IRecipe} from "../../../../../../../models/irecipe";
 
 @Component({
   selector: 'fridge-to-plate-recipe-detail-page',
@@ -6,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./recipe-detail-page.component.css']
 })
 export class RecipeDetailPageComponent {
-
+  recipe: IRecipe = recipeList[0];
 }

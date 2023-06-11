@@ -3,7 +3,7 @@ import { IRecipe } from '../../../../../models/irecipe';
 export const recipeList: IRecipe[] = [
   {
     id: "1",
-    recipeImage: "https://picsum.photos/seed/picsum/200/300",
+    recipeImage: "https://source.unsplash.com/500x500/?food",
     name: "Chicken Biryani",
     difficulty: "medium",
     rating: 3,
