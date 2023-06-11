@@ -20,7 +20,8 @@
       </div>
       <div>
         <div class="flex flex-row items-center  py-5">
-          <button class="bg-primary p-4 rounded-xl mt-1 text-white hover:bg-primary-highlight focus:bg-primary-highlight mx-1">
+          <button class="bg-primary p-4 rounded-xl mt-1 text-white hover:bg-primary-highlight focus:bg-primary-highlight mx-1"
+          (click)="beginRecipe()">
             <svg stroke="currentColor"
                  fill="none"
                  stroke-width="2"
@@ -40,7 +41,9 @@
               </path>
             </svg>
           </button>
-          <button class="bg-primary p-4 rounded-xl mt-1 text-white hover:bg-primary-highlight focus:bg-primary-highlight mx-1">
+          <button
+            class="bg-primary p-4 rounded-xl mt-1 text-white hover:bg-primary-highlight focus:bg-primary-highlight mx-1"
+            (click)="addToFavourites()">
             <svg stroke="currentColor"
                  fill="currentColor"
                  stroke-width="0"
