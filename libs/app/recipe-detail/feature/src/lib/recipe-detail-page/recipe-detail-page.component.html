@@ -1,5 +1,5 @@
 <div class="w-full h-full flex flex-col">
-  <div class="py-12 flex flex-row">
+  <div class="py-8 flex flex-row">
     <button
       class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
     >
@@ -19,12 +19,26 @@
       </svg>
     </button>
   </div>
-  <div class="w-full h-full flex flex-col items-center overflow-scroll bg-pink-400">
-    <div class="bg-red-500 w-5/6 h-screen">
+  <div class="w-full h-full flex flex-col items-center overflow-scroll bg-background-light">
+    <div class="w-5/6 h-screen">
       <fridge-to-plate-recipe-info-card [recipe]="recipe"/>
     </div>
-    <div class="w-5/6 h-screen bg-blue-500">
-      <ion-list>
+    <div class=" w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary">
+      <div>
+        <p class="text-xs font-semibold">Prep Time</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.meta?.prepTime ?? '10'}}m</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold">Ingredients</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '10'}}</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold">Servings</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.meta?.numberOfServings ?? '1'}}</p>
+      </div>
+    </div>
+    <div class="w-5/6 h-screen">
+      <ion-list class="bg-background-lights">
         <ion-list-header>
           <ion-label>Ingredients</ion-label>
         </ion-list-header>
