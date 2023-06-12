@@ -1,6 +1,6 @@
 <div class="w-full h-full">
   <ng-container *ngIf="(recipeRecommendation$| async); else noRecommendations">
-    <div class=" h-full grid grid-cols-2 gap-2 overflow-none">
+    <div class=" h-full grid grid-cols-2 lg:grid-cols-3 gap-2 overflow-none lg:ml-24 lg:mr-24">
       <div *ngFor="let recipe of (recipeRecommendation$| async)" class="flex flex-col overflow-hidden rounded-md min-h-[300px]">
         <div class="h-3/5 overflow-hidden">
           <ion-img src="{{recipe.imageUrl}}" alt='Recipe image'/>
