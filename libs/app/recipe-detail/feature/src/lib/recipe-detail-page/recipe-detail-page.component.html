@@ -1,4 +1,4 @@
-<div class="w-full h-full flex flex-col md: grid grid-cols-12 grid-rows-12">
+<div class="w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12">
   <div class="py-8 flex flex-row bg-background-light md:row-start-1 md:row-end-2 col-start-1 col-end-13">
     <button
       class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
@@ -32,15 +32,15 @@
      lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8">
       <div>
         <p class="text-xs font-semibold">Prep Time</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.meta?.prepTime ?? '10'}}m</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe.meta?.prepTime ?? '10'}}m</p>
       </div>
       <div>
         <p class="text-xs font-semibold">Ingredients</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '10'}}</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe.ingredients.length}}</p>
       </div>
       <div>
         <p class="text-xs font-semibold">Servings</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.meta?.numberOfServings ?? '1'}}</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe.meta?.numberOfServings ?? '1'}}</p>
       </div>
     </div>
     <div class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13">
