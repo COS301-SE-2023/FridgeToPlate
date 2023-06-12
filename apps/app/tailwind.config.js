@@ -39,6 +39,9 @@ module.exports = {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
         'wix-display': ['Wix Madefor Display', 'sans-serif']
+      },
+      spacing: {
+        '18': '5rem'
       }
     }
 
