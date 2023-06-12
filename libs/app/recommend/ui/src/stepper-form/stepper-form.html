@@ -1,0 +1,37 @@
+<div class="w-full h-full ">
+  <div class="h-1/4">
+    <div class="h-2/3">
+      <h2 class="text-3xl font-bold pt-24 pl-6">{{stepContent}}</h2>
+    </div>
+    <div class="w-full h-1/3 px-6 mt-4">
+      <nz-steps [nzProgressDot] [nzCurrent]="currentStep" class="flex flex-row justify-center items-center">
+        <nz-step class="mx-4"></nz-step>
+        <nz-step class="mx-4"></nz-step>
+        <nz-step class="mx-4"></nz-step>
+      </nz-steps>
+    </div>
+  </div>
+
+  <div class="step-action h-24 flex flex-row justify-between px-6">
+    <button (click)="previousStep()"  class="bg-primary h-8 rounded-md w-32 ml-2 disabled:bg-slate-500">
+      <span class="text-white">Previous</span>
+    </button>
+
+    <button (click)="nextStep()" *ngIf="currentStep < 3" class=" bg-primary h-8 rounded-md w-32">
+      <span class="text-white">Next</span>
+    </button>
+
+  </div>
+  <div class=" h-full">
+    <ng-container *ngIf="currentStep === 1">
+      <item-edit-step/>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 2">
+      <recipe-preferences-step/>
+    </ng-container>
+    <ng-container *ngIf="currentStep === 3">
+      <recipe-list-step/>
+    </ng-container>
+  </div>
+
+</div>
