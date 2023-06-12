@@ -1,6 +1,6 @@
 <div class="w-full h-full md:grid md:grid-rows-12 md:grid-cols-12">
   <ng-container *ngIf="(ingredientItems$ | async); else noData">
-    <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 lg:col-start-9 md:col-end-13 overflow-y-scroll">
+    <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 lg:col-start-9 md:col-end-13 overflow-y-scroll md:pr-8 md:pl-6 lg:pr-18">
       <nz-list>
         <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
           <div
@@ -58,7 +58,7 @@
     <div class="hidden md:block
     md:h-full md:row-start-2
     md:row-end-11 md:col-start-1 lg:col-end-6
-    md:col-end-7 flex flex-col">
+    md:col-end-7 flex flex-col md:ml-6 lg:ml-18">
       <div class="w-full lg:w-5/6 h-2/3 rounded-md shadow-lg lg:ml-8">
       <div class="flex flex-col h-1/4 pl-8 text-primary">
         <h3 class="mt-4 text-xl font-semibold">Filters</h3>
