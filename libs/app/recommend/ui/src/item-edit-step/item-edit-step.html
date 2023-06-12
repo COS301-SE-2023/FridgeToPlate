@@ -1,6 +1,6 @@
 <div class="w-full h-full md:grid md:grid-rows-12 md:grid-cols-12">
   <ng-container *ngIf="(ingredientItems$ | async); else noData">
-    <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 md:col-end-13 overflow-y-scroll">
+    <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 lg:col-start-9 md:col-end-13 overflow-y-scroll">
       <nz-list>
         <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
           <div
@@ -56,9 +56,10 @@
       </nz-list>
     </div>
     <div class="hidden md:block
-    md:h-full md:row-start-2 md:row-end-11 md:col-start-1
+    md:h-full md:row-start-2
+    md:row-end-11 md:col-start-1 lg:col-end-6
     md:col-end-7 flex flex-col">
-      <div class="w-full h-2/3 rounded-md shadow-lg">
+      <div class="w-full lg:w-5/6 h-2/3 rounded-md shadow-lg lg:ml-8">
       <div class="flex flex-col h-1/4 pl-8 text-primary">
         <h3 class="mt-4 text-xl font-semibold">Filters</h3>
         <input placeholder="Search by keyword" type="text" class="w-5/6 py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black">
@@ -87,8 +88,8 @@
 
       <div class="flex flex-col h-1/6">
         <button class="bg-primary hover:primary-highlight
-         focus:bg-primary-highlight w-3/4 ml-8
-         mt-4 py-2 px-10 rounded-lg
+         focus:bg-primary-highlight w-3/4 lg:w-5/6 ml-8
+         mt-4 lg:mt-6 py-2 lg:py-4 px-10 rounded-lg
          text-white flex flex-row justify-between items-center">
           <p>Add new item</p>
           <svg stroke="currentColor"
