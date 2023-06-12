@@ -41,7 +41,8 @@ module.exports = {
         'wix-display': ['Wix Madefor Display', 'sans-serif']
       },
       spacing: {
-        '18': '5rem'
+        '18': '5rem',
+
       }
     }
 
