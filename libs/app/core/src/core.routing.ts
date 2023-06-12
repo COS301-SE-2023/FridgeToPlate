@@ -7,10 +7,18 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: NxWelcomeComponent,
-    }, 
-    { 
-        path: 'recommendations', 
-        loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then((m) => m.AppRecipeRecommendationModule),
+    },
+    {
+        path: 'recommend',
+        loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.RecommendModule),
+    },
+    {
+        path: 'login',
+        loadChildren: () => import('@fridge-to-plate/app/login/feature').then((m) => m.LoginModule),
+    },
+    {
+        path: 'signup',
+        loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
     },
     {
         path: 'profile',
@@ -18,8 +26,7 @@ const routes: Routes = [
     },
     {
         path: 'create',
-        loadChildren: () =>
-          import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
+        loadChildren: () => import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
     },
 ];
 
