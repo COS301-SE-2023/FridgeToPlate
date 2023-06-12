@@ -16,7 +16,8 @@ module.exports = {
         'recipe-card-overlay': 'rgba(52,52,52,0.64)',
         'primary-highlight': '#E26310',
         'accept': '#2bc917',
-        'reject': '#d70b0b'
+        'reject': '#d70b0b',
+        'subtitle': '#9D9D9D'
       },
       gridTemplateRows: {
         10: "repeat(10, minmax(0,1fr))",
