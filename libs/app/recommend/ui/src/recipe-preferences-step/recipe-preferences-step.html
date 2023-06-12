@@ -1,9 +1,9 @@
 <div class="w-full h-full md:h-fit md:grid md:grid-rows-12 md:grid-cols-12">
-  <div class="mb-14 md:mb-1 lg:pl-25 pl-6 md:row-start-1 md:row-end-5 md:col-start-1 md:col-end-7">
-    <div class="mb-3">
+  <div class="mb-14 md:mb-1 lg:pl-24 pl-6 md:row-start-1 md:row-end-5 md:col-start-1 md:col-end-7">
+    <div class="mb-3 lg:pl-3">
       <h3 class="mt-4 text-xl font-semibold text-primary">Diet</h3>
     </div>
-    <div class="flex flex-row gap-2 flex-wrap mr-4">
+    <div class="flex flex-row gap-2 flex-wrap lg:pl-3">
       <div *ngFor="let category of dietCategories"
            class="bg-primary rounded-lg ml-1 h-auto px-2 text-white">{{category}}</div>
     </div>
@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <div class="pl-6 md:mb-1 md:row-start-5 md:row-end-8 md:col-start-1 md:col-end-7">
+  <div class="pl-6 md:mb-1 lg:pl-28 md:row-start-5 md:row-end-8 md:col-start-1 md:col-end-7">
     <div class="mb-3 md:mb-6">
       <h3 class="mt-4 text-xl font-semibold text-primary">Other options</h3>
     </div>
