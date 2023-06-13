@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "profile-page",
@@ -64,11 +65,17 @@ export class ProfilePage {
     },
   ]
 
+  constructor(private router: Router) {}
+
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
 
   removeIngredient(ingredientID: number) {
     this.ingredients.splice(ingredientID, 1);
+  }
+
+  openSettings() {
+    this.router.navigate(['profile/edit']);
   }
 }
