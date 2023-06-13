@@ -22,8 +22,8 @@ public class Profile {
     private Ingredient[] ingredients;
 
     @DynamoDBAttribute
-    private Recipe[] preferences;
+    private Preference[] preferences;
 
     @DynamoDBAttribute
-    private Recipe[] create_recipes;
+    private Recipe[] created_recipes;
 }
