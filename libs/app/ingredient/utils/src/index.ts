@@ -1,1 +1,1 @@
-export * from './ingredient.module';
+export * from './interfaces';
