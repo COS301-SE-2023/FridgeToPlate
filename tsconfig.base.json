@@ -18,6 +18,28 @@
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/ingredient/ui": [
+        "libs/app/ingredient/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/login/feature": [
+        "libs/app/login/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/profile/feature": [
+        "libs/app/profile/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/recipe/ui": ["libs/app/recipe/ui/src/index.ts"],
+      "@fridge-to-plate/app/recommend/data-access": [
+        "libs/app/recommend/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/recommend/feature": [
+        "libs/app/recommend/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/recommend/ui": [
+        "libs/app/recommend/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/signup/feature": [
+        "libs/app/signup/feature/src/index.ts"
       ]
     }
   },
