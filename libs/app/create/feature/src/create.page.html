@@ -1,77 +1,156 @@
-<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="overflow-y-auto bg-white rounded-md shadow-md p-4">
-  <div class="flex justify-center space-y-6">
+<div class="overflow-y-auto lg:flex justify-center">
+  <div class=" flex justify-center lg:items-center p-4 lg:2/5">
     <img
-    src="https://photos.bigoven.com/recipe/hero/lowfat-vegetable-lasagna-1336994.jpg"
-    class="h-25 rounded-lg shadow-none transition-shadow duration-300 ease-in-out hover:shadow-lg hover:shadow-black/30"
-    alt="Recipe Image" />
-  </div>
-  <br>
-  <div class="mb-4">
-    <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
-    <input type="text" id="name" formControlName="name" placeholder="Name" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
+    
+      src="https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg?"
+      class="lg:w-4/5 lg:h-1/2 md:w-3/5 md:h-1/2 w-3/5 h-1/2 rounded-2xl"
+      alt="Recipe Image"
+    />
   </div>
 
-  <div class="mb-4">
-    <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
-    <textarea id="description" placeholder="Description" formControlName="description" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required></textarea>
-  </div>
 
-   <div class="mb-4">
-    <div class="flex justify-between mb-4">
-      <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
-      <button type="button" (click)="addIngredient()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Add</button>
-    </div>
-    <div formArrayName="ingredients">
-      <div *ngFor="let ingredientControl of ingredientControls; let i = index" class="mb-2 ">
-        <div class="flex items-center">
-          <input type="text" placeholder="Add Ingredient" id="ingredient-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" [readonly]="i !== instructionControls.length - 1" required>
-          <button type="button" (click)="addIngredient()"><ion-icon name="create-outline" size="large"></ion-icon>
+  
+
+
+    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="lg:w-3/5 md:w-full overflow-y-auto p-4">
+    
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Name"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+          required
+        >
+      </div>
+    
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
+        <textarea
+          id="description"
+          placeholder="Description"
+          formControlName="description"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+          required
+        ></textarea>
+      </div>
+    
+      <div class="mb-4">
+        <div class="flex justify-between mb-4">
+          <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
+          <button type="button" (click)="addIngredient()" class="bg-orange-700 text-white py-1 px-4 rounded-none hover:bg-orange-500">Add</button>
+        </div>
+        <div formArrayName="ingredients">
+          <div *ngFor="let ingredientControl of ingredientControls; let i = index" class="mb-2">
+            <div class="flex items-center">
+              <input
+                type="text"
+                placeholder="Add Ingredient"
+                id="ingredient-{{i}}"
+                [formControlName]="i"
+                class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+                [readonly]="i !== instructionControls.length - 1"
+                required
+              >
+              <button type="button" (click)="addIngredient()"><ion-icon name="create-outline" size="large"></ion-icon></button>
+              <button type="button" (click)="removeIngredient(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="mb-4">
+        <div class="flex justify-between mb-4">
+          <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
+          <button type="button" (click)="addInstruction()" class="bg-orange-700 text-white py-1 px-4 rounded-none hover:bg-orange-500">Add</button>
+        </div>
+        <div formArrayName="instructions">
+          <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2">
+            <div class="flex items-center">
+              <input
+                type="text"
+                placeholder="Add Instruction"
+                id="instruction-{{i}}"
+                [formControlName]="i"
+                class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+                [readonly]="i !== instructionControls.length - 1"
+                required
+              >
+              <button type="button" (click)="editInstruction(i)"><ion-icon name="create-outline" size="large"></ion-icon></button>
+              <button type="button" (click)="removeInstruction(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="mb-4">
+        <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
+        <input
+          type="number"
+          id="servings"
+          placeholder="e.g 10"
+          formControlName="servings"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+        >
+      </div>
+    
+      <div class="mb-4">
+        <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+        <input
+          type="number"
+          id="preparation-time"
+          placeholder="e.g 10"
+          formControlName="preparationTime"
+          class="w-full bg-gray-300 border border-gray-400 p-2 rounded-2xl"
+          required
+        >
+      </div>
+    
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2">Dietary Plans</label>
+        <div class="flex justify-between">
+          <button
+            type="button"
+            [ngClass]="getDietaryPlanButtonClasses('vegetarian')"
+            (click)="toggleDietaryPlan('vegetarian')"
+            class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+            Vegetarian
           </button>
-          <button type="button" (click)="removeIngredient(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon>
+          <button
+            type="button"
+            [ngClass]="getDietaryPlanButtonClasses('vegan')"
+            (click)="toggleDietaryPlan('vegan')"
+            class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+            Vegan
+          </button>
+          <button
+            type="button"
+            [ngClass]="getDietaryPlanButtonClasses('ketogenic')"
+            (click)="toggleDietaryPlan('ketogenic')"
+            class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+            Ketogenic
+          </button>
+          <button
+            type="button"
+            [ngClass]="getDietaryPlanButtonClasses('paleo')"
+            (click)="toggleDietaryPlan('paleo')"
+            class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+            Paleo
           </button>
         </div>
       </div>
-    </div>
-  </div>  
-
-  <div class="mb-4">
-    <div class="flex justify-between mb-4">
-      <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
-      <button type="button" (click)="addInstruction()" class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Add</button>
-    </div>
-    <div formArrayName="instructions">
-      <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2 ">
-        <div class="flex items-center">
-          <input type="text" placeholder="Add Instruction" id="instruction-{{i}}" [formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"  [readonly]="i !== instructionControls.length - 1" required>
-          <button type="button" (click)="editInstruction(i)"><ion-icon name="create-outline" size="large"></ion-icon>
-          </button>
-          <button type="button" (click)="removeInstruction(i)"><ion-icon name="trash-outline" size="large" style="color: red;"></ion-icon></button>
-        </div>
+    
+      <div class="flex justify-center lg:justify-start">
+        <button type="submit" class="flex justify-center bg-orange-700 text-white hover:bg-orange-500 py-2 px-4 rounded-md">Create Recipe</button>
       </div>
-    </div>
-  </div> 
+    </form>
+  
+</div>
 
-  <div class="mb-4">
-    <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
-    <input type="number" id="servings" placeholder="e.g 10" formControlName="servings" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
-  </div>
 
-  <div class="mb-4">
-    <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
-    <input type="number" id="preparation-time" placeholder="e.g 10" formControlName="preparationTime" class="w-full bg-gray-300 border border-gray-400 p-2 rounded-2xl" required>
-  </div>
-  <div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Dietary Plans</label>
-    <div class="flex justify-between">
-      <button type="button" [ngClass]="getDietaryPlanButtonClasses('vegetarian')" (click)="toggleDietaryPlan('vegetarian')" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2">Vegetarian</button>
-      <button type="button" [ngClass]="getDietaryPlanButtonClasses('vegan')" (click)="toggleDietaryPlan('vegan')" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2">Vegan</button>
-      <button type="button" [ngClass]="getDietaryPlanButtonClasses('ketogenic')" (click)="toggleDietaryPlan('ketogenic')" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2">Ketogenic</button>
-      <button type="button" [ngClass]="getDietaryPlanButtonClasses('paleo')" (click)="toggleDietaryPlan('paleo')" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md mr-2">Paleo</button>
-    </div>
-  </div>
-
-  <div class=" flex justify-center">
-    <button type="submit" class="flex justify-center bg-orange-700 text-white hover:bg-orange-500 py-2 px-4 rounded-md">Create Recipe</button>
-  </div>
-
-</form>
