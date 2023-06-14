@@ -5,27 +5,27 @@
     justify-content: center;
     height: 100vh;
   }
-  
+
   .header {
     font-size: 28px;
     text-align: left;
     margin-bottom: 20px;
     justify-content: left;
   }
-  
+
   .text {
     text-align: left;
     margin-bottom: 10px;
     padding-right: 20%;
   }
-  
+
   .input-container {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     width: 100%;
   }
-  
+
   input[type="text"],
   input[type="password"] {
     padding: 10px;
@@ -35,7 +35,7 @@
     font-size: 16px;
     width: 100%;
   }
-  
+
   .login-button {
     background-color: #C35214;
     color: #fff;
@@ -47,12 +47,12 @@
     width: 100%;
     margin-bottom: 10px;
   }
-  
+
   .text a {
     color: #999;
     text-decoration: none;
   }
-  
+
   .text a:hover {
     text-decoration: underline;
   }
