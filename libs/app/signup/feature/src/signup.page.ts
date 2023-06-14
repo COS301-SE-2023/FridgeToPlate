@@ -31,16 +31,15 @@ export class SignupPage implements OnInit {
 
 
   login() {
-    alert("login");
     this.router.navigate(['/login']);
   }
 
   createAccount() {
-    alert("create account");
+    return;
   }
 
   guest() {
-    alert("Entering Guest...");
+    return;
   }
 
   onSignup(form: NgForm){
