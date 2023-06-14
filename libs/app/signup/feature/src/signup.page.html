@@ -5,21 +5,25 @@
       <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
 
       <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
-        <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a href="#" (click)="login()" class="text-black">Login</a></p>
+        <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a (click)="login()" class="text-black">Login</a></p>
       </div>
 
-      <div class="w-full max-w-md py-1">
-        <input type="text" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="email" placeholder="Email" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="password" placeholder="Confirm Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-      </div>
+      <form (submit)="onSignup(signupForm)" #signupForm="ngForm" class="w-full max-w-lg py-1 space-y-6 place-content-center">
 
+        <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+    
+        <input type="text" ngModel #email_addressInput="ngModel" [(ngModel)]="email_address" placeholder="Enter Email" name="email_address" id="email_address" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+    
+        <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Password" id="password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+    
+        <input type="password" name="confirm_password" ngModel minlength="8" #confirm_passwordInput="ngModel" [(ngModel)]="confirm_password" placeholder="Confirm Password" id="confirm_password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+    
+        <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Create Account</button>
 
-      <button (click)="createAccount()" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full max-w-md mb-4"><a href="Create-Recipe-Page">Create Account</a></button>
+    </form>
 
       <div class="text-center py-4">
-        <p><a href="#" (click)="guest()" class="text-gray-500 item">Continue as guest</a></p>
+        <p><a (click)="guest()" class="text-gray-500 item">Continue as guest</a></p>
       </div>
 
   </div>
