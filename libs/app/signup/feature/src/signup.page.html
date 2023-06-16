@@ -1,8 +1,8 @@
 <ion-content>
 
-  <div class="lg:inline-grid lg:grid-cols-2">
+  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col justify-center">
 
-    <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 lg:pl-24">
+    <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 lg:pl-24 mx-auto">
 
         <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
 
@@ -10,7 +10,7 @@
           <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a (click)="login()" class="text-black">Login</a></p>
         </div>
 
-        <form (submit)="onSignup(signupForm)" #signupForm="ngForm" class="w-full max-w-lg py-1 space-y-6 place-content-center">
+        <form (submit)="onSignup(signupForm)" #signupForm="ngForm" class="w-full max-w-lg py-1 place-content-center">
 
           <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
@@ -30,7 +30,9 @@
 
     </div>
 
-    <img class="object-fill block m-auto w-max pr-24 h-auto rounded-lg" src="https://media.istockphoto.com/id/152495681/photo/an-aluminum-refrigerator-in-front-of-a-grey-wall.jpg?s=612x612&w=0&k=20&c=HWmSR865qSTLfEj3LTBSfFEgky_ao6sHETaLVlP8reM=" alt="Food Photo">
+    <div class="flex flex-col justify-center ">
+    <img class="object-fill block m-auto w-max pr-24 h-auto rounded-lg" src="https://images.pexels.com/photos/4068317/pexels-photo-4068317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Food Photo">
+  </div>
 
   </div>
 
