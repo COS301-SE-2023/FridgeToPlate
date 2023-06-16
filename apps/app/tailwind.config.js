@@ -8,6 +8,22 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
+    screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       colors: {
         'background-light': '#F8F8F8',
@@ -17,7 +33,8 @@ module.exports = {
         'primary-highlight': '#E26310',
         'accept': '#2bc917',
         'reject': '#d70b0b',
-        'subtitle': '#9D9D9D'
+        'subtitle': '#9D9D9D',
+        'input-outline': '#E6E6E6',
       },
       gridTemplateRows: {
         10: "repeat(10, minmax(0,1fr))",
@@ -39,9 +56,12 @@ module.exports = {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
         'wix-display': ['Wix Madefor Display', 'sans-serif']
+      },
+      spacing: {
+        '18': '5rem',
+
       }
     }
-
   },
   plugins: [],
 };
