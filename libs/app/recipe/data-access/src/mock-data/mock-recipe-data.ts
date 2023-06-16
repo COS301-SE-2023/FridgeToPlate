@@ -1,4 +1,4 @@
-import { IRecipe } from '../../../../../models/irecipe';
+import { IRecipe } from '../../../../../../models/irecipe';
 
 export const recipeList: IRecipe[] = [
   {

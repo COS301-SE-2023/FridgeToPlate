@@ -29,10 +29,10 @@
         "libs/app/profile/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/recipe/data-access": [
-        "libs/app/recipe-detail/data-access/src/index.ts"
+        "libs/app/recipe/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/recipe/feature": [
-        "libs/app/recipe-detail/feature/src/index.ts"
+        "libs/app/recipe/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/recipe/ui": [
         "libs/app/recipe/ui/src/index.ts"

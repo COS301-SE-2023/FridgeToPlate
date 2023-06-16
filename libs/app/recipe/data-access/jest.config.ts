@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-recipe-detail-ui',
+  displayName: 'recipe-data-access',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/app/recipe-detail/ui',
+  coverageDirectory: '../../../../coverage/libs/app/recipe/data-access',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
