@@ -80,16 +80,19 @@ jobs:
       - name: Build API
         run: npm run build:api
 
+      - name: Create ZIP Package
+        run: zip deploy_package.zip ./apps/api/build/libs
+
       - name: Upload API Package
-        run: aws s3 sync **FIX** s3://dev-api-fridgetoplate
+        run: aws s3 cp deploy_package.zip s3://fridgetoplate-api-deploy-bucket
 
       - name: Create New API Version
         run: |
           aws elasticbeanstalk create-application-version \
-          --application-name API-FridgeToPlate \
-          --source-bundle S3Bucket="dev-api-fridgetoplate", S3Key="**FIX**" \
-          --version-label "ver-${{ github.sha }}" \
+          --application-name fridgetoplate \
+          --source-bundle S3Bucket="fridgetoplate-api-deploy-bucket", S3Key="deploy_package.zip" \
+          --version-label "dev-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
 
       - name: Deploy API
-        run: aws elasticbeanstalk update-environment --environment-name dev-api-fridgetoplate-env --version-label "ver-${{ github.sha }}"
+        run: aws elasticbeanstalk update-environment --environment-name dev-fridgetoplate-env --version-label "dev-${{ github.sha }}"
