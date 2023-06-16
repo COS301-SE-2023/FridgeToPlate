@@ -28,6 +28,10 @@ const routes: Routes = [
         path: 'create',
         loadChildren: () => import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
     },
+    {
+      path: 'recipe',
+      loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule)
+    }
 ];
 
 @NgModule({

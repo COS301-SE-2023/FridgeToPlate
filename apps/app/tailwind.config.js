@@ -9,20 +9,11 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'sm': '640px',
-      // => @media (min-width: 640px) { ... }
-
-      'md': '768px',
-      // => @media (min-width: 768px) { ... }
-
+      'sm': '200px',
+      'md': '740px',
       'lg': '1024px',
-      // => @media (min-width: 1024px) { ... }
-
       'xl': '1280px',
-      // => @media (min-width: 1280px) { ... }
-
       '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... }
     },
     extend: {
       colors: {
@@ -33,7 +24,8 @@ module.exports = {
         'primary-highlight': '#E26310',
         'accept': '#2bc917',
         'reject': '#d70b0b',
-        'input-outline': '#E6E6E6'
+        'subtitle': '#9D9D9D',
+        'input-outline': '#E6E6E6',
       },
       gridTemplateRows: {
         10: "repeat(10, minmax(0,1fr))",
