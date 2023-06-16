@@ -32,6 +32,14 @@
                     Ingredients 
                 </a>
             </li>
+            <li class="mx-auto cursor-pointer">
+                <a
+                [ngClass]="subpage == 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                (click)="displaySubpage('created')">
+                    <ion-icon name="create-outline"></ion-icon>
+                    Created 
+                </a>
+            </li>
         </ul>
     </div>
     <div *ngIf="subpage == 'saved'" class="mt-5 ml-5">
