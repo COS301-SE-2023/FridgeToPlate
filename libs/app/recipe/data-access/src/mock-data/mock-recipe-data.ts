@@ -1,4 +1,4 @@
-import { IRecipe } from '../../../../../../models/irecipe';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export const recipeList: IRecipe[] = [
   {
