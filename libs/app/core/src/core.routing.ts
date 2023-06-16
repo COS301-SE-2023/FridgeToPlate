@@ -29,8 +29,8 @@ const routes: Routes = [
         loadChildren: () => import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
     },
     {
-      path: 'recipe-detail',
-      loadChildren: () => import('@fridge-to-plate/app/recipe-detail/feature').then((m) => m.AppRecipeDetailFeatureModule)
+      path: 'recipe',
+      loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule)
     }
 ];
 

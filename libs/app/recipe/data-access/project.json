@@ -1,7 +1,7 @@
 {
-  "name": "app-recipe-detail-feature",
+  "name": "app-recipe-data-access",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/app/recipe-detail/feature/src",
+  "sourceRoot": "libs/app/recipe/data-access/src",
   "prefix": "fridge-to-plate",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/app/recipe-detail/feature/jest.config.ts",
+        "jestConfig": "libs/app/recipe/data-access/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/app/recipe-detail/feature/**/*.ts",
-          "libs/app/recipe-detail/feature/**/*.html"
+          "libs/app/recipe/data-access/**/*.ts",
+          "libs/app/recipe/data-access/**/*.html"
         ]
       }
     }
