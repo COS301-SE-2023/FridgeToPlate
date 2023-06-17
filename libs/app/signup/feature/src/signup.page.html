@@ -1,43 +1,48 @@
 <ion-content>
 
-  <div class="flex flex-col justify-center min-h-screen px-10 text-left">
+  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col justify-center">
 
-      <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
+    <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 mx-auto">
 
-      <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
-        <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a href="#" (click)="login()" class="text-black">Login</a></p>
-      </div>
+        <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
 
-      <div class="w-full max-w-md py-1">
-        <input type="text" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="email" placeholder="Email" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-        <input type="password" placeholder="Confirm Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1" required>
-      </div>
+        <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+          <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a (click)="login()" class="text-black px-5">Login</a></p>
+        </div>
 
+        <form (submit)="onSignup(signupForm)" #signupForm="ngForm" class="w-full max-w-lg place-content-center">
 
-      <button (click)="createAccount()" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full max-w-md mb-4"><a href="Create-Recipe-Page">Create Account</a></button>
+          <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
-      <div class="text-center py-4">
-        <p><a href="#" (click)="guest()" class="text-gray-500 item">Continue as guest</a></p>
-      </div>
+          <input type="email" ngModel #email_addressInput="ngModel" [(ngModel)]="email_address" placeholder="Email" name="email_address" id="email_address" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+
+          <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Password" id="password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+
+          <input type="password" name="confirm_password" ngModel minlength="8" #confirm_passwordInput="ngModel" [(ngModel)]="confirm_password" placeholder="Confirm Password" id="confirm_password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+
+          <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Create Account</button>
+
+      </form>
+
+        <div class="text-center py-4">
+          <p><a (click)="guest()" class="text-gray-500 item">Continue as guest</a></p>
+        </div>
+
+    </div>
+
+  <div class="hidden lg:flex flex-col justify-center ">
+    <img class="object-fill block m-auto w-max pr-24 h-auto rounded-lg" src="https://images.pexels.com/photos/2343467/pexels-photo-2343467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Food Photo">
+  </div>
 
   </div>
 
-  <!-- <div class="flex flex-col items-center justify-center min-h-screen px-10 text-left">
-
-    <div class="text-left mb-4 py-1 space-x-12">
-      <p class="text-sm md:text-base text-gray-500 py-1"></p>Do not have an account? <a href="Create-Page" class="text-black">Create</a>
-    </div>
-
-    <div class="w-full max-w-md py-1 space-y-6">
-      <input type="text" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 pv-1 ">
-      <input type="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
-    </div>
-
-    <button class="bg-orange-700 text-white py-1 px-4  rounded-none hover:bg-orange-500">Create Account</button>
-
-  </div> -->
-
 
 </ion-content>
+<style>
+  @media only screen and (max-width: 768px) {
+
+    .hidden {
+      display: none !important;
+    }
+  }
+</style>
