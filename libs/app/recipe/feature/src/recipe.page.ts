@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { recipeList } from "@fridge-to-plate/app/recipe/data-access";
 import { IRecipe} from "@fridge-to-plate/app/recipe/utils";
 
@@ -7,6 +7,10 @@ import { IRecipe} from "@fridge-to-plate/app/recipe/utils";
   templateUrl: './recipe.page.html',
   styleUrls: ['./recipe.page.scss']
 })
-export class RecipePage {
+export class RecipePage implements OnInit {
   recipe: IRecipe = recipeList[0];
+
+  ngOnInit() {
+    console.log('Hello from here')
+  }
 }
