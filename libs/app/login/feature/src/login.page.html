@@ -1,60 +1,63 @@
 <ion-content>
 
-  <!-- <div class="container">
-        <h1 class="header">Hey, <br> Welcome Back.</h1>
-        <div class="text">
-          <p>Do not have an account? <a href="Create-Page">Create</a></p>
-        </div>
-        <div class="input-container">
-          <input type="text" placeholder="Username">
-          <input type="password" placeholder="Password">
-        </div>
-        <div class="text">
-          <p>Forgot Password?      <a href="Forgot-Page">Reset</a></p>
-        </div>
-        <button class="login-button">Login</button>
-        <div class="text">
-          <p><a href="Create-Recipe-Page">Continue as guest</a></p>
-        </div>
-    </div> -->
+  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col justify-center">
 
-    <div class="lg:inline-grid lg:grid-cols-2">
-
-      <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 lg:pl-24">
+    <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 mx-auto">
 
         <!-- <img class="content-end" src="/apps/app/src/assets/Logo.png" alt="Errors"> -->
 
         <h1 class="text-3xl md:text-5xl text-left mb-4 md:mb-8 font-extrabold bg-dark">Hey, <br> Welcome Back.</h1>
 
-        <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto md:space-x-28 lg:space-x-0 inline-block">
-          <p class="text-sm md:text-base text-gray-500 py-1">Do not have an account? </p> <a (click)="create()" class="text-black text-sm md:text-base py-1">Create</a>
+        <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+          <p class="text-sm md:text-base text-gray-500">Do not have an account? <a (click)="create()" class="text-black px-5">Create</a></p>
         </div>
+        <!-- <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto md:space-x-28 lg:space-x-0 inline-block">
+          <p class="text-sm md:text-base text-gray-500 py-1">Do not have an account? </p> <a (click)="create()" class="text-black">Create</a>
+        </div> -->
 
-        <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg py-1 space-y-6 md:space-y-8 lg:space-y-10 place-content-center">
+        <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg place-content-center">
 
-          <input [(ngModel)]="email_address" ngModel type="email" #emailInput="ngModel"  required name="email" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
-          <input [(ngModel)]="password" ngModel type="password" minlength="8" #passwordInput="ngModel" required name="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
+          <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Password" id="password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
-          <div class="text-left mb-4 py-1 grid grid-flow-col auto-cols-auto space-x-16 inline-grid">
+          <!-- <input [(ngModel)]="username" ngModel type="email" #emailInput="ngModel"  required name="email" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
-            <p class="text-sm md:text-base text-gray-500 py-1 pt-4 inline md:pt-3 lg:pt-4">Forgot Password?  </p>
-            <a (click)="reset()" class="text-black text-sm md:text-base py-1 pt-4 md:pt-3 lg:pt-4">Reset</a>
+          <input [(ngModel)]="password" ngModel type="password" minlength="8" #passwordInput="ngModel" required name="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1"> -->
 
+          <!-- <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+            <p class="text-sm md:text-base text-gray-500 py-1">Forgot Password?  <a (click)="reset()" class="text-black">Rest</a></p>
+          </div> -->
+
+          <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+            <p class="text-sm md:text-base text-gray-500 py-1">Forgot Password? <a (click)="reset()" class="text-black px-5">Reset</a></p>
           </div>
-          <button type="submit" class="bg-primary text-white py-3 px-6 md:py-4 rounded-md text-base w-full mb-4 max-w-lg">Login</button>
 
+          <!-- <div class="text-left mb-4 py-1 grid grid-flow-col auto-cols-auto space-x-16 inline-grid">
+            <p class="text-sm md:text-base text-gray-500 py-1">Forgot Password?  </p> <a (click)="reset()" class="text-black">Reset</a>
+          </div> -->
+
+          <!-- <button type="submit" class="bg-primary text-white py-3 px-6 md:py-4 rounded-md text-base w-full mb-4 max-w-lg">Login</button> -->
+          <div>
+          <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Login</button>
+        </div>
         </form>
 
 
-        <div class="text-left py-4 md:py-6 lg:py-8 grid place-content-center lg:pr-52">
-          <p><a (click)="guest()" class="text-gray-500  ">Continue as guest</a></p>
+        <div class="text-center py-4">
+          <p><a (click)="guest()" class="text-gray-500 item">Continue as guest</a></p>
         </div>
 
       </div>
 
       <!-- <img class="object-fill block m-auto w-max pr-24 h-auto rounded-lg" src="/apps/app/src/assets/pexels-saveurs-secretes-5410422.jpg" alt="Food Photo"> -->
-      <img class="object-fill py-24 min-h-screen block m-auto w-max pr-24 h-auto rounded-lg" src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?cs=srgb&dl=pexels-ash-376464.jpg&fm=jpg" alt="Food Photo">
+      <!-- <div class="flex flex-col justify-center ">
+        <img class="object-fill py-24 min-h-screen block m-auto w-max pr-24 h-auto rounded-lg" src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?cs=srgb&dl=pexels-ash-376464.jpg&fm=jpg" alt="Food Photo">
+      </div> -->
+
+      <div class="hidden lg:flex flex-col justify-center ">
+        <img class="object-fill block m-auto w-max pr-24 h-auto rounded-lg" src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Food Photo">
+      </div>
 
     </div>
 
@@ -63,3 +66,13 @@
 
 
 </ion-content>
+
+<style>
+  @media only screen and (max-width: 768px) {
+
+    .hidden {
+      display: none !important;
+    }
+  }
+
+</style>
