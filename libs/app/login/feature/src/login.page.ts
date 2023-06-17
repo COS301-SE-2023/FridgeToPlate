@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   isLoading: boolean = false;
-  email_address: string = "";
+  username: string = "";
   password: string = "";
 
   constructor(private router: Router) { }
@@ -19,18 +19,18 @@ export class LoginPage implements OnInit {
   onSignIn(form: NgForm){
 
   }
-  
+
 
   ngOnInit(): void {}
 
   login() {
     return;
   }
-  
+
   reset() {
     return;
   }
-  
+
   create() {
     this.router.navigate(["/signup"])
   }
