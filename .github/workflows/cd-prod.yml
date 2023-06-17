@@ -82,7 +82,7 @@ jobs:
         run: npm run build:api
 
       - name: Create ZIP Package
-        run: zip deploy_package.zip ./apps/api/build/libs
+        run: Compress-Archive -Path ./apps/api/build/libs/* -DestinationPath ./deploy_package.zip
 
       - name: Upload API Package
         run: aws s3 cp deploy_package.zip s3://fridgetoplate-api-deploy-bucket
