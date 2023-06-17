@@ -1,1 +1,1 @@
-export * from './app-navigation-feature';
+export * from './navigation.component';
