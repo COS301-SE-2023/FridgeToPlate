@@ -45,3 +45,56 @@ jobs:
     - name: Deploy App
       if: success()
       run: aws s3 sync ./dist/apps/app s3://fridgetoplate
+
+  deploy_api:
+
+    name: API Deployment
+    needs: ci-workflow
+    runs-on: windows-latest
+    environment: Production
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: af-south-1
+    
+      - name: Setup NodeJS and Cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      
+      - name: Setup JDK 17 and Cache
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          
+      - name: Setup NX
+        run: npm install nx@latest
+
+      - name: Build API
+        run: npm run build:api
+
+      - name: Create ZIP Package
+        run: zip deploy_package.zip ./apps/api/build/libs
+
+      - name: Upload API Package
+        run: aws s3 cp deploy_package.zip s3://fridgetoplate-api-deploy-bucket
+
+      - name: Create New API Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name fridgetoplate \
+          --source-bundle S3Bucket="fridgetoplate-api-deploy-bucket", S3Key="deploy_package.zip" \
+          --version-label "prod-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy API
+        run: aws elasticbeanstalk update-environment --environment-name prod-fridgetoplate-env --version-label "prod-${{ github.sha }}"
