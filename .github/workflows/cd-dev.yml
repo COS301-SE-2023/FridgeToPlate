@@ -89,10 +89,10 @@ jobs:
 
       - name: Create New API Version
         run: |
-          aws elasticbeanstalk create-application-version \
-          --application-name fridgetoplate \
-          --source-bundle S3Bucket="fridgetoplate-api-deploy-bucket", S3Key="deploy_package.zip" \
-          --version-label "dev-${{ github.sha }}" \
+          aws elasticbeanstalk create-application-version 
+          --application-name fridgetoplate 
+          --source-bundle S3Bucket="fridgetoplate-api-deploy-bucket", S3Key="deploy_package.zip" 
+          --version-label "dev-${{ github.sha }}" 
           --description "commit-sha-${{ github.sha }}"
 
       - name: Deploy API
