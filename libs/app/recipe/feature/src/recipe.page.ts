@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeDetailApiService } from '../../data-access/src/lib/recipe-detail-api.service';
 import {delay, Observable, switchMap} from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { fromFetch } from 'rxjs/internal/observable/dom/fetch';
 
 @Component({
   selector: 'recipe-page',
@@ -34,18 +33,4 @@ export class RecipePage {
       )
     );
   }
-
-  // ngOnInit() {
-  //   this.recipeId = Number.parseInt(this.route.snapshot.paramMap.get('id') ?? "");
-
-  //   if(Number.isNaN(this.recipeId)){
-  //     this.router.navigate(['/recipe/'])
-  //   }
-
-  //   else {
-  //     //Use API
-  //     this.recipe$ = this.recipeApiService
-  //       .getRecipeDetails(this.recipeId.valueOf())
-  //   }
-  // }
 }
