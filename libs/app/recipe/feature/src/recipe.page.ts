@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeDetailApiService } from '../../data-access/src/lib/recipe-detail-api.service';
-import { Observable, switchMap } from 'rxjs';
+import {delay, Observable, switchMap} from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { fromFetch } from 'rxjs/internal/observable/dom/fetch';
 
@@ -28,6 +28,7 @@ export class RecipePage {
     }
 
     this.recipe$ = route.paramMap.pipe(
+      delay(2000),
       switchMap((params) =>
         this.recipeApiService.getRecipeDetails(Number(params.get('id')))
       )
