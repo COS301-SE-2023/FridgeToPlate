@@ -3,7 +3,7 @@ import { baseApiUrl } from '../../../../shared/api.routes';
 import { HttpClient } from '@angular/common/http';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { recipeList } from '@fridge-to-plate/app/recipe/data-access';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { APIResponse } from '../../../../models/api.response';
 
 interface RecipeAPIResponse extends APIResponse {
@@ -18,8 +18,9 @@ interface RecipeAPIResponse extends APIResponse {
 export class RecipeDetailApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getRecipeDetails(id: number = 1) {
+  getRecipeDetails(id: number = 1): Observable<IRecipe> {
     const recipe: IRecipe = recipeList[0];
-    return this.httpClient.get<RecipeAPIResponse>(`${baseApiUrl}/${id}`);
+    //return this.httpClient.get<RecipeAPIResponse>(`${baseApiUrl}/${id}`);
+    return new BehaviorSubject<IRecipe>(recipe);
   }
 }
