@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import { recipeList } from "@fridge-to-plate/app/recipe/data-access";
-import { IRecipe} from "@fridge-to-plate/app/recipe/utils";
 import {ActivatedRoute, Router} from "@angular/router";
+import {RecipeDetailApiService} from "../../data-access/src/lib/recipe-detail-api.service";
+import {Observable, switchMap} from "rxjs";
+import {IRecipe} from "@fridge-to-plate/app/recipe/utils";
+import {fromFetch} from "rxjs/internal/observable/dom/fetch";
 
 @Component({
   selector: 'recipe-page',
@@ -9,10 +11,14 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./recipe.page.scss']
 })
 export class RecipePage implements OnInit {
-  recipe: IRecipe = recipeList[0];
+
   recipeId: Number | undefined;
-  constructor(private route: ActivatedRoute, private router: Router) {
-  }
+  recipe: Observable<IRecipe> | undefined;
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private recipeApiService: RecipeDetailApiService
+  ) {}
   ngOnInit() {
     this.recipeId = Number.parseInt(this.route.snapshot.paramMap.get('id') ?? "");
 
@@ -22,6 +28,8 @@ export class RecipePage implements OnInit {
 
     else {
       //Use API
+      this.recipe = this.recipeApiService
+        .getRecipeDetails(this.recipeId.valueOf())
     }
   }
 }
