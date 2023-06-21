@@ -19,20 +19,32 @@
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/ingredient/ui": [
+        "libs/app/ingredient/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/ingredient/utils": [
+        "libs/app/ingredient/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
       ],
-      "@fridge-to-plate/app/recipe-detail/data-access": [
-        "libs/app/recipe-detail/data-access/src/index.ts"
+      "@fridge-to-plate/app/recipe/data-access": [
+        "libs/app/recipe/data-access/src/index.ts"
       ],
-      "@fridge-to-plate/app/recipe-detail/feature": [
-        "libs/app/recipe-detail/feature/src/index.ts"
+      "@fridge-to-plate/app/recipe/feature": [
+        "libs/app/recipe/feature/src/index.ts"
       ],
-      "@fridge-to-plate/app/recipe-detail/ui": [
-        "libs/app/recipe-detail/ui/src/index.ts"
+      "@fridge-to-plate/app/recipe/ui": [
+        "libs/app/recipe/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/profile/utils": [
+        "libs/app/profile/utils/src/index.ts"
+      ],
+      "@fridge-to-plate/app/recipe/utils": [
+        "libs/app/recipe/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/recommend/data-access": [
         "libs/app/recommend/data-access/src/index.ts"
