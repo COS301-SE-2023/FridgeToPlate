@@ -1,25 +1,42 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: "login-page",
   templateUrl: "./login.page.html",
   styleUrls: ["./login.page.scss"],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
+
+  isLoading: boolean = false;
+  username: string = "";
+  password: string = "";
+
+  constructor(private router: Router) { }
+
+  onSignIn(form: NgForm){
+
+  }
+
+
+  ngOnInit(): void {}
+
   login() {
-    alert("Logging In...");
+    return;
   }
-  
+
   reset() {
-    alert("Resetting...");
+    return;
   }
-  
+
   create() {
-    alert("Creating Account...");
+    this.router.navigate(["/signup"])
   }
 
   guest() {
-    alert("Entering Guest...");
+    return;
   }
 }
 
