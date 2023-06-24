@@ -14,9 +14,9 @@ permissions:
   contents: read
 
 jobs:
-  test_build_api:
+  test_build_workspace:
 
-    name: Lint, Test & Build API
+    name: Lint, Test & Build Wokspace
     runs-on: windows-latest
     environment: Development 
 
@@ -36,51 +36,21 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: Setup NX
-      run: npm install nx@latest
-
-    - name: Test API
-      run: npm run test:api
-      
-    - name: Build API
-      run: npm run build:api
-
-    - name: SonarCloud Build and Analyze
-      working-directory: apps/api/
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_API }}
-      run: ./gradlew build sonarqube --info
-
-  test_build_app:
-
-    name: Lint, Test & Build App
-    runs-on: ubuntu-latest
-    environment: Development 
-    
-    steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
-
-    - name: Setup NodeJS and Cache
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-
     - name: Install Dependencies
       run: npm install
 
     - name: Lint App
       run: npx nx run app:lint
 
-    - name: Test App
+    - name: Test Workspace
       run: npm run test:app:ci
 
     - name: Upload Coverage Report
       uses: codecov/codecov-action@v3
+      env: 
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       with:
-        files: coverage/lcov.info
+        files: coverage/lcov.info  
       
     - name: Build App
       run: npm run build:app:dev
@@ -92,3 +62,13 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_APP }}
       with:
         projectBaseDir: apps/app/
+      
+    - name: Build API
+      run: npm run build:api
+
+    - name: SonarCloud Build and Analyze
+      working-directory: apps/api/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_API }}
+      run: ./gradlew build sonarqube --info
