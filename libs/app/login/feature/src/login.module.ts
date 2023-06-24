@@ -9,9 +9,9 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     LoginRouting,
     IonicModule,
-    FormsModule,
   ],
   declarations: [LoginPage],
 })

@@ -24,32 +24,32 @@ export class LoginPage implements OnInit {
   constructor(private router: Router) { }
 
   onSignIn(form: NgForm){
-    // if (form.valid) {
-    //   this.isLoading = true;
-    //   let authenticationDetails = new AuthenticationDetails({
-    //       Username: this.email_address,
-    //       Password: this.password,
-    //   });
-    //   const poolData = {
-    //     // UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
-    //     // ClientId: environment.cognitoAppClientId // Your client id here
-    //     UserPoolId: "temp", // Your user pool id here
-    //     ClientId: "temp"
-    //   };
+    if (form.valid) {
+      this.isLoading = true;
+      let authenticationDetails = new AuthenticationDetails({
+          Username: this.email_address,
+          Password: this.password,
+      });
+      const poolData = {
+        // UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
+        // ClientId: environment.cognitoAppClientId // Your client id here
+        UserPoolId: "temp", // Your user pool id here
+        ClientId: "temp"
+      };
 
-    //   let userPool = new CognitoUserPool(poolData);
-    //   let userData = { Username: this.email_address, Pool: userPool };
-    //   var cognitoUser = new CognitoUser(userData);
-    //   cognitoUser.authenticateUser(authenticationDetails, {
-    //     onSuccess: (result) => {
-    //       this.router.navigate(["profile"])
-    //     },
-    //     onFailure: (err) => {
-    //       alert(err.message || JSON.stringify(err));
-    //       this.isLoading = false;
-    //     },
-    //   });
-    // }
+      let userPool = new CognitoUserPool(poolData);
+      let userData = { Username: this.email_address, Pool: userPool };
+      var cognitoUser = new CognitoUser(userData);
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (result) => {
+          this.router.navigate(["profile"])
+        },
+        onFailure: (err) => {
+          alert(err.message || JSON.stringify(err));
+          this.isLoading = false;
+        },
+      });
+    }
   }
   
 
