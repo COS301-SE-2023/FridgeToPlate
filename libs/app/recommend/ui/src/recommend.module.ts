@@ -4,10 +4,12 @@ import { ItemEditStep } from './item-edit-step/item-edit-step';
 import { RecipeListStep } from './recipe-list-step/recipe-list-step';
 import { RecipePreferencesStep } from './recipe-preferences-step/recipe-preferences-step';
 import { StepperForm } from './stepper-form/stepper-form';
-import {NzListModule} from "ng-zorro-antd/list";
-import {IonicModule} from "@ionic/angular";
-import { NzStepsModule} from "ng-zorro-antd/steps";
+import { NzListModule } from 'ng-zorro-antd/list';
+import { IonicModule } from '@ionic/angular';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
+import { RecommendDataAccessModule } from '../../data-access/src/recommend.module';
+import { RecommendApi } from '../../data-access/src/recommend.api';
 
 @NgModule({
   declarations: [
@@ -17,17 +19,13 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
     StepperForm,
   ],
   imports: [
-    CommonModule, 
-    NzListModule, 
-    IonicModule, 
+    CommonModule,
+    NzListModule,
+    IonicModule,
     NzStepsModule,
-    RecipeUIModule
+    RecipeUIModule,
+    RecommendDataAccessModule,
   ],
-  exports: [
-    ItemEditStep,
-    RecipeListStep,
-    RecipePreferencesStep,
-    StepperForm
-  ],
+  exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
 })
 export class RecommendUIModule {}
