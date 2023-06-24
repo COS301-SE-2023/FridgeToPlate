@@ -19,9 +19,6 @@
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
       ],
-      "@fridge-to-plate/app/edit-profile/feature": [
-        "libs/app/edit-profile/feature/src/index.ts"
-      ],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
