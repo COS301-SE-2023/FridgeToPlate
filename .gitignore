@@ -41,3 +41,7 @@ Thumbs.db
 
 #Application Folders
 .angular
+
+#Enviroment Files
+.env
+.prod.env
