@@ -14,7 +14,8 @@ export interface Interface {
 export class RecommendApi {
 
   //Step 1
-  getUserngredientsList(): IRecipe[] {
+  getUserngredientsList(): IIngredient[] {
+    return ingredientsArray;
   }
   removeIngredient(recipe: IRecipe){
   }
