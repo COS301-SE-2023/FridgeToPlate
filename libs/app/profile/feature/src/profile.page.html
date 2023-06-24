@@ -13,7 +13,7 @@
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ email }}</p>
         </div>
     </div>
-
+    <!-- <navigation-bar></navigation-bar> -->
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
         <ul class="flex flex-wrap -mb-px">
             <li class="mx-auto cursor-pointer">
@@ -60,5 +60,5 @@
             <ingredient-card *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" (removeEvent)="removeIngredient(i)" [ingredient]="ingredient"></ingredient-card>
         </div>
     </div>
-    
+
 </div>
