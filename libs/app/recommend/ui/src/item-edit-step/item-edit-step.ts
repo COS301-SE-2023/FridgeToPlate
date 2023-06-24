@@ -1,23 +1,27 @@
 import { Component } from '@angular/core';
-import {IngredientItem} from "@fridge-to-plate/app/recommend/data-access";
-import {getAllIngredients, removeIngredient} from "@fridge-to-plate/app/recommend/data-access";
-import {Observable, BehaviorSubject} from "rxjs";
+import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import {
+  IngredientItem,
+  RecommendDataAccessModule,
+} from '@fridge-to-plate/app/recommend/data-access';
+//import {getAllIngredients, removeIngredient} from "@fridge-to-plate/app/recommend/data-access";
+
+import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
+import { RecommendApi } from '../../../data-access/src/recommend.api';
+
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'item-edit-step',
   templateUrl: './item-edit-step.html',
-  styleUrls: ['item-edit-step.scss']
+  styleUrls: ['item-edit-step.scss'],
 })
 export class ItemEditStep {
+  constructor(private recommendApiClient: RecommendApi) {}
 
-  items: IngredientItem[] = getAllIngredients();
+  ingredientItems$ = this.recommendApiClient.getUserIngredientsList();
 
-  ingredientItems$ = new BehaviorSubject<IngredientItem[]>(this.items);
-
-  removeItem(item: IngredientItem){
-    this.ingredientItems$.next(removeIngredient(item, this.items));
-  }
-
-  constructor() {
+  removeItem(item: QuantityIngredient) {
+    this.recommendApiClient.removeIngredient(item);
   }
 }
