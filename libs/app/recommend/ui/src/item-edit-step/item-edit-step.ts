@@ -21,6 +21,7 @@ export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
   ingredientList: QuantityIngredient[] | undefined;
+  ingredientsToBeDeleted: string[] = [];
 
   ingredientItems$: Subscription = this.recommendApiClient
     .getUserIngredientsList()
@@ -35,6 +36,11 @@ export class ItemEditStep {
     });
 
   removeItem(item: QuantityIngredient) {
-    this.recommendApiClient.removeIngredient(item);
+    //this.recommendApiClient.removeIngredient(item);
+    this.ingredientsToBeDeleted.push(item.id);
+    const updatedList = this.ingredientList?.filter(
+      (item) => !this.ingredientsToBeDeleted.includes(item.id)
+    );
+    this.ingredientList = updatedList;
   }
 }
