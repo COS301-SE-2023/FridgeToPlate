@@ -10,6 +10,7 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '../../data-access/src/recommend.module';
 import { RecommendApi } from '../../data-access/src/recommend.api';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RecommendApi } from '../../data-access/src/recommend.api';
     NzStepsModule,
     RecipeUIModule,
     RecommendDataAccessModule,
+    FormsModule,
   ],
   exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
 })
