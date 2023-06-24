@@ -12,7 +12,7 @@
     "e2e:app:prod": "npx nx run app-e2e:e2e --configuration=production",
     "e2e:app:ci": "npx nx run app-e2e:e2e --configuration=ci",
     "test:app": "npx nx run app:test",
-    "test:app:ci": "npx nx run app:test --codeCoverage=true --coverageReporters=lcov --parallel=true",
+    "test:app:ci": "yarn nx run-many --target=test --all --codeCoverage=true --coverageReporters=lcov --parallel=true && node ./tools/coverageMerger.js",
     "test:api": "npx nx run api:test"
   },
   "private": true,

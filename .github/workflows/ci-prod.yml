@@ -71,6 +71,11 @@ jobs:
 
     - name: Test App
       run: npm run test:app:ci
+
+    - name: Upload Coverage Report
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage/lcov.info
       
     - name: Build App
       run: npm run build:app:prod
