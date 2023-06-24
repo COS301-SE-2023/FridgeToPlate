@@ -2,7 +2,7 @@ import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 export interface IResponse {
@@ -33,23 +33,26 @@ export class RecommendApi {
   //Step 1
   getUserIngredientsList(): Observable<QuantityIngredient[]> {
     //TODO:Comment out when backend connected.
-    const req: Observable<QuantityIngredient[]> = this.httpClient
-      .get<IngredientsResponse>('ingredients')
-      .pipe(
-        switchMap((res: IngredientsResponse) => {
-          return res.data.ingredientsList ?? ingredientsArray;
-        }),
-        catchError(async (error) => {
-          console.log('An error has occured: ', error);
-          return error;
-        })
-      );
+    // const req: Observable<QuantityIngredient[]> = this.httpClient
+    //   .get<IngredientsResponse>('ingredients')
+    //   .pipe(
+    //     switchMap((res: IngredientsResponse) => {
+    //       return res.data.ingredientsList ?? ingredientsArray;
+    //     }),
+    //     catchError(async (error) => {
+    //       console.log('An error has occured: ', error);
+    //       return error;
+    //     })
+    //   );
+    const req = new BehaviorSubject<QuantityIngredient[]>(ingredientsArray);
 
     return req;
   }
 
-  removeIngredient(recipe: QuantityIngredient) {
-    return ingredientsArray;
+  removeIngredient(ingredient: QuantityIngredient) {
+    return ingredientsArray.filter(
+      (ingredientItem) => ingredientItem.id !== ingredient.id
+    );
   }
 
   //Step 2
