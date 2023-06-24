@@ -4,7 +4,7 @@
 
 <br>
   
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
+[![codecov](https://codecov.io/gh/COS301-SE-2023/FridgeToPlate/branch/main/graph/badge.svg?token=PUBP38F2VH)](https://codecov.io/gh/COS301-SE-2023/FridgeToPlate)
 [![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)](https://github.com/COS301-SE-2023/FridgeToPlate/issues)
 [![Commits](https://img.shields.io/github/commit-activity/w/COS301-SE-2023/FridgeToPlate)](https://github.com/COS301-SE-2023/FridgeToPlate/activity)
   
