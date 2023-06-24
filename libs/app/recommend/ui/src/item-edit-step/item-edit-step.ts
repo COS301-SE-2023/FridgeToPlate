@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import {
   IngredientItem,
@@ -21,7 +21,12 @@ export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
   ingredientList: QuantityIngredient[] | undefined;
+
   ingredientsToBeDeleted: string[] = [];
+
+  order = '';
+
+  @ViewChild('teams') orderBy!: ElementRef;
 
   ingredientItems$: Subscription = this.recommendApiClient
     .getUserIngredientsList()
@@ -42,5 +47,33 @@ export class ItemEditStep {
       (item) => !this.ingredientsToBeDeleted.includes(item.id)
     );
     this.ingredientList = updatedList;
+  }
+
+  onChangeOrder() {
+    if (this.order === '') return;
+    else {
+      switch (this.order) {
+        case 'name-asc':
+          this.ingredientList = this.ingredientList?.sort((a, b) =>
+            a.name < b.name ? -1 : 1
+          );
+          break;
+        case 'name-des':
+          this.ingredientList = this.ingredientList?.sort((a, b) =>
+            a.name > b.name ? -1 : 1
+          );
+          break;
+        case 'quantity-asc':
+          this.ingredientList = this.ingredientList?.sort(
+            (a, b) => a.quantity - b.quantity
+          );
+          break;
+        default:
+          this.ingredientList = this.ingredientList?.sort(
+            (a, b) => b.quantity - a.quantity
+          );
+          break;
+      }
+    }
   }
 }
