@@ -31,6 +31,7 @@
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/profile/ui": ["libs/app/profile/ui/src/index.ts"],
       "@fridge-to-plate/app/recipe/ui": ["libs/app/recipe/ui/src/index.ts"],
       "@fridge-to-plate/app/recommend/data-access": [
         "libs/app/recommend/data-access/src/index.ts"
