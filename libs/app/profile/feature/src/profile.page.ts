@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "profile-page",
@@ -7,6 +6,9 @@ import { Router } from "@angular/router";
   styleUrls: ["./profile.page.scss"],
 })
 export class ProfilePage {
+
+  editProfileVisible = false;
+  isSaveLoading = false;
 
   subpage : string = "saved";
  
@@ -65,8 +67,6 @@ export class ProfilePage {
     },
   ]
 
-  constructor(private router: Router) {}
-
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
@@ -76,6 +76,24 @@ export class ProfilePage {
   }
 
   openSettings() {
-    this.router.navigate(['profile/edit']);
+    let modal = document.getElementById("my-modal");
+    if (modal != null) {
+      modal.style.display = "block";
+    }
+  }
+
+  handleOk(): void {
+    this.isSaveLoading = true;
+    setTimeout(() => {
+      this.editProfileVisible = false;
+      this.isSaveLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    let modal = document.getElementById("my-modal");
+    if (modal != null) {
+      modal.style.display = "none";
+    }
   }
 }
