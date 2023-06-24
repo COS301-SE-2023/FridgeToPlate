@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipePage } from './recipe.page';
+import { IonicModule } from '@ionic/angular';
 
 describe('RecipeDetailPageComponent', () => {
   let component: RecipePage;
@@ -8,7 +9,8 @@ describe('RecipeDetailPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecipePage ]
+      declarations: [RecipePage],
+      imports: [IonicModule],
     })
     .compileComponents();
 

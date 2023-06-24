@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipeListStep } from './recipe-list-step';
+import { IonicModule } from '@ionic/angular';
 
 describe('RecipeListStep', () => {
   let component: RecipeListStep;
@@ -8,7 +9,8 @@ describe('RecipeListStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecipeListStep]
+      declarations: [RecipeListStep],
+      imports: [IonicModule],
     });
     fixture = TestBed.createComponent(RecipeListStep);
     component = fixture.componentInstance;
