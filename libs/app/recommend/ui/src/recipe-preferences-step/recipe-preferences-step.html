@@ -6,13 +6,12 @@
       <h3 class="mt-4 text-xl font-semibold text-primary">Diet</h3>
     </div>
     <div class="flex flex-row gap-2 flex-wrap lg:pl-3">
-      <div
+      <fridge-to-plate-diet-preference-pill-component
         *ngFor="let category of (dietList$ | async)"
-        class="bg-primary rounded-lg ml-1 h-auto px-2 text-white cursor-pointer"
         (click)="dietSelect($event)"
+        diet="{{category}}"
       >
-        {{category}}
-      </div>
+      </fridge-to-plate-diet-preference-pill-component>
     </div>
   </div>
 

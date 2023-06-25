@@ -11,6 +11,7 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '../../data-access/src/recommend.module';
 import { RecommendApi } from '../../data-access/src/recommend.api';
 import { FormsModule } from '@angular/forms';
+import { DietPreferencePillComponentComponent } from './diet-preference-pill-component/diet-preference-pill-component.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm,
+    DietPreferencePillComponentComponent,
   ],
   imports: [
     CommonModule,
