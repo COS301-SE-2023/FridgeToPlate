@@ -12,71 +12,76 @@ export class ProfilePage {
 
   subpage: string = "saved";
 
-  profile = {
-    name: "John Doe",
-    username: "jdoe",
-    email: "jdoe@gmail.com",
-    saved_recipes: [
-      {
-        id: "1",
-        name: "Shrimp Pasta",
-        difficulty: "Medium",
-        tags: ["Seafood", "Pasta"]
-      },
-      {
-        id: "2",
-        name: "Pizza",
-        difficulty: "Easy",
-        tags: ["Italian", "Pizza"]
-      },
-      {
-        id: "3",
-        name: "Mushroom Pie",
-        difficulty: "Medium",
-        tags: ["Quick"]
-      },
-      {
-        id: "4",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-      {
-        id: "5",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-      {
-        id: "6",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-    ],
-    ingredients: [
-      {
-        name: "Tomato",
-        amount: "3"
-      },
-      {
-        name: "Cucumber",
-        amount: "1"
-      },
-      {
-        name: "Beef",
-        amount: "200g"
-      },
-      {
-        name: "Chicken Stock",
-        amount: "500ml"
-      },
-    ],
-  }
+  profile : any;
 
-  editableProfile = Object.create(this.profile);
+  editableProfile : any;
 
   constructor(private api: ProfileAPI) {}
+
+  ngOnInit() {
+    this.profile = {
+      name: "John Doe",
+      username: "jdoe",
+      email: "jdoe@gmail.com",
+      saved_recipes: [
+        {
+          id: "1",
+          name: "Shrimp Pasta",
+          difficulty: "Medium",
+          tags: ["Seafood", "Pasta"]
+        },
+        {
+          id: "2",
+          name: "Pizza",
+          difficulty: "Easy",
+          tags: ["Italian", "Pizza"]
+        },
+        {
+          id: "3",
+          name: "Mushroom Pie",
+          difficulty: "Medium",
+          tags: ["Quick"]
+        },
+        {
+          id: "4",
+          name: "Beef Stew",
+          difficulty: "Easy",
+          tags: ["Winter", "Hearty"]
+        },
+        {
+          id: "5",
+          name: "Beef Stew",
+          difficulty: "Easy",
+          tags: ["Winter", "Hearty"]
+        },
+        {
+          id: "6",
+          name: "Beef Stew",
+          difficulty: "Easy",
+          tags: ["Winter", "Hearty"]
+        },
+      ],
+      ingredients: [
+        {
+          name: "Tomato",
+          amount: "3"
+        },
+        {
+          name: "Cucumber",
+          amount: "1"
+        },
+        {
+          name: "Beef",
+          amount: "200g"
+        },
+        {
+          name: "Chicken Stock",
+          amount: "500ml"
+        },
+      ],
+    };
+    this.editableProfile = Object.create(this.profile);
+  }
 
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
