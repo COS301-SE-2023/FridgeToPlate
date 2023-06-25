@@ -40,7 +40,10 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
-      ]
+      ],
+      "@fridge-to-plate/app/create/data-access": [
+        "libs/app/create/data-access/src/index.ts"
+      ],
     }
   },
   "exclude": ["node_modules", "tmp"]

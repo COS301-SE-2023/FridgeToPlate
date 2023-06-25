@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreateAPI } from '@fridge-to-plate/app/create/data-access'
 
 @Component({
   selector: 'app-create',
@@ -13,7 +14,7 @@ export class CreatePage {
   editableIndex: number = -1;
   edit = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
   }
 
