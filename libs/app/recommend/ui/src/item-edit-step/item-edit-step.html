@@ -1,6 +1,6 @@
-<div class="w-full h-full">
+<div class="w-full h-full md:grid md:grid-rows-12 md:grid-cols-12">
   <ng-container *ngIf="(ingredientItems$ | async); else noData">
-    <div class="h-2/3">
+    <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 lg:col-start-9 md:col-end-13 overflow-y-scroll md:pr-8 md:pl-6 lg:pr-18">
       <nz-list>
         <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
           <div
@@ -54,6 +54,58 @@
           </div>
         </nz-list-item>
       </nz-list>
+    </div>
+    <div class="hidden md:block
+    md:h-full md:row-start-2
+    md:row-end-11 md:col-start-1 lg:col-end-6
+    md:col-end-7 flex flex-col md:ml-6 lg:ml-18">
+      <div class="w-full lg:w-5/6 h-2/3 rounded-md shadow-lg lg:ml-8">
+      <div class="flex flex-col h-1/4 pl-8 text-primary">
+        <h3 class="mt-4 text-xl font-semibold">Filters</h3>
+        <input placeholder="Search by keyword" type="text" class="w-5/6 py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black">
+      </div>
+      <div class="flex flex-col h-1/4 pl-8 text-primary">
+        <h3 class="mt-4 text-xl font-semibold">Sort</h3>
+        <select class="w-5/6 py-2 rounded-md pl-4 mt-2 text-black">
+          <option value="">       </option>
+          <option value="name-asc">Name (ascending)</option>
+          <option value="name-des">Name (descending)</option>
+          <option value="quantity-asc">Quantity (ascending)</option>
+          <option value="quantity-des">Quantity (descending)</option>
+        </select>
+      </div>
+      <div class="flex flex-col h-2/4 pl-8 text-primary">
+        <h3 class="mt-4 text-xl font-semibold" >Tags</h3>
+        <div class="flex flex-col items-start">
+          <input placeholder="Search by tag" type="text" class="w-5/6 py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black">
+          <button class="bg-primary hover:primary-highlight focus:bg-primary-highlight mt-4 py-2 px-10 rounded-full text-white">Clear</button>
+        </div>
+        <div class="mt-6">
+          <p>Tags list</p>
+        </div>
+      </div>
+      </div>
+
+      <div class="flex flex-col h-1/6">
+        <button class="bg-primary hover:primary-highlight
+         focus:bg-primary-highlight w-3/4 lg:w-5/6 ml-8
+         mt-4 lg:mt-6 py-2 lg:py-4 px-10 rounded-lg
+         text-white flex flex-row justify-between items-center">
+          <p>Add new item</p>
+          <svg stroke="currentColor"
+               fill="currentColor"
+               stroke-width="0"
+               viewBox="0 0 16 16"
+               height="1em"
+               width="1em"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z">
+            </path>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+            </path>
+          </svg>
+        </button>
+      </div>
     </div>
   </ng-container>
   <ng-template #noData>
