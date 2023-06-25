@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 
 @Component({
   selector: "profile-page",
@@ -8,7 +9,7 @@ import { Component } from "@angular/core";
 export class ProfilePage {
 
   subpage : string = "saved";
- 
+
   name : string = "John Doe";
   email : string = "jdoe@gmail.com";
 

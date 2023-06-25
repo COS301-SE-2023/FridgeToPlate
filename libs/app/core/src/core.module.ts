@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreShell } from './core.shell';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { CoreRouting } from './core.routing';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
@@ -10,10 +9,11 @@ import { TabbedComponent } from './tabbed-component/tabbed-component';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [CoreShell, NxWelcomeComponent, TabbedComponent],
+  declarations: [CoreShell, TabbedComponent],
   imports: [
     BrowserModule,
     LoginModule,
@@ -23,6 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzStepsModule,
     NzFormModule,
     NzIconModule,
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

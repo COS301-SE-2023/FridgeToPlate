@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipePreferencesStep } from './recipe-preferences-step';
+import { IonicModule } from '@ionic/angular';
+import { HttpClientModule } from '@angular/common/http';
+import { RecommendModule } from '@fridge-to-plate/app/recommend/feature';
+import { RecommendUIModule } from '../recommend.module';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
@@ -8,7 +12,9 @@ describe('RecipePreferencesStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecipePreferencesStep]
+      declarations: [RecipePreferencesStep],
+      imports: [IonicModule, HttpClientModule, RecommendUIModule],
+      providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
     component = fixture.componentInstance;
