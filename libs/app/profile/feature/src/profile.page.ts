@@ -9,10 +9,15 @@ export class ProfilePage {
 
   displayEditProfile = "none";
 
-  subpage : string = "saved";
- 
-  name : string = "John Doe";
-  email : string = "jdoe@gmail.com";
+  subpage: string = "saved";
+
+  profile = {
+    name: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+  }
+
+  editableProfile = Object.create(this.profile);
 
   recipes = [
     {
@@ -75,10 +80,15 @@ export class ProfilePage {
   }
 
   openEditProfile() {
+    this.editableProfile = Object.create(this.profile);
     this.displayEditProfile = "block";
   }
 
   closeEditProfile() {
     this.displayEditProfile = "none";
+  }
+
+  saveProfile() {
+    this.profile = this.editableProfile;
   }
 }
