@@ -2,14 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
-import { CognitoIdentityProviderClient, AdminConfirmSignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
-
 //import { environment } from 'src/environments/environment';
 
 interface formDataInterface {
   "custom:username": string;
   "email": string;
-  //"password": string;
   [key: string]: string;
 };
 
@@ -26,41 +23,23 @@ export class SignupPage implements OnInit {
   password = "";
   confirm_password = "";
 
-  cognitoClient: CognitoIdentityProviderClient;
+  constructor(private router: Router) {  }
 
-  constructor(private router: Router) {
-    this.cognitoClient = new CognitoIdentityProviderClient({ region: 'eu-west-3' });
-  }
-
-  async confirmUserSignUp(poolId: string, username: string): Promise<void> {
-    const command = new AdminConfirmSignUpCommand({
-      UserPoolId: poolId,
-      Username: username,
-    });
-
-    try {
-      const response = await this.cognitoClient.send(command);
-      console.log('User sign-up confirmed:', response);
-    } catch (error) {
-      console.error('Error confirming user sign-up:', error);
-    }
-  }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
   
 
   login() {
-    alert("login");
     this.router.navigate(['/login']);
   }
 
   createAccount() {
-    alert("create account");
+    return;
   }
 
   guest() {
-    alert("Entering Guest...");
+    return
   }
 
   onSignup(form: NgForm){
@@ -94,7 +73,6 @@ export class SignupPage implements OnInit {
      userPool.signUp(this.username, this.password, attributeList, [], ( err, result ) => {
 
       if (err) {
-        this.confirmUserSignUp(poolData.UserPoolId, this.username);
          alert(err.message || JSON.stringify(err));
          return;
        }
