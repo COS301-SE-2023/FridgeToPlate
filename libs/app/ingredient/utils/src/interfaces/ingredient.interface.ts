@@ -4,7 +4,7 @@ export interface IIngredient {
     tags?: string[];
   }
   
-  export interface QuantityIngredient extends IIngredient {
+  export interface IQuantityIngredient extends IIngredient {
     quantity: number;
     scale: string;
   }

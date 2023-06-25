@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
+import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
 
 @Component({
   selector: "profile-page",
@@ -72,6 +73,8 @@ export class ProfilePage {
     },
   ]
 
+  constructor(private api: ProfileAPI) {}
+
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
@@ -90,6 +93,7 @@ export class ProfilePage {
   }
 
   saveProfile() {
+    this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
   }
 }
