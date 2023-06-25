@@ -1,10 +1,6 @@
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { da } from 'date-fns/locale';
 
 export interface IResponse {
   status: number;
