@@ -53,12 +53,12 @@
         </button>
 
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-2 md:grid-cols-3 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-           <recipe-card *ngFor="let recipe of recipes" [recipe]="recipe"></recipe-card>
+           <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>
     </div>
     <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
         <div class="mr-4 my-2 md:columns-2">
-            <ingredient-card *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" (removeEvent)="removeIngredient(i)" [ingredient]="ingredient"></ingredient-card>
+            <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card>
         </div>
     </div>
 </div>

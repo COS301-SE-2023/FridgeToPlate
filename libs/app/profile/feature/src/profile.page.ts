@@ -16,61 +16,65 @@ export class ProfilePage {
     name: "John Doe",
     username: "jdoe",
     email: "jdoe@gmail.com",
+    saved_recipes: [
+      {
+        id: "1",
+        name: "Shrimp Pasta",
+        difficulty: "Medium",
+        tags: ["Seafood", "Pasta"]
+      },
+      {
+        id: "2",
+        name: "Pizza",
+        difficulty: "Easy",
+        tags: ["Italian", "Pizza"]
+      },
+      {
+        id: "3",
+        name: "Mushroom Pie",
+        difficulty: "Medium",
+        tags: ["Quick"]
+      },
+      {
+        id: "4",
+        name: "Beef Stew",
+        difficulty: "Easy",
+        tags: ["Winter", "Hearty"]
+      },
+      {
+        id: "5",
+        name: "Beef Stew",
+        difficulty: "Easy",
+        tags: ["Winter", "Hearty"]
+      },
+      {
+        id: "6",
+        name: "Beef Stew",
+        difficulty: "Easy",
+        tags: ["Winter", "Hearty"]
+      },
+    ],
+    ingredients: [
+      {
+        name: "Tomato",
+        amount: "3"
+      },
+      {
+        name: "Cucumber",
+        amount: "1"
+      },
+      {
+        name: "Beef",
+        amount: "200g"
+      },
+      {
+        name: "Chicken Stock",
+        amount: "500ml"
+      },
+    ],
   }
 
   editableProfile = Object.create(this.profile);
-
-  recipes = [
-    {
-      name: "Shrimp Pasta",
-      difficulty: "Medium",
-      tags: ["Seafood", "Pasta"]
-    },
-    {
-      name: "Pizza",
-      difficulty: "Easy",
-      tags: ["Italian", "Pizza"]
-    },
-    {
-      name: "Mushroom Pie",
-      difficulty: "Medium",
-      tags: ["Quick"]
-    },
-    {
-      name: "Beef Stew",
-      difficulty: "Easy",
-      tags: ["Winter", "Hearty"]
-    },
-    {
-      name: "Beef Stew",
-      difficulty: "Easy",
-      tags: ["Winter", "Hearty"]
-    },
-    {
-      name: "Beef Stew",
-      difficulty: "Easy",
-      tags: ["Winter", "Hearty"]
-    },
-  ]
-
-  ingredients = [
-    {
-      name: "Tomato",
-      amount: "3"
-    },
-    {
-      name: "Cucumber",
-      amount: "1"
-    },
-    {
-      name: "Beef",
-      amount: "200g"
-    },
-    {
-      name: "Chicken Stock",
-      amount: "500ml"
-    },
-  ]
 
   constructor(private api: ProfileAPI) {}
 
@@ -78,8 +82,8 @@ export class ProfilePage {
     this.subpage = subpageName;
   }
 
-  removeIngredient(ingredientID: number) {
-    this.ingredients.splice(ingredientID, 1);
+  removeIngredient(ingredient: any) {
+    this.profile.ingredients = this.profile.ingredients.filter((item: any) => item !== ingredient );
   }
 
   openEditProfile() {
