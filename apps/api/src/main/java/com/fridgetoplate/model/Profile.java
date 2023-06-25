@@ -22,15 +22,10 @@ public class Profile {
     private Ingredient[] ingredients;
 
     @DynamoDBAttribute
-<<<<<<< HEAD
-    private Recipe[] preferences;
 
-    @DynamoDBAttribute
-    private Recipe[] create_recipes;
-=======
     private Preference[] preferences;
 
     @DynamoDBAttribute
     private Recipe[] created_recipes;
->>>>>>> 29d0b008fbd90782385869c2ae572fad6fa884ed
+
 }
