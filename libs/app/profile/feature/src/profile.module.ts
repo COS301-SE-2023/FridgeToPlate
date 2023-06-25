@@ -6,8 +6,7 @@ import { ProfileRouting } from './profile.routing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 
 @NgModule({
   imports: [
@@ -17,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     RecipeUIModule,
     IngredientUIModule,
     ProfileUiModule,
+    NavigationBarModule
   ],
   declarations: [ProfilePage],
 })

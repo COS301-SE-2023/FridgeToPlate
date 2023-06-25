@@ -1,10 +1,11 @@
 import { TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
+import { IonicModule } from "@ionic/angular";
 
 describe("ProfilePage", () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [],
+      imports: [IonicModule],
       declarations: [ProfilePage],
     }).compileComponents();
   });
