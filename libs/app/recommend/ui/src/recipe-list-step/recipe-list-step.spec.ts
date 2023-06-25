@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipeListStep } from './recipe-list-step';
+import { IonicModule } from '@ionic/angular';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('RecipeListStep', () => {
   let component: RecipeListStep;
@@ -8,7 +10,9 @@ describe('RecipeListStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecipeListStep]
+      declarations: [RecipeListStep],
+      imports: [IonicModule, HttpClientModule],
+      providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipeListStep);
     component = fixture.componentInstance;
