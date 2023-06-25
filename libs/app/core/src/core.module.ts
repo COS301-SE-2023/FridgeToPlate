@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreShell } from './core.shell';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { CoreRouting } from './core.routing';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
@@ -14,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [CoreShell, NxWelcomeComponent, TabbedComponent],
+  declarations: [CoreShell, TabbedComponent],
   imports: [
     BrowserModule,
     LoginModule,

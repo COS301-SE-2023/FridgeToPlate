@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecommendPage } from './recommend.page';
+import { IonicModule } from '@ionic/angular';
 // import { AppRecipeRecommendationModule} from "@fridge-to-plate/app/recommend/feature";
 
 describe('RecipeRecommendationPage', () => {
@@ -9,7 +10,8 @@ describe('RecipeRecommendationPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecommendPage]
+      declarations: [RecommendPage],
+      imports: [IonicModule],
     });
     fixture = TestBed.createComponent(RecommendPage);
     component = fixture.componentInstance;

@@ -12,6 +12,7 @@ import { RecommendUIModule } from '../../ui/src';
 import { RecommendPage } from './recommend.page';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '../../data-access/src/recommend.module';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { RecommendDataAccessModule } from '../../data-access/src/recommend.modul
     NzIconModule,
     RecommendUIModule,
     RecommendDataAccessModule,
+    NavigationBarModule,
   ],
   declarations: [RecommendPage],
   exports: [RecommendPage],

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { CreatePage } from './create.page';
+import { IonicModule } from '@ionic/angular';
 
 describe('ComponentName', () => {
   let component: CreatePage;
@@ -10,7 +11,10 @@ describe('ComponentName', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePage ],
-      imports: [ReactiveFormsModule],
+      imports: [
+        ReactiveFormsModule,
+        IonicModule,
+      ],
       providers: [ FormBuilder ]
     })
     .compileComponents();
