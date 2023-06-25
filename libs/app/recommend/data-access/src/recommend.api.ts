@@ -56,8 +56,31 @@ export class RecommendApi {
   }
 
   //Step 2
-  getDietList(): string[] {
-    return [];
+  getDietList(): Observable<string[]> {
+    //TODO:Comment out when backend connected.
+    // const req: Observable<string[]> = this.httpClient
+    //   .get<IngredientsResponse>('diet')
+    //   .pipe(
+    //     switchMap((res: IngredientsResponse) => {
+    //       return res.data.ingredientsList ?? ingredientsArray;
+    //     }),
+    //     catchError(async (error) => {
+    //       console.log('An error has occured: ', error);
+    //       return error;
+    //     })
+    //   );
+    const dietList = [
+      'Vegan',
+      'Vegetarian',
+      'Ketogenic',
+      'Paleo-tonic',
+      'Low-carb',
+      'Pescatarian',
+    ];
+
+    const req = new BehaviorSubject<string[]>(dietList);
+
+    return req;
   }
 
   //Step 3
