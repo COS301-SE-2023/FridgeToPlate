@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['recipe-preferences-step.scss'],
 })
 export class RecipePreferencesStep {
-  dietCategories: string[] | undefined;
+  dietCategories: string[] = [];
 
   dietList$: Observable<string[]> = this.recommendApi.getDietList();
 
   recipePreferences = new FormGroup({
-    diet: new FormControl(''),
+    diet: new FormControl(this.dietCategories),
     keywords: new FormControl([]),
     other: new FormGroup({
       difficulty: new FormControl('easy'),
@@ -23,8 +23,11 @@ export class RecipePreferencesStep {
     }),
   });
 
-  dietSelect(e: Event) {
-    console.log(e.target);
+  dietSelect(dietPill: string) {
+    if (typeof dietPill === 'string') {
+      this.dietCategories?.push(dietPill);
+      this.recipePreferences.controls['diet'].setValue(this.dietCategories);
+    }
   }
 
   constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi) {}
