@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'recipe-card',
@@ -7,4 +7,16 @@ import { Component, Input } from '@angular/core';
 })
 export class RecipeCardComponent {
   @Input() recipe : any;
+  @Input() bookmarked : boolean = false;
+  @Input() profile : any;
+
+  changeSaved() {
+    this.bookmarked = !this.bookmarked;
+
+    if (!this.bookmarked) {
+      this.profile.saved_recipes = this.profile.saved_recipes.filter((item: any) => item !== this.recipe );
+    }
+  }
+
+
 }
