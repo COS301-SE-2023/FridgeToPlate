@@ -4,6 +4,7 @@ import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { recipeArray } from './recipes.mock';
 
 export interface IResponse {
   status: number;
@@ -84,5 +85,9 @@ export class RecommendApi {
   }
 
   //Step 3
-  getRecommendations(recomendationParams: {}) {}
+  getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
+    const recommendations = new BehaviorSubject<IRecipe[]>(recipeArray);
+
+    return recommendations;
+  }
 }
