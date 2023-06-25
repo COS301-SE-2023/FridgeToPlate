@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'recipe-preferences-step',
   templateUrl: './recipe-preferences-step.html',
-  styleUrls: ['recipe-preferences-step.scss']
+  styleUrls: ['recipe-preferences-step.scss'],
 })
 export class RecipePreferencesStep {
+  dietCategories: string[] | undefined;
 
-  dietCategories = ['Vegan','Vegetarian','Ketogenic','Paleo-tonic','Low-carb','Pescatarian']
+  dietList$: Observable<string[]> = this.recommendApi.getDietList();
 
   recipePreferences = new FormGroup({
     diet: new FormControl(''),
@@ -16,9 +19,13 @@ export class RecipePreferencesStep {
     other: new FormGroup({
       difficulty: new FormControl('easy'),
       rating: new FormControl(3),
-      numberOfServings: new FormControl(1)
-    })
-  })
-  constructor(formBuilder:FormBuilder) {
+      numberOfServings: new FormControl(1),
+    }),
+  });
+
+  dietSelect(e: Event) {
+    console.log(e.target);
   }
+
+  constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi) {}
 }
