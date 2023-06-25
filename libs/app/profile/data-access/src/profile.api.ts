@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export interface IResponse {
   status: number;
@@ -33,5 +34,4 @@ export class ProfileAPI {
       }
     })
   }
-
 }
