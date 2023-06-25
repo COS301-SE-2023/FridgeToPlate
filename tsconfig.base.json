@@ -25,6 +25,9 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/profile/data-access": [
+        "libs/app/profile/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/profile/feature": [
         "libs/app/profile/feature/src/index.ts"
       ],
