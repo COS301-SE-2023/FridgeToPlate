@@ -9,8 +9,8 @@
         </div>
     
         <div class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-16 lg:-right-5">
-            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ name }}</h2>
-            <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ email }}</p>
+            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.name }}</h2>
+            <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
     </div>
 
@@ -54,4 +54,4 @@
     </div>
 </div>
 
-<edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()"></edit-modal>
+<edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [profile]="editableProfile"></edit-modal>

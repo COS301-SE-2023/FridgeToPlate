@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'edit-modal',
@@ -7,8 +7,15 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class EditModalComponent {
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
-  
+  @Output() saveFunc: EventEmitter<any> = new EventEmitter();
+  @Input() profile: any;
+
   close() {
+    this.closeFunc.emit();
+  }
+
+  save() {
+    this.saveFunc.emit();
     this.closeFunc.emit();
   }
 }
