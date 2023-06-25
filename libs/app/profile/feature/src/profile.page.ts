@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
 
 @Component({
