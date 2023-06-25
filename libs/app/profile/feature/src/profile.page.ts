@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 
 @Component({
   selector: "profile-page",
