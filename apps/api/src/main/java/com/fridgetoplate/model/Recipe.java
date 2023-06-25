@@ -18,9 +18,9 @@ public class Recipe {
     private String name;
 
     @DynamoDBAttribute
-    private String ingredients;
+    private Ingredient[] ingredients;
 
     @DynamoDBAttribute
-    private String instructions;
+    private String[] instructions;
 
 }
