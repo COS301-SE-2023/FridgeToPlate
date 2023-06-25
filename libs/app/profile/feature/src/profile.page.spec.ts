@@ -1,11 +1,18 @@
-import { TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
+import { HttpClientModule } from "@angular/common/http";
 
 describe("ProfilePage", () => {
+  let testProfile = {
+    name: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule],
+      imports: [IonicModule, HttpClientModule],
       declarations: [ProfilePage],
     }).compileComponents();
   });
@@ -15,7 +22,8 @@ describe("ProfilePage", () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const page = fixture.componentInstance;
-    expect(compiled.querySelector("h2")?.textContent).toContain(page.name);
+    page.profile = testProfile;
+    expect(compiled.querySelector("h2")?.textContent).toContain(page.profile.name);
   });
 
   it("should render users email", () => {
@@ -23,7 +31,8 @@ describe("ProfilePage", () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const page = fixture.componentInstance;
-    expect(compiled.querySelector("p")?.textContent).toContain(page.email);
+    page.profile = testProfile;
+    expect(compiled.querySelector("p")?.textContent).toContain(page.profile.username);
   });
 
   it("should start on saved subpage", () => {

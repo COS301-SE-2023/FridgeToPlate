@@ -4,6 +4,11 @@ import { EditModalComponent } from './edit-modal.component';
 describe('EditModalComponent', () => {
   let component: EditModalComponent;
   let fixture: ComponentFixture<EditModalComponent>;
+  let testProfile = {
+    name: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -12,6 +17,7 @@ describe('EditModalComponent', () => {
 
     fixture = TestBed.createComponent(EditModalComponent);
     component = fixture.componentInstance;
+    component.profile = testProfile;
     fixture.detectChanges();
   });
 
