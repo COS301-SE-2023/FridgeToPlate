@@ -15,7 +15,7 @@ jobs:
   test_build_workspace:
 
     name: Lint, Test & Build Wokspace
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
     environment: Production 
 
     steps:
