@@ -7,8 +7,7 @@ import { Component } from "@angular/core";
 })
 export class ProfilePage {
 
-  editProfileVisible = false;
-  isSaveLoading = false;
+  displayEditProfile = "none";
 
   subpage : string = "saved";
  
@@ -75,25 +74,11 @@ export class ProfilePage {
     this.ingredients.splice(ingredientID, 1);
   }
 
-  openSettings() {
-    let modal = document.getElementById("my-modal");
-    if (modal != null) {
-      modal.style.display = "block";
-    }
+  openEditProfile() {
+    this.displayEditProfile = "block";
   }
 
-  handleOk(): void {
-    this.isSaveLoading = true;
-    setTimeout(() => {
-      this.editProfileVisible = false;
-      this.isSaveLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
-    let modal = document.getElementById("my-modal");
-    if (modal != null) {
-      modal.style.display = "none";
-    }
+  closeEditProfile() {
+    this.displayEditProfile = "none";
   }
 }
