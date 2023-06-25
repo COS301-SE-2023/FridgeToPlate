@@ -13,3 +13,7 @@ nav a ion-icon {
     font-size: 48px; /* increase font size on screens wider than 768px */
   }
 }
+
+nav a.active {
+  color: rgb(237, 76, 7);
+}
