@@ -34,6 +34,7 @@ public class ProfileRepository {
         //Retrieve the profile of the specified ID
         Profile profileData =  dynamoDBMapper.load(Profile.class, id);
 
+        System.out.println("profileData");
         System.out.println(profileData);
 
         //Return null if user profile does not exist
