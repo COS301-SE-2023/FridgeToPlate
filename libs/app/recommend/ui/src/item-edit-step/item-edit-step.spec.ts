@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {ItemEditStep} from "./item-edit-step";
+import { IonicModule } from '@ionic/angular';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -8,7 +9,8 @@ describe('ItemEditStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemEditStep]
+      declarations: [ItemEditStep],
+      imports: [IonicModule],
     });
     fixture = TestBed.createComponent(ItemEditStep);
     component = fixture.componentInstance;

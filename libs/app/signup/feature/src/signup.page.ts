@@ -30,13 +30,14 @@ export class SignupPage implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
-  
+
 
   login() {
     this.router.navigate(['/login']);
   }
 
   createAccount() {
+    return;
     return;
   }
 
