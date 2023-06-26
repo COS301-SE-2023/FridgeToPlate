@@ -83,8 +83,19 @@ export class RecommendApi {
 
   //Step 3
   getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
-    const recommendations = new BehaviorSubject<IRecipe[]>(recipeArray);
+    
+    const req: Observable<IRecipe[]> = this.httpClient
+      .get<IRecipe[]>(`${baseUrl}recommend`)
+      .pipe(
+        switchMap((res: IRecipe[]) => {
+            return new BehaviorSubject<IRecipe[]>(res);
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
 
-    return recommendations;
+    return req;
   }
 }
