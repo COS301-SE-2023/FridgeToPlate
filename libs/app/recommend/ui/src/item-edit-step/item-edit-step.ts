@@ -31,7 +31,6 @@ export class ItemEditStep {
     .getUserIngredientsList()
     .subscribe({
       next: (userIngredients) => {
-        console.log(userIngredients);
         this.ingredientList = userIngredients;
       },
       error: (error) => {
