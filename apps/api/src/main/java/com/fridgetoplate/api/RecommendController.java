@@ -10,4 +10,13 @@ import com.fridgetoplate.model.Recipe;
 @CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
         RequestMethod.DELETE })
 @RequestMapping("/recommend")
-public class RecommendController
+
+public class RecommendController {
+    @Autowired
+    private RecipeRepository recipeRepository;
+
+    @GetMapping
+    public List<Recipe> findAll() {
+        return recipeRepository.findAll();
+    }
+}
