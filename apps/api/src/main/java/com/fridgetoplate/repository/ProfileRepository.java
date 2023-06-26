@@ -29,19 +29,51 @@ public class ProfileRepository {
         return dynamoDBMapper.scan(Profile.class, new DynamoDBScanExpression());
     }
 
-    public String update(String id, Profile profile){
-        dynamoDBMapper.save(profile,
+    public Profile update(String id, Profile profile){
+
+        Profile profileData =  dynamoDBMapper.load(Profile.class, id);
+
+        System.out.println(profileData);
+
+        if(profileData == null)
+            return null;
+
+
+
+        if(profile.getIngredients() != null) {
+            profileData.setIngredients(profile.getIngredients());
+        }
+
+        if(profile.getPreferences() != null) {
+            profileData.setPreferences(profile.getPreferences());
+        }
+
+        if(profile.getCreatedRecipes() != null) {
+            profile.setCreatedRecipes(profile.getCreatedRecipes());
+        }
+
+        if(profile.getProfilePicture() != null) {
+            profileData.setProfilePicture(profile.getProfilePicture());
+        }
+
+        if(profile.getUsername() != null) {
+            profileData.setUsername(profile.getUsername());
+        }
+        
+        dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()
-        .withExpectedEntry("id",
+        .withExpectedEntry("profileId",
                 new ExpectedAttributeValue(
                         new AttributeValue().withS(id)
                 )));
-        return id;
+        return profileData;
     }
 
     public String delete(String id){
        Profile profile = dynamoDBMapper.load(Profile.class, id);
         dynamoDBMapper.delete(profile);
-        return "Profile deleted successfully:: "+id;
+        return "Profile deleted successfully:: " + id;
     }
+
+    
 }
