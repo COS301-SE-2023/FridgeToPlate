@@ -29,7 +29,6 @@ export class RecipePage implements OnInit {
       if (recipeId) {
         this.recipeService.getRecipeById(recipeId).subscribe(
           (response: IRecipe) => {
-            console.log(response)
             this.recipe = response;
           },
         );
