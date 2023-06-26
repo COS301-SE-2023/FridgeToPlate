@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import {
   IngredientItem,
   RecommendDataAccessModule,
@@ -20,7 +20,7 @@ import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
 export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
-  ingredientList: QuantityIngredient[] | undefined;
+  ingredientList: IQuantityIngredient[] | undefined;
 
   ingredientsToBeDeleted: string[] = [];
 
@@ -40,7 +40,7 @@ export class ItemEditStep {
       },
     });
 
-  removeItem(item: QuantityIngredient) {
+  removeItem(item: IQuantityIngredient) {
     //this.recommendApiClient.removeIngredient(item);
     this.ingredientsToBeDeleted.push(item.id);
     const updatedList = this.ingredientList?.filter(
