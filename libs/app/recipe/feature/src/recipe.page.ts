@@ -31,11 +31,7 @@ export class RecipePage implements OnInit {
           (response: IRecipe) => {
             console.log(response)
             this.recipe = response;
-            console.log("Here", this.recipe); // Access the response here
           },
-          (error) => {
-            console.error(error);
-          }
         );
       }
     });
