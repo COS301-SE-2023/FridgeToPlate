@@ -43,9 +43,12 @@ export class ItemEditStep {
 
   removeItem(item: IIngredient) {
     //this.recommendApiClient.removeIngredient(item);
-    this.ingredientsToBeDeleted.push(item.id);
+    console.log(item.ingredientId);
+    this.ingredientsToBeDeleted.push(item.ingredientId);
+    console.log("DEL: ", this.ingredientsToBeDeleted);
+
     const updatedList = this.ingredientList?.filter(
-      (item) => !this.ingredientsToBeDeleted.includes(item.id)
+      (item) => !this.ingredientsToBeDeleted.includes(item.ingredientId)
     );
     this.ingredientList = updatedList;
   }

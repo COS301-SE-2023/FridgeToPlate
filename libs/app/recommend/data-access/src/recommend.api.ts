@@ -51,7 +51,7 @@ export class RecommendApi {
 
   removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
-      (ingredientItem) => ingredientItem.id !== ingredient.id
+      (ingredientItem) => ingredientItem.ingredientId !== ingredient.ingredientId
     );
   }
 

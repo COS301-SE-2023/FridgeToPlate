@@ -1,7 +1,7 @@
 import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 export interface IngredientItem {
-  id: number;
+  ingredientId: number;
   name: string;
   quantity: number;
   metadata?: {
@@ -13,97 +13,97 @@ export interface IngredientItem {
 
 export const ingredientsArray: IQuantityIngredient[] = [
   {
-    id: '0',
+    ingredientId: '0',
     name: 'Tomato',
     quantity: 2,
     scale: 'kg',
   },
   {
-    id: '1',
+    ingredientId: '1',
     name: 'Onion',
     quantity: 1,
     scale: 'kg',
   },
   {
-    id: '2',
+    ingredientId: '2',
     name: 'Rice',
     quantity: 3,
     scale: 'kg',
   },
   {
-    id: '3',
+    ingredientId: '3',
     name: 'Chicken',
     quantity: 2,
     scale: 'kg',
   },
   {
-    id: '4',
+    ingredientId: '4',
     name: 'Rump Steak',
     quantity: 3,
     scale: 'kg',
   },
   {
-    id: '5',
+    ingredientId: '5',
     name: 'Rice',
     quantity: 3,
     scale: 'kg',
   },
   {
-    id: '6',
+    ingredientId: '6',
     name: 'Flour',
     quantity: 2,
     scale: 'kg',
   },
   {
-    id: '7',
+    ingredientId: '7',
     name: 'Egg',
     quantity: 500,
     scale: 'g',
   },
   {
-    id: '8',
+    ingredientId: '8',
     name: 'Peppers',
     quantity: 2,
     scale: 'kg',
   },
   {
-    id: '9',
+    ingredientId: '9',
     name: 'Sunflower Oil',
     quantity: 2,
     scale: 'l',
   },
   {
-    id: '10',
+    ingredientId: '10',
     name: 'Milk',
     quantity: 4,
     scale: 'l',
   },
   {
-    id: '11',
+    ingredientId: '11',
     name: 'Soy Sauce',
     quantity: 500,
     scale: 'ml',
   },
   {
-    id: '12',
+    ingredientId: '12',
     name: 'Beef Stock',
     quantity: 200,
     scale: 'ml',
   },
   {
-    id: '13',
+    ingredientId: '13',
     name: 'Pasta',
     quantity: 2,
     scale: 'kg',
   },
   {
-    id: '14',
+    ingredientId: '14',
     name: 'Salt',
     quantity: 200,
     scale: 'g',
   },
   {
-    id: '15',
+    ingredientId: '15',
     name: 'Salmon',
     quantity: 1,
     scale: 'kg',
