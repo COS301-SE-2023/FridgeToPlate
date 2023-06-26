@@ -72,10 +72,8 @@ export class RecommendApi {
     const dietList = [
       'Vegan',
       'Vegetarian',
-      'Ketogenic',
       'Paleo-tonic',
-      'Low-carb',
-      'Pescatarian',
+      'Ketogenic',
     ];
 
     const req = new BehaviorSubject<string[]>(dietList);
