@@ -48,6 +48,7 @@ export class ProfilePage {
 
   ngOnInit() {
     this.profile = {
+      profileId: "1",
       name: "John Doe",
       username: "jdoe",
       email: "jdoe@gmail.com",
@@ -130,6 +131,7 @@ export class ProfilePage {
   }
 
   saveProfile() {
+    this.editableProfile.profileId = "9be7b531-4980-4d3b-beff-a35d08f2637e";
     this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
   }

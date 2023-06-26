@@ -22,17 +22,27 @@ const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 })
 export class ProfileAPI {
   constructor(private http: HttpClient) {}
-  
+
+  private baseUrl = "http://localhost:5000/profiles";
+
   editProfile(profile: IProfile) {
-    this.http.post<IResponse>('localhost:5000', profile).subscribe({
-      next: data => {
-          console.log(data.status);
-          return data.status;
-      },
-      error: error => {
-          console.error('There was an error!', error);
-          return error.status;
-      }
-    })
+
+    const id = profile.profileId;
+
+    const url = `${this.baseUrl}/${id}` ;
+    //alert(this.http.get<IResponse>(url));
+    return this.http.put<IResponse>(url, profile);
+
+
+    // this.http.put<IResponse>('localhost:5000/profiles', profile).subscribe({
+    //   next: data => {
+    //       console.log(data.status);
+    //       return data.status;
+    //   },
+    //   error: error => {
+    //       console.error('There was an error!', error);
+    //       return error.status;
+    //   }
+    // })
   }
 }
