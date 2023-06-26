@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import {
   IngredientItem,
   RecommendDataAccessModule,
@@ -20,7 +20,7 @@ import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
 export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
-  ingredientList: IQuantityIngredient[] | undefined;
+  ingredientList: IIngredient[] | undefined;
 
   ingredientsToBeDeleted: string[] = [];
 
@@ -32,6 +32,7 @@ export class ItemEditStep {
     .getUserIngredientsList()
     .subscribe({
       next: (userIngredients) => {
+        console.log(userIngredients);
         this.ingredientList = userIngredients;
       },
       error: (error) => {
@@ -40,7 +41,7 @@ export class ItemEditStep {
       },
     });
 
-  removeItem(item: IQuantityIngredient) {
+  removeItem(item: IIngredient) {
     //this.recommendApiClient.removeIngredient(item);
     this.ingredientsToBeDeleted.push(item.id);
     const updatedList = this.ingredientList?.filter(
@@ -58,21 +59,21 @@ export class ItemEditStep {
             a.name < b.name ? -1 : 1
           );
           break;
-        case 'name-des':
+        default :
           this.ingredientList = this.ingredientList?.sort((a, b) =>
             a.name > b.name ? -1 : 1
           );
           break;
-        case 'quantity-asc':
-          this.ingredientList = this.ingredientList?.sort(
-            (a, b) => a.quantity - b.quantity
-          );
-          break;
-        default:
-          this.ingredientList = this.ingredientList?.sort(
-            (a, b) => b.quantity - a.quantity
-          );
-          break;
+        // case 'quantity-asc':
+        //   this.ingredientList = this.ingredientList?.sort(
+        //     (a, b) => a.quantity - b.quantity
+        //   );
+        //   break;
+        // default:
+        //   this.ingredientList = this.ingredientList?.sort(
+        //     (a, b) => b.quantity - a.quantity
+        //   );
+        //   break;
       }
     }
   }
