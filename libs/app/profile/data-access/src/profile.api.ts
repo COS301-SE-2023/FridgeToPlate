@@ -30,19 +30,16 @@ export class ProfileAPI {
     const id = profile.profileId;
 
     const url = `${this.baseUrl}/${id}` ;
-    //alert(this.http.get<IResponse>(url));
-    return this.http.put<IResponse>(url, profile);
 
-
-    // this.http.put<IResponse>('localhost:5000/profiles', profile).subscribe({
-    //   next: data => {
-    //       console.log(data.status);
-    //       return data.status;
-    //   },
-    //   error: error => {
-    //       console.error('There was an error!', error);
-    //       return error.status;
-    //   }
-    // })
+    this.http.put<IResponse>(url, profile).subscribe({
+      next: data => {
+          console.log(data.status);
+          return data.status;
+      },
+      error: error => {
+          console.error('There was an error!', error);
+          return error.status;
+      }
+    })
   }
 }

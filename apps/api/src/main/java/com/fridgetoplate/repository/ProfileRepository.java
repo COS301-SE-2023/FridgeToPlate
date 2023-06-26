@@ -62,6 +62,14 @@ public class ProfileRepository {
         if(profile.getUsername() != null) {
             profileData.setUsername(profile.getUsername());
         }
+
+        if(profile.getEmail() != null) {
+            profileData.setEmail(profile.getEmail());
+        }
+
+        if(profile.getDisplayName() != null) {
+            profileData.setDisplayName(profile.getDisplayName());
+        }
         
         dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()
