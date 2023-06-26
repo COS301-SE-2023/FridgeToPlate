@@ -72,6 +72,7 @@
     "@ionic/angular": "^7.0.6",
     "@nrwl/angular": "^16.0.3",
     "amazon-cognito-identity-js": "^6.3.1",
+    "aws-sdk": "^2.1404.0",
     "ng-zorro-antd": "^15.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
