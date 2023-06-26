@@ -39,8 +39,7 @@ public class ProfileController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable(value = "id") String id,
-    @RequestBody Profile profile){
+    public Profile update(@PathVariable(value = "id") String id, @RequestBody Profile profile){
         return profileRepository.update(id, profile);
     }
 

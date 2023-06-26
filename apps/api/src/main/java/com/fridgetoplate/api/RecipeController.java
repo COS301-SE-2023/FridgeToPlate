@@ -9,7 +9,7 @@ import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.model.Recipe;
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("/recipes")
 public class RecipeController {
 
     @Autowired
@@ -32,8 +32,7 @@ public class RecipeController {
     } 
 
     @PutMapping("/{id}")
-    public String update(@PathVariable(value = "id") String id,
-    @RequestBody Recipe recipe){
+    public Recipe update(@PathVariable(value = "id") String id, @RequestBody Recipe recipe){
         return recipeRepository.update(id, recipe);
     }
 
