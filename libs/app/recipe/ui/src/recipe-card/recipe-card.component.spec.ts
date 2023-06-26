@@ -16,7 +16,7 @@ describe('RecipeCardComponent', () => {
     difficulty: "easy",
     ingredients: [
       {
-        id: "test-id", 
+        ingredientId: "test-id", 
         name: "Carrot"
       }
     ],
