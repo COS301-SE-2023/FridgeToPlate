@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
 import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
   selector: "profile-page",
@@ -15,6 +18,31 @@ export class ProfilePage {
   profile : any;
 
   editableProfile : any;
+
+  ingredientArray: IIngredient = {
+    id: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
+    name: "garlic"
+  }
+
+  // saved_recipesArray: IRecipe = {
+  //   id: "1",
+  //   name: "easy",
+  //   recipeImage: "image",
+  //   ingredients: any,
+  //   steps: any,
+  //   rating: 3,
+  //   difficulty: 'easy'
+  // }
+
+  // exampleData: IProfile = {
+  //   profileId: "9be7b531-4980-4d3b-beff-a35d08f2637e",
+  //   username: "John Wick",
+  //   profilePic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI_lCGLpKC1pTmW2kTWsoiVZWcIyi1IadkM2YyQM9SQXNKQCxb1IS1ggBSB9SvBRv7exA&usqp=CAU",
+  //   ingredients: this.ingredientArray,
+  //   // preferences: IPreference[];
+  //   saved_recipes: IRecipe[],
+  //   created_recipes: IRecipe[]
+  // };
 
   constructor(private api: ProfileAPI) {}
 
@@ -81,6 +109,7 @@ export class ProfilePage {
       ],
     };
     this.editableProfile = Object.create(this.profile);
+
   }
 
   displaySubpage(subpageName : string) {
