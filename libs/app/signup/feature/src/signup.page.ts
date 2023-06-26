@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { CognitoIdentityCredentials } from "aws-sdk";
+declare let AWS: any;
 //import { environment } from 'src/environments/environment';
 
 interface formDataInterface {
@@ -39,7 +41,24 @@ export class SignupPage implements OnInit {
   }
 
   guest() {
-    return
+
+    const credentials = new CognitoIdentityCredentials({
+      IdentityPoolId: "temp",
+      RoleArn: 'temp',
+      //LoginId: 'example@gmail.com'
+    });
+
+    AWS.config.region = "eu-west-3";
+    AWS.config.credentials = credentials;
+
+    credentials.get((err: any) => {
+      if (err) {
+        alert(err);
+        console.log('Authentication failed:', err);
+      } else {
+        this.router.navigate(['/profile']);
+      }
+    });
   }
 
   onSignup(form: NgForm){
