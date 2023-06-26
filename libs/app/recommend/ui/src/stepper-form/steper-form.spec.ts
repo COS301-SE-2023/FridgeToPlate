@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StepperForm } from './stepper-form';
 import { IonicModule } from '@ionic/angular';
+import { RecommendUIModule } from '../recommend.module';
 describe('StepperForm', () => {
   let component: StepperForm;
   let fixture: ComponentFixture<StepperForm>;
