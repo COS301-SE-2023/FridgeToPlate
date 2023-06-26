@@ -16,13 +16,13 @@ describe('RecipeCardComponent', () => {
     difficulty: "easy",
     ingredients: [
       {
-        id: "test-id", 
+        id: "test-id",
         name: "Carrot"
       }
     ],
-    steps: [
+    instructions: [
       {
-        instructionHeading: "Heading", 
+        instructionHeading: "Heading",
         instructionBody: "Body"
       }
     ],
