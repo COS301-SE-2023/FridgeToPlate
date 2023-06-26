@@ -2,7 +2,7 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export const recipeList: IRecipe[] = [
   {
-    id: "1",
+    profileId: "1",
     recipeImage: "https://source.unsplash.com/500x500/?food",
     name: "Chicken Biryani",
     difficulty: "medium",
@@ -68,13 +68,11 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 60,
-      tags: ["Spicy", "Chicken", "Asian"]
-    }
+    prepTime: 60,
+    tags: ["Spicy", "Chicken", "Asian"]
   },
   {
-    id: "2",
+    profileId: "2",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Basil Chicken",
     difficulty: "easy",
@@ -140,14 +138,12 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 60,
-      numberOfServings: 4,
-      tags: ["Healthy", "Chicken"]
-    }
+    prepTime: 60,
+    numberOfServings: 4,
+    tags: ["Healthy", "Chicken"]
   },
   {
-    id: "3",
+    profileId: "3",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Cheese",
     difficulty: "easy",
@@ -213,9 +209,7 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 20,
+    prepTime: 20,
       tags: ["Cheese", "Grilled", "Cheap"]
-    }
   },
 ];
