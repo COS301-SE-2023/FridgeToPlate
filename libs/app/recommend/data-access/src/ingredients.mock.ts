@@ -1,4 +1,4 @@
-import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 export interface IngredientItem {
   id: number;
@@ -11,7 +11,7 @@ export interface IngredientItem {
   };
 }
 
-export const ingredientsArray: QuantityIngredient[] = [
+export const ingredientsArray: IQuantityIngredient[] = [
   {
     id: '0',
     name: 'Tomato',

@@ -1,6 +1,6 @@
 import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -14,7 +14,7 @@ export interface IResponse {
 
 export interface IngredientsResponse extends IResponse {
   data: {
-    ingredientsList: QuantityIngredient[];
+    ingredientsList: IQuantityIngredient[];
   };
 }
 
@@ -32,9 +32,9 @@ const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 export class RecommendApi {
   constructor(private httpClient: HttpClient) {}
   //Step 1
-  getUserIngredientsList(): Observable<QuantityIngredient[]> {
+  getUserIngredientsList(): Observable<IQuantityIngredient[]> {
     //TODO:Comment out when backend connected.
-    // const req: Observable<QuantityIngredient[]> = this.httpClient
+    // const req: Observable<IQuantityIngredient[]> = this.httpClient
     //   .get<IngredientsResponse>('ingredients')
     //   .pipe(
     //     switchMap((res: IngredientsResponse) => {
@@ -45,12 +45,12 @@ export class RecommendApi {
     //       return error;
     //     })
     //   );
-    const req = new BehaviorSubject<QuantityIngredient[]>(ingredientsArray);
+    const req = new BehaviorSubject<IQuantityIngredient[]>(ingredientsArray);
 
     return req;
   }
 
-  removeIngredient(ingredient: QuantityIngredient) {
+  removeIngredient(ingredient: IQuantityIngredient) {
     return ingredientsArray.filter(
       (ingredientItem) => ingredientItem.id !== ingredient.id
     );
