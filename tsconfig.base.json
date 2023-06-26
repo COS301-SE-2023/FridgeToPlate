@@ -25,6 +25,9 @@
       "@fridge-to-plate/app/ingredient/utils": [
         "libs/app/ingredient/utils/src/index.ts"
       ],
+      "@fridge-to-plate/app/ingredient/utils": [
+        "libs/app/ingredient/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
