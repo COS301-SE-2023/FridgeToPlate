@@ -4,14 +4,16 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CreateRouting } from './create.routing'
 import { CreatePage } from './create.page';
 import { IonicModule } from '@ionic/angular';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 
 @NgModule({
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     CreateRouting,
     IonicModule,
+    NavigationBarModule
   ],
   declarations: [CreatePage],
 })

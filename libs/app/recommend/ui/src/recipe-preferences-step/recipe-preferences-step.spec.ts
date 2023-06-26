@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipePreferencesStep } from './recipe-preferences-step';
+import { IonicModule } from '@ionic/angular';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
@@ -8,7 +9,8 @@ describe('RecipePreferencesStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecipePreferencesStep]
+      declarations: [RecipePreferencesStep],
+      imports: [IonicModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
     component = fixture.componentInstance;
