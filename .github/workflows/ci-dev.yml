@@ -38,7 +38,7 @@ jobs:
 
     - name: Setup Enviroment Files
       run: |
-        printf TEST_ENV_FILE > apps/api/src/main/resources/application.properties
+        printf $TEST_ENV_FILE > apps/api/src/main/resources/application.properties
         cat apps/api/src/main/resources/application.properties
       shell: bash
       env:
