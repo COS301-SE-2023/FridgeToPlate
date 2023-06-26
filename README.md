@@ -4,7 +4,7 @@
 
 <br>
   
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=COS301-SE-2023_FridgeToPlate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=COS301-SE-2023_FridgeToPlate)
+[![codecov](https://codecov.io/gh/COS301-SE-2023/FridgeToPlate/branch/main/graph/badge.svg?token=PUBP38F2VH)](https://codecov.io/gh/COS301-SE-2023/FridgeToPlate)
 [![GitHub issues](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)](https://github.com/COS301-SE-2023/FridgeToPlate/issues)
 [![Commits](https://img.shields.io/github/commit-activity/w/COS301-SE-2023/FridgeToPlate)](https://github.com/COS301-SE-2023/FridgeToPlate/activity)
   
@@ -70,8 +70,6 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 [![AWS](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![GraphQL](https://img.shields.io/badge/GraphQl-E10098?style=for-the-badge&logo=graphql&logoColor=white)](https://graphql.org/)
 
-<br>
-
 ## Project Information
 ### Branching Technique:
 **Git Flow** is a branching technique that uses two main branches, master and develop, to manage software development. Feature branches are created from develop for new features, release branches for preparing releases, and hotfix branches for critical production issues. This approach ensures a structured workflow and allows for parallel development while maintaining stability in the master branch.
@@ -81,8 +79,8 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 <div align="center">
 
 [![Website](https://img.shields.io/badge/View-Website-blue?style=for-the-badge)](http://fridgetoplate.s3-website.af-south-1.amazonaws.com/)&ensp;
- [![GitHub Project](https://img.shields.io/badge/View-Github%20Project-blue?style=for-the-badge)](https://img.shields.io/github/issues-raw/COS301-SE-2023/FridgeToPlate)&ensp;
-  [![Demo One](https://img.shields.io/badge/View-System%20Documentation-blue?style=for-the-badge)](https://youtu.be/Q8OAO0uY0jg)
+[![GitHub Project](https://img.shields.io/badge/View-Github%20Project-blue?style=for-the-badge)](https://github.com/orgs/COS301-SE-2023/projects/5)&ensp;
+[![Documentation](https://img.shields.io/badge/View-System%20Documentation-blue?style=for-the-badge)](https://github.com/COS301-SE-2023/FridgeToPlate/wiki)
 
 </div>
 
