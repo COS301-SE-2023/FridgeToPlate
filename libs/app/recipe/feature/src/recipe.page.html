@@ -33,7 +33,7 @@
      lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8">
       <div>
         <p class="text-xs font-semibold">Prep Time</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe.meta?.prepTime ?? '10'}}m</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe.prepTime ?? '10'}}m</p>
       </div>
       <div>
         <p class="text-xs font-semibold">Ingredients</p>
@@ -41,7 +41,7 @@
       </div>
       <div>
         <p class="text-xs font-semibold">Servings</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe.meta?.numberOfServings ?? '1'}}</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe.numberOfServings ?? '1'}}</p>
       </div>
     </div>
     <div class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13">

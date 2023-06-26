@@ -2,7 +2,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipeStep } from './recipe-step.interface';
 
 export interface IRecipe {
-  id: string;
+  profileId?: string;
   name: string;
   recipeImage: string;
   ingredients: IIngredient[];

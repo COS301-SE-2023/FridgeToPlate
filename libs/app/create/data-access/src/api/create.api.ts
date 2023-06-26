@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IRecipe } from '../interfaces/IRecipe.interface';
-
-
-
-
-
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { Observable } from 'rxjs';
 
 @Injectable(
    { 
@@ -13,14 +9,18 @@ import { IRecipe } from '../interfaces/IRecipe.interface';
 }
 )
 export class CreateAPI {
-    constructor( private http: HttpClient) { }
+    constructor( private http: HttpClient){ }
 
-    createNewRecipe(recipe: IRecipe) {
-        const url = 'http://localhost:8080/cloudvendors/recipe';
-        const body = { recipe: recipe };
+    createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
+        const url = 'http://localhost:5000/recipes/create';
+        const body = { recipe };
+
+        console.log(body)
       
-        return this.http.post(url, body);
+        return this.http.post<IRecipe>(url, recipe);
     }
+
+    // createNewIngredients(ingredient : IIngredient)
 
     
 }
