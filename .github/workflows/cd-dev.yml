@@ -78,6 +78,12 @@ jobs:
       - name: Setup NX
         run: npm install nx@latest
 
+      - name: Setup Enviroment Files
+        run: |
+          printf "${{ secrets.API_APPLICATION_PROPERTIES }}" > apps/api/src/main/resources/application.properties
+          cat apps/api/src/main/resources/application.properties
+        shell: bash
+
       - name: Build API
         run: npm run build:api
 
