@@ -1,11 +1,11 @@
 import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { recipeArray } from './recipes.mock';
-
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 export interface IResponse {
   status: number;
   message: string;
@@ -14,7 +14,7 @@ export interface IResponse {
 
 export interface IngredientsResponse extends IResponse {
   data: {
-    ingredientsList: IQuantityIngredient[];
+    ingredientsList: IIngredient[];
   };
 }
 
@@ -32,25 +32,24 @@ const baseUrl = 'http://localhost:5000/';
 export class RecommendApi {
   constructor(private httpClient: HttpClient) {}
   //Step 1
-  getUserIngredientsList(): Observable<IQuantityIngredient[]> {
+  getUserIngredientsList(): Observable<IIngredient[]> {
     //TODO:Comment out when backend connected.
-    const req: Observable<IQuantityIngredient[]> = this.httpClient
-      .get<IngredientsResponse>('profile')
+    const req: Observable<IIngredient[]> = this.httpClient
+      .get<IProfile>(`${baseUrl}profiles/9be7b531-4980-4d3b-beff-a35d08f2637e`)
       .pipe(
-        switchMap((res: IngredientsResponse) => {
-          return res.data.ingredientsList ?? ingredientsArray;
+        switchMap((res: IProfile) => {
+            return new BehaviorSubject<IIngredient[]>(res.ingredients);
         }),
         catchError(async (error) => {
           console.log('An error has occured: ', error);
           return error;
         })
       );
-    //const req = new BehaviorSubject<IQuantityIngredient[]>(ingredientsArray);
 
     return req;
   }
 
-  removeIngredient(ingredient: IQuantityIngredient) {
+  removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
       (ingredientItem) => ingredientItem.id !== ingredient.id
     );
