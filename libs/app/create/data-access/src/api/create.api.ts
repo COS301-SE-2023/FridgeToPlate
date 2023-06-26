@@ -7,7 +7,11 @@ import { IRecipe } from '../interfaces/IRecipe.interface';
 
 
 
-@Injectable()
+@Injectable(
+   { 
+    providedIn: 'root',
+}
+)
 export class CreateAPI {
     constructor( private http: HttpClient) { }
 

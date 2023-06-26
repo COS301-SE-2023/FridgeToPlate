@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { CreatePage } from './create.page';
 import { IonicModule } from '@ionic/angular';
+import { CreateAPI } from '../../data-access/src/api/create.api';
+import { HttpClient } from '@angular/common/http';
 
 describe('ComponentName', () => {
   let component: CreatePage;
@@ -41,7 +43,7 @@ describe('CreatePage', () => {
 
   beforeEach(() => {
     fb = new FormBuilder();
-    createPage = new CreatePage(fb);
+  
   });
 
   it('should create a recipe form with the correct fields', () => {

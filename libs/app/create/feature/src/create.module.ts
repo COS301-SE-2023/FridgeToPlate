@@ -5,6 +5,7 @@ import { CreateRouting } from './create.routing'
 import { CreatePage } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
+import { AppCreateDataAccessModule } from '@fridge-to-plate/app/create/data-access';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
     FormsModule,
     CreateRouting,
     IonicModule,
-    NavigationBarModule
+    NavigationBarModule,
+    // AppCreateDataAccessModule
   ],
   declarations: [CreatePage],
 })
