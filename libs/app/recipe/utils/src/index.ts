@@ -1,1 +1,1 @@
-export * from './recipe.module';
+export * from './interfaces';
