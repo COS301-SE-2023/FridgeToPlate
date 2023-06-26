@@ -19,10 +19,6 @@ export class RecipePage implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  goBack() {
-    this.location.back();
-  }
-
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
@@ -35,6 +31,11 @@ export class RecipePage implements OnInit {
       }
     });
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 }
 
 // import { Component, OnInit} from '@angular/core';
