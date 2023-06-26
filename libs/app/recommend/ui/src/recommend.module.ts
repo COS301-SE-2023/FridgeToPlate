@@ -7,6 +7,7 @@ import { StepperForm } from './stepper-form/stepper-form';
 import {NzListModule} from "ng-zorro-antd/list";
 import {IonicModule} from "@ionic/angular";
 import { NzStepsModule} from "ng-zorro-antd/steps";
+import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { NzStepsModule} from "ng-zorro-antd/steps";
     CommonModule, 
     NzListModule, 
     IonicModule, 
-    NzStepsModule],
+    NzStepsModule,
+    RecipeUIModule
+  ],
   exports: [
     ItemEditStep,
     RecipeListStep,
