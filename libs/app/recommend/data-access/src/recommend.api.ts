@@ -33,7 +33,7 @@ export class RecommendApi {
   constructor(private httpClient: HttpClient) {}
   //Step 1
   getUserIngredientsList(): Observable<IIngredient[]> {
-    //TODO:Comment out when backend connected.
+
     const req: Observable<IIngredient[]> = this.httpClient
       .get<IProfile>(`${baseUrl}profiles/9be7b531-4980-4d3b-beff-a35d08f2637e`)
       .pipe(

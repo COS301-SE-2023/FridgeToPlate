@@ -42,10 +42,7 @@ export class ItemEditStep {
     });
 
   removeItem(item: IIngredient) {
-    //this.recommendApiClient.removeIngredient(item);
-    console.log(item.ingredientId);
     this.ingredientsToBeDeleted.push(item.ingredientId);
-    console.log("DEL: ", this.ingredientsToBeDeleted);
 
     const updatedList = this.ingredientList?.filter(
       (item) => !this.ingredientsToBeDeleted.includes(item.ingredientId)
@@ -67,16 +64,6 @@ export class ItemEditStep {
             a.name > b.name ? -1 : 1
           );
           break;
-        // case 'quantity-asc':
-        //   this.ingredientList = this.ingredientList?.sort(
-        //     (a, b) => a.quantity - b.quantity
-        //   );
-        //   break;
-        // default:
-        //   this.ingredientList = this.ingredientList?.sort(
-        //     (a, b) => b.quantity - a.quantity
-        //   );
-        //   break;
       }
     }
   }
