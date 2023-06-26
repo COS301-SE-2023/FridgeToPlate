@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./recipe.page.scss'],
 })
 export class RecipePage implements OnInit {
-  recipe: IRecipe | any;
+  recipe!: IRecipe;
 
   constructor(
     private location: Location,
@@ -29,9 +29,9 @@ export class RecipePage implements OnInit {
       if (recipeId) {
         this.recipeService.getRecipeById(recipeId).subscribe(
           (response: IRecipe) => {
+            console.log(response)
             this.recipe = response;
-            alert(this.recipe);
-            console.log(this.recipe); // Access the response here
+            console.log("Here", this.recipe); // Access the response here
           },
           (error) => {
             console.error(error);
