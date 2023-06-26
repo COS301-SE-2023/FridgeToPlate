@@ -11,6 +11,6 @@ export interface IRecipe {
   difficulty: 'easy' | 'medium' | 'hard';
   prepTime?: number;
   numberOfServings?: number;
-  tags: string[];
+  tags?: string[];
 
 }
