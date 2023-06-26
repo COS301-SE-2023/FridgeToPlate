@@ -2,15 +2,6 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.6'
 	id 'io.spring.dependency-management' version '1.1.0'
-	id "org.sonarqube" version "3.5.0.2730"
-}
-
-sonarqube {
-  properties {
-    property "sonar.projectKey", "COS301-SE-2023_FridgeToPlate-API"
-    property "sonar.organization", "cos301-se-2023"
-    property "sonar.host.url", "https://sonarcloud.io"
-  }
 }
 
 group = 'com.fridgetoplate'
@@ -24,8 +15,16 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.857'
+	implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+	implementation 'org.springframework.boot:spring-boot-starter-graphql'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+    enabled = false
 }
