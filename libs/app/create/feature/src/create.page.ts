@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access'
 
 @Component({
@@ -25,12 +26,12 @@ export class CreatePage {
       servings: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([
-      
+
       ]),
       instructions: this.fb.array([
       ]),
       dietaryPlans: this.fb.array([])
-      
+
     });
   }
   get ingredientControls() {
@@ -59,7 +60,7 @@ export class CreatePage {
 
   toggleDietaryPlan(plan: string): void {
     const dietaryPlans = this.recipeForm.get('dietaryPlans') as FormArray;
-  
+
     if (dietaryPlans != null && this.isDietaryPlanSelected(plan)) {
       // Remove the dietary plan if it's already selected
       dietaryPlans.removeAt(dietaryPlans.value.indexOf(plan));
@@ -73,9 +74,9 @@ export class CreatePage {
     return this.isDietaryPlanSelected(plan) ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-700';
   }
 
-  
+
   isDietaryPlanSelected(plan: string): boolean {
-  
+
     const dietaryPlans = this.recipeForm.get('dietaryPlans')?.value;
     return dietaryPlans.includes(plan);
   }
@@ -83,7 +84,7 @@ export class CreatePage {
 
   onSubmit() {
     console.log(this.recipeForm.value);
-    
+
     this.getIngredientsContent()
   }
 
@@ -100,7 +101,7 @@ export class CreatePage {
     this.editableIndex = index;
     this.edit = true;
   }
-  
+
   editInstruction(index: number): void {
     this.editableIndex = index;
     this.edit = true;
@@ -116,5 +117,5 @@ export class CreatePage {
   }
 
 
-    
+
 }
