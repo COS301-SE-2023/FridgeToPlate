@@ -7,5 +7,6 @@ export interface IProfile {
     profilePic: string;
     ingredients: IIngredient[];
     // preferences: IPreference[];
+    saved_recipes: IRecipe[];
     created_recipes: IRecipe[];
 }

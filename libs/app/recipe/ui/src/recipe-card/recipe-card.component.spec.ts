@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
@@ -30,7 +31,7 @@ describe('RecipeCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
-      imports: [IonicModule],
+      imports: [IonicModule, HttpClientModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecipeCardComponent);
