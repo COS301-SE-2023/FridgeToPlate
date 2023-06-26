@@ -9,9 +9,7 @@ export interface IRecipe {
   steps: IRecipeStep[];
   rating?: number;
   difficulty: 'easy' | 'medium' | 'hard';
-  meta?: {
-    prepTime?: number;
-    numberOfServings?: number;
-    tags: string[];
-  };
+  prepTime?: number;
+  numberOfServings?: number;
+  tags: string[];
 }

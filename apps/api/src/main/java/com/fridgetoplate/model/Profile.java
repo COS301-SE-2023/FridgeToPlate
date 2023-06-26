@@ -21,7 +21,6 @@ public class Profile {
 
     @DynamoDBAttribute
     private String profilePicture;
-    
 
     @DynamoDBAttribute
     @DynamoDBTypeConverted(converter = IngredientArrayConverter.class)

@@ -83,7 +83,11 @@ export class CreatePage {
 
 
   onSubmit() {
-    console.log(this.recipeForm.value);
+    
+    
+
+    // const result = this.api.createNewRecipe();
+    // alert(JSON.stringify(result));
 
     this.getIngredientsContent()
   }
