@@ -24,8 +24,9 @@ export class ProfileAPI {
   constructor(private http: HttpClient) {}
   
   editProfile(profile: IProfile) {
-    this.http.post<IResponse>('https://reqres.in/api/posts', profile).subscribe({
+    this.http.post<IResponse>('localhost:5000', profile).subscribe({
       next: data => {
+          console.log(data.status);
           return data.status;
       },
       error: error => {
