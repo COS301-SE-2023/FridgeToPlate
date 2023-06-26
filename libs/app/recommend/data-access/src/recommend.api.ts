@@ -24,7 +24,7 @@ export interface DietResponse extends IResponse {
   };
 }
 
-const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
+const baseUrl = 'http://localhost:5000/';
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +34,18 @@ export class RecommendApi {
   //Step 1
   getUserIngredientsList(): Observable<IQuantityIngredient[]> {
     //TODO:Comment out when backend connected.
-    // const req: Observable<IQuantityIngredient[]> = this.httpClient
-    //   .get<IngredientsResponse>('ingredients')
-    //   .pipe(
-    //     switchMap((res: IngredientsResponse) => {
-    //       return res.data.ingredientsList ?? ingredientsArray;
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
-    const req = new BehaviorSubject<IQuantityIngredient[]>(ingredientsArray);
+    const req: Observable<IQuantityIngredient[]> = this.httpClient
+      .get<IngredientsResponse>('profile')
+      .pipe(
+        switchMap((res: IngredientsResponse) => {
+          return res.data.ingredientsList ?? ingredientsArray;
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
+    //const req = new BehaviorSubject<IQuantityIngredient[]>(ingredientsArray);
 
     return req;
   }
