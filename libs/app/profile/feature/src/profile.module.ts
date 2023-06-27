@@ -5,6 +5,7 @@ import { ProfilePage } from './profile.page';
 import { ProfileRouting } from './profile.routing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
+import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 
 @NgModule({
@@ -14,6 +15,7 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
     IonicModule,
     RecipeUIModule,
     IngredientUIModule,
+    ProfileUiModule,
     NavigationBarModule
   ],
   declarations: [ProfilePage],
