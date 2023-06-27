@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
+import { CreateAPI } from '@fridge-to-plate/app/create/data-access'
+import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils'
 
 @Component({
   selector: 'app-create',
@@ -14,7 +16,7 @@ export class CreatePage {
   editableIndex: number = -1;
   edit = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
   }
 
@@ -35,6 +37,10 @@ export class CreatePage {
   }
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
+  }
+
+  get dietaryPlans(){
+    return  (this.recipeForm.get('dietaryPlans') as FormArray).controls
   }
 
   addIngredient() {
@@ -77,15 +83,92 @@ export class CreatePage {
   isDietaryPlanSelected(plan: string): boolean {
 
     const dietaryPlans = this.recipeForm.get('dietaryPlans')?.value;
+
+
     return dietaryPlans.includes(plan);
   }
 
 
   onSubmit() {
-    console.log(this.recipeForm.value);
 
-    this.getIngredientsContent()
+      // Ingredients array
+      const ingredients: IIngredient[] = [];
+      let tags = new Array(this.dietaryPlans.length);
+      this.ingredientControls.forEach(element => {
+
+      if(element.value !== null) {
+        
+        ingredients.push({name : element.value});
+      }
+          
+      });
+
+    // Instructions array
+      const instructions: IRecipeStep[] = []
+      this.instructionControls.forEach(element => {
+      if(element.value) {
+          instructions.push(
+            { 
+
+            instructionHeading : "N/A",
+            instructionBody : element.value
+          
+            })
+      }
+    });
+
+    // alert(JSON.stringify(instructions))
+
+      // Dietary plans array
+      this.dietaryPlans.forEach(element => {
+        if (element.value !== null) {
+          tags.push(element.value)
+      }
+    });
+
+    tags = tags.filter(value => value !== null);
+
+
+    const createRecipe = new Promise<IIngredient[]>((resolve, reject) => {
+      this.api.createNewMultipleIngredients(ingredients)
+      .subscribe( response => {
+        if(!response){
+          console.log("Error creating ingredients")
+         
+        } 
+        console.log("ingredients created successfully")
+        resolve(response)
+        
+      })
+    }).then( (ingredientsArray) => {
+
+      const recipe: IRecipe = {
+        name: this.recipeForm.get('name')?.value,
+        recipeImage: this.imageUrl,
+        ingredients: ingredientsArray,
+        instructions: instructions,
+        rating: 0,
+        difficulty: 'easy',
+        prepTime: (this.recipeForm.get('preparationTime')?.value as number),
+        numberOfServings: (this.recipeForm.get('servings')?.value as number),
+        tags: tags
+      }
+
+      this.api.createNewRecipe(recipe)
+      .subscribe( response => {
+        if(!response){
+          console.log("Error creating recipe")
+          return response;
+        } 
+        console.log("Recipe created successfully")
+        return response
+      })
+
+    })
+
   }
+
+
 
   getIngredientsContent() {
 
@@ -117,4 +200,7 @@ export class CreatePage {
 
 
 
+
 }
+
+
