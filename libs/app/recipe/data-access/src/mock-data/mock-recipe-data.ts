@@ -9,32 +9,32 @@ export const recipeList: IRecipe[] = [
     rating: 3,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Cooking Oil",
         tags: ["Oil"]
       },
       {
-        id: "2",
+        ingredientId: "2",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "7",
+        ingredientId: "7",
         name: "Garam Masala",
         tags: ["Spice"]
       },
       {
-        id: "4",
+        ingredientId: "4",
         name: "Rice",
         tags: ["Starch"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
@@ -79,32 +79,32 @@ export const recipeList: IRecipe[] = [
     rating: 4,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "9",
+        ingredientId: "9",
         name: "Olive Oil",
         tags: ["Oil"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "11",
+        ingredientId: "11",
         name: "Salt",
         tags: ["Salty"]
       },
       {
-        id: "8",
+        ingredientId: "8",
         name: "Tomato",
         tags: ["Acid", "Flavour"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
@@ -150,32 +150,32 @@ export const recipeList: IRecipe[] = [
     rating: 4,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Cooking Oil",
         tags: ["Oil"]
       },
       {
-        id: "2",
+        ingredientId: "2",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "7",
+        ingredientId: "7",
         name: "Garam Masala",
         tags: ["Spice"]
       },
       {
-        id: "4",
+        ingredientId: "4",
         name: "Rice",
         tags: ["Starch"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
