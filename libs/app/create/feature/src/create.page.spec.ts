@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { CreatePage } from './create.page';
+import { IonicModule } from '@ionic/angular';
+import { CreateAPI } from '../../data-access/src/api/create.api';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-describe('ComponentName', () => {
+describe('CreatePage', () => {
   let component: CreatePage;
   let fixture: ComponentFixture<CreatePage>;
   let fb: FormBuilder;
@@ -10,7 +13,11 @@ describe('ComponentName', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePage ],
-      imports: [ReactiveFormsModule],
+      imports: [
+        ReactiveFormsModule,
+        IonicModule,
+        HttpClientModule
+      ],
       providers: [ FormBuilder ]
     })
     .compileComponents();
@@ -33,11 +40,27 @@ describe('ComponentName', () => {
 
 describe('CreatePage', () => {
   let createPage: CreatePage;
+  let fixture: ComponentFixture<CreatePage>;
   let fb: FormBuilder;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ CreatePage ],
+      imports: [
+        ReactiveFormsModule,
+        IonicModule,
+        HttpClientModule
+      ],
+      providers: [ FormBuilder ]
+    })
+    .compileComponents();
+  });
+
   beforeEach(() => {
-    fb = new FormBuilder();
-    createPage = new CreatePage(fb);
+    fixture = TestBed.createComponent(CreatePage);
+    createPage = fixture.componentInstance;
+    fb = TestBed.inject(FormBuilder);
+    fixture.detectChanges();
   });
 
   it('should create a recipe form with the correct fields', () => {
@@ -83,6 +106,10 @@ describe('CreatePage', () => {
 
     expect(dietaryPlansArray?.value).toEqual([]);
   });
+
+  
+
+
 });
 
 describe('toggleDietaryPlan', () => {
@@ -93,7 +120,10 @@ describe('toggleDietaryPlan', () => {
     TestBed.configureTestingModule({
       declarations: [ CreatePage ],
       providers: [FormBuilder],
-      imports: [ReactiveFormsModule]
+      imports: [
+        ReactiveFormsModule,
+        HttpClientModule
+      ]
     });
     component = TestBed.createComponent(CreatePage).componentInstance;
     fb = TestBed.inject(FormBuilder);
@@ -111,6 +141,64 @@ describe('toggleDietaryPlan', () => {
     component.toggleDietaryPlan(plan);
 
     expect(dietaryPlans.length).toBe(0);
+  });
+
+  it('should add the dietary plan if it is not selected', () => {
+
+    const plan = 'Vegan';
+    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
+
+    component.toggleDietaryPlan(plan);
+
+    expect(dietaryPlans.length).toBe(1);
+    expect(dietaryPlans.value).toContain(plan);
+  });
+});
+
+describe('Testing Tags', () => {
+  let component: CreatePage;
+  let fb: FormBuilder;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ CreatePage ],
+      providers: [FormBuilder],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientModule
+      ]
+    });
+    component = TestBed.createComponent(CreatePage).componentInstance;
+    fb = TestBed.inject(FormBuilder);
+    component.recipeForm = fb.group({
+      dietaryPlans: fb.array([]),
+    });
+  });
+
+  it('It should not add null values to tags array', () => {
+
+    const plan1 = 'Vegetarian';
+    const plan2 = 'Vegan';
+    const plan3 = null;
+    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
+    dietaryPlans.push(fb.control(plan1));
+    dietaryPlans.push(fb.control(plan2));
+    dietaryPlans.push(fb.control(plan3));
+    const tags = [];
+
+  for (let index = 0; index < dietaryPlans.length; index++) {
+    if(dietaryPlans.controls[index].value !== null){
+      tags.push(dietaryPlans.controls[index].value)
+    }
+    
+  }
+
+    expect(tags.length).toBe(2);
+    expect(tags).not.toContain(null);
+    expect(tags).toContain("Vegetarian");
+    expect(tags).toContain("Vegan");
+    
+  
   });
 
   it('should add the dietary plan if it is not selected', () => {

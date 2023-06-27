@@ -1,0 +1,80 @@
+<div
+  class="w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12"
+>
+  <navigation-bar></navigation-bar>
+  <div
+    class="py-8 flex flex-row bg-background-light md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50"
+  >
+    <button
+      (click)="goBack()"
+      class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
+    >
+      <svg
+        stroke="currentColor"
+        fill="none"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        height="1em"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </button>
+  </div>
+  <div
+    class="w-full h-full flex flex-col items-center overflow-scroll bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+  >
+    <div
+      class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
+    >
+      <recipe-card [recipe]="recipe" />
+    </div>
+    <div
+      class="w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary lg:row-start-9 lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8"
+    >
+      <div>
+        <p class="text-xs font-semibold">Prep Time</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.prepTime ?? '10'}}m</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold">Ingredients</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length}}</p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold">Servings</p>
+        <p class="text-3xl mt-2 font-bold">
+          {{recipe?.numberOfServings ?? '1'}}
+        </p>
+      </div>
+    </div>
+    <div
+      class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13"
+    >
+      <ion-list class="bg-background-lights h-full">
+        <ion-list-header>
+          <ion-label class="text-lg font-bold">Ingredients</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let ingredient of recipe?.ingredients">
+          <div>{{ingredient?.name ?? 'Unknown ingredient'}}</div>
+        </ion-item>
+      </ion-list>
+    </div>
+    <br />
+    <div
+      class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
+    >
+      <ion-list class="bg-background-lights h-full">
+        <ion-list-header>
+          <ion-label class="text-lg font-bold">Instructions</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let instruction of recipe?.instructions">
+          <div>{{instruction?.instructionBody ?? 'Unknown ingredient'}}</div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</div>
