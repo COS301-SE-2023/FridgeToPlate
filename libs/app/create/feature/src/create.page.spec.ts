@@ -3,9 +3,9 @@ import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import { CreatePage } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import { CreateAPI } from '../../data-access/src/api/create.api';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-describe('ComponentName', () => {
+describe('CreatePage', () => {
   let component: CreatePage;
   let fixture: ComponentFixture<CreatePage>;
   let fb: FormBuilder;
@@ -16,6 +16,7 @@ describe('ComponentName', () => {
       imports: [
         ReactiveFormsModule,
         IonicModule,
+        HttpClientModule
       ],
       providers: [ FormBuilder ]
     })
@@ -39,11 +40,27 @@ describe('ComponentName', () => {
 
 describe('CreatePage', () => {
   let createPage: CreatePage;
+  let fixture: ComponentFixture<CreatePage>;
   let fb: FormBuilder;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ CreatePage ],
+      imports: [
+        ReactiveFormsModule,
+        IonicModule,
+        HttpClientModule
+      ],
+      providers: [ FormBuilder ]
+    })
+    .compileComponents();
+  });
+
   beforeEach(() => {
-    fb = new FormBuilder();
-  
+    fixture = TestBed.createComponent(CreatePage);
+    createPage = fixture.componentInstance;
+    fb = TestBed.inject(FormBuilder);
+    fixture.detectChanges();
   });
 
   it('should create a recipe form with the correct fields', () => {
@@ -99,7 +116,10 @@ describe('toggleDietaryPlan', () => {
     TestBed.configureTestingModule({
       declarations: [ CreatePage ],
       providers: [FormBuilder],
-      imports: [ReactiveFormsModule]
+      imports: [
+        ReactiveFormsModule,
+        HttpClientModule
+      ]
     });
     component = TestBed.createComponent(CreatePage).componentInstance;
     fb = TestBed.inject(FormBuilder);
