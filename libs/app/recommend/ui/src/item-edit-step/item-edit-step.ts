@@ -40,11 +40,14 @@ export class ItemEditStep {
     });
 
   removeItem(item: IIngredient) {
+    if (!item.ingredientId) return;
+
     this.ingredientsToBeDeleted.push(item.ingredientId);
 
-    const updatedList = this.ingredientList?.filter(
-      (item) => !this.ingredientsToBeDeleted.includes(item.ingredientId)
-    );
+    const updatedList = this.ingredientList?.filter((item) => {
+      if (item.ingredientId)
+        !this.ingredientsToBeDeleted.includes(item.ingredientId);
+    });
     this.ingredientList = updatedList;
   }
 
@@ -57,7 +60,7 @@ export class ItemEditStep {
             a.name < b.name ? -1 : 1
           );
           break;
-        default :
+        default:
           this.ingredientList = this.ingredientList?.sort((a, b) =>
             a.name > b.name ? -1 : 1
           );

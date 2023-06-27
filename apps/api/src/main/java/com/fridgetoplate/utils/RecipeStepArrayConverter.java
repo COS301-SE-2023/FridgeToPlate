@@ -28,5 +28,5 @@ public class RecipeStepArrayConverter implements DynamoDBTypeConverter<String, R
             }
         }
 
-       
+
     }

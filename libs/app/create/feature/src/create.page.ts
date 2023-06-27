@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CreateAPI } from '@fridge-to-plate/app/create/data-access'
+import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils'
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
   selector: 'app-create',
@@ -10,9 +10,9 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils'
   styleUrls: ['./create.page.scss'],
 })
 export class CreatePage {
-
   recipeForm!: FormGroup;
-  imageUrl: string = "https://img.icons8.com/ios-filled/50/cooking-book--v1.png";
+  imageUrl: string =
+    'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
   editableIndex: number = -1;
   edit = false;
 
@@ -26,21 +26,17 @@ export class CreatePage {
       description: ['', Validators.required],
       servings: ['', Validators.required],
       preparationTime: ['', Validators.required],
-      ingredients: this.fb.array([
-
-      ]),
-      instructions: this.fb.array([
-      ]),
-      dietaryPlans: this.fb.array([])
-
+      ingredients: this.fb.array([]),
+      instructions: this.fb.array([]),
+      dietaryPlans: this.fb.array([]),
     });
   }
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
-  get dietaryPlans(){
-    return  (this.recipeForm.get('dietaryPlans') as FormArray).controls
+  get dietaryPlans() {
+    return (this.recipeForm.get('dietaryPlans') as FormArray).controls;
   }
 
   addIngredient() {
@@ -52,7 +48,7 @@ export class CreatePage {
   }
 
   addInstruction() {
-    this.instructionControls.push(this.fb.control(''))
+    this.instructionControls.push(this.fb.control(''));
   }
 
   removeIngredient(index: number) {
@@ -76,72 +72,60 @@ export class CreatePage {
   }
 
   getDietaryPlanButtonClasses(plan: string): string {
-    return this.isDietaryPlanSelected(plan) ? 'bg-gray-600 text-white' : 'bg-gray-300 text-gray-700';
+    return this.isDietaryPlanSelected(plan)
+      ? 'bg-gray-600 text-white'
+      : 'bg-gray-300 text-gray-700';
   }
 
-
   isDietaryPlanSelected(plan: string): boolean {
-
     const dietaryPlans = this.recipeForm.get('dietaryPlans')?.value;
-
 
     return dietaryPlans.includes(plan);
   }
 
-
   onSubmit() {
-
-      // Ingredients array
-      const ingredients: IIngredient[] = [];
-      let tags = new Array(this.dietaryPlans.length);
-      this.ingredientControls.forEach(element => {
-
-      if(element.value !== null) {
-        
-        ingredients.push({name : element.value});
+    // Ingredients array
+    const ingredients: IIngredient[] = [];
+    let tags = new Array(this.dietaryPlans.length);
+    this.ingredientControls.forEach((element) => {
+      if (element.value !== null) {
+        const i: IIngredient = ingredients.push({ name: element.value });
       }
-          
-      });
+    });
 
     // Instructions array
-      const instructions: IRecipeStep[] = []
-      this.instructionControls.forEach(element => {
-      if(element.value) {
-          instructions.push(
-            { 
-
-            instructionHeading : "N/A",
-            instructionBody : element.value
-          
-            })
+    const instructions: IRecipeStep[] = [];
+    this.instructionControls.forEach((element) => {
+      if (element.value) {
+        instructions.push({
+          instructionHeading: 'N/A',
+          instructionBody: element.value,
+        });
       }
     });
 
     // alert(JSON.stringify(instructions))
 
-      // Dietary plans array
-      this.dietaryPlans.forEach(element => {
-        if (element.value !== null) {
-          tags.push(element.value)
+    // Dietary plans array
+    this.dietaryPlans.forEach((element) => {
+      if (element.value !== null) {
+        tags.push(element.value);
       }
     });
 
-    tags = tags.filter(value => value !== null);
-
+    tags = tags.filter((value) => value !== null);
 
     const createRecipe = new Promise<IIngredient[]>((resolve, reject) => {
-      this.api.createNewMultipleIngredients(ingredients)
-      .subscribe( response => {
-        if(!response){
-          console.log("Error creating ingredients")
-         
-        } 
-        console.log("ingredients created successfully")
-        resolve(response)
-        
-      })
-    }).then( (ingredientsArray) => {
-
+      this.api
+        .createNewMultipleIngredients(ingredients)
+        .subscribe((response) => {
+          if (!response) {
+            console.log('Error creating ingredients');
+          }
+          console.log('ingredients created successfully');
+          resolve(response);
+        });
+    }).then((ingredientsArray) => {
       const recipe: IRecipe = {
         name: this.recipeForm.get('name')?.value,
         recipeImage: this.imageUrl,
@@ -149,32 +133,26 @@ export class CreatePage {
         instructions: instructions,
         rating: 0,
         difficulty: 'easy',
-        prepTime: (this.recipeForm.get('preparationTime')?.value as number),
-        numberOfServings: (this.recipeForm.get('servings')?.value as number),
-        tags: tags
-      }
+        prepTime: this.recipeForm.get('preparationTime')?.value as number,
+        numberOfServings: this.recipeForm.get('servings')?.value as number,
+        tags: tags,
+      };
 
-      this.api.createNewRecipe(recipe)
-      .subscribe( response => {
-        if(!response){
-          console.log("Error creating recipe")
+      this.api.createNewRecipe(recipe).subscribe((response) => {
+        if (!response) {
+          console.log('Error creating recipe');
           return response;
-        } 
-        console.log("Recipe created successfully")
-        return response
-      })
-
-    })
-
+        }
+        console.log('Recipe created successfully');
+        return response;
+      });
+    });
   }
 
-
-
   getIngredientsContent() {
-
     for (let i = 0; i < this.ingredientControls.length; i++) {
       const ingredientControl = this.ingredientControls[i];
-      console.log(ingredientControl.value)
+      console.log(ingredientControl.value);
       // do something with the ingredient control
     }
   }
@@ -195,12 +173,6 @@ export class CreatePage {
   }
 
   done() {
-      this.edit = false;
+    this.edit = false;
   }
-
-
-
-
 }
-
-

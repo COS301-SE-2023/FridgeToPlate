@@ -7,7 +7,7 @@ import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.model.Recipe;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+@CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/recipes")
 public class RecipeController {
 
@@ -18,7 +18,8 @@ public class RecipeController {
     public Recipe save(@RequestBody Recipe recipe){
         return recipeRepository.save(recipe);
     }
-    
+
+
     @GetMapping("/{id}")
     public Recipe findById(@PathVariable(value = "id") String id){
         return recipeRepository.findById(id);
@@ -27,7 +28,7 @@ public class RecipeController {
     @GetMapping
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
-    } 
+    }
 
     @PutMapping("/{id}")
     public Recipe update(@PathVariable(value = "id") String id, @RequestBody Recipe recipe){

@@ -4,7 +4,6 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { recipeArray } from './recipes.mock';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 export interface IResponse {
   status: number;
@@ -33,12 +32,11 @@ export class RecommendApi {
   constructor(private httpClient: HttpClient) {}
   //Step 1
   getUserIngredientsList(): Observable<IIngredient[]> {
-
     const req: Observable<IIngredient[]> = this.httpClient
       .get<IProfile>(`${baseUrl}profiles/9be7b531-4980-4d3b-beff-a35d08f2637e`)
       .pipe(
         switchMap((res: IProfile) => {
-            return new BehaviorSubject<IIngredient[]>(res.ingredients);
+          return new BehaviorSubject<IIngredient[]>(res.ingredients);
         }),
         catchError(async (error) => {
           console.log('An error has occured: ', error);
@@ -51,7 +49,8 @@ export class RecommendApi {
 
   removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
-      (ingredientItem) => ingredientItem.ingredientId !== ingredient.ingredientId
+      (ingredientItem) =>
+        ingredientItem.ingredientId !== ingredient.ingredientId
     );
   }
 
@@ -69,12 +68,7 @@ export class RecommendApi {
     //       return error;
     //     })
     //   );
-    const dietList = [
-      'Vegan',
-      'Vegetarian',
-      'Paleo-tonic',
-      'Ketogenic',
-    ];
+    const dietList = ['Vegan', 'Vegetarian', 'Paleo-tonic', 'Ketogenic'];
 
     const req = new BehaviorSubject<string[]>(dietList);
 
@@ -83,12 +77,11 @@ export class RecommendApi {
 
   //Step 3
   getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
-    
     const req: Observable<IRecipe[]> = this.httpClient
       .get<IRecipe[]>(`${baseUrl}recommend`)
       .pipe(
         switchMap((res: IRecipe[]) => {
-            return new BehaviorSubject<IRecipe[]>(res);
+          return new BehaviorSubject<IRecipe[]>(res);
         }),
         catchError(async (error) => {
           console.log('An error has occured: ', error);

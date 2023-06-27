@@ -10,6 +10,7 @@ import com.fridgetoplate.repository.ProfileRepository;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+@CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/profiles")
 
 public class ProfileController {
@@ -20,6 +21,7 @@ public class ProfileController {
     public Profile save(@RequestBody Profile recipe) {
         return profileRepository.save(recipe);
     }
+
 
     @GetMapping("/{id}")
     public Profile findById(@PathVariable(value = "id") String id) {
