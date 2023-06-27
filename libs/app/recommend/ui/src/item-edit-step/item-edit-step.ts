@@ -1,11 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import {
   IngredientItem,
   RecommendDataAccessModule,
   ingredientsArray,
 } from '@fridge-to-plate/app/recommend/data-access';
-//import {getAllIngredients, removeIngredient} from "@fridge-to-plate/app/recommend/data-access";
 
 import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendApi } from '../../../data-access/src/recommend.api';
@@ -20,7 +19,7 @@ import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
 export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
-  ingredientList: QuantityIngredient[] | undefined;
+  ingredientList: IIngredient[] | undefined;
 
   ingredientsToBeDeleted: string[] = [];
 
@@ -40,11 +39,11 @@ export class ItemEditStep {
       },
     });
 
-  removeItem(item: QuantityIngredient) {
-    //this.recommendApiClient.removeIngredient(item);
-    this.ingredientsToBeDeleted.push(item.id);
+  removeItem(item: IIngredient) {
+    this.ingredientsToBeDeleted.push(item.ingredientId);
+
     const updatedList = this.ingredientList?.filter(
-      (item) => !this.ingredientsToBeDeleted.includes(item.id)
+      (item) => !this.ingredientsToBeDeleted.includes(item.ingredientId)
     );
     this.ingredientList = updatedList;
   }
@@ -58,19 +57,9 @@ export class ItemEditStep {
             a.name < b.name ? -1 : 1
           );
           break;
-        case 'name-des':
+        default :
           this.ingredientList = this.ingredientList?.sort((a, b) =>
             a.name > b.name ? -1 : 1
-          );
-          break;
-        case 'quantity-asc':
-          this.ingredientList = this.ingredientList?.sort(
-            (a, b) => a.quantity - b.quantity
-          );
-          break;
-        default:
-          this.ingredientList = this.ingredientList?.sort(
-            (a, b) => b.quantity - a.quantity
           );
           break;
       }

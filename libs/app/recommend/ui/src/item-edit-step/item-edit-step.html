@@ -19,17 +19,17 @@
             </div>
             <div class="w-2/4">
               <p class="mt-3 ml-1 text-md font-semibold text-white">
-                {{item.name}}
+                {{item?.name ?? 'Ingredient'}}
               </p>
               <p class="mt-[0.5] ml-1 text-md text-slate-400 font-medium">
-                Quantity: {{item.quantity}}
+                Quantity: {{ 1 }}
               </p>
               <div class="flex flex-row mt-1">
-                <div *ngFor="let tag of item?.tags">
+                <!-- <div *ngFor="let tag of item?.tags">
                   <span class="bg-primary rounded-lg ml-1 h-4 px-2 text-white"
                     >{{tag}}</span
                   >
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="w-1/4 h-full flex flex-row justify-end items-center">

@@ -1,11 +1,11 @@
 import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { QuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { recipeArray } from './recipes.mock';
-
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 export interface IResponse {
   status: number;
   message: string;
@@ -14,7 +14,7 @@ export interface IResponse {
 
 export interface IngredientsResponse extends IResponse {
   data: {
-    ingredientsList: QuantityIngredient[];
+    ingredientsList: IIngredient[];
   };
 }
 
@@ -24,7 +24,7 @@ export interface DietResponse extends IResponse {
   };
 }
 
-const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
+const baseUrl = 'http://localhost:5000/';
 
 @Injectable({
   providedIn: 'root',
@@ -32,27 +32,26 @@ const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 export class RecommendApi {
   constructor(private httpClient: HttpClient) {}
   //Step 1
-  getUserIngredientsList(): Observable<QuantityIngredient[]> {
-    //TODO:Comment out when backend connected.
-    // const req: Observable<QuantityIngredient[]> = this.httpClient
-    //   .get<IngredientsResponse>('ingredients')
-    //   .pipe(
-    //     switchMap((res: IngredientsResponse) => {
-    //       return res.data.ingredientsList ?? ingredientsArray;
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
-    const req = new BehaviorSubject<QuantityIngredient[]>(ingredientsArray);
+  getUserIngredientsList(): Observable<IIngredient[]> {
+
+    const req: Observable<IIngredient[]> = this.httpClient
+      .get<IProfile>(`${baseUrl}profiles/9be7b531-4980-4d3b-beff-a35d08f2637e`)
+      .pipe(
+        switchMap((res: IProfile) => {
+            return new BehaviorSubject<IIngredient[]>(res.ingredients);
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
 
     return req;
   }
 
-  removeIngredient(ingredient: QuantityIngredient) {
+  removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
-      (ingredientItem) => ingredientItem.id !== ingredient.id
+      (ingredientItem) => ingredientItem.ingredientId !== ingredient.ingredientId
     );
   }
 
@@ -73,10 +72,8 @@ export class RecommendApi {
     const dietList = [
       'Vegan',
       'Vegetarian',
-      'Ketogenic',
       'Paleo-tonic',
-      'Low-carb',
-      'Pescatarian',
+      'Ketogenic',
     ];
 
     const req = new BehaviorSubject<string[]>(dietList);
@@ -86,8 +83,19 @@ export class RecommendApi {
 
   //Step 3
   getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
-    const recommendations = new BehaviorSubject<IRecipe[]>(recipeArray);
+    
+    const req: Observable<IRecipe[]> = this.httpClient
+      .get<IRecipe[]>(`${baseUrl}recommend`)
+      .pipe(
+        switchMap((res: IRecipe[]) => {
+            return new BehaviorSubject<IRecipe[]>(res);
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
 
-    return recommendations;
+    return req;
   }
 }
