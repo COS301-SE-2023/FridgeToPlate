@@ -1,4 +1,5 @@
 <div class="lg:flex justify-center p-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm">
+  <navigation-bar></navigation-bar>
   <div class="flex lg:hidden justify-center m-auto">
     <img
       src="https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg?"
@@ -8,7 +9,7 @@
   </div>
 
   <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="[&>*]:mb-8 justify-center lg:my-auto sm:mx-auto lg:mx-0 overflow-y-visible">
-  
+
     <div>
       <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
       <input
@@ -20,7 +21,7 @@
         required
       >
     </div>
-  
+
     <div>
       <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
       <textarea
@@ -31,7 +32,7 @@
         required
       ></textarea>
     </div>
-  
+
     <div>
       <div class="flex justify-between">
         <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
@@ -46,14 +47,13 @@
               id="ingredient-{{i}}"
               [formControlName]="i"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              [readonly]="i !== instructionControls.length - 1"
               required>
             <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
           </div>
         </div>
       </div>
     </div>
-  
+
     <div>
       <div class="flex justify-between">
         <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
@@ -68,14 +68,13 @@
               id="instruction-{{i}}"
               [formControlName]="i"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              [readonly]="i !== instructionControls.length - 1"
               required>
             <button type="button" (click)="removeInstruction(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
           </div>
         </div>
       </div>
     </div>
-  
+
     <div>
       <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
       <input
@@ -86,7 +85,7 @@
         class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
       >
     </div>
-  
+
     <div>
       <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
       <input
@@ -98,7 +97,7 @@
         required
       >
     </div>
-  
+
     <div>
       <label class="block text-gray-700 font-bold mb-2">Dietary Plans</label>
       <div class="flex justify-between overflow-auto">
@@ -136,7 +135,7 @@
         </button>
       </div>
     </div>
-  
+
     <div class="flex justify-center">
       <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full mx-5">Create Recipe</button>
     </div>
