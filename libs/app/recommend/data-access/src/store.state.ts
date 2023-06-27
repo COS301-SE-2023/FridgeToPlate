@@ -8,7 +8,7 @@ export function getAllIngredients() {
 export function addIngredient(ingredient: IngredientItem, ingredents: IngredientItem[]){
   if(!ingredient) return;
 
-  const item = ingredents.find( (item) => item.id === ingredient.id);
+  const item = ingredents.find( (item) => item.ingredientId === ingredient.ingredientId);
 
   if(item) return;
 
@@ -18,11 +18,11 @@ export function addIngredient(ingredient: IngredientItem, ingredents: Ingredient
 export function removeIngredient(ingredient: IngredientItem, ingredients: IngredientItem[]): IngredientItem[]{
   if(!ingredient) return ingredients;
 
-  const item = ingredients.find( (item) => item.id === ingredient.id);
+  const item = ingredients.find( (item) => item.ingredientId === ingredient.ingredientId);
 
   if(!item) return ingredients;
 
-  ingredients = ingredients.filter( (ing) => ing.id !== item.id);
+  ingredients = ingredients.filter( (ing) => ing.ingredientId !== item.ingredientId);
 
   return ingredients;
 }
