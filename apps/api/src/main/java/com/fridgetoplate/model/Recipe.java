@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.fridgetoplate.utils.StringArrayConverter;
 import com.fridgetoplate.utils.IngredientArrayConverter;
+import com.fridgetoplate.utils.RecipeStepArrayConverter;
 
 import lombok.Data;
 
@@ -42,9 +43,8 @@ public class Recipe {
     private Ingredient[] ingredients;
 
     @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = StringArrayConverter.class)
-    private String[] instructions;
-
+    @DynamoDBTypeConverted(converter = RecipeStepArrayConverter.class)
+    private RecipeStep[] instructions;
 
 
 }

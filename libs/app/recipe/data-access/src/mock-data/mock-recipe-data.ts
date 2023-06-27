@@ -2,39 +2,39 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export const recipeList: IRecipe[] = [
   {
-    id: "1",
+    recipeId: "1",
     recipeImage: "https://source.unsplash.com/500x500/?food",
     name: "Chicken Biryani",
     difficulty: "medium",
     rating: 3,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Cooking Oil",
         tags: ["Oil"]
       },
       {
-        id: "2",
+        ingredientId: "2",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "7",
+        ingredientId: "7",
         name: "Garam Masala",
         tags: ["Spice"]
       },
       {
-        id: "4",
+        ingredientId: "4",
         name: "Rice",
         tags: ["Starch"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
@@ -68,45 +68,43 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 60,
-      tags: ["Spicy", "Chicken", "Asian"]
-    }
+    prepTime: 60,
+    tags: ["Spicy", "Chicken", "Asian"]
   },
   {
-    id: "2",
+    recipeId: "2",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Basil Chicken",
     difficulty: "easy",
     rating: 4,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "9",
+        ingredientId: "9",
         name: "Olive Oil",
         tags: ["Oil"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "11",
+        ingredientId: "11",
         name: "Salt",
         tags: ["Salty"]
       },
       {
-        id: "8",
+        ingredientId: "8",
         name: "Tomato",
         tags: ["Acid", "Flavour"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
@@ -140,46 +138,44 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 60,
-      numberOfServings: 4,
-      tags: ["Healthy", "Chicken"]
-    }
+    prepTime: 60,
+    numberOfServings: 4,
+    tags: ["Healthy", "Chicken"]
   },
   {
-    id: "3",
+    recipeId: "3",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Cheese",
     difficulty: "easy",
     rating: 4,
     ingredients: [
       {
-        id: "0",
+        ingredientId: "0",
         name: "Chicken",
         tags: ["Protien", "Meat"]
       },
       {
-        id: "1",
+        ingredientId: "1",
         name: "Cooking Oil",
         tags: ["Oil"]
       },
       {
-        id: "2",
+        ingredientId: "2",
         name: "Garlic",
         tags: ["Flavour", "Vegetable"]
       },
       {
-        id: "7",
+        ingredientId: "7",
         name: "Garam Masala",
         tags: ["Spice"]
       },
       {
-        id: "4",
+        ingredientId: "4",
         name: "Rice",
         tags: ["Starch"]
       },
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Marinate the chicken",
         instructionBody: "To marinate the chicken for the biryani, combine the vegetable oil," +
@@ -213,9 +209,7 @@ export const recipeList: IRecipe[] = [
         stepDuration: 10
       },
     ],
-    meta: {
-      prepTime: 20,
+    prepTime: 20,
       tags: ["Cheese", "Grilled", "Cheap"]
-    }
   },
 ];

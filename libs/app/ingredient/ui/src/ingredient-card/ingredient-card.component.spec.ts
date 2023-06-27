@@ -9,7 +9,7 @@ describe('IngredientCardComponent', () => {
   let testIngredient: IIngredient;
 
   testIngredient = {
-    id: "test-id",
+    ingredientId: "test-id",
     name: "Carrot"
   };
 
