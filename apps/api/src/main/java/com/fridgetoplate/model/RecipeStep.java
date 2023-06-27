@@ -11,4 +11,3 @@ public class RecipeStep {
     private String instructionBody;
 
 }
-
