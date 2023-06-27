@@ -22,10 +22,18 @@ const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 })
 export class ProfileAPI {
   constructor(private http: HttpClient) {}
-  
+
+  private baseUrl = "http://localhost:5000/profiles";
+
   editProfile(profile: IProfile) {
-    this.http.post<IResponse>('https://reqres.in/api/posts', profile).subscribe({
+
+    const id = profile.profileId;
+
+    const url = `${this.baseUrl}/${id}` ;
+
+    this.http.put<IResponse>(url, profile).subscribe({
       next: data => {
+          console.log(data.status);
           return data.status;
       },
       error: error => {

@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class EditModalComponent {
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
   @Output() saveFunc: EventEmitter<any> = new EventEmitter();
-  @Input() profile: any;
+  @Input() editableProfile: any;
 
   close() {
     this.closeFunc.emit();

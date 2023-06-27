@@ -2,9 +2,14 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
-import { profile } from "console";
+import { ProfileAPI } from "../../data-access/src/profile.api";
+import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
 
 describe("ProfilePage", () => {
+  const mockProfileAPI = {
+    editProfile: jest.fn()
+  }
+
   let testProfile = {
     name: "John Doe",
     username: "jdoe",
@@ -69,8 +74,9 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule],
       declarations: [ProfilePage],
+      providers: [{ provide: ProfileAPI, useValue: mockProfileAPI }]
     }).compileComponents();
   });
 
@@ -136,5 +142,40 @@ describe("ProfilePage", () => {
     page.removeIngredient(testProfile.ingredients[2]);
 
     expect(page.profile.ingredients).toEqual(updatedIngredients);
+  });
+
+  it("should change display to block", () => {
+    const fixture = TestBed.createComponent(ProfilePage);
+    const page = fixture.componentInstance;
+
+    page.profile = testProfile;
+    page.openEditProfile();
+
+    expect(page.displayEditProfile).toEqual("block");
+  });
+
+  it("should change display to none", () => {
+    const fixture = TestBed.createComponent(ProfilePage);
+    const page = fixture.componentInstance;
+
+    page.profile = testProfile;
+    page.openEditProfile();
+    page.closeEditProfile();
+
+    expect(page.displayEditProfile).toEqual("none");
+  });
+
+  it("should remove save profile", () => {
+    const fixture = TestBed.createComponent(ProfilePage);
+    const page = fixture.componentInstance;
+    
+    mockProfileAPI.editProfile.mockReturnValue(true);
+
+    page.profile = testProfile;
+    page.openEditProfile();
+    page.editableProfile.name = "JD";
+    page.saveProfile();
+
+    expect(page.profile).toEqual(page.editableProfile);
   });
 });
