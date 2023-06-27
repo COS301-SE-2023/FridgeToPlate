@@ -10,6 +10,7 @@ import com.fridgetoplate.repository.ProfileRepository;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+@CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/profiles")
 
 public class ProfileController {
@@ -17,18 +18,18 @@ public class ProfileController {
     private ProfileRepository profileRepository;
 
     @PostMapping("/create")
-    public Profile save(@RequestBody Profile recipe){
+    public Profile save(@RequestBody Profile recipe) {
         return profileRepository.save(recipe);
     }
 
 
     @GetMapping("/{id}")
-    public Profile findById(@PathVariable(value = "id") String id){
+    public Profile findById(@PathVariable(value = "id") String id) {
         return profileRepository.findById(id);
     }
 
     @GetMapping
-    public List<Profile> findAll(){
+    public List<Profile> findAll() {
         return profileRepository.findAll();
     }
 
@@ -38,13 +39,12 @@ public class ProfileController {
     }
 
     @PutMapping("/{id}")
-    public Profile update(@PathVariable(value = "id") String id, @RequestBody Profile profile){
+    public Profile update(@PathVariable(value = "id") String id, @RequestBody Profile profile) {
         return profileRepository.update(id, profile);
     }
 
-
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id){
+    public String delete(@PathVariable(value = "id") String id) {
         return profileRepository.delete(id);
     }
 }

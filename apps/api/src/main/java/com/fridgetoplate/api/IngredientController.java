@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.repository.IngredientRepository;
 
-
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/ingredients")
@@ -33,7 +33,10 @@ public class IngredientController {
     public Ingredient save(@RequestBody Ingredient ingredient){
         return ingredientRepository.save(ingredient);
     }
-
+     @PostMapping("/create-multi")
+    public Ingredient[] save(@RequestBody Ingredient[] ingredients){
+        return ingredientRepository.saveAll(ingredients);
+    }
 
     @GetMapping("/{id}")
     public Ingredient findById(@PathVariable(value = "id") String id){
