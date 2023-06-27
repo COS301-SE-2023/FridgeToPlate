@@ -31,15 +31,18 @@ public class ProfileRepository {
 
     public Profile update(String id, Profile profile){
 
+        //Retrieve the profile of the specified ID
         Profile profileData =  dynamoDBMapper.load(Profile.class, id);
 
+        System.out.println("profileData");
         System.out.println(profileData);
 
+        //Return null if user profile does not exist
         if(profileData == null)
             return null;
 
 
-
+        //Set the new details of the user profile
         if(profile.getIngredients() != null) {
             profileData.setIngredients(profile.getIngredients());
         }
@@ -58,6 +61,14 @@ public class ProfileRepository {
 
         if(profile.getUsername() != null) {
             profileData.setUsername(profile.getUsername());
+        }
+
+        if(profile.getEmail() != null) {
+            profileData.setEmail(profile.getEmail());
+        }
+
+        if(profile.getDisplayName() != null) {
+            profileData.setDisplayName(profile.getDisplayName());
         }
         
         dynamoDBMapper.save(profileData,
