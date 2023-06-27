@@ -11,10 +11,14 @@
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@fridge-to-plate/app/auth/data-access": [
+        "libs/app/auth/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
