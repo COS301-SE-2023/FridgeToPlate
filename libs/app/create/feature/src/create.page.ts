@@ -89,7 +89,7 @@ export class CreatePage {
     let tags = new Array(this.dietaryPlans.length);
     this.ingredientControls.forEach((element) => {
       if (element.value !== null) {
-        const i: IIngredient = ingredients.push({ name: element.value });
+         ingredients.push({ name: element.value });
       }
     });
 
