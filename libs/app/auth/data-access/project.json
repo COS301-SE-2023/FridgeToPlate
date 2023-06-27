@@ -1,7 +1,7 @@
 {
-  "name": "app-signup-feature",
+  "name": "app-auth-data-access",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/app/signup/feature/src",
+  "sourceRoot": "libs/app/auth/data-access/src",
   "prefix": "fridge-to-plate",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/app/signup/feature/jest.config.ts",
+        "jestConfig": "libs/app/auth/data-access/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/app/signup/feature/**/*.ts",
-          "libs/app/signup/feature/**/*.html"
+          "libs/app/auth/data-access/**/*.ts",
+          "libs/app/auth/data-access/**/*.html"
         ]
       }
     }
