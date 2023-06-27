@@ -10,22 +10,25 @@ describe('RecipeCardComponent', () => {
   let testRecipe : IRecipe;
 
   testRecipe = {
-    id: "test-id",
+    recipeId: "test-id",
     name: "Pizza",
     recipeImage: "image-url",
     difficulty: "easy",
     ingredients: [
       {
-        id: "test-id", 
+        ingredientId: "test-id", 
         name: "Carrot"
       }
     ],
-    steps: [
+    instructions: [
       {
         instructionHeading: "Heading", 
         instructionBody: "Body"
       }
     ],
+    tags: [
+      "Paleo"
+    ]
   };
 
   beforeEach(async () => {
