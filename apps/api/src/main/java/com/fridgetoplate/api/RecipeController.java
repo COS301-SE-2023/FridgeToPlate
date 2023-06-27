@@ -19,7 +19,6 @@ public class RecipeController {
         return recipeRepository.save(recipe);
     }
     
-
     @GetMapping("/{id}")
     public Recipe findById(@PathVariable(value = "id") String id){
         return recipeRepository.findById(id);

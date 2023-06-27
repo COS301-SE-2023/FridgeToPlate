@@ -6,7 +6,7 @@ export interface IRecipe {
   name: string;
   recipeImage: string;
   ingredients: IIngredient[];
-  steps: IRecipeStep[];
+  instructions: IRecipeStep[];
   rating?: number;
   difficulty: 'easy' | 'medium' | 'hard';
   prepTime?: number;

@@ -94,62 +94,80 @@ export class CreatePage {
   onSubmit() {
 
       // Ingredients array
-      let ingredients = new Array(this.ingredientControls.length);
+      const ingredients: IIngredient[] = [];
       let tags = new Array(this.dietaryPlans.length);
       this.ingredientControls.forEach(element => {
 
-      if(element.value != null) {
-        ingredients.push(element.value);
+      if(element.value !== null) {
+        
+        ingredients.push({name : element.value});
       }
           
       });
 
     // Instructions array
-      let instructions = new Array(this.instructionControls.length);
-
+      const instructions: IRecipeStep[] = []
       this.instructionControls.forEach(element => {
       if(element.value) {
-          instructions.push(element.value)
+          instructions.push(
+            { 
+
+            instructionHeading : "N/A",
+            instructionBody : element.value
+          
+            })
       }
     });
 
+    // alert(JSON.stringify(instructions))
+
       // Dietary plans array
       this.dietaryPlans.forEach(element => {
-      if(element.value != null) {
+        if (element.value !== null) {
           tags.push(element.value)
       }
     });
 
-
-    const recipe: IRecipe = {
-      name: this.recipeForm.get('name')?.value,
-      recipeImage: this.imageUrl,
-      ingredients: ingredients,
-      steps: instructions,
-      rating: 0,
-      difficulty: 'easy',
-      prepTime: (this.recipeForm.get('preparationTime')?.value as number),
-      numberOfServings: (this.recipeForm.get('servings')?.value as number),
-      tags: tags
-    }
+    tags = tags.filter(value => value !== null);
 
 
-    this.api.createNewRecipe(recipe)
-    .subscribe( response => {
-      if(!response){
-        console.log("Error creating recipe")
-        return response;
-      } 
-      console.log("Recipe created successfully")
-      return response
+    const createRecipe = new Promise<IIngredient[]>((resolve, reject) => {
+      this.api.createNewMultipleIngredients(ingredients)
+      .subscribe( response => {
+        if(!response){
+          console.log("Error creating ingredients")
+         
+        } 
+        console.log("ingredients created successfully")
+        resolve(response)
+        
+      })
+    }).then( (ingredientsArray) => {
+
+      const recipe: IRecipe = {
+        name: this.recipeForm.get('name')?.value,
+        recipeImage: this.imageUrl,
+        ingredients: ingredientsArray,
+        instructions: instructions,
+        rating: 0,
+        difficulty: 'easy',
+        prepTime: (this.recipeForm.get('preparationTime')?.value as number),
+        numberOfServings: (this.recipeForm.get('servings')?.value as number),
+        tags: tags
+      }
+
+      this.api.createNewRecipe(recipe)
+      .subscribe( response => {
+        if(!response){
+          console.log("Error creating recipe")
+          return response;
+        } 
+        console.log("Recipe created successfully")
+        return response
+      })
+
     })
-    
-    // const ingredients: IIngredient[] = this.ingredientControls as IIngredient[];
 
-    // const result = this.api.createNewRecipe();
-    // alert(JSON.stringify(result));
-
-    this.getIngredientsContent()
   }
 
 
@@ -184,4 +202,7 @@ export class CreatePage {
 
 
 
+
 }
+
+

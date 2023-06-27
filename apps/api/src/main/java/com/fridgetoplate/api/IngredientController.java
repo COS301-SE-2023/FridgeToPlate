@@ -32,7 +32,10 @@ public class IngredientController {
     public Ingredient save(@RequestBody Ingredient ingredient){
         return ingredientRepository.save(ingredient);
     }
-    
+     @PostMapping("/create-multi")
+    public Ingredient[] save(@RequestBody Ingredient[] ingredients){
+        return ingredientRepository.saveAll(ingredients);
+    }
 
     @GetMapping("/{id}")
     public Ingredient findById(@PathVariable(value = "id") String id){

@@ -1,4 +1,5 @@
 package com.fridgetoplate.repository;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,14 @@ public class IngredientRepository {
     public Ingredient save(Ingredient ingredient){
         dynamoDBMapper.save(ingredient);
         return ingredient;
+    }
+
+    public Ingredient[] saveAll(Ingredient[] ingredients){
+        for(Ingredient ingredient : ingredients)
+        {
+            dynamoDBMapper.save(ingredient);
+        }
+        return ingredients;
     }
 
     public Ingredient findById(String id){
