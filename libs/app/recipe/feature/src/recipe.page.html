@@ -51,10 +51,7 @@
         </ion-list-header>
         <ion-item *ngFor="let ingredient of recipe?.ingredients">
           <div>
-            <p class="text-xs font-semibold">Prep Time</p>
-            <p class="text-3xl mt-2 font-bold">
-              {{recipe.meta?.prepTime ?? '10'}}m
-            </p>
+            {{ingredient?.name ?? 'Unknown ingredient'}}
           </div>
         </ion-item>
       </ion-list>
