@@ -3,9 +3,7 @@
     <div class="h-2/3 md:h-full md:row-start-2 md:row-end-11 md:col-start-7 lg:col-start-9 md:col-end-13 overflow-y-scroll md:pr-8 md:pl-6 lg:pr-18">
       <nz-list>
         <nz-list-item *ngFor="let item of (ingredientItems$ | async)">
-          <div
-            class="bg-primary-highlight mb-2 mx-6 h-24 flex flex-row rounded-md"
-          >
+          <div class="bg-primary-highlight mb-2 mx-6 h-24 flex flex-row rounded-md">
             <div class="w-1/4 flex flex-row justify-center items-center">
               <ion-thumbnail class="h-16 w-16">
                 <img
@@ -24,9 +22,7 @@
               </p>
               <div class="flex flex-row mt-1">
                 <div *ngFor="let tag of item?.metadata?.tags">
-                  <span class="bg-primary rounded-lg ml-1 h-4 px-2 text-white"
-                    >{{tag}}</span
-                  >
+                  <span class="bg-primary rounded-lg ml-1 h-4 px-2 text-white">{{tag}}</span>
                 </div>
               </div>
             </div>

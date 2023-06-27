@@ -10,19 +10,22 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import { RecommendUIModule } from '../../ui/src';
 import { RecommendPage } from './recommend.page';
+import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 
 @NgModule({
   imports: [
-    CommonModule, 
-    RecommendRouting, 
-    IonicModule, 
-    NzStepsModule, 
-    NzListModule, 
-    ReactiveFormsModule, 
-    NzFormModule, 
-    NzInputModule, 
+    CommonModule,
+    RecommendRouting,
+    IonicModule,
+    NzStepsModule,
+    NzListModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
     NzIconModule,
     RecommendUIModule,
+    NavigationBarModule
   ],
   declarations: [RecommendPage],
   exports: [RecommendPage],
