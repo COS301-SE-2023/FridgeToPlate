@@ -1,13 +1,14 @@
-import { getGreeting } from "../support/app.po";
+import { getGreeting } from '../support/app.po';
 
-describe("app", () => {
-  beforeEach(() => cy.visit("/"));
+describe('login', () => {
+  beforeEach(() => cy.visit('/'));
 
-  it("should display welcome message", () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login("my-email@something.com", "myPassword");
+  it('successfully loads login', () => {
+    cy.get('h1').contains('Hey, Welcome Back');
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains("Welcome app");
+  it('should prevent incorrect login attempt', () => {
+    cy.get('input[name="username"]').type('12344321');
+    cy.get('input[name="password"]').type('12344321');
   });
 });

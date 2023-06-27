@@ -11,6 +11,7 @@
     "build:api": "npx nx run api:build",
     "e2e:app:prod": "npx nx run app-e2e:e2e --configuration=production",
     "e2e:app:ci": "npx nx run app-e2e:e2e --configuration=ci",
+    "e2e:app:open": "npx cypress open",
     "test:app": "npx nx run app:test",
     "test:app:ci": "npx nx run-many --target=test --all --codeCoverage=true --coverageReporters=lcov --parallel=true && node ./tools/coverageMerger.js",
     "test:api": "npx nx run api:test"
