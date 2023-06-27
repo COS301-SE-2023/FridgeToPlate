@@ -23,11 +23,7 @@ export class RecipePage implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
-        this.recipeService.getRecipeById(recipeId).subscribe(
-          (response: IRecipe) => {
-            this.recipe = response;
-          },
-        );
+        this.setRecipe(recipeId);
       }
     });
   }
@@ -36,5 +32,12 @@ export class RecipePage implements OnInit {
     this.location.back();
   }
 
+  setRecipe(id: string) {
+    this.recipeService.getRecipeById(id).subscribe(
+      (response: IRecipe) => {
+        this.recipe = response;
+      },
+    );
+  }
 }
 
