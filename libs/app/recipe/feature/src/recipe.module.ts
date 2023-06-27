@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RecipePage } from "./recipe.page";
-import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
-import { IonicModule } from "@ionic/angular";
+import { RecipePage } from './recipe.page';
+import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
+import { IonicModule } from '@ionic/angular';
 import { RecipeRouting } from './recipe.routing';
-import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
 @NgModule({
   imports: [
@@ -12,9 +12,8 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
     RecipeUIModule,
     IonicModule,
     RecipeRouting,
-    NavigationBarModule
-
+    NavigationBarModule,
   ],
-  declarations: [RecipePage]
+  declarations: [RecipePage],
 })
 export class RecipeModule {}
