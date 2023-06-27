@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        component: NxWelcomeComponent,
-    }, 
-    { 
-        path: 'recommendations', 
-        loadChildren: () => import('@fridge-to-plate/app/recipe-recommendation').then((m) => m.AppRecipeRecommendationModule),
+        redirectTo: 'login',
+    },
+    {
+        path: 'recommend',
+        loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.RecommendModule),
     },
     {
         path: 'login',
@@ -28,6 +27,10 @@ const routes: Routes = [
         path: 'create',
         loadChildren: () => import('@fridge-to-plate/app/create/feature').then((m) => m.CreateModule),
     },
+    {
+        path: 'recipe',
+        loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule)
+    }
 ];
 
 @NgModule({

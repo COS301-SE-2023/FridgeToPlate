@@ -1,0 +1,71 @@
+<div class="w-full h-full md:h-fit md:grid md:grid-rows-12 md:grid-cols-12">
+  <div
+    class="mb-14 md:mb-1 lg:pl-24 pl-6 md:row-start-1 md:row-end-5 md:col-start-1 md:col-end-7"
+  >
+    <div class="mb-3 lg:pl-3">
+      <h3 class="mt-4 text-xl font-semibold text-primary">Diet</h3>
+    </div>
+    <div class="flex flex-row gap-2 flex-wrap lg:pl-3">
+      <fridge-to-plate-diet-preference-pill-component
+        *ngFor="let category of (dietList$ | async)"
+        (click)="dietSelect($event)"
+        diet="{{category}}"
+      >
+      </fridge-to-plate-diet-preference-pill-component>
+    </div>
+  </div>
+
+  <div
+    class="pl-6 mb-14 md:mb-1 md:row-start-1 md:row-end-5 md:col-start-7 md:col-end-13"
+  >
+    <div class="mb-3">
+      <h3 class="mt-4 text-xl font-semibold text-primary">Keywords</h3>
+    </div>
+    <div>
+      <input
+        placeholder="Search by keyword"
+        type="text"
+        class="w-5/6 py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black"
+      />
+    </div>
+  </div>
+
+  <div
+    class="pl-6 md:mb-1 lg:pl-28 md:row-start-5 md:row-end-8 md:col-start-1 md:col-end-7"
+  >
+    <div class="mb-3 md:mb-6">
+      <h3 class="mt-4 text-xl font-semibold text-primary">Other options</h3>
+    </div>
+    <div>
+      <div class="h-5 mb-6 flex items-center">
+        <label class="font-semibold mr-8 text-primary">Difficulty</label>
+        <select class="w-1/3 rounded-md p-1">
+          <option></option>
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+      </div>
+      <div class="h-5 mb-6 flex items-center">
+        <label class="font-semibold mr-14 text-primary">Rating</label>
+        <select class="w-1/5 rounded-md p-1">
+          <option></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      <div class="h-5 flex items-center">
+        <label class="font-semibold mr-10 text-primary">Servings</label>
+        <select class="w-1/5 rounded-md p-1">
+          <option></option>
+          <option>1</option>
+          <option>1-2</option>
+          <option>2+</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
