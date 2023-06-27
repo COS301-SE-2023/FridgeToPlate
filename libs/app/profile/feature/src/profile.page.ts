@@ -20,7 +20,7 @@ export class ProfilePage {
   editableProfile : any;
 
   ingredientArray: IIngredient = {
-    id: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
+    ingredientId: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
     name: "garlic"
   }
 
