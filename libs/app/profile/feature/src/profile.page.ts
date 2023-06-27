@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
 import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
   selector: "profile-page",
@@ -16,10 +19,17 @@ export class ProfilePage {
 
   editableProfile : any;
 
+  ingredientArray: IIngredient = {
+    id: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
+    name: "garlic"
+  }
+
+
   constructor(private api: ProfileAPI) {}
 
   ngOnInit() {
     this.profile = {
+      profileId: "1",
       name: "John Doe",
       username: "jdoe",
       email: "jdoe@gmail.com",
@@ -81,6 +91,7 @@ export class ProfilePage {
       ],
     };
     this.editableProfile = Object.create(this.profile);
+
   }
 
   displaySubpage(subpageName : string) {
@@ -101,6 +112,7 @@ export class ProfilePage {
   }
 
   saveProfile() {
+    this.editableProfile.profileId = "9be7b531-4980-4d3b-beff-a35d08f2637e";
     this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
   }
