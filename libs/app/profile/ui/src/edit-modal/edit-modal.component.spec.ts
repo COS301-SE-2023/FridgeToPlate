@@ -17,7 +17,7 @@ describe('EditModalComponent', () => {
 
     fixture = TestBed.createComponent(EditModalComponent);
     component = fixture.componentInstance;
-    component.profile = testProfile;
+    component.editableProfile = testProfile;
     fixture.detectChanges();
   });
 
