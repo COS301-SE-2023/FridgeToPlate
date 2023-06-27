@@ -1,19 +1,20 @@
 <div class="bg-background-light h-full overflow-y-scroll">
-    <div class="lg:bg-blue-950 text-center">
+  <navigation-bar></navigation-bar>
+  <div class="lg:bg-blue-950 text-center">
         <div class="relative inline-block lg:bottom-3">
-            <img 
-            src="https://source.unsplash.com/150x150/?portrait" 
-            alt="Profile Pic" 
+            <img
+            src="https://source.unsplash.com/150x150/?portrait"
+            alt="Profile Pic"
             class="self-center w-40 border rounded-full mx-auto mt-16" />
-            <button class="absolute bottom-0.5 right-0.5 text-white bg-primary hover:bg-primary-highlight font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="pencil-outline"></ion-icon></button>
+            <button (click)="openEditProfile()" class="absolute bottom-0.5 right-0.5 text-white bg-primary hover:bg-primary-highlight font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="pencil-outline"></ion-icon></button>
         </div>
-    
+
         <div class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-16 lg:-right-5">
-            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ name }}</h2>
-            <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ email }}</p>
+            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.name }}</h2>
+            <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
     </div>
-
+    <!-- <navigation-bar></navigation-bar> -->
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
         <ul class="flex flex-wrap -mb-px">
             <li class="mx-auto cursor-pointer">
@@ -29,7 +30,7 @@
                 [ngClass]="subpage == 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('ingredients')">
                     <ion-icon name="list-outline"></ion-icon>
-                    Ingredients 
+                    Ingredients
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
@@ -37,27 +38,29 @@
                 [ngClass]="subpage == 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('created')">
                     <ion-icon name="create-outline"></ion-icon>
-                    Created 
+                    Created
                 </a>
             </li>
         </ul>
     </div>
-    <div *ngIf="subpage == 'saved'" class="mt-5 ml-5">
+    <div *ngIf="subpage == 'saved'" class="mt-5 ml-4">
         <button 
             id="sortDropdownButton" 
             data-dropdown-toggle="dropdown" 
-            class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3" 
+            class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3" 
             type="button">
             Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
         </button>
-        
+
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-2 md:grid-cols-3 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-           <recipe-card *ngFor="let recipe of recipes" [recipe]="recipe"></recipe-card>
+           <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>
     </div>
     <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
         <div class="mr-4 my-2 md:columns-2">
-            <ingredient-card *ngFor="let ingredient of ingredients; index as i;" id="{{ i }}" (removeEvent)="removeIngredient(i)" [ingredient]="ingredient"></ingredient-card>
+            <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card>
         </div>
     </div>
 </div>
+
+<edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [profile]="editableProfile"></edit-modal>

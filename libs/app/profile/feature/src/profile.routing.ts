@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: ProfilePage,
-  },
+  }
 ];
 
 @NgModule({

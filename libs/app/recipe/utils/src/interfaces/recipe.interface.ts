@@ -6,12 +6,11 @@ export interface IRecipe {
   name: string;
   recipeImage: string;
   ingredients: IIngredient[];
-  steps: IRecipeStep[];
+  instructions: IRecipeStep[];
   rating?: number;
   difficulty: 'easy' | 'medium' | 'hard';
-  meta?: {
-    prepTime?: number;
-    numberOfServings?: number;
-    tags: string[];
-  };
+  prepTime?: number;
+  numberOfServings?: number;
+  tags?: string[];
+
 }
