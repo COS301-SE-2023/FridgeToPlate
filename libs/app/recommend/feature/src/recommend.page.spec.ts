@@ -4,7 +4,7 @@ import { RecommendPage } from './recommend.page';
 import { IonicModule } from '@ionic/angular';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { RecommendUIModule } from '../../ui/src/recommend.module';
-// import { AppRecipeRecommendationModule} from "@fridge-to-plate/app/recommend/feature";
+import { HttpClientModule } from '@angular/common/http';
 
 describe('RecipeRecommendationPage', () => {
   let component: RecommendPage;
@@ -13,7 +13,12 @@ describe('RecipeRecommendationPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecommendPage],
-      imports: [IonicModule, NavigationBarModule, RecommendUIModule],
+      imports: [
+        IonicModule, 
+        NavigationBarModule, 
+        RecommendUIModule,
+        HttpClientModule
+      ],
     });
     fixture = TestBed.createComponent(RecommendPage);
     component = fixture.componentInstance;
