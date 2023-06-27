@@ -20,6 +20,12 @@ public class Profile {
     private String username;
 
     @DynamoDBAttribute
+    private String email;
+
+    @DynamoDBAttribute
+    private String displayName;
+
+    @DynamoDBAttribute
     private String profilePicture;
     
 
