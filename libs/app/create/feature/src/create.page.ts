@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access'
-import { JsonPipe } from '@angular/common';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils'
 
