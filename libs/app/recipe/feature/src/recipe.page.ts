@@ -1,36 +1,43 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RecipeDetailApiService } from '../../data-access/src/lib/recipe-detail-api.service';
-import {delay, Observable, switchMap} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+
+import { RecipeService } from '@fridge-to-plate/app/recipe/data-access';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'recipe-page',
   templateUrl: './recipe.page.html',
   styleUrls: ['./recipe.page.scss'],
 })
-export class RecipePage {
-  recipeId: Number | undefined;
-  recipe$: Observable<IRecipe> | undefined;
+export class RecipePage implements OnInit {
+  recipe!: IRecipe;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private recipeApiService: RecipeDetailApiService
-  ) {
-    this.recipeId = Number.parseInt(
-      this.route.snapshot.paramMap.get('id') ?? ''
-    );
+    private location: Location,
+    private recipeService: RecipeService,
+    private route: ActivatedRoute
+  ) {}
 
-    if (Number.isNaN(this.recipeId)) {
-      this.router.navigate(['/recipe/']);
-    }
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const recipeId = params.get('id');
+      if (recipeId) {
+        this.setRecipe(recipeId);
+      }
+    });
+  }
 
-    this.recipe$ = route.paramMap.pipe(
-      delay(2000),
-      switchMap((params) =>
-        this.recipeApiService.getRecipeDetails(Number(params.get('id')))
-      )
+  goBack() {
+    this.location.back();
+  }
+
+  setRecipe(id: string) {
+    this.recipeService.getRecipeById(id).subscribe(
+      (response: IRecipe) => {
+        this.recipe = response;
+      },
     );
   }
 }
+
