@@ -2,7 +2,7 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export const recipeList: IRecipe[] = [
   {
-    profileId: "1",
+    recipeId: "1",
     recipeImage: "https://source.unsplash.com/500x500/?food",
     name: "Chicken Biryani",
     difficulty: "medium",
@@ -72,7 +72,7 @@ export const recipeList: IRecipe[] = [
     tags: ["Spicy", "Chicken", "Asian"]
   },
   {
-    profileId: "2",
+    recipeId: "2",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Basil Chicken",
     difficulty: "easy",
@@ -143,7 +143,7 @@ export const recipeList: IRecipe[] = [
     tags: ["Healthy", "Chicken"]
   },
   {
-    profileId: "3",
+    recipeId: "3",
     recipeImage: "https://picsum.photos/seed/picsum/200/300",
     name: "Grilled Cheese",
     difficulty: "easy",
