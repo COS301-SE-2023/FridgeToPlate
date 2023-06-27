@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.fridgetoplate.utils.StringArrayConverter;
 import com.fridgetoplate.utils.IngredientArrayConverter;
 import com.fridgetoplate.utils.RecipeStepArrayConverter;
+import com.fridgetoplate.utils.RecipeStepArrayConverter;
 
 import lombok.Data;
 

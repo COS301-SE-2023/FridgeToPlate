@@ -1,74 +1,111 @@
+import { IQuantityIngredient } from '@fridge-to-plate/app/ingredient/utils';
+
 export interface IngredientItem {
-  id: number;
+  ingredientId: number;
   name: string;
   quantity: number;
-  metadata ?: {
+  metadata?: {
     amountPerUnit?: number;
     unit?: string;
     tags?: string[];
-  }
+  };
 }
 
-export const ingredientsArray: IngredientItem[] = [
+export const ingredientsArray: IQuantityIngredient[] = [
   {
-    id: 0,
-    name: 'Milk',
-    quantity: 1,
-    metadata: {
-      amountPerUnit: 1000,
-      unit: 'ml',
-      tags: ['Dairy', 'Protiens']
-    }
-  },
-  {
-    id: 1,
-    name: 'Onions',
-    quantity: 5,
-    metadata: {
-      amountPerUnit: 100,
-      unit: 'g',
-      tags: ['Vegetable', 'Aromatic']
-    }
-  },
-  {
-    id: 2,
-    name: 'Beef',
+    ingredientId: '0',
+    name: 'Tomato',
     quantity: 2,
-    metadata: {
-      amountPerUnit: 1000,
-      unit: 'g',
-      tags: ['Proteins']
-    }
+    scale: 'kg',
   },
   {
-    id: 3,
-    name: 'Pasta',
+    ingredientId: '1',
+    name: 'Onion',
+    quantity: 1,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '2',
+    name: 'Rice',
     quantity: 3,
-    metadata: {
-      amountPerUnit: 500,
-      unit: 'g',
-      tags: ['Wheat']
-    }
+    scale: 'kg',
   },
   {
-    id: 4,
-    name: 'Tomatoes',
-    quantity: 4,
-    metadata: {
-      amountPerUnit: 100,
-      unit: 'g',
-      tags: ['Vegetable',]
-    }
-  },
-  {
-    id: 5,
+    ingredientId: '3',
     name: 'Chicken',
-    quantity: 5,
-    metadata: {
-      amountPerUnit: 1000,
-      unit: 'g',
-      tags: ['Proteins']
-    }
-  }
-
-]
+    quantity: 2,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '4',
+    name: 'Rump Steak',
+    quantity: 3,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '5',
+    name: 'Rice',
+    quantity: 3,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '6',
+    name: 'Flour',
+    quantity: 2,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '7',
+    name: 'Egg',
+    quantity: 500,
+    scale: 'g',
+  },
+  {
+    ingredientId: '8',
+    name: 'Peppers',
+    quantity: 2,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '9',
+    name: 'Sunflower Oil',
+    quantity: 2,
+    scale: 'l',
+  },
+  {
+    ingredientId: '10',
+    name: 'Milk',
+    quantity: 4,
+    scale: 'l',
+  },
+  {
+    ingredientId: '11',
+    name: 'Soy Sauce',
+    quantity: 500,
+    scale: 'ml',
+  },
+  {
+    ingredientId: '12',
+    name: 'Beef Stock',
+    quantity: 200,
+    scale: 'ml',
+  },
+  {
+    ingredientId: '13',
+    name: 'Pasta',
+    quantity: 2,
+    scale: 'kg',
+  },
+  {
+    ingredientId: '14',
+    name: 'Salt',
+    quantity: 200,
+    scale: 'g',
+  },
+  {
+    ingredientId: '15',
+    name: 'Salmon',
+    quantity: 1,
+    scale: 'kg',
+  },
+];

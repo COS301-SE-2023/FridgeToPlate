@@ -2,7 +2,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipeStep } from './recipe-step.interface';
 
 export interface IRecipe {
-  id: string;
+  recipeId?: string;
   name: string;
   recipeImage: string;
   ingredients: IIngredient[];
@@ -12,5 +12,4 @@ export interface IRecipe {
   prepTime?: number;
   numberOfServings?: number;
   tags?: string[];
-
 }

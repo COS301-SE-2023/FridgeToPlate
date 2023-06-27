@@ -48,7 +48,6 @@
               id="ingredient-{{i}}"
               [formControlName]="i"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              [readonly]="i !== instructionControls.length - 1"
               required>
             <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
           </div>
@@ -70,7 +69,6 @@
               id="instruction-{{i}}"
               [formControlName]="i"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              [readonly]="i !== instructionControls.length - 1"
               required>
             <button type="button" (click)="removeInstruction(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
           </div>
