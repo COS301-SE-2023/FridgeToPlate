@@ -107,6 +107,22 @@
       "options": {
         "buildTarget": "app:build"
       }
+    },
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/app/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "app:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "app:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "app:serve-static"
+        }
+      }
     }
   }
 }
