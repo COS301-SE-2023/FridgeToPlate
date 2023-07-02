@@ -17,7 +17,7 @@ describe('RecipeDetailPageComponent', () => {
   let component: RecipePage;
   let fixture: ComponentFixture<RecipePage>;
   let testRecipe: IRecipe = {
-    id: "test-id",
+    recipeId: "test-id",
     name: "Test Recipe",
     difficulty: "easy",
     recipeImage: "url.com/image",
