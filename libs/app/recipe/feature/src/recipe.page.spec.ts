@@ -79,16 +79,16 @@ describe('RecipeDetailPageComponent', () => {
     expect(component.recipe).toEqual(testRecipe);
   });
 
-  // it('should handle error when retrieving recipe data', () => {
-  //   const recipeService: RecipeService = TestBed.inject(RecipeService);
-  //   const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(throwError('Error'));
+  it('should handle error when retrieving recipe data', () => {
+    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(throwError('Error'));
 
-  //   component.setRecipe('test-id');
+    component.setRecipe('test-id');
 
-  //   expect(getRecipeByIdSpy).toHaveBeenCalledWith('test-id');
-  //   expect(component.recipe).toBeUndefined();
-  //   expect(component.errorMessage).toBe('Error retrieving recipe data.');
-  // });
+    expect(getRecipeByIdSpy).toHaveBeenCalledWith('test-id');
+    expect(component.recipe).toBeUndefined();
+    expect(component.errorMessage).toBe('Error retrieving recipe data.');
+  });
 
 it('should not retrieve recipe data with empty id', () => {
   const recipeService: RecipeService = TestBed.inject(RecipeService);
