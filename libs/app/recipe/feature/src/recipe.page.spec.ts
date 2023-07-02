@@ -69,5 +69,14 @@ describe('RecipeDetailPageComponent', () => {
     expect(setRecipeSpy).toHaveBeenCalledWith('test-id');
   });
 
+  it('should retrieve recipe data correctly in setRecipe', () => {
+    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(of(testRecipe));
+
+    component.setRecipe('test-id');
+
+    expect(getRecipeByIdSpy).toHaveBeenCalledWith('test-id');
+    expect(component.recipe).toEqual(testRecipe);
+  });
 
 });
