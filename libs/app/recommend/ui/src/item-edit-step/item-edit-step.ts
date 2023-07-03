@@ -40,13 +40,16 @@ export class ItemEditStep {
     });
 
   removeItem(item: IIngredient) {
+    console.log(item);
     if (!item.ingredientId) return;
 
     this.ingredientsToBeDeleted.push(item.ingredientId);
 
+    console.log('To be deleted: ', this.ingredientsToBeDeleted);
     const updatedList = this.ingredientList?.filter((item) => {
       if (item.ingredientId)
-        !this.ingredientsToBeDeleted.includes(item.ingredientId);
+        return !this.ingredientsToBeDeleted.includes(item.ingredientId);
+      else return false;
     });
     this.ingredientList = updatedList;
   }
