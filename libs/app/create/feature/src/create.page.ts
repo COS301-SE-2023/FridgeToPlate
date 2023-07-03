@@ -135,10 +135,8 @@ export class CreatePagComponent {
       // Store the recipe to the database
       this.api.createNewRecipe(recipe).subscribe((response) => {
         if (!response) {
-          console.error('Error creating recipe');
           return response;
         }
-        console.log('Recipe created successfully');
         return response;
       });
       
@@ -151,23 +149,13 @@ export class CreatePagComponent {
         .createNewMultipleIngredients(ingredients)
         .subscribe((response) => {
           if (!response) {
-            console.log('Error creating ingredients');
             reject(response);
           }
-          console.log('ingredients created successfully');
           resolve(response);
         });
     })
 
     return recipe;
-  }
-
-  getIngredientsContent(): void {
-    for (let i = 0; i < this.ingredientControls.length; i++) {
-      const ingredientControl = this.ingredientControls[i];
-      console.log(ingredientControl.value);
-      // do something with the ingredient control
-    }
   }
 
 

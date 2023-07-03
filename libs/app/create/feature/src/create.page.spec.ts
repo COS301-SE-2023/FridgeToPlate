@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
@@ -106,6 +106,66 @@ describe('CreatePagComponent', () => {
     expect(dietaryPlansArray?.value).toEqual([]);
   });
 
+
+  it('should add a new ingredient control to the form', () => {
+    const initialLength = createPage.ingredientControls.length;
+    createPage.addIngredient();
+    const newLength = createPage.ingredientControls.length;
+    expect(newLength).toBe(initialLength + 1);
+  }
+  );
+
+  it('should remove an ingredient control from the form', () => {
+    const initialLength = createPage.ingredientControls.length;
+    if(initialLength == 0) {
+      expect(initialLength).toBe(0)
+      return
+    }
+    createPage.removeIngredient(0);
+    const newLength = createPage.ingredientControls.length;
+    expect(newLength).toBe(initialLength - 1);
+  }
+  );
+
+  it('should add a new instruction control to the form', () => {
+    const initialLength = createPage.instructionControls.length;
+    createPage.addInstruction();
+    const newLength = createPage.instructionControls.length;
+    expect(newLength).toBe(initialLength + 1);
+  }
+  );
+
+
+  it('should remove an instruction control from the form', () => {
+    const initialLength = createPage.instructionControls.length;
+    if(initialLength == 0) {
+      expect(initialLength).toBe(0)
+    }
+    createPage.removeInstruction(0);
+    const newLength = createPage.instructionControls.length;
+    expect(newLength).toBe(initialLength - 1);
+  }
+  );
+
+  it('should add a new dietary plan to the form', () => {
+    const initialLength = createPage.dietaryPlans.length;
+    createPage.toggleDietaryPlan('Vegan');
+    const newLength = createPage.dietaryPlans.length;
+    expect(newLength).toBe(initialLength + 1);
+  }
+  );
+
+  it('should remove a dietary plan from the form', () => {
+    const initialLength = createPage.dietaryPlans.length;
+    createPage.toggleDietaryPlan('Vegan');
+    createPage.toggleDietaryPlan('Vegan');
+    const newLength = createPage.dietaryPlans.length;
+    expect(newLength).toBe(initialLength);
+  }
+  );
+
+
+
   
 
 
@@ -153,6 +213,52 @@ describe('toggleDietaryPlan', () => {
     expect(dietaryPlans.length).toBe(1);
     expect(dietaryPlans.value).toContain(plan);
   });
+
+
+  it('Returns an array of instruction controls', () => {
+    const formArray = new FormArray([
+      new FormControl('Step 1'),
+      new FormControl('Step 2'),
+      new FormControl('Step 3'),
+    ]);
+
+      // create a new recipe form using the form array
+      const recipeForm = new FormGroup({
+        instructions: formArray,
+      });
+
+      component.recipeForm = recipeForm;
+
+      const controls = component.instructionControls;
+      expect(controls.length).toBe(3);
+      expect(controls[0] instanceof FormControl).toBe(true);
+      expect(controls[1] instanceof FormControl).toBe(true);
+      expect(controls[2] instanceof FormControl).toBe(true);
+    
+  })
+
+
+  it('Returns an array of ingredients controls', () => {
+    const formArray = new FormArray([
+      new FormControl('Mango'),
+      new FormControl('Potato'),
+      new FormControl('Banana'),
+    ]);
+
+      // create a new recipe form using the form array
+      const recipeForm = new FormGroup({
+        ingredients: formArray,
+      });
+
+      component.recipeForm = recipeForm;
+
+      const controls = component.ingredientControls;
+      expect(controls.length).toBe(3);
+      expect(controls[0] instanceof FormControl).toBe(true);
+      expect(controls[1] instanceof FormControl).toBe(true);
+      expect(controls[2] instanceof FormControl).toBe(true);
+    
+  })
 });
 
 describe('Testing Tags', () => {
@@ -244,3 +350,5 @@ describe('Ingredients storing and return', () => {
     });
     
   });
+
+  
