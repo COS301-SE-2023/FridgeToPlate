@@ -1,5 +1,3 @@
-import { data } from 'cypress/types/jquery';
-import { getGreeting } from '../support/app.po';
 
 describe('login tests', () => {
   beforeEach(() => cy.visit('/'));
