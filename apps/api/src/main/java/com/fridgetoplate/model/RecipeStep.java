@@ -4,8 +4,8 @@ package com.fridgetoplate.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RecipeStep {
-    @JsonProperty("instructionHead")
-    private String instructionHead;
+    @JsonProperty("instructionHeading")
+    private String instructionHeading = "N/A";
 
     @JsonProperty("instructionBody")
     private String instructionBody;

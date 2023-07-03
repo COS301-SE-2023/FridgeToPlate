@@ -9,7 +9,7 @@
     />
   </div>
 
-  <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="[&>*]:mb-8 justify-center lg:my-auto sm:mx-auto lg:mx-0 overflow-y-visible">
+  <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center lg:my-auto sm:mx-auto lg:mx-0 overflow-y-visible">
   
     <div>
       <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>

@@ -18,7 +18,7 @@ import com.fridgetoplate.model.Preference;
 import com.fridgetoplate.repository.PreferenceRepository;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/preferences")
 public class PreferenceController {
     @Autowired
