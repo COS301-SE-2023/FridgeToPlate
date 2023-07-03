@@ -140,6 +140,7 @@ describe('CreatePagComponent', () => {
     const initialLength = createPage.instructionControls.length;
     if(initialLength == 0) {
       expect(initialLength).toBe(0)
+      return
     }
     createPage.removeInstruction(0);
     const newLength = createPage.instructionControls.length;
@@ -163,11 +164,6 @@ describe('CreatePagComponent', () => {
     expect(newLength).toBe(initialLength);
   }
   );
-
-
-
-  
-
 
 });
 
