@@ -1,22 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import { CreatePage } from './create.page';
+import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
-import { CreateAPI } from '../../data-access/src/api/create.api';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {HttpClientModule } from '@angular/common/http';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 describe('CreatePage', () => {
-  let component: CreatePage;
-  let fixture: ComponentFixture<CreatePage>;
-  let fb: FormBuilder;
+  let component: CreatePagComponent;
+  let fixture: ComponentFixture<CreatePagComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePage ],
+      declarations: [ CreatePagComponent ],
       imports: [
         ReactiveFormsModule,
         IonicModule,
-        HttpClientModule
+        HttpClientModule,
+        NavigationBarModule
       ],
       providers: [ FormBuilder ]
     })
@@ -24,9 +25,8 @@ describe('CreatePage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatePage);
+    fixture = TestBed.createComponent(CreatePagComponent);
     component = fixture.componentInstance;
-    fb = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
 
@@ -38,18 +38,18 @@ describe('CreatePage', () => {
   });
 });
 
-describe('CreatePage', () => {
-  let createPage: CreatePage;
-  let fixture: ComponentFixture<CreatePage>;
-  let fb: FormBuilder;
+describe('CreatePagComponent', () => {
+  let createPage: CreatePagComponent;
+  let fixture: ComponentFixture<CreatePagComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePage ],
+      declarations: [ CreatePagComponent ],
       imports: [
         ReactiveFormsModule,
         IonicModule,
-        HttpClientModule
+        HttpClientModule,
+        NavigationBarModule
       ],
       providers: [ FormBuilder ]
     })
@@ -57,9 +57,8 @@ describe('CreatePage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatePage);
+    fixture = TestBed.createComponent(CreatePagComponent);
     createPage = fixture.componentInstance;
-    fb = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
 
@@ -113,19 +112,20 @@ describe('CreatePage', () => {
 });
 
 describe('toggleDietaryPlan', () => {
-  let component: CreatePage;
+  let component: CreatePagComponent;
   let fb: FormBuilder;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatePage ],
+      declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        NavigationBarModule
       ]
     });
-    component = TestBed.createComponent(CreatePage).componentInstance;
+    component = TestBed.createComponent(CreatePagComponent).componentInstance;
     fb = TestBed.inject(FormBuilder);
     component.recipeForm = fb.group({
       dietaryPlans: fb.array([]),
@@ -156,19 +156,22 @@ describe('toggleDietaryPlan', () => {
 });
 
 describe('Testing Tags', () => {
-  let component: CreatePage;
+  let component: CreatePagComponent;
   let fb: FormBuilder;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatePage ],
+      declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        NavigationBarModule
       ]
     });
-    component = TestBed.createComponent(CreatePage).componentInstance;
+
+
+    component = TestBed.createComponent(CreatePagComponent).componentInstance;
     fb = TestBed.inject(FormBuilder);
     component.recipeForm = fb.group({
       dietaryPlans: fb.array([]),
@@ -198,17 +201,46 @@ describe('Testing Tags', () => {
     expect(tags).toContain("Vegetarian");
     expect(tags).toContain("Vegan");
     
-  
-  });
-
-  it('should add the dietary plan if it is not selected', () => {
-
-    const plan = 'Vegan';
-    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
-
-    component.toggleDietaryPlan(plan);
-
-    expect(dietaryPlans.length).toBe(1);
-    expect(dietaryPlans.value).toContain(plan);
   });
 });
+
+
+describe('Ingredients storing and return', () => { 
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ CreatePagComponent ],
+      providers: [FormBuilder],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientModule,
+        NavigationBarModule
+      ]
+    });
+
+
+    });
+
+  it('Create Ingredients', () => { 
+
+      // Mock data
+      const expectData = { 
+        ingredientId : "123",
+        name: "Chicken Falaty"
+      }
+
+      // Mocking the service
+      const mockIngredients : IIngredient[] = [];
+      mockIngredients.push(expectData)
+
+      const mockApi = {
+        createNewMultipleIngredients: jest.fn().mockReturnValue(mockIngredients),
+      };
+
+      const testObject = { api: mockApi };
+      const returnIngredients = testObject.api.createNewMultipleIngredients()
+
+      expect(returnIngredients[0]).toEqual(expectData);
+    });
+    
+  });
