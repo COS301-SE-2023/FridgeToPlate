@@ -7,7 +7,7 @@ import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.model.Recipe;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
         RequestMethod.DELETE })
 @RequestMapping("/recommend")
 
