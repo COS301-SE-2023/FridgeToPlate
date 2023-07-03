@@ -2,9 +2,9 @@ name: Development CI
 
 on:
   push:
-    branches: [ feat/* ]
+    branches: [ feat/*, hotfix/* ]
   pull_request:
-    branches: [ dev, feat/* ]
+    branches: [ dev ]
   workflow_call:
 
 permissions:
@@ -46,7 +46,7 @@ jobs:
       run: npx nx run app:lint
 
     - name: Test Workspace
-      run: npm run test:app:ci
+      run: npm run test:workspace:ci
 
     - name: Upload Coverage Report
       uses: codecov/codecov-action@v3
@@ -54,6 +54,9 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       with:
         files: coverage/lcov.info  
+      
+    - name: e2e Test App
+      run: npm run e2e:app:ci
       
     - name: Build App
       run: npm run build:app:dev
