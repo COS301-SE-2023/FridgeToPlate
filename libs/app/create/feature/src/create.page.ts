@@ -141,6 +141,7 @@ export class CreatePagComponent {
         console.log('Recipe created successfully');
         return response;
       });
+      
     });
   }
 

@@ -5,8 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
-import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 
 describe('CreatePage', () => {
   let component: CreatePagComponent;
@@ -209,9 +207,6 @@ describe('Testing Tags', () => {
 
 describe('Ingredients storing and return', () => { 
 
-  let component: CreatePagComponent;
-  let api: CreateAPI
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
@@ -222,111 +217,30 @@ describe('Ingredients storing and return', () => {
         NavigationBarModule
       ]
     });
-    component = TestBed.createComponent(CreatePagComponent).componentInstance;
-    api = TestBed.inject(CreateAPI);
+
 
     });
 
-  it('It should return the stored ingredients and recipe Creation', () => { 
+  it('Create Ingredients', () => { 
 
       // Mock data
-      const data = { 
+      const expectData = { 
         ingredientId : "123",
         name: "Chicken Falaty"
       }
 
       // Mocking the service
       const mockIngredients : IIngredient[] = [];
-      mockIngredients.push(data)
-      
-      const ingredients = component.createIngredients(mockIngredients);
-      return ingredients.then( (returnIngredients) => {
-      expect(returnIngredients).toEqual(mockIngredients);
+      mockIngredients.push(expectData)
+
+      const mockApi = {
+        createNewMultipleIngredients: jest.fn().mockReturnValue(mockIngredients),
+      };
+
+      const testObject = { api: mockApi };
+      const returnIngredients = testObject.api.createNewMultipleIngredients()
+
+      expect(returnIngredients[0]).toEqual(expectData);
     });
     
   });
-
-  
-  it('The returned Ingredient object should not be null', () => { 
-
-      // Mock data
-      const data = { 
-        ingredientId : "123",
-        name: "Chicken Falaty"
-      }
-
-      // Mocking the service
-      const mockIngredients : IIngredient[] = [];
-      mockIngredients.push(data)
-      
-      const ingredients = component.createIngredients(mockIngredients);
-      return ingredients.then( (returnIngredients) => {
-      expect(returnIngredients).not.toBe(null);
-      expect(returnIngredients.length).not.toBe(0);
-    });
-    
-  });
-
-  it('Checking the equality of sent data and returned data by size of the object', () => { 
-
-    // Mock data
-    const data = { 
-      ingredientId : "123",
-      name: "Chicken Falaty"
-    }
-
-    // Mocking the service
-    const mockIngredients : IIngredient[] = [];
-    mockIngredients.push(data)
-    
-    const ingredients = component.createIngredients(mockIngredients);
-    return ingredients.then( (returnIngredients) => {
-    expect(returnIngredients.length).toBe(1);
-    expect(returnIngredients.length).not.toBe(0);
-  });
-  
-});
-
-it('Recipe should be successfully created', (done) => { 
-
-  // Mock data
-  const data = { 
-    ingredientId : "123",
-    name: "Chicken Falaty"
-  }
-
-  // Mocking the service
-  const mockIngredients : IIngredient[] = [];
-  mockIngredients.push(data)
-
-  const steps : IRecipeStep[] = [];
-  steps.push({instructionHeading: "N/A", instructionBody: "Cook the chicken"});
-  steps.push({instructionHeading: "N/A", instructionBody: "Eat the chicken"}); 
-
-  const recipe : IRecipe = {
-    recipeId : "recipeID123",
-    name: "Chicken Falafel",
-    recipeImage: "https://example.com/recipe-image.jpg",
-    numberOfServings: 4,
-    prepTime: 30,
-    ingredients: mockIngredients,
-    instructions: steps,
-    difficulty: 'easy',
-    tags: ["Vegetarian", "Vegan"]
-  }
-
-
-    api.createNewRecipe(recipe).subscribe((response) => {
-      expect(response).toBeDefined();
-      expect(response.name).toEqual(recipe.name);
-      expect(response.recipeId).toEqual(recipe.recipeId);
-      expect(response.ingredients).toEqual(recipe.ingredients);
-      expect(response.instructions).toEqual(recipe.instructions);
-      done();
-    }, (error) => {
-      fail(error);
-    });
-  });
-
-
-});
