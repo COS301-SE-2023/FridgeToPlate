@@ -1,19 +1,21 @@
 import { Component } from "@angular/core";
-import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Store } from '@ngxs/store';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "profile-page",
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ProfilePage {
 
   displayEditProfile = "none";
 
-  subpage: string = "saved";
+  subpage = "saved";
 
   profile : any;
 
@@ -25,7 +27,7 @@ export class ProfilePage {
   }
 
 
-  constructor(private api: ProfileAPI) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
     this.profile = {
@@ -112,8 +114,7 @@ export class ProfilePage {
   }
 
   saveProfile() {
-    this.editableProfile.profileId = "9be7b531-4980-4d3b-beff-a35d08f2637e";
-    this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
+    this.store.dispatch(new UpdateProfile(this.profile));
   }
 }

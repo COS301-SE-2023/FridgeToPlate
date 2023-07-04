@@ -11,7 +11,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -26,6 +27,13 @@ import { HttpClientModule } from '@angular/common/http';
     NzIconModule,
     HttpClientModule,
     FormsModule,
+    NgxsLoggerPluginModule.forRoot({
+      collapsed: false,
+      // disabled: ENVIRONMENT == 'production',
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      // disabled: ENVIRONMENT == 'production',
+    }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

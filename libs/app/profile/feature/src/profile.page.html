@@ -19,7 +19,7 @@
         <ul class="flex flex-wrap -mb-px">
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                [ngClass]="subpage === 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('saved')">
                     <ion-icon name="bookmark-outline"></ion-icon>
                     Saved
@@ -27,7 +27,7 @@
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                [ngClass]="subpage === 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('ingredients')">
                     <ion-icon name="list-outline"></ion-icon>
                     Ingredients
@@ -35,7 +35,7 @@
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                [ngClass]="subpage === 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('created')">
                     <ion-icon name="create-outline"></ion-icon>
                     Created
@@ -43,7 +43,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="subpage == 'saved'" class="mt-5 ml-4">
+    <div *ngIf="subpage === 'saved'" class="mt-5 ml-4">
         <button 
             id="sortDropdownButton" 
             data-dropdown-toggle="dropdown" 
@@ -56,7 +56,7 @@
            <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>
     </div>
-    <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
+    <div *ngIf="subpage === 'ingredients'" class="mt-5 ml-4">
         <div class="mr-4 my-2 md:columns-2">
             <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card>
         </div>
