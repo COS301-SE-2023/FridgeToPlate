@@ -88,6 +88,12 @@ export class ProfilePage {
           amount: "500ml"
         },
       ],
+      preferences: {
+        darkMode: false,
+        recommendNotifi: true,
+        viewsNotifi: true,
+        reviewNotifi: true,
+      }
     };
     this.editableProfile = Object.create(this.profile);
 
