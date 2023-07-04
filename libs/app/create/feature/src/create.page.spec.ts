@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormBuilder} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
+import { NEVER, of } from "rxjs";
+import { CreateAPI } from '../../data-access/src/api/create.api';
 
 describe('CreatePage', () => {
   let component: CreatePagComponent;
@@ -381,7 +383,8 @@ describe('Testing Tags', () => {
 
 
 describe('Ingredients storing and return', () => { 
-
+  let component: CreatePagComponent;
+  let apiService: jest.Mocked<CreateAPI>;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
@@ -393,7 +396,8 @@ describe('Ingredients storing and return', () => {
       ]
     });
 
-
+    component = TestBed.createComponent(CreatePagComponent).componentInstance;
+    apiService = TestBed.inject(CreateAPI) as jest.Mocked<CreateAPI>;
     });
 
   it('Create Ingredients', () => { 
@@ -417,7 +421,77 @@ describe('Ingredients storing and return', () => {
 
       expect(returnIngredients[0]).toEqual(expectData);
     });
+
+    it("should call the createNewMultipleIngredients method on the ApiService object with the correct arguments", async () => {
+      // Create a mock array of IIngredient objects
+      const ingredients: IIngredient[] = [
+        { name: "Ingredient 1" },
+        { name: "Ingredient 2" },
+      ];
     
+      // Set up the mock response from the createNewMultipleIngredients method
+      const response: IIngredient[] = [
+        { ingredientId: "1", name: "Ingredient 1" },
+        { ingredientId: "2", name: "Ingredient 2" },
+      ];
+      apiService.createNewMultipleIngredients = jest.fn().mockResolvedValue(response);
+    
+      // Call the createIngredients method and wait for it to resolve
+      await apiService.createNewMultipleIngredients(ingredients);
+    
+      // Verify that the createNewMultipleIngredients method was called on the ApiService object with the correct arguments
+      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
+    });
+    
+
+   // Assuming the ApiService is using `rxjs` Observables
+
+   it("should resolve the promise with the correct response", async () => {
+    // Create a mock array of IIngredient objects
+    const ingredients: IIngredient[] = [
+      { name: "Ingredient 1" },
+      { name: "Ingredient 2" },
+    ];
+  
+    // Set up the mock response from the createNewMultipleIngredients method
+    const response: IIngredient[] = [
+      { ingredientId: "1", name: "Ingredient 1" },
+      { ingredientId: "2", name: "Ingredient 2" },
+    ];
+  
+    // Mock the createNewMultipleIngredients method to return an observable
+    apiService.createNewMultipleIngredients = jest.fn().mockReturnValue(of(response));
+  
+    // Call the createIngredients method and wait for it to resolve
+    const result = await component.createIngredients(ingredients);
+  
+    // Verify that the promise resolves to the correct response
+    expect(result).toEqual(response);
   });
+  
+
+  it("should reject the promise if the response is falsy", async () => {
+    // Create a mock array of IIngredient objects
+    const ingredients: IIngredient[] = [
+      { name: "Ingredient 1" },
+      { name: "Ingredient 2" },
+    ];
+  
+    // Set up the mock response from the createNewMultipleIngredients method as falsy (empty array)
+    const response: IIngredient[] = [];
+    jest.spyOn(apiService, 'createNewMultipleIngredients').mockRejectedValue(response as never);
+  
+    // Call the createIngredients method and wait for it to reject
+    component.createIngredients(ingredients);
+
+    expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
+  });
+  
+  
+  
+  });
+
+
+  
 
   
