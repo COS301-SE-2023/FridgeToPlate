@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
 
 describe('CreatePage', () => {
   let component: CreatePagComponent;
@@ -231,6 +232,78 @@ describe('toggleDietaryPlan', () => {
       expect(controls[1] instanceof FormControl).toBe(true);
       expect(controls[2] instanceof FormControl).toBe(true);
     
+  })
+
+
+  it('creates an array of IRecipeStep objects', () => {
+    // create a mock form array with some form controls
+    const formArray = new FormArray([
+      new FormControl('Step 1'),
+      new FormControl('Step 2'),
+      new FormControl('Step 3'),
+    ]);
+
+    // create a mock form group with the form array
+    const formGroup = new FormGroup({
+      instructions: formArray,
+    });
+
+    // create a new instance of the RecipeComponent
+
+    // assign the mock form group to the component's recipeForm property
+    component.recipeForm = formGroup;
+
+    // call the createInstructions method and check the result
+    ;
+
+    const instructions: IRecipeStep[] = [];
+    for (let index = 0; index < component.instructionControls.length; index++) {
+      instructions.push({
+        instructionHeading: 'N/A',
+        instructionBody: component.instructionControls[index].value,
+      });
+    }
+
+
+
+    // assert that the instructions array was created correctly
+    expect(instructions[0]).toEqual({ instructionHeading: 'N/A', instructionBody: 'Step 1'});
+    expect(instructions[1]).toEqual({ instructionHeading: 'N/A', instructionBody: 'Step 2' })
+    expect(instructions[2]).toEqual({ instructionHeading: 'N/A', instructionBody: 'Step 3' })
+  
+  })
+
+
+  it("Creates Recipe", () => {
+
+
+    const difficulty = "easy" as const;
+    // Mock data
+    const expectData = { 
+      recipeId : "123",
+      recipeImage : "Mock image",
+      difficulty: difficulty,
+      name: "Chicken Falaty",
+      description: "A delicious chicken falafel",
+      servings: 4,
+      preparationTime: 30,
+      ingredients: [],
+      instructions: [],
+      dietaryPlans: []
+    }
+
+    // Mocking the service
+    const mockRecipe : IRecipe[] = [];
+    mockRecipe.push(expectData)
+
+    const mockApi = {
+      createNewRecipe: jest.fn().mockReturnValue(mockRecipe),
+    };
+
+    const testObject = { api: mockApi };
+    const returnRecipe = testObject.api.createNewRecipe()
+
+    expect(returnRecipe[0]).toEqual(expectData);
   })
 
 
