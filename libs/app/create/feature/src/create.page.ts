@@ -83,6 +83,7 @@ export class CreatePagComponent {
   createRecipe() : void {
     // Ingredients array
     const ingredients: IIngredient[] = [];
+    
     let tags = new Array(this.dietaryPlans.length);
     this.ingredientControls.forEach((element) => {
       if (element.value !== null) {
