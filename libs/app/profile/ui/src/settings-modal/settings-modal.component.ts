@@ -16,6 +16,7 @@ export class SettingsModalComponent {
 
   save() {
     this.saveFunc.emit();
-    this.closeFunc.emit();
+    var presentTheme = localStorage.getItem('theme');
+    localStorage.setItem('theme', presentTheme === 'theme-light' ? 'theme-dark' : 'theme-light');
   }
 }
