@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'edit-modal',
-  templateUrl: './edit-modal.component.html',
-  styleUrls: ['./edit-modal.component.scss'],
+  selector: 'settings-modal',
+  templateUrl: './settings-modal.component.html',
+  styleUrls: ['./settings-modal.component.scss'],
 })
-export class EditModalComponent {
+export class SettingsModalComponent {
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
   @Output() saveFunc: EventEmitter<any> = new EventEmitter();
   @Input() editableProfile: any;

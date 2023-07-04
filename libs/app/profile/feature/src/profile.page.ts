@@ -12,6 +12,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 export class ProfilePage {
 
   displayEditProfile = "none";
+  displaySettings = "none";
 
   subpage: string = "saved";
 
@@ -111,8 +112,16 @@ export class ProfilePage {
     this.displayEditProfile = "none";
   }
 
+  openSettings() {
+    this.editableProfile = Object.create(this.profile);
+    this.displaySettings = "block";
+  }
+
+  closeSettings() {
+    this.displaySettings = "none";
+  }
+
   saveProfile() {
-    this.editableProfile.profileId = "9be7b531-4980-4d3b-beff-a35d08f2637e";
     this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
   }
