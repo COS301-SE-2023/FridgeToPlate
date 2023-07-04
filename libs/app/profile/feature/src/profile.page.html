@@ -1,6 +1,6 @@
 <div class="bg-background-light h-full overflow-y-scroll">
-  <navigation-bar></navigation-bar>
-  <div class="lg:bg-blue-950 text-center">
+    <navigation-bar></navigation-bar>
+    <div class="relative lg:bg-blue-950 text-center">
         <div class="relative inline-block lg:bottom-3">
             <img
             src="https://source.unsplash.com/150x150/?portrait"
@@ -13,6 +13,8 @@
             <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.name }}</h2>
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
+        <button (click)="openSettings()" class="absolute top-0.5 right-0.5 text-black font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="settings-outline"></ion-icon></button>
+        <button (click)="openNotifications()" class="absolute top-0.5 left-0.5 text-black font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="notifications-outline"></ion-icon></button>
     </div>
     <!-- <navigation-bar></navigation-bar> -->
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
@@ -27,10 +29,10 @@
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'ingredients' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
-                (click)="displaySubpage('ingredients')">
-                    <ion-icon name="list-outline"></ion-icon>
-                    Ingredients
+                [ngClass]="subpage == 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                (click)="displaySubpage('meal plan')">
+                    <ion-icon name="calendar-clear-outline"></ion-icon>
+                    Meal Plan
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
@@ -56,12 +58,10 @@
            <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>
     </div>
-    <div *ngIf="subpage == 'ingredients'" class="mt-5 ml-4">
-        <div class="mr-4 my-2 md:columns-2">
-            <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card>
-        </div>
+    <div *ngIf="subpage == 'meal plan'" class="mt-5 ml-4">
+        <!-- TO BE COMPLETED -->
     </div>
 </div>
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
-<settings-modal [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></settings-modal>
+<settings-modal [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></settings-modal>
