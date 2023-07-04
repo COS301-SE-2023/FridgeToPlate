@@ -3,6 +3,7 @@ import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "profile-page",
@@ -24,9 +25,6 @@ export class ProfilePage {
     ingredientId: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
     name: "garlic"
   }
-
-
-  constructor(private api: ProfileAPI) {}
 
   ngOnInit() {
     this.profile = {
@@ -95,6 +93,8 @@ export class ProfilePage {
 
   }
 
+  constructor(private router: Router, private api: ProfileAPI) {}
+
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
@@ -124,5 +124,9 @@ export class ProfilePage {
   saveProfile() {
     this.api.editProfile(this.editableProfile);
     this.profile = this.editableProfile;
+  }
+
+  openNotifications() {
+    this.router.navigate(["/notifications"]);
   }
 }
