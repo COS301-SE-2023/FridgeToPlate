@@ -5,22 +5,19 @@ import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
-  selector: 'app-create',
+  selector: 'fridge-to-plate-app-create',
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
 })
-export class CreatePage {
+export class CreatePagComponent {
   recipeForm!: FormGroup;
-  imageUrl: string =
-    'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
-  editableIndex: number = -1;
-  edit = false;
+  imageUrl = 'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
 
   constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
   }
 
-  createForm() {
+  createForm(): void {
     this.recipeForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -47,15 +44,15 @@ export class CreatePage {
     return (this.recipeForm.get('instructions') as FormArray).controls;
   }
 
-  addInstruction() {
+  addInstruction(): void {
     this.instructionControls.push(this.fb.control(''));
   }
 
-  removeIngredient(index: number) {
+  removeIngredient(index: number): void {
     this.ingredientControls.splice(index, 1);
   }
 
-  removeInstruction(index: number) {
+  removeInstruction(index: number) : void{
     this.instructionControls.splice(index, 1);
   }
 
@@ -83,13 +80,16 @@ export class CreatePage {
     return dietaryPlans.includes(plan);
   }
 
-  onSubmit() {
+  createRecipe() : void {
     // Ingredients array
     const ingredients: IIngredient[] = [];
     let tags = new Array(this.dietaryPlans.length);
     this.ingredientControls.forEach((element) => {
       if (element.value !== null) {
-         ingredients.push({ name: element.value });
+        
+         ingredients.push({
+          name: element.value
+        });
       }
     });
 
@@ -104,8 +104,6 @@ export class CreatePage {
       }
     });
 
-    // alert(JSON.stringify(instructions))
-
     // Dietary plans array
     this.dietaryPlans.forEach((element) => {
       if (element.value !== null) {
@@ -115,17 +113,13 @@ export class CreatePage {
 
     tags = tags.filter((value) => value !== null);
 
-    const createRecipe = new Promise<IIngredient[]>((resolve, reject) => {
-      this.api
-        .createNewMultipleIngredients(ingredients)
-        .subscribe((response) => {
-          if (!response) {
-            console.log('Error creating ingredients');
-          }
-          console.log('ingredients created successfully');
-          resolve(response);
-        });
-    }).then((ingredientsArray) => {
+    // We store the ingredients and return ingredients
+    const createdIngredients = this.createIngredients(ingredients);
+
+    // After now having stored or created the ingredients, we create the recipe.
+    createdIngredients.then((ingredientsArray) => {
+
+      // The, create the recipe object
       const recipe: IRecipe = {
         name: this.recipeForm.get('name')?.value,
         recipeImage: this.imageUrl,
@@ -138,41 +132,31 @@ export class CreatePage {
         tags: tags,
       };
 
+      // Store the recipe to the database
       this.api.createNewRecipe(recipe).subscribe((response) => {
         if (!response) {
-          console.log('Error creating recipe');
           return response;
         }
-        console.log('Recipe created successfully');
         return response;
       });
+      
     });
   }
 
-  getIngredientsContent() {
-    for (let i = 0; i < this.ingredientControls.length; i++) {
-      const ingredientControl = this.ingredientControls[i];
-      console.log(ingredientControl.value);
-      // do something with the ingredient control
-    }
+  createIngredients(ingredients: IIngredient[]) : Promise<IIngredient[]> {
+    const recipe = new Promise<IIngredient[]>((resolve, reject) => {
+      this.api
+        .createNewMultipleIngredients(ingredients)
+        .subscribe((response) => {
+          if (!response) {
+            reject(response);
+          }
+          resolve(response);
+        });
+    })
+
+    return recipe;
   }
 
-  editIngredient(index: number): void {
-    this.editableIndex = index;
-    this.edit = true;
-  }
 
-  editInstruction(index: number): void {
-    this.editableIndex = index;
-    this.edit = true;
-  }
-
-  cancelEditIngredients(): void {
-    this.editableIndex = -1;
-    this.edit = true;
-  }
-
-  done() {
-    this.edit = false;
-  }
 }
