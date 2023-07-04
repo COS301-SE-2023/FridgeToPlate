@@ -18,7 +18,7 @@ export class RecipeCardComponent {
 
     if (!this.bookmarked) {
       this.profile.saved_recipes = this.profile.saved_recipes.filter((item: any) => item !== this.recipe );
-      this.profileAPI.editProfile(this.profile);
+      //TO BE COMPLETED
     }
   }
 
