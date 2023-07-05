@@ -11,4 +11,10 @@ export interface IProfile {
     // preferences: IPreference[];
     saved_recipes: IRecipe[];
     created_recipes: IRecipe[];
+    preferences: {
+        darkMode: boolean;
+        recommendNotifi: boolean;
+        viewsNotifi: boolean;
+        reviewNotifi: boolean;
+    }
 }
