@@ -18,7 +18,7 @@ export interface ProfileStateModel {
             saved_recipes: [
                 {
                     name: "Recipe",
-                    recipeImage: "",
+                    recipeImage: "https://source.unsplash.com/750x750/?food",
                     ingredients: [],
                     instructions: [],
                     difficulty: "Easy",
@@ -38,7 +38,7 @@ export interface ProfileStateModel {
                 lunch: null,
                 dinner: {
                     name: "Recipe",
-                    recipeImage: "",
+                    recipeImage: "https://source.unsplash.com/750x750/?food",
                     ingredients: [],
                     instructions: [],
                     difficulty: "Easy",
