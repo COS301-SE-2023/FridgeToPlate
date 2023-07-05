@@ -15,10 +15,24 @@ export interface ProfileStateModel {
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
-            saved_recipes: [],
+            saved_recipes: [
+                {
+                    name: "Recipe",
+                    recipeImage: "",
+                    ingredients: [],
+                    instructions: [],
+                    difficulty: "Easy",
+                }
+            ],
             ingredients: [],
             profilePic: "",
             created_recipes: [],
+            preferences: {
+                darkMode: false,
+                recommendNotifi: true,
+                reviewNotifi: false,
+                viewsNotifi: true,
+            }
         }
     }
 })

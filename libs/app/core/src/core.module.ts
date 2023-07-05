@@ -16,9 +16,14 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ErrorDataAccessModule } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { ClickedOutsideDirective } from './directives/clicked-outside.directive';
 
 @NgModule({
-  declarations: [CoreShell, TabbedComponent],
+  declarations: [
+    CoreShell, 
+    TabbedComponent, 
+    ClickedOutsideDirective
+  ],
   imports: [
     BrowserModule,
     LoginModule,

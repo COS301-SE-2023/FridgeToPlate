@@ -3,7 +3,7 @@ import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
-import { Router } from "@angular/router";
+import { Navigate } from "@ngxs/router-plugin";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,22 +18,21 @@ export class ProfilePage {
 
   displayEditProfile = "none";
   displaySettings = "none";
+  displaySort = "none";
   subpage = "saved";
 
   editableProfile !: IProfile;
 
   constructor(private store: Store) {
-    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = profile);
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
   }
-
-  constructor(private router: Router, private api: ProfileAPI) {}
 
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
 
   openEditProfile() {
-    // this.editableProfile = Object.create(this.profile$);
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
     this.displayEditProfile = "block";
   }
 
@@ -42,7 +41,7 @@ export class ProfilePage {
   }
 
   openSettings() {
-    this.editableProfile = Object.create(this.profile);
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
     this.displaySettings = "block";
   }
 
@@ -55,6 +54,14 @@ export class ProfilePage {
   }
 
   openNotifications() {
-    this.router.navigate(["/notifications"]);
+    this.store.dispatch(new Navigate(['/profile/notifications']));
+  }
+
+  toggleSort() {
+    this.displaySort = this.displaySort === "none" ? "block" : "none";
+  }
+
+  closeSort() {
+    this.displaySort = "none";
   }
 }

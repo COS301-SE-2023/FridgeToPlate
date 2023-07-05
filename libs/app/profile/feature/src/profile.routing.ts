@@ -7,7 +7,11 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: ProfilePage,
-  }
+  },
+  // {
+  //   path: 'notifications',
+  //   component: ProfilePage,
+  // }
 ];
 
 @NgModule({
