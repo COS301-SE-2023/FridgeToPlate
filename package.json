@@ -76,6 +76,7 @@
     "@ionic/angular": "^7.0.6",
     "@ngxs/devtools-plugin": "^3.8.1",
     "@ngxs/logger-plugin": "^3.8.1",
+    "@ngxs/router-plugin": "^3.8.1",
     "@ngxs/store": "^3.8.1",
     "@nrwl/angular": "^16.0.3",
     "amazon-cognito-identity-js": "^3.3.3",
