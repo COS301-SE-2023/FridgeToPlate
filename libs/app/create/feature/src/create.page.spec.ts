@@ -7,7 +7,7 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
 import { NEVER, of } from "rxjs";
-import { CreateAPI } from '../../data-access/src/api/create.api';
+import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 
 describe('CreatePage', () => {
   let component: CreatePagComponent;
@@ -279,7 +279,7 @@ describe('toggleDietaryPlan', () => {
   it("Creates Recipe", () => {
 
 
-    const difficulty = "easy" as const;
+    const difficulty = "Easy" as const;
     // Mock data
     const expectData = { 
       recipeId : "123",
