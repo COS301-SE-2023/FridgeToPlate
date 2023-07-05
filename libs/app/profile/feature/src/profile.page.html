@@ -1,6 +1,6 @@
-<div class="bg-background-light h-full overflow-y-scroll">
-    <navigation-bar></navigation-bar>
-    <div class="relative lg:bg-blue-950 text-center">
+<div class="bg-background-light h-full overflow-y-scroll" *ngIf="profile$ | async as profile;">
+  <navigation-bar></navigation-bar>
+  <div class="relative lg:bg-blue-950 text-center">
         <div class="relative inline-block lg:bottom-3">
             <img
             src="https://source.unsplash.com/150x150/?portrait"
@@ -10,7 +10,7 @@
         </div>
 
         <div class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-16 lg:-right-5">
-            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.name }}</h2>
+            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.displayName }}</h2>
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
         <button (click)="openSettings()" class="absolute top-0.5 right-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="settings-outline"></ion-icon></button>
@@ -21,15 +21,15 @@
         <ul class="flex flex-wrap -mb-px">
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                [ngClass]="subpage === 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('saved')">
                     <ion-icon name="bookmark-outline"></ion-icon>
                     Saved
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
-                <a
-                [ngClass]="subpage == 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                <a 
+                [ngClass]="subpage === 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('meal plan')">
                     <ion-icon name="calendar-clear-outline"></ion-icon>
                     Meal Plan
@@ -37,7 +37,7 @@
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
-                [ngClass]="subpage == 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
+                [ngClass]="subpage === 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('created')">
                     <ion-icon name="create-outline"></ion-icon>
                     Created
@@ -45,7 +45,7 @@
             </li>
         </ul>
     </div>
-    <div *ngIf="subpage == 'saved'" class="mt-5 ml-4">
+    <div *ngIf="subpage === 'saved'" class="mt-5 ml-4">
         <button 
             id="sortDropdownButton" 
             data-dropdown-toggle="dropdown" 
@@ -58,7 +58,7 @@
            <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>
     </div>
-    <div *ngIf="subpage == 'meal plan'" class="mt-5 ml-4">
+    <div *ngIf="subpage === 'meal plan'" class="mt-5 ml-4">
         <!-- TO BE COMPLETED -->
     </div>
 </div>

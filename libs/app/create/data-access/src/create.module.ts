@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreateAPI } from './api/create.api';
+import { CreateAPI } from './create.api';
+import { NgxsModule } from '@ngxs/store';
+import { CreateState } from './create.state';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([CreateState])
+  ],
+  providers: [CreateAPI],
 })
-export class AppCreateDataAccessModule {}
+export class CreateDataAccessModule {}

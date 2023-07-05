@@ -126,7 +126,7 @@ export class CreatePagComponent {
         ingredients: ingredientsArray,
         instructions: instructions,
         rating: 0,
-        difficulty: 'easy',
+        difficulty: 'Easy',
         prepTime: this.recipeForm.get('preparationTime')?.value as number,
         numberOfServings: this.recipeForm.get('servings')?.value as number,
         tags: tags,
