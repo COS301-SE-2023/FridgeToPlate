@@ -15,5 +15,15 @@ public class Preference {
     private String preferenceId;
     
     @DynamoDBAttribute
-    private String name;
+    private String darkMode;
+
+    @DynamoDBAttribute
+    private boolean recommendNotif;
+
+    @DynamoDBAttribute
+    private boolean viewsNotif;
+
+    @DynamoDBAttribute
+    private boolean reviewsNotif;
+
 }

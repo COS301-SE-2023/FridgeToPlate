@@ -36,11 +36,7 @@ public class PreferenceRepository {
 
         if(preferenceData == null)
             return null;
-
-
-        if(preference.getName() != null) {
-            preferenceData.setName(preference.getName());
-        }
+            
 
         dynamoDBMapper.save(preferenceData,
                 new DynamoDBSaveExpression()

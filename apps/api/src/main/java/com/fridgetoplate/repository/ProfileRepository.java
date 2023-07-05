@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.fridgetoplate.model.Profile;
+import com.fridgetoplate.interfaces.Profile;
 
 @Repository
 public class ProfileRepository {
@@ -51,9 +51,7 @@ public class ProfileRepository {
             profileData.setPreferences(profile.getPreferences());
         }
 
-        if(profile.getCreatedRecipes() != null) {
-            profile.setCreatedRecipes(profile.getCreatedRecipes());
-        }
+    
 
         if(profile.getProfilePicture() != null) {
             profileData.setProfilePicture(profile.getProfilePicture());

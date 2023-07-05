@@ -2,7 +2,7 @@
  * This is a Java class that defines the REST API endpoints for managing ingredients in a recipe
  * application.
  */
-package com.fridgetoplate.api;
+package com.fridgetoplate.controller;
 
 import java.util.List;
 
