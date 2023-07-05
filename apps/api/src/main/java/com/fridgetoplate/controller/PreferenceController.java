@@ -1,4 +1,4 @@
-package com.fridgetoplate.api;
+package com.fridgetoplate.controller;
 
 import java.util.List;
 
