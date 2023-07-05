@@ -2,24 +2,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipePage } from './recipe.page';
 import { IonicModule } from '@ionic/angular';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeService } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 describe('RecipeDetailPageComponent', () => {
   let location: Location;
-  let recipeService: RecipeService;
   let component: RecipePage;
   let fixture: ComponentFixture<RecipePage>;
-  let testRecipe: IRecipe = {
+  const testRecipe: IRecipe = {
     recipeId: "test-id",
     name: "Test Recipe",
-    difficulty: "easy",
+    difficulty: "Easy",
     recipeImage: "url.com/image",
     ingredients: [],
     instructions: [],
@@ -35,6 +34,7 @@ describe('RecipeDetailPageComponent', () => {
 
     fixture = TestBed.createComponent(RecipePage);
     component = fixture.componentInstance;
+    component.recipe = testRecipe;
     fixture.detectChanges();
     location = TestBed.inject(Location);
   });
