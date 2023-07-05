@@ -32,6 +32,18 @@ export interface ProfileStateModel {
                 recommendNotifi: true,
                 reviewNotifi: false,
                 viewsNotifi: true,
+            },
+            mealPlan: {
+                breakfast: null,
+                lunch: null,
+                dinner: {
+                    name: "Recipe",
+                    recipeImage: "",
+                    ingredients: [],
+                    instructions: [],
+                    difficulty: "Easy",
+                },
+                snack: null,
             }
         }
     }

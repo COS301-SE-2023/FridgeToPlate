@@ -57,8 +57,8 @@ export class ProfilePage {
     this.store.dispatch(new Navigate(['/profile/notifications']));
   }
 
-  toggleSort() {
-    this.displaySort = this.displaySort === "none" ? "block" : "none";
+  openSort() {
+    this.displaySort = "block";
   }
 
   closeSort() {

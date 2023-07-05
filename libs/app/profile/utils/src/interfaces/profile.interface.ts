@@ -17,4 +17,10 @@ export interface IProfile {
         viewsNotifi: boolean;
         reviewNotifi: boolean;
     }
+    mealPlan: {
+        breakfast: IRecipe | null;
+        lunch: IRecipe | null;
+        dinner: IRecipe | null;
+        snack: IRecipe | null;
+    }
 }
