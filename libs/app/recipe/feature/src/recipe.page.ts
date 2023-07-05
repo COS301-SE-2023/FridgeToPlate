@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class RecipePage implements OnInit {
   recipe!: IRecipe;
+  errorMessage: string | undefined;
 
   constructor(
     private location: Location,
@@ -33,10 +34,18 @@ export class RecipePage implements OnInit {
   }
 
   setRecipe(id: string) {
+    if (!id || id.length == 0) {
+      this.errorMessage = 'Invalid recipe ID.';
+      return;
+    }
+
     this.recipeService.getRecipeById(id).subscribe(
       (response: IRecipe) => {
         this.recipe = response;
       },
+      error => {
+        this.errorMessage = 'Error retrieving recipe data.';
+      }
     );
   }
 }

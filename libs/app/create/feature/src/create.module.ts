@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CreateRouting } from './create.routing'
-import { CreatePage } from './create.page';
+import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
-import { AppCreateDataAccessModule } from '@fridge-to-plate/app/create/data-access';
 
 @NgModule({
   imports: [
@@ -15,8 +14,7 @@ import { AppCreateDataAccessModule } from '@fridge-to-plate/app/create/data-acce
     CreateRouting,
     IonicModule,
     NavigationBarModule,
-    // AppCreateDataAccessModule
   ],
-  declarations: [CreatePage],
+  declarations: [CreatePagComponent],
 })
 export class CreateModule {}

@@ -17,7 +17,7 @@ describe('RecipeDetailPageComponent', () => {
   let component: RecipePage;
   let fixture: ComponentFixture<RecipePage>;
   let testRecipe: IRecipe = {
-    id: "test-id",
+    recipeId: "test-id",
     name: "Test Recipe",
     difficulty: "easy",
     recipeImage: "url.com/image",
@@ -69,5 +69,35 @@ describe('RecipeDetailPageComponent', () => {
     expect(setRecipeSpy).toHaveBeenCalledWith('test-id');
   });
 
+  it('should retrieve recipe data correctly in setRecipe', () => {
+    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(of(testRecipe));
+
+    component.setRecipe('test-id');
+
+    expect(getRecipeByIdSpy).toHaveBeenCalledWith('test-id');
+    expect(component.recipe).toEqual(testRecipe);
+  });
+
+  it('should handle error when retrieving recipe data', () => {
+    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(throwError('Error'));
+
+    component.setRecipe('test-id');
+
+    expect(getRecipeByIdSpy).toHaveBeenCalledWith('test-id');
+    expect(component.recipe).toBeUndefined();
+    expect(component.errorMessage).toBe('Error retrieving recipe data.');
+  });
+
+it('should not retrieve recipe data with empty id', () => {
+  const recipeService: RecipeService = TestBed.inject(RecipeService);
+  const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
+
+  component.setRecipe('');
+
+  expect(getRecipeByIdSpy).not.toHaveBeenCalled();
+  expect(component.recipe).toBeUndefined();
+});
 
 });
