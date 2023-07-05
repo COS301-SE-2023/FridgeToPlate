@@ -3,6 +3,8 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Store } from '@ngxs/store';
+import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -13,7 +15,7 @@ export class CreatePagComponent {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
 
-  constructor(private fb: FormBuilder, private api: CreateAPI) {
+  constructor(private fb: FormBuilder, private api: CreateAPI, private store: Store) {
     this.createForm();
   }
 
@@ -132,14 +134,15 @@ export class CreatePagComponent {
         tags: tags,
       };
 
-      // Store the recipe to the database
-      this.api.createNewRecipe(recipe).subscribe((response) => {
-        if (!response) {
-          return response;
-        }
-        return response;
-      });
-      
+      // // Store the recipe to the database
+      // this.api.createNewRecipe(recipe).subscribe((response) => {
+      //   if (!response) {
+      //     return response;
+      //   }
+      //   return response;
+      // });
+      this.store.dispatch(new CreateRecipe(recipe));
+
     });
   }
 
