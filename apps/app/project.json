@@ -42,7 +42,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
@@ -106,6 +106,22 @@
       "executor": "@nrwl/web:file-server",
       "options": {
         "buildTarget": "app:build"
+      }
+    },
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/app/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "app:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "app:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "app:serve-static"
+        }
       }
     }
   }
