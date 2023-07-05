@@ -97,17 +97,43 @@ describe("ProfilePage", () => {
     expect(page.subpage).toEqual("ingredients");
   });
 
-  it("should change display to block", () => {
+  it("should change edit display to block", () => {
     page.openEditProfile();
 
     expect(page.displayEditProfile).toEqual("block");
   });
 
-  it("should change display to none", () => {
+  it("should change edit display to none", () => {
     page.openEditProfile();
     page.closeEditProfile();
 
     expect(page.displayEditProfile).toEqual("none");
+  });
+
+  it("should change setting display to block", () => {
+    page.openSettings();
+
+    expect(page.displaySettings).toEqual("block");
+  });
+
+  it("should change setting display to none", () => {
+    page.openSettings();
+    page.closeSettings();
+
+    expect(page.displaySettings).toEqual("none");
+  });
+
+  it("should change sort display to block", () => {
+    page.openSort();
+
+    expect(page.displaySort).toEqual("block");
+  });
+
+  it("should change sort display to none", () => {
+    page.openSort();
+    page.closeSort();
+
+    expect(page.displaySort).toEqual("none");
   });
 
   it("should save profile", () => {
