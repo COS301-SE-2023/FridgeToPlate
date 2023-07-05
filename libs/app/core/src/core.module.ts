@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
+import { ErrorDataAccessModule } from '@fridge-to-plate/app/error/data-access';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -36,6 +37,7 @@ import { NgxsModule } from '@ngxs/store';
       // disabled: ENVIRONMENT == 'production',
     }),
     NgxsModule.forRoot(),
+    ErrorDataAccessModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
