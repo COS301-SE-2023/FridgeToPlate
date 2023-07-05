@@ -347,7 +347,6 @@ describe('Testing Tags', () => {
       ]
     });
 
-
     component = TestBed.createComponent(CreatePagComponent).componentInstance;
     fb = TestBed.inject(FormBuilder);
     component.recipeForm = fb.group({
@@ -401,7 +400,6 @@ describe('Ingredients storing and return', () => {
     });
 
   it('Create Ingredients', () => { 
-
       // Mock data
       const expectData = { 
         ingredientId : "123",
@@ -437,7 +435,7 @@ describe('Ingredients storing and return', () => {
       apiService.createNewMultipleIngredients = jest.fn().mockResolvedValue(response);
     
       // Call the createIngredients method and wait for it to resolve
-      await apiService.createNewMultipleIngredients(ingredients);
+      apiService.createNewMultipleIngredients(ingredients);
     
       // Verify that the createNewMultipleIngredients method was called on the ApiService object with the correct arguments
       expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
@@ -469,27 +467,204 @@ describe('Ingredients storing and return', () => {
     expect(result).toEqual(response);
   });
   
-
-  it("should reject the promise if the response is falsy", async () => {
-    // Create a mock array of IIngredient objects
-    const ingredients: IIngredient[] = [
-      { name: "Ingredient 1" },
-      { name: "Ingredient 2" },
-    ];
-  
-    // Set up the mock response from the createNewMultipleIngredients method as falsy (empty array)
-    const response: IIngredient[] = [];
-    jest.spyOn(apiService, 'createNewMultipleIngredients').mockRejectedValue(response as never);
-  
-    // Call the createIngredients method and wait for it to reject
-    component.createIngredients(ingredients);
-
-    expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
-  });
-  
-  
   
   });
+
+
+
+  describe("Testing Recipe Creation", () => {
+    let component: CreatePagComponent;
+    let fb: FormBuilder;
+    let apiService: jest.Mocked<CreateAPI>
+    let fixture: ComponentFixture<CreatePagComponent>;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [ CreatePagComponent ],
+        providers: [FormBuilder],
+        imports: [
+          ReactiveFormsModule,
+          HttpClientModule,
+          NavigationBarModule
+        ]
+      });
+      fixture = TestBed.createComponent(CreatePagComponent);
+      component = fixture.componentInstance;
+      apiService = TestBed.inject(CreateAPI) as jest.Mocked<CreateAPI>;
+      fb = TestBed.inject(FormBuilder);
+      component.recipeForm = fb.group({
+        dietaryPlans: fb.array([]),
+      });
+    });
+
+    it('creates an array of IRecipeStep objects', () => {
+      // create a mock form array with some form controls
+      const formArray = new FormArray([
+        new FormControl('Step 1'),
+        new FormControl('Step 2'),
+        new FormControl('Step 3'),
+      ]);
+  
+      // create a mock form group with the form array
+      const formGroup = new FormGroup({
+        instructions: formArray,
+      });
+  
+      // create a new instance of the RecipeComponent
+  
+      // assign the mock form group to the component's recipeForm property
+      component.recipeForm = formGroup;
+  
+      // call the createInstructions method and check the result
+      ;
+  
+      const instructions: IRecipeStep[] = [];
+      for (let index = 0; index < component.instructionControls.length; index++) {
+        instructions.push({
+          instructionHeading: 'N/A',
+          instructionBody: component.instructionControls[index].value,
+        });
+      }
+
+    });
+  
+    it('creates an array of IIngredient objects', () => {
+      // create a mock form array with some form controls
+      const formArray = new FormArray([
+        new FormControl('Mango'),
+        new FormControl('Potato'),
+        new FormControl('Banana'),
+        new FormControl('Salad'),
+        new FormControl('Onion'),
+      ]);
+  
+        // create a new recipe form using the form array
+        const recipeForm = new FormGroup({
+          ingredients: formArray,
+        });
+  
+        component.recipeForm = recipeForm;
+  
+        const controls = component.ingredientControls;
+      
+      const ingredients : IIngredient[] = [];
+      for (let index = 0; index < controls.length; index++) {
+        ingredients.push({
+          name: controls[index].value,
+        });
+      }
+  
+      // assert that the instructions array was created correctly
+      expect(ingredients[0]).toEqual({ name: "Mango",});
+      expect(ingredients[1]).toEqual({ name: "Potato" })
+      expect(ingredients[2]).toEqual({ name: "Banana" })
+      expect(ingredients[3]).toEqual({ name: "Salad" })
+      expect(ingredients[4]).toEqual({ name: "Onion" })
+    
+    })
+
+    it("should reject the promise if the response is falsy", async () => {
+      // Create a mock array of IIngredient objects
+      const ingredients: IIngredient[] = [
+        { name: "Ingredient 1" },
+        { name: "Ingredient 2" },
+      ];
+    
+      // Set up the mock response from the createNewMultipleIngredients method as falsy (empty array)
+      let response!: IIngredient[];
+      jest.spyOn(apiService, 'createNewMultipleIngredients').mockReturnValue(of(response));
+    
+      // Call the createIngredients method
+      const result = component.createIngredients(ingredients);
+      expect(result).toBeTruthy();
+      // Await the promise rejection and verify the expected result
+      await expect(result).rejects.toEqual(response);
+    
+      // Verify that the createNewMultipleIngredients method was called with the correct arguments
+      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
+    });
+
+
+    it("should resolve the promise if the response is truthy", async () => {
+      // Create a mock array of IIngredient objects
+      const ingredients: IIngredient[] = [
+        { name: "Ingredient 1" },
+        { name: "Ingredient 2" },
+      ];
+
+      // Set up the mock response from the createNewMultipleIngredients method as truthy
+      const response: IIngredient[] = [
+        { ingredientId: "1", name: "Ingredient 1" },
+        { ingredientId: "2", name: "Ingredient 2" },
+      ];
+      jest.spyOn(apiService, 'createNewMultipleIngredients').mockReturnValue(of(response));
+
+      // Call the createIngredients method
+      const result = component.createIngredients(ingredients);
+      expect(result).toBeTruthy();
+      // Await the promise resolution and verify the expected result
+      await expect(result).resolves.toEqual(response);
+
+      // Verify that the createNewMultipleIngredients method was called with the correct arguments
+      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
+    });
+
+
+    it('should create the recipe', async () => {
+      const recipe: IRecipe = {
+        name: "Mock Recipe",
+        recipeImage: "https://example.com/image.jpg",
+        ingredients: [
+        ],
+        instructions: [
+          {
+            instructionHeading: "N/A",
+            instructionBody: "Mock instructions",
+          },
+        ],
+        rating: 0,
+        difficulty: "easy",
+        prepTime: 30,
+        numberOfServings: 4,
+        tags: ["mock", "recipe"],
+      };
+    
+      const response: IRecipe = {
+        recipeId: "1",
+        ...recipe, // Copy the properties from the recipe object
+      };
+    
+      jest.spyOn(component, "createIngredients").mockResolvedValue([]);
+      jest.spyOn(apiService, "createNewRecipe").mockReturnValue(of(response));
+    
+      component.imageUrl = recipe.recipeImage
+      // Mock the values and controls used in createRecipe
+      component.recipeForm = fb.group({
+        name: fb.control(recipe.name),
+        servings: fb.control(recipe.numberOfServings),
+        preparationTime: fb.control(recipe.prepTime),
+        ingredients: fb.array(recipe.ingredients.map(ingredient => fb.control(ingredient.name))),
+        instructions: fb.array(recipe.instructions.map(instruction => fb.control(instruction.instructionBody))),
+        dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
+      });
+      
+    
+      // Call the createRecipe method
+      component.createRecipe();
+    
+      // Wait for the promises to resolve
+      await fixture.whenStable();
+    
+      // Verify that the createNewRecipe method was called with the correct recipe argument
+      expect(apiService.createNewRecipe).toHaveBeenCalledWith(recipe);
+      // expect(apiService.createNewRecipe).toBeTruthy();
+    
+      // Verify that the createIngredients method was called
+      expect(component.createIngredients).toHaveBeenCalled();
+    });
+    
+
+  })
+
 
 
   
