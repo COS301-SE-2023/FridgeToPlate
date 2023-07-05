@@ -1,4 +1,4 @@
-import { appReviewFeature } from './app-review-feature';
+import { appReviewFeature } from './review';
 
 describe('appReviewFeature', () => {
   it('should work', () => {
