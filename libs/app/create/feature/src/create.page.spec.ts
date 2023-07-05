@@ -622,7 +622,7 @@ describe('Ingredients storing and return', () => {
           },
         ],
         rating: 0,
-        difficulty: "easy",
+        difficulty: "Easy",
         prepTime: 30,
         numberOfServings: 4,
         tags: ["mock", "recipe"],
