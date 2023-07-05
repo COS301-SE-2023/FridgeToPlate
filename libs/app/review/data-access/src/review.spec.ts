@@ -1,4 +1,4 @@
-import { appReviewDataAccess } from './app-review-data-access';
+import { appReviewDataAccess } from './review.api';
 
 describe('appReviewDataAccess', () => {
   it('should work', () => {

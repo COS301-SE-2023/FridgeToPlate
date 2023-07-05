@@ -1,1 +1,2 @@
-export * from './lib/app-review-feature';
+export * from './review.module';
+export * from './review';
