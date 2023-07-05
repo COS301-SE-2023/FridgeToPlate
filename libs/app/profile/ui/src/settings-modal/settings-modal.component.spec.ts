@@ -56,4 +56,16 @@ describe('EditModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('save should call save func', () => {
+    jest.spyOn(component.saveFunc, 'emit');
+    component.save()
+    expect(component.saveFunc.emit).toBeCalled();
+  }); 
+
+  it('save should call close func', () => {
+    jest.spyOn(component.closeFunc, 'emit');
+    component.save()
+    expect(component.closeFunc.emit).toBeCalled();
+  }); 
 });
