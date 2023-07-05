@@ -66,6 +66,9 @@
       "@fridge-to-plate/app/recommend/ui": [
         "libs/app/recommend/ui/src/index.ts"
       ],
+      "@fridge-to-plate/app/review/data-access": [
+        "libs/app/review/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/review/feature": [
         "libs/app/review/feature/src/index.ts"
       ],
