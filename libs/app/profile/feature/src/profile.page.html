@@ -48,7 +48,7 @@
     <!-- Saved Tab -->
     <div *ngIf="subpage === 'saved'" class="mt-5 ml-4 relative">
         <button 
-            (click)="toggleSort()"
+            (click)="openSort()"
             class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3 ml-1" 
             type="button">
             Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
@@ -57,7 +57,7 @@
            <recipe-card *ngFor="let recipe of profile.saved_recipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
         </div>        
         <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-44 top-10" appClickedOutside (clickedOutsideFunc)="closeSort()">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
               <li>
                 <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Difficulty</a>
               </li>
@@ -72,7 +72,24 @@
     </div>
     <!-- Meal Plan Tab -->
     <div *ngIf="subpage === 'meal plan'" class="mt-5 ml-4">
-        <!-- TO BE COMPLETED -->
+        <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
+            <div>
+                <h3 class="text-center mb-3 text-xl">Breakfast</h3>
+                <recipe-card *ngIf="profile.mealPlan.breakfast !== null" [recipe]="profile.mealPlan.breakfast" [bookmarked]="true" [profile]="profile"></recipe-card>
+            </div>
+            <div>
+                <h3 class="text-center mb-3 text-xl">Lunch</h3>
+                <recipe-card *ngIf="profile.mealPlan.lunch !== null" [recipe]="profile.mealPlan.lunch" [bookmarked]="true" [profile]="profile"></recipe-card>
+            </div>
+            <div>
+                <h3 class="text-center mb-3 text-xl">Dinner</h3>
+                <recipe-card *ngIf="profile.mealPlan.dinner !== null" [recipe]="profile.mealPlan.dinner" [bookmarked]="true" [profile]="profile"></recipe-card>
+            </div>
+            <div>
+                <h3 class="text-center mb-3 text-xl">Snack</h3>
+                <recipe-card *ngIf="profile.mealPlan.snack !== null" [recipe]="profile.mealPlan.snack" [bookmarked]="true" [profile]="profile"></recipe-card>
+            </div>
+        </div> 
     </div>
     <!-- Created Tab -->
     <div *ngIf="subpage === 'created'" class="mt-5 ml-4">
