@@ -19,8 +19,14 @@
         "libs/app/auth/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
+      "@fridge-to-plate/app/create/data-access": [
+        "libs/app/create/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/create/utils": [
+        "libs/app/create/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
@@ -65,10 +71,7 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
-      ],
-      "@fridge-to-plate/app/create/data-access": [
-        "libs/app/create/data-access/src/index.ts"
-      ],
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
