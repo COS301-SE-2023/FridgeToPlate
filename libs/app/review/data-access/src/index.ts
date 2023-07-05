@@ -1,1 +1,2 @@
-export * from './lib/app-review-data-access';
+export * from './review.api';
+export * from './review.module';
