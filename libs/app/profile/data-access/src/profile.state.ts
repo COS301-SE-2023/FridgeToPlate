@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { IProfile, UpdateProfile } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { ProfileAPI } from "./profile.api";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -24,6 +25,8 @@ export interface ProfileStateModel {
 
 @Injectable()
 export class ProfileState {
+
+    constructor(private api: ProfileAPI) {}
     
     @Selector()
     static getProfile(state: ProfileStateModel) {
@@ -34,6 +37,7 @@ export class ProfileState {
     updateProfile({ patchState } : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
         patchState({
             profile: profile
-        })
+        });
+        this.api.updateProfile(profile);
     }
 }
