@@ -9,7 +9,16 @@ export interface ProfileStateModel {
 @State<ProfileStateModel>({
     name: 'profile',
     defaults: {
-        profile: null
+        profile: {
+            profileId: "1",
+            displayName: "John Doe",
+            username: "jdoe",
+            email: "jdoe@gmail.com",
+            saved_recipes: [],
+            ingredients: [],
+            profilePic: "",
+            created_recipes: [],
+        }
     }
 })
 
