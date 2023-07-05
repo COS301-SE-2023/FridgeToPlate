@@ -1,4 +1,4 @@
-<div class="bg-background-light h-full overflow-y-scroll">
+<div class="bg-background-light h-full overflow-y-scroll" *ngIf="profile$ | async as profile;">
   <navigation-bar></navigation-bar>
   <div class="lg:bg-blue-950 text-center">
         <div class="relative inline-block lg:bottom-3">
@@ -10,7 +10,7 @@
         </div>
 
         <div class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-16 lg:-right-5">
-            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.name }}</h2>
+            <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.displayName }}</h2>
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
     </div>
@@ -58,7 +58,7 @@
     </div>
     <div *ngIf="subpage === 'ingredients'" class="mt-5 ml-4">
         <div class="mr-4 my-2 md:columns-2">
-            <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card>
+            <!-- <ingredient-card *ngFor="let ingredient of profile.ingredients" (removeEvent)="removeIngredient(ingredient)" [ingredient]="ingredient"></ingredient-card> -->
         </div>
     </div>
 </div>
