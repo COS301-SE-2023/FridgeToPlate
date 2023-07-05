@@ -24,7 +24,7 @@ export class ProfileAPI {
 
   private baseUrl = "http://localhost:5000/profiles";
 
-  editProfile(profile: IProfile) {
+  updateProfile(profile: IProfile) {
 
     const id = profile.profileId;
 
