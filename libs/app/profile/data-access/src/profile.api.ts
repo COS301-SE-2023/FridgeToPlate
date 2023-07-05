@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 export interface IResponse {
   status: number;
   message: string;
-  data: {};
+  data: object;
 }
 
 export interface ProfileRequest extends IResponse {
@@ -25,7 +24,7 @@ export class ProfileAPI {
 
   private baseUrl = "http://localhost:5000/profiles";
 
-  editProfile(profile: IProfile) {
+  updateProfile(profile: IProfile) {
 
     const id = profile.profileId;
 

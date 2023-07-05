@@ -1,17 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-card',
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss'],
 })
 export class RecipeCardComponent {
   @Input() recipe : any;
-  @Input() bookmarked : boolean = false;
+  @Input() bookmarked = false;
   @Input() profile : any;
-
-  constructor(private profileAPI: ProfileAPI) {}
 
   changeSaved() {
     this.bookmarked = !this.bookmarked;
