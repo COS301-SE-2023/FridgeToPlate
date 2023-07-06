@@ -87,46 +87,6 @@ public class RecipeModel extends Recipe {
 
     // The setters
 
-    @DynamoDBAttribute(attributeName = "description")
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @DynamoDBAttribute(attributeName = "recipe_image")
-    public void setRecipeImage(String recipeImage) {
-        this.recipeImage = recipeImage;
-    }
-
-    @DynamoDBAttribute(attributeName = "meal")
-    public void setMeal(String meal) {
-        this.meal = meal;
-    }
-
-    @DynamoDBAttribute(attributeName = "prep_time")
-    public void setPrepTime(Integer prepTime) {
-        this.prepTime = prepTime;
-    }
-
-    @DynamoDBAttribute(attributeName = "number_of_servings")
-    public void setNumberOfServings(Integer numberOfServings) {
-        this.numberOfServings = numberOfServings;
-    }
-
-    @DynamoDBAttribute(attributeName = "ingredients")
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    @DynamoDBAttribute(attributeName = "instructions")
-    public void setInstructions(List<String> instructions) {
-        this.instructions = instructions;
-    }
-
-    @DynamoDBAttribute(attributeName = "creator")
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     @DynamoDBAttribute(attributeName = "views")
     public void setViews(Integer views) {
         this.views = views;
