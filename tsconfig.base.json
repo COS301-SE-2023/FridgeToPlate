@@ -47,6 +47,9 @@
       "@fridge-to-plate/app/preference/data-access": [
         "libs/app/preference/data-access/src/index.ts"
       ],
+      "@fridge-to-plate/app/preference/utils": [
+        "libs/app/preference/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/profile/data-access": [
         "libs/app/profile/data-access/src/index.ts"
       ],
