@@ -42,7 +42,7 @@
       </div>
       <div>
         <p class="text-xs font-semibold">Ingredients</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length}}</p>
+        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '4'}}</p>
       </div>
       <div>
         <p class="text-xs font-semibold">Servings</p>
@@ -76,5 +76,6 @@
         </ion-item>
       </ion-list>
     </div>
+
   </div>
 </div>
