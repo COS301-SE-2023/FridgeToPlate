@@ -5,6 +5,8 @@ on:
     branches: [ feat/*, hotfix/* ]
   pull_request:
     branches: [ dev, feat/*, hotfix/* ]
+  merge_group:
+    types: [ checks_requested ]
   workflow_call:
 
 permissions:
