@@ -25,6 +25,13 @@
       "@fridge-to-plate/app/create/feature": [
         "libs/app/create/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/create/utils": [
+        "libs/app/create/utils/src/index.ts"
+      ],
+      "@fridge-to-plate/app/error/data-access": [
+        "libs/app/error/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],

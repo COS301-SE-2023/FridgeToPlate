@@ -8,7 +8,7 @@ export interface IRecipe {
   ingredients: IIngredient[];
   instructions: IRecipeStep[];
   rating?: number;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: 'Easy' | 'Medium' | 'Hard';
   prepTime?: number;
   numberOfServings?: number;
   tags?: string[];
