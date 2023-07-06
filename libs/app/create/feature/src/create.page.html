@@ -2,11 +2,14 @@
   
   <navigation-bar></navigation-bar>
   <div class="flex lg:hidden justify-center m-auto">
-    <img
-      src="https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg?"
-      class="max-h-96 rounded-2xl mb-10 aspect-square cursor-pointer"
-      alt="Recipe Image"
+    <img (click)="fileInput.click()"
+    [src]="imageUrl"
+    class="max-h-96 rounded-2xl mb-10 aspect-square cursor-pointer"
+    alt="Recipe Image"
     />
+
+  <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+
   </div>
 
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center lg:my-auto sm:mx-auto lg:mx-0 overflow-y-visible">
@@ -143,10 +146,12 @@
   </form>
 
   <div class="relative hidden lg:block my-auto pl-20">
-    <img
-      src="https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg?"
-      class="w-4/5 h-auto aspect-square rounded-2xl cursor-pointer"
-      alt="Recipe Image"
+    <img (click)="fileInput.click()"
+    [src]="imageUrl"
+    class="max-h-96 rounded-2xl mb-10 aspect-square cursor-pointer"
+    alt="Recipe Image"
     />
+
+  <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
   </div>
 </div>
