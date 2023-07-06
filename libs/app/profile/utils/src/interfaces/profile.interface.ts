@@ -1,5 +1,6 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IPreference } from '@fridge-to-plate/app/preference/utils';
 
 export interface IProfile {
     profileId: string;
@@ -8,15 +9,9 @@ export interface IProfile {
     profilePic: string;
     email: string;
     ingredients: IIngredient[];
-    // preferences: IPreference[];
+    preferences: IPreference[];
     saved_recipes: IRecipe[];
     created_recipes: IRecipe[];
-    preferences: {
-        darkMode: boolean;
-        recommendNotifi: boolean;
-        viewsNotifi: boolean;
-        reviewNotifi: boolean;
-    }
     mealPlan: {
         breakfast: IRecipe | null;
         lunch: IRecipe | null;

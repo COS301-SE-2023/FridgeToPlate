@@ -1,1 +1,1 @@
-export * from './lib/app-preference-utils.module';
+export * from './interfaces';
