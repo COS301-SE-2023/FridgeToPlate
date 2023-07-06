@@ -1,2 +1,2 @@
 export * from './profile.module';
-export * from './profile.api';
+export * from './profile.state';
