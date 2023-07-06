@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.interfaces.Profile;
+import com.fridgetoplate.model.ProfileModel;
 
 @Repository
 public class ProfileRepository {
@@ -16,17 +17,17 @@ public class ProfileRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public Profile save(Profile profile){
+    public ProfileModel save(ProfileModel profile){
         dynamoDBMapper.save(profile);
         return profile;
     }
 
-    public Profile findById(String id){
-       return dynamoDBMapper.load(Profile.class, id);
+    public ProfileModel findById(String id){
+       return dynamoDBMapper.load(ProfileModel.class, id);
     }
 
-    public List<Profile> findAll(){
-        return dynamoDBMapper.scan(Profile.class, new DynamoDBScanExpression());
+    public List<ProfileModel> findAll(){
+        return dynamoDBMapper.scan(ProfileModel.class, new DynamoDBScanExpression());
     }
 
     public Profile update(String id, Profile profile){
@@ -43,31 +44,31 @@ public class ProfileRepository {
 
 
         //Set the new details of the user profile
-        if(profile.getIngredients() != null) {
-            profileData.setIngredients(profile.getIngredients());
-        }
+        // if(profile.getIngredients() != null) {
+        //     profileData.setIngredients(profile.getIngredients());
+        // }
 
-        if(profile.getPreferences() != null) {
-            profileData.setPreferences(profile.getPreferences());
-        }
+        // if(profile.getPreferences() != null) {
+        //     profileData.setPreferences(profile.getPreferences());
+        // }
 
     
 
-        if(profile.getProfilePicture() != null) {
-            profileData.setProfilePicture(profile.getProfilePicture());
-        }
+        // if(profile.getProfilePicture() != null) {
+        //     profileData.setProfilePicture(profile.getProfilePicture());
+        // }
 
-        if(profile.getUsername() != null) {
-            profileData.setUsername(profile.getUsername());
-        }
+        // if(profile.getUsername() != null) {
+        //     profileData.setUsername(profile.getUsername());
+        // }
 
-        if(profile.getEmail() != null) {
-            profileData.setEmail(profile.getEmail());
-        }
+        // if(profile.getEmail() != null) {
+        //     profileData.setEmail(profile.getEmail());
+        // }
 
-        if(profile.getDisplayName() != null) {
-            profileData.setDisplayName(profile.getDisplayName());
-        }
+        // if(profile.getDisplayName() != null) {
+        //     profileData.setDisplayName(profile.getDisplayName());
+        // }
         
         dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()

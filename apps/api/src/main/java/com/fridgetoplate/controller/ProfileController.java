@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.interfaces.Profile;
+import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ProfileRepository;
 
 @RestController
@@ -17,18 +18,18 @@ public class ProfileController {
     private ProfileRepository profileRepository;
 
     @PostMapping("/create")
-    public Profile save(@RequestBody Profile recipe) {
-        return profileRepository.save(recipe);
+    public ProfileModel save(@RequestBody ProfileModel profile) {
+        return profileRepository.save(profile);
     }
 
 
     @GetMapping("/{id}")
-    public Profile findById(@PathVariable(value = "id") String id) {
+    public ProfileModel findById(@PathVariable(value = "id") String id) {
         return profileRepository.findById(id);
     }
 
     @GetMapping
-    public List<Profile> findAll() {
+    public List<ProfileModel> findAll() {
         return profileRepository.findAll();
     }
 
