@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
 
 @RestController
@@ -17,7 +18,7 @@ public class RecommendController {
     private RecipeRepository recipeRepository;
 
     @GetMapping
-    public List<Recipe> findAll() {
+    public List<RecipeModel> findAll() {
         return recipeRepository.findAll();
     }
 }
