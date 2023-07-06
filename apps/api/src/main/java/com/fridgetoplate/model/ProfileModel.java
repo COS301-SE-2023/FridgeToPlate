@@ -57,5 +57,13 @@ public class ProfileModel extends Profile {
     public List<String> getSavedRecipes() {
         return savedRecipes;
     }
+
+
+    // setters
+    @DynamoDBAttribute(attributeName = "savedRecipes")
+    public void setSavedRecipes(List<String> savedRecipes) {
+        this.savedRecipes = savedRecipes;
+    }
+
     
 }

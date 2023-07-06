@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.model.RecipeModel;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,22 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public Recipe save(Recipe recipe){
+    public RecipeModel save(RecipeModel recipe){
         dynamoDBMapper.save(recipe);
         return recipe;
     }
 
-    public Recipe findById(String id){
-       return dynamoDBMapper.load(Recipe.class, id);
+    public RecipeModel findById(String id){
+       return dynamoDBMapper.load(RecipeModel.class, id);
     }
 
-    public List<Recipe> findAll(){
-        return dynamoDBMapper.scan(Recipe.class, new DynamoDBScanExpression());
+    public List<RecipeModel> findAll(){
+        return dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
     }
 
-    public Recipe update(String id, Recipe recipe){
+    public RecipeModel update(String id, RecipeModel recipe){
 
-        Recipe recipeData =  dynamoDBMapper.load(Recipe.class, id);
+        RecipeModel recipeData =  dynamoDBMapper.load(RecipeModel.class, id);
 
         
 
