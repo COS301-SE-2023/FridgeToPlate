@@ -44,6 +44,9 @@
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/notifications/data-access": [
+        "libs/app/notifications/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/notifications/feature": [
         "libs/app/notifications/feature/src/index.ts"
       ],
