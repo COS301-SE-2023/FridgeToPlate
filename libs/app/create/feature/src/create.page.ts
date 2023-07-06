@@ -11,7 +11,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 })
 export class CreatePagComponent {
   recipeForm!: FormGroup;
-  imageUrl = 'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
+  imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
 
   constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
@@ -159,5 +159,19 @@ export class CreatePagComponent {
     return recipe;
   }
 
+
+  // Do not forget to test
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onFileChanged(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    reader.onload = (e: any) => {
+      this.imageUrl = e.target.result;
+    };
+    
+    reader.readAsDataURL(file);
+  }
 
 }
