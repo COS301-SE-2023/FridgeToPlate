@@ -1,36 +1,24 @@
 package com.fridgetoplate.interfaces;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
-import com.fridgetoplate.utils.StringArrayConverter;
-
-
-
+import java.util.List;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.utils.IngredientArrayConverter;
 
 public class Recipe extends RecipeDesc {
 
-    @DynamoDBAttribute
-    private String recipeImage;
+    protected String description;
 
-    @DynamoDBAttribute
-    private Integer prepTime;
+    protected String recipeImage;
 
-    @DynamoDBAttribute
-    private Integer numberOfServings;
+    protected String meal;
 
-    @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = IngredientArrayConverter.class)
-    private Ingredient[] ingredients;
-    
-    @DynamoDBAttribute
-    @DynamoDBTypeConverted(converter = StringArrayConverter.class)
-    private String[] instructions;
+    protected Integer prepTime;
 
-    @DynamoDBAttribute
-    private String creator;
+    protected Integer numberOfServings;
 
+    protected List<Ingredient> ingredients;
 
+    protected List<String> instructions;
+
+    protected String creator;
 
 }
