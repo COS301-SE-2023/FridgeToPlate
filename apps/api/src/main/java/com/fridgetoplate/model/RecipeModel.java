@@ -20,7 +20,7 @@ public class RecipeModel extends Recipe {
         return recipeId;
     }
 
-    @DynamoDBAttribute(attributeName = "recipeImage")
+    @DynamoDBAttribute(attributeName = "recipe_Image")
     public String getRecipeImage() {
         return recipeImage;
     }
@@ -41,7 +41,6 @@ public class RecipeModel extends Recipe {
     }
 
     @DynamoDBAttribute(attributeName = "description")
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
     public String getDescription() {
         return description;
     }
@@ -58,12 +57,12 @@ public class RecipeModel extends Recipe {
         return instructions;
     }
 
-    @DynamoDBAttribute(attributeName = "prepTime")
+    @DynamoDBAttribute(attributeName = "prep_time")
     public Integer getPrepTime() {
         return prepTime;
     }
 
-    @DynamoDBAttribute(attributeName = "numberOfServings")
+    @DynamoDBAttribute(attributeName = "number_of_Servings")
     public Integer getNumberOfServings() {
         return numberOfServings;
     }
