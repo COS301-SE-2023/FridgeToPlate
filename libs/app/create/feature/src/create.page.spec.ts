@@ -151,23 +151,6 @@ describe('CreatePagComponent', () => {
   }
   );
 
-  it('should add a new dietary plan to the form', () => {
-    const initialLength = createPage.dietaryPlans.length;
-    createPage.toggleDietaryPlan('Vegan');
-    const newLength = createPage.dietaryPlans.length;
-    expect(newLength).toBe(initialLength + 1);
-  }
-  );
-
-  it('should remove a dietary plan from the form', () => {
-    const initialLength = createPage.dietaryPlans.length;
-    createPage.toggleDietaryPlan('Vegan');
-    createPage.toggleDietaryPlan('Vegan');
-    const newLength = createPage.dietaryPlans.length;
-    expect(newLength).toBe(initialLength);
-  }
-  );
-
 });
 
 describe('toggleDietaryPlan', () => {

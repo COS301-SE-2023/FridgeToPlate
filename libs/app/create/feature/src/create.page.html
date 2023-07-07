@@ -1,4 +1,5 @@
 <div class="lg:flex justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-md">
+
   
   <navigation-bar></navigation-bar>
   <div class="flex lg:hidden justify-center m-auto">
@@ -36,6 +37,48 @@
         required
       ></textarea>
     </div>
+
+    <div>
+      <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
+      <div class="flex justify-between overflow-auto">
+        <button
+          type="button"
+          [ngClass]="getMealPlan('breakfast')"
+          value="Breakfast"
+          (click)="toggleMeal('breakfast')"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        BreakFast
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('lunch')"
+          (click)="toggleMeal('lunch')"
+          value="Lunch"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Lunch
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('dinner')"
+          (click)="toggleMeal('dinner')"
+          value="Dinner"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Dinner
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('snack')"
+          (click)="toggleMeal('snack')"
+          value="Snack"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+          Snack
+        </button>
+      </div>
+    </div>
   
     <div>
       <div class="flex justify-between">
@@ -43,20 +86,52 @@
         <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
       <div formArrayName="ingredients">
-        <div *ngFor="let ingredientControl of ingredientControls; let i = index" class="mb-2">
+        <div *ngFor="let ingredientControl of ingredientControls; let i = index" class=" flex mb-2">
           <div class="flex items-center">
             <input
               type="text"
-              placeholder="Add Ingredient"
+              placeholder="Ingredient"
               id="ingredient-{{i}}"
-              [formControlName]="i"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              required>
-            <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
+        
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
+              required
+            >
           </div>
+
+          <div>
+            <input
+              type="number"
+              placeholder="Amount"
+              id="amount-{{i}}"
+              [formControlName]="getAmountControlName(i)"
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
+              required
+            >
+          </div>
+
+          <div>
+            <input
+            type="text"
+            placeholder="Unit"
+            id="unit-{{i}}"
+            [formControlName]="getUnitControlName(i)"
+            class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
+            required
+          >
+          </div>
+
+          <div>
+            <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+
+
         </div>
       </div>
+
     </div>
+      
   
     <div>
       <div class="flex justify-between">
@@ -101,45 +176,39 @@
         required
       >
     </div>
-  
+
     <div>
-      <label class="block text-gray-700 font-bold mb-2">Dietary Plans</label>
-      <div class="flex justify-between overflow-auto">
-        <button
-          type="button"
-          [ngClass]="getDietaryPlanButtonClasses('vegetarian')"
-          (click)="toggleDietaryPlan('vegetarian')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
-          Vegetarian
-        </button>
-        <button
-          type="button"
-          [ngClass]="getDietaryPlanButtonClasses('vegan')"
-          (click)="toggleDietaryPlan('vegan')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
-          Vegan
-        </button>
-        <button
-          type="button"
-          [ngClass]="getDietaryPlanButtonClasses('ketogenic')"
-          (click)="toggleDietaryPlan('ketogenic')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
-          Ketogenic
-        </button>
-        <button
-          type="button"
-          [ngClass]="getDietaryPlanButtonClasses('paleo')"
-          (click)="toggleDietaryPlan('paleo')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
-          Paleo
-        </button>
+      <label for="tag" class="block text-gray-700 font-bold mb-2">Tag<span class="text-red-500">*</span></label>
+
+      <div class="flex justify-between"> 
+        <div class="flex">
+          <input
+            id="tag"
+            type="text"
+            placeholder="e.g. Asia, Vegan"
+            formControlName="tag"
+            class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
+            required
+          >
+        </div>
+        <div>
+          <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">
+            Add Tag
+          </button>
+        </div>
       </div>
+      <div class="py-2">
+        <ul class="flex">
+          <li *ngFor="let tag of tags; let i = index"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          (click)="deleteTag(i)">
+          {{ tag }}
+        </li>
+        </ul>
+      </div>
+      
     </div>
-  
+   
     <div class="flex justify-center">
       <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full mx-5">Create Recipe</button>
     </div>

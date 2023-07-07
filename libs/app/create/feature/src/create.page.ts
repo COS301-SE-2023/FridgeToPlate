@@ -12,6 +12,8 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 export class CreatePagComponent {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
+  selectedMeal!: string;
+  tags: string[] = [];
 
   constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
@@ -22,22 +24,25 @@ export class CreatePagComponent {
       name: ['', Validators.required],
       description: ['', Validators.required],
       servings: ['', Validators.required],
+      meal: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
-      dietaryPlans: this.fb.array([]),
+      tag: ['', Validators.required]
     });
   }
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
-  get dietaryPlans() {
-    return (this.recipeForm.get('dietaryPlans') as FormArray).controls;
-  }
-
   addIngredient() {
-    this.ingredientControls.push(this.fb.control(''));
+    const ingredientGroup = this.fb.group({
+      ingredient: ['', Validators.required],
+      amount: ['', Validators.required],
+      unit: ['', Validators.required]
+    });
+
+    (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
   }
 
   get instructionControls() {
@@ -55,6 +60,16 @@ export class CreatePagComponent {
   removeInstruction(index: number) : void{
     this.instructionControls.splice(index, 1);
   }
+
+  getAmountControlName(index: number) {
+    return `amount-${index}`;
+  }
+
+  getUnitControlName(index: number) {
+    return `unit-${index}`;
+  }
+
+
 
   toggleDietaryPlan(plan: string): void {
     const dietaryPlans = this.recipeForm.get('dietaryPlans') as FormArray;
@@ -80,19 +95,16 @@ export class CreatePagComponent {
     return dietaryPlans.includes(plan);
   }
 
+
+
   createRecipe() : void {
+
+    this.displayIngredientValues()
+    alert(this.imageUrl)
     // Ingredients array
     const ingredients: IIngredient[] = [];
     
-    let tags = new Array(this.dietaryPlans.length);
-    this.ingredientControls.forEach((element) => {
-      if (element.value !== null) {
-        
-         ingredients.push({
-          name: element.value
-        });
-      }
-    });
+
 
     // Instructions array
     const instructions: IRecipeStep[] = [];
@@ -104,15 +116,6 @@ export class CreatePagComponent {
         });
       }
     });
-
-    // Dietary plans array
-    this.dietaryPlans.forEach((element) => {
-      if (element.value !== null) {
-        tags.push(element.value);
-      }
-    });
-
-    tags = tags.filter((value) => value !== null);
 
     // We store the ingredients and return ingredients
     const createdIngredients = this.createIngredients(ingredients);
@@ -130,7 +133,7 @@ export class CreatePagComponent {
         difficulty: 'Easy',
         prepTime: this.recipeForm.get('preparationTime')?.value as number,
         numberOfServings: this.recipeForm.get('servings')?.value as number,
-        tags: tags,
+        tags: [],
       };
 
       // Store the recipe to the database
@@ -145,6 +148,8 @@ export class CreatePagComponent {
   }
 
   createIngredients(ingredients: IIngredient[]) : Promise<IIngredient[]> {
+
+    
     const recipe = new Promise<IIngredient[]>((resolve, reject) => {
       this.api
         .createNewMultipleIngredients(ingredients)
@@ -160,7 +165,7 @@ export class CreatePagComponent {
   }
 
 
-  // Do not forget to test
+  // TODO: Do not forget to test
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
@@ -172,6 +177,54 @@ export class CreatePagComponent {
     };
     
     reader.readAsDataURL(file);
+  }
+
+
+
+  // Test
+  toggleMeal(option: string) {
+    this.selectedMeal = option;
+  }
+
+
+  // Unit test
+  getMealPlan(option: string) {
+    return {
+      'bg-primary': this.selectedMeal === option,
+      'bg-gray-200': this.selectedMeal !== option,
+      'text-gray-700': true,
+      'py-2': true,
+      'px-4': true,
+      'rounded-md': true,
+      'mr-2': true
+    };
+  }
+
+  // Test
+  addTag() {
+    const tagValue = this.recipeForm.get('tag')?.value;
+    if (tagValue) {
+      
+      this.tags.push(tagValue);
+    }
+  }
+
+  deleteTag(index: number) {
+    this.tags.splice(index, 1);
+  }
+
+  displayIngredientValues(): void {
+    for (let i = 0; i < this.ingredientControls.length; i++) {
+      alert(this.ingredientControls.length)
+      const ingredientGroup = this.ingredientControls[i] as FormGroup;
+      const ingredientValue = ingredientGroup.get('ingredient')?.value;
+      const amountValue = ingredientGroup.get('amount')?.value;
+      const unitValue = ingredientGroup.get('unit')?.value;
+      
+      console.log(`Ingredient ${i + 1}: ${ingredientValue}`);
+      console.log(`Amount ${i + 1}: ${amountValue}`);
+      console.log(`Unit ${i + 1}: ${unitValue}`);
+    }
   }
 
 }
