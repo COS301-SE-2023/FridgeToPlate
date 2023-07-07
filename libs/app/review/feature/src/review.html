@@ -1,0 +1,18 @@
+<ion-list class="bg-background-lights h-full">
+    <ion-list-header>
+      <ion-label class="text-lg font-bold">Review</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Rate this recipe:</ion-label>
+      <ion-icon name="star" [ngClass]="{ 'star-filled': rating >= 1 }" (click)="setRating(1)"></ion-icon>
+      <ion-icon name="star" [ngClass]="{ 'star-filled': rating >= 2 }" (click)="setRating(2)"></ion-icon>
+      <ion-icon name="star" [ngClass]="{ 'star-filled': rating >= 3 }" (click)="setRating(3)"></ion-icon>
+      <ion-icon name="star" [ngClass]="{ 'star-filled': rating >= 4 }" (click)="setRating(4)"></ion-icon>
+      <ion-icon name="star" [ngClass]="{ 'star-filled': rating == 5 }" (click)="setRating(5)"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label>Description:</ion-label>
+      <ion-textarea [(ngModel)]="description"></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" class="review-button" (click)="submitReview()" color="rgb(202, 64, 5)">Submit Review</ion-button>
+  </ion-list>
