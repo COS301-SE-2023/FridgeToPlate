@@ -15,9 +15,11 @@ import { CognitoUserSession } from "amazon-cognito-identity-js";
     }
     
     isUserLoggedIn(){
-        const credentials = localStorage.getItem('cognitoUserObject');
-        if(credentials === undefined)
-            return false;
+        //const credentials = localStorage.getItem('userCognitoObject');
+
+        //TODO: Uncomment for prod.
+        // if(!credentials)
+        //     return false;
         return true;
     }
 
