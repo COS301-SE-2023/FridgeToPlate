@@ -22,5 +22,5 @@ export interface IProfile {
         lunch: IRecipe | null;
         dinner: IRecipe | null;
         snack: IRecipe | null;
-    }
+    } | null;
 }
