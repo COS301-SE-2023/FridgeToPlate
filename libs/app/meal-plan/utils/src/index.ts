@@ -1,1 +1,1 @@
-export * from './lib/app-meal-plan-utils.module';
+export * from './interfaces';
