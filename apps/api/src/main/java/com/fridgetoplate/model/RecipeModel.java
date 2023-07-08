@@ -19,7 +19,7 @@ public class RecipeModel extends Recipe {
         return recipeId;
     }
 
-    @DynamoDBAttribute(attributeName = "recipe_Image")
+    @DynamoDBAttribute(attributeName = "recipe_image")
     public String getRecipeImage() {
         return recipeImage;
     }
@@ -85,7 +85,6 @@ public class RecipeModel extends Recipe {
 
     // The setters
 
-    @DynamoDBAttribute(attributeName = "views")
     public void setViews(Integer views) {
         this.views = views;
     }

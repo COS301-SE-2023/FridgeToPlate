@@ -20,6 +20,7 @@ public class MealPlanController {
 
     @PostMapping("/create")
     public MealPlanModel save(@RequestBody MealPlanModel mealPlan) {
+    
         return mealPlanRepository.save(mealPlan);
     }
 
