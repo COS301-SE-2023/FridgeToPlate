@@ -13,8 +13,6 @@ export class RouteGuardService implements CanActivate {
     ) { }
 
   canActivate(){
-    console.log("Logged in? ", this.authService.isUserLoggedIn());
-
     if(this.authService.isUserLoggedIn()){
       return true;
     }
