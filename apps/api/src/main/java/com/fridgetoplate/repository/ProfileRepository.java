@@ -178,7 +178,6 @@ public class ProfileRepository {
             }
         }
 
-
         return savedRecipes;
     }
 
@@ -191,7 +190,6 @@ public class ProfileRepository {
         for (RecipeModel recipe : scanResult) {
         
             if(username.equals(recipe.getCreator())){
-                System.out.println("Hello, there");
                 createdRecipes.add(recipe);
             }
         }
