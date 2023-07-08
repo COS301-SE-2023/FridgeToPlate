@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.interfaces.Profile;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ProfileRepository;
+import com.fridgetoplate.response.ProfileResponse;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -24,7 +25,7 @@ public class ProfileController {
 
 
     @GetMapping("/{id}")
-    public ProfileModel findById(@PathVariable(value = "id") String id) {
+    public ProfileResponse findById(@PathVariable(value = "id") String id) {
         return profileRepository.findById(id);
     }
 
