@@ -1,21 +1,17 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { IPreference } from '@fridge-to-plate/app/preference/utils';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 
 export interface IProfile {
-    profileId: string;
-    displayName: string;
+    profileId?: string;
     username: string;
-    profilePic: string;
     email: string;
+    displayName: string;
+    profilePic: string;
     ingredients: IIngredient[];
+    currMealPlan: IMealPlan[] | null;
     preferences: IPreference[];
-    saved_recipes: IRecipe[];
-    created_recipes: IRecipe[];
-    mealPlan: {
-        breakfast: IRecipe | null;
-        lunch: IRecipe | null;
-        dinner: IRecipe | null;
-        snack: IRecipe | null;
-    }
+    savedRecipes: IRecipeDesc[];
+    createdRecipes: IRecipeDesc[];
 }
