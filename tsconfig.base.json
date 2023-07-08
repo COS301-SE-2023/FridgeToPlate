@@ -41,6 +41,9 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/meal-plan/utils": [
+        "libs/app/meal-plan/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
       ],
