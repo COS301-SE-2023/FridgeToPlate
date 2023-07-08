@@ -13,6 +13,10 @@ import { CognitoUserSession } from "amazon-cognito-identity-js";
             'refresh_token': cognitoObject.getRefreshToken()
           }));
     }
+
+    logoutUser(){
+      localStorage.clear();
+  }
     
     isUserLoggedIn(){
         //const credentials = localStorage.getItem('userCognitoObject');
