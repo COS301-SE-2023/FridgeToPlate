@@ -31,19 +31,23 @@ export class CreatePagComponent {
       tag: ['', Validators.required]
     });
   }
+
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
   addIngredient() {
-    const ingredientGroup = this.fb.group({
-      ingredient: ['', Validators.required],
-      amount: ['', Validators.required],
-      unit: ['', Validators.required]
-    });
-
-    (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
+    this.ingredientControls.push(this.getIngredientControl())
   }
+
+  private getIngredientControl(){
+      return this.fb.group({
+        ingredient: ['', Validators.required],
+        amount: ['', Validators.required],
+        unit: ['', Validators.required]
+      });
+  }
+  
 
   get instructionControls() {
     return (this.recipeForm.get('instructions') as FormArray).controls;
@@ -61,51 +65,12 @@ export class CreatePagComponent {
     this.instructionControls.splice(index, 1);
   }
 
-  getAmountControlName(index: number) {
-    return `amount-${index}`;
-  }
-
-  getUnitControlName(index: number) {
-    return `unit-${index}`;
-  }
-
-
-
-  toggleDietaryPlan(plan: string): void {
-    const dietaryPlans = this.recipeForm.get('dietaryPlans') as FormArray;
-
-    if (dietaryPlans != null && this.isDietaryPlanSelected(plan)) {
-      // Remove the dietary plan if it's already selected
-      dietaryPlans.removeAt(dietaryPlans.value.indexOf(plan));
-    } else {
-      // Add the dietary plan if it's not selected
-      dietaryPlans.push(this.fb.control(plan));
-    }
-  }
-
-  getDietaryPlanButtonClasses(plan: string): string {
-    return this.isDietaryPlanSelected(plan)
-      ? 'bg-gray-600 text-white'
-      : 'bg-gray-300 text-gray-700';
-  }
-
-  isDietaryPlanSelected(plan: string): boolean {
-    const dietaryPlans = this.recipeForm.get('dietaryPlans')?.value;
-
-    return dietaryPlans.includes(plan);
-  }
-
-
-
   createRecipe() : void {
 
-    this.displayIngredientValues()
     alert(this.imageUrl)
     // Ingredients array
     const ingredients: IIngredient[] = [];
     
-
-
     // Instructions array
     const instructions: IRecipeStep[] = [];
     this.instructionControls.forEach((element) => {
@@ -115,6 +80,7 @@ export class CreatePagComponent {
           instructionBody: element.value,
         });
       }
+      
     });
 
     // We store the ingredients and return ingredients
@@ -149,7 +115,6 @@ export class CreatePagComponent {
 
   createIngredients(ingredients: IIngredient[]) : Promise<IIngredient[]> {
 
-    
     const recipe = new Promise<IIngredient[]>((resolve, reject) => {
       this.api
         .createNewMultipleIngredients(ingredients)
@@ -164,7 +129,6 @@ export class CreatePagComponent {
     return recipe;
   }
 
-
   // TODO: Do not forget to test
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
@@ -178,7 +142,6 @@ export class CreatePagComponent {
     
     reader.readAsDataURL(file);
   }
-
 
 
   // Test
@@ -211,20 +174,6 @@ export class CreatePagComponent {
 
   deleteTag(index: number) {
     this.tags.splice(index, 1);
-  }
-
-  displayIngredientValues(): void {
-    for (let i = 0; i < this.ingredientControls.length; i++) {
-      alert(this.ingredientControls.length)
-      const ingredientGroup = this.ingredientControls[i] as FormGroup;
-      const ingredientValue = ingredientGroup.get('ingredient')?.value;
-      const amountValue = ingredientGroup.get('amount')?.value;
-      const unitValue = ingredientGroup.get('unit')?.value;
-      
-      console.log(`Ingredient ${i + 1}: ${ingredientValue}`);
-      console.log(`Amount ${i + 1}: ${amountValue}`);
-      console.log(`Unit ${i + 1}: ${unitValue}`);
-    }
   }
 
 }

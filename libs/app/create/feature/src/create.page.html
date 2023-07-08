@@ -38,9 +38,9 @@
       ></textarea>
     </div>
 
-    <div>
+    <div >
       <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
-      <div class="flex justify-between overflow-auto">
+      <div class="flex justify-between mb-2">
         <button
           type="button"
           [ngClass]="getMealPlan('breakfast')"
@@ -87,37 +87,15 @@
       </div>
       <div formArrayName="ingredients">
         <div *ngFor="let ingredientControl of ingredientControls; let i = index" class=" flex mb-2">
-          <div class="flex items-center">
+          <div class="w-3/5">
             <input
               type="text"
               placeholder="Ingredient"
               id="ingredient-{{i}}"
-        
+              [formControlName]="i"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
               required
             >
-          </div>
-
-          <div>
-            <input
-              type="number"
-              placeholder="Amount"
-              id="amount-{{i}}"
-              [formControlName]="getAmountControlName(i)"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
-              required
-            >
-          </div>
-
-          <div>
-            <input
-            type="text"
-            placeholder="Unit"
-            id="unit-{{i}}"
-            [formControlName]="getUnitControlName(i)"
-            class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
-            required
-          >
           </div>
 
           <div>
