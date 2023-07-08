@@ -32,6 +32,12 @@ export class Review {
       return;
     }
 
+    if (this.description === '') {
+      alert('Please add a description before submitting your review!');
+      return;
+    }
+
+
     const review = {
       rating: this.rating,
       description: this.description
