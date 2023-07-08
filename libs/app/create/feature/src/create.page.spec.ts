@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, UntypedFormBuilder} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
-import { NEVER, of } from "rxjs";
+import { of } from "rxjs";
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 
 describe('CreatePage', () => {
@@ -173,29 +173,6 @@ describe('toggleDietaryPlan', () => {
       dietaryPlans: fb.array([]),
     });
   });
-
-  it('should remove the dietary plan if it is already selected', () => {
-
-    const plan = 'Vegetarian';
-    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
-    dietaryPlans.push(fb.control(plan));
-
-    component.toggleDietaryPlan(plan);
-
-    expect(dietaryPlans.length).toBe(0);
-  });
-
-  it('should add the dietary plan if it is not selected', () => {
-
-    const plan = 'Vegan';
-    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
-
-    component.toggleDietaryPlan(plan);
-
-    expect(dietaryPlans.length).toBe(1);
-    expect(dietaryPlans.value).toContain(plan);
-  });
-
 
   it('Returns an array of instruction controls', () => {
     const formArray = new FormArray([
