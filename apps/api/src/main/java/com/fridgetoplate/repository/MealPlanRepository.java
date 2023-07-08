@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.fridgetoplate.model.MealPlan;
+import com.fridgetoplate.model.MealPlanModel;
 
 @Repository
 public class MealPlanRepository {
@@ -15,12 +15,12 @@ public class MealPlanRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public MealPlan save(MealPlan mealPlan) {
+    public MealPlanModel save(MealPlanModel mealPlan) {
         dynamoDBMapper.save(mealPlan);
         return mealPlan;
     }
 
-    public List<MealPlan> findAll() {
-        return dynamoDBMapper.scan(MealPlan.class, new DynamoDBScanExpression());
+    public List<MealPlanModel> findAll() {
+        return dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
     }
 }

@@ -9,7 +9,11 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.interfaces.Profile;
+import com.fridgetoplate.interfaces.RecipeDesc;
+import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
+import com.fridgetoplate.model.RecipeModel;
+import com.fridgetoplate.response.ProfileResponse;
 
 @Repository
 public class ProfileRepository {
@@ -22,8 +26,23 @@ public class ProfileRepository {
         return profile;
     }
 
-    public ProfileModel findById(String id){
-       return dynamoDBMapper.load(ProfileModel.class, id);
+    public ProfileResponse findById(String id){
+        
+
+        
+        // Find the model
+        ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, id);
+
+        // Find Meal
+        MealPlanModel mealPlanModel = dynamoDBMapper.load(MealPlanModel.class, profileModel.getUsername());
+        
+        
+
+        // Find Saved Recipes
+        RecipeDesc recipe = dynamoDBMapper.load(RecipeModel.class, id);
+
+
+       return null;
     }
 
     public List<ProfileModel> findAll(){
@@ -41,34 +60,6 @@ public class ProfileRepository {
         //Return null if user profile does not exist
         if(profileData == null)
             return null;
-
-
-        //Set the new details of the user profile
-        // if(profile.getIngredients() != null) {
-        //     profileData.setIngredients(profile.getIngredients());
-        // }
-
-        // if(profile.getPreferences() != null) {
-        //     profileData.setPreferences(profile.getPreferences());
-        // }
-
-    
-
-        // if(profile.getProfilePicture() != null) {
-        //     profileData.setProfilePicture(profile.getProfilePicture());
-        // }
-
-        // if(profile.getUsername() != null) {
-        //     profileData.setUsername(profile.getUsername());
-        // }
-
-        // if(profile.getEmail() != null) {
-        //     profileData.setEmail(profile.getEmail());
-        // }
-
-        // if(profile.getDisplayName() != null) {
-        //     profileData.setDisplayName(profile.getDisplayName());
-        // }
         
         dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()

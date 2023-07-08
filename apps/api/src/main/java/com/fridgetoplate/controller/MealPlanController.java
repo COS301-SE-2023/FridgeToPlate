@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fridgetoplate.model.MealPlan;
+import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.repository.MealPlanRepository;
 
 @RestController
@@ -20,12 +19,13 @@ public class MealPlanController {
     private MealPlanRepository mealPlanRepository;
 
     @PostMapping("/create")
-    public MealPlan save(@RequestBody MealPlan mealPlan) {
+    public MealPlanModel save(@RequestBody MealPlanModel mealPlan) {
         return mealPlanRepository.save(mealPlan);
     }
 
     @GetMapping
-    public List<MealPlan> findAll() {
+    public List<MealPlanModel> findAll() {
         return mealPlanRepository.findAll();
     }
+
 }

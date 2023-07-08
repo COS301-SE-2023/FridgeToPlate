@@ -8,6 +8,8 @@ public class RecipeDesc {
 
     protected String recipeId;
 
+     protected String recipeImage;
+
     protected String name;
 
     protected List<String> tags;

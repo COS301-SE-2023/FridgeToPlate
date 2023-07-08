@@ -7,7 +7,6 @@ public class Recipe extends RecipeDesc {
 
     protected String description;
 
-    protected String recipeImage;
 
     protected String meal;
 
@@ -25,11 +24,7 @@ public class Recipe extends RecipeDesc {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public void setRecipeImage(String recipeImage) {
-        this.recipeImage = recipeImage;
-    }
-
+    
     public void setMeal(String meal) {
         this.meal = meal;
     }
