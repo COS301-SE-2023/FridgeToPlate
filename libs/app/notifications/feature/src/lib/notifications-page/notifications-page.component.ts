@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./notifications-page.component.css']
 })
 export class NotificationsPageComponent {
-
+  tabs = [{ category: 'General', count: 8}, { category: 'Recommendations', count: 4}];
 }
