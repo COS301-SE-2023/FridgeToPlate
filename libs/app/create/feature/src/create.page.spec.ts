@@ -126,14 +126,6 @@ describe('CreatePagComponent', () => {
     expect(stepsArray?.value).toEqual([]);
   });
 
-  // it('should create an empty array for the dietaryPlans field', () => {
-  //   createPage.createForm();
-
-  //   const dietaryPlansArray = createPage.recipeForm.get('dietaryPlans');
-
-  //   expect(dietaryPlansArray?.value).toEqual([]);
-  // });
-
 
   it('should add a new ingredient control to the form', () => {
     const initialLength = createPage.ingredientControls.length;
@@ -155,14 +147,6 @@ describe('CreatePagComponent', () => {
   }
   );
 
-  // it('should add a new instruction control to the form', () => {
-  //   const initialLength = createPage.instructionControls.length;
-  //   createPage.addInstruction();
-  //   const newLength = createPage.instructionControls.length;
-  //   expect(newLength).toBe(initialLength + 1);
-  // }
-  // );
-
 
   it('should remove an instruction control from the form', () => {
 
@@ -178,23 +162,6 @@ describe('CreatePagComponent', () => {
     }
   }
   );
-
-  // it('should add a new dietary plan to the form', () => {
-  //   const initialLength = createPage.dietaryPlans.length;
-  //   createPage.toggleDietaryPlan('Vegan');
-  //   const newLength = createPage.dietaryPlans.length;
-  //   expect(newLength).toBe(initialLength + 1);
-  // }
-  // );
-
-  // it('should remove a dietary plan from the form', () => {
-  //   const initialLength = createPage.dietaryPlans.length;
-  //   createPage.toggleDietaryPlan('Vegan');
-  //   createPage.toggleDietaryPlan('Vegan');
-  //   const newLength = createPage.dietaryPlans.length;
-  //   expect(newLength).toBe(initialLength);
-  // }
-  // );
 
 });
 
