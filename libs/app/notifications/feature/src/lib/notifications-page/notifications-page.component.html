@@ -1,33 +1,35 @@
-<nz-list></nz-list>
-
 <div class="h-full w-full">
     <div class="h-1/5 w-full flex flex-row items-center">
         <h2 class="text-2xl font-bold ml-8">Notifications</h2>
     </div>
-    <div class="h-4/5 w-full overflow-y-scrol">
-        <div class="w-full h-28  flex flex-row border border-b border-gray-200">
-            <div class="w-1/4 flex flex-row justify-center items-center px-2 py-2">
-                <img
-                class="rounded-full"
-                src="https://fastly.picsum.photos/id/1065/400/400.jpg?hmac=i8a10Lm7A3-pOzpzwlT8pbKg5EfcpuzRoqvFg93OqmE"
-                />
-            </div>
-            <div class="w-3/4 flex flex-col justify-center ml-3"> 
-                <div class="w-full h-1/2 pt-5 font-bold"> Ryan T. </div>
-                <div class="w-full h-1/2 font-semibold text-gray-600"> Looks good! </div>
-            </div>
-        </div>
-        <div class="w-full h-28  flex flex-row border border-b border-gray-200">
-            <div class="w-1/4 flex flex-row justify-center items-center px-2 py-2">
-                <img
-                class="rounded-full"
-                src="https://fastly.picsum.photos/id/1065/400/400.jpg?hmac=i8a10Lm7A3-pOzpzwlT8pbKg5EfcpuzRoqvFg93OqmE"
-                />
-            </div>
-            <div class="w-3/4 flex flex-col justify-center ml-3"> 
-                <div class="w-full h-1/2 pt-5 font-bold"> Ryan T. </div>
-                <div class="w-full h-1/2 font-semibold text-gray-600"> Looks good! </div>
-            </div>
-        </div>
-    </div>
+    <div class="card-container">
+        <nz-tabset nzType="card">
+          <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.category + '  \t  ' + tab.count">
+              <div class="w-full h-28  flex flex-row border border-b border-gray-200">
+                  <div class="w-1/4 flex flex-row justify-center items-center px-2 py-2">
+                      <img
+                      class="rounded-full"
+                      src="https://fastly.picsum.photos/id/1065/400/400.jpg?hmac=i8a10Lm7A3-pOzpzwlT8pbKg5EfcpuzRoqvFg93OqmE"
+                      />
+                  </div>
+                  <div class="w-3/4 flex flex-col justify-center ml-3"> 
+                      <div class="w-full h-1/2 pt-5 font-bold"> Ryan T. </div>
+                      <div class="w-full h-1/2 font-semibold text-gray-600"> Looks good! </div>
+                  </div>
+              </div>
+              <div class="w-full h-28  flex flex-row border border-b border-gray-200">
+                  <div class="w-1/4 flex flex-row justify-center items-center px-2 py-2">
+                      <img
+                      class="rounded-full"
+                      src="https://fastly.picsum.photos/id/1065/400/400.jpg?hmac=i8a10Lm7A3-pOzpzwlT8pbKg5EfcpuzRoqvFg93OqmE"
+                      />
+                  </div>
+                  <div class="w-3/4 flex flex-col justify-center ml-3"> 
+                      <div class="w-full h-1/2 pt-5 font-bold"> Ryan T. </div>
+                      <div class="w-full h-1/2 font-semibold text-gray-600"> Looks good! </div>
+                  </div>
+              </div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
 </div>
