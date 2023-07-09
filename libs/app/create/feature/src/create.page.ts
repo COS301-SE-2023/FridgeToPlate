@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
-import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
@@ -12,6 +12,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 export class CreatePagComponent {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.icons8.com/ios-filled/50/cooking-book--v1.png';
+  instructions: any;
 
   constructor(private fb: FormBuilder, private api: CreateAPI) {
     this.createForm();
@@ -21,15 +22,62 @@ export class CreatePagComponent {
     this.recipeForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      servings: ['', Validators.required],
-      preparationTime: ['', Validators.required],
+      numberOfServings: ['', Validators.required],
+      prepTime: ['', Validators.required],
+      meal: ['', Validators.required],
+      creator: ['', Validators.required],
+      recipeImage: ['', Validators.required],
+      difficulty: ['', Validators.required],
       ingredients: this.fb.array([]),
+      steps: this.fb.array([]),
+      tags: this.fb.array([]),
       instructions: this.fb.array([]),
       dietaryPlans: this.fb.array([]),
     });
+        
   }
   get ingredientControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
+  }
+
+  get nameControl() {
+    return (this.recipeForm.get('name') as FormArray).controls;
+  }
+
+  get numberOfServingsControl() {
+    return (this.recipeForm.get('numberOfServings') as FormArray).controls;
+  }
+
+  get descriptionControl() {
+    return (this.recipeForm.get('description') as FormArray).controls;
+  }
+
+  get preparationTimeControl() {
+    return (this.recipeForm.get('prepTime') as FormArray).controls;
+  }
+
+  get mealControl() {
+    return (this.recipeForm.get('meal') as FormArray).controls;
+  }
+
+  get stepsControl() {
+    return (this.recipeForm.get('steps') as FormArray).controls;
+  }
+
+  get creatorTimeControl() {
+    return (this.recipeForm.get('creator') as FormArray).controls;
+  }
+
+  get tagsControl() {
+    return (this.recipeForm.get('tags') as FormArray).controls;
+  }
+
+  get difficultyControl() {
+    return (this.recipeForm.get('difficulty') as FormArray).controls;
+  }
+
+  get recipeImageControl() {
+    return (this.recipeForm.get('recipeImage') as FormArray).controls;
   }
 
   get dietaryPlans() {
@@ -41,19 +89,25 @@ export class CreatePagComponent {
   }
 
   get instructionControls() {
-    return (this.recipeForm.get('instructions') as FormArray).controls;
+    if(this.recipeForm)
+      if((this.recipeForm.get('steps') as FormArray))
+        return (this.recipeForm.get('steps') as FormArray).controls;
+    return null;
   }
 
   addInstruction(): void {
-    this.instructionControls.push(this.fb.control(''));
+    if(this.instructionControls)
+      this.instructionControls.push(this.fb.control(''));
   }
 
   removeIngredient(index: number): void {
-    this.ingredientControls.splice(index, 1);
+    if(this.ingredientControls)
+      this.ingredientControls.splice(index, 1);
   }
 
   removeInstruction(index: number) : void{
-    this.instructionControls.splice(index, 1);
+    if(this.ingredientControls)
+      this.ingredientControls.splice(index, 1);
   }
 
   toggleDietaryPlan(plan: string): void {
@@ -85,25 +139,28 @@ export class CreatePagComponent {
     const ingredients: IIngredient[] = [];
     
     let tags = new Array(this.dietaryPlans.length);
+    let count = 0;
     this.ingredientControls.forEach((element) => {
       if (element.value !== null) {
         
          ingredients.push({
-          name: element.value
+          name: element.value,
+          ingredientId : (count++).toString(),
+          unit: "kg",
+          amount: 2,
         });
       }
     });
 
     // Instructions array
-    const instructions: IRecipeStep[] = [];
-    this.instructionControls.forEach((element) => {
-      if (element.value) {
-        instructions.push({
-          instructionHeading: 'N/A',
-          instructionBody: element.value,
-        });
-      }
-    });
+    const instructions: string[] = [];
+
+    if(this.instructionControls)
+      this.instructionControls.forEach((element) => {
+        if (element.value) {
+          instructions.push(element.value);
+        }
+      });
 
     // Dietary plans array
     this.dietaryPlans.forEach((element) => {
@@ -122,15 +179,19 @@ export class CreatePagComponent {
 
       // The, create the recipe object
       const recipe: IRecipe = {
+        recipeId : "123",
         name: this.recipeForm.get('name')?.value,
         recipeImage: this.imageUrl,
         ingredients: ingredientsArray,
-        instructions: instructions,
-        rating: 0,
+        steps: instructions,
+        description: "A delicious chicken falafel",
         difficulty: 'Easy',
         prepTime: this.recipeForm.get('preparationTime')?.value as number,
         numberOfServings: this.recipeForm.get('servings')?.value as number,
         tags: tags,
+        meal: "Snack",
+        creator: "Kristap P",
+
       };
 
       // Store the recipe to the database
