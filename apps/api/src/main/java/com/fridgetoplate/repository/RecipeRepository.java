@@ -93,8 +93,20 @@ public class RecipeRepository {
        return recipeResponse;
     }
 
-    public List<RecipeModel> findAll(){
-        return dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+    public List<RecipeResponse> findAll(){
+        List<RecipeResponse> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+            
+            RecipeResponse response = findById(recipe.getRecipeId());
+                if(response != null) {
+                    recipes.add(response);
+                }
+        }
+
+        return recipes;
     }
 
     public RecipeModel update(String id, RecipeModel recipe){
@@ -131,6 +143,25 @@ public class RecipeRepository {
         }
 
         return reviews;
+    }
+
+    public List<RecipeResponse> getRecipesByUsername(String username) {
+        List<RecipeResponse> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+            
+            if (recipe.getCreator().equals(username)) {
+                RecipeResponse response = findById(recipe.getRecipeId());
+                if(response != null) {
+                    recipes.add(response);
+                }
+
+            }
+        }
+
+        return recipes;
     }
 
     

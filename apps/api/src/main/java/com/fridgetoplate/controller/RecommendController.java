@@ -3,8 +3,8 @@ package com.fridgetoplate.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.response.RecipeResponse;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
@@ -16,7 +16,7 @@ public class RecommendController {
     private RecipeRepository recipeRepository;
 
     @GetMapping
-    public List<RecipeModel> findAll() {
+    public List<RecipeResponse> findAll() {
         return recipeRepository.findAll();
     }
 }

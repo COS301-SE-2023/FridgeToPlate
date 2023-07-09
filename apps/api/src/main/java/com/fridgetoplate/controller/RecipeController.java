@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.response.RecipeResponse;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -27,8 +28,13 @@ public class RecipeController {
         return recipeRepository.findById(id);
     }
 
+    @GetMapping("/creator/{username}")
+    public List<RecipeResponse> findRecipesByUsername(@PathVariable(value = "username") String username){
+        return recipeRepository.getRecipesByUsername(username);
+    }
+
     @GetMapping
-    public List<RecipeModel> findAll(){
+    public List<RecipeResponse> findAll(){
         return recipeRepository.findAll();
     }
 
