@@ -7,7 +7,7 @@ ion-icon[name="star"].star-filled {
 }
 
 .review-button {
-  background-color: rgb(202, 64, 5)
+  background-color: rgb(202, 64, 5);
 }
 
 .custom-card {
@@ -19,3 +19,23 @@ ion-icon[name="star"].star-filled {
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
 }
+
+$scrollbar-width: 10px;
+$scrollbar-thumb-color: rgb(202, 64, 5);
+$scrollbar-track-color: #E5E7EB;
+
+/* Increase scrollbar width */
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
+
+/* Style scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: $scrollbar-thumb-color;
+  border-radius: 9999px;
+}
+
+// /* Style scrollbar track */
+// ::-webkit-scrollbar-track {
+//   background-color: $scrollbar-track-color;
+// }
