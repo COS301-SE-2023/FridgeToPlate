@@ -8,29 +8,29 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.fridgetoplate.model.Preference;
+import com.fridgetoplate.model.Preferences;
 
 @Repository
-public class PreferenceRepository {
+public class PreferencesRepository {
      @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public Preference save(Preference preference){
-        dynamoDBMapper.save(preference);
-        return preference;
+    public Preferences save(Preferences preferences){
+        dynamoDBMapper.save(preferences);
+        return preferences;
     }
 
-    public Preference findById(String id){
-       return dynamoDBMapper.load(Preference.class, id);
+    public Preferences findById(String id){
+       return dynamoDBMapper.load(Preferences.class, id);
     }
 
-    public List<Preference> findAll(){
-        return dynamoDBMapper.scan(Preference.class, new DynamoDBScanExpression());
+    public List<Preferences> findAll(){
+        return dynamoDBMapper.scan(Preferences.class, new DynamoDBScanExpression());
     }
 
-    public Preference update(String id, Preference preference){
+    public Preferences update(String id, Preferences preference){
 
-        Preference preferenceData =  dynamoDBMapper.load(Preference.class, id);
+        Preferences preferenceData =  dynamoDBMapper.load(Preferences.class, id);
 
         System.out.println(preferenceData);
 
@@ -47,9 +47,9 @@ public class PreferenceRepository {
         return preferenceData;
     }
 
-    public String delete(String id){
-       Preference preference = dynamoDBMapper.load(Preference.class, id);
-        dynamoDBMapper.delete(preference);
-        return "Profile deleted successfully:: " + id;
+    public String delete(String username){
+       Preferences preferences = dynamoDBMapper.load(Preferences.class, username);
+        dynamoDBMapper.delete(preferences);
+        return "Profile deleted successfully:: " + username;
     }
 }

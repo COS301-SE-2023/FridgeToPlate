@@ -12,11 +12,11 @@ public class Recipe extends RecipeDesc {
 
     protected Integer prepTime;
 
-    protected Integer numberOfServings;
+    protected Integer servings;
 
     protected List<Ingredient> ingredients;
 
-    protected List<String> instructions;
+    protected List<String> steps;
 
     protected String creator;
 
@@ -33,16 +33,16 @@ public class Recipe extends RecipeDesc {
         this.prepTime = prepTime;
     }
 
-    public void setNumberOfServings(Integer numberOfServings) {
-        this.numberOfServings = numberOfServings;
+    public void setServings(Integer servings) {
+        this.servings = servings;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setInstructions(List<String> instructions) {
-        this.instructions = instructions;
+    public void setSteps(List<String> steps) {
+        this.steps = steps;
     }
 
     public void setCreator(String creator) {

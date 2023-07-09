@@ -37,9 +37,9 @@ public class IngredientController {
         return ingredientRepository.saveAll(ingredients);
     }
 
-    @GetMapping("/{id}")
-    public Ingredient findById(@PathVariable(value = "id") String id){
-        return ingredientRepository.findById(id);
+    @GetMapping("/{name}")
+    public Ingredient findByName(@PathVariable(value = "name") String name){
+        return ingredientRepository.findByName(name);
     }
 
     @GetMapping

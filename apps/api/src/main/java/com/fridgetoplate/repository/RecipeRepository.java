@@ -29,10 +29,7 @@ public class RecipeRepository {
 
     public RecipeResponse findById(String id){
 
-        
-
         /*
-         * 
          * Getting the Recipe Response
          */
 
@@ -57,10 +54,9 @@ public class RecipeRepository {
         String description = recipeModel.getDescription();
         List<Ingredient> ingredients = recipeModel.getIngredients();
         Integer prepTime = recipeModel.getPrepTime();
-        List<String> instructions = recipeModel.getInstructions();
+        List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
-        Integer servings = recipeModel.getNumberOfServings();
-        Integer views = recipeModel.getViews();
+        Integer servings = recipeModel.getServings();
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -72,10 +68,9 @@ public class RecipeRepository {
         recipeResponse.setDescription(description);
         recipeResponse.setIngredients(ingredients);
         recipeResponse.setPrepTime(prepTime);
-        recipeResponse.setInstructions(instructions);
+        recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
-        recipeResponse.setNumberOfServings(servings);
-        recipeResponse.setViews(views);
+        recipeResponse.setServings(servings);
 
 
         /*

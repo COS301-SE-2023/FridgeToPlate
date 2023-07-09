@@ -14,30 +14,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fridgetoplate.model.Preference;
-import com.fridgetoplate.repository.PreferenceRepository;
+import com.fridgetoplate.model.Preferences;
+import com.fridgetoplate.repository.PreferencesRepository;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/preferences")
-public class PreferenceController {
+public class PreferencesController {
     @Autowired
-    private PreferenceRepository preferenceRepository;
+    private PreferencesRepository preferencesRepository;
 
     @PostMapping("/create")
-    public Preference save(@RequestBody Preference preference){
-        return preferenceRepository.save(preference);
+    public Preferences save(@RequestBody Preferences preferences){
+        return preferencesRepository.save(preferences);
     }
 
 
     @GetMapping("/{id}")
-    public Preference findById(@PathVariable(value = "id") String id){
-        return preferenceRepository.findById(id);
+    public Preferences findById(@PathVariable(value = "id") String id){
+        return preferencesRepository.findById(id);
     }
 
     @GetMapping
-    public List<Preference> findAll(){
-        return preferenceRepository.findAll();
+    public List<Preferences> findAll(){
+        return preferencesRepository.findAll();
     }
 
     @GetMapping("/testing")
@@ -46,13 +46,13 @@ public class PreferenceController {
     }
 
     @PutMapping("/{id}")
-    public Preference update(@PathVariable(value = "id") String id, @RequestBody Preference preference){
-        return preferenceRepository.update(id, preference);
+    public Preferences update(@PathVariable(value = "id") String id, @RequestBody Preferences preferences){
+        return preferencesRepository.update(id, preferences);
     }
 
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable(value = "id") String id){
-        return preferenceRepository.delete(id);
+        return preferencesRepository.delete(id);
     }
 }

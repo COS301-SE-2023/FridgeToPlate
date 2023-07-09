@@ -17,8 +17,6 @@ public class MealPlanResponse extends MealPlan{
 
     private RecipeDesc snack;
 
-    private RecipeDesc dessert;
-
     // getters
 
     @DynamoDBAttribute(attributeName = "username")
@@ -55,12 +53,6 @@ public class MealPlanResponse extends MealPlan{
         return snack;
     }
 
-    @DynamoDBAttribute(attributeName = "dessert")
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
-    public RecipeDesc getDessert() {
-        return dessert;
-    }
-
     // Setters
     public void setBreakfast(RecipeDesc breakfast) {
         this.breakfast = breakfast;
@@ -76,10 +68,6 @@ public class MealPlanResponse extends MealPlan{
 
     public void setSnack(RecipeDesc snack) {
         this.snack = snack;
-    }
-
-    public void setDessert(RecipeDesc dessert) {
-        this.dessert = dessert;
     }
 
 }
