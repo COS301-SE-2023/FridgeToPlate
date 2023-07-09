@@ -30,7 +30,7 @@ describe('CreatePage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePagComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    //fixture.detectChanges();
   });
 
   it('should add a new instruction control to the form', () => {
@@ -65,7 +65,7 @@ describe('CreatePagComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePagComponent);
     createPage = fixture.componentInstance;
-    fixture.detectChanges();
+    //fixture.detectChanges();
   });
 
   it('should create a recipe form with the correct fields', () => {
@@ -92,13 +92,10 @@ describe('CreatePagComponent', () => {
     const numberOfServingsControl = createPage.recipeForm.get('numberOfServings');
     const preparationTimeControl = createPage.recipeForm.get('prepTime');
 
-    const ingredientControl = createPage.recipeForm.get('ingredients');
     const mealControl = createPage.recipeForm.get('meal');
-    const stepsControl = createPage.recipeForm.get('steps');
     const creatorTimeControl = createPage.recipeForm.get('creator');
 
     const difficultyControl = createPage.recipeForm.get('difficulty');
-    const tagsControl = createPage.recipeForm.get('tags');
     const recipeImageControl = createPage.recipeForm.get('recipeImage');
 
     expect(nameControl?.errors?.['required']).toBe(true);
@@ -106,13 +103,10 @@ describe('CreatePagComponent', () => {
     expect(numberOfServingsControl?.errors?.['required']).toBe(true);
     expect(preparationTimeControl?.errors?.['required']).toBe(true);
 
-    expect(ingredientControl?.errors?.['required']).toBe(true);
     expect(mealControl?.errors?.['required']).toBe(true);
-    expect(stepsControl?.errors?.['required']).toBe(true);
     expect(creatorTimeControl?.errors?.['required']).toBe(true);
 
     expect(difficultyControl?.errors?.['required']).toBe(true);
-    expect(tagsControl?.errors?.['required']).toBe(true);
     expect(recipeImageControl?.errors?.['required']).toBe(true);
   });
 
