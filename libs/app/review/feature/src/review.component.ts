@@ -43,7 +43,7 @@ export class Review {
       description: this.description
     };
 
-    this.reviews.push(review);
+    this.reviews.unshift(review);
 
     // send the review data to a server or store it locally
     console.log(this.reviews);
