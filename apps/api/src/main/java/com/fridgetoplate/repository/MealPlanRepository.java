@@ -23,4 +23,8 @@ public class MealPlanRepository {
     public List<MealPlanModel> findAll() {
         return dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
     }
+
+    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper){
+        this.dynamoDBMapper = dynamoDBMapper;
+    }
 }
