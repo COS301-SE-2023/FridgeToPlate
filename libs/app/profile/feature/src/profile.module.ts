@@ -8,7 +8,8 @@ import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
-
+import { AppNotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
+import { NzListModule } from 'ng-zorro-antd/list';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +19,9 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
     IngredientUIModule,
     ProfileUiModule,
     NavigationBarModule,
-    ProfileDataAccessModule
+    ProfileDataAccessModule,
+    AppNotificationsFeatureModule,
+    NzListModule
   ],
   declarations: [ProfilePage],
 })
