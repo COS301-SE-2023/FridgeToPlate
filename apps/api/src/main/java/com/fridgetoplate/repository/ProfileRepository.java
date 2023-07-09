@@ -17,8 +17,10 @@ import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.model.RecipeModel;
+import com.fridgetoplate.model.Review;
 import com.fridgetoplate.response.MealPlanResponse;
 import com.fridgetoplate.response.ProfileResponse;
+import com.fridgetoplate.response.RecipeResponse;
 
 @Repository
 public class ProfileRepository {
@@ -31,8 +33,7 @@ public class ProfileRepository {
         return profile;
     }
 
-    public ProfileResponse findById(String id){
-
+    public ProfileResponse findByName(String username) {
 
         /*
          * Getting the Profile Response
@@ -42,7 +43,7 @@ public class ProfileRepository {
          ProfileResponse profileResponse = new ProfileResponse();
 
              // Find the Profile model
-        ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, id);
+        ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, username);
 
         if(profileModel == null) {
             return null;
@@ -52,19 +53,19 @@ public class ProfileRepository {
         String displayName = profileModel.getDisplayName();
         String email = profileModel.getEmail();
         List<Ingredient> ingredients = profileModel.getIngredients();
-        String username = profileModel.getUsername();
         List<String> savedRecipeIds = profileModel.getSavedRecipes();
         List<RecipeDesc> savedRecipes = this.getSavedRecipes(savedRecipeIds);
         List<RecipeDesc> createdRecipes = this.getCreatedRecipes(username);
+        String profilePicture = profileModel.getProfilePicture();
 
         // Creating profile response
-        profileResponse.setProfileId(id);
         profileResponse.setUsername(username);
         profileResponse.setDisplayName(displayName);
         profileResponse.setEmail(email);
         profileResponse.setIngredients(ingredients);
         profileResponse.setSavedRecipes(savedRecipes);
         profileResponse.setCreatedRecipes(createdRecipes);
+        profileResponse.setProfilePicture(profilePicture);
 
          /*
           * Getting the MealPan response
@@ -90,33 +91,26 @@ public class ProfileRepository {
             String breakfastId = mealPlanModel.getBreakfastId();
 
             // Now, the recipe object
-            RecipeDesc breaKfastDesc = dynamoDBMapper.load(RecipeModel.class, breakfastId);
+            RecipeDesc breaKfastDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, breakfastId));
 
             // Get recipe id for lunch
             String lunchId = mealPlanModel.getLunchId();
 
             // Now, the recipe object
-            RecipeDesc LunchDesc = dynamoDBMapper.load(RecipeModel.class, lunchId);
+            RecipeDesc LunchDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, lunchId));
 
             // Get the recipe id for dinner
             String dinnerId = mealPlanModel.getDinnerId();
 
             // Now the recipe object
-            RecipeDesc DinnerDesc = dynamoDBMapper.load(RecipeModel.class, dinnerId);
+            RecipeDesc DinnerDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, dinnerId));
 
 
             // Get recipe id for snack
             String SnackId = mealPlanModel.getSnackId();
 
             // Now the recipe object
-            RecipeDesc SnackDesc = dynamoDBMapper.load(RecipeModel.class, SnackId);
-
-
-            // Get recipe id for dessert
-            String dessertId = mealPlanModel.getDessertId();
-
-            // Now the recipe object
-            RecipeDesc dessertDesc =  dynamoDBMapper.load(RecipeModel.class, dessertId);
+            RecipeDesc SnackDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, SnackId));
 
             // Creating the mealPlanResponse
             mealPlanResponse.setDate(date);
@@ -124,14 +118,10 @@ public class ProfileRepository {
             mealPlanResponse.setLunch(LunchDesc);
             mealPlanResponse.setDinner(DinnerDesc);
             mealPlanResponse.setSnack(SnackDesc);
-            mealPlanResponse.setDessert(dessertDesc);
             
             // saving meal plan response to profile response
             profileResponse.setCurrMealPlan(mealPlanResponse);
         }
-
-
-        
         
        return profileResponse;
     }
@@ -195,6 +185,43 @@ public class ProfileRepository {
         }
 
         return createdRecipes;
+    }
+
+    private RecipeDesc createRecipeResponse(RecipeModel model) {
+
+        if(model == null) {
+            return null;
+        }
+        RecipeResponse response = new RecipeResponse();
+        response.setCreator(model.getCreator());
+        response.setDescription(model.getDescription());
+        response.setDifficulty(model.getDifficulty());
+        response.setIngredients(model.getIngredients());
+        response.setSteps(model.getSteps());
+        response.setMeal(model.getMeal());
+        response.setName(model.getName());
+        response.setServings(model.getServings());
+        response.setPrepTime(model.getPrepTime());
+        response.setRecipeId(model.getRecipeId());
+        response.setRecipeImage(model.getRecipeImage());
+        response.setTags(model.getTags());
+        response.setReviews(getReviewsByRecipeId(model.getRecipeId()));
+        return response;
+    }
+
+     public List<Review> getReviewsByRecipeId(String id) {
+        List<Review> reviews = new ArrayList<>();
+        
+        PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
+
+        for (Review review : scanResult) {
+            
+            if (review.getRecipeId().equals(id)) {
+                reviews.add(review);
+            }
+        }
+
+        return reviews;
     }
 
     

@@ -9,7 +9,6 @@ import com.fridgetoplate.interfaces.MealPlan;
 @DynamoDBTable(tableName = "meal_plans")
 public class MealPlanModel extends MealPlan {
 
-
     private String breakfastId;
 
     private String lunchId;
@@ -17,9 +16,6 @@ public class MealPlanModel extends MealPlan {
     private String dinnerId;
 
     private String snackId;
-
-    private String dessertId;
-    
 
     // Getters
 
@@ -73,17 +69,6 @@ public class MealPlanModel extends MealPlan {
     public void setSnackId(String snackId) {
         this.snackId = snackId;
     }
-
-    @DynamoDBAttribute(attributeName = "dessert")
-    public String getDessertId() {
-        return dessertId;
-    }
-
-    public void setDessertId(String dessertId) {
-        this.dessertId = dessertId;
-    }
-
-
 
 
 }

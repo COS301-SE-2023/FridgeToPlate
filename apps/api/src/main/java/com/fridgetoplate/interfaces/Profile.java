@@ -8,8 +8,6 @@ import lombok.Data;
 @Data
 public class Profile {
 
-    protected String profileId;
-
     protected String username;
     
     protected String email;
