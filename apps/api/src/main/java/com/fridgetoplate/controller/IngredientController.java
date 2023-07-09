@@ -2,7 +2,7 @@
  * This is a Java class that defines the REST API endpoints for managing ingredients in a recipe
  * application.
  */
-package com.fridgetoplate.api;
+package com.fridgetoplate.controller;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ public class IngredientController {
         return ingredientRepository.saveAll(ingredients);
     }
 
-    @GetMapping("/{id}")
-    public Ingredient findById(@PathVariable(value = "id") String id){
-        return ingredientRepository.findById(id);
+    @GetMapping("/{name}")
+    public Ingredient findByName(@PathVariable(value = "name") String name){
+        return ingredientRepository.findByName(name);
     }
 
     @GetMapping

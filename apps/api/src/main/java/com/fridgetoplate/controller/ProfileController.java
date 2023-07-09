@@ -1,12 +1,14 @@
-package com.fridgetoplate.api;
+package com.fridgetoplate.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.fridgetoplate.model.Profile;
+import com.fridgetoplate.interfaces.Profile;
+import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ProfileRepository;
+import com.fridgetoplate.response.ProfileResponse;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -17,18 +19,18 @@ public class ProfileController {
     private ProfileRepository profileRepository;
 
     @PostMapping("/create")
-    public Profile save(@RequestBody Profile recipe) {
-        return profileRepository.save(recipe);
+    public ProfileModel save(@RequestBody ProfileModel profile) {
+        return profileRepository.save(profile);
     }
 
 
-    @GetMapping("/{id}")
-    public Profile findById(@PathVariable(value = "id") String id) {
-        return profileRepository.findById(id);
+    @GetMapping("/{name}")
+    public ProfileResponse findByName(@PathVariable(value = "name") String name) {
+        return profileRepository.findByName(name);
     }
 
     @GetMapping
-    public List<Profile> findAll() {
+    public List<ProfileModel> findAll() {
         return profileRepository.findAll();
     }
 
