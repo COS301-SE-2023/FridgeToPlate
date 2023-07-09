@@ -6,13 +6,11 @@ import { NotificationsPageComponent } from 'libs/app/notifications/feature/src/l
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    component: ProfilePage,
-  },
-  {
-    path: 'notifications',
-    component: NotificationsPageComponent,
-  },
+    children: [
+      { path: '', component: ProfilePage },
+      { path: 'notifications', component: NotificationsPageComponent }
+    ]
+  }
 ];
 
 @NgModule({
