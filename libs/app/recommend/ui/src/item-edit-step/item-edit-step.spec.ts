@@ -27,9 +27,9 @@ describe('ItemEditStep', () => {
   it('should sort ingredientList in ascending order by name when order is "name-asc"', () => {
     // Arrange
     component.ingredientList = [
-      { name: 'B', ingredientId: '2' },
-      { name: 'A', ingredientId: '1' },
-      { name: 'C', ingredientId: '3' }
+      { name: 'B', ingredientId: '2', unit: "mg", amount: 20 },
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 },
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 }
     ];
     component.order = 'name-asc';
 
@@ -38,18 +38,18 @@ describe('ItemEditStep', () => {
 
     // Assert
     expect(component.ingredientList).toEqual([
-      { name: 'A', ingredientId: '1' },
-      { name: 'B', ingredientId: '2' },
-      { name: 'C', ingredientId: '3' }
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 },
+      { name: 'B', ingredientId: '2', unit: "mg", amount: 20 },
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 }
     ]);
   });
 
   it('should sort ingredientList in descending order by name when order is not "name-asc"', () => {
     // Arrange
     component.ingredientList = [
-      { name: 'B', ingredientId: '2' },
-      { name: 'A', ingredientId: '1' },
-      { name: 'C', ingredientId: '3' }
+      { name: 'B', ingredientId: '2', unit: "mg", amount: 20 },
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 },
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 }
     ];
     component.order = 'unknown';
 
@@ -58,28 +58,28 @@ describe('ItemEditStep', () => {
 
     // Assert
     expect(component.ingredientList).toEqual([
-      { name: 'C', ingredientId: '3' },
-      { name: 'B', ingredientId: '2' },
-      { name: 'A', ingredientId: '1' }
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 },
+      { name: 'B', ingredientId: '2', unit: "mg", amount: 20 },
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 }
     ]);
   });
 
   it('should remove an item from the ingredientList', () => {
     // Arrange
     component.ingredientList = [
-      { name: 'B', ingredientId: '2' },
-      { name: 'A', ingredientId: '1' },
-      { name: 'C', ingredientId: '3' }
+      { name: 'B', ingredientId: '2', unit: "mg", amount: 20 },
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 },
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 }
     ];
-    const item = { name: 'B', ingredientId: '2' };
+    const item = { name: 'B', ingredientId: '2', unit: "mg", amount: 20 };
 
     // Act
     component.removeItem(item);
 
     // Assert
     expect(component.ingredientList).toEqual([
-      { name: 'A', ingredientId: '1' },
-      { name: 'C', ingredientId: '3' }
+      { name: 'A', ingredientId: '1', unit: "mg", amount: 10 },
+      { name: 'C', ingredientId: '3', unit: "mg", amount: 30 }
     ]);
   });
 

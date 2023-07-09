@@ -4,7 +4,7 @@ import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
 import { IProfile } from "@fridge-to-plate/app/profile/utils";
-import { NgxsModule, State, Store } from "@ngxs/store";
+import { NgxsModule, State } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
 
@@ -15,36 +15,12 @@ describe("ProfilePage", () => {
     displayName: "John Doe",
     username: "jdoe",
     email: "jdoe@gmail.com",
-    saved_recipes: [
-        {
-            name: "Recipe",
-            recipeImage: "https://source.unsplash.com/750x750/?food",
-            ingredients: [],
-            instructions: [],
-            difficulty: "Easy",
-        }
-    ],
+    savedRecipes: [],
     ingredients: [],
-    profilePic: "",
-    created_recipes: [],
-    preferences: {
-        darkMode: false,
-        recommendNotifi: true,
-        reviewNotifi: false,
-        viewsNotifi: true,
-    },
-    mealPlan: {
-        breakfast: null,
-        lunch: null,
-        dinner: {
-            name: "Recipe",
-            recipeImage: "https://source.unsplash.com/750x750/?food",
-            ingredients: [],
-            instructions: [],
-            difficulty: "Easy",
-        },
-        snack: null,
-    }
+    profilePic: "image-url",
+    createdRecipes: [],
+    preferences: [],
+    currMealPlan: [],
   };
 
   @State({ 
