@@ -22,12 +22,13 @@
       {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
     </ion-button>
     *ngIf="showReviews" -->
-    <ion-list class="bg-background-lights h-full">
-      <ion-list-header>
-        <ion-label class="text-lg font-bold">Reviews</ion-label>
-      </ion-list-header>
-      <ion-item *ngFor="let review of reviews">
-        <ion-card class="custom-card">
+
+    <br/>
+
+    <h1 class="text-lg font-bold">Reviews</h1>
+    <div class="bg-background-lights h-full flex flex-row overflow-x-scroll pb-8 carousel-continer">
+      <div *ngFor="let review of reviews">
+        <ion-card class="custom-card w-48 mx-3 my-2">
           <ion-card-content>
             <div>
               <span *ngFor="let i of [1, 2, 3, 4, 5]">
@@ -38,8 +39,8 @@
             </div>
           </ion-card-content>
         </ion-card>
-      </ion-item>
-    </ion-list>
+      </div>
+    </div>
 
     <br/>
 

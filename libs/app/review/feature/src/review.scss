@@ -11,5 +11,11 @@ ion-icon[name="star"].star-filled {
 }
 
 .custom-card {
-  width: 100%; /* Set desired width here */
+  // width: 90%; /* Set desired width here */
+  height: 90%;
+}
+
+.carousel-continer {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: scroll;
 }
