@@ -22,10 +22,6 @@ export class Review {
     this.rating = num;
   }
 
-  toggleReviews() {
-    this.showReviews = !this.showReviews;
-  }
-
   submitReview() {
     if (this.rating === 0) {
       alert('Please rate the recipe before submitting your review!');
