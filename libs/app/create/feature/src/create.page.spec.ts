@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 describe('CreatePage', () => {
   let component: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
+  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,6 +31,7 @@ describe('CreatePage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePagComponent);
     component = fixture.componentInstance;
+    formBuilder = TestBed.inject(FormBuilder);
     fixture.detectChanges();
   });
 
@@ -38,6 +40,27 @@ describe('CreatePage', () => {
     component.addInstruction();
     const newLength = component.instructionControls.length;
     expect(newLength).toBe(initialLength + 1);
+  });
+
+  it('should remove the instruction at the specified index', () => {
+
+    component.recipeForm = formBuilder.group({
+      instructions: formBuilder.array([
+        formBuilder.control('Instruction 1', Validators.required),
+        formBuilder.control('Instruction 2', Validators.required),
+      ]),
+    });
+    // Arrange
+    const indexToRemove = 1;
+    const initialInstructionsCount = component.instructionControls.length;
+
+    // Act
+    component.removeInstruction(indexToRemove);
+
+    // Assert
+    const finalInstructionsCount = component.instructionControls.length;
+    expect(finalInstructionsCount).toBe(initialInstructionsCount - 1);
+    expect(component.instructionControls[1]).toBeUndefined();
   });
 });
 
@@ -358,19 +381,29 @@ describe('Testing Tags', () => {
     
   })
 
-  it("Should add a meal tag successfully", () => {
-    const tagValue = 'New Tag';
-    component.recipeForm.get('tag')?.setValue(tagValue);
-    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
-    const initialTagsLength = component.tags.length;
+  
+  it('should not add a tag if tagValue is empty', () => {
+    // Arrange
+    component.recipeForm.get('tag')?.setValue('');
 
     // Act
     component.addTag();
 
     // Assert
-    expect(component.tags.length).toBe(initialTagsLength);
+    expect(component.tags.length).toBe(0);
+  });
 
-  })
+  it('should not add a tag if tags length is already 3', () => {
+    // Arrange
+    component.recipeForm.get('tag')?.setValue('Tag 1');
+    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+
+    // Act
+    component.addTag();
+
+    // Assert
+    expect(component.tags.length).toBe(3);
+  });
 
   it("Should delete a meal tag successfully", () => {
 
@@ -392,6 +425,9 @@ describe('Testing Tags', () => {
 describe('Ingredients storing and return', () => { 
   let component: CreatePagComponent;
   let apiService: jest.Mocked<CreateAPI>;
+  let fixture: ComponentFixture<CreatePagComponent>;
+  let formBuilder: FormBuilder;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
@@ -402,9 +438,16 @@ describe('Ingredients storing and return', () => {
         NavigationBarModule
       ]
     });
-
-    component = TestBed.createComponent(CreatePagComponent).componentInstance;
+    fixture = TestBed.createComponent(CreatePagComponent);
+    component = fixture.componentInstance;
     apiService = TestBed.inject(CreateAPI) as jest.Mocked<CreateAPI>;
+    formBuilder = TestBed.inject(FormBuilder);
+
+    
+
+    fixture.detectChanges();
+
+
     });
 
   it('Create Ingredients', () => { 
@@ -474,7 +517,38 @@ describe('Ingredients storing and return', () => {
     // Verify that the promise resolves to the correct response
     expect(result).toEqual(response);
   });
-  
+
+  it('should remove the ingredient at the specified index', () => {
+
+    component.recipeForm = formBuilder.group({
+      ingredients: formBuilder.array([
+        formBuilder.group({
+          ingredientName: ['Ingredient 1', Validators.required],
+          amount: [1, Validators.required],
+          scale: ['kg', Validators.required],
+        }),
+        formBuilder.group({
+          ingredientName: ['Ingredient 2', Validators.required],
+          amount: [2, Validators.required],
+          scale: ['g', Validators.required],
+        }),
+      ]),
+    });
+
+
+    // Arrange
+    const indexToRemove = 1;
+    const initialIngredientsCount = component.ingredientControls.length;
+    
+    
+    // Act
+    component.removeIngredient(indexToRemove);
+
+    // Assert
+    const finalIngredientsCount = component.ingredientControls.length;
+    expect(finalIngredientsCount).toBe(initialIngredientsCount - 1);
+    expect(component.ingredientControls[1]).toBeUndefined();
+  });
   
   });
 
@@ -672,6 +746,137 @@ describe('Ingredients storing and return', () => {
     
 
   })
+
+
+  describe("Testing placeholder texts for Amount", () => {
+
+    let component: CreatePagComponent;
+    let fixture: ComponentFixture<CreatePagComponent>;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [ CreatePagComponent ],
+        providers: [FormBuilder],
+        imports: [
+          ReactiveFormsModule,
+          HttpClientModule,
+          NavigationBarModule
+        ]
+      });
+      fixture = TestBed.createComponent(CreatePagComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    
+    it('should return "e.g 10" when window width is less than 1024', () => {
+      // Arrange
+      global.innerWidth = 800; // Set the window width to a value less than 1024
+  
+      // Act
+      const placeholderText = component.getAmountPlaceholderText();
+  
+      // Assert
+      expect(placeholderText).toBe('e.g 10');
+    });
+  
+    it('should return "Amount" when window width is greater than or equal to 1024', () => {
+      // Arrange
+      global.innerWidth = 1200; // Set the window width to a value greater than or equal to 1024
+  
+      // Act
+      const placeholderText = component.getAmountPlaceholderText();
+  
+      // Assert
+      expect(placeholderText).toBe('Amount');
+    });
+  })
+
+  describe("Testing placeholder texts for Unit", () => {
+
+    let component: CreatePagComponent;
+    let fixture: ComponentFixture<CreatePagComponent>;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [ CreatePagComponent ],
+        providers: [FormBuilder],
+        imports: [
+          ReactiveFormsModule,
+          HttpClientModule,
+          NavigationBarModule
+        ]
+      });
+      fixture = TestBed.createComponent(CreatePagComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    
+    it('should return "e.g 10" when window width is less than 1024', () => {
+      // Arrange
+      global.innerWidth = 800; // Set the window width to a value less than 1024
+  
+      // Act
+      const placeholderText = component.getUnitPlaceholderText();
+  
+      // Assert
+      expect(placeholderText).toBe('e.g L');
+    });
+  
+    it('should return "Amount" when window width is greater than or equal to 1024', () => {
+      // Arrange
+      global.innerWidth = 1200; // Set the window width to a value greater than or equal to 1024
+  
+      // Act
+      const placeholderText = component.getUnitPlaceholderText();
+  
+      // Assert
+      expect(placeholderText).toBe('Unit');
+    });
+  })
+
+  describe("Image upload", () => {
+
+    let component: CreatePagComponent;
+    let fixture: ComponentFixture<CreatePagComponent>;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        declarations: [ CreatePagComponent ],
+        providers: [FormBuilder],
+        imports: [
+          ReactiveFormsModule,
+          HttpClientModule,
+          NavigationBarModule
+        ]
+      });
+      fixture = TestBed.createComponent(CreatePagComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    
+    it('should update the imageUrl when a file is selected', () => {
+      // Arrange
+      const file = new File(['sample content'], 'sample.jpg', { type: 'image/jpeg' });
+      const event = { target: { files: [file] } };
+      const existingImage = component.imageUrl;
+      
+      const onFileChangedSpy = jest.spyOn(component, 'onFileChanged')
+      .mockImplementation(() => {
+        component.imageUrl = file.name;
+      });
+
+    // Act
+    component.onFileChanged(event);
+
+    // Assert
+    expect(onFileChangedSpy).toHaveBeenCalledWith(event);
+    expect(component.imageUrl).toBe(file.name);
+    expect(component.imageUrl).not.toBe(existingImage);
+    });
+   
+  })
+
+
 
 
 
