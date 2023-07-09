@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.ReviewRepository;
 
@@ -31,6 +32,17 @@ public class ReviewController {
      @GetMapping("/{id}")
     public List<Review> findReviewsById(@PathVariable(value = "id") String id){
         return reviewRepository.getReviewsByRecipeId(id);
+    }
+
+    @GetMapping("/{recipeId}/{reviewId}")
+    public Review findById(@PathVariable(value = "recipeId") String recipeId, @PathVariable(value = "reviewId") String reviewId) {
+
+        return reviewRepository.getReviewByReviewId(recipeId, reviewId);
+    }
+
+    @GetMapping("/creator/{username}")
+    public List<Review> findReviewsByUsername(@PathVariable(value = "username") String username){
+        return reviewRepository.getReviewsByUsername(username);
     }
 
      @GetMapping
