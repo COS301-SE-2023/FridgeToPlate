@@ -13,6 +13,12 @@
 
   </div>
 
+  <div>
+
+
+    
+  </div>
+
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center lg:my-auto sm:mx-auto lg:mx-0 overflow-y-visible">
   
     <div>
@@ -26,6 +32,7 @@
         required
       >
     </div>
+    
   
     <div>
       <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
@@ -40,7 +47,7 @@
 
     <div >
       <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
-      <div class="flex justify-between mb-2">
+      <div class="flex justify-between mb-2 mr-2">
         <button
           type="button"
           [ngClass]="getMealPlan('breakfast')"
@@ -85,26 +92,43 @@
         <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
         <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
-      <div formArrayName="ingredients">
-        <div *ngFor="let ingredientControl of ingredientControls; let i = index" class=" flex mb-2">
-          <div class="w-3/5">
-            <input
-              type="text"
-              placeholder="Ingredient"
-              id="ingredient-{{i}}"
-              [formControlName]="i"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
+      <div formArrayName="ingredients" class="flex-shrink-0 max-h-64 overflow-y-auto">
+        <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
+          <div [formGroupName]="i" class=" flex mb-2 ">
+
+            <div class="w-3/5">
+              <input formControlName="ingredientName"
+              placeholder="Ingredient Name"
               required
-            >
-          </div>
+              type="text"
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
+            </div>
+  
+            <div class="w-1/5 mx-2">
+              <input formControlName="amount"
+              type="number"
+              [placeholder]="getAmountPlaceholderText()"
+              required 
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
+      
+            </div>
+           
+            <div class="w-1/5">
+              <input formControlName="scale"
+              [placeholder]="getUnitPlaceholderText()"
+              required
+              type="text"
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
+  
+            </div>
 
-          <div>
-            <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
-              <ion-icon name="trash-outline"></ion-icon>
-            </button>
-          </div>
+            <div>
+              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
 
-
+          </div> 
         </div>
       </div>
 
@@ -118,16 +142,21 @@
       </div>
       <div formArrayName="instructions">
         <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2">
-          <div class="flex items-center">
-            <input
-              type="text"
-              placeholder="Add Instruction"
-              id="instruction-{{i}}"
-              [formControlName]="i"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-              required>
-            <button type="button" (click)="removeInstruction(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center"><ion-icon name="trash-outline"></ion-icon></button>
+          <div class="flex items-center space-x-4">
+            <span class="text-xl">{{ i+1 }}</span>
+            <input type="text"
+                   placeholder="Add Instruction"
+                   id="instruction-{{i}}"
+                   [formControlName]="i"
+                   class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+                   required>
+            <button type="button"
+                    (click)="removeInstruction(i)"
+                    class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
           </div>
+          
         </div>
       </div>
     </div>
@@ -163,7 +192,7 @@
           <input
             id="tag"
             type="text"
-            placeholder="e.g. Asia, Vegan"
+            placeholder="e.g. Asian, Vegan"
             formControlName="tag"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
             required

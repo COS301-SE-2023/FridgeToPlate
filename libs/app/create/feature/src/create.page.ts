@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
@@ -9,13 +9,17 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
 })
-export class CreatePagComponent {
+export class CreatePagComponent implements OnInit  {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   selectedMeal!: string;
   tags: string[] = [];
 
   constructor(private fb: FormBuilder, private api: CreateAPI) {
+    
+  }
+
+  ngOnInit() {
     this.createForm();
   }
 
@@ -37,17 +41,16 @@ export class CreatePagComponent {
   }
 
   addIngredient() {
-    this.ingredientControls.push(this.getIngredientControl())
-  }
-
-  private getIngredientControl(){
-      return this.fb.group({
-        ingredient: ['', Validators.required],
-        amount: ['', Validators.required],
-        unit: ['', Validators.required]
-      });
-  }
+    const ingredientGroup = this.fb.group({
+      ingredientName: ['', Validators.required],
+      amount: ['', Validators.required],
+      scale: ['', Validators.required]
+    });
   
+    // Add the new ingredient group to the FormArray
+    (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
+
+  }
 
   get instructionControls() {
     return (this.recipeForm.get('instructions') as FormArray).controls;
@@ -65,10 +68,24 @@ export class CreatePagComponent {
     this.instructionControls.splice(index, 1);
   }
 
+  getAmountPlaceholderText() {
+    if (window.innerWidth < 1024) {
+      return "e.g 10";
+    } else {
+      return "Amount";
+    }
+  }
+
+  getUnitPlaceholderText() {
+    if (window.innerWidth < 1024) {
+      return "e.g L";
+    } else {
+      return "Unit";
+    }
+  }
+
   createRecipe() : void {
 
-    alert(this.imageUrl)
-    // Ingredients array
     const ingredients: IIngredient[] = [];
     
     // Instructions array
