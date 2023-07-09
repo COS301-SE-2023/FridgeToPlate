@@ -295,6 +295,7 @@ describe('toggleDietaryPlan', () => {
 describe('Testing Tags', () => {
   let component: CreatePagComponent;
   let fb: FormBuilder;
+  let fixture: ComponentFixture<CreatePagComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -307,8 +308,10 @@ describe('Testing Tags', () => {
       ]
     });
 
-    component = TestBed.createComponent(CreatePagComponent).componentInstance;
+    fixture = TestBed.createComponent(CreatePagComponent);
+    component = fixture.componentInstance;
     fb = TestBed.inject(FormBuilder);
+    fixture.detectChanges();
     component.recipeForm = fb.group({
       dietaryPlans: fb.array([]),
     });
@@ -338,6 +341,71 @@ describe('Testing Tags', () => {
     expect(tags).toContain("Vegan");
     
   });
+
+  it("Should selet a meal type successfully", () => {
+    const mealType = 'New Tag';
+    component.recipeForm.get('meal')?.setValue(mealType);
+  
+    // Act
+    component.toggleMeal(mealType);
+  
+    // Assert
+    expect(component.selectedMeal).toBe(mealType)
+    expect(component.toggleMeal).toBeCalledWith(mealType)
+    
+  })
+
+  
+  it("The selected meals should change when the user changes", () => {
+
+    const mealType = 'Chinese';
+    component.recipeForm.get('meal')?.setValue(mealType);
+  
+    // Act
+    component.toggleMeal(mealType);
+
+    // Act
+    
+    component.recipeForm.get('meal')?.setValue(mealType);
+    const mealType2 = 'Asian';
+    // Act
+    component.toggleMeal(mealType2);
+  
+  
+    // Assert
+    expect(component.selectedMeal).toBe(mealType2)
+    expect(component.selectedMeal).not.toBe(mealType)
+    
+  })
+
+  it("Should add a meal tag successfully", () => {
+    const tagValue = 'New Tag';
+    component.recipeForm.get('tag')?.setValue(tagValue);
+    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+    const initialTagsLength = component.tags.length;
+
+    // Act
+    component.addTag();
+
+    // Assert
+    expect(component.tags.length).toBe(initialTagsLength);
+
+  })
+
+  it("Should delete a meal tag successfully", () => {
+
+    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+
+    component.deleteTag(0);
+
+    // Assert
+    expect(component.tags.length).toBe(2);
+
+  })
+
+
+
+
 });
 
 
