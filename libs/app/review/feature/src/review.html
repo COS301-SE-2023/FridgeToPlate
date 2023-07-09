@@ -17,15 +17,15 @@
       </ion-item>
       <ion-button expand="block" class="review-button" (click)="submitReview()" color="rgb(202, 64, 5)">Submit Review</ion-button>
     </ion-list>
-
+<!--
     <ion-button (click)="toggleReviews()" class="review-button" color="rgb(202, 64, 5)">
       {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
     </ion-button>
-
-    <ion-list class="bg-background-lights h-full" *ngIf="showReviews">
-      <!-- <ion-list-header>
+    *ngIf="showReviews" -->
+    <ion-list class="bg-background-lights h-full">
+      <ion-list-header>
         <ion-label class="text-lg font-bold">Reviews</ion-label>
-      </ion-list-header> -->
+      </ion-list-header>
       <ion-item *ngFor="let review of reviews">
         <ion-card class="custom-card">
           <ion-card-content>
