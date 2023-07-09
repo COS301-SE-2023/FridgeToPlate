@@ -1,10 +1,10 @@
-package com.fridgetoplate.api;
+package com.fridgetoplate.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.repository.RecipeRepository;
-import com.fridgetoplate.model.Recipe;
+import com.fridgetoplate.response.RecipeResponse;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
@@ -16,7 +16,7 @@ public class RecommendController {
     private RecipeRepository recipeRepository;
 
     @GetMapping
-    public List<Recipe> findAll() {
+    public List<RecipeResponse> findAll() {
         return recipeRepository.findAll();
     }
 }

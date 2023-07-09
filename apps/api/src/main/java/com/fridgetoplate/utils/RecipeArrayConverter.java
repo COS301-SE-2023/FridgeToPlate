@@ -3,7 +3,7 @@ package com.fridgetoplate.utils;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fridgetoplate.model.Recipe;
+import com.fridgetoplate.interfaces.Recipe;
 
 public class RecipeArrayConverter implements DynamoDBTypeConverter<String, Recipe[]> {
         private static final ObjectMapper mapper = new ObjectMapper();
