@@ -2,9 +2,9 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IReview } from '@fridge-to-plate/app/review/utils';
 
 export interface IRecipeDesc {
-  recipeId?: string;
+  recipeId: string;
   name: string;
-  tags?: string[];
+  tags: string[];
   difficulty: 'Easy' | 'Medium' | 'Hard';
   recipeImage: string;
 }
@@ -17,5 +17,5 @@ export interface IRecipe extends IRecipeDesc {
   ingredients: IIngredient[];
   steps: string[];
   creator: string;
-  reviews: IReview[];
+  reviews?: IReview[];
 }

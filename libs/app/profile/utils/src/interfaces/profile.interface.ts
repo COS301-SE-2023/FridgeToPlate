@@ -4,7 +4,7 @@ import { IPreference } from '@fridge-to-plate/app/preference/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 
 export interface IProfile {
-    profileId?: string;
+    profileId: string;
     username: string;
     email: string;
     displayName: string;

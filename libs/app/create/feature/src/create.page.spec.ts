@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipe, IRecipeStep } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { NEVER, of } from "rxjs";
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 
@@ -70,11 +70,15 @@ describe('CreatePagComponent', () => {
 
     expect(createPage.recipeForm.contains('name')).toBe(true);
     expect(createPage.recipeForm.contains('description')).toBe(true);
-    expect(createPage.recipeForm.contains('servings')).toBe(true);
-    expect(createPage.recipeForm.contains('preparationTime')).toBe(true);
+    expect(createPage.recipeForm.contains('numberOfServings')).toBe(true);
+    expect(createPage.recipeForm.contains('prepTime')).toBe(true);
     expect(createPage.recipeForm.contains('ingredients')).toBe(true);
-    expect(createPage.recipeForm.contains('instructions')).toBe(true);
-    expect(createPage.recipeForm.contains('dietaryPlans')).toBe(true);
+    expect(createPage.recipeForm.contains('meal')).toBe(true);
+    expect(createPage.recipeForm.contains('steps')).toBe(true);
+    expect(createPage.recipeForm.contains('creator')).toBe(true);
+    expect(createPage.recipeForm.contains('difficulty')).toBe(true);
+    expect(createPage.recipeForm.contains('tags')).toBe(true);
+    expect(createPage.recipeForm.contains('recipeImage')).toBe(true);
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
@@ -82,23 +86,41 @@ describe('CreatePagComponent', () => {
 
     const nameControl = createPage.recipeForm.get('name');
     const descriptionControl = createPage.recipeForm.get('description');
-    const servingsControl = createPage.recipeForm.get('servings');
-    const preparationTimeControl = createPage.recipeForm.get('preparationTime');
+    const servingsControl = createPage.recipeForm.get('numberOfServings');
+    const preparationTimeControl = createPage.recipeForm.get('prepTime');
+
+    const ingredientsControl = createPage.recipeForm.get('ingredients');
+    const mealControl = createPage.recipeForm.get('meal');
+    const stepsControl = createPage.recipeForm.get('steps');
+    const creatorTimeControl = createPage.recipeForm.get('creator');
+
+    const difficultyControl = createPage.recipeForm.get('difficulty');
+    const tagsControl = createPage.recipeForm.get('tags');
+    const recipeImageControl = createPage.recipeForm.get('recipeImage');
 
     expect(nameControl?.errors?.['required']).toBe(true);
     expect(descriptionControl?.errors?.['required']).toBe(true);
     expect(servingsControl?.errors?.['required']).toBe(true);
     expect(preparationTimeControl?.errors?.['required']).toBe(true);
+
+    expect(ingredientsControl?.errors?.['required']).toBe(true);
+    expect(mealControl?.errors?.['required']).toBe(true);
+    expect(stepsControl?.errors?.['required']).toBe(true);
+    expect(creatorTimeControl?.errors?.['required']).toBe(true);
+
+    expect(difficultyControl?.errors?.['required']).toBe(true);
+    expect(tagsControl?.errors?.['required']).toBe(true);
+    expect(recipeImageControl?.errors?.['required']).toBe(true);
   });
 
-  it('should create an empty array for the ingredients and instructions fields', () => {
+  it('should create an empty array for the ingredients and steps fields', () => {
     createPage.createForm();
 
     const ingredientsArray = createPage.recipeForm.get('ingredients');
-    const instructionsArray = createPage.recipeForm.get('instructions');
+    const stepsArray = createPage.recipeForm.get('steps');
 
     expect(ingredientsArray?.value).toEqual([]);
-    expect(instructionsArray?.value).toEqual([]);
+    expect(stepsArray?.value).toEqual([]);
   });
 
   it('should create an empty array for the dietaryPlans field', () => {
@@ -284,14 +306,17 @@ describe('toggleDietaryPlan', () => {
     const expectData = { 
       recipeId : "123",
       recipeImage : "Mock image",
-      difficulty: difficulty,
+      difficulty: "Medium",
       name: "Chicken Falaty",
       description: "A delicious chicken falafel",
-      servings: 4,
       preparationTime: 30,
       ingredients: [],
-      instructions: [],
-      dietaryPlans: []
+      tags: ['Paleo'],
+      numberOfServings: 4,
+      prepTime: 30,
+      meal: 'Snack',
+      steps: ['Chop onions'],
+      creator: "Kristap P",
     }
 
     // Mocking the service

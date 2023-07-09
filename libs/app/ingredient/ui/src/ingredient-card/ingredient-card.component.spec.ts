@@ -11,7 +11,9 @@ describe('IngredientCardComponent', () => {
 
   testIngredient = {
     ingredientId: "test-id",
-    name: "Carrot"
+    name: "Carrot",
+    unit: "mg",
+    amount: 15,
   };
 
   beforeEach(async () => {
