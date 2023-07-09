@@ -183,7 +183,7 @@ export class CreatePagComponent implements OnInit  {
   // Test
   addTag() {
     const tagValue = this.recipeForm.get('tag')?.value;
-    if (tagValue) {
+    if (tagValue && this.tags.length < 3) {
       
       this.tags.push(tagValue);
     }

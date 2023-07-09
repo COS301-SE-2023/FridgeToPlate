@@ -199,7 +199,7 @@
           >
         </div>
         <div>
-          <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">
+          <button type="button" (click)="addTag()" class=" text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">
             Add Tag
           </button>
         </div>
@@ -207,7 +207,7 @@
       <div class="py-2">
         <ul class="flex">
           <li *ngFor="let tag of tags; let i = index"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          class=" cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
           (click)="deleteTag(i)">
           {{ tag }}
         </li>
