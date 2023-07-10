@@ -172,7 +172,8 @@ export class CreatePagComponent implements OnInit  {
     return {
       'bg-primary': this.selectedMeal === option,
       'bg-gray-200': this.selectedMeal !== option,
-      'text-gray-700': true,
+      'text-white': this.selectedMeal === option,
+      'text-gray-700': this.selectedMeal !== option,
       'py-2': true,
       'px-4': true,
       'rounded-md': true,
