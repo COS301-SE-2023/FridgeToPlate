@@ -6,6 +6,6 @@ import { TabComponent } from './tab/tab.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [TabbedComponent, TabComponent],
-  exports: [TabbedComponent],
+  exports: [TabbedComponent, TabComponent],
 })
 export class AppNotificationsUiModule {}
