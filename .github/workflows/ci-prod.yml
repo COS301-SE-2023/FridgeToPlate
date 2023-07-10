@@ -34,12 +34,11 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Setup Enviroment Files
-      run: |
-        touch apps/api/src/main/resources/application.properties
-        printf "${{ secrets.API_APPLICATION_PROPERTIES }}" > apps/api/src/main/resources/application.properties
-        cat apps/api/src/main/resources/application.properties
-      shell: bash
+    - name: Create API Properties File
+      uses: finnp/create-file-action@master
+      env:
+        FILE_NAME: "apps/api/src/main/resources/application.properties"
+        FILE_DATA: ${{ secrets.API_APPLICATION_PROPERTIES }}
 
     - name: Lint App
       run: npx nx run app:lint
