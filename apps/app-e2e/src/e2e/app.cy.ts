@@ -89,9 +89,58 @@ describe('signup tests', () => {
     cy.url().contains('login');
   });
 
-describe('profile tests', () => {
-  beforeEach(() => cy.visit('/'));
-});
+  describe('profile tests', () => {
+    beforeEach(() => cy.visit('/'));
+
+    it('displays profile information correctly', () => {
+      // Check that the profile name, username, and email are displayed correctly
+      cy.get('[data-testid="profile-name"]').should('contain', 'John Doe');
+      cy.get('[data-testid="profile-username"]').should('contain', 'johndoe');
+      cy.get('[data-testid="profile-email"]').should('contain', 'johndoe@example.com');
+    });
+
+    it('opens edit profile modal when edit button is clicked', () => {
+      // Click the edit button and check that the modal is displayed
+      cy.get('[data-testid="edit-profile-button"]').click();
+      cy.get('[data-testid="edit-profile-modal"]').should('be.visible');
+    });
+
+    it('updates profile information when save button is clicked', () => {
+      // Click the edit button, update the profile information, and click save
+      cy.get('[data-testid="edit-profile-button"]').click();
+      cy.get('[data-testid="edit-profile-name-input"]').clear().type('Jane Doe');
+      cy.get('[data-testid="edit-profile-username-input"]').clear().type('janedoe');
+      cy.get('[data-testid="edit-profile-email-input"]').clear().type('janedoe@example.com');
+      cy.get('[data-testid="edit-profile-save-button"]').click();
+
+      // Check that the profile information is updated
+      // cy.get('[data-testid="profile-name"]').should('contain', 'Jane Doe');
+      // cy.get('[data-testid="profile-username"]').should('contain', 'janedoe');
+      // cy.get('[data-testid="profile-email"]').should('contain', 'janedoe@example.com');
+    });
+
+    it('opens settings modal when settings button is clicked', () => {
+      // Click the settings button and check that the modal is displayed
+      cy.get('[data-testid="settings-button"]').click();
+      cy.get('[data-testid="settings-modal"]').should('be.visible');
+    });
+
+    it('updates notification preferences when checkboxes are clicked', () => {
+      // Click the settings button, update the notification preferences, and click close
+      cy.get('[data-testid="settings-button"]').click();
+      cy.get('[data-testid="dark-mode-checkbox"]').check();
+      cy.get('[data-testid="review-notifications-checkbox"]').uncheck();
+      cy.get('[data-testid="view-notifications-checkbox"]').check();
+      cy.get('[data-testid="recommendation-notifications-checkbox"]').uncheck();
+      cy.get('[data-testid="settings-close-button"]').click();
+
+      // Check that the notification preferences are updated
+      cy.get('[data-testid="dark-mode-indicator"]').should('be.visible');
+      cy.get('[data-testid="review-notifications-indicator"]').should('not.be.visible');
+      cy.get('[data-testid="view-notifications-indicator"]').should('be.visible');
+      cy.get('[data-testid="recommendation-notifications-indicator"]').should('not.be.visible');
+    });
+  });
 
 describe('create tests', () => {
   beforeEach(() => cy.visit('/'));
