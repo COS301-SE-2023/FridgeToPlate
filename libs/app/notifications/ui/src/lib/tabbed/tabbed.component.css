@@ -18,3 +18,13 @@
   background-color: gray;
   border-bottom: 2px solid blue;
 }
+
+ul {
+  margin: 0;
+  padding: 0;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}

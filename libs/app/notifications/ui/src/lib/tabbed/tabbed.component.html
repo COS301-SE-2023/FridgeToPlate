@@ -1,1 +1,13 @@
-<p>tabbed works!</p>
+<div class="tabs-container">
+  <ul class="nav nav-tabs">
+    <li
+      *ngFor="let tab of tabs"
+      class="tab"
+      [ngClass]="{ active: tab.active === true }"
+      (click)="selectTab(tab)"
+    >
+      {{ tab.tabTitle }}
+    </li>
+  </ul>
+  <ng-content></ng-content>
+</div>
