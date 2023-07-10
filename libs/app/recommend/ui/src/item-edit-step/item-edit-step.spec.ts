@@ -71,10 +71,9 @@ describe('ItemEditStep', () => {
       { name: 'A', unit: "mg", amount: 10 },
       { name: 'C', unit: "mg", amount: 30 }
     ];
-    const item = { name: 'B', unit: "mg", amount: 20 };
 
     // Act
-    component.removeItem(item);
+    component.removeItem(component.ingredientList[0]);
 
     // Assert
     expect(component.ingredientList).toEqual([

@@ -142,7 +142,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ["Healthy", "Chicken"]
 //     }
 //   },
