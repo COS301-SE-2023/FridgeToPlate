@@ -19,7 +19,7 @@ import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
 export class ItemEditStep {
   constructor(private recommendApiClient: RecommendApi) {}
 
-  ingredientList: IIngredient[] | undefined;
+  ingredientList: II[] | undefined ;
 
   ingredientsToBeDeleted: string[] = [];
 
