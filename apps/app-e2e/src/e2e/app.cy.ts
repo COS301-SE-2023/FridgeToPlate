@@ -211,9 +211,63 @@ describe('signup tests', () => {
       cy.contains('Please fill in all required fields.').should('exist');
     });
   });
-  
+
 describe('generate tests', () => {
   beforeEach(() => cy.visit('/'));
+
+  it('should display the first step of the form by default', () => {
+    cy.get('[data-cy=recipe-form-step-1]').should('be.visible');
+  });
+
+  it('should allow the user to navigate to the next step of the form', () => {
+    cy.get('[data-cy=next-step-button]').click();
+    cy.get('[data-cy=recipe-form-step-2]').should('be.visible');
+  });
+
+  it('should allow the user to submit the form', () => {
+    cy.get('[data-cy=next-step-button]').click();
+    cy.get('[data-cy=submit-button]').click();
+    cy.url().should('include', '/recipe-submitted');
+  });
+
+  it('should allow the user to search for recipes by keyword', () => {
+    cy.get('[data-cy=search-input]').type('chicken');
+    cy.get('[data-cy=search-button]').click();
+    cy.get('[data-cy=recipe-card]').should('have.length', 2);
+  });
+
+  it('should allow the user to filter recipes by cuisine', () => {
+    cy.get('[data-cy=cuisine-filter]').select('Italian');
+    cy.get('[data-cy=recipe-card]').should('have.length', 1);
+  });
+
+  it('should allow the user to filter recipes by dietary restrictions', () => {
+    cy.get('[data-cy=dietary-restrictions-filter]').select('Vegetarian');
+    cy.get('[data-cy=recipe-card]').should('have.length', 2);
+  });
+
+  it('should display a list of ingredients', () => {
+    cy.get('[data-cy=ingredient-item]').should('have.length', 4);
+  });
+
+  it('should allow the user to filter ingredients by name', () => {
+    cy.get('[data-cy=name-filter-input]').type('chicken');
+    cy.get('[data-cy=ingredient-item]').should('have.length', 1);
+  });
+
+  it('should allow the user to sort ingredients by quantity', () => {
+    cy.get('[data-cy=quantity-sort-select]').select('quantity-asc');
+    cy.get('[data-cy=ingredient-item]').first().contains('Chicken');
+  });
+
+  it('should display the diet preference name', () => {
+    cy.get('[data-cy=diet-pill]').should('contain', 'Vegan');
+  });
+
+  it('should change background color when clicked', () => {
+    cy.get('[data-cy=diet-pill]').click();
+    cy.get('[data-cy=diet-pill]').should('have.class', 'bg-primary-highlight');
+  });
 });
 
 describe('details tests', () => {
