@@ -1,0 +1,20 @@
+.tabs-container {
+  height: 200px;
+  margin: 2px;
+}
+.tabs-container .tab {
+  padding: 5px;
+  text-align: center;
+  width: 50px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+.tabs-container .tab:hover {
+  border-radius: 2px;
+  opacity: 90%;
+}
+.tabs-container .tab.active {
+  color: white;
+  background-color: gray;
+  border-bottom: 2px solid blue;
+}
