@@ -314,33 +314,9 @@ describe('Testing Tags', () => {
     fb = TestBed.inject(FormBuilder);
     fixture.detectChanges();
     component.recipeForm = fb.group({
-      dietaryPlans: fb.array([]),
+      meal: ['', Validators.required],
+      tag: ['', Validators.required],
     });
-  });
-
-  it('It should not add null values to tags array', () => {
-
-    const plan1 = 'Vegetarian';
-    const plan2 = 'Vegan';
-    const plan3 = null;
-    const dietaryPlans = component.recipeForm.get('dietaryPlans') as FormArray;
-    dietaryPlans.push(fb.control(plan1));
-    dietaryPlans.push(fb.control(plan2));
-    dietaryPlans.push(fb.control(plan3));
-    const tags = [];
-
-  for (let index = 0; index < dietaryPlans.length; index++) {
-    if(dietaryPlans.controls[index].value !== null){
-      tags.push(dietaryPlans.controls[index].value)
-    }
-    
-  }
-
-    expect(tags.length).toBe(2);
-    expect(tags).not.toContain(null);
-    expect(tags).toContain("Vegetarian");
-    expect(tags).toContain("Vegan");
-    
   });
 
   it("Should selet a meal type successfully", () => {
@@ -395,24 +371,42 @@ describe('Testing Tags', () => {
   it('should not add a tag if tags length is already 3', () => {
     // Arrange
     component.recipeForm.get('tag')?.setValue('Tag 1');
-    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+    const testTags = ['Tag 1', 'Tag 2', 'Tag 3'];
+    component.tags = testTags;
 
     // Act
     component.addTag();
 
     // Assert
     expect(component.tags.length).toBe(3);
+    expect(component.tags).toEqual(testTags);
+  });
+
+  it('should add a tag if tagValue is not empty', () => {
+    // Arrange
+    component.recipeForm.get('tag')?.setValue('Tag 1');
+
+    // Act
+    component.addTag();
+
+    
+    const testTagsOutput = ['Tag 1'];
+    // Assert
+    expect(component.tags.length).toBe(1);
+    expect(component.tags).toEqual(testTagsOutput);
   });
 
   it("Should delete a meal tag successfully", () => {
 
-    component.tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+    const testTags = ['Tag 1', 'Tag 2', 'Tag 3'];
+    component.tags = testTags;
 
     component.deleteTag(0);
 
+    const testTagsOutput = ['Tag 2', 'Tag 3'];
     // Assert
     expect(component.tags.length).toBe(2);
-
+    expect(component.tags).toEqual(testTagsOutput);
   })
 
 

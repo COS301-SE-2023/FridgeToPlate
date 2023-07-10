@@ -15,9 +15,7 @@ export class CreatePagComponent implements OnInit  {
   selectedMeal!: string;
   tags: string[] = [];
 
-  constructor(private fb: FormBuilder, private api: CreateAPI) {
-    
-  }
+  constructor(private fb: FormBuilder, private api: CreateAPI) {}
 
   ngOnInit() {
     this.createForm();
@@ -182,8 +180,8 @@ export class CreatePagComponent implements OnInit  {
   // Test
   addTag() {
     const tagValue = this.recipeForm.get('tag')?.value;
+
     if (tagValue && this.tags.length < 3) {
-      
       this.tags.push(tagValue);
     }
   }
