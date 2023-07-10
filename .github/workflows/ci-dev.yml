@@ -40,6 +40,7 @@ jobs:
 
     - name: Setup Enviroment Files
       run: |
+        touch apps/api/src/main/resources/application.properties
         printf "${{ secrets.API_APPLICATION_PROPERTIES }}" > apps/api/src/main/resources/application.properties
         cat apps/api/src/main/resources/application.properties
       shell: bash
