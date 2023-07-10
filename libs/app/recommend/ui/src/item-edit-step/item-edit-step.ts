@@ -34,16 +34,12 @@ export class ItemEditStep {
       },
     });
 
-  removeItem(item: IIngredient) {
-    console.log(item);
+  removeItem(deleteItem: IIngredient) {
+    console.log(deleteItem);
 
-    this.ingredientsToBeDeleted.push(item.name);
-
-    console.log('To be deleted: ', this.ingredientsToBeDeleted);
+    console.log('To be deleted: ', deleteItem.name);
     const updatedList = this.ingredientList?.filter((item) => {
-      if (item.name)
-        return !this.ingredientsToBeDeleted.includes(item.name);
-      else return false;
+        return item.name !== deleteItem.name;
     });
     this.ingredientList = updatedList;
   }

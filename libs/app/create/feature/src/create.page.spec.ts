@@ -73,7 +73,7 @@ describe('CreatePagComponent', () => {
 
     expect(createPage.recipeForm.contains('name')).toBe(true);
     expect(createPage.recipeForm.contains('description')).toBe(true);
-    expect(createPage.recipeForm.contains('numberOfServings')).toBe(true);
+    expect(createPage.recipeForm.contains('servings')).toBe(true);
     expect(createPage.recipeForm.contains('prepTime')).toBe(true);
     expect(createPage.recipeForm.contains('ingredients')).toBe(true);
     expect(createPage.recipeForm.contains('meal')).toBe(true);
@@ -89,7 +89,7 @@ describe('CreatePagComponent', () => {
 
     const nameControl = createPage.recipeForm.get('name');
     const descriptionControl = createPage.recipeForm.get('description');
-    const numberOfServingsControl = createPage.recipeForm.get('numberOfServings');
+    const numberOfServingsControl = createPage.recipeForm.get('servings');
     const preparationTimeControl = createPage.recipeForm.get('prepTime');
 
     const mealControl = createPage.recipeForm.get('meal');
@@ -288,7 +288,7 @@ describe('toggleDietaryPlan', () => {
       description: "A delicious chicken falafel",
       ingredients: [],
       tags: ['Paleo'],
-      numberOfServings: 4,
+      servings: 4,
       prepTime: 30,
       meal: "Dinner",
       steps: [],
@@ -629,7 +629,7 @@ describe('Ingredients storing and return', () => {
         tags: ["mock", "recipe"],
         recipeId : "123",
         description: "A delicious chicken falafel",
-        numberOfServings: 4,
+        servings: 4,
         prepTime: 30,
         meal: "Snack",
         steps: [],
@@ -644,7 +644,7 @@ describe('Ingredients storing and return', () => {
         difficulty: "Easy",
         tags: ["mock", "recipe"],
         description: "A delicious chicken falafel",
-        numberOfServings: 4,
+        servings: 4,
         prepTime: 30,
         meal: "Snack",
         steps: [],
@@ -660,7 +660,7 @@ describe('Ingredients storing and return', () => {
         name: fb.control(recipe.name),
         recipeImage: fb.control(recipe.recipeImage),
         difficulty: fb.control(recipe.difficulty),
-        numberOfServings: fb.control(recipe.numberOfServings),
+        servings: fb.control(recipe.servings),
         prepTime: fb.control(recipe.prepTime),
         meal: fb.control(recipe.meal),
         creator: fb.control(recipe.creator),

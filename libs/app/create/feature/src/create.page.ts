@@ -22,7 +22,7 @@ export class CreatePagComponent {
     this.recipeForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      numberOfServings: ['', Validators.required],
+      servings: ['', Validators.required],
       prepTime: ['', Validators.required],
       meal: ['', Validators.required],
       creator: ['', Validators.required],
@@ -45,7 +45,7 @@ export class CreatePagComponent {
   }
 
   get numberOfServingsControl() {
-    return (this.recipeForm.get('numberOfServings') as FormArray).controls;
+    return (this.recipeForm.get('servings') as FormArray).controls;
   }
 
   get descriptionControl() {
@@ -185,7 +185,7 @@ export class CreatePagComponent {
         description: "A delicious chicken falafel",
         difficulty: 'Easy',
         prepTime: this.recipeForm.get('prepTime')?.value as number,
-        numberOfServings: this.recipeForm.get('numberOfServings')?.value as number,
+        servings: this.recipeForm.get('servings')?.value as number,
         tags: tags,
         meal: "Snack",
         creator: "Kristap P",

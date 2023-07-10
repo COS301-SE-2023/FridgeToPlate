@@ -25,7 +25,7 @@ describe('RecipeCardComponent', () => {
     ],
     description: 'Heading',
     tags: ['Paleo'],
-    numberOfServings: 2,
+    servings: 2,
     prepTime: 30,
     meal: 'Snack',
     steps: ['Chop onions'],
