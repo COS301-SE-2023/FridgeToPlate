@@ -1,88 +1,38 @@
 <div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
-
-  
   <navigation-bar></navigation-bar>
-  
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
     <div class="flex justify-center my-auto">
-      <img (click)="fileInput.click()"
-      [src]="imageUrl"
-      class="max-h-96 rounded-2xl aspect-square cursor-pointer"
-      alt="Recipe Image"
-      />
-  
+      <img (click)="fileInput.click()" [src]="imageUrl" class="max-h-96 rounded-2xl aspect-square cursor-pointer" alt="Recipe Image"/>
       <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
-  
     </div>
-
     <div>
       <div class="mb-8">
         <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
-        <input
-          type="text"
-          id="name"
-          formControlName="name"
-          placeholder="Name"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-          required
-        >
+        <input type="text" id="name" formControlName="name" placeholder="Name" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
       </div>
-      
-    
       <div class="mb-7">
         <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
-        <textarea
-          id="description"
-          placeholder="Description"
-          formControlName="description"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-          required
-        ></textarea>
+        <textarea id="description" placeholder="Description" formControlName="description" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required></textarea>
       </div>
 
       <div class="mb-8">
         <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
-        <input
-          type="number"
-          id="servings"
-          placeholder="e.g 10"
-          formControlName="servings"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-        >
+        <input type="number" id="servings" placeholder="e.g 10" formControlName="servings" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
       </div>
-    
+
       <div>
         <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
-        <input
-          type="number"
-          id="preparation-time"
-          placeholder="e.g 10"
-          formControlName="preparationTime"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-          required
-        >
+        <input type="number" id="preparation-time" placeholder="e.g 10" formControlName="preparationTime" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
       </div>
     </div>
 
     <div class="lg:hidden">
       <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
       <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
-        <button
-          type="button"
-          [ngClass]="getMealPlan('breakfast')"
-          value="Breakfast"
-          (click)="toggleMeal('breakfast')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+        <button type="button" [ngClass]="getMealPlan('breakfast')" value="Breakfast" (click)="toggleMeal('breakfast')" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
         BreakFast
         </button>
-        <button
-          type="button"
-          [ngClass]="getMealPlan('lunch')"
-          (click)="toggleMeal('lunch')"
-          value="Lunch"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+        <button type="button" [ngClass]="getMealPlan('lunch')" (click)="toggleMeal('lunch')" value="Lunch" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
         Lunch
         </button>
         <button
@@ -114,7 +64,7 @@
         </button>
       </div>
     </div>
-  
+
     <div>
       <div class="flex justify-between">
         <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
@@ -125,29 +75,20 @@
           <div [formGroupName]="i" class=" flex mb-2 ">
 
             <div class="w-3/5">
-              <input formControlName="ingredientName"
-              placeholder="Ingredient Name"
-              required
-              type="text"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
+              <input formControlName="ingredientName" placeholder="Ingredient Name" required type="text" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
             </div>
-  
+
             <div class="w-1/5 mx-2">
-              <input formControlName="amount"
-              type="number"
-              [placeholder]="getAmountPlaceholderText()"
-              required 
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
-      
+              <input formControlName="amount" type="number" [placeholder]="getAmountPlaceholderText()" required class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
             </div>
-           
+
             <div class="w-1/5">
               <input formControlName="scale"
               [placeholder]="getUnitPlaceholderText()"
               required
               type="text"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
-  
+
             </div>
 
             <div>
@@ -156,13 +97,13 @@
               </button>
             </div>
 
-          </div> 
+          </div>
         </div>
       </div>
 
     </div>
-      
-  
+
+
     <div>
       <div class="flex justify-between">
         <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
@@ -172,19 +113,12 @@
         <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2">
           <div class="flex items-center space-x-4">
             <span class="text-xl">{{ i+1 }}.</span>
-            <input type="text"
-                   placeholder="Add Instruction"
-                   id="instruction-{{i}}"
-                   [formControlName]="i"
-                   class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-                   required>
-            <button type="button"
-                    (click)="removeInstruction(i)"
-                    class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+            <input type="text" placeholder="Add Instruction" id="instruction-{{i}}"[formControlName]="i" class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl" required>
+            <button type="button" (click)="removeInstruction(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -192,40 +126,16 @@
     <div class="hidden lg:block">
       <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
       <div class="lg:flex lg:justify-between ">
-        <button
-          type="button"
-          [ngClass]="getMealPlan('breakfast')"
-          value="Breakfast"
-          (click)="toggleMeal('breakfast')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+        <button type="button" [ngClass]="getMealPlan('breakfast')" value="Breakfast" (click)="toggleMeal('breakfast')" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
         BreakFast
         </button>
-        <button
-          type="button"
-          [ngClass]="getMealPlan('lunch')"
-          (click)="toggleMeal('lunch')"
-          value="Lunch"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+        <button type="button" [ngClass]="getMealPlan('lunch')" (click)="toggleMeal('lunch')" value="Lunch" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
         Lunch
         </button>
-        <button
-          type="button"
-          [ngClass]="getMealPlan('dinner')"
-          (click)="toggleMeal('dinner')"
-          value="Dinner"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+        <button type="button" [ngClass]="getMealPlan('dinner')" (click)="toggleMeal('dinner')" value="Dinner" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
         Dinner
         </button>
-        <button
-          type="button"
-          [ngClass]="getMealPlan('snack')"
-          (click)="toggleMeal('snack')"
-          value="Snack"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-          >
+        <button type="button" [ngClass]="getMealPlan('snack')" (click)="toggleMeal('snack')" value="Snack" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2">
           Snack
         </button>
         <button
@@ -243,7 +153,7 @@
     <div>
       <label for="tag" class="block text-gray-700 font-bold mb-2">Tag<span class="text-red-500">*</span></label>
 
-      <div class="flex items-center space-x-4"> 
+      <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
@@ -265,9 +175,9 @@
         </li>
         </ul>
       </div>
-      
+
     </div>
-   
+
     <div class="flex justify-center lg:col-span-2 lg:px-36">
       <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full">Create Recipe</button>
     </div>
