@@ -1,12 +1,12 @@
 <div class="tabs-container">
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs flex flex-row border-b border-gray-200">
     <li
       *ngFor="let tab of tabs"
-      class="tab"
+      class="tab active:bg-gray-400 p-3"
       [ngClass]="{ active: tab.active === true }"
       (click)="selectTab(tab)"
     >
-      {{ tab.tabTitle }}
+      {{ tab.tabName }}
     </li>
   </ul>
   <ng-content></ng-content>
