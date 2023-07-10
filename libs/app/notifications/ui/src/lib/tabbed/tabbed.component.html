@@ -1,12 +1,12 @@
 <div class="tabs-container">
-  <ul class="nav nav-tabs flex flex-row border-b border-gray-200">
+  <ul class="nav nav-tabs flex flex-row border-b border-gray-200 lg:w-[90%]">
     <li
       *ngFor="let tab of tabs"
       class="tab active:bg-gray-400 p-3 flex flex-row"
       [ngClass]="{ active: tab.active === true }"
       (click)="selectTab(tab)"
     >
-      <p class="mr-4">
+      <p class="mr-4 lg:mr-8">
         {{ tab.tabName }}
       </p>
       <span class="bg-primary-highlight text-white px-2 rounded-md">{{
@@ -14,9 +14,9 @@
       }}</span>
     </li>
   </ul>
-  <div class="py-2 flex flex-row justify-end">
+  <div class="py-2 flex flex-row justify-end lg:py-6">
     <button
-      class="mt-1 bg-primary-highlight py-2 px-4 text-white font-semibold rounded-md active:bg-primary hover :bg-primary"
+      class="mt-1 bg-primary-highlight py-2 px-4 text-white font-semibold rounded-md active:bg-primary hover:bg-primary cursor-pointer"
       type="button"
     >
       Clear
