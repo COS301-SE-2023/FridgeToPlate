@@ -872,18 +872,19 @@ describe('Ingredients storing and return', () => {
       const event = { target: { files: [file] } };
       const existingImage = component.imageUrl;
       
-      const onFileChangedSpy = jest.spyOn(component, 'onFileChanged')
-      .mockImplementation(() => {
-        component.imageUrl = file.name;
+      const readAsDataURLStringSpy = jest.spyOn(FileReader.prototype, 'readAsDataURL');
+
+      // Act
+      component.onFileChanged(event);
+
+      // Assert
+      expect(readAsDataURLStringSpy).toHaveBeenCalledWith(file);
+
+      const reader = new FileReader();
+      reader.addEventListener("load", function(event) {
+        expect(component.imageUrl).toBe(file.name);
+        expect(component.imageUrl).not.toBe(existingImage);
       });
-
-    // Act
-    component.onFileChanged(event);
-
-    // Assert
-    expect(onFileChangedSpy).toHaveBeenCalledWith(event);
-    expect(component.imageUrl).toBe(file.name);
-    expect(component.imageUrl).not.toBe(existingImage);
     });
    
   });
