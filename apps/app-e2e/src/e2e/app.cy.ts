@@ -142,10 +142,76 @@ describe('signup tests', () => {
     });
   });
 
-describe('create tests', () => {
-  beforeEach(() => cy.visit('/'));
-});
+  describe('create tests', () => {
+    beforeEach(() => {
+      cy.visit('/');
+    });
 
+    it('should create a new recipe with valid data', () => {
+      const recipeName = 'Test Recipe';
+      const description = 'This is a test recipe';
+      const servings = '4';
+      const prepTime = '30 minutes';
+      const ingredients = [
+        '1 cup flour',
+        '1/2 cup sugar',
+        '1/4 cup butter',
+        '1 egg',
+        '1 tsp vanilla extract'
+      ];
+      const instructions = [
+        'Preheat oven to 350°F',
+        'Mix flour and sugar in a bowl',
+        'Cut in butter until mixture resembles coarse crumbs',
+        'Add egg and vanilla extract; mix well',
+        'Drop by spoonfuls onto greased baking sheet',
+        'Bake for 15-20 minutes or until golden brown'
+      ];
+      const mealType = 'Dessert';
+      const tags = ['Test', 'Cypress'];
+
+      // Fill in the form fields
+      cy.get('[data-testid="recipe-name-input"]').type(recipeName);
+      cy.get('[data-testid="description-input"]').type(description);
+      cy.get('[data-testid="servings-input"]').type(servings);
+      cy.get('[data-testid="prep-time-input"]').type(prepTime);
+      cy.get('[data-testid="ingredients-input"]').type(ingredients.join('\n'));
+      cy.get('[data-testid="instructions-input"]').type(instructions.join('\n'));
+      cy.get('[data-testid="meal-type-input"]').select(mealType);
+      cy.get('[data-testid="tags-input"]').type(tags.join(', '));
+
+      // Upload image
+      cy.fixture('test-image.jpg').then((fileContent) => {
+        cy.get('[data-testid="image-input"]').upload({ fileContent, fileName: 'test-image.jpg', mimeType: 'image/jpeg' });
+      });
+
+      // Submit the form
+      cy.get('[data-testid="submit-button"]').click();
+
+      // Assert that the recipe was created successfully
+      cy.url().should('include', '/recipes/');
+      cy.contains(recipeName).should('exist');
+      cy.contains(description).should('exist');
+      cy.contains(servings).should('exist');
+      cy.contains(prepTime).should('exist');
+      cy.contains(mealType).should('exist');
+      cy.contains(tags[0]).should('exist');
+      cy.contains(tags[1]).should('exist');
+    });
+
+    it('should display an error message for invalid data', () => {
+      // Fill in the form fields with invalid data
+      cy.get('[data-testid="recipe-name-input"]').type(''); // Empty recipe name
+      cy.get('[data-testid="servings-input"]').type('0'); // Zero servings
+
+      // Submit the form
+      cy.get('[data-testid="submit-button"]').click();
+
+      // Assert that the error message is displayed
+      cy.contains('Please fill in all required fields.').should('exist');
+    });
+  });
+  
 describe('generate tests', () => {
   beforeEach(() => cy.visit('/'));
 });
