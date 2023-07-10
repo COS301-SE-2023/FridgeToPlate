@@ -8,6 +8,11 @@
   width: fit-content;
   cursor: pointer;
   font-weight: 600;
+  margin-right: 6px;
+}
+
+.tab > p {
+  margin-right: 10px;
 }
 .tabs-container .tab:hover {
   border-radius: 2px;

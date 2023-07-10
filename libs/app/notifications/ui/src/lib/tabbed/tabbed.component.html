@@ -2,11 +2,16 @@
   <ul class="nav nav-tabs flex flex-row border-b border-gray-200">
     <li
       *ngFor="let tab of tabs"
-      class="tab active:bg-gray-400 p-3"
+      class="tab active:bg-gray-400 p-3 flex flex-row"
       [ngClass]="{ active: tab.active === true }"
       (click)="selectTab(tab)"
     >
-      {{ tab.tabName }}
+      <p class="mr-4">
+        {{ tab.tabName }}
+      </p>
+      <span class="bg-primary-highlight text-white px-2 rounded-md">{{
+        tab.tabCount
+      }}</span>
     </li>
   </ul>
   <ng-content></ng-content>
