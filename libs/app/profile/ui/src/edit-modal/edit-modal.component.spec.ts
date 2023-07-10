@@ -12,8 +12,7 @@ describe('EditModalComponent', () => {
     username: "jdoe",
     email: "jdoe@gmail.com",
     ingredients: [],
-    currMealPlan:  [],
-    preferences: [],
+    currMealPlan: null,
     savedRecipes: [],
     createdRecipes: [],
   };

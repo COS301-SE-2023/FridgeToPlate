@@ -22,7 +22,6 @@ describe('RecipeDetailPageComponent', () => {
     recipeImage: "url.com/image",
     ingredients: [
       {
-        ingredientId: 'test-id',
         name: 'Carrot',
         unit: 'ml',
         amount: 10,

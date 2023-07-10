@@ -1,16 +1,5 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
-export interface IngredientItem {
-  ingredientId: number;
-  name: string;
-  amount: number;
-  metadata?: {
-    amountPerUnit?: number;
-    unit?: string;
-    tags?: string[];
-  };
-}
-
 export const ingredientsArray: IIngredient[] = [
   {
     name: 'Tomato',

@@ -19,8 +19,7 @@ describe("ProfilePage", () => {
     ingredients: [],
     profilePic: "image-url",
     createdRecipes: [],
-    preferences: [],
-    currMealPlan: [],
+    currMealPlan: null,
   };
 
   @State({ 

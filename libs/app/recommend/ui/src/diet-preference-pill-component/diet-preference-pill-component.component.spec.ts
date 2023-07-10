@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DietPreferencePillComponentComponent } from './diet-preferences-pill-component.component';
+import { DietPreferencePillComponentComponent } from './diet-preference-pill-component.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NzI18nService } from 'ng-zorro-antd/i18n';
 

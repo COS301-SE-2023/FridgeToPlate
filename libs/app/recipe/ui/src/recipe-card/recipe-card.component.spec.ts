@@ -18,7 +18,6 @@ describe('RecipeCardComponent', () => {
     difficulty: 'Easy',
     ingredients: [
       {
-        ingredientId: 'test-id',
         name: 'Carrot',
         unit: 'ml',
         amount: 10,

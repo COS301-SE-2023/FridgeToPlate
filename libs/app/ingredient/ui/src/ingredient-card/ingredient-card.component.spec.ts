@@ -7,10 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 describe('IngredientCardComponent', () => {
   let component: IngredientCardComponent;
   let fixture: ComponentFixture<IngredientCardComponent>;
-  let testIngredient: IIngredient;
-
-  testIngredient = {
-    ingredientId: "test-id",
+  const testIngredient: IIngredient = {
     name: "Carrot",
     unit: "mg",
     amount: 15,

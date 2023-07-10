@@ -1,18 +1,18 @@
-import { IngredientItem, ingredientsArray } from './ingredients.mock';
-// import {recipeArray} from "./recipes.mock";
+import { ingredientsArray } from './ingredients.mock';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 export function getAllIngredients() {
   return ingredientsArray;
 }
 
 export function addIngredient(
-  ingredient: IngredientItem,
-  ingredents: IngredientItem[]
+  ingredient: IIngredient,
+  ingredents: IIngredient[]
 ) {
   if (!ingredient) return;
 
   const item = ingredents.find(
-    (item) => item.ingredientId === ingredient.ingredientId
+    (item) => item.name === ingredient.name
   );
 
   if (item) return;
@@ -21,19 +21,19 @@ export function addIngredient(
 }
 
 export function removeIngredient(
-  ingredient: IngredientItem,
-  ingredients: IngredientItem[]
-): IngredientItem[] {
+  ingredient: IIngredient,
+  ingredients: IIngredient[]
+): IIngredient[] {
   if (!ingredient) return ingredients;
 
   const item = ingredients.find(
-    (item) => item.ingredientId === ingredient.ingredientId
+    (item) => item.name === ingredient.name
   );
 
   if (!item) return ingredients;
 
   ingredients = ingredients.filter(
-    (ing) => ing.ingredientId !== item.ingredientId
+    (ing) => ing.name !== item.name
   );
 
   return ingredients;

@@ -1,10 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import {
-  IngredientItem,
-  RecommendDataAccessModule,
-  ingredientsArray,
-} from '@fridge-to-plate/app/recommend/data-access';
 
 import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendApi } from '../../../data-access/src/recommend.api';
