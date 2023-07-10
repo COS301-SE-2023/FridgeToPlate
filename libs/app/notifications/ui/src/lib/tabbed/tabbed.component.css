@@ -5,16 +5,16 @@
 .tabs-container .tab {
   padding: 5px;
   text-align: center;
-  width: 50px;
+  width: fit-content;
   cursor: pointer;
+  font-weight: 600;
 }
 .tabs-container .tab:hover {
   border-radius: 2px;
   opacity: 90%;
 }
 .tabs-container .tab.active {
-  color: white;
-  background-color: rgb(223, 223, 223);
+  color: #c35214;
   border-bottom: 2px solid #c35214;
 }
 
