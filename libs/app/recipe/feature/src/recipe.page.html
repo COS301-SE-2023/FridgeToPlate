@@ -73,8 +73,8 @@
         <ion-list-header>
           <ion-label class="text-lg font-bold">Instructions</ion-label>
         </ion-list-header>
-        <ion-item *ngFor="let instruction of recipe?.instructions">
-          <div>{{instruction?.instructionBody ?? 'Unknown ingredient'}}</div>
+        <ion-item *ngFor="let instruction of recipe?.steps">
+          <div>{{ instruction }}</div>
         </ion-item>
       </ion-list>
     </div>

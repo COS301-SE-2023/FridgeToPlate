@@ -139,13 +139,11 @@ export class CreatePagComponent {
     const ingredients: IIngredient[] = [];
     
     let tags = new Array(this.dietaryPlans.length);
-    let count = 0;
     this.ingredientControls.forEach((element) => {
       if (element.value !== null) {
         
          ingredients.push({
           name: element.value,
-          ingredientId : (count++).toString(),
           unit: "kg",
           amount: 2,
         });

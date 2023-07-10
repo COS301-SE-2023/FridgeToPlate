@@ -1,7 +1,7 @@
 {
-  "name": "app-preference-data-access",
+  "name": "app-preferences-utils",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/app/preference/data-access/src",
+  "sourceRoot": "libs/app/preferences/utils/src",
   "prefix": "fridge-to-plate",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/app/preference/data-access/jest.config.ts",
+        "jestConfig": "libs/app/preferences/utils/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/app/preference/data-access/**/*.ts",
-          "libs/app/preference/data-access/**/*.html"
+          "libs/app/preferences/utils/**/*.ts",
+          "libs/app/preferences/utils/**/*.html"
         ]
       }
     }

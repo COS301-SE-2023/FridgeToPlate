@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-preference-data-access',
+  displayName: 'app-preferences-utils',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/app/preference/data-access',
+  coverageDirectory: '../../../../coverage/libs/app/preferences/utils',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

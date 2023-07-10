@@ -19,8 +19,7 @@ export interface ProfileStateModel {
             ingredients: [],
             profilePic: "",
             createdRecipes: [],
-            preferences: [],
-            currMealPlan: []
+            currMealPlan: null
         }
     }
 })

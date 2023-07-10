@@ -1,5 +1,5 @@
 export interface IReview {
-  reviewId: string;
+  reviewId?: string;
   recipeId: string;
   username: string;
   rating: number;
