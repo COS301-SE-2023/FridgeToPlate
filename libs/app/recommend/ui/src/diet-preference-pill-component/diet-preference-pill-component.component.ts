@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'fridge-to-plate-diet-preferences-pill-component',
-  templateUrl: './diet-preferences-pill-component.component.html',
-  styleUrls: ['./diet-preferences-pill-component.component.css'],
+  selector: 'fridge-to-plate-diet-preference-pill-component',
+  templateUrl: './diet-preference-pill-component.component.html',
+  styleUrls: ['./diet-preference-pill-component.component.css'],
 })
 export class DietPreferencePillComponentComponent implements OnInit {
   @Input() diet: string | undefined;

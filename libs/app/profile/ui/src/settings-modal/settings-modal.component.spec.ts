@@ -1,31 +1,38 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsModalComponent } from './settings-modal.component';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
+import { NgxsModule, State } from '@ngxs/store';
+import { Injectable } from '@angular/core';
+import { take } from 'rxjs';
 
 describe('EditModalComponent', () => {
   let component: SettingsModalComponent;
   let fixture: ComponentFixture<SettingsModalComponent>;
-  const testProfile: IProfile = {
-    profileId: "1",
-    displayName: "John Doe",
-    profilePic: "image-url",
-    username: "jdoe",
-    email: "jdoe@gmail.com",
-    ingredients: [],
-    currMealPlan:  [],
-    preferences: [],
-    savedRecipes: [],
-    createdRecipes: [],
+  const testPreferences: IPreferences = {
+    username: "testuser",
+    darkMode: false,
+    recommendNotif: false,
+    reviewNotif: false,
+    viewsNotif: false,
   };
+
+  @State({ 
+    name: 'preferences', 
+    defaults: {
+      profile: testPreferences
+    } 
+  }) 
+  @Injectable()
+  class MockProfileState {}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([MockProfileState])],
       declarations: [SettingsModalComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsModalComponent);
     component = fixture.componentInstance;
-    component.editableProfile = testProfile;
     fixture.detectChanges();
   });
 
@@ -34,9 +41,21 @@ describe('EditModalComponent', () => {
   });
 
   it('save should call save func', () => {
-    jest.spyOn(component.saveFunc, 'emit');
-    component.save()
-    expect(component.saveFunc.emit).toBeCalled();
+    
+    const updateTestPreferences: IPreferences = {
+      username: "testuser",
+      darkMode: false,
+      recommendNotif: true,
+      reviewNotif: false,
+      viewsNotif: false,
+    };
+
+    component.editablePreferences = updateTestPreferences;
+    component.save();
+
+    component.preferences$.pipe(take(1)).subscribe((preferences: IPreferences) => {
+      expect(preferences).toEqual(component.editablePreferences);
+    })
   }); 
 
   it('save should call close func', () => {

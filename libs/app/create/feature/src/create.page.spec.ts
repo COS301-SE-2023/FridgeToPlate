@@ -251,7 +251,7 @@ describe('toggleDietaryPlan', () => {
     // call the createInstructions method and check the result
     ;
 
-    const instructions: String[] = [];
+    const instructions: string[] = [];
 
     if(component.instructionControls){
 
@@ -409,7 +409,6 @@ describe('Ingredients storing and return', () => {
   it('Create Ingredients', () => { 
       // Mock data
       const expectData = { 
-        ingredientId : "123",
         name: "Chicken Falaty",
         unit: "kg",
         amount: 2,
@@ -432,14 +431,14 @@ describe('Ingredients storing and return', () => {
     it("should call the createNewMultipleIngredients method on the ApiService object with the correct arguments", async () => {
       // Create a mock array of IIngredient objects
       const ingredients: IIngredient[] = [
-        { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-        { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+        { name: "Ingredient 1", unit: "kg", amount: 2 },
+        { name: "Ingredient 2", unit: "kg", amount: 2 },
       ];
     
       // Set up the mock response from the createNewMultipleIngredients method
       const response: IIngredient[] = [
-        { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-        { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+        { name: "Ingredient 1", unit: "kg", amount: 2 },
+        { name: "Ingredient 2", unit: "kg", amount: 2 },
       ];
       apiService.createNewMultipleIngredients = jest.fn().mockResolvedValue(response);
     
@@ -456,14 +455,14 @@ describe('Ingredients storing and return', () => {
    it("should resolve the promise with the correct response", async () => {
     // Create a mock array of IIngredient objects
     const ingredients: IIngredient[] = [
-      { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-      { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+      { name: "Ingredient 1", unit: "kg", amount: 2 },
+      { name: "Ingredient 2", unit: "kg", amount: 2 },
     ];
   
     // Set up the mock response from the createNewMultipleIngredients method
     const response: IIngredient[] = [
-      { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-      { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+      { name: "Ingredient 1", unit: "kg", amount: 2 },
+      { name: "Ingredient 2", unit: "kg", amount: 2 },
     ];
   
     // Mock the createNewMultipleIngredients method to return an observable
@@ -526,7 +525,7 @@ describe('Ingredients storing and return', () => {
       // call the createInstructions method and check the result
       ;
   
-      const instructions: String[] = [];
+      const instructions: string[] = [];
 
       if(component.instructionControls){
         for (let index = 0; index < component.instructionControls.length; index++) {
@@ -559,7 +558,6 @@ describe('Ingredients storing and return', () => {
       const ingredients : IIngredient[] = [];
       for (let index = 0; index < controls.length; index++) {
         ingredients.push({
-          ingredientId: (index).toString(),
           name: controls[index].value,
           unit: "ml",
           amount: 10,
@@ -567,19 +565,19 @@ describe('Ingredients storing and return', () => {
       }
   
       // assert that the instructions array was created correctly
-      expect(ingredients[0]).toEqual({ ingredientId: "0", name: "Mango", unit: "ml", amount: 10 });
-      expect(ingredients[1]).toEqual({ ingredientId: "1", name: "Potato", unit: "ml", amount: 10 });
-      expect(ingredients[2]).toEqual({ ingredientId: "2", name: "Banana", unit: "ml", amount: 10 });
-      expect(ingredients[3]).toEqual({ ingredientId: "3", name: "Salad", unit: "ml", amount: 10 });
-      expect(ingredients[4]).toEqual({ ingredientId: "4", name: "Onion", unit: "ml", amount: 10 });
+      expect(ingredients[0]).toEqual({ name: "Mango", unit: "ml", amount: 10 });
+      expect(ingredients[1]).toEqual({ name: "Potato", unit: "ml", amount: 10 });
+      expect(ingredients[2]).toEqual({ name: "Banana", unit: "ml", amount: 10 });
+      expect(ingredients[3]).toEqual({ name: "Salad", unit: "ml", amount: 10 });
+      expect(ingredients[4]).toEqual({ name: "Onion", unit: "ml", amount: 10 });
     
     })
 
     it("should reject the promise if the response is falsy", async () => {
       // Create a mock array of IIngredient objects
       const ingredients: IIngredient[] = [
-        { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-        { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+        { name: "Ingredient 1", unit: "kg", amount: 2 },
+        { name: "Ingredient 2", unit: "kg", amount: 2 },
       ];
     
       // Set up the mock response from the createNewMultipleIngredients method as falsy (empty array)
@@ -600,14 +598,14 @@ describe('Ingredients storing and return', () => {
     it("should resolve the promise if the response is truthy", async () => {
       // Create a mock array of IIngredient objects
       const ingredients: IIngredient[] = [
-        { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-        { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+        { name: "Ingredient 1", unit: "kg", amount: 2 },
+        { name: "Ingredient 2", unit: "kg", amount: 2 },
       ];
 
       // Set up the mock response from the createNewMultipleIngredients method as truthy
       const response: IIngredient[] = [
-        { ingredientId: "1", name: "Ingredient 1", unit: "kg", amount: 2 },
-        { ingredientId: "2", name: "Ingredient 2", unit: "kg", amount: 2 },
+        { name: "Ingredient 1", unit: "kg", amount: 2 },
+        { name: "Ingredient 2", unit: "kg", amount: 2 },
       ];
       jest.spyOn(apiService, 'createNewMultipleIngredients').mockReturnValue(of(response));
 
