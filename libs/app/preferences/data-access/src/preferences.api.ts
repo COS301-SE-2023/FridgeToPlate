@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPreference } from '@fridge-to-plate/app/preference/utils';
+import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 
 export interface IResponse {
   status: number;
@@ -10,7 +10,7 @@ export interface IResponse {
 
 export interface PreferenceRequest extends IResponse {
   data: {
-    preference: IPreference;
+    preferences: IPreferences;
   };
 }
 
@@ -19,18 +19,18 @@ const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 @Injectable({
   providedIn: 'root',
 })
-export class PreferenceAPI {
+export class PreferencesAPI {
   constructor(private http: HttpClient) {}
 
   private baseUrl = "http://localhost:5000/preferences";
 
-  updatePreference(preference: IPreference) {
+  updatePreference(preferences: IPreferences) {
 
-    const id = preference.userId;
+    const username = preferences.username;
 
-    const url = `${this.baseUrl}/${id}` ;
+    const url = `${this.baseUrl}/${username}` ;
 
-    this.http.put<IResponse>(url, preference).subscribe({
+    this.http.put<IResponse>(url, preferences).subscribe({
       next: data => {
           console.log(data.status);
           return data.status;

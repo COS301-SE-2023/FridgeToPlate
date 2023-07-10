@@ -41,14 +41,13 @@ export class ItemEditStep {
 
   removeItem(item: IIngredient) {
     console.log(item);
-    if (!item.ingredientId) return;
 
-    this.ingredientsToBeDeleted.push(item.ingredientId);
+    this.ingredientsToBeDeleted.push(item.name);
 
     console.log('To be deleted: ', this.ingredientsToBeDeleted);
     const updatedList = this.ingredientList?.filter((item) => {
-      if (item.ingredientId)
-        return !this.ingredientsToBeDeleted.includes(item.ingredientId);
+      if (item.name)
+        return !this.ingredientsToBeDeleted.includes(item.name);
       else return false;
     });
     this.ingredientList = updatedList;
