@@ -8,6 +8,7 @@ import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
+import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
 
 @NgModule({
   imports: [
@@ -20,6 +21,9 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
     NavigationBarModule,
     ProfileDataAccessModule
   ],
-  declarations: [ProfilePage],
+  declarations: [
+    ProfilePage, 
+    ClickedOutsideDirective
+  ],
 })
 export class ProfileModule {}

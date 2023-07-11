@@ -47,3 +47,4 @@ Thumbs.db
 #Enviroment Files
 .env
 .prod.env
+# *application.properties

@@ -1,10 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import {
-  IngredientItem,
-  RecommendDataAccessModule,
-  ingredientsArray,
-} from '@fridge-to-plate/app/recommend/data-access';
 
 import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendApi } from '../../../data-access/src/recommend.api';
@@ -39,17 +34,12 @@ export class ItemEditStep {
       },
     });
 
-  removeItem(item: IIngredient) {
-    console.log(item);
-    if (!item.ingredientId) return;
+  removeItem(deleteItem: IIngredient) {
+    console.log(deleteItem);
 
-    this.ingredientsToBeDeleted.push(item.ingredientId);
-
-    console.log('To be deleted: ', this.ingredientsToBeDeleted);
+    console.log('To be deleted: ', deleteItem.name);
     const updatedList = this.ingredientList?.filter((item) => {
-      if (item.ingredientId)
-        return !this.ingredientsToBeDeleted.includes(item.ingredientId);
-      else return false;
+        return item.name !== deleteItem.name;
     });
     this.ingredientList = updatedList;
   }

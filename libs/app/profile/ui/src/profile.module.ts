@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
 import { FormsModule } from '@angular/forms';
 import { SettingsModalComponent } from './settings-modal/settings-modal.component';
+import { NgxsModule } from '@ngxs/store';
+import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    NgxsModule.forRoot([PreferencesState]),
   ],
   declarations: [EditModalComponent, SettingsModalComponent],
   exports: [EditModalComponent, SettingsModalComponent]
