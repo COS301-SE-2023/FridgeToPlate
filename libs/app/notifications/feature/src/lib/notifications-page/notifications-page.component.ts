@@ -5,6 +5,7 @@ import {
   NotificationsApi,
 } from 'libs/app/notifications/data-access/src/notifications-api';
 import { Observable, Subject } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'fridge-to-plate-notifications-page',
@@ -20,6 +21,7 @@ export class NotificationsPageComponent {
   ];
 
   constructor(
+    private location: Location,
     private notificationsApi: NotificationsApi,
     private router: Router
   ) {
@@ -28,6 +30,10 @@ export class NotificationsPageComponent {
 
   onNotificationClick(recipeId: string): void {
     this.router.navigate([`recipe/${recipeId}`]);
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   clearAllNotifications(clearType: string) {
