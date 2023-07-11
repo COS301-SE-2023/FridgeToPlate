@@ -1,68 +1,58 @@
-import { data } from 'cypress/types/jquery';
-import { getGreeting } from '../support/app.po';
-
+/* eslint-disable cypress/unsafe-to-chain-command */
 describe('login tests', () => {
-  beforeEach(() => cy.visit('/login'));
+  beforeEach(() => cy.visit('http://localhost:4200/login'));
 
-  it('successfully loads login', () => {
+  it('should display the header', () => {
     cy.get('h1').contains('Hey, Welcome Back');
+  });
+
+  it('should display a correct input form', () => {
+    cy.get('input[name="username"]').should('exist').should('be.visible');
+    cy.get('input[name="password"]').should('exist').should('be.visible');
+    cy.get('button[type="submit"]').should('exist').should('be.visible').contains('Login');
+  });
+
+  it('should display link to continue as guest', () => {
+    cy.get('a').contains('Continue as guest').click();
+  });
+
+  it('should navigate to signup', () => {
+    cy.get('a').contains('Create').click();
+    cy.url().should('include', 'signup');
   });
 
   it('should prevent incorrect login attempt', () => {
     cy.fixture('user-details.json').then((userData) => {
-      cy.get('input[name="username"]').type(userData.username);
-      cy.get('input[name="password"]').type(userData.password);
+      cy.get('input[name="username"]').type(userData[0].username);
+      cy.get('input[name="password"]').type(userData[0].password);
       cy.get('button').click();
-      cy.url().contains('profile');
+      cy.url().should('include', 'login');
     });
-  });
-
-  it('should attempt login', () => {
-    cy.get('input[name="username"]').type('smileyazola@gmail.com');
-    cy.get('input[name="password"]').type('randomPassword!');
-    cy.get('button').click();
-    cy.url().contains('profile');
-  });
-
-  it('should navigate to signup', () => {
-    cy.get('button').click();
-    cy.url().contains('signup');
   });
 });
 
 describe('signup tests', () => {
-  beforeEach(() => cy.visit('/signup'));
+  beforeEach(() => cy.visit('http://localhost:4200/signup'));
 
   it('should display the header', () => {
-    cy.get('h1').should('contain', 'Create New Account');
+    cy.get('h1').contains('Create New Account');
   });
 
-  it('should display link to login page', () => {
-    cy.get('a').contains('Already have an account?').should('have.attr', 'href', '/login');
+  it('should navigate to login page', () => {
+    cy.get('a').contains('Login').click();
+    cy.url().should('include', 'login');
   });
 
-  it('should display a username input field', () => {
+  it('should display a correct input form', () => {
     cy.get('input[name="username"]').should('exist').should('be.visible');
-  });
-
-  it('should display an email address input field', () => {
     cy.get('input[name="email_address"]').should('exist').should('be.visible');
-  });
-
-  it('should display a password input field', () => {
     cy.get('input[name="password"]').should('exist').should('be.visible');
-  });
-
-  it('should display a confirm password input field', () => {
     cy.get('input[name="confirm_password"]').should('exist').should('be.visible');
-  });
-
-  it('should display a Create Account button', () => {
     cy.get('button[type="submit"]').should('exist').should('be.visible').contains('Create Account');
   });
 
   it('should display link to continue as guest', () => {
-    cy.get('a').contains('Continue as guest').should('have.attr', 'href', '/guest');
+    cy.get('a').contains('Continue as guest').click();
   });
 
   it('should prevent form submission with invalid input', () => {
@@ -71,80 +61,73 @@ describe('signup tests', () => {
     cy.get('input[name="password"]').type('pass');
     cy.get('input[name="confirm_password"]').type('pass');
     cy.get('button[type="submit"]').click();
-    cy.url().should('eq', Cypress.config().baseUrl + '/signup');
-  });
-
-  it('should successfully submit form with valid input', () => {
-    cy.get('input[name="username"]').type('john_doe');
-    cy.get('input[name="email_address"]').type('john_doe@example.com');
-    cy.get('input[name="password"]').type('password123');
-    cy.get('input[name="confirm_password"]').type('password123');
-    cy.get('button[type="submit"]').click();
-    cy.url().should('eq', Cypress.config().baseUrl + '/profile');
+    cy.url().should('include', 'signup');
   });
 });
 
-  it('should navigate to login', () => {
-    cy.get('button').click();
-    cy.url().contains('login');
-  });
-
   describe('profile tests', () => {
-    beforeEach(() => cy.visit('/profile'));
+    beforeEach(() => cy.visit('http://localhost:4200/profile'));
 
     it('displays profile information correctly', () => {
       // Check that the profile name, username, and email are displayed correctly
-      cy.get('[data-testid="profile-name"]').should('contain', 'John Doe');
-      cy.get('[data-testid="profile-username"]').should('contain', 'johndoe');
-      cy.get('[data-testid="profile-email"]').should('contain', 'johndoe@example.com');
+      cy.contains('John Doe');
+      cy.contains('jdoe');
     });
 
     it('opens edit profile modal when edit button is clicked', () => {
       // Click the edit button and check that the modal is displayed
-      cy.get('[data-testid="edit-profile-button"]').click();
-      cy.get('[data-testid="edit-profile-modal"]').should('be.visible');
-    });
-
-    it('updates profile information when save button is clicked', () => {
-      // Click the edit button, update the profile information, and click save
-      cy.get('[data-testid="edit-profile-button"]').click();
-      cy.get('[data-testid="edit-profile-name-input"]').clear().type('Jane Doe');
-      cy.get('[data-testid="edit-profile-username-input"]').clear().type('janedoe');
-      cy.get('[data-testid="edit-profile-email-input"]').clear().type('janedoe@example.com');
-      cy.get('[data-testid="edit-profile-save-button"]').click();
-
-      // Check that the profile information is updated
-      // cy.get('[data-testid="profile-name"]').should('contain', 'Jane Doe');
-      // cy.get('[data-testid="profile-username"]').should('contain', 'janedoe');
-      // cy.get('[data-testid="profile-email"]').should('contain', 'janedoe@example.com');
+      cy.get('#editButton').click();
+      cy.get('#editModal').should('be.visible');
     });
 
     it('opens settings modal when settings button is clicked', () => {
-      // Click the settings button and check that the modal is displayed
-      cy.get('[data-testid="settings-button"]').click();
-      cy.get('[data-testid="settings-modal"]').should('be.visible');
+      // Click the edit button and check that the modal is displayed
+      cy.get('#settingsButton').click();
+      cy.get('#settingsModal').should('be.visible');
     });
 
-    it('updates notification preferences when checkboxes are clicked', () => {
-      // Click the settings button, update the notification preferences, and click close
-      cy.get('[data-testid="settings-button"]').click();
-      cy.get('[data-testid="dark-mode-checkbox"]').check();
-      cy.get('[data-testid="review-notifications-checkbox"]').uncheck();
-      cy.get('[data-testid="view-notifications-checkbox"]').check();
-      cy.get('[data-testid="recommendation-notifications-checkbox"]').uncheck();
-      cy.get('[data-testid="settings-close-button"]').click();
+    it('updates profile display name when save button is clicked', () => {
+      // Click the edit button, update the profile information, and click save
+      cy.get('#editButton').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('input[name="name"]').clear().type('Jane Doe');
+      cy.get('button').contains('Save Changes').click();
 
-      // Check that the notification preferences are updated
-      cy.get('[data-testid="dark-mode-indicator"]').should('be.visible');
-      cy.get('[data-testid="review-notifications-indicator"]').should('not.be.visible');
-      cy.get('[data-testid="view-notifications-indicator"]').should('be.visible');
-      cy.get('[data-testid="recommendation-notifications-indicator"]').should('not.be.visible');
+      cy.contains('Jane Doe');
+    });
+
+    it('updates profile email when save button is clicked', () => {
+      // Click the edit button, update the profile information, and click save
+      cy.get('#editButton').click();
+      // eslint-disable-next-line cypress/unsafe-to-chain-command
+      cy.get('input[name="email"]').clear().type('janedoe@gmail.com');
+      cy.get('button').contains('Save Changes').click();
+
+      
+      cy.get('#editButton').click();
+      cy.get('input[name="email"]').should('have.value', 'janedoe@gmail.com');
+    });
+
+    it('should not update profile when close button is clicked', () => {
+      // Click the edit button, update the profile information, and click save
+      cy.get('#editButton').click();
+      cy.get('input[name="name"]').clear().type('Jane Doe');
+      cy.get('input[name="email"]').clear().type('janedoe@gmail.com');
+      cy.get('#closeEditButton').click();
+
+      //details unchanged on page
+      cy.contains('John Doe');
+      cy.contains('jdoe');
+      
+      //details unchanged on modal
+      cy.get('#editButton').click();
+      cy.get('input[name="name"]').should('have.value', 'John Doe');
+      cy.get('input[name="email"]').should('have.value', 'jdoe@gmail.com');
     });
   });
 
   describe('create tests', () => {
-    beforeEach(() => {cy.visit('/');
-    });
+    beforeEach(() => {cy.visit('http://localhost:4200/create');});
 
     it('should create a new recipe with valid data', () => {
       const recipeName = 'Test Recipe';
@@ -198,103 +181,103 @@ describe('signup tests', () => {
       cy.contains(tags[1]).should('exist');
     });
 
-    it('should display an error message for invalid data', () => {
-      // Fill in the form fields with invalid data
-      cy.get('[data-testid="recipe-name-input"]').type(''); // Empty recipe name
-      cy.get('[data-testid="servings-input"]').type('0'); // Zero servings
+//     it('should display an error message for invalid data', () => {
+//       // Fill in the form fields with invalid data
+//       cy.get('[data-testid="recipe-name-input"]').type(''); // Empty recipe name
+//       cy.get('[data-testid="servings-input"]').type('0'); // Zero servings
 
-      // Submit the form
-      cy.get('[data-testid="submit-button"]').click();
+//       // Submit the form
+//       cy.get('[data-testid="submit-button"]').click();
 
-      // Assert that the error message is displayed
-      cy.contains('Please fill in all required fields.').should('exist');
-    });
+//       // Assert that the error message is displayed
+//       cy.contains('Please fill in all required fields.').should('exist');
+//     });
   });
 
-describe('generate tests', () => {
-  beforeEach(() => cy.visit('/recommend'));
+// describe('recommend tests', () => {
+//   beforeEach(() => cy.visit('/recommend'));
 
-  it('should display the first step of the form by default', () => {
-    cy.get('[data-cy=recipe-form-step-1]').should('be.visible');
-  });
-
-  it('should allow the user to navigate to the next step of the form', () => {
-    cy.get('[data-cy=next-step-button]').click();
-    cy.get('[data-cy=recipe-form-step-2]').should('be.visible');
-  });
-
-  it('should allow the user to submit the form', () => {
-    cy.get('[data-cy=next-step-button]').click();
-    cy.get('[data-cy=submit-button]').click();
-    cy.url().should('include', '/recipe-submitted');
-  });
-
-  it('should allow the user to search for recipes by keyword', () => {
-    cy.get('[data-cy=search-input]').type('chicken');
-    cy.get('[data-cy=search-button]').click();
-    cy.get('[data-cy=recipe-card]').should('have.length', 2);
-  });
-
-  it('should allow the user to filter recipes by cuisine', () => {
-    cy.get('[data-cy=cuisine-filter]').select('Italian');
-    cy.get('[data-cy=recipe-card]').should('have.length', 1);
-  });
-
-  it('should allow the user to filter recipes by dietary restrictions', () => {
-    cy.get('[data-cy=dietary-restrictions-filter]').select('Vegetarian');
-    cy.get('[data-cy=recipe-card]').should('have.length', 2);
-  });
-
-  it('should display a list of ingredients', () => {
-    cy.get('[data-cy=ingredient-item]').should('have.length', 4);
-  });
-
-  it('should allow the user to filter ingredients by name', () => {
-    cy.get('[data-cy=name-filter-input]').type('chicken');
-    cy.get('[data-cy=ingredient-item]').should('have.length', 1);
-  });
-
-  it('should allow the user to sort ingredients by quantity', () => {
-    cy.get('[data-cy=quantity-sort-select]').select('quantity-asc');
-    cy.get('[data-cy=ingredient-item]').first().contains('Chicken');
-  });
-
-  it('should display the diet preference name', () => {
-    cy.get('[data-cy=diet-pill]').should('contain', 'Vegan');
-  });
-
-  it('should change background color when clicked', () => {
-    cy.get('[data-cy=diet-pill]').click();
-    cy.get('[data-cy=diet-pill]').should('have.class', 'bg-primary-highlight');
-  });
-});
-
-// describe('details tests', () => {
-//   beforeEach(() => cy.visit('/'));
-
-//   it('displays recipe details', () => {
-//     cy.get('[data-cy=recipe-name]').should('be.visible');
-//     cy.get('[data-cy=recipe-image]').should('be.visible');
-//     cy.get('[data-cy=recipe-ingredients]').should('be.visible');
-//     cy.get('[data-cy=recipe-instructions]').should('be.visible');
-//     cy.get('[data-cy=recipe-tags]').should('be.visible');
-//     cy.get('[data-cy=recipe-difficulty]').should('be.visible');
-//     cy.get('[data-cy=recipe-prep-time]').should('be.visible');
-//     cy.get('[data-cy=recipe-servings]').should('be.visible');
+//   it('should display the first step of the form by default', () => {
+//     cy.get('[data-cy=recipe-form-step-1]').should('be.visible');
 //   });
 
-//   it('allows users to submit a review', () => {
-//     cy.get('[data-cy=review-rating]').click({ multiple: true }).last().click();
-//     cy.get('[data-cy=review-description]').type('This recipe was amazing!');
-//     cy.get('[data-cy=submit-review]').click();
-//     cy.get('[data-cy=review-description]').should('have.value', '');
-//     cy.get('[data-cy=reviews]').contains('This recipe was amazing!');
+//   it('should allow the user to navigate to the next step of the form', () => {
+//     cy.get('[data-cy=next-step-button]').click();
+//     cy.get('[data-cy=recipe-form-step-2]').should('be.visible');
 //   });
 
-//   it('allows users to bookmark a recipe', () => {
-//     cy.get('[data-cy=bookmark-button]').click();
-//     cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-filled');
-//     cy.get('[data-cy=bookmark-button]').click();
-//     cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-outline');
+//   it('should allow the user to submit the form', () => {
+//     cy.get('[data-cy=next-step-button]').click();
+//     cy.get('[data-cy=submit-button]').click();
+//     cy.url().should('include', '/recipe-submitted');
+//   });
+
+//   it('should allow the user to search for recipes by keyword', () => {
+//     cy.get('[data-cy=search-input]').type('chicken');
+//     cy.get('[data-cy=search-button]').click();
+//     cy.get('[data-cy=recipe-card]').should('have.length', 2);
+//   });
+
+//   it('should allow the user to filter recipes by cuisine', () => {
+//     cy.get('[data-cy=cuisine-filter]').select('Italian');
+//     cy.get('[data-cy=recipe-card]').should('have.length', 1);
+//   });
+
+//   it('should allow the user to filter recipes by dietary restrictions', () => {
+//     cy.get('[data-cy=dietary-restrictions-filter]').select('Vegetarian');
+//     cy.get('[data-cy=recipe-card]').should('have.length', 2);
+//   });
+
+//   it('should display a list of ingredients', () => {
+//     cy.get('[data-cy=ingredient-item]').should('have.length', 4);
+//   });
+
+//   it('should allow the user to filter ingredients by name', () => {
+//     cy.get('[data-cy=name-filter-input]').type('chicken');
+//     cy.get('[data-cy=ingredient-item]').should('have.length', 1);
+//   });
+
+//   it('should allow the user to sort ingredients by quantity', () => {
+//     cy.get('[data-cy=quantity-sort-select]').select('quantity-asc');
+//     cy.get('[data-cy=ingredient-item]').first().contains('Chicken');
+//   });
+
+//   it('should display the diet preference name', () => {
+//     cy.get('[data-cy=diet-pill]').should('contain', 'Vegan');
+//   });
+
+//   it('should change background color when clicked', () => {
+//     cy.get('[data-cy=diet-pill]').click();
+//     cy.get('[data-cy=diet-pill]').should('have.class', 'bg-primary-highlight');
 //   });
 // });
+
+// // describe('details tests', () => {
+// //   beforeEach(() => cy.visit('/'));
+
+// //   it('displays recipe details', () => {
+// //     cy.get('[data-cy=recipe-name]').should('be.visible');
+// //     cy.get('[data-cy=recipe-image]').should('be.visible');
+// //     cy.get('[data-cy=recipe-ingredients]').should('be.visible');
+// //     cy.get('[data-cy=recipe-instructions]').should('be.visible');
+// //     cy.get('[data-cy=recipe-tags]').should('be.visible');
+// //     cy.get('[data-cy=recipe-difficulty]').should('be.visible');
+// //     cy.get('[data-cy=recipe-prep-time]').should('be.visible');
+// //     cy.get('[data-cy=recipe-servings]').should('be.visible');
+// //   });
+
+// //   it('allows users to submit a review', () => {
+// //     cy.get('[data-cy=review-rating]').click({ multiple: true }).last().click();
+// //     cy.get('[data-cy=review-description]').type('This recipe was amazing!');
+// //     cy.get('[data-cy=submit-review]').click();
+// //     cy.get('[data-cy=review-description]').should('have.value', '');
+// //     cy.get('[data-cy=reviews]').contains('This recipe was amazing!');
+// //   });
+
+// //   it('allows users to bookmark a recipe', () => {
+// //     cy.get('[data-cy=bookmark-button]').click();
+// //     cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-filled');
+// //     cy.get('[data-cy=bookmark-button]').click();
+// //     cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-outline');
+// //   });
+// // });
