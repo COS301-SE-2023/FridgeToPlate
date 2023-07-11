@@ -1,6 +1,29 @@
-<div class="h-full w-full">
-  <div class="h-1/5 w-full flex flex-row items-center">
-    <h2 class="text-2xl font-bold md:text-3xl md:ml-4">Notifications</h2>
+<div class="h-full w-full bg-background-light">
+  <div class="h-1/5 w-full flex flex-col justify-center">
+    <div class="h-1/3">
+      <button
+        (click)="goBack()"
+        class="bg-primary text-white h-10 w-10 rounded-full flex justify-center items-center mt-4"
+      >
+        <svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+    <div class="h-2/3">
+      <h2 class="text-2xl font-bold md:text-3xl md:ml-4 mt-8">Notifications</h2>
+    </div>
   </div>
   <div class="card-container md:px-4">
     <fridge-to-plate-tabbed
@@ -29,7 +52,7 @@
                 {{ notification.userName }}
               </div>
               <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                {{ notification.comment }}
+                <p class="line-clamp-1">{{ notification.comment }}</p>
               </div>
             </div>
           </div>
@@ -78,23 +101,5 @@
         </ng-template>
       </fridge-to-plate-tab>
     </fridge-to-plate-tabbed>
-
-    <!-- <nz-tabset nzType="card">
-          <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.category + '  \t  ' + tab.count">
-
-              <div class="w-full h-28  flex flex-row border border-b border-gray-200">
-                  <div class="w-1/4 flex flex-row justify-center items-center px-2 py-2">
-                      <img
-                      class="rounded-full"
-                      src="https://fastly.picsum.photos/id/1065/400/400.jpg?hmac=i8a10Lm7A3-pOzpzwlT8pbKg5EfcpuzRoqvFg93OqmE"
-                      />
-                  </div>
-                  <div class="w-3/4 flex flex-col justify-center ml-3"> 
-                      <div class="w-full h-1/2 pt-5 font-bold"> Ryan T. </div>
-                      <div class="w-full h-1/2 font-semibold text-gray-600"> Looks good! </div>
-                  </div>
-              </div>
-          </nz-tab>
-        </nz-tabset> -->
   </div>
 </div>
