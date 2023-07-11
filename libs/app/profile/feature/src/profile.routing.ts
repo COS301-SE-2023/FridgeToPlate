@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfilePage } from './profile.page';
-import { NotificationsPageComponent } from 'libs/app/notifications/feature/src/lib/notifications-page/notifications.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    children: [
-      { path: '', component: ProfilePage },
-      { path: 'notifications', component: NotificationsPageComponent }
-    ]
-  }
+    { 
+      path: '', 
+      pathMatch: 'full',
+      component: ProfilePage,
+    },
+    { 
+      path: 'notifications',
+      loadChildren: () => import('@fridge-to-plate/app/notifications/feature').then((m) => m.NotificationsFeatureModule),
+    }
 ];
 
 @NgModule({
