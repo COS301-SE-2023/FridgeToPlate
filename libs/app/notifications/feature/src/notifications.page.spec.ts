@@ -1,35 +1,36 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { NotificationsPageComponent } from './notifications-page.component';
+import { NotificationsPage } from './notifications.page';
+
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { TabComponent } from '../../ui/src/tab/tab.component';
+
 import { TabbedComponent } from 'libs/app/core/src/tabbed-component/tabbed-component';
-import { TabComponent } from 'libs/app/notifications/ui/src/lib/tab/tab.component';
-import { AppNotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
+
+import { NotificationsUiModule as NotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
 import { Router, Routes } from '@angular/router';
+import { INotification } from '../../data-access/src/notifications-api';
 
 describe('NotificationsPageComponent', () => {
-  let component: NotificationsPageComponent;
-  let fixture: ComponentFixture<NotificationsPageComponent>;
+  let component: NotificationsPage;
+  let fixture: ComponentFixture<NotificationsPage>;
   let router: Router;
 
   const routes: Routes = [
     {
       path: 'recipe/:id',
-      component: NotificationsPageComponent,
+      component: NotificationsPage,
     },
   ];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AppNotificationsUiModule,
-        RouterTestingModule.withRoutes(routes),
-      ],
-      declarations: [NotificationsPageComponent, TabbedComponent, TabComponent],
+      imports: [NotificationsUiModule, RouterTestingModule.withRoutes(routes)],
+      declarations: [NotificationsPage, TabbedComponent, TabComponent],
       providers: [],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NotificationsPageComponent);
+    fixture = TestBed.createComponent(NotificationsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
@@ -47,7 +48,7 @@ describe('NotificationsPageComponent', () => {
   });
 
   it('should emit correct notifications', () => {
-    component.notifications$.subscribe((next) => {
+    component.notifications$.subscribe((next: INotification[]) => {
       expect(next).toBeTruthy();
       expect(next.length).toBeGreaterThan(0);
     });
