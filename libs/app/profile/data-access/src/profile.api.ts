@@ -41,4 +41,20 @@ export class ProfileAPI {
       }
     })
   }
+
+  saveProfile(profile: IProfile) {
+
+    const url = `${this.baseUrl}/create` ;
+
+    this.http.post<IResponse>(url, profile).subscribe({
+      next: data => {
+          console.log(data.status);
+          return data.status;
+      },
+      error: error => {
+          console.error('There was an error!', error);
+          return error.status;
+      }
+    })
+  }
 }

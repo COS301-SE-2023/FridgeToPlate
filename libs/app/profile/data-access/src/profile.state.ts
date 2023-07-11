@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IProfile, UpdateProfile } from "@fridge-to-plate/app/profile/utils";
+import { IProfile, UpdateProfile, StoreProfile } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 
@@ -65,5 +65,13 @@ export class ProfileState {
             profile: profile
         });
         this.api.updateProfile(profile);
+    }
+
+    @Action(StoreProfile)
+    storeProfile({ setState } : StateContext<ProfileStateModel>, { profile } : StoreProfile) {
+        setState({
+            profile: profile
+        });
+        this.api.saveProfile(profile);
     }
 }
