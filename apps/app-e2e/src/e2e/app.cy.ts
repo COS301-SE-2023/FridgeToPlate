@@ -272,4 +272,30 @@ describe('generate tests', () => {
 
 describe('details tests', () => {
   beforeEach(() => cy.visit('/'));
+
+  it('displays recipe details', () => {
+    cy.get('[data-cy=recipe-name]').should('be.visible');
+    cy.get('[data-cy=recipe-image]').should('be.visible');
+    cy.get('[data-cy=recipe-ingredients]').should('be.visible');
+    cy.get('[data-cy=recipe-instructions]').should('be.visible');
+    cy.get('[data-cy=recipe-tags]').should('be.visible');
+    cy.get('[data-cy=recipe-difficulty]').should('be.visible');
+    cy.get('[data-cy=recipe-prep-time]').should('be.visible');
+    cy.get('[data-cy=recipe-servings]').should('be.visible');
+  });
+
+  it('allows users to submit a review', () => {
+    cy.get('[data-cy=review-rating]').click({ multiple: true }).last().click();
+    cy.get('[data-cy=review-description]').type('This recipe was amazing!');
+    cy.get('[data-cy=submit-review]').click();
+    cy.get('[data-cy=review-description]').should('have.value', '');
+    cy.get('[data-cy=reviews]').contains('This recipe was amazing!');
+  });
+
+  it('allows users to bookmark a recipe', () => {
+    cy.get('[data-cy=bookmark-button]').click();
+    cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-filled');
+    cy.get('[data-cy=bookmark-button]').click();
+    cy.get('[data-cy=bookmark-icon]').should('have.class', 'ion-icon-outline');
+  });
 });
