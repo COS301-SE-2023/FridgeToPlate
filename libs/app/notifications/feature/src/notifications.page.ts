@@ -8,11 +8,13 @@ import { Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'fridge-to-plate-notifications-page',
-  templateUrl: './notifications-page.component.html',
-  styleUrls: ['./notifications-page.component.css'],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'notifications-page',
+  templateUrl: './notifications.page.html',
+  styleUrls: ['./notifications.page.scss'],
 })
-export class NotificationsPageComponent {
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class NotificationsPage {
   notifications$: Observable<INotification[]>;
 
   tabs = [
