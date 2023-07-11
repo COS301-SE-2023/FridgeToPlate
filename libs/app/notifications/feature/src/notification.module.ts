@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { NotificationsPage } from './notifications.page';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { AppNotificationsUiModule } from 'libs/app/notifications/ui/src';
+import { NotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
+import { NotificationsRouting } from './notifications.routing';
 
 @NgModule({
-  imports: [CommonModule, NzListModule, NzTabsModule, AppNotificationsUiModule],
+  imports: [CommonModule, NzListModule, NzTabsModule, NotificationsUiModule, NotificationsRouting],
   declarations: [NotificationsPage],
   exports: [NotificationsPage],
 })

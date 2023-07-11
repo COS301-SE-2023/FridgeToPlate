@@ -9,7 +9,7 @@ import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
-import { AppNotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
+import { NotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
 import { NzListModule } from 'ng-zorro-antd/list';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     ProfileUiModule,
     NavigationBarModule,
     ProfileDataAccessModule,
-    AppNotificationsFeatureModule,
+    NotificationsFeatureModule,
     NzListModule,
   ],
   declarations: [ProfilePage, ClickedOutsideDirective],
