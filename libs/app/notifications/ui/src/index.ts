@@ -1,1 +1,1 @@
-export * from './lib/app-notifications-ui.module';
+export * from './notifications.module';

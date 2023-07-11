@@ -8,4 +8,4 @@ import { TabComponent } from './tab/tab.component';
   declarations: [TabbedComponent, TabComponent],
   exports: [TabbedComponent, TabComponent],
 })
-export class AppNotificationsUiModule {}
+export class NotificationsUiModule {}
