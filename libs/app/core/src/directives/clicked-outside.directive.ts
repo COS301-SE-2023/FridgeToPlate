@@ -13,7 +13,6 @@ export class ClickedOutsideDirective {
   @HostListener('document:click', ['$event.target'])
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public onClick(target: any) {
-    console.log("Clicked Event");
     const clickedInside = this.el.nativeElement.contains(target);
     if (!clickedInside) {
       this.clickedOutsideFunc.emit();
