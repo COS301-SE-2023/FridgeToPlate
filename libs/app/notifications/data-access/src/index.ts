@@ -1,1 +1,1 @@
-export * from './lib/app-notifications-data-access.module';
+export * from './notifications.module';
