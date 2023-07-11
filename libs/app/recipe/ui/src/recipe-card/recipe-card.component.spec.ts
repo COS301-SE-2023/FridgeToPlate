@@ -18,17 +18,18 @@ describe('RecipeCardComponent', () => {
     difficulty: 'Easy',
     ingredients: [
       {
-        ingredientId: 'test-id',
         name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
       },
     ],
-    instructions: [
-      {
-        instructionHeading: 'Heading',
-        instructionBody: 'Body',
-      },
-    ],
+    description: 'Heading',
     tags: ['Paleo'],
+    servings: 2,
+    prepTime: 30,
+    meal: 'Snack',
+    steps: ['Chop onions'],
+    creator: "Kristap P",
   };
 
   beforeEach(async () => {
