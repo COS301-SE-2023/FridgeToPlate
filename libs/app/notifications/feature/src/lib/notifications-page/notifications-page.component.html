@@ -18,7 +18,7 @@
             >
               <img
                 class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
-                src="`${{ notification.profilePictureUrl }}`"
+                [src]="notification.profilePictureUrl"
               />
             </div>
             <div
@@ -43,8 +43,40 @@
       <fridge-to-plate-tab
         tabName="Recommendations"
         tabCount="{{ tabs[1].count }}"
-        >Two</fridge-to-plate-tab
       >
+        <ng-container *ngIf="notifications$ | async; else noNotifications">
+          <div
+            (click)="{onNotificationClick}"
+            *ngFor="let notification of notifications$ | async"
+            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
+          >
+            <div
+              class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
+            >
+              <img
+                class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
+                [src]="notification.profilePictureUrl"
+              />
+            </div>
+            <div
+              (click)="onNotificationClick(notification.recipeId)"
+              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
+            >
+              <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
+                {{ notification.userName }}
+              </div>
+              <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
+                {{ notification.comment }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noNotifications>
+          <div>
+            <h2>No notifications yet</h2>
+          </div>
+        </ng-template>
+      </fridge-to-plate-tab>
     </fridge-to-plate-tabbed>
 
     <!-- <nz-tabset nzType="card">
