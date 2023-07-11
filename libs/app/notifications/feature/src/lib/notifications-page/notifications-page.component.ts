@@ -27,7 +27,6 @@ export class NotificationsPageComponent {
   }
 
   onNotificationClick(recipeId: string): void {
-    console.log(`recipe/${recipeId}`);
     this.router.navigate([`recipe/${recipeId}`]);
   }
 
