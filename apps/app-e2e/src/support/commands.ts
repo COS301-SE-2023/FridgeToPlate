@@ -12,6 +12,7 @@
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
+    upload(arg0: { fileContent: any; fileName: string; mimeType: string; }): unknown;
     login(email: string, password: string): void;
   }
 }

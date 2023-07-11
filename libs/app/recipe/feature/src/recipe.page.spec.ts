@@ -20,8 +20,20 @@ describe('RecipeDetailPageComponent', () => {
     name: "Test Recipe",
     difficulty: "Easy",
     recipeImage: "url.com/image",
-    ingredients: [],
-    instructions: [],
+    ingredients: [
+      {
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+      },
+    ],
+    description: 'Heading',
+    tags: ['Paleo'],
+    servings: 2,
+    prepTime: 30,
+    meal: 'Snack',
+    steps: ['Chop onions'],
+    creator: "Kristap P",
   };
 
   beforeEach(async () => {

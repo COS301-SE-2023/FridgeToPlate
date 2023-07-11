@@ -8,38 +8,13 @@ describe('EditModalComponent', () => {
   const testProfile: IProfile = {
     profileId: "1",
     displayName: "John Doe",
+    profilePic: "image-url",
     username: "jdoe",
     email: "jdoe@gmail.com",
-    saved_recipes: [
-        {
-            name: "Recipe",
-            recipeImage: "https://source.unsplash.com/750x750/?food",
-            ingredients: [],
-            instructions: [],
-            difficulty: "Easy",
-        }
-    ],
     ingredients: [],
-    profilePic: "",
-    created_recipes: [],
-    preferences: {
-        darkMode: false,
-        recommendNotifi: true,
-        reviewNotifi: false,
-        viewsNotifi: true,
-    },
-    mealPlan: {
-        breakfast: null,
-        lunch: null,
-        dinner: {
-            name: "Recipe",
-            recipeImage: "https://source.unsplash.com/750x750/?food",
-            ingredients: [],
-            instructions: [],
-            difficulty: "Easy",
-        },
-        snack: null,
-    }
+    currMealPlan: null,
+    savedRecipes: [],
+    createdRecipes: [],
   };
 
   beforeEach(async () => {

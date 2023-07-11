@@ -28,7 +28,7 @@ public class PreferencesRepository {
         return dynamoDBMapper.scan(Preferences.class, new DynamoDBScanExpression());
     }
 
-    public Preferences update(String id, Preferences preference){
+    public Preferences update(String id, Preferences preferences){
 
         Preferences preferenceData =  dynamoDBMapper.load(Preferences.class, id);
 
