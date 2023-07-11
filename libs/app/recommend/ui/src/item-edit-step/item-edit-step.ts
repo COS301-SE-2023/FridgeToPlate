@@ -1,8 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-
-import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
-import { RecommendApi } from '../../../data-access/src/recommend.api';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { AddIngredient, IProfile, RemoveIngredient } from '@fridge-to-plate/app/profile/utils';
+import { RecommendApi } from '@fridge-to-plate/app/recommend/data-access';
+import { Select, Store } from '@ngxs/store';
 
 import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
 
@@ -11,54 +12,48 @@ import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
   templateUrl: './item-edit-step.html',
   styleUrls: ['item-edit-step.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ItemEditStep {
-  constructor(private recommendApiClient: RecommendApi) {}
-
-  ingredientList: II[] | undefined ;
-
-  ingredientsToBeDeleted: string[] = [];
+  
+  constructor(private store: Store) {}
 
   order = '';
+  ingredientName: string = '';
+  ingredientAmount: number | null = null;
+  ingredientScale: string = '';
 
   @ViewChild('teams') orderBy!: ElementRef;
-
-  ingredientItems$: Subscription = this.recommendApiClient
-    .getUserIngredientsList()
-    .subscribe({
-      next: (userIngredients) => {
-        this.ingredientList = userIngredients;
-      },
-      error: (error) => {
-        this.ingredientList = [];
-        console.log(error);
-      },
-    });
+  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
   removeItem(deleteItem: IIngredient) {
-    console.log(deleteItem);
-
-    console.log('To be deleted: ', deleteItem.name);
-    const updatedList = this.ingredientList?.filter((item) => {
-        return item.name !== deleteItem.name;
-    });
-    this.ingredientList = updatedList;
+    this.store.dispatch(new RemoveIngredient(deleteItem));
   }
 
   onChangeOrder() {
-    if (this.order === '') return;
-    else {
-      switch (this.order) {
-        case 'name-asc':
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          );
-          break;
-        default:
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name > b.name ? -1 : 1
-          );
-          break;
-      }
+    // if (this.order === '') return;
+    // else {
+    //   switch (this.order) {
+    //     case 'name-asc':
+    //       this.ingredientList = this.ingredientList?.sort((a, b) =>
+    //         a.name < b.name ? -1 : 1
+    //       );
+    //       break;
+    //     default:
+    //       this.ingredientList = this.ingredientList?.sort((a, b) =>
+    //         a.name > b.name ? -1 : 1
+    //       );
+    //       break;
+    //   }
+    // }
+  }
+
+  addIngredient() {
+    const testIngredient: IIngredient = {
+      name: this.ingredientName,
+      amount: this.ingredientAmount as number,
+      unit: this.ingredientScale
     }
+    
+    this.store.dispatch(new AddIngredient(testIngredient));
   }
 }
