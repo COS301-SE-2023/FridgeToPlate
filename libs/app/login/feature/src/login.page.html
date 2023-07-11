@@ -12,7 +12,7 @@
 
         <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg place-content-center">
 
-          <input [(ngModel)]="email_address" ngModel type="email" #emailInput="ngModel"  required name="email" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input [(ngModel)]="username" ngModel type="text" #emailInput="ngModel"  required name="username" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
           <input [(ngModel)]="password" ngModel type="password" minlength="8" #passwordInput="ngModel" required name="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
 

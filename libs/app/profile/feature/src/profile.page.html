@@ -6,15 +6,15 @@
             src="https://source.unsplash.com/150x150/?portrait"
             alt="Profile Pic"
             class="self-center w-40 border rounded-full mx-auto mt-16" />
-            <button (click)="openEditProfile()" class="absolute bottom-0.5 right-0.5 text-white bg-primary hover:bg-primary-highlight font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="pencil-outline"></ion-icon></button>
+            <button id="editButton" (click)="openEditProfile()" class="absolute bottom-0.5 right-0.5 text-white bg-primary hover:bg-primary-highlight font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3"><ion-icon name="pencil-outline"></ion-icon></button>
         </div>
 
         <div class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-16 lg:-right-5">
             <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.displayName }}</h2>
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
-        <button (click)="openSettings()" class="absolute top-0.5 right-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="settings-outline"></ion-icon></button>
-        <button (click)="openNotifications()" class="absolute top-0.5 left-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="notifications-outline"></ion-icon></button>
+        <button id="settingsButton" (click)="openSettings()" class="absolute top-0.5 right-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="settings-outline"></ion-icon></button>
+        <button id="notificationsButton" (click)="openNotifications()" class="absolute top-0.5 left-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="notifications-outline"></ion-icon></button>
     </div>
     <!-- Tab Menu -->
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
