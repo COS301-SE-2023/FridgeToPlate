@@ -29,7 +29,12 @@
     <fridge-to-plate-tabbed
       (clearNotificationsEvent)="clearAllNotifications($event)"
     >
-      <fridge-to-plate-tab tabName="General" tabCount="{{ tabs[0].count }}">
+      <fridge-to-plate-tab
+        tabName="General"
+        tabCount="{{ tabs[0].count }}"
+        [active]="true"
+        class="h-full"
+      >
         <ng-container *ngIf="notifications$ | async; else noNotifications">
           <div
             (click)="{onNotificationClick}"
@@ -49,7 +54,7 @@
               class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
             >
               <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                {{ notification.userName }}
+                <p>{{ notification.userName }}</p>
               </div>
               <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
                 <p class="line-clamp-1">{{ notification.comment }}</p>
@@ -66,6 +71,8 @@
       <fridge-to-plate-tab
         tabName="Recommendations"
         tabCount="{{ tabs[1].count }}"
+        [active]="false"
+        class="h-full"
       >
         <ng-container *ngIf="notifications$ | async; else noNotifications">
           <div
@@ -89,7 +96,7 @@
                 {{ notification.userName }}
               </div>
               <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                {{ notification.comment }}
+                <p class="line-clamp-1">{{ notification.comment }}</p>
               </div>
             </div>
           </div>
