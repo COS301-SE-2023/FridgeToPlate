@@ -3,7 +3,7 @@ import {
   INotification,
   NotificationsApi,
 } from 'libs/app/notifications/data-access/src/notifications-api';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'fridge-to-plate-notifications-page',
