@@ -3,6 +3,12 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { CognitoIdentityCredentials } from "aws-sdk";
+import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
+import { IProfile, StoreProfile } from '@fridge-to-plate/app/profile/utils';
+import { Select, Store } from '@ngxs/store';
+
+
+
 declare let AWS: any;
 //import { environment } from 'src/environments/environment';
 
@@ -25,7 +31,9 @@ export class SignupPage implements OnInit {
   password = "";
   confirm_password = "";
 
-  constructor(private router: Router) {  }
+  constructor(private router: Router, private profileAPI: ProfileAPI, private store: Store) { 
+
+   }
 
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -96,9 +104,40 @@ export class SignupPage implements OnInit {
          alert(err.message || JSON.stringify(err));
          return;
        }
-       this.router.navigate(['/profile']);
+
+       const profile : IProfile = {
+        profileId: this.generateRandomId(),
+        displayName: this.username,
+        username: this.username,
+        profilePic: "https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png",
+        email: this.email_address,
+        mealPlan: null,
+      };
+      
+      this.store.dispatch(new StoreProfile(profile));
+
+
+      // Convert the profile to a string before storing on LS
+      const profileString = JSON.stringify(profile);
+
+      // Save the profile to local storage
+      localStorage.setItem('userProfile', profileString);
+
+      this.router.navigate(['/profile']);
 
      });
     }
  }
+
+ generateRandomId(): string {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomId = '';
+
+  for (let i = 0; i < 5; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomId += characters[randomIndex];
+  }
+
+  return randomId;
+}
 }

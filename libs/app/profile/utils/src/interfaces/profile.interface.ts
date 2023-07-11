@@ -7,11 +7,11 @@ export interface IProfile {
     username: string;
     profilePic: string;
     email: string;
-    ingredients: IIngredient[];
+    ingredients?: IIngredient[];
     // preferences: IPreference[];
-    saved_recipes: IRecipe[];
-    created_recipes: IRecipe[];
-    preferences: {
+    saved_recipes?: IRecipe[];
+    created_recipes?: IRecipe[];
+    preferences?: {
         darkMode: boolean;
         recommendNotifi: boolean;
         viewsNotifi: boolean;
