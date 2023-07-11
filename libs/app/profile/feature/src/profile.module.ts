@@ -6,10 +6,12 @@ import { ProfileRouting } from './profile.routing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
-import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
+import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
 import { AppNotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
 import { NzListModule } from 'ng-zorro-antd/list';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -21,8 +23,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NavigationBarModule,
     ProfileDataAccessModule,
     AppNotificationsFeatureModule,
-    NzListModule
+    NzListModule,
   ],
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, ClickedOutsideDirective],
 })
 export class ProfileModule {}
