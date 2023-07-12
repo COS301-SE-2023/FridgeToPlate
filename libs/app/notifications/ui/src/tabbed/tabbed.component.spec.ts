@@ -54,4 +54,22 @@ describe('TabbedComponent', () => {
 
     expect(activeTab[0].tabName).toBe('Recommendations');
   });
+
+  it('should clear notifications', () => {
+    jest.spyOn(component.clearNotificationsEvent, 'emit');
+
+    component.clearNotifications();
+
+    expect(component.clearNotificationsEvent.emit).toHaveBeenCalledWith(
+      'general'
+    );
+
+    component.selectTab(component.tabs.last);
+
+    component.clearNotifications();
+
+    expect(component.clearNotificationsEvent.emit).toHaveBeenCalledWith(
+      'recommendations'
+    );
+  });
 });
