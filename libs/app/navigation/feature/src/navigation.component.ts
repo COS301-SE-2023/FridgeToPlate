@@ -10,6 +10,11 @@ export class NavigationBar {
   constructor(private router: Router) {}
 
   isActive(pageName: string) {
+    if (this.router.url.includes('notifications')) {
+      return '';
+    }
+    else {
     return this.router.url.includes(pageName) ? 'active' : '';
+    }
   }
 }
