@@ -17,7 +17,7 @@ interface formDataInterface {
   templateUrl: "./login.page.html",
   styleUrls: ["./login.page.scss"],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   isLoading: boolean = false;
   email_address: string = "";
@@ -54,19 +54,11 @@ export class LoginPage implements OnInit {
     }
   }
   
-
-  ngOnInit(): void {}
-
-  login() {
-    alert("Resetting...");
-  }
-  
   reset() {
     alert("Resetting...");
   }
   
   create() {
-    alert("Creating Account...");
     this.router.navigate(["/signup"])
   }
 
