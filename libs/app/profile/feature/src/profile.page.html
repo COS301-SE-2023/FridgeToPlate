@@ -1,6 +1,6 @@
 <div class="bg-background-light h-full overflow-y-scroll" *ngIf="profile$ | async as profile;">
   <navigation-bar></navigation-bar>
-  <div class="relative lg:bg-blue-950 text-center">
+  <div class="relative lg:bg-blue-950 text-center mt-20">
         <div class="relative inline-block lg:bottom-3">
             <img
             src="https://source.unsplash.com/150x150/?portrait"
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
-                <a 
+                <a
                 [ngClass]="subpage === 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('meal plan')">
                     <ion-icon name="calendar-clear-outline"></ion-icon>
@@ -48,12 +48,12 @@
     <!-- Saved Tab -->
     <div *ngIf="subpage === 'saved'" class="mt-5 ml-4 relative">
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
-            <button 
+            <button
                 (click)="openSort()"
-                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3 ml-1" 
+                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3 ml-1"
                 type="button">
                 Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
-            </button>      
+            </button>
             <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-44 top-10 z-10">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                 <li>
@@ -70,7 +70,7 @@
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <recipe-card *ngFor="let recipe of profile.savedRecipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
-        </div>  
+        </div>
     </div>
     <!-- Meal Plan Tab -->
     <div *ngIf="subpage === 'meal plan'" class="mt-5 ml-4">
@@ -103,13 +103,13 @@
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
-        </div> 
+        </div>
     </div>
     <!-- Created Tab -->
     <div *ngIf="subpage === 'created'" class="mt-5 ml-4">
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe" [bookmarked]="true" [profile]="profile"></recipe-card>
-        </div> 
+        </div>
     </div>
 </div>
 
