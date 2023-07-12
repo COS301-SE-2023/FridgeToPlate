@@ -17,7 +17,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Beef', 'Protien'],
 //     },
 //   },
@@ -36,7 +36,7 @@
 //     ],
 //     meta: {
 //       prepTime: 10,
-//       numberOfServings: 1,
+//       servings: 1,
 //       tags: ['Egg', 'Protien'],
 //     },
 //   },
@@ -55,7 +55,7 @@
 //     ],
 //     meta: {
 //       prepTime: 10,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Vegetarian', 'Salad', 'Leafy'],
 //     },
 //   },
@@ -74,7 +74,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Vegetarian', 'Vegan'],
 //     },
 //   },
@@ -93,7 +93,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Asian', 'Protien'],
 //     },
 //   },
@@ -112,7 +112,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Pasta', 'Seafood'],
 //     },
 //   },
@@ -131,7 +131,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Carbs', 'Beef'],
 //     },
 //   },
@@ -150,7 +150,7 @@
 //     ],
 //     meta: {
 //       prepTime: 60,
-//       numberOfServings: 4,
+//       servings: 4,
 //       tags: ['Spanish', 'Snack'],
 //     },
 //   },

@@ -19,7 +19,7 @@ export class RecipePreferencesStep {
     other: new FormGroup({
       difficulty: new FormControl('easy'),
       rating: new FormControl(3),
-      numberOfServings: new FormControl(1),
+      servings: new FormControl(1),
     }),
   });
 

@@ -41,8 +41,26 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/meal-plan/utils": [
+        "libs/app/meal-plan/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/data-access": [
+        "libs/app/notifications/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/feature": [
+        "libs/app/notifications/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/ui": [
+        "libs/app/notifications/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/preferences/data-access": [
+        "libs/app/preferences/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/preferences/utils": [
+        "libs/app/preferences/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/profile/data-access": [
         "libs/app/profile/data-access/src/index.ts"
@@ -72,6 +90,9 @@
       ],
       "@fridge-to-plate/app/recommend/ui": [
         "libs/app/recommend/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/review/utils": [
+        "libs/app/review/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/review/data-access": [
         "libs/app/review/data-access/src/index.ts"
