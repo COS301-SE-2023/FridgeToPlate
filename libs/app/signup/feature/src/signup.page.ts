@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { CognitoIdentityCredentials } from "aws-sdk";
 import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
-import { IProfile, StoreProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, CreateNewProfile } from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
+import { ShowError } from "@fridge-to-plate/app/error/utils";
 
 
 
@@ -31,22 +32,13 @@ export class SignupPage implements OnInit {
   password = "";
   confirm_password = "";
 
-  constructor(private router: Router, private profileAPI: ProfileAPI, private store: Store) { 
-
-   }
-
+  constructor(private router: Router, private profileAPI: ProfileAPI, private store: Store) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
-
   login() {
     this.router.navigate(['/login']);
-  }
-
-  createAccount() {
-    return;
-    return;
   }
 
   guest() {
@@ -101,30 +93,24 @@ export class SignupPage implements OnInit {
      userPool.signUp(this.username, this.password, attributeList, [], ( err, result ) => {
 
       if (err) {
-         alert(err.message || JSON.stringify(err));
-         return;
-       }
+        this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
+        return;
+      }
 
        const profile : IProfile = {
-        profileId: this.generateRandomId(),
         displayName: this.username,
         username: this.username,
         profilePic: "https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png",
         email: this.email_address,
-        mealPlan: null,
+        ingredients: [],
+        savedRecipes: [],
+        createdRecipes: [],
+        currMealPlan: null,
       };
       
-      this.store.dispatch(new StoreProfile(profile));
-
-
-      // Convert the profile to a string before storing on LS
-      const profileString = JSON.stringify(profile);
-
-      // Save the profile to local storage
-      localStorage.setItem('userProfile', profileString);
+      this.store.dispatch(new CreateNewProfile(profile));
 
       this.router.navigate(['/profile']);
-
      });
     }
  }
