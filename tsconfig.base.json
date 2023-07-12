@@ -47,6 +47,15 @@
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/notifications/data-access": [
+        "libs/app/notifications/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/feature": [
+        "libs/app/notifications/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/ui": [
+        "libs/app/notifications/ui/src/index.ts"
+      ],
       "@fridge-to-plate/app/preferences/data-access": [
         "libs/app/preferences/data-access/src/index.ts"
       ],
@@ -90,7 +99,6 @@
       ],
       "@fridge-to-plate/app/review/feature": [
         "libs/app/review/feature/src/index.ts"
-
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"

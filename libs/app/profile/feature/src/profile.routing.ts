@@ -8,10 +8,13 @@ const routes: Routes = [
     pathMatch: 'full',
     component: ProfilePage,
   },
-  // {
-  //   path: 'notifications',
-  //   component: ProfilePage,
-  // }
+  {
+    path: 'notifications',
+    loadChildren: () =>
+      import('@fridge-to-plate/app/notifications/feature').then(
+        (m) => m.NotificationsFeatureModule
+      ),
+  },
 ];
 
 @NgModule({
