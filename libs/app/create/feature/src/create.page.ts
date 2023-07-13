@@ -3,6 +3,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreateAPI } from '@fridge-to-plate/app/create/data-access';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Store } from '@ngxs/store';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -15,7 +18,7 @@ export class CreatePagComponent implements OnInit  {
   selectedMeal!: string;
   tags: string[] = [];
 
-  constructor(private fb: FormBuilder, private api: CreateAPI) {}
+  constructor(private fb: FormBuilder, private api: CreateAPI, private store : Store) {}
 
   ngOnInit() {
     this.createForm();
@@ -26,7 +29,6 @@ export class CreatePagComponent implements OnInit  {
       name: ['', Validators.required],
       description: ['', Validators.required],
       servings: ['', Validators.required],
-      meal: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
@@ -55,7 +57,7 @@ export class CreatePagComponent implements OnInit  {
   }
 
   addInstruction(): void {
-    this.instructionControls.push(this.fb.control(''));
+    this.instructionControls.push(this.fb.control('', Validators.required));
   }
 
   removeIngredient(index: number): void {
@@ -83,7 +85,9 @@ export class CreatePagComponent implements OnInit  {
   }
 
   createRecipe() : void {
-
+    if(!this.isValid())
+        return;
+    
     const ingredients: IIngredient[] = [];
     
     // Instructions array
@@ -94,36 +98,22 @@ export class CreatePagComponent implements OnInit  {
       }
     });
 
-    // We store the ingredients and return ingredients
-    const createdIngredients = this.createIngredients(ingredients);
-
     // After now having stored or created the ingredients, we create the recipe.
-    createdIngredients.then((ingredientsArray) => {
+    const recipe: IRecipe = {
+      name: this.recipeForm.get('name')?.value,
+      recipeImage: this.imageUrl,
+      description: this.recipeForm.get('description')?.value,
+      meal: "Dinner",
+      creator: "testuser",
+      ingredients: ingredients,
+      steps: instructions,
+      difficulty: 'Easy',
+      prepTime: this.recipeForm.get('preparationTime')?.value as number,
+      servings: this.recipeForm.get('servings')?.value as number,
+      tags: [],
+    };
 
-      // The, create the recipe object
-      const recipe: IRecipe = {
-        name: this.recipeForm.get('name')?.value,
-        recipeImage: this.imageUrl,
-        description: "Delicious meal",
-        meal: "Dinner",
-        creator: "testuser",
-        ingredients: ingredientsArray,
-        steps: instructions,
-        difficulty: 'Easy',
-        prepTime: this.recipeForm.get('preparationTime')?.value as number,
-        servings: this.recipeForm.get('servings')?.value as number,
-        tags: [],
-      };
-
-      // Store the recipe to the database
-      this.api.createNewRecipe(recipe).subscribe((response) => {
-        if (!response) {
-          return response;
-        }
-        return response;
-      });
-      
-    });
+    this.store.dispatch( new CreateRecipe(recipe))
   }
 
   createIngredients(ingredients: IIngredient[]) : Promise<IIngredient[]> {
@@ -156,14 +146,11 @@ export class CreatePagComponent implements OnInit  {
     reader.readAsDataURL(file);
   }
 
-
-  // Test
   toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
 
-  // Unit test
   getMealPlan(option: string) {
     return {
       'bg-primary': this.selectedMeal === option,
@@ -177,17 +164,52 @@ export class CreatePagComponent implements OnInit  {
     };
   }
 
-  // Test
   addTag() {
     const tagValue = this.recipeForm.get('tag')?.value;
 
     if (tagValue && this.tags.length < 3) {
       this.tags.push(tagValue);
     }
+    else {
+      this.store.dispatch( new ShowError("Only a maximum of three tags"))
+    }
   }
 
   deleteTag(index: number) {
     this.tags.splice(index, 1);
   }
+
+  isValid(): boolean {
+
+    if(!this.recipeForm.valid){
+      this.store.dispatch( new ShowError("Incomplete Form. Pleae fill out every field."))
+      return false;
+    }
+
+    if(this.ingredientControls.length < 1) {
+      this.store.dispatch( new ShowError("No Ingredients"))
+      return false;
+    }
+
+    if(this.instructionControls.length < 1) {
+      this.store.dispatch( new ShowError("No Instructions"))
+      return false;
+    }
+
+    if(this.tags.length < 1) {
+      this.store.dispatch( new ShowError("No Tags"))
+      return false;
+    }
+
+    if(!this.selectedMeal){
+      this.store.dispatch( new ShowError("Please select a meal"))
+      return false;
+    }
+
+    alert("All is well")
+    return true;
+  }
+
+
 
 }
