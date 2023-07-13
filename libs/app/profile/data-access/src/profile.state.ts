@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IProfile, UpdateProfile, StoreProfile } from "@fridge-to-plate/app/profile/utils";
+import { IProfile, UpdateProfile, CreateNewProfile } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 
@@ -11,13 +11,12 @@ export interface ProfileStateModel {
     name: 'profile',
     defaults: {
         profile: {
-            profileId: "1",
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
             savedRecipes: [],
             ingredients: [],
-            profilePic: "",
+            profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [],
             currMealPlan: null
         }
@@ -42,8 +41,8 @@ export class ProfileState {
         this.api.updateProfile(profile);
     }
 
-    @Action(StoreProfile)
-    storeProfile({ setState } : StateContext<ProfileStateModel>, { profile } : StoreProfile) {
+    @Action(CreateNewProfile)
+    createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
         setState({
             profile: profile
         });
