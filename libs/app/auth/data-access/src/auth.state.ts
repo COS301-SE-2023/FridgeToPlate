@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { Login, SignUp } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
-import { CreateNewProfile, IProfile } from "@fridge-to-plate/app/profile/utils";
+import { CreateNewProfile, IProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 
 interface formDataInterface {
@@ -85,7 +85,7 @@ export class AuthState {
             
             this.store.dispatch(new CreateNewProfile(profile));
       
-            this.store.dispatch(new Navigate(['/home']));
+            this.store.dispatch(new Navigate(['/recommend']));
         });
     }
 
@@ -102,7 +102,8 @@ export class AuthState {
       const cognitoUser = new CognitoUser(userData);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
-          // Get Profile Data
+          this.store.dispatch(new RetrieveProfile(username));
+          this.store.dispatch(new Navigate(['/recommend']));
         },
         onFailure: (err) => {
           this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));

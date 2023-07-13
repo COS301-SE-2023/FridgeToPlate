@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Login } from "@fridge-to-plate/app/auth/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { Store } from "@ngxs/store";
-//import { environment } from 'src/environments/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -34,7 +33,7 @@ export class LoginPage {
   }
 
   guest() {
-    this.store.dispatch(new Navigate(['/home']));
+    this.store.dispatch(new Navigate(['/recommend']));
   }
 }
 

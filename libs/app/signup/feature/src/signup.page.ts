@@ -1,14 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CognitoIdentityCredentials } from "aws-sdk";
-import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { SignUp } from "@fridge-to-plate/app/auth/utils";
 import { Navigate } from "@ngxs/router-plugin";
-
-declare let AWS: any;
-//import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "signup-page",
@@ -30,7 +24,7 @@ export class SignupPage {
   }
 
   guest() {
-    this.store.dispatch(new Navigate(['/home']));
+    this.store.dispatch(new Navigate(['/recommend']));
   }
 
   onSignup(form: NgForm){
