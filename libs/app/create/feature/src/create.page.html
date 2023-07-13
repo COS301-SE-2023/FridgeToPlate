@@ -3,7 +3,7 @@
 
   <navigation-bar></navigation-bar>
 
-  <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
+  <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-7 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
     <div class="flex justify-center my-auto">
       <img (click)="fileInput.click()"
       [src]="imageUrl"
