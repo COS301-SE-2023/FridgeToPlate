@@ -35,7 +35,12 @@ const routes: Routes = [
         path: 'recipe',
         loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule),
         canActivate: [RouteGuardService]
-    }
+    },
+    {
+      path: 'search',
+      loadChildren: () => import('@fridge-to-plate/app/search/feature').then((m) => m.SearchModule),
+      canActivate: [RouteGuardService]
+  }
 ];
 
 @NgModule({
