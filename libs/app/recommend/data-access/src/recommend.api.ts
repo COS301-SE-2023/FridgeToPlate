@@ -5,23 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-export interface IResponse {
-  status: number;
-  message: string;
-  data: {};
-}
-
-export interface IngredientsResponse extends IResponse {
-  data: {
-    ingredientsList: IIngredient[];
-  };
-}
-
-export interface DietResponse extends IResponse {
-  data: {
-    dietList: string[];
-  };
-}
 
 const baseUrl = 'http://localhost:5000/';
 

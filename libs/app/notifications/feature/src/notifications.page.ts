@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import {
   INotification,
   NotificationsApi,
-} from 'libs/app/notifications/data-access/src/notifications-api';
+} from '@fridge-to-plate/app/notifications/data-access';
 import { Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
 
