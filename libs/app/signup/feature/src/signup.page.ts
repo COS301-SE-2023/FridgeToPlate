@@ -5,6 +5,7 @@ import { CognitoIdentityCredentials } from "aws-sdk";
 import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
 import { Select, Store } from '@ngxs/store';
 import { SignUp } from "@fridge-to-plate/app/auth/utils";
+import { Navigate } from "@ngxs/router-plugin";
 
 declare let AWS: any;
 //import { environment } from 'src/environments/environment';
@@ -29,24 +30,7 @@ export class SignupPage {
   }
 
   guest() {
-
-    const credentials = new CognitoIdentityCredentials({
-      IdentityPoolId: "temp",
-      RoleArn: 'temp',
-      //LoginId: 'example@gmail.com'
-    });
-
-    AWS.config.region = "eu-west-3";
-    AWS.config.credentials = credentials;
-
-    credentials.get((err: any) => {
-      if (err) {
-        alert(err);
-        console.log('Authentication failed:', err);
-      } else {
-        this.router.navigate(['/profile']);
-      }
-    });
+    this.store.dispatch(new Navigate(['/home']));
   }
 
   onSignup(form: NgForm){

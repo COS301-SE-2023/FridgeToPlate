@@ -31,8 +31,6 @@ export class AuthState {
         UserPoolId: "temp", // Your user pool id here
         ClientId: "temp"
     };
-  
-    private userPool = new CognitoUserPool(this.poolData);
     
     constructor(private store: Store) {}
 
@@ -43,6 +41,8 @@ export class AuthState {
 
     @Action(SignUp)
     signUp({ setState } : StateContext<AuthStateModel>, { username, email, password } : SignUp) {
+        const userPool = new CognitoUserPool(this.poolData);
+
         const attributeList = [];
 
         const formData:formDataInterface = {
@@ -59,7 +59,7 @@ export class AuthState {
           attributeList.push(attribute);
         }
         
-        this.userPool.signUp(username, password, attributeList, [], ( err, result ) => {
+        userPool.signUp(username, password, attributeList, [], ( err, result ) => {
             if (err) {
               this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
               setState({
@@ -91,12 +91,14 @@ export class AuthState {
 
     @Action(Login)
     login({ setState } : StateContext<AuthStateModel>, { username, password } : Login) {
+      const userPool = new CognitoUserPool(this.poolData);
+
       const authenticationDetails = new AuthenticationDetails({
           Username: username,
           Password: password,
       });
 
-      const userData = { Username: username, Pool: this.userPool };
+      const userData = { Username: username, Pool: userPool };
       const cognitoUser = new CognitoUser(userData);
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
