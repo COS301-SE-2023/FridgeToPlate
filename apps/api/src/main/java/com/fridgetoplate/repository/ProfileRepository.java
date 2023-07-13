@@ -71,21 +71,18 @@ public class ProfileRepository {
           * Getting the MealPan response
           */
 
-        // Declare the response object
-         MealPlanResponse mealPlanResponse = new MealPlanResponse();
-        
-   
-
         // Find Meal
         String date = LocalDate.now().toString();
        
         MealPlanModel mealPlanModel = dynamoDBMapper.load(MealPlanModel.class, username, date);
 
-        // creating response
-        mealPlanResponse.setUsername(username);
-
-
         if(mealPlanModel != null) {
+
+            // Declare the response object
+            MealPlanResponse mealPlanResponse = new MealPlanResponse();
+
+            // creating response
+            mealPlanResponse.setUsername(username);
 
             // Get the Recipe id for breakfast plam
             String breakfastId = mealPlanModel.getBreakfastId();
@@ -121,6 +118,8 @@ public class ProfileRepository {
             
             // saving meal plan response to profile response
             profileResponse.setCurrMealPlan(mealPlanResponse);
+        } else {
+            profileResponse.setCurrMealPlan(null);
         }
         
        return profileResponse;
