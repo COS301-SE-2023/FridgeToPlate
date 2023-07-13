@@ -23,10 +23,10 @@ export class SignupPage {
   password = "";
   confirm_password = "";
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(private store: Store) {}
 
   login() {
-    this.router.navigate(['/login']);
+    this.store.dispatch(new Navigate(['/login']));
   }
 
   guest() {
