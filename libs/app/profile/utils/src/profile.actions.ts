@@ -5,7 +5,7 @@ export class UpdateProfile {
     constructor(public readonly profile: IProfile) {}
 }
 
-export class StoreProfile {
-    static readonly type = '[Profile] StoreProfile';
+export class CreateNewProfile {
+    static readonly type = '[Profile] CreateNewProfile';
     constructor(public readonly profile: IProfile) {}
 }

@@ -26,11 +26,11 @@ export class ProfileAPI {
 
   updateProfile(profile: IProfile) {
 
-    const id = profile.profileId;
+    const username = profile.username;
 
-    const url = `${this.baseUrl}/${id}` ;
+    const url = `${this.baseUrl}/${username}` ;
 
-    this.http.put<IResponse>(url, profile).subscribe({
+    this.http.post<IResponse>(url, profile).subscribe({
       next: data => {
           console.log(data.status);
           return data.status;
