@@ -10,14 +10,14 @@ export class RouteGuardService implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-    ) { }
+  ) {}
 
   canActivate(){
     if(this.authService.isUserLoggedIn()){
       return true;
     }
     else {
-    return this.router.parseUrl('login');
+      return this.router.parseUrl('login');
     }
   }
 }
