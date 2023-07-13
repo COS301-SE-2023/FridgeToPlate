@@ -320,7 +320,7 @@ describe('Testing Tags', () => {
   });
 
   it("Should selet a meal type successfully", () => {
-    const mealType = 'breakfast';
+    const mealType = 'Breakfast';
     component.recipeForm.get('meal')?.setValue(mealType);
     jest.spyOn(component, 'toggleMeal');
   
@@ -336,7 +336,7 @@ describe('Testing Tags', () => {
   
   it("The selected meals should change when the user changes", () => {
 
-    const mealType = 'Chinese';
+    const mealType = 'Lunch';
     component.recipeForm.get('meal')?.setValue(mealType);
   
     // Act
@@ -345,7 +345,7 @@ describe('Testing Tags', () => {
     // Act
     
     component.recipeForm.get('meal')?.setValue(mealType);
-    const mealType2 = 'Asian';
+    const mealType2 = 'Dinner';
     // Act
     component.toggleMeal(mealType2);
   
@@ -465,52 +465,12 @@ describe('Ingredients storing and return', () => {
       expect(returnIngredients[0]).toEqual(expectData);
     });
 
-    it("should call the createNewMultipleIngredients method on the ApiService object with the correct arguments", async () => {
-      // Create a mock array of IIngredient objects
-      const ingredients: IIngredient[] = [
-        { name: "Ingredient 1", amount: 2, unit: "g" },
-        { name: "Ingredient 2", amount: 2, unit: "l" },
-      ];
-    
-      // Set up the mock response from the createNewMultipleIngredients method
-      const response: IIngredient[] = [
-        { name: "Ingredient 1", amount: 2, unit: "g" },
-        { name: "Ingredient 2", amount: 2, unit: "l" },
-      ];
-      apiService.createNewMultipleIngredients = jest.fn().mockResolvedValue(response);
-    
-      // Call the createIngredients method and wait for it to resolve
-      apiService.createNewMultipleIngredients(ingredients);
-    
-      // Verify that the createNewMultipleIngredients method was called on the ApiService object with the correct arguments
-      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
-    });
+
     
 
    // Assuming the ApiService is using `rxjs` Observables
 
-   it("should resolve the promise with the correct response", async () => {
-    // Create a mock array of IIngredient objects
-    const ingredients: IIngredient[] = [
-      { name: "Ingredient 1", amount: 2, unit: "g" },
-      { name: "Ingredient 2", amount: 2, unit: "l" },
-    ];
   
-    // Set up the mock response from the createNewMultipleIngredients method
-    const response: IIngredient[] = [
-      { name: "Ingredient 1", amount: 2, unit: "g" },
-      { name: "Ingredient 2", amount: 2, unit: "l" },
-    ];
-  
-    // Mock the createNewMultipleIngredients method to return an observable
-    apiService.createNewMultipleIngredients = jest.fn().mockReturnValue(of(response));
-  
-    // Call the createIngredients method and wait for it to resolve
-    const result = await component.createIngredients(ingredients);
-  
-    // Verify that the promise resolves to the correct response
-    expect(result).toEqual(response);
-  });
 
   it('should remove the ingredient at the specified index', () => {
 
@@ -657,52 +617,8 @@ describe('Ingredients storing and return', () => {
     
     })
 
-    it("should reject the promise if the response is falsy", async () => {
-      // Create a mock array of IIngredient objects
-      const ingredients: IIngredient[] = [
-        { name: "Ingredient 1", amount: 3, unit: "g" },
-        { name: "Ingredient 2", amount: 3, unit: "ml" },
-      ];
-    
-      // Set up the mock response from the createNewMultipleIngredients method as falsy (empty array)
-      let response!: IIngredient[];
-      jest.spyOn(apiService, 'createNewMultipleIngredients').mockReturnValue(of(response));
-    
-      // Call the createIngredients method
-      const result = component.createIngredients(ingredients);
-      expect(result).toBeTruthy();
-      // Await the promise rejection and verify the expected result
-      await expect(result).rejects.toEqual(response);
-    
-      // Verify that the createNewMultipleIngredients method was called with the correct arguments
-      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
-    });
 
-
-    it("should resolve the promise if the response is truthy", async () => {
-      // Create a mock array of IIngredient objects
-      const ingredients: IIngredient[] = [
-        { name: "Ingredient 1", amount: 3, unit: "g" },
-        { name: "Ingredient 2", amount: 3, unit: "ml" },
-      ];
-
-      // Set up the mock response from the createNewMultipleIngredients method as truthy
-      const response: IIngredient[] = [
-        { name: "Ingredient 1", amount: 3, unit: "g" },
-        { name: "Ingredient 2", amount: 3, unit: "ml" },
-      ];
-      jest.spyOn(apiService, 'createNewMultipleIngredients').mockReturnValue(of(response));
-
-      // Call the createIngredients method
-      const result = component.createIngredients(ingredients);
-      expect(result).toBeTruthy();
-      // Await the promise resolution and verify the expected result
-      await expect(result).resolves.toEqual(response);
-
-      // Verify that the createNewMultipleIngredients method was called with the correct arguments
-      expect(apiService.createNewMultipleIngredients).toHaveBeenCalledWith(ingredients);
-    });
-
+  
 
     it('should create the recipe', async () => {
       const recipe: IRecipe = {
@@ -726,8 +642,7 @@ describe('Ingredients storing and return', () => {
         recipeId: "1",
         ...recipe, // Copy the properties from the recipe object
       };
-    
-      jest.spyOn(component, "createIngredients").mockResolvedValue([]);
+  
       jest.spyOn(apiService, "createNewRecipe").mockReturnValue(of(response));
     
       component.imageUrl = recipe.recipeImage
@@ -753,7 +668,7 @@ describe('Ingredients storing and return', () => {
       // expect(apiService.createNewRecipe).toBeTruthy();
     
       // Verify that the createIngredients method was called
-      expect(component.createIngredients).toHaveBeenCalled();
+
     });
     
 

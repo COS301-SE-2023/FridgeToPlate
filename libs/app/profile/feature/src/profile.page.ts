@@ -4,7 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { Navigate } from "@ngxs/router-plugin";
-import { ShowError } from "@fridge-to-plate/app/error/utils";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
