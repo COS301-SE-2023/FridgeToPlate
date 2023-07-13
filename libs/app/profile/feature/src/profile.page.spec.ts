@@ -11,7 +11,6 @@ import { Injectable } from "@angular/core";
 describe("ProfilePage", () => {
   
   const testProfile: IProfile = {
-    profileId: "1",
     displayName: "John Doe",
     username: "jdoe",
     email: "jdoe@gmail.com",

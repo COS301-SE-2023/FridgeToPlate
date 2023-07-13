@@ -7,7 +7,13 @@ import { NotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
 import { NotificationsRouting } from './notifications.routing';
 
 @NgModule({
-  imports: [CommonModule, NzListModule, NzTabsModule, NotificationsUiModule, NotificationsRouting],
+  imports: [
+    CommonModule, 
+    NzListModule, 
+    NzTabsModule, 
+    NotificationsUiModule, 
+    NotificationsRouting
+  ],
   declarations: [NotificationsPage],
   exports: [NotificationsPage],
 })

@@ -14,8 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { ErrorDataAccessModule } from '@fridge-to-plate/app/error/data-access';
+import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 
 @NgModule({
   declarations: [
@@ -40,9 +41,8 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
     NgxsReduxDevtoolsPluginModule.forRoot({
       // disabled: ENVIRONMENT == 'production',
     }),
-    NgxsModule.forRoot(),
+    NgxsModule.forRoot([AuthState, ErrorState]),
     NgxsRouterPluginModule.forRoot(),
-    ErrorDataAccessModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

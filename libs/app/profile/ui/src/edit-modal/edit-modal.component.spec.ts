@@ -6,7 +6,6 @@ describe('EditModalComponent', () => {
   let component: EditModalComponent;
   let fixture: ComponentFixture<EditModalComponent>;
   const testProfile: IProfile = {
-    profileId: "1",
     displayName: "John Doe",
     profilePic: "image-url",
     username: "jdoe",
