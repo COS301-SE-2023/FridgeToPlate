@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  INotification,
   NotificationsApi,
 } from '@fridge-to-plate/app/notifications/data-access';
 import { Observable, Subject } from 'rxjs';
 import { Location } from '@angular/common';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
