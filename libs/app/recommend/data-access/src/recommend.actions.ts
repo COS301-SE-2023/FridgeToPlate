@@ -1,6 +1,6 @@
 import {IIngredient} from "@fridge-to-plate/app/ingredient/utils";
 
-interface PreferenceFormInterface {
+export interface PreferenceFormInterface {
 
 }
 export class GetIngredients {
