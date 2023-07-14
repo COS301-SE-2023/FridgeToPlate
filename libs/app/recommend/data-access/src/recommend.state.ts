@@ -25,12 +25,12 @@ export class RecommendState {
   }
 
   @Action(RecommendAction.UpdateRecipePreferences)
-  get({ getState, patchState }: StateContext<RecommendStateModel>,
-      {updatedPreferences} : RecommendAction.UpdateRecipePreferences): any {
+  getRecommendations({ getState, patchState}: StateContext<RecommendStateModel>, {updatedFormData}: RecommendAction.UpdateRecipePreferences): any{
     const state = getState();
-    patchState({ recommend: [...state.preferences, updatedPreferences]
+    patchState({ preferences: [...state.preferences , updatedFormData]
     });
   }
+
   static updatePreferences(state: RecommendStateModel){
     return state.ingredients;
   }

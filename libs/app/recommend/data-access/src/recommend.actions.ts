@@ -17,7 +17,7 @@ export class UpdateIngredients {
 
 export class UpdateRecipePreferences {
   static readonly type = '[Recommend] Update Recipe Preferences';
-  constructor(updatedFormData: PreferenceFormInterface) {
+  constructor(public updatedFormData: PreferenceFormInterface) {
   }
 }
 
