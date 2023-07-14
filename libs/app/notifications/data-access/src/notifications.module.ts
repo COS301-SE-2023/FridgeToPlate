@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationsApi } from './notifications-api';
+import { NotificationsApi } from './notifications.api';
 
 @NgModule({
   imports: [CommonModule],

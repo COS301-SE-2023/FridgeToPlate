@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouteGuardService } from './route-guard.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'libs/app/auth/data-access/src/auth.api';
+import { AuthService } from '@fridge-to-plate/app/auth/data-access';
 
 describe('RouteGuardService', () => {
+
   let service: RouteGuardService;
   let navigateSpy: jest.SpyInstance;
   let router: Router;
@@ -14,15 +15,17 @@ describe('RouteGuardService', () => {
     service = TestBed.inject(RouteGuardService);
     router = TestBed.inject(Router);
     authService = TestBed.inject(AuthService);
-    navigateSpy = jest.spyOn(router, 'parseUrl');
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should remain on same route (No Login)', () => {
+  it('should remain be routed to login (No Login)', () => {
     jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(false);
+
+    navigateSpy = jest.spyOn(router, 'parseUrl');
+
     expect(service).toBeTruthy();
     service.canActivate();
     expect(navigateSpy).toHaveBeenCalledWith('login');

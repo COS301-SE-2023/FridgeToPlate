@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { IProfile, UpdateProfile } from "@fridge-to-plate/app/profile/utils";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { IProfile, UpdateProfile, CreateNewProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
+import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
+import { ShowError } from "@fridge-to-plate/app/error/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -11,13 +12,12 @@ export interface ProfileStateModel {
     name: 'profile',
     defaults: {
         profile: {
-            profileId: "1",
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
             savedRecipes: [],
             ingredients: [],
-            profilePic: "",
+            profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [],
             currMealPlan: null
         }
@@ -27,7 +27,7 @@ export interface ProfileStateModel {
 @Injectable()
 export class ProfileState {
 
-    constructor(private api: ProfileAPI) {}
+    constructor(private api: ProfileAPI, private store: Store) {}
     
     @Selector()
     static getProfile(state: ProfileStateModel) {
@@ -40,5 +40,27 @@ export class ProfileState {
             profile: profile
         });
         this.api.updateProfile(profile);
+    }
+
+    @Action(CreateNewProfile)
+    createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
+        setState({
+            profile: profile
+        });
+        this.api.saveProfile(profile);
+    }
+
+    @Action(RetrieveProfile)
+    async retrieveProfile({ setState } : StateContext<ProfileStateModel>, { username } : RetrieveProfile) {
+        (await this.api.getProfile(username)).subscribe({
+            next: data => {
+                setState({
+                    profile: data
+                });
+            },
+            error: error => {
+                this.store.dispatch(new ShowError(error));
+            }
+        });
     }
 }

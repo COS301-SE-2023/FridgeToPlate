@@ -8,7 +8,13 @@ import { NotificationsRouting } from './notifications.routing';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
 @NgModule({
-  imports: [CommonModule, NzListModule, NzTabsModule, NotificationsUiModule, NotificationsRouting, NavigationBarModule],
+  imports: [
+    CommonModule, 
+    NzListModule, 
+    NzTabsModule, 
+    NotificationsUiModule, 
+    NotificationsRouting
+  ],
   declarations: [NotificationsPage],
   exports: [NotificationsPage],
 })
