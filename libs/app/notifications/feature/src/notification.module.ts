@@ -13,7 +13,8 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
     NzListModule, 
     NzTabsModule, 
     NotificationsUiModule, 
-    NotificationsRouting
+    NotificationsRouting,
+    NavigationBarModule,
   ],
   declarations: [NotificationsPage],
   exports: [NotificationsPage],
