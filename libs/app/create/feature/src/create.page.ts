@@ -41,7 +41,7 @@ export class CreatePagComponent implements OnInit  {
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
-      tag: ['', Validators.required]
+      tag: ['']
     });
   }
 
@@ -116,7 +116,7 @@ export class CreatePagComponent implements OnInit  {
       difficulty:this.recipeForm.get('difficulty')?.value,
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
-      tags:  this.tags,
+      tags: this.tags,
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
@@ -209,7 +209,6 @@ export class CreatePagComponent implements OnInit  {
       return false;
     }
 
-    alert("All is well")
     return true;
   }
 
