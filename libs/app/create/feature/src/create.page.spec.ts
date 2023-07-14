@@ -565,7 +565,6 @@ describe('Ingredients storing, deleting and returning', () => {
       ]);
 
       const testProfile: IProfile = {
-        profileId: "1",
         displayName: "John Doe",
         username: "jdoe",
         email: "jdoe@gmail.com",
@@ -604,7 +603,6 @@ describe('Ingredients storing, deleting and returning', () => {
     let dispatchSpy: jest.SpyInstance;
 
     const testProfile: IProfile = {
-      profileId: "1",
       displayName: "John Doe",
       username: "jdoe",
       email: "jdoe@gmail.com",
