@@ -180,7 +180,7 @@ export class CreatePagComponent implements OnInit  {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Incomplete Form. Pleae fill out every field."))
+      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
       return false;
     }
 
@@ -205,7 +205,7 @@ export class CreatePagComponent implements OnInit  {
     }
 
     if(!this.profile){
-      this.store.dispatch( new ShowError("No Profile"))
+      this.store.dispatch( new ShowError("Please login to create a recipe"))
       return false;
     }
 

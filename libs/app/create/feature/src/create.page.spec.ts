@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 
 @State({
@@ -492,9 +493,13 @@ describe('Ingredients storing, deleting and returning', () => {
    
   });
 
-  describe('Form validation', () =>{ 
+  describe('isFormValid()', () =>{ 
+
     let component: CreatePagComponent;
     let fixture: ComponentFixture<CreatePagComponent>;
+    let store: Store;
+    let dispatchSpy: jest.SpyInstance;
+
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ CreatePagComponent ],
@@ -509,23 +514,178 @@ describe('Ingredients storing, deleting and returning', () => {
       fixture = TestBed.createComponent(CreatePagComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      store = TestBed.inject(Store);
+      dispatchSpy = jest.spyOn(store, 'dispatch');
     });
 
-    it('The form should test invalid', () => {
+    it('At least one ingredient should present', () => {
+
       const formBuilder: FormBuilder = new FormBuilder();
+
       const formGroup: FormGroup = formBuilder.group({
-        name: ['', Validators.required],
-        description: ['', Validators.required],
-        servings: ['', Validators.required],
-        preparationTime: ['', Validators.required],
-        ingredients: formBuilder.array([]),
-        instructions: formBuilder.array([]),
-        tags: formBuilder.array([]),
-      });
+        name: ['Name', Validators.required],
+        description: ['Description', Validators.required],
+        servings: [1, Validators.required],
+        preparationTime: [1, Validators.required],
+        ingredients: new FormArray([])
+      })
 
       component.recipeForm = formGroup;
-      expect(component.isFormValid()).toBe(false);
+      component.isFormValid();
+
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Ingredients'));
+
     })
+
+    it('At least one instruction step should present', () => {
+
+      const formBuilder: FormBuilder = new FormBuilder();
+      const ingredientsFormArray = new FormArray([
+        new FormControl({
+          ingredientName: 'Mango',
+          amount: 100,
+          unit: 'g'
+        })])
+
+      const formGroup: FormGroup = formBuilder.group({
+        name: ['Name', Validators.required],
+        description: ['Description', Validators.required],
+        servings: [1, Validators.required],
+        preparationTime: [1, Validators.required],
+        ingredients: ingredientsFormArray,
+        instructions: new FormArray([])
+      })
+
+      component.recipeForm = formGroup;
+      component.isFormValid();
+
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Instructions'));
+
+    })
+
+    it('Tags if empty', () => {
+      const formBuilder: FormBuilder = new FormBuilder();
+      const ingredientsFormArray = new FormArray([
+        new FormControl({
+          ingredientName: 'Mango',
+          amount: 100,
+          unit: 'g'
+        })])
+      const instructionsFormArray = new FormArray([
+        new FormControl('Step 1')
+      ]);
+
+      const formGroup: FormGroup = formBuilder.group({
+        name: ['Name', Validators.required],
+        description: ['Description', Validators.required],
+        servings: [1, Validators.required],
+        preparationTime: [1, Validators.required],
+        ingredients: ingredientsFormArray,
+        instructions: instructionsFormArray
+      })
+
+      component.recipeForm = formGroup;
+      component.isFormValid();
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
+      });
+
+
+      it('Meal Selection', () => {
+        const formBuilder: FormBuilder = new FormBuilder();
+        const ingredientsFormArray = new FormArray([
+          new FormControl({
+            ingredientName: 'Mango',
+            amount: 100,
+            unit: 'g'
+          })])
+        const instructionsFormArray = new FormArray([
+          new FormControl('Step 1')
+        ]);
+  
+        const formGroup: FormGroup = formBuilder.group({
+          ingredients: ingredientsFormArray,
+          instructions: instructionsFormArray
+        })
+
+        component.tags = ['Asian']
+  
+        component.recipeForm = formGroup;
+        component.isFormValid();
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
+      
+      })
+
+
+      it('Truthy Profile', () => {
+        const formBuilder: FormBuilder = new FormBuilder();
+        const ingredientsFormArray = new FormArray([
+          new FormControl({
+            ingredientName: 'Mango',
+            amount: 100,
+            unit: 'g'
+          })])
+        const instructionsFormArray = new FormArray([
+          new FormControl('Step 1')
+        ]);
+  
+        const formGroup: FormGroup = formBuilder.group({
+          name: ['Name', Validators.required],
+          description: ['Description', Validators.required],
+          servings: [1, Validators.required],
+          preparationTime: [1, Validators.required],
+          ingredients: ingredientsFormArray,
+          instructions: instructionsFormArray
+        })
+  
+        component.recipeForm = formGroup;
+        component.tags = ['Asian'];
+        component.selectedMeal = 'Breakfast';
+        component.isFormValid();
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please login to create a recipe'));
+      })
+
+
+      it('Form fields validation',  () => {
+        const formBuilder: FormBuilder = new FormBuilder();
+        const ingredientsFormArray = new FormArray([
+          new FormControl({
+            ingredientName: 'Mango',
+            amount: 100,
+            unit: 'g'
+          })])
+        const instructionsFormArray = new FormArray([
+          new FormControl('Step 1')
+        ]);
+  
+        const formGroup: FormGroup = formBuilder.group({
+          name: ['', Validators.required],
+          description: ['', Validators.required],
+          servings: [1, Validators.required],
+          preparationTime: [1, Validators.required],
+          ingredients: ingredientsFormArray,
+          instructions: instructionsFormArray,
+          tags: formBuilder.array([]),
+        })
+
+        const testProfile: IProfile = {
+          displayName: "John Doe",
+          username: "jdoe",
+          email: "jdoe@gmail.com",
+          savedRecipes: [],
+          ingredients: [],
+          profilePic: "image-url",
+          createdRecipes: [],
+          currMealPlan: null,
+        };
+  
+        component.recipeForm = formGroup;
+        component.selectedMeal = 'Breakfast';
+        component.tags = ['Asian'];
+        component.profile = testProfile;
+        component.isFormValid();
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
+      })
+      
 
     it('The form should test valid', () => {
       const formBuilder: FormBuilder = new FormBuilder();
@@ -702,3 +862,4 @@ describe('Ingredients storing, deleting and returning', () => {
 
     });
   })
+
