@@ -161,7 +161,7 @@ export class CreatePagComponent implements OnInit  {
     }
     else if (this.tags.length < 3) {
       if(this.tags.includes(tagValue)){
-        this.store.dispatch( new ShowError("No duplicates: Tag already exists"))
+        this.store.dispatch( new ShowError("No duplicates: Tag already selected"))
         return;
       }
       this.tags.push(tagValue);
