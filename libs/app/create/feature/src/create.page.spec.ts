@@ -127,14 +127,25 @@ describe('CreatePagComponent', () => {
 
 
   it('should remove an instruction control from the form', () => {
+
+    const formArray = new FormArray([
+      new FormControl('Step 1'),
+      new FormControl('Step 2'),
+      new FormControl('Step 3'),
+    ]);
+
+    // create a new recipe form using the form array
+    const recipeForm = new FormGroup({
+      instructions: formArray,
+    });
+
+    createPage.recipeForm = recipeForm;
+
     const initialLength = createPage.instructionControls.length;
-    if(initialLength == 0) {
-      expect(initialLength).toBe(0)
-      return
-    }
     createPage.removeInstruction(0);
     const newLength = createPage.instructionControls.length;
     expect(newLength).toBe(initialLength - 1);
+    expect(createPage.getInstructions()).toEqual(['Step 2', 'Step 3'])
   }
   );
 
@@ -829,6 +840,8 @@ describe('Ingredients storing, deleting and returning', () => {
 
     it('Should dispatch CreateRecipe Action', async () => {
 
+      jest.spyOn(component, 'isFormValid');
+
       const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
 
       component.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
@@ -876,9 +889,13 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(dispatchSpy).toHaveBeenCalledWith(new CreateRecipe(recipe));
 
       expect(component.recipeForm.valid).toBe(true);
+      expect(component.isFormValid()).toBe(true)
+      expect(component.isFormValid).toHaveBeenCalled();
       expect(component.profile.username).toBe(profileDataSubject.value?.username ?? '');
 
 
     });
+
+  
   })
 
