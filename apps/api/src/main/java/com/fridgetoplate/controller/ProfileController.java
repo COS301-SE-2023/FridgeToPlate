@@ -24,9 +24,9 @@ public class ProfileController {
     }
 
 
-    @GetMapping("/{name}")
-    public ProfileResponse findByName(@PathVariable(value = "name") String name) {
-        return profileRepository.findByName(name);
+    @GetMapping("/{username}")
+    public ProfileResponse findByName(@PathVariable(value = "username") String username) {
+        return profileRepository.findByName(username);
     }
 
     @GetMapping
