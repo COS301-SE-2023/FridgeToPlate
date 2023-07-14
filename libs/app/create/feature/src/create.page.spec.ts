@@ -145,6 +145,8 @@ describe('Testing Tags', () => {
   let component: CreatePagComponent;
   let fb: FormBuilder;
   let fixture: ComponentFixture<CreatePagComponent>;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -162,15 +164,17 @@ describe('Testing Tags', () => {
     component = fixture.componentInstance;
     fb = TestBed.inject(FormBuilder);
     fixture.detectChanges();
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
     component.recipeForm = fb.group({
-      meal: ['', Validators.required],
       tag: ['', Validators.required],
     });
   });
 
   it("Should selet a meal type successfully", () => {
     const mealType = 'Breakfast';
-    component.recipeForm.get('meal')?.setValue(mealType);
+    component.selectedMeal = mealType;
     jest.spyOn(component, 'toggleMeal');
   
     // Act
@@ -184,13 +188,9 @@ describe('Testing Tags', () => {
   it("The selected meals should change when the user changes", () => {
 
     const mealType = 'Lunch';
-    component.recipeForm.get('meal')?.setValue(mealType);
-  
-    // Act
-    component.toggleMeal(mealType);
+    component.selectedMeal = mealType;
 
     // Act
-    component.recipeForm.get('meal')?.setValue(mealType);
     const mealType2 = 'Dinner';
     // Act
     component.toggleMeal(mealType2);
@@ -204,17 +204,35 @@ describe('Testing Tags', () => {
   it('should not add a tag if tagValue is empty', () => {
     // Arrange
     component.recipeForm.get('tag')?.setValue('');
+    const size = component.tags.length;
+    // Act
+    component.addTag();
+
+    // Assert
+    expect(component.tags.length).toBe(size);
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please enter valid tag'));
+  });
+
+  it('should not add a duplicate tags', () => {
+    // Arrange
+    component.recipeForm.get('tag')?.setValue('Tag 1');
+    const testTags = ['Tag 1'];
+    component.tags = testTags;
+    const size = component.tags.length;
 
     // Act
     component.addTag();
 
     // Assert
-    expect(component.tags.length).toBe(0);
+    expect(component.tags.length).toBe(size);
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No duplicates: Tag already selected'));
+    expect(component.tags).toEqual(testTags);
+    
   });
 
-  it('should not add a tag if tags length is already 3', () => {
+  it('Should not add if tags is already at size three(3)',  () => {
     // Arrange
-    component.recipeForm.get('tag')?.setValue('Tag 1');
+    component.recipeForm.get('tag')?.setValue('Tag 4');
     const testTags = ['Tag 1', 'Tag 2', 'Tag 3'];
     component.tags = testTags;
 
@@ -223,8 +241,9 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(3);
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Only a maximum of three tags'));
     expect(component.tags).toEqual(testTags);
-  });
+  })
 
   it('should add a tag if tagValue is not empty', () => {
     // Arrange
