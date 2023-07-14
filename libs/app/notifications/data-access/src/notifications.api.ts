@@ -1,12 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-export interface INotification {
-  userName: string;
-  profilePictureUrl: string;
-  comment: string;
-  recipeId: string;
-}
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 
 @Injectable({
   providedIn: 'root',

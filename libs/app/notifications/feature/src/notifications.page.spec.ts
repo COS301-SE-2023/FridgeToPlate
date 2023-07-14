@@ -1,16 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { NotificationsPage } from './notifications.page';
-
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { TabComponent } from '../../ui/src/tab/tab.component';
-
 import { TabbedComponent } from 'libs/app/core/src/tabbed-component/tabbed-component';
-
 import { NotificationsUiModule as NotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
 import { Router, Routes } from '@angular/router';
-import { INotification } from '../../data-access/src/notifications-api';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 
 describe('NotificationsPageComponent', () => {
   let component: NotificationsPage;
