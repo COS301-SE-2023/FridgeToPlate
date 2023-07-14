@@ -896,6 +896,57 @@ describe('Ingredients storing, deleting and returning', () => {
 
     });
 
+    it('Should not create recipe if form is invalid', () => {
+
+      jest.spyOn(component, 'isFormValid');
+    
+
+      const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
+
+      component.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+        component.profile = profile;
+        profileDataSubject.next(profile); // Update the BehaviorSubject with the profileData
+      });
+
+      // Mock the recipe data
+      const recipe: IRecipe = {
+        name: "Mock Recipe",
+        recipeImage: "https://example.com/image.jpg",
+        description: "Amazing meal for a family",
+        meal: "Dinner",
+        creator: profileDataSubject.value?.username ?? '',
+        ingredients: [],
+        steps: [],
+        difficulty: "Easy",
+        prepTime: 30,
+        servings: 4,
+        tags: ["mock", "recipe"],
+      };
+    
+      component.imageUrl = recipe.recipeImage
+      // Mock the values and controls used in createRecipe
+      component.recipeForm = fb.group({
+        name: fb.control(recipe.name),
+        description: fb.control(recipe.description),
+        difficulty: fb.control(recipe.difficulty),
+        servings: fb.control(recipe.servings),
+        preparationTime: fb.control(recipe.prepTime),
+        ingredients: fb.array(recipe.ingredients.map(ingredient => fb.control(ingredient))),
+        instructions: fb.array(recipe.steps.map(instruction => fb.control(instruction))),
+        dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
+      });
+
+      component.tags = recipe.tags;
+      component.selectedMeal = recipe.meal;
+    
+      // Call the createRecipe method
+      component.createRecipe();
+      expect(component.isFormValid).toHaveBeenCalled();
+      expect(component.isFormValid()).toBe(false)
+      expect(dispatchSpy).not.toHaveBeenCalledWith(new CreateRecipe(recipe));
+    })
+
+ 
   
   })
 
