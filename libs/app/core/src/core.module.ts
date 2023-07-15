@@ -11,10 +11,18 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { ErrorState } from '@fridge-to-plate/app/error/data-access';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 
 @NgModule({
-  declarations: [CoreShell, TabbedComponent],
+  declarations: [
+    CoreShell, 
+    TabbedComponent, 
+  ],
   imports: [
     BrowserModule,
     LoginModule,
@@ -26,6 +34,15 @@ import { HttpClientModule } from '@angular/common/http';
     NzIconModule,
     HttpClientModule,
     FormsModule,
+    NgxsLoggerPluginModule.forRoot({
+      collapsed: false,
+      // disabled: ENVIRONMENT == 'production',
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      // disabled: ENVIRONMENT == 'production',
+    }),
+    NgxsModule.forRoot([AuthState, ErrorState]),
+    NgxsRouterPluginModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

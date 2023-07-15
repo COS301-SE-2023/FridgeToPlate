@@ -3,7 +3,6 @@ import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
-import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
 
 describe('RecipeCardComponent', () => {
   const mockProfileAPI = {
@@ -12,33 +11,31 @@ describe('RecipeCardComponent', () => {
 
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
-  let testRecipe: IRecipe;
-
-  testRecipe = {
+  const testRecipe: IRecipe = {
     recipeId: 'test-id',
     name: 'Pizza',
     recipeImage: 'image-url',
-    difficulty: 'easy',
+    difficulty: 'Easy',
     ingredients: [
       {
-        ingredientId: 'test-id',
         name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
       },
     ],
-    instructions: [
-      {
-        instructionHeading: 'Heading',
-        instructionBody: 'Body',
-      },
-    ],
+    description: 'Heading',
     tags: ['Paleo'],
+    servings: 2,
+    prepTime: 30,
+    meal: 'Snack',
+    steps: ['Chop onions'],
+    creator: "Kristap P",
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
       imports: [IonicModule, HttpClientModule],
-      providers: [{ provide: ProfileAPI, useValue: mockProfileAPI }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecipeCardComponent);
