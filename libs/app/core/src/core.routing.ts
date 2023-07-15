@@ -4,7 +4,7 @@ import { RouteGuardService } from './guards/route-guard.service';
 
 const routes: Routes = [
     {
-        path: '**',
+        path: '',
         pathMatch: 'full',
         redirectTo: 'login',
     },
