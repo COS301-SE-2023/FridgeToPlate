@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
+import com.fridgetoplate.repository.IngredientRepository;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.response.RecipeResponse;
 
@@ -17,8 +19,18 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
     @PostMapping("/create")
     public RecipeModel save(@RequestBody RecipeModel recipe){
+
+        // FIrst store the ingredients
+        List<Ingredient> ingredients = recipe.getIngredients();
+        for (Ingredient ingredient : ingredients) {
+            ingredientRepository.save(ingredient);
+        }
+        
         return recipeRepository.save(recipe);
     }
 
