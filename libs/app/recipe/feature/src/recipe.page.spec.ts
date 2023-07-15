@@ -57,6 +57,7 @@ describe('RecipeDetailPageComponent', () => {
 
 
   it('should observe recipe details', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     jest.spyOn(component, 'setRecipe').mockImplementation((id: string) => component.recipe = testRecipe);
     component.setRecipe("test-id");
     expect(component.recipe).toEqual(testRecipe);
