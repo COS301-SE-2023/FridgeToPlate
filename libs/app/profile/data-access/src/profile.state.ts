@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IProfile, UpdateProfile, CreateNewProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
+import { IProfile, UpdateProfile, CreateNewProfile, RetrieveProfile, SaveRecipe, RemoveRecipe } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
@@ -15,7 +15,15 @@ export interface ProfileStateModel {
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
-            savedRecipes: [],
+            savedRecipes: [
+                {
+                    recipeId: "testid",
+                    recipeImage: "testimage",
+                    difficulty: "Easy",
+                    name: "The recipe",
+                    tags: [],
+                }
+            ],
             ingredients: [],
             profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [],
@@ -62,5 +70,42 @@ export class ProfileState {
                 this.store.dispatch(new ShowError(error));
             }
         });
+    }
+
+    @Action(SaveRecipe)
+    saveRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : SaveRecipe) {
+        const updatedProfile = getState().profile;
+        
+        if (updatedProfile) {
+            for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
+                if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
+                    this.store.dispatch(new ShowError("Recipe Already Stored"));
+                    return;
+                }
+            }
+            
+            updatedProfile?.savedRecipes.push(recipe);
+            patchState({
+                profile: updatedProfile
+            });
+
+            //CALL API
+        }
+    }
+
+    @Action(RemoveRecipe)
+    removeRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveRecipe) {
+        const updatedProfile = getState().profile;
+        
+        if (updatedProfile) {
+            updatedProfile.savedRecipes = updatedProfile.savedRecipes.filter((savedRecipe) => {
+                return savedRecipe.recipeId !== recipe.recipeId;
+            });
+            patchState({
+                profile: updatedProfile
+            });
+    
+            //CALL API
+        }
     }
 }
