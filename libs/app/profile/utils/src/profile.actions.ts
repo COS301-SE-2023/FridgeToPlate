@@ -1,3 +1,4 @@
+import { IRecipeDesc } from "@fridge-to-plate/app/recipe/utils";
 import { IProfile } from "./interfaces";
 
 export class UpdateProfile {
@@ -13,4 +14,14 @@ export class CreateNewProfile {
 export class RetrieveProfile {
     static readonly type = '[Profile] RetrieveProfile';
     constructor(public readonly username: string) {}
+}
+
+export class SaveRecipe {
+    static readonly type = '[Profile] SaveRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
+}
+
+export class RemoveRecipe {
+    static readonly type = '[Profile] RemoveRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
 }
