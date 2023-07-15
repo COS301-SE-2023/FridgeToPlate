@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store} from "@ngxs/store";
-import { DeleteRecipe, UpdateRecipe } from "@fridge-to-plate/app/recipe/utils"
+import { CreateRecipe, DeleteRecipe, UpdateRecipe } from "@fridge-to-plate/app/recipe/utils"
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { RecipeAPI } from "./recipe.api";
@@ -69,5 +69,15 @@ export class RecipeState {
                 console.error('Failed to delete recipe:', error);
                 this.store.dispatch(new ShowError(error.error.message))
             });
+    }
+
+    
+    @Action(CreateRecipe)
+    createRecipe({ patchState } : StateContext<RecipeStateModel>, { recipe } : CreateRecipe) {
+
+        patchState({
+            recipe : recipe
+        })
+        this.api.createNewRecipe(recipe);
     }
 }
