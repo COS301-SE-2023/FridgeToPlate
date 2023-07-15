@@ -48,6 +48,7 @@
           placeholder="e.g 10"
           formControlName="servings"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+          required
         >
       </div>
     
@@ -250,7 +251,6 @@
           placeholder="e.g. Asian, Vegan"
           formControlName="tag"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
-          required
         >
         <button type="button" (click)="addTag()" class=" text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 text-center">
           Add Tag

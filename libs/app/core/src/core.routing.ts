@@ -6,7 +6,7 @@ const routes: Routes = [
     {
         path: '**',
         pathMatch: 'full',
-        redirectTo: 'login',
+        redirectTo: 'edit-recipe',
     },
     {
         path: 'recommend',

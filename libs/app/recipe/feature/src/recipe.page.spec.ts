@@ -9,7 +9,7 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
-import { RecipeService } from '@fridge-to-plate/app/recipe/data-access';
+import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 describe('RecipeDetailPageComponent', () => {
   let location: Location;
@@ -82,7 +82,7 @@ describe('RecipeDetailPageComponent', () => {
   });
 
   it('should retrieve recipe data correctly in setRecipe', () => {
-    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
     const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(of(testRecipe));
 
     component.setRecipe('test-id');
@@ -92,7 +92,7 @@ describe('RecipeDetailPageComponent', () => {
   });
 
   it('should handle error when retrieving recipe data', () => {
-    const recipeService: RecipeService = TestBed.inject(RecipeService);
+    const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
     const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(throwError('Error'));
 
     component.setRecipe('test-id');
@@ -103,7 +103,7 @@ describe('RecipeDetailPageComponent', () => {
   });
 
 it('should not retrieve recipe data with empty id', () => {
-  const recipeService: RecipeService = TestBed.inject(RecipeService);
+  const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
   const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
 
   component.setRecipe('');

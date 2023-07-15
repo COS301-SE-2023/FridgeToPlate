@@ -20,4 +20,9 @@ export class RecipeAPI {
         const url = this.baseUrl + '/' + id;
         return this.http.delete<string>(url);
     }
+
+    getRecipeById(id: string): Observable<IRecipe> {
+      const url = `${this.baseUrl}/${id}`;
+      return this.http.get<IRecipe>(url);
+    }
 }
