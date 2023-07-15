@@ -25,4 +25,9 @@ export class RecipeAPI {
       const url = `${this.baseUrl}/${id}`;
       return this.http.get<IRecipe>(url);
     }
+
+    createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
+      const url = 'http://localhost:5000/recipes/create';
+      return this.http.post<IRecipe>(url, recipe);
+  }
 }
