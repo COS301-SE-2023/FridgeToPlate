@@ -6,12 +6,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
   templateUrl: './recipe.page.html',
   styleUrls: ['./recipe.page.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
-  recipe!: IRecipe;
+  recipe !: IRecipe | undefined;
   errorMessage: string | undefined;
 
   constructor(
@@ -36,6 +38,7 @@ export class RecipePage implements OnInit {
   setRecipe(id: string) {
     if (!id || id.length == 0) {
       this.errorMessage = 'Invalid recipe ID.';
+      this.recipe = undefined;
       return;
     }
 
@@ -45,6 +48,7 @@ export class RecipePage implements OnInit {
       },
       error => {
         this.errorMessage = 'Error retrieving recipe data.';
+        this.recipe = undefined;
       }
     );
   }

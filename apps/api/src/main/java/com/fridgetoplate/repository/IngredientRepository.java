@@ -27,8 +27,8 @@ public class IngredientRepository {
         return ingredients;
     }
 
-    public Ingredient findById(String id){
-       return dynamoDBMapper.load(Ingredient.class, id);
+    public Ingredient findByName(String name){
+       return dynamoDBMapper.load(Ingredient.class, name);
     }
 
     public List<Ingredient> findAll(){

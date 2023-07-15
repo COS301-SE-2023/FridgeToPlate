@@ -1,181 +1,122 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
-import { ProfileAPI } from "../../data-access/src/profile.api";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
+import { IProfile } from "@fridge-to-plate/app/profile/utils";
+import { NgxsModule, State } from "@ngxs/store";
+import { of, take } from "rxjs";
+import { Injectable } from "@angular/core";
 
 describe("ProfilePage", () => {
-  const mockProfileAPI = {
-    editProfile: jest.fn()
-  }
-
-  let testProfile = {
-    name: "John Doe",
+  
+  const testProfile: IProfile = {
+    displayName: "John Doe",
     username: "jdoe",
     email: "jdoe@gmail.com",
-    saved_recipes: [
-      {
-        id: "1",
-        name: "Shrimp Pasta",
-        difficulty: "Medium",
-        tags: ["Seafood", "Pasta"]
-      },
-      {
-        id: "2",
-        name: "Pizza",
-        difficulty: "Easy",
-        tags: ["Italian", "Pizza"]
-      },
-      {
-        id: "3",
-        name: "Mushroom Pie",
-        difficulty: "Medium",
-        tags: ["Quick"]
-      },
-      {
-        id: "4",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-      {
-        id: "5",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-      {
-        id: "6",
-        name: "Beef Stew",
-        difficulty: "Easy",
-        tags: ["Winter", "Hearty"]
-      },
-    ],
-    ingredients: [
-      {
-        name: "Tomato",
-        amount: "3"
-      },
-      {
-        name: "Cucumber",
-        amount: "1"
-      },
-      {
-        name: "Beef",
-        amount: "200g"
-      },
-      {
-        name: "Chicken Stock",
-        amount: "500ml"
-      },
-    ],
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: null,
   };
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  }) 
+  @Injectable()
+  class MockProfileState {}
+
+  let page: any;
+  let compiled: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState])],
       declarations: [ProfilePage],
-      providers: [{ provide: ProfileAPI, useValue: mockProfileAPI }]
     }).compileComponents();
+
+    const fixture = TestBed.createComponent(ProfilePage);
+    fixture.detectChanges();
+    compiled = fixture.nativeElement as HTMLElement;
+    page = fixture.componentInstance;
   });
 
   it("should render users name", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const page = fixture.componentInstance;
-    page.profile = testProfile;
-    expect(compiled.querySelector("h2")?.textContent).toContain(page.profile.name);
+    page.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      expect(compiled.querySelector("h2")?.textContent).toContain(profile.displayName);
+    })
   });
 
-  it("should render users email", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const page = fixture.componentInstance;
-    page.profile = testProfile;
-    expect(compiled.querySelector("p")?.textContent).toContain(page.profile.username);
+  it("should render users username", () => {
+    page.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      expect(compiled.querySelector("h2")?.textContent).toContain(profile.username);
+    })
   });
 
   it("should start on saved subpage", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
     expect(page.subpage).toEqual("saved");
   });
 
   it("should change subpage to saved", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
     page.displaySubpage("saved");
     expect(page.subpage).toEqual("saved");
   });
 
   it("should change subpage to ingredients", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
     page.displaySubpage("ingredients");
     expect(page.subpage).toEqual("ingredients");
   });
 
-  it("should remove correct ingredient from ingredients", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
-
-    const updatedIngredients = [
-      {
-        name: "Tomato",
-        amount: "3"
-      },
-      {
-        name: "Cucumber",
-        amount: "1"
-      },
-      {
-        name: "Chicken Stock",
-        amount: "500ml"
-      },
-    ];
-
-    page.profile = testProfile;
-
-    page.removeIngredient(testProfile.ingredients[2]);
-
-    expect(page.profile.ingredients).toEqual(updatedIngredients);
-  });
-
-  it("should change display to block", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
-
-    page.profile = testProfile;
+  it("should change edit display to block", () => {
     page.openEditProfile();
 
     expect(page.displayEditProfile).toEqual("block");
   });
 
-  it("should change display to none", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
-
-    page.profile = testProfile;
+  it("should change edit display to none", () => {
     page.openEditProfile();
     page.closeEditProfile();
 
     expect(page.displayEditProfile).toEqual("none");
   });
 
-  it("should remove save profile", () => {
-    const fixture = TestBed.createComponent(ProfilePage);
-    const page = fixture.componentInstance;
-    
-    mockProfileAPI.editProfile.mockReturnValue(true);
+  it("should change setting display to block", () => {
+    page.openSettings();
 
-    page.profile = testProfile;
+    expect(page.displaySettings).toEqual("block");
+  });
+
+  it("should change setting display to none", () => {
+    page.openSettings();
+    page.closeSettings();
+
+    expect(page.displaySettings).toEqual("none");
+  });
+
+  it("should change sort display to block", () => {
+    page.openSort();
+
+    expect(page.displaySort).toEqual("block");
+  });
+
+  it("should change sort display to none", () => {
+    page.openSort();
+    page.closeSort();
+
+    expect(page.displaySort).toEqual("none");
+  });
+
+  it("should save profile", () => {
     page.openEditProfile();
     page.editableProfile.name = "JD";
     page.saveProfile();
 
-    expect(page.profile).toEqual(page.editableProfile);
+    page.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      expect(profile).toEqual(page.editableProfile);
+    })
   });
 });
