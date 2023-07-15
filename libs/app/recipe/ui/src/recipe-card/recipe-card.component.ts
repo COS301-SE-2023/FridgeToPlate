@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
+import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { Store } from '@ngxs/store';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -7,16 +10,18 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./recipe-card.component.scss'],
 })
 export class RecipeCardComponent {
-  @Input() recipe : any;
+  @Input() recipe !: any;
   @Input() bookmarked = false;
-  @Input() profile : any;
+
+  constructor(private store: Store) {}
 
   changeSaved() {
     this.bookmarked = !this.bookmarked;
 
-    if (!this.bookmarked) {
-      this.profile.saved_recipes = this.profile.saved_recipes.filter((item: any) => item !== this.recipe );
-      //TO BE COMPLETED
+    if (this.bookmarked) {
+      this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
+    } else {
+      this.store.dispatch(new RemoveRecipe(this.recipe as IRecipeDesc));
     }
   }
 
