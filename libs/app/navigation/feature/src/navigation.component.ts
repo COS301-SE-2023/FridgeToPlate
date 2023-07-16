@@ -15,12 +15,10 @@ export class NavigationBar {
   constructor(private router: Router, private store: Store) {}
 
   isActive(pageName: string) {
-    if (this.router.url.includes('notifications')) {
-      return 'active';
-    }
-    else {
-    return this.router.url.includes(pageName) ? 'active' : 'active';
-    }
+    const currentUrl = this.router.url;
+    const pageUrl = `/${pageName}`;
+
+    return currentUrl === pageUrl ? 'active orange' : '';
   }
 
   openRecommend() {
