@@ -5,18 +5,25 @@ import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendApi } from '../../../data-access/src/recommend.api';
 
 import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
+import {Select, Store} from "@ngxs/store";
+import {RecommendState} from "../../../data-access/src/recommend.state";
+import {GetIngredients} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'item-edit-step',
   templateUrl: './item-edit-step.html',
   styleUrls: ['item-edit-step.scss'],
 })
-export class ItemEditStep {
-  constructor(private recommendApiClient: RecommendApi) {}
+export class ItemEditStep{
+  constructor(private recommendApiClient: RecommendApi, private store: Store) {
+    this.store.dispatch(new GetIngredients())
+  }
 
   ingredientList: IIngredient[] | undefined;
 
   ingredientsToBeDeleted: string[] = [];
+
+  ingredientItem$: Observable<IIngredient[]>;
 
   order = '';
 
