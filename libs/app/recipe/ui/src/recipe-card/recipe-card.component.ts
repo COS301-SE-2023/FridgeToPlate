@@ -4,6 +4,7 @@ import { IProfile, RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router'; 
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,9 +18,9 @@ export class RecipeCardComponent implements OnInit {
 
   @Input() recipe !: any;
   bookmarked = false;
-  editable = false;
+  editable = true;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
@@ -42,7 +43,7 @@ export class RecipeCardComponent implements OnInit {
   }
 
   edit() {
-
+      this.router.navigate(['edit-recipe'])
   }
 
 }

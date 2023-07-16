@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'fridge-to-plate-edit-recipe',
@@ -20,7 +21,7 @@ export class EditRecipeComponent implements OnInit {
   tags: string[] = [];
   profile !: IProfile;
 
-  constructor(private fb: FormBuilder, private store : Store) {}
+  constructor(private fb: FormBuilder, private store : Store, private location: Location) {}
 
   ngOnInit() {
     this.createForm();
@@ -163,7 +164,7 @@ export class EditRecipeComponent implements OnInit {
       this.store.dispatch( new ShowError("Only a maximum of three tags"))
     }
     // reset the form value after adding it to array
-    // this.recipeForm.get('tag')?.reset();
+    this.recipeForm.get('tag')?.reset();
   }
 
   deleteTag(index: number) {
@@ -225,6 +226,10 @@ export class EditRecipeComponent implements OnInit {
     });
 
     return instructions;
+  }
+
+  cancelEdit(): void {
+    this.location.back();
   }
 
 }
