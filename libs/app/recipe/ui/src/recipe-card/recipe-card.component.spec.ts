@@ -3,14 +3,37 @@ import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxsModule, State, Store } from '@ngxs/store';
+import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
+import { Injectable } from '@angular/core';
 
 describe('RecipeCardComponent', () => {
-  const mockProfileAPI = {
-    editProfile: jest.fn(),
+
+  const testProfile: IProfile = {
+    displayName: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: null,
   };
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  }) 
+  @Injectable()
+  class MockProfileState {}
 
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
+
   const testRecipe: IRecipe = {
     recipeId: 'test-id',
     name: 'Pizza',
@@ -35,12 +58,14 @@ describe('RecipeCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
-      imports: [IonicModule, HttpClientModule],
+      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot([MockProfileState])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecipeCardComponent);
     component = fixture.componentInstance;
     component.recipe = testRecipe;
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
     fixture.detectChanges();
   });
 
@@ -50,20 +75,11 @@ describe('RecipeCardComponent', () => {
 
   it('should be saved', () => {
     component.changeSaved();
-    expect(component.bookmarked).toEqual(true);
+    expect(dispatchSpy).toBeCalledWith(new SaveRecipe(testRecipe));
   });
 
   it('should be unsaved', () => {
-    mockProfileAPI.editProfile.mockReturnValue(true);
-
-    const testProfile = {
-      saved_recipes: [],
-    };
-
-    component.profile = testProfile;
-    component.bookmarked = true;
     component.changeSaved();
-
-    expect(component.bookmarked).toEqual(false);
+    expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(testRecipe));
   });
 });
