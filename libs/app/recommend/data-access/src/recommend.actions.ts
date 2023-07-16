@@ -1,28 +1,23 @@
-import {IIngredient} from "@fridge-to-plate/app/ingredient/utils";
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
-export interface PreferenceFormInterface {
+export interface PreferenceFormInterface {}
 
-}
 export class GetIngredients {
   static readonly type = '[Recommend] Get Ingredients';
-  constructor() {
-  }
+  constructor() {}
 }
 
 export class UpdateIngredients {
   static readonly type = '[Recommend] Update Ingredients';
-  constructor(newIngredientsList: IIngredient []) {
-  }
+  constructor(public newIngredientsList: IIngredient) {}
 }
 
 export class UpdateRecipePreferences {
   static readonly type = '[Recommend] Update Recipe Preferences';
-  constructor(public updatedFormData: PreferenceFormInterface) {
-  }
+  constructor(public updatedFormData: PreferenceFormInterface) {}
 }
 
 export class GetRecipeRecommendations {
   static readonly type = '[Recommend] Get Recommendations';
-  constructor(recipePreferenceList: PreferenceFormInterface) {
-  }
+  constructor(public recipePreferenceList: PreferenceFormInterface) {}
 }
