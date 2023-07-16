@@ -6,6 +6,11 @@ nav a.active {
   color: rgb(202, 64, 5);
 }
 
+.active {
+  color: rgb(202, 64, 5);
+  // font-weight: bold;
+}
+
 @media (min-width: 700px) {
   nav a ion-icon {
     font-size: 32px; /* increase font size on screens wider than 640px */
