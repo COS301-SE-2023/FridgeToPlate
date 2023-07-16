@@ -110,7 +110,11 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
-      ]
+      ],
+      "@fridge-to-plate/app/undo/data-access": [
+        "libs/app/undo/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/undo/utils": ["libs/app/undo/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
