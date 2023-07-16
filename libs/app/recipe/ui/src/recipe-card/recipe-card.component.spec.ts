@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
@@ -74,12 +74,14 @@ describe('RecipeCardComponent', () => {
   });
 
   it('should be saved', () => {
+    component.bookmarked = false;
     component.changeSaved();
-    expect(dispatchSpy).toBeCalledWith(new SaveRecipe(testRecipe));
+    expect(dispatchSpy).toBeCalledWith(new SaveRecipe(component.recipe as IRecipeDesc));
   });
 
   it('should be unsaved', () => {
+    component.bookmarked = true;
     component.changeSaved();
-    expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(testRecipe));
+    expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(component.recipe as IRecipeDesc));
   });
 });
