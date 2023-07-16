@@ -46,9 +46,10 @@ export class RecipePage implements OnInit {
       (response: IRecipe) => {
         this.recipe = response;
       },
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      (error) => {
+     
+      (error: Error) => {
         this.errorMessage = 'Error retrieving recipe data.';
+        console.error(error)
         this.recipe = undefined;
       }
     );
