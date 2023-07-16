@@ -25,9 +25,14 @@ export class SaveRecipe {
     constructor(public readonly recipe: IRecipeDesc) {}
 }
 
-export class RemoveRecipe {
-    static readonly type = '[Profile] RemoveRecipe';
+export class RemoveSavedRecipe {
+    static readonly type = '[Profile] RemoveSavedRecipe';
     constructor(public readonly recipe: IRecipeDesc) {}
+}
+
+export class UndoRemoveSavedRecipe {
+    static readonly type = '[Profile] UndoRemoveSavedRecipe';
+    constructor(public readonly savedRecipes: IRecipeDesc[]) {}
 }
 
 export class SortSavedByDifficulty {

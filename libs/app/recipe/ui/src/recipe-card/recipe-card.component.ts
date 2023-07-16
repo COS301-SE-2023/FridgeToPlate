@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { IProfile, RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class RecipeCardComponent implements OnInit {
 
   changeSaved() {
     if (this.bookmarked) {
-      this.store.dispatch(new RemoveRecipe(this.recipe as IRecipeDesc));
+      this.store.dispatch(new RemoveSavedRecipe(this.recipe as IRecipeDesc));
     } else {
       this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
     }
