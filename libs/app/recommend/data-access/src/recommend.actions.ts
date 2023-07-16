@@ -2,14 +2,14 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 export interface PreferenceFormInterface {}
 
-export class GetIngredients {
-  static readonly type = '[Recommend] Get Ingredients';
+export class RefreshIngredientsList {
+  static readonly type = '[Recommend] Refresh Ingredients List';
   constructor() {}
 }
 
 export class UpdateIngredients {
   static readonly type = '[Recommend] Update Ingredients';
-  constructor(public newIngredientsList: IIngredient) {}
+  constructor(public newIngredientsList: IIngredient[]) {}
 }
 
 export class UpdateRecipePreferences {
