@@ -1,4 +1,4 @@
-<div class="text-center mt-5">
+<div class="bg-primary text-center">
   <h2 class="text-2xl font-bold">Edit Recipe</h2>
 </div>
 
@@ -18,7 +18,7 @@
   
       <div>
         <div class="mb-8">
-          <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
+          <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name</label>
           <input
             type="text"
             id="name"
@@ -31,7 +31,7 @@
         
       
         <div class="mb-7">
-          <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
+          <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description</label>
           <textarea
             id="description"
             placeholder="Description"
@@ -42,26 +42,24 @@
         </div>
   
         <div class="mb-8">
-          <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
+          <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings</label>
           <input
             type="number"
             id="servings"
             placeholder="e.g 10"
             formControlName="servings"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-            required
           >
         </div>
       
         <div>
-          <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+          <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)</label>
           <input
             type="number"
             id="preparation-time"
             placeholder="e.g 10"
             formControlName="preparationTime"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-            required
           >
         </div>
       </div>
@@ -119,7 +117,7 @@
     
       <div>
         <div class="flex justify-between">
-          <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
+          <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients</label>
           <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
         </div>
         <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
@@ -167,7 +165,7 @@
     
       <div>
         <div class="flex justify-between">
-          <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
+          <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions</label>
           <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
         </div>
         <div formArrayName="instructions" class="flex-shrink-0 max-h-40 overflow-y-auto">
@@ -192,7 +190,7 @@
       </div>
   
       <div class="hidden lg:block">
-        <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
+        <label class="block text-gray-700 font-bold mb-2">Meal</label>
         <div class="lg:flex lg:justify-between ">
           <button
             type="button"
@@ -243,7 +241,7 @@
       </div>
   
       <div>
-        <label for="tag" class="block text-gray-700 font-bold mb-2">Tag<span class="text-red-500">*</span></label>
+        <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
   
         <div class="flex items-center space-x-4"> 
           <input
