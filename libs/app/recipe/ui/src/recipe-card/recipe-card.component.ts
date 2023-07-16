@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
+import { Component, Input, OnInit } from '@angular/core';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { IProfile, RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -9,21 +11,38 @@ import { Store } from '@ngxs/store';
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss'],
 })
-export class RecipeCardComponent {
+export class RecipeCardComponent implements OnInit {
+  
+  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
+
   @Input() recipe !: any;
-  @Input() bookmarked = false;
+  bookmarked = false;
+  editable = false;
 
   constructor(private store: Store) {}
 
-  changeSaved() {
-    this.bookmarked = !this.bookmarked;
+  ngOnInit(): void {
+    this.profile$.subscribe(profile => {
+      if (profile !== null && this.recipe !== undefined) {
+        this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
+        this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
+      } else {
+        this.bookmarked = false;
+        this.editable = false;
+      }
+    });
+  }
 
+  changeSaved() {
     if (this.bookmarked) {
-      this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
-    } else {
       this.store.dispatch(new RemoveRecipe(this.recipe as IRecipeDesc));
+    } else {
+      this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
     }
   }
 
+  edit() {
+
+  }
 
 }
