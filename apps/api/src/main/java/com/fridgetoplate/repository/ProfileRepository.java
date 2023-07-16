@@ -132,7 +132,7 @@ public class ProfileRepository {
     public Profile update(String id, Profile profile){
 
         //Retrieve the profile of the specified ID
-        Profile profileData =  dynamoDBMapper.load(Profile.class, id);
+        Profile profileData = dynamoDBMapper.load(Profile.class, id);
 
         System.out.println("profileData");
         System.out.println(profileData);
@@ -191,6 +191,7 @@ public class ProfileRepository {
         if(model == null) {
             return null;
         }
+
         RecipeResponse response = new RecipeResponse();
         response.setCreator(model.getCreator());
         response.setDescription(model.getDescription());
@@ -222,11 +223,4 @@ public class ProfileRepository {
 
         return reviews;
     }
-
-    
-
-
-
-
-    
 }

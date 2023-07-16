@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
@@ -63,5 +63,29 @@ export class ProfilePage {
 
   closeSort() {
     this.displaySort = "none";
+  }
+
+  sortSavedBy(type: string) {
+    if (type === 'difficulty') {
+      this.store.dispatch(new SortSavedByDifficulty());
+    } else if (type === 'nameAsc') {
+      this.store.dispatch(new SortSavedByNameAsc());
+    } else if (type === 'nameDesc') {
+      this.store.dispatch(new SortSavedByNameDesc());
+    }
+
+    this.closeSort();
+  }
+
+  sortCreatedBy(type: string) {
+    if (type === 'difficulty') {
+      this.store.dispatch(new SortCreatedByDifficulty());
+    } else if (type === 'nameAsc') {
+      this.store.dispatch(new SortCreatedByNameAsc());
+    } else if (type === 'nameDesc') {
+      this.store.dispatch(new SortCreatedByNameDesc());
+    }
+
+    this.closeSort();
   }
 }
