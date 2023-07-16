@@ -25,3 +25,27 @@ export class RemoveRecipe {
     static readonly type = '[Profile] RemoveRecipe';
     constructor(public readonly recipe: IRecipeDesc) {}
 }
+
+export class SortSavedByDifficulty {
+    static readonly type = '[Profile] SortSavedByDifficulty';
+}
+
+export class SortSavedByNameAsc {
+    static readonly type = '[Profile] SortSavedByNameAsc';
+}
+
+export class SortSavedByNameDesc {
+    static readonly type = '[Profile] SortSavedByNameDesc';
+}
+
+export class SortCreatedByDifficulty {
+    static readonly type = '[Profile] SortCreatedByDifficulty';
+}
+
+export class SortCreatedByNameAsc {
+    static readonly type = '[Profile] SortCreatedByNameAsc';
+}
+
+export class SortCreatedByNameDesc {
+    static readonly type = '[Profile] SortCreatedByNameDesc';
+}
