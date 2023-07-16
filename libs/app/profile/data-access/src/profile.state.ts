@@ -21,12 +21,20 @@ export interface ProfileStateModel {
                     recipeImage: "testimage",
                     difficulty: "Easy",
                     name: "The recipe",
-                    tags: [],
+                    tags: ["Tag"],
                 }
             ],
             ingredients: [],
             profilePic: "https://source.unsplash.com/150x150/?portrait",
-            createdRecipes: [],
+            createdRecipes: [
+                {
+                    recipeId: "testid",
+                    recipeImage: "testimage",
+                    difficulty: "Easy",
+                    name: "The recipe",
+                    tags: ["Tag"],
+                }
+            ],
             currMealPlan: null
         }
     }
@@ -89,7 +97,7 @@ export class ProfileState {
                 profile: updatedProfile
             });
 
-            //CALL API
+            this.api.updateProfile(updatedProfile);
         }
     }
 
@@ -105,7 +113,7 @@ export class ProfileState {
                 profile: updatedProfile
             });
     
-            //CALL API
+            this.api.updateProfile(updatedProfile);
         }
     }
 }

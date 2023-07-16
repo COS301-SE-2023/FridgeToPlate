@@ -23,7 +23,6 @@ public class ProfileController {
         return profileRepository.save(profile);
     }
 
-
     @GetMapping("/{username}")
     public ProfileResponse findByName(@PathVariable(value = "username") String username) {
         return profileRepository.findByName(username);

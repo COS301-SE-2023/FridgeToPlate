@@ -42,6 +42,4 @@ export class ProfileAPI {
 
     return this.http.get<IProfile | null>(url);
   }
-
-
 }
