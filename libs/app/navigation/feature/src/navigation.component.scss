@@ -13,10 +13,10 @@ nav a.active {
 }
 
 @media (min-width: 1024px) {
-  // nav a ion-icon {
-  //   // font-size: 48px; /* increase font size on screens wider than 768px */
-  //   font-size: 18px;
-  // }
+  nav a ion-icon {
+    // font-size: 48px; /* increase font size on screens wider than 768px */
+    font-size: 15px;
+  }
 
   .tab-size {
     font-size: 15px;

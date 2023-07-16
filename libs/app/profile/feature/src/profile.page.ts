@@ -28,6 +28,14 @@ export class ProfilePage {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
   }
 
+  handleNotificationsClicked() {
+    this.openNotifications();
+  }
+
+  handleSettingsClicked() {
+    this.openSettings();
+  }
+
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
