@@ -20,7 +20,8 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  selectedMeal: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" = "Breakfast";
+  difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
 
@@ -147,6 +148,23 @@ export class CreatePagComponent implements OnInit  {
       'bg-gray-200': this.selectedMeal !== option,
       'text-white': this.selectedMeal === option,
       'text-gray-700': this.selectedMeal !== option,
+      'py-2': true,
+      'px-4': true,
+      'rounded-md': true,
+      'mr-2': true
+    };
+  }
+
+  toggleDifficulty(option: "Easy" | "Medium" | "Hard") {
+    this.difficulty = option;
+  }
+
+  getDifficulty(option: string) {
+    return {
+      'bg-primary': this.difficulty === option,
+      'bg-gray-200': this.difficulty !== option,
+      'text-white': this.difficulty === option,
+      'text-gray-700': this.difficulty !== option,
       'py-2': true,
       'px-4': true,
       'rounded-md': true,
