@@ -12,9 +12,12 @@
 <!-- Top navbar (large display) -->
 <nav class="lg:fixed top-0 left-0 right-0 z-50 bg-gray-300 p-1 hidden lg:block">
   <div class="flex items-center">
-    <a href="recommend" class="mr-4 ml-auto mt-4 mb-4 text-black-300 hover:text-white {{isActive('recommend')}}"> <b class="tab-size mx-1">HOME</b> </a>
-    <a href="recommend" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive(' ')}}"> <b class="tab-size mx-1">SEARCH</b> </a>
+    <a href="recommend" class="ml-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive('recommend')}}"> <b class="tab-size mx-1">HOME</b> </a>
+    <a href="recommend" class="m-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive(' ')}}"> <b class="tab-size mx-1">SEARCH</b> </a>
     <a href="create" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive('create')}}"> <b class="tab-size mx-1">CREATE</b> </a>
-    <a href="profile" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive('profile')}}"> <b class="tab-size mx-1">PROFILE</b> </a>
+    <a href="profile" class="ml-auto mr-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive('profile')}}"> <b class="tab-size mx-1">PROFILE</b> </a>
+    <button *ngIf="isActive('profile')" (click)="notificationsClicked.emit()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white {{isActive('notifications')}}"> <ion-icon name="notifications-outline"></ion-icon> </button>
+    <button *ngIf="isActive('profile')" (click)="settingsClicked.emit()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white"> <ion-icon name="settings-outline"></ion-icon> </button>
+
   </div>
 </nav>
