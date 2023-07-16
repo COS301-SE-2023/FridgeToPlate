@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { DietPreferencePillComponentComponent } from './diet-preference-pill-component.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NzI18nService } from 'ng-zorro-antd/i18n';
+import { NgxsModule } from '@ngxs/store';
 
 describe('DietPreferencePillComponentComponent', () => {
   let component: DietPreferencePillComponentComponent;
@@ -14,7 +15,7 @@ describe('DietPreferencePillComponentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DietPreferencePillComponentComponent],
-      imports: [IonicModule.forRoot(), HttpClientTestingModule],
+      imports: [IonicModule.forRoot(), HttpClientTestingModule, NgxsModule.forRoot()],
       providers: [intlService],
     }).compileComponents();
 
