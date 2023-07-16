@@ -4,9 +4,9 @@ import { RouteGuardService } from './guards/route-guard.service';
 
 const routes: Routes = [
     {
-        path: '**',
+        path: '',
         pathMatch: 'full',
-        redirectTo: 'edit-recipe',
+        redirectTo: 'login',
     },
     {
         path: 'recommend',

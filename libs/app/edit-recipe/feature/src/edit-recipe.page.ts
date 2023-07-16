@@ -4,7 +4,7 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
+import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 
 @Component({
