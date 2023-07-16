@@ -56,30 +56,50 @@ export class ItemEditStep {
         this.store.dispatch(new UpdateIngredients(newIngredientsArray))
       }
     )
-    //
-    // console.log('To be deleted: ', deleteItem.name);
-    // const updatedList = this.ingredientList?.filter((item) => {
-    //     return item.name !== deleteItem.name;
-    // });
-    // this.ingredientList = updatedList;
   }
 
   onChangeOrder() {
     if (this.order === '') return;
-    else {
-      switch (this.order) {
-        case 'name-asc':
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          );
-          break;
-        default:
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name > b.name ? -1 : 1
-          );
-          break;
-      }
+    else{
+      this.ingredientItem$
+        .pipe(
+          take(1)
+        ).subscribe( ingredientsList => {
+
+          let newTempList = ingredientsList;
+
+          switch (this.order) {
+            case 'name-asc':
+              newTempList = ingredientsList.sort((a, b) =>
+                a.name < b.name ? -1 : 1
+              );
+              this.store.dispatch(new UpdateIngredients(newTempList))
+              break;
+            case 'name-des':
+              newTempList = ingredientsList.sort((a, b) =>
+                a.name > b.name ? -1 : 1
+              );
+              this.store.dispatch(new UpdateIngredients(newTempList))
+              break;
+            case 'quantity-asc':
+              this.ingredientList = ingredientsList.sort((a, b) =>
+                a.amount < b.amount ? -1 : 1
+              );
+              this.store.dispatch(new UpdateIngredients(newTempList))
+              break;
+            default:
+              this.ingredientList = ingredientsList.sort((a, b) =>
+                a.amount > b.amount ? -1 : 1
+              );
+              this.store.dispatch(new UpdateIngredients(newTempList))
+              break;
+          }
+      })
     }
+
+    //else {
+
+    // }
   }
 
 }
