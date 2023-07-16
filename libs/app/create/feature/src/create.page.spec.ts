@@ -212,6 +212,35 @@ describe('Testing Tags', () => {
     
   })
 
+  it("Should selet a difficulty successfully", () => {
+    const difficulty = 'Easy';
+    component.difficulty = difficulty;
+    jest.spyOn(component, 'toggleDifficulty');
+  
+    // Act
+    component.toggleDifficulty(difficulty);
+  
+    // Assert
+    expect(component.selectedMeal).toBe(difficulty);
+    expect(component.toggleMeal).toBeCalledWith(difficulty);
+  })
+  
+  it("The selected difficulty should change when the user changes", () => {
+
+    const difficulty1 = 'Easy';
+    component.difficulty = difficulty1;
+
+    // Act
+    const difficulty2 = 'Medium';
+    // Act
+    component.toggleDifficulty(difficulty2);
+  
+    // Assert
+    expect(component.selectedMeal).toBe(difficulty2);
+    expect(component.selectedMeal).not.toBe(difficulty1);
+    
+  })
+
   it('should not add a tag if tagValue is empty', () => {
     // Arrange
     component.recipeForm.get('tag')?.setValue('');

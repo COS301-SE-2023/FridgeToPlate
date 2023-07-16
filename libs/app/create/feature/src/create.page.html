@@ -1,6 +1,5 @@
 <div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
 
-  
   <navigation-bar></navigation-bar>
   
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
@@ -40,27 +39,62 @@
         ></textarea>
       </div>
 
-      <div class="mb-8">
-        <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
-        <input
-          type="number"
-          id="servings"
-          placeholder="e.g 10"
-          formControlName="servings"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-        >
+      <div class="mb-8 lg:flex lg:justify-between ">
+        <div class="mb-8 lg:mb-0">
+          <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
+          <input
+            type="number"
+            id="servings"
+            placeholder="e.g 10"
+            formControlName="servings"
+            class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+          >
+        </div>
+      
+        <div>
+          <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+          <input
+            type="number"
+            id="preparation-time"
+            placeholder="e.g 10"
+            formControlName="preparationTime"
+            class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
+            required
+          >
+        </div>
       </div>
-    
+
       <div>
-        <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
-        <input
-          type="number"
-          id="preparation-time"
-          placeholder="e.g 10"
-          formControlName="preparationTime"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
-          required
-        >
+        <label class="block text-gray-700 font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
+        <div class="grid grid-flow-row grid-cols-3 gap-1">
+          <button
+            type="button"
+            [ngClass]="getDifficulty('Easy')"
+            (click)="toggleDifficulty('Easy')"
+            value="Easy"
+            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+          Easy
+          </button>
+          <button
+            type="button"
+            [ngClass]="getDifficulty('Medium')"
+            (click)="toggleDifficulty('Medium')"
+            value="Medium"
+            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+          Medium
+          </button>
+          <button
+            type="button"
+            [ngClass]="getDifficulty('Hard')"
+            (click)="toggleDifficulty('Hard')"
+            value="Hard"
+            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+          Hard
+          </button>
+        </div>
       </div>
     </div>
 
