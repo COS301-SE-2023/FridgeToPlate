@@ -4,10 +4,10 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendApi } from '../../../data-access/src/recommend.api';
 
-import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
+import {Observable, BehaviorSubject, switchMap, Subscription, tap, take} from 'rxjs';
 import {Select, Store} from "@ngxs/store";
 import {RecommendState} from "../../../data-access/src/recommend.state";
-import {RefreshIngredientsList} from "../../../data-access/src/recommend.actions";
+import {RefreshIngredientsList, UpdateIngredients} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'item-edit-step',
@@ -45,13 +45,23 @@ export class ItemEditStep {
     });
 
   removeItem(deleteItem: IIngredient) {
-    console.log(deleteItem);
+    this.ingredientItem$
+      .pipe(
+        take(1)
+      ).subscribe(
+      ingredientsList => {
 
-    console.log('To be deleted: ', deleteItem.name);
-    const updatedList = this.ingredientList?.filter((item) => {
-        return item.name !== deleteItem.name;
-    });
-    this.ingredientList = updatedList;
+        const newIngredientsArray = ingredientsList.filter(item => item.name !== deleteItem.name)
+
+        this.store.dispatch(new UpdateIngredients(newIngredientsArray))
+      }
+    )
+    //
+    // console.log('To be deleted: ', deleteItem.name);
+    // const updatedList = this.ingredientList?.filter((item) => {
+    //     return item.name !== deleteItem.name;
+    // });
+    // this.ingredientList = updatedList;
   }
 
   onChangeOrder() {

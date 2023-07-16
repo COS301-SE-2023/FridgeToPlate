@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Action, Select, Selector, State, StateContext} from '@ngxs/store';
-import { PreferenceFormInterface } from './recommend.actions';
+import {PreferenceFormInterface, RefreshIngredientsList} from './recommend.actions';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import * as RecommendAction from './recommend.actions';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import {RecommendApi} from "./recommend.api";
 import {Observable, take, tap} from "rxjs";
 import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
-import {IProfile} from "@fridge-to-plate/app/profile/utils";
+import {IProfile, UpdateProfile} from "@fridge-to-plate/app/profile/utils";
 
 export interface RecommendStateModel {
   ingredients: IIngredient[];
@@ -46,9 +46,20 @@ export class RecommendState {
   }
 
   @Action(RecommendAction.UpdateIngredients)
-  updateIngredients({ patchState } : StateContext<RecommendStateModel>, { newIngredientsList }: RecommendAction.UpdateIngredients)
+  updateIngredients(ctx : StateContext<RecommendStateModel>, { newIngredientsList }: RecommendAction.UpdateIngredients)
   {
-    patchState({ingredients: newIngredientsList});
+    this.profile$
+      .pipe(
+        take(1)
+      ).subscribe(currentUserProfile => {
+        const newUserProfile: IProfile = {
+          ...currentUserProfile,
+          ingredients: newIngredientsList
+        };
+
+        ctx.dispatch(new UpdateProfile(newUserProfile))
+        ctx.dispatch(new RefreshIngredientsList())
+    })
   }
 
   @Action(RecommendAction.RefreshIngredientsList)
