@@ -1,5 +1,18 @@
 import { Injectable } from "@angular/core";
-import { IProfile, UpdateProfile, CreateNewProfile, RetrieveProfile, SaveRecipe, RemoveRecipe, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, SortCreatedByDifficulty, SortCreatedByNameAsc } from "@fridge-to-plate/app/profile/utils";
+import { 
+    IProfile, 
+    UpdateProfile, 
+    CreateNewProfile, 
+    RetrieveProfile, 
+    SaveRecipe, 
+    RemoveRecipe, 
+    SortSavedByDifficulty, 
+    SortSavedByNameAsc, 
+    SortSavedByNameDesc, 
+    SortCreatedByDifficulty, 
+    SortCreatedByNameAsc, 
+    ResetProfile 
+} from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
@@ -72,6 +85,13 @@ export class ProfileState {
         this.api.updateProfile(profile);
     }
 
+    @Action(ResetProfile)
+    resetProfile({ setState } : StateContext<ProfileStateModel>) {
+        setState({
+            profile: null
+        })
+    }
+    
     @Action(CreateNewProfile)
     createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
         setState({
