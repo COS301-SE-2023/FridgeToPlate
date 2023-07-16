@@ -3,11 +3,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { RouteGuardService } from './guards/route-guard.service';
 
 const routes: Routes = [
-    // {
-    //     path: '**',
-    //     pathMatch: 'full',
-    //     redirectTo: 'login',
-    // },
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'login',
+    },
     {
         path: 'recommend',
         loadChildren: () => import('@fridge-to-plate/app/recommend/feature').then((m) => m.RecommendModule),
