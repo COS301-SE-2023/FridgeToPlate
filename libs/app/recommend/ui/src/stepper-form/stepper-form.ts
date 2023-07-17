@@ -15,6 +15,7 @@ export class StepperForm implements OnInit{
   recipeRecommendForm!: FormGroup;
 
   stepContent = `Edit Your Ingredients`;
+  stepContentDesktop = `Edit Your Ingredients and Preferences`;
 
   step = ItemEditStep;
 
@@ -23,18 +24,22 @@ export class StepperForm implements OnInit{
     switch (this.currentStep) {
       case 1: {
         this.stepContent = 'Edit Your Ingredients'
+        this.stepContentDesktop = `Edit Your Ingredients and Preferences`;
         break;
       }
       case 2: {
         this.stepContent = 'Choose Preferences'
+        this.stepContentDesktop = `Recipe Suggestions`;
         break;
       }
       case 3: {
         this.stepContent = 'Suggestions'
+        this.stepContentDesktop = `error`;
         break;
       }
       default: {
         this.stepContent = 'error'
+        this.stepContentDesktop = `error`;
       }
     }
   }
