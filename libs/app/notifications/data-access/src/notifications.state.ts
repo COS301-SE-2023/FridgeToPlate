@@ -3,7 +3,8 @@ import { INotification } from '../../utils/src/interfaces';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
 import {
-  ClearNotifications,
+  ClearGeneralNotifications,
+  ClearRecommendationNotifications,
   RefreshNotifications,
   RefreshRecommendationNotifications,
 } from './notifications.actions';
@@ -56,9 +57,23 @@ export class NotificationsState {
     });
   }
 
-  @Action(ClearNotifications)
-  clearNotifications(
+  @Action(ClearGeneralNotifications)
+  clearGeneralNotifications(
     ctx: StateContext<NotificationsStateModel>,
-    { userId }: ClearNotifications
-  ) {}
+    { userId }: ClearGeneralNotifications
+  ) {
+    ctx.patchState({
+      generalNotifications: []
+    })
+  }
+
+  @Action(ClearRecommendationNotifications)
+  clearRecommendationNotifications(
+    ctx: StateContext<NotificationsStateModel>,
+    { userId }: ClearRecommendationNotifications
+  ) {
+    ctx.patchState({
+      recommendationNotification: []
+    })
+  }
 }

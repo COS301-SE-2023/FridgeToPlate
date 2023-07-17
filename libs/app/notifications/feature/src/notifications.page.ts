@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  ClearGeneralNotifications, ClearRecommendationNotifications,
   NotificationsApi,
   RefreshRecommendationNotifications,
 } from '@fridge-to-plate/app/notifications/data-access';
@@ -55,8 +56,9 @@ export class NotificationsPage {
   clearAllNotifications(clearType: string) {
     if (clearType.includes('general')) {
       const clearObservable = new Subject<INotification[]>();
-      //TODO: added when RxJS is implemented.
+      this.store.dispatch(ClearGeneralNotifications);
     } else {
+      this.store.dispatch(ClearRecommendationNotifications)
       return;
     }
   }
