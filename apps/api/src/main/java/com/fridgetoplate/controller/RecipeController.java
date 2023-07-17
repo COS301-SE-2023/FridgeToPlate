@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
-import com.fridgetoplate.response.RecipeResponse;
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -18,23 +18,22 @@ public class RecipeController {
     private RecipeRepository recipeRepository;
 
     @PostMapping("/create")
-    public RecipeModel save(@RequestBody RecipeModel recipe){
+    public RecipeFrontendModel save(@RequestBody RecipeFrontendModel recipe){
         return recipeRepository.save(recipe);
     }
 
-
     @GetMapping("/{id}")
-    public Recipe findById(@PathVariable(value = "id") String id){
+    public RecipeFrontendModel findById(@PathVariable(value = "id") String id){
         return recipeRepository.findById(id);
     }
 
     @GetMapping("/creator/{username}")
-    public List<RecipeResponse> findRecipesByUsername(@PathVariable(value = "username") String username){
+    public List<RecipeFrontendModel> findRecipesByUsername(@PathVariable(value = "username") String username){
         return recipeRepository.getRecipesByUsername(username);
     }
 
     @GetMapping
-    public List<RecipeResponse> findAll(){
+    public List<RecipeFrontendModel> findAll(){
         return recipeRepository.findAll();
     }
 
