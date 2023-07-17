@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Logout } from '@fridge-to-plate/app/auth/utils';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
@@ -26,5 +27,9 @@ export class SettingsModalComponent {
 
   save() {
     this.store.dispatch(new UpdatePreferences(this.editablePreferences));
+  }
+
+  logout() {
+    this.store.dispatch(new Logout());
   }
 }
