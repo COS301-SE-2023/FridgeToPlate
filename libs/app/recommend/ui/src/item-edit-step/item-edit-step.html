@@ -42,11 +42,9 @@
   
   <div class="mt-8">
     <h3 class="text-xl font-bold my-2">Your Ingredients List</h3>
-    <nz-list *ngIf="profile.ingredients.length > 0; else emptyList">
-      <nz-list-item *ngFor="let item of profile.ingredients">
-        <ingredient-card [ingredient]="item" (removeEvent)="removeItem(item)" ></ingredient-card>
-      </nz-list-item>
-    </nz-list>
+    <div *ngIf="profile.ingredients.length > 0; else emptyList">
+      <ingredient-card *ngFor="let item of profile.ingredients" [ingredient]="item" (removeEvent)="removeItem(item)" ></ingredient-card>
+    </div>
     <ng-template #emptyList>
       <h3 class="text-base my-2">Your Ingredients List is Empty</h3>
     </ng-template>
