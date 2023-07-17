@@ -4,7 +4,7 @@ import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
 import {Observable, take} from 'rxjs';
 import {Select, Store} from "@ngxs/store";
 import {RecommendState} from "../../../data-access/src/recommend.state";
-import {PreferenceFormInterface} from "../../../data-access/src/recommend.actions";
+import {PreferenceFormInterface, UpdateRecipePreferences} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'recipe-preferences-step',
@@ -51,7 +51,7 @@ export class RecipePreferencesStep {
 
   onFormChanges() {
     this.recipePreferences.valueChanges.subscribe( value => {
-      console.log('Updated Values: ', value);
+      this.store.dispatch(new UpdateRecipePreferences(value));
     })
   }
 
