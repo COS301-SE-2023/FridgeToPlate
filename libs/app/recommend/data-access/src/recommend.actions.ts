@@ -1,6 +1,14 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
-export interface PreferenceFormInterface {}
+export interface PreferenceFormInterface {
+  diet: string[],
+  keywords: string [],
+  other: {
+    difficulty: 'easy' | 'medium' | 'hard',
+    rating: number,
+    servings: number
+  }
+}
 
 export class RefreshIngredientsList {
   static readonly type = '[Recommend] Refresh Ingredients List';

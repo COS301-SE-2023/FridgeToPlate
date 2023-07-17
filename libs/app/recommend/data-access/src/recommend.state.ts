@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Action, Select, Selector, State, StateContext} from '@ngxs/store';
-import {PreferenceFormInterface, RefreshIngredientsList} from './recommend.actions';
+import {PreferenceFormInterface, RefreshIngredientsList, UpdateRecipePreferences} from './recommend.actions';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import * as RecommendAction from './recommend.actions';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -11,14 +11,23 @@ import {IProfile, UpdateProfile} from "@fridge-to-plate/app/profile/utils";
 
 export interface RecommendStateModel {
   ingredients: IIngredient[];
-  preferences: PreferenceFormInterface[];
+  preferences: PreferenceFormInterface;
   recommendations: IRecipe[];
 }
 @State<RecommendStateModel>({
   name: 'recommend',
   defaults: {
     ingredients: [],
-    preferences: [],
+    preferences: {
+      diet: [],
+      keywords: [],
+      other: {
+        difficulty: 'easy',
+        rating: 1,
+        servings: 1
+      },
+
+    },
     recommendations: [],
   },
 })
@@ -77,13 +86,9 @@ export class RecommendState {
 
   @Action(RecommendAction.UpdateRecipePreferences)
   updatePreferences(
-    ctx: StateContext<RecommendStateModel>,
-    action: RecommendAction.UpdateRecipePreferences
-  ): any {
-    const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      preferences: [...state.preferences, action.updatedFormData],
-    });
+    { patchState } : StateContext<RecommendStateModel>,
+    { updatedFormData } : UpdateRecipePreferences
+  ){
+    patchState({ preferences: updatedFormData})
   }
 }
