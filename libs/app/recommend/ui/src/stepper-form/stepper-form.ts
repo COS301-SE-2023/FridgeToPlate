@@ -14,7 +14,7 @@ import {PreferenceFormInterface} from "../../../data-access/src/recommend.action
 
 export class StepperForm implements OnInit{
 
-  currentStep = 2;
+  currentStep = 1;
 
   recipeRecommendForm!: FormGroup;
 
