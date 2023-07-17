@@ -10,7 +10,7 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '../../data-access/src/recommend.module';
 import { RecommendApi } from '../../data-access/src/recommend.api';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DietPreferencePillComponentComponent } from './diet-preference-pill-component/diet-preference-pill-component.component';
 
 @NgModule({
@@ -21,15 +21,16 @@ import { DietPreferencePillComponentComponent } from './diet-preference-pill-com
     StepperForm,
     DietPreferencePillComponentComponent,
   ],
-  imports: [
-    CommonModule,
-    NzListModule,
-    IonicModule,
-    NzStepsModule,
-    RecipeUIModule,
-    RecommendDataAccessModule,
-    FormsModule,
-  ],
+    imports: [
+        CommonModule,
+        NzListModule,
+        IonicModule,
+        NzStepsModule,
+        RecipeUIModule,
+        RecommendDataAccessModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
   exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
 })
 export class RecommendUIModule {}

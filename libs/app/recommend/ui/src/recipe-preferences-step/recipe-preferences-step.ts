@@ -31,21 +31,29 @@ export class RecipePreferencesStep {
 
   }
 
+  onFormChanges() {
+    this.recipePreferences.valueChanges.subscribe( value => {
+      console.log('Updated Values: ', value);
+    })
+  }
+
   constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi,  private store: Store) {
     this.preferences$
       .pipe(
         take(1)
       ).subscribe( formData => {
 
-      this.recipePreferences = new FormGroup({
-        diet: new FormControl(this.dietCategories),
-        keywords: new FormControl(formData.keywords),
-        other: new FormGroup({
-          difficulty: new FormControl(formData.other.difficulty),
-          rating: new FormControl(formData.other.rating),
-          servings: new FormControl(formData.other.servings),
+      this.recipePreferences = formBuilder.group({
+        diet: [formData.diet],
+        keywords: [formData.keywords],
+        other: formBuilder.group({
+          difficulty: [formData.other.difficulty],
+          rating: [formData.other.rating],
+          servings: [formData.other.servings],
         }),
       });
+
+      this.onFormChanges();
     })
   }
 }
