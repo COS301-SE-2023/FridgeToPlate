@@ -12,6 +12,7 @@ import { ItemEditStep } from '../item-edit-step/item-edit-step';
 import { RecipeListStep } from '../recipe-list-step/recipe-list-step';
 import { RecipePreferencesStep } from '../recipe-preferences-step/recipe-preferences-step';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NgxsModule } from '@ngxs/store';
 describe('StepperForm', () => {
   let component: StepperForm;
   let fixture: ComponentFixture<StepperForm>;
@@ -32,6 +33,7 @@ describe('StepperForm', () => {
         RecommendDataAccessModule,
         FormsModule,
         HttpClientTestingModule,
+        NgxsModule.forRoot()
       ],
     });
     fixture = TestBed.createComponent(StepperForm);
