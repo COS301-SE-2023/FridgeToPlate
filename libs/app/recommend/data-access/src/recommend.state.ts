@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Action, Select, Selector, State, StateContext} from '@ngxs/store';
-import {PreferenceFormInterface, RefreshIngredientsList, UpdateRecipePreferences} from './recommend.actions';
+import {
+  GetRecipeRecommendations,
+  PreferenceFormInterface,
+  RefreshIngredientsList,
+  UpdateRecipePreferences
+} from './recommend.actions';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import * as RecommendAction from './recommend.actions';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -90,5 +95,13 @@ export class RecommendState {
     { updatedFormData } : UpdateRecipePreferences
   ){
     patchState({ preferences: updatedFormData})
+  }
+
+  @Action(RecommendAction.GetRecipeRecommendations)
+  getRecommendations(
+    { patchState } : StateContext<RecommendStateModel>,
+    { recipePreferenceList } : GetRecipeRecommendations
+  ){
+    this.recommendApi.getRecommendations(recipePreferenceList)
   }
 }
