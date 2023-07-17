@@ -14,3 +14,8 @@ export class CreateRecipe {
     static readonly type = "[Create] CreateRecipe";
     constructor(public readonly recipe: IRecipe) {}
 }
+
+export class RetrieveRecipe {
+    static readonly type = "[Retrieve] RetrieveRecipe";
+    constructor(public readonly recipeId: string) {}
+}

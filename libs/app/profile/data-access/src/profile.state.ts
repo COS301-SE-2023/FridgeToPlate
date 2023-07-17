@@ -55,7 +55,7 @@ export interface ProfileStateModel {
             profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [
                 {
-                    recipeId: "testid",
+                    recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
                     recipeImage: "testimage",
                     difficulty: "Easy",
                     name: "The recipe",

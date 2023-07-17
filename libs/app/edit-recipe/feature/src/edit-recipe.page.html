@@ -4,7 +4,7 @@
 
 <div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
     
-    <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
+    <form [formGroup]="recipeForm" (ngSubmit)="updateRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
       <div class="flex justify-center my-auto">
         <img (click)="fileInput.click()"
         [src]="imageUrl"
@@ -65,7 +65,7 @@
       </div>
   
       <div class="lg:hidden">
-        <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
+        <label class="block text-gray-700 font-bold mb-2">Meal</label>
         <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
           <button
             type="button"
@@ -125,7 +125,7 @@
             <div [formGroupName]="i" class=" flex mb-2 ">
   
               <div class="w-3/5">
-                <input formControlName="ingredientName"
+                <input formControlName="name"
                 placeholder="Ingredient Name"
                 required
                 type="text"
@@ -142,7 +142,7 @@
               </div>
              
               <div class="w-1/5">
-                <input formControlName="scale"
+                <input formControlName="unit"
                 [placeholder]="getUnitPlaceholderText()"
                 required
                 type="text"
@@ -268,7 +268,7 @@
       </div>
      
       <div class="flex justify-between lg:col-span-2 lg:px-36">
-        <button type="button" (click)="cancelEdit()"class="bg-red-700 text-white hover:bg-red-600 font-medium py-2 px-10 rounded-sm w-full mx-2">Cancel</button>
+        <button type="button" (click)="cancelEdit()" class="bg-red-700 text-white hover:bg-red-600 font-medium py-2 px-10 rounded-sm w-full mx-2">Cancel</button>
         <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full mx-2">Update Recipe</button>
       </div>
     </form>
