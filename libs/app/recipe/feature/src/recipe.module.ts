@@ -7,6 +7,7 @@ import { RecipeRouting } from './recipe.routing';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ReviewModule } from "@fridge-to-plate/app/review/feature";
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -14,7 +15,7 @@ import { ReviewModule } from "@fridge-to-plate/app/review/feature";
     IonicModule,
     RecipeRouting,
     NavigationBarModule,
-    ReviewModule
+    ReviewModule,
   ],
   declarations: [RecipePage],
 })

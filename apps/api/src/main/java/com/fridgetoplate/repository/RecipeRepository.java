@@ -106,17 +106,13 @@ public class RecipeRepository {
 
     public RecipeModel update(String id, RecipeModel recipe){
 
-        RecipeModel recipeData =  dynamoDBMapper.load(RecipeModel.class, id);
-
-        
-
-        dynamoDBMapper.save(recipeData,
+        dynamoDBMapper.save(recipe,
                 new DynamoDBSaveExpression()
         .withExpectedEntry("recipeId",
                 new ExpectedAttributeValue(
                         new AttributeValue().withS(id)
                 )));
-        return recipeData;
+        return recipe;
     }
 
     public String delete(String id){

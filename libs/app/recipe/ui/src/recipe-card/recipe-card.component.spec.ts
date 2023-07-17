@@ -60,7 +60,7 @@ describe('RecipeCardComponent', () => {
       saved_recipes: [],
     };
 
-    component.profile = testProfile;
+    // component.profile = testProfile;
     component.bookmarked = true;
     component.changeSaved();
 
