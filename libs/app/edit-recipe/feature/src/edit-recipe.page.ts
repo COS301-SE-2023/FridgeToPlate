@@ -20,6 +20,7 @@ export class EditRecipeComponent implements OnInit {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
   recipeId !: string;
@@ -27,9 +28,7 @@ export class EditRecipeComponent implements OnInit {
 
   @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
 
-  constructor(private fb: FormBuilder, private store : Store, private location: Location, private route: ActivatedRoute) {
-    
-  }
+  constructor(private fb: FormBuilder, private store : Store, private location: Location, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.createForm();
@@ -83,6 +82,7 @@ export class EditRecipeComponent implements OnInit {
     this.tags = this.recipe?.tags ?? this.tags;
     this.selectedMeal = this.recipe?.meal ?? this.selectedMeal;
     this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl
+    this.difficulty = this.recipe?.difficulty ?? this.difficulty;
   }
 
   get ingredientControls() {
@@ -133,8 +133,7 @@ export class EditRecipeComponent implements OnInit {
   }
 
   updateRecipe() : void {
-   
-    alert(this.recipe?.name)
+    
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
@@ -155,7 +154,7 @@ export class EditRecipeComponent implements OnInit {
       creator: 'creator',
       ingredients: ingredients,
       steps: instructions,
-      difficulty:this.recipeForm.get('difficulty')?.value,
+      difficulty: this.difficulty,
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
@@ -192,6 +191,24 @@ export class EditRecipeComponent implements OnInit {
       'mr-2': true
     };
   }
+
+  toggleDifficulty(option: "Easy" | "Medium" | "Hard") {
+    this.difficulty = option;
+  }
+
+  getDifficulty(option: string) {
+    return {
+      'bg-primary': this.difficulty === option,
+      'bg-gray-200': this.difficulty !== option,
+      'text-white': this.difficulty === option,
+      'text-gray-700': this.difficulty !== option,
+      'py-2': true,
+      'px-4': true,
+      'rounded-md': true,
+      'mr-2': true
+    };
+  }
+
 
   addTag() {
     const tagValue = this.recipeForm.get('tags')?.value as string;
