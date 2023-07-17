@@ -2,10 +2,14 @@ import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
 import { INotification } from '../../utils/src/interfaces';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
-import { RefreshNotifications } from './notifications.actions';
+import {
+  ClearNotifications,
+  RefreshNotifications,
+  RefreshRecommendationNotifications,
+} from './notifications.actions';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map, take, tap } from 'rxjs';
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
@@ -34,20 +38,27 @@ export class NotificationsState {
     return state.recommendationNotification;
   }
 
-  @Action(RefreshNotifications)
+  @Action(RefreshRecommendationNotifications)
   refreshNotifications(
     ctx: StateContext<NotificationsStateModel>,
     { userId }: RefreshNotifications
   ) {
     this.profile$.pipe(take(1)).subscribe((loggedInUser) => {
-      this.notificationsApi.getAllNotifications(loggedInUser.username).pipe(
-        map((notificationsResponse) => {
+      this.notificationsApi
+        .getAllNotifications(loggedInUser.username)
+        .pipe(take(1))
+        .subscribe((notificationsResponse) => {
           ctx.setState({
             generalNotifications: notificationsResponse.general,
             recommendationNotification: notificationsResponse.recommendations,
           });
-        })
-      );
+        });
     });
   }
+
+  @Action(ClearNotifications)
+  clearNotifications(
+    ctx: StateContext<NotificationsStateModel>,
+    { userId }: ClearNotifications
+  ) {}
 }
