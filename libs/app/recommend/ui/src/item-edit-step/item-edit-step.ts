@@ -32,18 +32,6 @@ export class ItemEditStep {
 
   @ViewChild('teams') orderBy!: ElementRef;
 
-  ingredientItems$: Subscription = this.recommendApiClient
-    .getUserIngredientsList()
-    .subscribe({
-      next: (userIngredients) => {
-        this.ingredientList = userIngredients;
-      },
-      error: (error) => {
-        this.ingredientList = [];
-        console.log(error);
-      },
-    });
-
   removeItem(deleteItem: IIngredient) {
     this.ingredientItem$
       .pipe(
@@ -102,4 +90,8 @@ export class ItemEditStep {
     // }
   }
 
+  onSearchQueryInput(event: Event){
+    const searchQuery = (event.target as HTMLInputElement).value;
+    searchQuery.trim();
+  }
 }

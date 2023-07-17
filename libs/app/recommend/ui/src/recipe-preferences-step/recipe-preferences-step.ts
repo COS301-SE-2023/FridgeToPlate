@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
-import { Observable } from 'rxjs';
+import {Observable, take} from 'rxjs';
+import {Select, Store} from "@ngxs/store";
+import {RecommendState} from "../../../data-access/src/recommend.state";
+import {PreferenceFormInterface} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'recipe-preferences-step',
@@ -13,15 +16,9 @@ export class RecipePreferencesStep {
 
   dietList$: Observable<string[]> = this.recommendApi.getDietList();
 
-  recipePreferences = new FormGroup({
-    diet: new FormControl(this.dietCategories),
-    keywords: new FormControl([]),
-    other: new FormGroup({
-      difficulty: new FormControl('easy'),
-      rating: new FormControl(3),
-      servings: new FormControl(1),
-    }),
-  });
+  @Select(RecommendState.getPreferences) preferences$ !: Observable<PreferenceFormInterface>;
+
+  recipePreferences: FormGroup;
 
   dietSelect(dietPill: string) {
     if (typeof dietPill === 'string') {
@@ -30,5 +27,25 @@ export class RecipePreferencesStep {
     }
   }
 
-  constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi) {}
+  submitChanges(){
+
+  }
+
+  constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi,  private store: Store) {
+    this.preferences$
+      .pipe(
+        take(1)
+      ).subscribe( formData => {
+
+      this.recipePreferences = new FormGroup({
+        diet: new FormControl(this.dietCategories),
+        keywords: new FormControl(formData.keywords),
+        other: new FormGroup({
+          difficulty: new FormControl(formData.other.difficulty),
+          rating: new FormControl(formData.other.rating),
+          servings: new FormControl(formData.other.servings),
+        }),
+      });
+    })
+  }
 }
