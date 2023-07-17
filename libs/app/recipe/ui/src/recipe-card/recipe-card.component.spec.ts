@@ -80,6 +80,13 @@ describe('RecipeCardComponent', () => {
   });
 
   it('should be unsaved', () => {
+    mockProfileAPI.editProfile.mockReturnValue(true);
+
+    const testProfile = {
+      saved_recipes: [],
+    };
+
+    // component.profile = testProfile;
     component.bookmarked = true;
     component.changeSaved();
     expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(component.recipe as IRecipeDesc));

@@ -1,47 +1,88 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable, take } from 'rxjs';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { Observable, take } from 'rxjs';
 
 @Component({
-  selector: 'fridge-to-plate-app-create',
-  templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss'],
+  selector: 'fridge-to-plate-edit-recipe',
+  templateUrl: './edit-recipe.page.html',
+  styleUrls: ['./edit-recipe.page.css'],
 })
-export class CreatePagComponent implements OnInit  {
-
-  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
-
+export class EditRecipeComponent implements OnInit {
+  
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" = "Breakfast";
+  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
+  recipeId !: string;
+  recipe !: IRecipe | null;
 
-  constructor(private fb: FormBuilder, private store : Store) {}
+  @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
+
+  constructor(private fb: FormBuilder, private store : Store, private location: Location, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.createForm();
-    this.profile$.pipe(take(1)).subscribe(profile => this.profile = Object.create(profile));
   }
 
   createForm(): void {
+    this.initialize();
     this.recipeForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      servings: ['', Validators.required, Validators.min(1)],
-      preparationTime: ['', Validators.required],
+      name: [this.recipe?.name, Validators.required],
+      description: [this.recipe?.description, Validators.required],
+      servings: [this.recipe?.servings, Validators.required],
+      preparationTime: [this.recipe?.prepTime, Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
-      tag: ['']
+      tags: [''],
     });
+    this.populateForm();
+  }
+
+  initialize(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.recipeId = JSON.parse(params['recipeId']) as string;
+    });
+    this.store.dispatch(new RetrieveRecipe(this.recipeId));
+    this.recipe$.pipe(take(1)).subscribe(recipe => {
+      if(recipe) {
+        this.recipe = recipe;
+      }
+      else {
+        this.store.dispatch( new ShowError("Error: Something is wrong with the recipe"))
+      }
+    });
+  }
+
+  populateForm(): void {
+    this.recipe?.ingredients.forEach((ingredient) => {
+      const ingredientGroup = this.fb.group({
+        name: [ingredient.name, Validators.required],
+        amount: [ingredient.amount, Validators.required],
+        unit: [ingredient.unit, Validators.required]
+      });
+  
+      (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
+    }
+    );
+
+    this.recipe?.steps.forEach((step) => {
+      this.instructionControls.push(this.fb.control(step, Validators.required));
+    }
+    );
+    this.tags = this.recipe?.tags ?? this.tags;
+    this.selectedMeal = this.recipe?.meal ?? this.selectedMeal;
+    this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl
+    this.difficulty = this.recipe?.difficulty ?? this.difficulty;
   }
 
   get ingredientControls() {
@@ -50,15 +91,15 @@ export class CreatePagComponent implements OnInit  {
 
   addIngredient() {
     const ingredientGroup = this.fb.group({
-      ingredientName: ['', Validators.required],
+      name: ['', Validators.required],
       amount: ['', Validators.required],
-      scale: ['', Validators.required]
+      unit: ['', Validators.required]
     });
   
     // Add the new ingredient group to the FormArray
     (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
   }
-
+  
   get instructionControls() {
     return (this.recipeForm.get('instructions') as FormArray).controls;
   }
@@ -91,8 +132,8 @@ export class CreatePagComponent implements OnInit  {
     }
   }
 
-  createRecipe() : void {
-
+  updateRecipe() : void {
+    
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
@@ -105,11 +146,12 @@ export class CreatePagComponent implements OnInit  {
 
     // Create Recipe details
     const recipe: IRecipe = {
+      recipeId: this.recipe?.recipeId,
       name: this.recipeForm.get('name')?.value,
       recipeImage: this.imageUrl,
       description: this.recipeForm.get('description')?.value,
       meal: this.selectedMeal,
-      creator: this.profile.username,
+      creator: 'creator',
       ingredients: ingredients,
       steps: instructions,
       difficulty: this.difficulty,
@@ -117,12 +159,9 @@ export class CreatePagComponent implements OnInit  {
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
     };
-
-    this.store.dispatch( new CreateRecipe(recipe) )
+    this.store.dispatch( new UpdateRecipe(recipe) )
   }
 
-
- 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
@@ -170,8 +209,9 @@ export class CreatePagComponent implements OnInit  {
     };
   }
 
+
   addTag() {
-    const tagValue = this.recipeForm.get('tag')?.value as string;
+    const tagValue = this.recipeForm.get('tags')?.value as string;
     if(!tagValue) {
       this.store.dispatch( new ShowError("Please enter valid tag"))
     }
@@ -210,11 +250,6 @@ export class CreatePagComponent implements OnInit  {
       return false;
     }
 
-    if(!this.difficulty) {
-      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
-      return false;
-    }
-
     if(this.tags.length < 1) {
       this.store.dispatch( new ShowError("No Tags"))
       return false;
@@ -225,10 +260,10 @@ export class CreatePagComponent implements OnInit  {
       return false;
     }
 
-    if(!this.profile){
-      this.store.dispatch( new ShowError("Please login to create a recipe"))
-      return false;
-    }
+    // if(!this.profile){
+    //   this.store.dispatch( new ShowError("Please login to create a recipe"))
+    //   return false;
+    // }
 
     return true;
   }
@@ -255,6 +290,24 @@ export class CreatePagComponent implements OnInit  {
     return instructions;
   }
 
+  cancelEdit(): void {
+    this.location.back();
+  }
 
+  setDefaultRecipe() {
+    return  {
+      name: '',
+      recipeImage: this.imageUrl,
+      description: this.recipeForm.get('description')?.value,
+      meal: 'Breakfast',
+      creator: 'creator',
+      ingredients: [],
+      steps: [],
+      difficulty: 'Easy',
+      prepTime: 0,
+      servings: 0,
+      tags: [],
+    }
+  }
 
 }

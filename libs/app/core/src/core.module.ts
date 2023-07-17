@@ -17,6 +17,7 @@ import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { UndoState } from '@fridge-to-plate/app/undo/data-access';
     NgxsReduxDevtoolsPluginModule.forRoot({
       // disabled: ENVIRONMENT == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, UndoState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState, RecipeState]),
     NgxsRouterPluginModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
