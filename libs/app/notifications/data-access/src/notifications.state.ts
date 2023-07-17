@@ -25,6 +25,6 @@ export class NotificationsState {
 
   @Selector()
   static getRecommendationNotifications(state: NotificationsStateModel) {
-    return state.generalNotifications;
+    return state.recommendationNotification;
   }
 }
