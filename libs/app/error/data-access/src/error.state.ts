@@ -28,7 +28,7 @@ export class ErrorState {
         const toast = await this.toastController.create({
             message: "ERROR: " + error,
             color: 'danger',
-            duration: 2000,
+            duration: 2500,
             position: 'bottom',
         });
 
