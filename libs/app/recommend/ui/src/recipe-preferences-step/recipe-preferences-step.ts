@@ -14,11 +14,15 @@ import {PreferenceFormInterface} from "../../../data-access/src/recommend.action
 export class RecipePreferencesStep {
   dietCategories: string[] = [];
 
+  keywordList: string[] = [];
+
   dietList$: Observable<string[]> = this.recommendApi.getDietList();
 
   @Select(RecommendState.getPreferences) preferences$ !: Observable<PreferenceFormInterface>;
 
   recipePreferences: FormGroup;
+
+  keywordTerm: string;
 
   dietSelect(dietPill: string) {
     if (typeof dietPill === 'string') {
@@ -32,6 +36,15 @@ export class RecipePreferencesStep {
     }
   }
 
+  addKeyword(e: Event){
+    if(!this.keywordList.includes(this.keywordTerm)){
+      this.keywordList?.push(this.keywordTerm);
+      this.recipePreferences.controls['keywords'].setValue(this.keywordList);
+      return;
+    } else {
+      this.recipePreferences.controls['keywords'].setValue( this.dietCategories.filter( currentKeyword => currentKeyword !== this.keywordTerm));
+    }
+  }
   submitChanges(){
 
   }
@@ -61,4 +74,7 @@ export class RecipePreferencesStep {
       this.onFormChanges();
     })
   }
+
+  protected readonly HTMLInputElement = HTMLInputElement;
+  protected readonly HTMLElement = HTMLElement;
 }

@@ -25,8 +25,11 @@
       <div>
         <input
           placeholder="Search by keyword"
+          name="keyword-input"
           type="text"
+          [(ngModel)]="keywordTerm"
           class="w-5/6 py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black"
+          (keydown.enter)="addKeyword($event)"
         />
       </div>
     </div>
