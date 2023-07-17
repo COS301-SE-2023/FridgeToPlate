@@ -114,7 +114,7 @@ export class CreatePagComponent implements OnInit  {
       creator: this.profile.username,
       ingredients: ingredients,
       steps: instructions,
-      difficulty:this.recipeForm.get('difficulty')?.value,
+      difficulty:this.difficulty,
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
