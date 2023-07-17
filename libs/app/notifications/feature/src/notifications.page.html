@@ -31,7 +31,7 @@
     >
       <fridge-to-plate-tab
         tabName="General"
-        tabCount="{{ tabs[0].count }}"
+        tabCount="{{ (generalNotifications$ | async)?.length ?? 0}}"
         [active]="true"
         class="h-full"
       >
@@ -70,7 +70,7 @@
       </fridge-to-plate-tab>
       <fridge-to-plate-tab
         tabName="Recommendations"
-        tabCount="{{ tabs[1].count }}"
+        tabCount="{{ (recommendationNotifications$ | async)?.length ?? 0 }}"
         [active]="false"
         class="h-full"
       >
