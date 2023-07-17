@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 
 @Component({
@@ -29,9 +29,7 @@ export class CreatePagComponent implements OnInit  {
 
   ngOnInit() {
     this.createForm();
-    this.profile$.subscribe(profile => {
-      this.profile = profile;
-    });
+    this.profile$.pipe(take(1)).subscribe(profile => this.profile = Object.create(profile));
   }
 
   createForm(): void {
@@ -114,7 +112,7 @@ export class CreatePagComponent implements OnInit  {
       creator: this.profile.username,
       ingredients: ingredients,
       steps: instructions,
-      difficulty:this.recipeForm.get('difficulty')?.value,
+      difficulty: this.difficulty,
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
@@ -209,6 +207,11 @@ export class CreatePagComponent implements OnInit  {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
+      return false;
+    }
+
+    if(!this.difficulty) {
+      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
       return false;
     }
 

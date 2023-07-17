@@ -62,7 +62,42 @@
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
           >
         </div>
+
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
+          <div class="grid grid-flow-row grid-cols-3 gap-1">
+            <button
+              type="button"
+              [ngClass]="getDifficulty('Easy')"
+              (click)="toggleDifficulty('Easy')"
+              value="Easy"
+              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            >
+            Easy
+            </button>
+            <button
+              type="button"
+              [ngClass]="getDifficulty('Medium')"
+              (click)="toggleDifficulty('Medium')"
+              value="Medium"
+              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            >
+            Medium
+            </button>
+            <button
+              type="button"
+              [ngClass]="getDifficulty('Hard')"
+              (click)="toggleDifficulty('Hard')"
+              value="Hard"
+              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            >
+            Hard
+            </button>
+          </div>
+        </div>
       </div>
+
+      
   
       <div class="lg:hidden">
         <label class="block text-gray-700 font-bold mb-2">Meal</label>

@@ -4,7 +4,6 @@ import { CreateRecipe, DeleteRecipe, RetrieveRecipe, UpdateRecipe } from "@fridg
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { RecipeAPI } from "./recipe.api";
-import { Navigate } from "@ngxs/router-plugin";
 import { Location } from "@angular/common";
 
 export interface RecipeStateModel{
@@ -44,12 +43,13 @@ export class RecipeState {
 
     @Action(UpdateRecipe)
     updatedRecipe({ patchState } : StateContext<RecipeStateModel>, { recipe }: UpdateRecipe) {
-        patchState({
-            recipe : recipe
-        })
+
 
         this.api.UpdateRecipe(recipe).subscribe( (response) => {
             console.log(response)
+            patchState({
+                recipe : recipe
+            })
             this.location.back();
         },
         (error: Error) => {
