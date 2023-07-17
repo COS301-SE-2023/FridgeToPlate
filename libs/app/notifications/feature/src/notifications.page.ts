@@ -24,6 +24,12 @@ export class NotificationsPage {
   @Select(NotificationsState.getGeneralNotifications)
   notifications$!: Observable<INotificationResponse>;
 
+  @Select(NotificationsState.getGeneralNotifications)
+  generalNotifications$!: Observable<INotification[]>;
+
+  @Select(NotificationsState.getRecommendationNotifications)
+  recommendationNotifications$!: Observable<INotification[]>;
+
   tabs = [
     { category: 'General', count: 8 },
     { category: 'Recommendations', count: 4 },

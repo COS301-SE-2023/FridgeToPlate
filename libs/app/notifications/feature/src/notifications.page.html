@@ -35,10 +35,10 @@
         [active]="true"
         class="h-full"
       >
-        <ng-container *ngIf="notifications$ | async; else noNotifications">
+        <ng-container *ngIf="generalNotifications$ | async; else noNotifications">
           <div
             (click)="{onNotificationClick}"
-            *ngFor="let notification of (notifications$ | async)?.general"
+            *ngFor="let notification of (generalNotifications$ | async)"
             class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
           >
             <div
@@ -74,10 +74,10 @@
         [active]="false"
         class="h-full"
       >
-        <ng-container *ngIf="notifications$ | async; else noNotifications">
+        <ng-container *ngIf="recommendationNotifications$ | async; else noNotifications">
           <div
             (click)="{onNotificationClick}"
-            *ngFor="let notification of (notifications$ | async)?.recommendations"
+            *ngFor="let notification of (recommendationNotifications$ | async)"
             class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
           >
             <div
