@@ -22,8 +22,13 @@ export class RecipePreferencesStep {
 
   dietSelect(dietPill: string) {
     if (typeof dietPill === 'string') {
-      this.dietCategories?.push(dietPill);
-      this.recipePreferences.controls['diet'].setValue(this.dietCategories);
+      if(!this.dietCategories.includes(dietPill)){
+        this.dietCategories?.push(dietPill);
+        this.recipePreferences.controls['diet'].setValue(this.dietCategories);
+        return;
+      } else {
+        this.recipePreferences.controls['diet'].setValue( this.dietCategories.filter( diet => diet !== dietPill));
+      }
     }
   }
 
