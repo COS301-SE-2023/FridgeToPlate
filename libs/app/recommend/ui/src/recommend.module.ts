@@ -10,7 +10,6 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-access';
 import { FormsModule } from '@angular/forms';
-import { DietPreferencePillComponentComponent } from './diet-preference-pill-component/diet-preference-pill-component.component';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 
@@ -20,7 +19,6 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm,
-    DietPreferencePillComponentComponent,
   ],
   imports: [
     CommonModule,

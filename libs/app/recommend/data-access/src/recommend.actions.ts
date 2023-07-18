@@ -12,7 +12,6 @@ export interface PreferenceFormInterface {
 
 export class RefreshIngredientsList {
   static readonly type = '[Recommend] Refresh Ingredients List';
-  constructor() {}
 }
 
 export class UpdateIngredients {
