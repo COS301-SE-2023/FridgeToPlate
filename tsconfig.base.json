@@ -19,6 +19,7 @@
       "@fridge-to-plate/app/auth/data-access": [
         "libs/app/auth/data-access/src/index.ts"
       ],
+      "@fridge-to-plate/app/auth/utils": ["libs/app/auth/utils/src/index.ts"],
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
       "@fridge-to-plate/app/create/data-access": [
         "libs/app/create/data-access/src/index.ts"
@@ -47,6 +48,18 @@
       ],
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/data-access": [
+        "libs/app/notifications/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/feature": [
+        "libs/app/notifications/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/ui": [
+        "libs/app/notifications/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/utils": [
+        "libs/app/notifications/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/preferences/data-access": [
         "libs/app/preferences/data-access/src/index.ts"
@@ -97,7 +110,11 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
-      ]
+      ],
+      "@fridge-to-plate/app/undo/data-access": [
+        "libs/app/undo/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/undo/utils": ["libs/app/undo/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
