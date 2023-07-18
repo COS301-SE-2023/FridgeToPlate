@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router'; 
 
 describe('RecipeCardComponent', () => {
 
@@ -26,8 +27,31 @@ describe('RecipeCardComponent', () => {
       profile: testProfile
     } 
   }) 
+
   @Injectable()
   class MockProfileState {}
+
+  @State({
+    name: 'recipe',
+    defaults: {
+        recipe: {
+            name: 'Hello world',
+            tags: [],
+            difficulty: 'Medium',
+            recipeImage: '',
+            description: '',
+            servings: 1,
+            prepTime: 0,
+            meal: 'Lunch',
+            ingredients: [],
+            steps: [],
+            creator: '',
+            reviews: [],
+        }
+    }
+})
+  @Injectable()
+  class MockRecipeState {}
 
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
@@ -58,7 +82,7 @@ describe('RecipeCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
-      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot([MockProfileState])],
+      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot([MockProfileState, MockRecipeState]), ActivatedRoute],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecipeCardComponent);
@@ -80,7 +104,7 @@ describe('RecipeCardComponent', () => {
   });
 
   it('should be unsaved', () => {
-    mockProfileAPI.editProfile.mockReturnValue(true);
+    // mockProfileAPI.editProfile.mockReturnValue(true);
 
     const testProfile = {
       saved_recipes: [],

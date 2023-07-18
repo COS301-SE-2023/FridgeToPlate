@@ -10,7 +10,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { RecommendPage } from './recommend.page';
-import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-access';
 import { RecommendUIModule } from '@fridge-to-plate/app/recommend/ui';
