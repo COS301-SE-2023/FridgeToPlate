@@ -20,17 +20,17 @@ public class PreferencesRepository {
         return preferences;
     }
 
-    public Preferences findById(String id){
-       return dynamoDBMapper.load(Preferences.class, id);
+    public Preferences findByName(String username){
+       return dynamoDBMapper.load(Preferences.class, username);
     }
 
     public List<Preferences> findAll(){
         return dynamoDBMapper.scan(Preferences.class, new DynamoDBScanExpression());
     }
 
-    public Preferences update(String id, Preferences preferences){
+    public Preferences update(String username, Preferences preferences){
 
-        Preferences preferenceData =  dynamoDBMapper.load(Preferences.class, id);
+        Preferences preferenceData =  dynamoDBMapper.load(Preferences.class, username);
 
         System.out.println(preferenceData);
 
@@ -40,9 +40,9 @@ public class PreferencesRepository {
 
         dynamoDBMapper.save(preferenceData,
                 new DynamoDBSaveExpression()
-        .withExpectedEntry("preferenceId",
+        .withExpectedEntry("username",
                 new ExpectedAttributeValue(
-                        new AttributeValue().withS(id)
+                        new AttributeValue().withS(username)
                 )));
         return preferenceData;
     }
@@ -50,6 +50,6 @@ public class PreferencesRepository {
     public String delete(String username){
        Preferences preferences = dynamoDBMapper.load(Preferences.class, username);
         dynamoDBMapper.delete(preferences);
-        return "Profile deleted successfully:: " + username;
+        return "Preferences deleted successfully: " + username;
     }
 }
