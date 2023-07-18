@@ -1,1 +1,2 @@
-export * from './lib/app-recommend-utils.module';
+export * from './recommend.actions';
+export * from './interfaces';

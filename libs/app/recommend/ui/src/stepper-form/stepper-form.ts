@@ -1,10 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ItemEditStep} from "../item-edit-step/item-edit-step";
-import {Select, Store} from "@ngxs/store";
-import {RecommendState} from "../../../data-access/src/recommend.state";
-import {Observable} from "rxjs";
-import {PreferenceFormInterface} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'stepper-form',
@@ -12,7 +8,7 @@ import {PreferenceFormInterface} from "../../../data-access/src/recommend.action
   styleUrls: ['./stepper-form.scss']
 })
 
-export class StepperForm implements OnInit{
+export class StepperForm {
 
   currentStep = 1;
 
@@ -62,20 +58,5 @@ export class StepperForm implements OnInit{
 
   attemptRecommendation(): void {
     console.log(this.recipeRecommendForm.value)
-  }
-
-  constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit() {
-    this.recipeRecommendForm = this.formBuilder.group({
-      items: [[], [Validators.required]],
-      preferences: this.formBuilder.group({
-        diet: [[]],
-        keywords: [[]],
-        difficulty: [''],
-        rating: [5]
-      }),
-    })
   }
 }
