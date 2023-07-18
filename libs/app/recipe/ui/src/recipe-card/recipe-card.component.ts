@@ -84,6 +84,15 @@ export class RecipeCardComponent implements OnInit {
 
   removeFromMealPlan() {
     console.log("remove from Meal Plan")
+    if(!this.profile) {
+      this.store.dispatch( new ShowError('ERROR: No profile available to remove from meal plan.'))
+      return;
+    }
+
+    if(!this.recipe) {
+      this.store.dispatch( new ShowError('ERROR: No recipe available to remove from meal plan.'))
+      return;
+    }
     this.store.dispatch( new RemoveFromMealPlan(this.profile.username, this.recipe.recipeId))
     this.added = false;
   }
