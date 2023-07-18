@@ -40,6 +40,9 @@
         "libs/app/explore/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/explore/ui": ["libs/app/explore/ui/src/index.ts"],
+      "@fridge-to-plate/app/explore/utils": [
+        "libs/app/explore/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
