@@ -11,6 +11,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.fridgetoplate.frontendmodels.MealPlanFrontendModel;
+import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Profile;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
@@ -18,9 +21,6 @@ import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
-import com.fridgetoplate.response.MealPlanResponse;
-import com.fridgetoplate.response.ProfileResponse;
-import com.fridgetoplate.response.RecipeResponse;
 
 @Repository
 public class ProfileRepository {
@@ -33,14 +33,14 @@ public class ProfileRepository {
         return profile;
     }
 
-    public ProfileResponse findByName(String username) {
+    public ProfileFrontendModel findByName(String username) {
 
         /*
          * Getting the Profile Response
          */
 
          // Declaring the Profile Response object
-         ProfileResponse profileResponse = new ProfileResponse();
+         ProfileFrontendModel profileResponse = new ProfileFrontendModel();
 
              // Find the Profile model
         ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, username);
@@ -71,21 +71,18 @@ public class ProfileRepository {
           * Getting the MealPan response
           */
 
-        // Declare the response object
-         MealPlanResponse mealPlanResponse = new MealPlanResponse();
-        
-   
-
         // Find Meal
         String date = LocalDate.now().toString();
        
         MealPlanModel mealPlanModel = dynamoDBMapper.load(MealPlanModel.class, username, date);
 
-        // creating response
-        mealPlanResponse.setUsername(username);
-
-
         if(mealPlanModel != null) {
+
+            // Declare the response object
+            MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
+
+            // creating response
+            mealPlanResponse.setUsername(username);
 
             // Get the Recipe id for breakfast plam
             String breakfastId = mealPlanModel.getBreakfastId();
@@ -121,6 +118,8 @@ public class ProfileRepository {
             
             // saving meal plan response to profile response
             profileResponse.setCurrMealPlan(mealPlanResponse);
+        } else {
+            profileResponse.setCurrMealPlan(null);
         }
         
        return profileResponse;
@@ -133,7 +132,7 @@ public class ProfileRepository {
     public Profile update(String id, Profile profile){
 
         //Retrieve the profile of the specified ID
-        Profile profileData =  dynamoDBMapper.load(Profile.class, id);
+        Profile profileData = dynamoDBMapper.load(Profile.class, id);
 
         System.out.println("profileData");
         System.out.println(profileData);
@@ -192,7 +191,8 @@ public class ProfileRepository {
         if(model == null) {
             return null;
         }
-        RecipeResponse response = new RecipeResponse();
+
+        RecipeFrontendModel response = new RecipeFrontendModel();
         response.setCreator(model.getCreator());
         response.setDescription(model.getDescription());
         response.setDifficulty(model.getDifficulty());
@@ -223,11 +223,4 @@ public class ProfileRepository {
 
         return reviews;
     }
-
-    
-
-
-
-
-    
 }

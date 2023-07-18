@@ -1,4 +1,4 @@
-package com.fridgetoplate.response;
+package com.fridgetoplate.frontendmodels;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import com.fridgetoplate.interfaces.MealPlan;
 import com.fridgetoplate.interfaces.RecipeDesc;
 
-public class MealPlanResponse extends MealPlan{
+public class MealPlanFrontendModel extends MealPlan{
     
   
     private RecipeDesc breakfast;

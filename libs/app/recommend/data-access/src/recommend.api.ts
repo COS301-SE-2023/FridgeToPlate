@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { IRecommend } from '../../utils/src/interfaces';
+import { IRecommend } from '@fridge-to-plate/app/recommend/utils';
 
 const baseUrl = 'http://localhost:5000/recommend';
 
