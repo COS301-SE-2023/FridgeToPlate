@@ -1,8 +1,10 @@
 import { Component } from "@angular/core";
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
+import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 
@@ -16,6 +18,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(PreferencesState.getPreference) preferences$ !: Observable<IPreferences>;
 
   displayEditProfile = "none";
   displaySettings = "none";
@@ -23,9 +26,11 @@ export class ProfilePage {
   subpage = "saved";
 
   editableProfile !: IProfile;
+  editablePreference !: IPreferences;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreference = Object.create(preferences));
   }
 
   displaySubpage(subpageName : string) {
@@ -43,6 +48,7 @@ export class ProfilePage {
 
   openSettings() {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreference = Object.create(preferences));
     this.displaySettings = "block";
   }
 
@@ -64,5 +70,10 @@ export class ProfilePage {
 
   closeSort() {
     this.displaySort = "none";
+  }
+
+  save() {
+    //this.store.dispatch(new UpdatePreferences(this.editablePreference));
+    alert("SOMETHING HAPPENED");
   }
 }
