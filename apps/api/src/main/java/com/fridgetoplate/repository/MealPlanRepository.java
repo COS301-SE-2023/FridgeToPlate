@@ -29,25 +29,30 @@ public class MealPlanRepository {
            PaginatedScanList<MealPlanModel> scanResult = dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
             MealPlanModel modelData = null;
            for (MealPlanModel model : scanResult) {
+
+            System.out.println("Username: " + model.getUsername());
+            System.out.println("Input username: " + username);
                 if(model.getUsername().equals(username)){
-                    if(model.getBreakfast().getRecipeId().equals(recipeId)) {
+                    if(model.getBreakfast() != null && model.getBreakfast().getRecipeId().equals(recipeId)) {
                         model.setBreakfast(null);
                         dynamoDBMapper.save(model);
                         return model;
-                    } else if(model.getLunch().getRecipeId().equals(recipeId)) {
+                    } else if(model.getLunch() != null & model.getLunch().getRecipeId().equals(recipeId)) {
                         model.setLunch(null);
                         dynamoDBMapper.save(model);
                         return model;
-                    } else if(model.getDinner().getRecipeId().equals(recipeId)) {
+                    } else if(model.getDinner() != null && model.getDinner().getRecipeId().equals(recipeId)) {
                         model.setDinner(null);
                         dynamoDBMapper.save(model);
                         return model;
                     }
-                    else if(model.getSnack().getRecipeId().equals(recipeId)){
+                    else if(model.getSnack() != null && model.getSnack().getRecipeId().equals(recipeId)){
                         model.setSnack(null);
                         dynamoDBMapper.save(model);
                         return model;
                     }
+
+                    System.out.println("I am within");
                     modelData = model;
                     break;
                 }

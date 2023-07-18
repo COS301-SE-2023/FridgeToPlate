@@ -7,7 +7,7 @@ export class AddToMealPlan{
 
 export class RemoveFromMealPlan {
     static readonly type = "[MealPlan] Remove From Meal Plan"
-    constructor( public readonly recipeId: string, public readonly username: string) {}
+    constructor( public readonly username: string, public readonly recipeId: string) {}
 }
 
 export class GetMealPlan {
