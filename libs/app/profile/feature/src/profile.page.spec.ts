@@ -202,6 +202,11 @@ describe("ProfilePage", () => {
     settingsButton.click();
     expect(page.displaySettings).toEqual("block");
   });
+
+  it('should set displaySettings to "block" when openSettings is called', () => {
+    page.openSettings();
+    expect(page.displaySettings).toEqual("block");
+  });
 });
 
 
