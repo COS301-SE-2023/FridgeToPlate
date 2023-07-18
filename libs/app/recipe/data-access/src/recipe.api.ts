@@ -15,4 +15,9 @@ export class RecipeService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get<IRecipe>(url);
   }
+
+  updateRecipe(recipe: IRecipe): void {
+    const url = `${this.baseUrl}/${recipe.recipeId}`;
+    this.http.put<IRecipe>(url, recipe);
+  }
 }
