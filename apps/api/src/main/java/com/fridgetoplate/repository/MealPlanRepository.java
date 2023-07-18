@@ -49,7 +49,7 @@ public class MealPlanRepository {
                         model.setBreakfast(null);
                         dynamoDBMapper.save(model);
                         return model;
-                    } else if(model.getLunch() != null & model.getLunch().getRecipeId().equals(recipeId)) {
+                    } else if(model.getLunch() != null && model.getLunch().getRecipeId().equals(recipeId)) {
                         model.setLunch(null);
                         dynamoDBMapper.save(model);
                         return model;

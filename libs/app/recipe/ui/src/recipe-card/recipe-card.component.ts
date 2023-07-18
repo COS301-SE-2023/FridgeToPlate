@@ -26,6 +26,8 @@ export class RecipeCardComponent implements OnInit {
   profile !: IProfile;
   added = false;
   mealPlan !: IMealPlan;
+  showMenu = false;
+  selectedMealType = 'Breakfast';
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
@@ -74,6 +76,9 @@ export class RecipeCardComponent implements OnInit {
         recipeId: JSON.stringify(this.recipe.recipeId) 
       }})
   }
+  toggleDropdown() {
+    this.showMenu = !this.showMenu;
+  }
 
   addToMealPlan() {
     if(!this.recipe) {
@@ -81,19 +86,20 @@ export class RecipeCardComponent implements OnInit {
       return;
     }
 
-    const mealPlan: IMealPlan = {
+    const mealPlan = {
       username: this.profile.username,
       date: new Date().toISOString().slice(0, 10),
-      breakfast: null,
-      lunch: this.recipe as IRecipeDesc,
-      dinner: null,
-      snack: null
-    }
+      breakfast: this.selectedMealType === 'BreakFast' ? this.recipe : null,
+      lunch: this.selectedMealType === 'Lunch' ? this.recipe : null,
+      dinner: this.selectedMealType === 'Dinner' ? this.recipe : null,
+      snack: this.selectedMealType === 'Snack' ? this.recipe : null,
+    } as IMealPlan
 
     this.store.dispatch( new AddToMealPlan(mealPlan) );
     this.profile.currMealPlan = mealPlan;
     this.store.dispatch ( new UpdateProfile(this.profile) )
-    this.added = true;    
+    this.added = true;
+    this.toggleDropdown();    
   }
 
   removeFromMealPlan() {
