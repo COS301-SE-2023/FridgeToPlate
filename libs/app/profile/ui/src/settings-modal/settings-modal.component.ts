@@ -35,7 +35,10 @@ export class SettingsModalComponent {
 
   save() {
     this.profile$.pipe(take(1)).subscribe(profile => this.tempProfile = Object.create(profile));
-    this.editablePreferences.username = this.tempProfile.username;
+
+    if(this.tempProfile)
+      this.editablePreferences.username = this.tempProfile.username;
+      
     this.store.dispatch(new UpdatePreferences(this.editablePreferences));
   }
 
