@@ -5,10 +5,18 @@
         <p class="text-gray-200 text-xs mb-1">Difficulty: {{ recipe.difficulty }}</p>
         <span *ngFor="let tag of recipe.tags" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
         <button
-            (click)="edit()"
+            *ngIf="!added"
+            (click)="addToMealPlan()"
             class=" inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
             px-2 py-2 text-center m-3">
                 <ion-icon name="add-outline"></ion-icon>
+        </button>
+        <button
+            *ngIf="added"
+            (click)="removeFromMealPlan()"
+            class=" inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
+            px-2 py-2 text-center m-3">
+                <ion-icon name="checkmark-outline"></ion-icon>
         </button>
         <button
             *ngIf="editable"

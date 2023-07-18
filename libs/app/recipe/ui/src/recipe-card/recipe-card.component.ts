@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router'; 
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { AddToMealPlan, IMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -20,6 +21,8 @@ export class RecipeCardComponent implements OnInit {
   @Input() recipe !: any;
   bookmarked = false;
   editable = true;
+  profile !: IProfile;
+  added = false;
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
@@ -28,6 +31,7 @@ export class RecipeCardComponent implements OnInit {
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
         this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
+        this.profile = profile;
       } else {
         this.bookmarked = false;
         this.editable = false;
@@ -56,6 +60,32 @@ export class RecipeCardComponent implements OnInit {
       { queryParams: { 
         recipeId: JSON.stringify(this.recipe.recipeId) 
       }})
+  }
+
+  addToMealPlan() {
+
+    if(!this.recipe) {
+      this.store.dispatch( new ShowError('ERROR: No recipe available to add to meal plan.'))
+      return;
+    }
+
+    const mealPlan: IMealPlan = {
+      username: this.profile.username,
+      date: new Date().toISOString().slice(0, 10),
+      breakfast: null,
+      lunch: this.recipe as IRecipeDesc,
+      dinner: null,
+      snack: null
+    }
+
+    this.store.dispatch(new AddToMealPlan(mealPlan) );
+    this.added = true;    
+  }
+
+  removeFromMealPlan() {
+    console.log("remove from Meal Plan")
+    this.store.dispatch( new RemoveFromMealPlan(this.profile.username, this.recipe.recipeId))
+    this.added = false;
   }
 
 }
