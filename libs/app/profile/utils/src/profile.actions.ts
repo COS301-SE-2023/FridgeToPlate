@@ -30,6 +30,12 @@ export class RemoveRecipe {
     constructor(public readonly recipe: IRecipeDesc) {}
 }
 
+
+export class RemoveSavedRecipe {
+    static readonly type = '[Profile] RemoveSavedRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
+}
+
 export class SortSavedByDifficulty {
     static readonly type = '[Profile] SortSavedByDifficulty';
 }
