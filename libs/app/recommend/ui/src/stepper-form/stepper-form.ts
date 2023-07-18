@@ -1,6 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ItemEditStep} from "../item-edit-step/item-edit-step";
+import {Select, Store} from "@ngxs/store";
+import {RecommendState} from "../../../data-access/src/recommend.state";
+import {Observable} from "rxjs";
+import {PreferenceFormInterface} from "../../../data-access/src/recommend.actions";
 
 @Component({
   selector: 'stepper-form',
