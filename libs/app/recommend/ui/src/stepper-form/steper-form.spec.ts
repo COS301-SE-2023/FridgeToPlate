@@ -47,19 +47,22 @@ describe('StepperForm', () => {
 
   it('should create on first step', () => {
     expect(component.currentStep).toBe(1);
-    expect(component.stepContent).toBe('Edit Fridge Items');
+    expect(component.stepContent).toBe('Edit Your Ingredients');
+    expect(component.stepContentDesktop).toBe('Edit Your Ingredients and Preferences');
   });
 
   it('should not go one step back when on first step', () => {
     component.previousStep();
     expect(component.currentStep).toBe(1);
-    expect(component.stepContent).toBe('Edit Fridge Items');
+    expect(component.stepContent).toBe('Edit Your Ingredients');
+    expect(component.stepContentDesktop).toBe('Edit Your Ingredients and Preferences');
   });
 
   it('should go one step forward on nextStep', () => {
     component.nextStep();
     expect(component.currentStep).toBe(2);
-    expect(component.stepContent).toBe('Verify Preferences');
+    expect(component.stepContent).toBe('Choose Preferences');
+    expect(component.stepContentDesktop).toBe('Recipe Suggestions');
   });
 
   it('should not go one step forward on nextStep at last step', () => {
@@ -68,5 +71,6 @@ describe('StepperForm', () => {
     component.nextStep();
     expect(component.currentStep).toBe(3);
     expect(component.stepContent).toBe('Suggestions');
+    expect(component.stepContentDesktop).toBe('error');
   });
 });
