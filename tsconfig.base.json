@@ -83,15 +83,17 @@
       "@fridge-to-plate/app/recommend/ui": [
         "libs/app/recommend/ui/src/index.ts"
       ],
-      "@fridge-to-plate/app/review/utils": [
-        "libs/app/review/utils/src/index.ts"
+      "@fridge-to-plate/app/recommend/utils": [
+        "libs/app/recommend/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/review/data-access": [
         "libs/app/review/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/review/feature": [
         "libs/app/review/feature/src/index.ts"
-
+      ],
+      "@fridge-to-plate/app/review/utils": [
+        "libs/app/review/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
