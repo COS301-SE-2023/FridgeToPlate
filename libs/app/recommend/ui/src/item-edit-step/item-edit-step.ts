@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { AddIngredient, IProfile, RemoveIngredient } from '@fridge-to-plate/app/profile/utils';
+import { AddIngredient, RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
 import { Select, Store } from '@ngxs/store';
 import {Observable } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class ItemEditStep {
   
   constructor(private store: Store) {}
 
-  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(ProfileState.getProfile) ingredients$ !: Observable<IIngredient[]>;
 
   removeItem(deleteItem: IIngredient) {
     this.store.dispatch(new RemoveIngredient(deleteItem));

@@ -1,9 +1,9 @@
-<div class="w-full h-full [&>*]:mx-5">
+<div class="w-full h-full [&>*]:mx-5" *ngIf="recipePreferences$ | async as recipePreferences">
   <div>
     <h3 class="text-xl font-bold my-2">Recipe Filters</h3>
     <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-8 text-black">Difficulty</label>
-      <select class="w-full rounded-md p-1">
+      <select value="recipePreferences.difficulty" class="w-full rounded-md p-1">
         <option></option>
         <option>Easy</option>
         <option>Medium</option>

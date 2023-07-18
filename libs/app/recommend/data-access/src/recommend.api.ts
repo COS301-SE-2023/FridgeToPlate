@@ -5,25 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-export interface IResponse {
-  status: number;
-  message: string;
-  data: {};
-}
+import { IRecommend } from '../../utils/src/interfaces';
 
-export interface IngredientsResponse extends IResponse {
-  data: {
-    ingredientsList: IIngredient[];
-  };
-}
-
-export interface DietResponse extends IResponse {
-  data: {
-    dietList: string[];
-  };
-}
-
-const baseUrl = 'http://localhost:5000/';
+const baseUrl = 'http://localhost:5000/recommend';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +60,7 @@ export class RecommendApi {
   }
 
   //Step 3
-  getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
+  getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
 
     const dummyRecommendations: IRecipe[] = []
     // const req: Observable<IRecipe[]> = this.httpClient
