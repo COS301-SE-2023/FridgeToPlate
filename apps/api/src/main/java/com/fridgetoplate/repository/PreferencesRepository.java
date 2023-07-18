@@ -30,8 +30,6 @@ public class PreferencesRepository {
 
     public Preferences update(String username, Preferences preferences){
 
-        System.out.println(preferences + "Before");
-
         if(preferences == null)
             return null;
             
@@ -43,7 +41,6 @@ public class PreferencesRepository {
                         new AttributeValue().withS(username)
                 )));
 
-        System.out.println(preferences + "After");
         return preferences;
     }
 
