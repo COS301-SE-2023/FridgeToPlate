@@ -96,4 +96,8 @@ export class ProfilePage {
 
     this.closeSort();
   }
+
+  public getStore(): Store {
+    return this.store;
+  }
 }
