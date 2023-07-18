@@ -17,7 +17,7 @@ export interface RecipeStateModel{
             name: 'Hello world',
             tags: [],
             difficulty: 'Medium',
-            recipeImage: '',
+            recipeImage: 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg',
             description: '',
             servings: 1,
             prepTime: 0,
