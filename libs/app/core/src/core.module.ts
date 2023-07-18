@@ -42,7 +42,7 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
     }),
     NgxsModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
-    ErrorDataAccessModule,
+    //ErrorDataAccessModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
