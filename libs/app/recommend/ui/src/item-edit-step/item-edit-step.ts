@@ -3,6 +3,7 @@ import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { AddIngredient, RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
 import { Select, Store } from '@ngxs/store';
+import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import {Observable } from 'rxjs';
 
 @Component({
@@ -20,7 +21,7 @@ export class ItemEditStep {
   
   constructor(private store: Store) {}
 
-  @Select(ProfileState.getProfile) ingredients$ !: Observable<IIngredient[]>;
+  @Select(RecommendState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
   removeItem(deleteItem: IIngredient) {
     this.store.dispatch(new RemoveIngredient(deleteItem));

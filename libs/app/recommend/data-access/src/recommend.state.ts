@@ -5,7 +5,7 @@ import {
   GetRecipeRecommendations,
   RemoveIngredient,
   UpdateRecipePreferences
-} from '../../utils/src/recommend.actions';
+} from '@fridge-to-plate/app/recommend/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { RecommendApi } from "./recommend.api";
@@ -184,6 +184,8 @@ export class RecommendState {
       patchState({ 
         recommendRequest: updatedRecommendRequest
       });
+
+      //CALL API
     }
   }
 

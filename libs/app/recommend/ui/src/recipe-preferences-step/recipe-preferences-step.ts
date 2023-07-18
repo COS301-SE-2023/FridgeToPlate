@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Select } from "@ngxs/store";
-import { RecommendState } from "../../../data-access/src/recommend.state";
-import { IRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
+import { Observable, take } from 'rxjs';
+import { Select, Store } from "@ngxs/store";
+import { RecommendState } from "@fridge-to-plate/app/recommend/data-access";
+import { IRecipePreferences, UpdateRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
 
 @Component({
   selector: 'recipe-preferences-step',
@@ -14,7 +13,13 @@ export class RecipePreferencesStep {
 
   @Select(RecommendState.getRecipePreferences) recipePreferences$ !: Observable<IRecipePreferences>;
 
-  recipePreferences: FormGroup;
+  editableRecipePreferences !: IRecipePreferences;
 
-  keywordTerm: string;
+  constructor(private store: Store) {
+    this.recipePreferences$.pipe(take(1)).subscribe(recipePreferences => this.editableRecipePreferences = Object.create(recipePreferences));
+  }
+
+  updateRecipePreferences() {
+    this.store.dispatch(new UpdateRecipePreferences(this.editableRecipePreferences));
+  }
 }

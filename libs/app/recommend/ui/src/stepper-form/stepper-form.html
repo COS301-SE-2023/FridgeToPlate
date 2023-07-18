@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="step-action h-24 flex flex-row justify-between">
+    <div class="step-action h-24 relative">
       <button (click)="previousStep()" *ngIf="currentStep > 1"  class="bg-primary h-8 rounded-md w-32 absolute left-6 md:left-12">
         <span class="text-white">Previous</span>
       </button>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="step-action h-24 relative px-6 md:px-12 lg:px-24 ">
+    <div class="step-action h-24 relative">
       <button (click)="previousStep()" *ngIf="currentStep > 1" class="bg-primary h-8 rounded-md w-32 absolute left-24">
         <span class="text-white">Previous</span>
       </button>
