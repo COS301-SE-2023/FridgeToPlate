@@ -12,7 +12,7 @@ import lombok.Data;
 @DynamoDBTable(tableName = "ingredients")
 public class Ingredient {
     
-    @DynamoDBHashKey(attributeName = "ingredientId")
+    @DynamoDBHashKey(attributeName = "name")
     private String name;
 
     @DynamoDBAttribute(attributeName = "amount")

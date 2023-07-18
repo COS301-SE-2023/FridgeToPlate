@@ -1,4 +1,4 @@
-package com.fridgetoplate.response;
+package com.fridgetoplate.frontendmodels;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.Review;
 
 
-public class RecipeResponse extends Recipe {
+public class RecipeFrontendModel extends Recipe {
 
     private List<Review> reviews;
 
