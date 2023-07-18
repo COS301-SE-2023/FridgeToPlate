@@ -40,4 +40,9 @@ public class MealPlanController {
         return mealPlanRepository.remove(username, recipeId);
     }
 
+    @GetMapping("/{username}")
+    public MealPlanModel findByUsername(@PathVariable(value = "username") String username) {
+        return mealPlanRepository.findByUsername(username);
+    }
+
 }

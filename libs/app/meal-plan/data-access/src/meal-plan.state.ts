@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AddToMealPlan, GetMealPlan, IMealPlan, RemoveFromMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
-import { Action, State, StateContext, Store } from "@ngxs/store";
+import { Action, State, Selector, StateContext, Store } from "@ngxs/store";
 import { MealPlanAPI } from "./meal-plan.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { catchError, tap } from "rxjs";
@@ -10,7 +10,7 @@ export interface MealPlanStateModel{
 }
 
 @State<MealPlanStateModel>({
-    name: 'mealplan',
+    name: 'mealPlan',
     defaults: {
         mealPlan : {
             username: 'johndoe',
@@ -28,10 +28,13 @@ export interface MealPlanStateModel{
 export class MealPlanState {
     constructor( private readonly store: Store, private readonly api: MealPlanAPI ){}
 
+    @Selector()
+    static getMealPlan(state: MealPlanStateModel) {
+        return state.mealPlan;
+    }
 
     @Action(AddToMealPlan)
     addToMealPlan({ patchState } : StateContext<MealPlanStateModel>, { mealPlan }: AddToMealPlan){
-
         this.api.addToMealPlan(mealPlan).pipe(tap((mealplan
             )=>patchState({'mealPlan': mealplan})), catchError(()=>{return this.store.
                 dispatch(new ShowError("Unable to retrieve Meal Plan"));})).subscribe()
@@ -41,15 +44,15 @@ export class MealPlanState {
     removeFromMealPlan({ patchState } : StateContext<MealPlanStateModel>, { username, recipeId }: RemoveFromMealPlan){
         this.api.removeFromMealPlan(username, recipeId).pipe(tap((mealplan)=>patchState
             ({"mealPlan": mealplan}),catchError (()=>this.store
-            .dispatch(new ShowError('Unfortunately, the recipe was not removed successfully')
-            )))).subscribe();
+            .dispatch(new ShowError('Unfortunately, the recipe was not removed successfully'))))).subscribe();
+        
     }
 
     @Action(GetMealPlan)
     getMealPlan ({ patchState } : StateContext<MealPlanStateModel>, { username }: GetMealPlan) {
-        return this.api.getMealPlanByUsername(username).pipe(tap((mealplan
+        this.api.getMealPlanByUsername(username).pipe(tap((mealplan
             )=>patchState({'mealPlan': mealplan})), catchError(()=>{return this.store.
                 dispatch(new ShowError("Unable to retrieve Meal Plan"));})).subscribe();
-
-    } 
+    }
+    
 }

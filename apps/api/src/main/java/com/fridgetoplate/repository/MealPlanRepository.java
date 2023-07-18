@@ -25,6 +25,18 @@ public class MealPlanRepository {
         return dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
     }
 
+    public MealPlanModel findByUsername(String username) {
+        PaginatedScanList<MealPlanModel> scanResult = dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
+        MealPlanModel modelData = null;
+        for (MealPlanModel model : scanResult) {
+            if(model.getUsername().equals(username)){
+                modelData = model;
+                break;
+            }
+        }
+        return modelData;
+    }
+
     public MealPlanModel remove(String username, String recipeId) {
            PaginatedScanList<MealPlanModel> scanResult = dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
             MealPlanModel modelData = null;
