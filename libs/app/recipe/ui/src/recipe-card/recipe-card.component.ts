@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile, RemoveRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
@@ -21,7 +21,7 @@ export class RecipeCardComponent implements OnInit {
   bookmarked = false;
   editable = true;
 
-  constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
+  constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
@@ -50,12 +50,14 @@ export class RecipeCardComponent implements OnInit {
         return;
       }
       
-      this.router.navigate( [
-        'edit-recipe'
-      ],
-      { queryParams: { 
-        recipeId: JSON.stringify(this.recipe.recipeId) 
-      }})
+      this.ngZone.run( ()=> {
+        this.router.navigate( [
+          'edit-recipe'
+        ],
+        { queryParams: { 
+          recipeId: JSON.stringify(this.recipe.recipeId) 
+        }})
+      })
   }
 
 }
