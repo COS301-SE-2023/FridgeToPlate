@@ -4,6 +4,7 @@ import { ItemEditStep } from './item-edit-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RecommendUIModule } from '../recommend.module';
+import { NgxsModule } from '@ngxs/store';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -12,7 +13,7 @@ describe('ItemEditStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ItemEditStep],
-      imports: [IonicModule, HttpClientModule, RecommendUIModule],
+      imports: [IonicModule, HttpClientModule, RecommendUIModule, NgxsModule.forRoot()],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(ItemEditStep);
