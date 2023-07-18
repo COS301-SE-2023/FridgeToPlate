@@ -17,7 +17,6 @@ import { Navigate } from "@ngxs/router-plugin";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
-  @Select(PreferencesState.getPreference) preferences$ !: Observable<IPreferences>;
 
   displayEditProfile = "none";
   displaySettings = "none";
@@ -25,11 +24,9 @@ export class ProfilePage {
   subpage = "saved";
 
   editableProfile !: IProfile;
-  editablePreference !: IPreferences;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreference = Object.create(preferences));
   }
 
   displaySubpage(subpageName : string) {
@@ -47,7 +44,6 @@ export class ProfilePage {
 
   openSettings() {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreference = Object.create(preferences));
     this.displaySettings = "block";
   }
 
@@ -94,4 +90,5 @@ export class ProfilePage {
 
     this.closeSort();
   }
+
 }

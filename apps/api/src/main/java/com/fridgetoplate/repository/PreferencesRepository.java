@@ -30,21 +30,21 @@ public class PreferencesRepository {
 
     public Preferences update(String username, Preferences preferences){
 
-        Preferences preferenceData =  dynamoDBMapper.load(Preferences.class, username);
+        System.out.println(preferences + "Before");
 
-        System.out.println(preferenceData);
-
-        if(preferenceData == null)
+        if(preferences == null)
             return null;
             
 
-        dynamoDBMapper.save(preferenceData,
+        dynamoDBMapper.save(preferences,
                 new DynamoDBSaveExpression()
         .withExpectedEntry("username",
                 new ExpectedAttributeValue(
                         new AttributeValue().withS(username)
                 )));
-        return preferenceData;
+
+        System.out.println(preferences + "After");
+        return preferences;
     }
 
     public String delete(String username){
