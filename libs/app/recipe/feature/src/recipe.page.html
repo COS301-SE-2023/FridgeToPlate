@@ -31,7 +31,7 @@
     <div
       class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
     >
-      <!-- <recipe-card [recipe]="recipe" /> -->
+      <recipe-card [recipe]="recipe" />
     </div>
     <div
       class="w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary lg:row-start-9 lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8"
@@ -84,7 +84,7 @@
     <div
       class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
     >
-    <review></review>
+    <review [reviews]="recipe?.reviews ?? []"></review>
     </div>
 
   </div>

@@ -3,7 +3,11 @@ import { RecipeService } from '@fridge-to-plate/app/recipe/data-access';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Store } from '@ngxs/store';
+import { Select, Selector, Store } from '@ngxs/store';
+import { GetRecipe } from '../../data-access/src/recipe.actions';
+import { RecipeState } from '../../data-access/src/recipe.state';
+import { Observable, take } from 'rxjs';
+import { state } from '@angular/animations';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -13,6 +17,7 @@ import { Store } from '@ngxs/store';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
+  @Select(RecipeState) recipe$!: Observable<IRecipe>;
   recipe !: IRecipe | undefined;
   errorMessage: string | undefined;
 
@@ -44,6 +49,13 @@ export class RecipePage implements OnInit {
     }
 
     this.store.dispatch(new GetRecipe(id));
+    this.recipe$.pipe(take(1)).subscribe(stateRecipe => {
+      // console.log(Object.create(stateRecipe).recipe);
+      this.recipe = Object.create(stateRecipe).recipe;
+    });
+
+    // Object.create(profile)
+    // this.recipe$.pipe(take(1)).subscribe(recipe => {  this.recipe = recipe;})
 
     // this.recipeService.getRecipeById(id).subscribe(
     //   (response: IRecipe) => {

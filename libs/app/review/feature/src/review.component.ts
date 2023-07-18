@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { IReview } from '../../utils/src/interfaces';
+import { AddReview } from 'libs/app/recipe/data-access/src/recipe.actions';
 
 @Component({
   selector: 'review',
@@ -13,12 +15,15 @@ export class Review {
 
   constructor (private store: Store) {}
 
-  reviews = [
-    { recipeId: 'abcd' , rating: 4, description: 'Good stuff'},
-    { recipeId: 'abcd' , rating: 3, description: 'Nice'},
-    { recipeId: 'abcn' , rating: 5, description: 'Perfect'},
-    { recipeId: 'abcw' , rating: 1, description: 'Mediocre'},
-  ]
+  @Input() reviews!: IReview[];
+  //null check for if recipe has no reviews
+
+  // reviews = [
+  //   { recipeId: 'abcd' , rating: 4, description: 'Good stuff'},
+  //   { recipeId: 'abcd' , rating: 3, description: 'Nice'},
+  //   { recipeId: 'abcn' , rating: 5, description: 'Perfect'},
+  //   { recipeId: 'abcw' , rating: 1, description: 'Mediocre'},
+  // ]
 
 
   setRating(num: number) {
@@ -36,12 +41,17 @@ export class Review {
       return;
     }
 
-    this.store.dispatch(new AddReview());
+    const review: IReview = {
+      reviewId: 'uyassuigasiugfasou56tug',
+      recipeId: '65vgbfg-6gdfbg-75789yh-t754vu',
+      username:'jdoe',
+      rating: this.rating,
+      description: this.description
+    };
 
-    // const review = {
-    //   rating: this.rating,
-    //   description: this.description
-    // };
+    this.store.dispatch(new AddReview(review));
+
+    //RemoveReview(reviewId)
 
     // this.reviews.unshift(review);
 
