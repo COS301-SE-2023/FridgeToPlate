@@ -3,15 +3,14 @@ import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
-import { IProfile } from "@fridge-to-plate/app/profile/utils";
-import { NgxsModule, State } from "@ngxs/store";
+import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
+import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
 
 describe("ProfilePage", () => {
   
   const testProfile: IProfile = {
-    profileId: "1",
     displayName: "John Doe",
     username: "jdoe",
     email: "jdoe@gmail.com",
@@ -33,6 +32,8 @@ describe("ProfilePage", () => {
 
   let page: any;
   let compiled: any;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -120,4 +121,52 @@ describe("ProfilePage", () => {
       expect(profile).toEqual(page.editableProfile);
     })
   });
+
+  it("should dispatch sort saved by difficulty", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortSavedBy('difficulty');
+    expect(dispatchSpy).toBeCalledWith(new SortSavedByDifficulty());
+  }); 
+
+  it("should dispatch sort saved by name ascending", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortSavedBy('nameAsc');
+    expect(dispatchSpy).toBeCalledWith(new SortSavedByNameAsc());
+  }); 
+
+  it("should dispatch sort saved by name descending", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortSavedBy('nameDesc');
+    expect(dispatchSpy).toBeCalledWith(new SortSavedByNameDesc());
+  }); 
+
+  it("should dispatch sort created by difficulty", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortCreatedBy('difficulty');
+    expect(dispatchSpy).toBeCalledWith(new SortCreatedByDifficulty());
+  }); 
+
+  it("should dispatch sort created by name ascending", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortCreatedBy('nameAsc');
+    expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameAsc());
+  }); 
+
+  it("should dispatch sort created by name descending", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    page.sortCreatedBy('nameDesc');
+    expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
+  }); 
 });

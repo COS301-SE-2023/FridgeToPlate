@@ -1,4 +1,4 @@
-package com.fridgetoplate.response;
+package com.fridgetoplate.frontendmodels;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import com.fridgetoplate.interfaces.Profile;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 
-public class ProfileResponse extends Profile {
+public class ProfileFrontendModel extends Profile {
     
-    public MealPlanResponse currMealPlan;
+    public MealPlanFrontendModel currMealPlan;
 
     public List<RecipeDesc> savedRecipes;
 
@@ -57,11 +57,11 @@ public class ProfileResponse extends Profile {
         return createdRecipes;
     }
 
-    public MealPlanResponse getCurrMealPlan() {
+    public MealPlanFrontendModel getCurrMealPlan() {
         return currMealPlan;
     }
 
-    public void setCurrMealPlan(MealPlanResponse currMealPlan) {
+    public void setCurrMealPlan(MealPlanFrontendModel currMealPlan) {
         this.currMealPlan = currMealPlan;
     }
 
