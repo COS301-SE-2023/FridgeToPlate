@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, ComponentFixture } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
@@ -7,9 +7,11 @@ import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByN
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
+import { Navigate } from '@ngxs/router-plugin';
+
 
 describe("ProfilePage", () => {
-  
+
   const testProfile: IProfile = {
     displayName: "John Doe",
     username: "jdoe",
@@ -21,12 +23,12 @@ describe("ProfilePage", () => {
     currMealPlan: null,
   };
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: testProfile
-    } 
-  }) 
+    }
+  })
   @Injectable()
   class MockProfileState {}
 
@@ -128,7 +130,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort saved by name ascending", () => {
     store = TestBed.inject(Store);
@@ -136,7 +138,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort saved by name descending", () => {
     store = TestBed.inject(Store);
@@ -144,7 +146,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameDesc());
-  }); 
+  });
 
   it("should dispatch sort created by difficulty", () => {
     store = TestBed.inject(Store);
@@ -152,7 +154,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort created by name ascending", () => {
     store = TestBed.inject(Store);
@@ -160,7 +162,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort created by name descending", () => {
     store = TestBed.inject(Store);
@@ -168,5 +170,45 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
-  }); 
+  });
+
+  it("should open notifications page when notifications button is clicked", () => {
+    const openNotificationsSpy = jest.spyOn(page, 'openNotifications');
+    const notificationsButton = compiled.querySelector("#notifications-button");
+    notificationsButton.click();
+    expect(openNotificationsSpy).toHaveBeenCalled();
+  });
+
+  it("should open settings page when settings button is clicked", () => {
+    const openSettingsSpy = jest.spyOn(page, 'openSettings');
+    const settingsButton = compiled.querySelector("#settings-button");
+    settingsButton.click();
+    expect(openSettingsSpy).toHaveBeenCalled();
+  });
+
+  it("should return the store instance", () => {
+    expect(page.getStore()).toBeInstanceOf(Store);
+  });
+});
+
+
+describe('ProfilePage', () => {
+  let component: ProfilePage;
+  let fixture: ComponentFixture<ProfilePage>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ProfilePage],
+      imports: [IonicModule.forRoot(), NgxsModule.forRoot()],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ProfilePage);
+    component = fixture.componentInstance;
+  });
+
+  it('should dispatch a Navigate action with the correct route', () => {
+    const navigateSpy = jest.spyOn(component.getStore(), 'dispatch');
+    component.handleNotificationsClicked();
+    expect(navigateSpy).toHaveBeenCalledWith(new Navigate(['/profile/notifications']));
+  });
 });
