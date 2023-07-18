@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StepperForm } from './stepper-form';
 import { IonicModule } from '@ionic/angular';
-import { RecommendUIModule } from '../recommend.module';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
@@ -71,6 +69,38 @@ describe('StepperForm', () => {
     component.nextStep();
     expect(component.currentStep).toBe(3);
     expect(component.stepContent).toBe('Suggestions');
+    expect(component.stepContentDesktop).toBe('error');
+  });
+
+  it('changeContent should update step content', () => {
+    component.currentStep = 1;
+
+    component.changeContent();
+    expect(component.stepContent).toBe('Edit Your Ingredients');
+    expect(component.stepContentDesktop).toBe('Edit Your Ingredients and Preferences');
+  });
+
+  it('changeContent should update step content', () => {
+    component.currentStep = 2;
+
+    component.changeContent();
+    expect(component.stepContent).toBe('Choose Preferences');
+    expect(component.stepContentDesktop).toBe('Recipe Suggestions');
+  });
+
+  it('changeContent should update step content when = 3', () => {
+    component.currentStep = 3;
+
+    component.changeContent();
+    expect(component.stepContent).toBe('Suggestions');
+    expect(component.stepContentDesktop).toBe('error');
+  });
+
+  it('changeContent should update step content when > 3', () => {
+    component.currentStep = 4;
+
+    component.changeContent();
+    expect(component.stepContent).toBe('error');
     expect(component.stepContentDesktop).toBe('error');
   });
 });

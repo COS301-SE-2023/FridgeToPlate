@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Store } from '@ngxs/store';
 import { RecipePreferencesStep } from './recipe-preferences-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RecommendUIModule } from '../recommend.module';
 import { NgxsModule } from '@ngxs/store';
+import { UpdateRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
   let fixture: ComponentFixture<RecipePreferencesStep>;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,5 +26,13 @@ describe('RecipePreferencesStep', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('update preferences should dispatch an update', () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    component.updateRecipePreferences();
+    expect(dispatchSpy).toBeCalledWith(new UpdateRecipePreferences(component.editableRecipePreferences));
   });
 });
