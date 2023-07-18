@@ -33,6 +33,9 @@
         "libs/app/error/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
+      "@fridge-to-plate/app/explore/feature": [
+        "libs/app/explore/feature/src/index.ts"
+      ],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
