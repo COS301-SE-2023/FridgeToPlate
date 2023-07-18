@@ -175,6 +175,14 @@ export class EditRecipeComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  deleteRecipe() {
+    this.store.dispatch( new ShowError("Delete Recipe"))
+
+    if(!this.recipe?.recipeId) {
+      this.store.dispatch( new ShowError('Could not delete recipe'))
+    }
+  }
+
   toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
     this.selectedMeal = option;
   }
