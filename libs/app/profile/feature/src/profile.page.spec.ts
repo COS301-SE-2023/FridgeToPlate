@@ -189,6 +189,19 @@ describe("ProfilePage", () => {
   it("should return the store instance", () => {
     expect(page.getStore()).toBeInstanceOf(Store);
   });
+
+  it('should open settings when settings button is clicked', () => {
+    const openSettingsSpy = jest.spyOn(page, 'openSettings');
+    const settingsButton = compiled.querySelector("#settings-button");
+    settingsButton.click();
+    expect(openSettingsSpy).toHaveBeenCalled();
+  });
+
+  it('should open settings when settings button is clicked', () => {
+    const settingsButton = compiled.querySelector("#settings-button");
+    settingsButton.click();
+    expect(page.displaySettings).toEqual("block");
+  });
 });
 
 
