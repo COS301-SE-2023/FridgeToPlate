@@ -4,7 +4,6 @@ import { CoreShell } from './core.shell';
 import { CoreRouting } from './core.routing';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { RouteReuseStrategy } from '@angular/router';
-import { LoginModule } from '@fridge-to-plate/app/login/feature';
 import { TabbedComponent } from './tabbed-component/tabbed-component';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -18,6 +17,7 @@ import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,6 @@ import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
   ],
   imports: [
     BrowserModule,
-    LoginModule,
     CoreRouting,
     ReactiveFormsModule,
     IonicModule.forRoot(),
@@ -42,7 +41,7 @@ import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
     NgxsReduxDevtoolsPluginModule.forRoot({
       // disabled: ENVIRONMENT == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, RecipeState]),
+    NgxsModule.forRoot([AuthState, ErrorState, RecipeState, UndoState]),
     NgxsRouterPluginModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

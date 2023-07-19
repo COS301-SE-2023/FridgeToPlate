@@ -5,11 +5,11 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
-import com.fridgetoplate.response.RecipeResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +22,19 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public RecipeModel save(RecipeModel recipe){
+    public RecipeFrontendModel save(RecipeFrontendModel recipe){
         dynamoDBMapper.save(recipe);
         return recipe;
     }
 
-    public RecipeResponse findById(String id){
+    public RecipeFrontendModel findById(String id){
 
         /*
          * Getting the Recipe Response
          */
 
          // Declaring the Recipe Response object
-        RecipeResponse recipeResponse = new RecipeResponse();
+        RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
 
 
         // Find the Recipe model
@@ -88,14 +88,14 @@ public class RecipeRepository {
        return recipeResponse;
     }
 
-    public List<RecipeResponse> findAll(){
-        List<RecipeResponse> recipes = new ArrayList<>();
+    public List<RecipeFrontendModel> findAll(){
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
 
         for (RecipeModel recipe : scanResult) {
             
-            RecipeResponse response = findById(recipe.getRecipeId());
+            RecipeFrontendModel response = findById(recipe.getRecipeId());
                 if(response != null) {
                     recipes.add(response);
                 }
@@ -136,15 +136,15 @@ public class RecipeRepository {
         return reviews;
     }
 
-    public List<RecipeResponse> getRecipesByUsername(String username) {
-        List<RecipeResponse> recipes = new ArrayList<>();
+    public List<RecipeFrontendModel> getRecipesByUsername(String username) {
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
 
         for (RecipeModel recipe : scanResult) {
             
             if (recipe.getCreator().equals(username)) {
-                RecipeResponse response = findById(recipe.getRecipeId());
+                RecipeFrontendModel response = findById(recipe.getRecipeId());
                 if(response != null) {
                     recipes.add(response);
                 }

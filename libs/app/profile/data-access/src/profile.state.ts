@@ -5,17 +5,19 @@ import {
     CreateNewProfile, 
     RetrieveProfile, 
     SaveRecipe, 
-    RemoveRecipe, 
+    RemoveSavedRecipe, 
     SortSavedByDifficulty, 
     SortSavedByNameAsc, 
     SortSavedByNameDesc, 
     SortCreatedByDifficulty, 
     SortCreatedByNameAsc, 
-    ResetProfile 
+    ResetProfile, 
+    UndoRemoveSavedRecipe
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -135,19 +137,33 @@ export class ProfileState {
         }
     }
 
-    @Action(RemoveRecipe)
-    removeRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveRecipe) {
+    @Action(RemoveSavedRecipe)
+    removeSavedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveSavedRecipe) {
         const updatedProfile = getState().profile;
         
         if (updatedProfile) {
+            this.store.dispatch(new ShowUndo("Removed recipe from saved recipes", new UndoRemoveSavedRecipe(updatedProfile.savedRecipes)));
+
             updatedProfile.savedRecipes = updatedProfile.savedRecipes.filter((savedRecipe) => {
                 return savedRecipe.recipeId !== recipe.recipeId;
             });
             patchState({
                 profile: updatedProfile
             });
-    
+
             this.api.updateProfile(updatedProfile);
+        }
+    }
+
+    @Action(UndoRemoveSavedRecipe)
+    undoRemoveSavedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { savedRecipes } : UndoRemoveSavedRecipe) {
+        const updatedProfile = getState().profile;
+
+        if (updatedProfile) {
+            updatedProfile.savedRecipes = savedRecipes;
+            patchState({
+                profile: updatedProfile
+            });
         }
     }
 

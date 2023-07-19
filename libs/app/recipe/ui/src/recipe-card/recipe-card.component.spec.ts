@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
 import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 import { NgxsModule, State, Store } from '@ngxs/store';
@@ -21,7 +22,26 @@ describe('RecipeCardComponent', () => {
     profilePic: "image-url",
     createdRecipes: [],
     currMealPlan: null,
+
+  const testProfile: IProfile = {
+    displayName: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: null,
   };
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  }) 
+  @Injectable()
+  class MockProfileState {}
 
   @State({ 
     name: 'profile', 
@@ -36,6 +56,9 @@ describe('RecipeCardComponent', () => {
 
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
+
   const testRecipe: IRecipe = {
     recipeId: 'test-id',
     name: 'Pizza',
@@ -68,6 +91,11 @@ describe('RecipeCardComponent', () => {
     fixture = TestBed.createComponent(RecipeCardComponent);
     component = fixture.componentInstance;
     component.recipe = testRecipe;
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+    fixture.detectChanges();
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
     fixture.detectChanges();
     store = TestBed.inject(Store);
     dispatchSpy = jest.spyOn(store, 'dispatch');
@@ -80,7 +108,9 @@ describe('RecipeCardComponent', () => {
 
   it('should be saved', () => {
     component.bookmarked = false;
+    component.bookmarked = false;
     component.changeSaved();
+    expect(dispatchSpy).toBeCalledWith(new SaveRecipe(component.recipe as IRecipeDesc));
     expect(dispatchSpy).toBeCalledWith(new SaveRecipe(component.recipe as IRecipeDesc));
   });
 
