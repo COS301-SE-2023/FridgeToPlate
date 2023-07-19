@@ -2,20 +2,23 @@ package com.fridgetoplate.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import com.fridgetoplate.interfaces.MealPlan;
+import com.fridgetoplate.interfaces.RecipeDesc;
 
 @DynamoDBTable(tableName = "meal_plans")
 public class MealPlanModel extends MealPlan {
 
-    private String breakfastId;
+    private RecipeDesc breakfast;
 
-    private String lunchId;
+    private RecipeDesc lunch;
     
-    private String dinnerId;
+    private RecipeDesc dinner;
 
-    private String snackId;
+    private RecipeDesc snack;
 
     // Getters
 
@@ -30,44 +33,48 @@ public class MealPlanModel extends MealPlan {
     }
 
     @DynamoDBAttribute(attributeName = "breakfast")
-    public String getBreakfastId() {
-        return breakfastId;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    public RecipeDesc getBreakfast() {
+        return breakfast;
     }
 
     @DynamoDBAttribute(attributeName = "lunch")
-    public String getLunchId() {
-        return lunchId;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    public RecipeDesc getLunch() {
+        return lunch;
     }
 
     @DynamoDBAttribute(attributeName = "dinner")
-    public String getDinnerId() {
-        return dinnerId;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    public RecipeDesc getDinner() {
+        return dinner;
     }
 
     @DynamoDBAttribute(attributeName = "snack")
-    public String getSnackId() {
-        return snackId;
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    public RecipeDesc getSnack() {
+        return snack;
     }
 
     // setters
     @DynamoDBAttribute(attributeName = "breakfast")
-    public void setBreakfastId(String breakfastId) {
-        this.breakfastId = breakfastId;
+    public void setBreakfast(RecipeDesc breakfast) {
+        this.breakfast = breakfast;
     }
 
     @DynamoDBAttribute(attributeName = "lunch")
-    public void setLunchId(String lunchId) {
-        this.lunchId = lunchId;
+    public void setLunch(RecipeDesc lunch) {
+        this.lunch = lunch;
     }
 
     @DynamoDBAttribute(attributeName = "dinner")
-    public void setDinnerId(String dinnerId) {
-        this.dinnerId = dinnerId;
+    public void setDinner(RecipeDesc dinner) {
+        this.dinner = dinner;
     }
 
     @DynamoDBAttribute(attributeName = "snack")
-    public void setSnackId(String snackId) {
-        this.snackId = snackId;
+    public void setSnack(RecipeDesc snack) {
+        this.snack = snack;
     }
 
 
