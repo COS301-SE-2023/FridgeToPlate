@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-create-data-access',
+  displayName: 'app-meal-plan-data-access',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/app/create/data-access',
+  coverageDirectory: '../../../../coverage/libs/app/meal-plan/data-access',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
