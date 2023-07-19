@@ -7,7 +7,7 @@ export class UpdatePreferences {
 
 export class CreateNewPreferences {
     static readonly type = '[Preferences] CreateNewPreferences';
-    constructor(public readonly profile: IPreferences) {}
+    constructor(public readonly preferences: IPreferences) {}
 }
 
 export class ResetPreferences {
