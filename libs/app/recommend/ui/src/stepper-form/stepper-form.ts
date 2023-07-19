@@ -1,6 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ItemEditStep} from "../item-edit-step/item-edit-step";
+import { Component } from "@angular/core";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'stepper-form',
@@ -8,33 +7,36 @@ import {ItemEditStep} from "../item-edit-step/item-edit-step";
   styleUrls: ['./stepper-form.scss']
 })
 
-export class StepperForm implements OnInit{
+export class StepperForm {
 
   currentStep = 1;
 
   recipeRecommendForm!: FormGroup;
 
-  stepContent = `Edit Fridge Items`;
-
-  step = ItemEditStep;
+  stepContent = `Edit Your Ingredients`;
+  stepContentDesktop = `Edit Your Ingredients and Preferences`;
 
   recipePreferencesForm!: FormGroup;
   changeContent(): void {
     switch (this.currentStep) {
       case 1: {
-        this.stepContent = 'Edit Fridge Items'
+        this.stepContent = 'Edit Your Ingredients'
+        this.stepContentDesktop = `Edit Your Ingredients and Preferences`;
         break;
       }
       case 2: {
-        this.stepContent = 'Verify Preferences'
+        this.stepContent = 'Choose Preferences'
+        this.stepContentDesktop = `Recipe Suggestions`;
         break;
       }
       case 3: {
         this.stepContent = 'Suggestions'
+        this.stepContentDesktop = `error`;
         break;
       }
       default: {
         this.stepContent = 'error'
+        this.stepContentDesktop = `error`;
       }
     }
   }
@@ -53,20 +55,5 @@ export class StepperForm implements OnInit{
 
   attemptRecommendation(): void {
     console.log(this.recipeRecommendForm.value)
-  }
-
-  constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit() {
-    this.recipeRecommendForm = this.formBuilder.group({
-      items: [[], [Validators.required]],
-      preferences: this.formBuilder.group({
-        diet: [[]],
-        keywords: [[]],
-        difficulty: [''],
-        rating: [5]
-      }),
-    })
   }
 }
