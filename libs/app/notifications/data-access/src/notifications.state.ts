@@ -7,10 +7,10 @@ import {
   ClearRecommendationNotifications,
   RefreshNotifications,
   RefreshRecommendationNotifications,
-} from './notifications.actions';
+} from '../../utils/notifications.actions';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { Observable, map, take, tap } from 'rxjs';
+import { Observable, take} from 'rxjs';
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
