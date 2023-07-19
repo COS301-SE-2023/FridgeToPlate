@@ -1,8 +1,13 @@
+import { IRecipeDesc } from "@fridge-to-plate/app/recipe/utils";
 import { IProfile } from "./interfaces";
 
 export class UpdateProfile {
     static readonly type = '[Profile] UpdateProfile';
     constructor(public readonly profile: IProfile) {}
+}
+
+export class ResetProfile {
+    static readonly type = '[Profile] ResetProfile';
 }
 
 export class CreateNewProfile {
@@ -13,4 +18,43 @@ export class CreateNewProfile {
 export class RetrieveProfile {
     static readonly type = '[Profile] RetrieveProfile';
     constructor(public readonly username: string) {}
+}
+
+export class SaveRecipe {
+    static readonly type = '[Profile] SaveRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
+}
+
+export class RemoveSavedRecipe {
+    static readonly type = '[Profile] RemoveSavedRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
+}
+
+export class UndoRemoveSavedRecipe {
+    static readonly type = '[Profile] UndoRemoveSavedRecipe';
+    constructor(public readonly savedRecipes: IRecipeDesc[]) {}
+}
+
+export class SortSavedByDifficulty {
+    static readonly type = '[Profile] SortSavedByDifficulty';
+}
+
+export class SortSavedByNameAsc {
+    static readonly type = '[Profile] SortSavedByNameAsc';
+}
+
+export class SortSavedByNameDesc {
+    static readonly type = '[Profile] SortSavedByNameDesc';
+}
+
+export class SortCreatedByDifficulty {
+    static readonly type = '[Profile] SortCreatedByDifficulty';
+}
+
+export class SortCreatedByNameAsc {
+    static readonly type = '[Profile] SortCreatedByNameAsc';
+}
+
+export class SortCreatedByNameDesc {
+    static readonly type = '[Profile] SortCreatedByNameDesc';
 }

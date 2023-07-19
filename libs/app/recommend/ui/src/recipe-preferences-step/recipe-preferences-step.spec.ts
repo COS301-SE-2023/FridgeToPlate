@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecommendModule } from '@fridge-to-plate/app/recommend/feature';
 import { RecommendUIModule } from '../recommend.module';
 import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
+import { NgxsModule } from '@ngxs/store';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
@@ -15,7 +16,7 @@ describe('RecipePreferencesStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecipePreferencesStep],
-      imports: [IonicModule, HttpClientModule, RecommendUIModule],
+      imports: [IonicModule, HttpClientModule, RecommendUIModule, NgxsModule.forRoot()],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
