@@ -53,7 +53,7 @@ export class RecipeState {
     let newRecipe = getState().recipe;
 
     if(newRecipe){
-      newRecipe?.reviews?.push(review);
+      newRecipe?.reviews?.unshift(review);
 
       this.store.dispatch(new UpdateRecipe(newRecipe));
 
@@ -66,7 +66,7 @@ export class RecipeState {
     let newRecipe = getState().recipe;
 
     if(newRecipe){
-      newRecipe?.reviews?.filter( currentReview => currentReview.reviewId !== reviewId);
+      newRecipe.reviews = newRecipe?.reviews?.filter( currentReview => currentReview.reviewId !== reviewId);
 
       this.store.dispatch(new UpdateRecipe(newRecipe));
 

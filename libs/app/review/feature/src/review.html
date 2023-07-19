@@ -31,7 +31,7 @@
         <ion-card class="custom-card w-48 mx-3 my-2">
           <ion-card-content>
             <div>
-              <button> <ion-icon name="close-outline"></ion-icon> </button>
+              <button *ngIf="review.username === 'jdoe'" (click)="deleteReview()" class="deleteButton"> <ion-icon name="close-outline"></ion-icon> </button>
               <br/>
               <b> Username: </b> {{review?.username}}
               <br/>

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { IReview } from '../../utils/src/interfaces';
-import { AddReview } from 'libs/app/recipe/data-access/src/recipe.actions';
+import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
 
 @Component({
   selector: 'review',
@@ -11,7 +11,6 @@ import { AddReview } from 'libs/app/recipe/data-access/src/recipe.actions';
 export class Review {
   rating = 0;
   description = '';
-  showReviews = false;
 
   constructor (private store: Store) {}
 
@@ -51,11 +50,21 @@ export class Review {
 
     this.store.dispatch(new AddReview(review));
 
-    //RemoveReview(reviewId)
+    this.rating = 0;
+    this.description = '';
+
+    //this.store.dispatch(new RemoveReview(reviewId))
 
     // this.reviews.unshift(review);
 
     // // send the review data to a server or store it locally
     // console.log(this.reviews);
   }
+
+  deleteReview() {
+
+    const reviewId = 'uyassuigasiugfasou56tug';
+    this.store.dispatch(new DeleteReview(reviewId));
+  }
+
 }
