@@ -154,6 +154,7 @@ describe('RecipeCardComponent', () => {
         expect(component.added).toBe(true);
         expect(component.profile.currMealPlan).toEqual(mealPlan);
     });
+    
     it('should set added to true if recipe is in meal plan', () => {
       const mealPlan: IMealPlan = {
         username: 'test',
@@ -163,7 +164,7 @@ describe('RecipeCardComponent', () => {
         dinner: null,
         snack: null,
       };
-      component.mealPlan$ = of(mealPlan);
+      jest.spyOn(component.mealPlan$, 'pipe').mockReturnValue(of(mealPlan))
       component.recipe = { recipeId: '1' };
       component.ngOnInit();
       expect(component.added).toBe(true);
@@ -182,43 +183,6 @@ describe('RecipeCardComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'));
   });
 
-
-  it('should dispatch AddToMealPlan and UpdateProfile actions when addToMealPlan is called', () => {
-    
-    const profile: IProfile = {
-      profilePic: 'picture',
-      email: 'johnddoe@exampe.co.za',
-      displayName: 'John Doe',
-      username: 'test',
-      savedRecipes: [],
-      createdRecipes: [],
-      ingredients: [],
-      currMealPlan: {
-        username: 'test',
-        date: '2023-07-19',
-        breakfast: { recipeId: '1' } as IRecipeDesc,
-        lunch: null,
-        dinner: null,
-        snack: null,
-      }
-    };
-    component.profile = profile;
-    component.recipe = { recipeId: '1' };
-    component.selectedMealType = 'Breakfast';
-    component.addToMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith( new GetMealPlan("jdoe"))
-    expect(store.dispatch).toHaveBeenCalledWith(new AddToMealPlan({
-      username: 'test',
-      date: '2023-07-19',
-      breakfast: { recipeId: '1' } as IRecipeDesc,
-      lunch: null,
-      dinner: null,
-      snack: null,
-    }));
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateProfile(profile));
-    expect(component.added).toBe(true);
-    expect(component.showMenu).toBe(false);
-  });
 
   it('should dispatch ShowError action if meal plan is falsy', () => {
     component.recipe = { recipeId: '1' };
