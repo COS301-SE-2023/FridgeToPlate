@@ -13,6 +13,10 @@ import { Observable, take } from 'rxjs';
 })
 export class SearchingModalComponent {
 
+  search = "";
+  result = "";
+
+
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
 
   constructor(private store: Store) {
