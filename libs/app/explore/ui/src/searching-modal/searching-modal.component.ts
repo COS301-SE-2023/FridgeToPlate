@@ -4,6 +4,7 @@ import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
+import { Navigate } from "@ngxs/router-plugin";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -13,7 +14,7 @@ import { Observable, take } from 'rxjs';
 })
 export class SearchingModalComponent {
 
-  search = "";
+  searchText = "";
   result = "";
 
 
@@ -27,8 +28,21 @@ export class SearchingModalComponent {
     this.closeFunc.emit();
   }
 
-  save() {
-    //this.store.dispatch();
+  search() {
+    alert(this.result);
+
+    switch (this.result) {
+      case 'All':
+
+        break;
+      case 'Recipe':
+        
+        break;
+      case 'People':
+        
+        break;
+    }
+
   }
 
 }

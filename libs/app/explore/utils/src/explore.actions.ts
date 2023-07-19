@@ -1,20 +1,13 @@
 import { IProfile } from "@fridge-to-plate/app/profile/utils";
-import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
-
 
 
 export class RetrieveProfile {
     static readonly type = '[Profile] RetrieveProfile';
-    constructor(public readonly profiles: IProfile) {}
-}
-
-export class RetrieveIngredient {
-    static readonly type = '[Ingredient] RetrieveIngredient';
-    constructor(public readonly ingredients: IIngredient) {}
+    constructor(public readonly username: string) {}
 }
 
 export class RetrieveRecipe {
-    static readonly type = '[Profile] RetrieveRecipe';
-    constructor(public readonly recipes: IRecipe) {}
+    static readonly type = '[Recipe] RetrieveRecipe';
+    constructor(public readonly recipename: string) {}
 }
