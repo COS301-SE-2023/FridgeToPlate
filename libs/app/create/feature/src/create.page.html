@@ -1,4 +1,4 @@
-<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
+<div class="justify-center pt-8 bg-background-light h-full overflow-y-auto [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
 
   <navigation-bar></navigation-bar>
   
@@ -284,7 +284,6 @@
           placeholder="e.g. Asian, Vegan"
           formControlName="tag"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl mr-2"
-          required
         >
         <button type="button" (click)="addTag()" class=" text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 text-center">
           Add Tag

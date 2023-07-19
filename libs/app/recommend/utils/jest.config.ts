@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-  displayName: 'app-create-utils',
+  displayName: 'app-recommend-utils',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/app/create/utils',
+  coverageDirectory: '../../../../coverage/libs/app/recommend/utils',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

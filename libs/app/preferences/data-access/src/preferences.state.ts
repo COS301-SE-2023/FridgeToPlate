@@ -26,11 +26,16 @@ export class PreferencesState {
 
     constructor(private api: PreferencesAPI, private store: Store) {}
 
-    
+
     @Selector()
     static getPreference(state: PreferencesStateModel) {
         return state.preferences;
     }
+
+  @Selector()
+  static get(state: PreferencesStateModel) {
+    return state.preferences;
+  }
 
     @Action(UpdatePreferences)
     updatePreference({ patchState } : StateContext<PreferencesStateModel>, { preferences } : UpdatePreferences) {

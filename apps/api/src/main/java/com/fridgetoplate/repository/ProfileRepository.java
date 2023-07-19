@@ -34,7 +34,6 @@ public class ProfileRepository {
     }
 
     public ProfileFrontendModel findByName(String username) {
-
         /*
          * Getting the Profile Response
          */
@@ -85,29 +84,16 @@ public class ProfileRepository {
             mealPlanResponse.setUsername(username);
 
             // Get the Recipe id for breakfast plam
-            String breakfastId = mealPlanModel.getBreakfastId();
+            RecipeDesc breaKfastDesc = mealPlanModel.getBreakfast();
 
-            // Now, the recipe object
-            RecipeDesc breaKfastDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, breakfastId));
+            // Get recipe  for lunch
+            RecipeDesc LunchDesc = mealPlanModel.getLunch();
 
-            // Get recipe id for lunch
-            String lunchId = mealPlanModel.getLunchId();
+            // Get the recipe  for dinner
+            RecipeDesc DinnerDesc = mealPlanModel.getDinner();
 
-            // Now, the recipe object
-            RecipeDesc LunchDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, lunchId));
-
-            // Get the recipe id for dinner
-            String dinnerId = mealPlanModel.getDinnerId();
-
-            // Now the recipe object
-            RecipeDesc DinnerDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, dinnerId));
-
-
-            // Get recipe id for snack
-            String SnackId = mealPlanModel.getSnackId();
-
-            // Now the recipe object
-            RecipeDesc SnackDesc = createRecipeResponse(dynamoDBMapper.load(RecipeModel.class, SnackId));
+            // Get recipe  for snack
+            RecipeDesc SnackDesc = mealPlanModel.getSnack();
 
             // Creating the mealPlanResponse
             mealPlanResponse.setDate(date);
@@ -134,20 +120,17 @@ public class ProfileRepository {
         //Retrieve the profile of the specified ID
         Profile profileData = dynamoDBMapper.load(Profile.class, id);
 
-        System.out.println("profileData");
-        System.out.println(profileData);
-
         //Return null if user profile does not exist
         if(profileData == null)
             return null;
         
-        dynamoDBMapper.save(profileData,
+        dynamoDBMapper.save(profile,
                 new DynamoDBSaveExpression()
         .withExpectedEntry("profileId",
                 new ExpectedAttributeValue(
                         new AttributeValue().withS(id)
                 )));
-        return profileData;
+        return profile;
     }
 
     public String delete(String id){
