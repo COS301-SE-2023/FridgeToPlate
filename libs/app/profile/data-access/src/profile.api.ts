@@ -37,7 +37,7 @@ export class ProfileAPI {
     });
   }
 
-  async getProfile(username: string) {
+  getProfile(username: string) {
     const url = `${this.baseUrl}/${username}`;
 
     return this.http.get<IProfile | null>(url);

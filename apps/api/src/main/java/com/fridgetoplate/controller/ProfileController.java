@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.interfaces.Profile;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ProfileRepository;
-import com.fridgetoplate.response.ProfileResponse;
+import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -23,9 +23,8 @@ public class ProfileController {
         return profileRepository.save(profile);
     }
 
-
     @GetMapping("/{username}")
-    public ProfileResponse findByName(@PathVariable(value = "username") String username) {
+    public ProfileFrontendModel findByName(@PathVariable(value = "username") String username) {
         return profileRepository.findByName(username);
     }
 
