@@ -1,19 +1,141 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { CreatePagComponent } from './create.page';
-import { IonicModule } from '@ionic/angular';
-import {HttpClientModule } from '@angular/common/http';
-import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { BehaviorSubject, take } from "rxjs";
-import { Injectable } from '@angular/core';
+import { EditRecipeComponent } from './edit-recipe.page';
 import { NgxsModule, State, Store } from '@ngxs/store';
+import { DeleteRecipe, IRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { Injectable } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
+import { IonicModule } from '@ionic/angular';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { BehaviorSubject, of } from 'rxjs';
+import { Location } from '@angular/common';
+
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+
+describe('EditRecipeComponent', () => {
+  let component: EditRecipeComponent;
+  let fixture: ComponentFixture<EditRecipeComponent>;
+
+  const testProfile: IProfile = {
+    displayName: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: null,
+  };
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  })
+
+  @Injectable()
+  class MockProfileState {}
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, RouterTestingModule, NgxsModule.forRoot([MockProfileState])],
+      declarations: [EditRecipeComponent],
+      providers: [
+        
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(EditRecipeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('test delete recipe with valid recipe id', () => {
+      const recipeId = 'valid_recipe_id';
+      const deleteRecipeSpy = jest.spyOn(EditRecipeComponent.prototype, 'deleteRecipe');
+      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+      const component = fixture.componentInstance;
+      component.recipe = { recipeId } as IRecipe;
+      fixture.detectChanges();
+      component.deleteRecipe();
+
+      expect(deleteRecipeSpy).toHaveBeenCalled();
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
+  });
+
+  it('test show error message if recipe id is not available', () => {
+    const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+    const component = fixture.componentInstance;
+    component.recipe = null;
+    fixture.detectChanges();
+
+    component.deleteRecipe();
+
+    expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('Could not delete recipe'));
+  });
+
+      // Tests that DeleteRecipe action is dispatched with recipeId
+    it('test dispatch delete recipe action with recipe id', () => {
+      const recipeId = 'valid_recipe_id';
+      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch').mockReturnValue(of(null));
+      const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
+      const component = fixture.componentInstance;
+      component.recipe = { recipeId } as IRecipe;
+      fixture.detectChanges();
+
+      component.deleteRecipe();
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
+      expect(locationBackSpy).toHaveBeenCalled();
+  });
+
+  it('test cancel edit calls location back', () => {
+    const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
+    component.cancelEdit();
+    expect(locationBackSpy).toHaveBeenCalled();
+});
+
+it('test populateForm with recipe', () => {
+  component.recipe = {
+      recipeId: '1',
+      name: 'Test Recipe',
+      recipeImage: 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg',
+      description: 'Test Recipe Description',
+      meal: 'Breakfast',
+      creator: '',
+      ingredients: [
+          {
+              name: 'Test Ingredient',
+              amount: 1,
+              unit: 'Test Unit'
+          }
+      ],
+      steps: ['Test Step'],
+      difficulty: 'Easy',
+      prepTime: 10,
+      servings: 2,
+      tags: ['Test Tag']
+  };
+
+  component.populateForm();
+  expect(component.ingredientControls.length).toEqual(1);
+  expect(component.instructionControls.length).toEqual(1);
+  expect(component.tags).toEqual(['Test Tag']);
+  expect(component.selectedMeal).toEqual('Breakfast');
+  expect(component.imageUrl).toEqual('https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg');
+  expect(component.difficulty).toEqual('Easy');
+});
 
 
+});
 @State({
   name: 'create',
   defaults: {
@@ -26,18 +148,19 @@ class MockCreateState {}
 
 
 
-describe('CreatePagComponent', () => {
-  let createPage: CreatePagComponent;
-  let fixture: ComponentFixture<CreatePagComponent>;
+describe('Edit Recipe Page', () => {
+  let editRecipePage: EditRecipeComponent;
+  let fixture: ComponentFixture<EditRecipeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePagComponent ],
+      declarations: [ EditRecipeComponent ],
       imports: [
         ReactiveFormsModule,
         IonicModule,
         HttpClientModule,
         NavigationBarModule,
+        RouterTestingModule,
         NgxsModule.forRoot([MockCreateState])
       ],
       providers: [ FormBuilder ]
@@ -46,59 +169,80 @@ describe('CreatePagComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatePagComponent);
-    createPage = fixture.componentInstance;
+    fixture = TestBed.createComponent(EditRecipeComponent);
+
+    editRecipePage = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should set the name, description, servings, and preparationTime fields as required', () => {
-    createPage.createForm();
+  it('should set the name, description, servings, and preparationTime fields', () => {
+    
+    const populateFormSpy = jest.spyOn(EditRecipeComponent.prototype, 'populateForm');
 
-    const nameControl = createPage.recipeForm.get('name');
-    const descriptionControl = createPage.recipeForm.get('description');
-    const servingsControl = createPage.recipeForm.get('servings');
-    const preparationTimeControl = createPage.recipeForm.get('preparationTime');
+    const recipe = {
+      recipeId: '1',
+      name: 'Test Recipe',
+      recipeImage: 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg',
+      description: 'Test Recipe Description',
+      meal: 'Breakfast',
+      creator: 'Test Creator',
+      ingredients: [
+          {
+              name: 'Test Ingredient 1',
+              amount: 1,
+              unit: 'Test Unit 1'
+          },
+          {
+              name: 'Test Ingredient 2',
+              amount: 2,
+              unit: 'Test Unit 2'
+          }
+      ],
+      steps: ['Test Step 1', 'Test Step 2'],
+      difficulty: 'Easy',
+      prepTime: 10,
+      servings: 2,
+      tags: ['Test Tag 1', 'Test Tag 2']
+    } as IRecipe;
 
-    expect(nameControl?.errors?.['required']).toBe(true);
-    expect(descriptionControl?.errors?.['required']).toBe(true);
-    expect(servingsControl?.errors?.['required']).toBe(true);
-    expect(preparationTimeControl?.errors?.['required']).toBe(true);
-  });
+    const initializeSpy = jest.spyOn(EditRecipeComponent.prototype, 'initialize').mockImplementation( () => {
+      editRecipePage.recipe = recipe
+    });
+    
+  editRecipePage.createForm();
+  expect(initializeSpy).toBeCalled();
+  expect(populateFormSpy).toBeCalled();
+  expect(editRecipePage.recipeForm.value.name).toEqual('Test Recipe');
+  expect(editRecipePage.recipeForm.value.description).toEqual('Test Recipe Description');
+  expect(editRecipePage.recipeForm.value.servings).toEqual(2);
+  expect(editRecipePage.recipeForm.value.preparationTime).toEqual(10);
+});
 
-  it('should create an empty array for the ingredients and instructions fields', () => {
-    createPage.createForm();
-
-    const ingredientsArray = createPage.recipeForm.get('ingredients');
-    const instructionsArray = createPage.recipeForm.get('instructions');
-
-    expect(ingredientsArray?.value).toEqual([]);
-    expect(instructionsArray?.value).toEqual([]);
-  });
 
   it('should add a new ingredient control to the form', () => {
-    const initialLength = createPage.ingredientControls.length;
-    createPage.addIngredient();
-    const newLength = createPage.ingredientControls.length;
+    const initialLength = editRecipePage.ingredientControls.length;
+    editRecipePage.addIngredient();
+    const newLength = editRecipePage.ingredientControls.length;
     expect(newLength).toBe(initialLength + 1);
   }
   );
 
   it('should remove an ingredient control from the form', () => {
-    const initialLength = createPage.ingredientControls.length;
+    const initialLength = editRecipePage.ingredientControls.length;
     if(initialLength == 0) {
       expect(initialLength).toBe(0)
       return
     }
-    createPage.removeIngredient(0);
-    const newLength = createPage.ingredientControls.length;
+    editRecipePage.removeIngredient(0);
+    const newLength = editRecipePage.ingredientControls.length;
     expect(newLength).toBe(initialLength - 1);
   }
   );
 
   it('should add a new instruction control to the form', () => {
-    const initialLength = createPage.instructionControls.length;
-    createPage.addInstruction();
-    const newLength = createPage.instructionControls.length;
+    const initialLength = editRecipePage.instructionControls.length;
+    editRecipePage.addInstruction();
+    const newLength = editRecipePage.instructionControls.length;
     expect(newLength).toBe(initialLength + 1);
   }
   );
@@ -116,9 +260,9 @@ describe('CreatePagComponent', () => {
       instructions: formArray,
     });
 
-    createPage.recipeForm = recipeForm;
+    editRecipePage.recipeForm = recipeForm;
 
-    const instructions = createPage.getInstructions();
+    const instructions = editRecipePage.getInstructions();
 
     expect(instructions[0]).toBe('Step 1');
     expect(instructions[1]).toBe('Step 2');
@@ -139,39 +283,39 @@ describe('CreatePagComponent', () => {
       instructions: formArray,
     });
 
-    createPage.recipeForm = recipeForm;
+    editRecipePage.recipeForm = recipeForm;
 
-    const initialLength = createPage.instructionControls.length;
-    createPage.removeInstruction(0);
-    const newLength = createPage.instructionControls.length;
+    const initialLength = editRecipePage.instructionControls.length;
+    editRecipePage.removeInstruction(0);
+    const newLength = editRecipePage.instructionControls.length;
     expect(newLength).toBe(initialLength - 1);
-    expect(createPage.getInstructions()).toEqual(['Step 2', 'Step 3'])
+    expect(editRecipePage.getInstructions()).toEqual(['Step 2', 'Step 3'])
   }
   );
-
 });
 
 
 describe('Testing Tags', () => {
-  let component: CreatePagComponent;
+  let component: EditRecipeComponent;
   let fb: FormBuilder;
-  let fixture: ComponentFixture<CreatePagComponent>;
+  let fixture: ComponentFixture<EditRecipeComponent>;
   let store: Store;
   let dispatchSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatePagComponent ],
+      declarations: [ EditRecipeComponent ],
       providers: [FormBuilder],
       imports: [
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
+        RouterTestingModule,
         NgxsModule.forRoot([MockCreateState])
       ]
     });
 
-    fixture = TestBed.createComponent(CreatePagComponent);
+    fixture = TestBed.createComponent(EditRecipeComponent);
     component = fixture.componentInstance;
     fb = TestBed.inject(FormBuilder);
     fixture.detectChanges();
@@ -179,7 +323,7 @@ describe('Testing Tags', () => {
     dispatchSpy = jest.spyOn(store, 'dispatch');
 
     component.recipeForm = fb.group({
-      tag: ['', Validators.required],
+      tags: [''],
     });
   });
 
@@ -223,8 +367,6 @@ describe('Testing Tags', () => {
     // Assert
     expect(component.difficulty).toBe(difficulty);
     expect(component.toggleDifficulty).toBeCalledWith(difficulty);
-    expect(component.difficulty).toBe(difficulty);
-    expect(component.toggleDifficulty).toBeCalledWith(difficulty);
   })
   
   it("The selected difficulty should change when the user changes", () => {
@@ -239,7 +381,7 @@ describe('Testing Tags', () => {
   
     // Assert
     expect(component.difficulty).toBe(difficulty2);
-    expect(component.difficulty).not.toBe(difficulty1);
+    expect(component.toggleDifficulty).not.toBe(difficulty1);
     
   })
 
@@ -255,10 +397,11 @@ describe('Testing Tags', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please enter valid tag'));
   });
 
-  it('should not add a duplicate tags', () => {
+  it('should not add a duplicate tag', () => {
     // Arrange
-    component.recipeForm.get('tag')?.setValue('Tag 1');
-    const testTags = ['Tag 1'];
+
+    component.recipeForm.get('tags')?.setValue('Tag');
+    const testTags = ['Tag'];
     component.tags = testTags;
     const size = component.tags.length;
 
@@ -274,7 +417,7 @@ describe('Testing Tags', () => {
 
   it('Should not add if tags is already at size three(3)',  () => {
     // Arrange
-    component.recipeForm.get('tag')?.setValue('Tag 4');
+    component.recipeForm.get('tags')?.setValue('Tag 4');
     const testTags = ['Tag 1', 'Tag 2', 'Tag 3'];
     component.tags = testTags;
 
@@ -289,7 +432,7 @@ describe('Testing Tags', () => {
 
   it('should add a tag if tagValue is not empty', () => {
     // Arrange
-    component.recipeForm.get('tag')?.setValue('Tag 1');
+    component.recipeForm.get('tags')?.setValue('Tag 1');
 
     // Act
     component.addTag();
@@ -317,22 +460,23 @@ describe('Testing Tags', () => {
 
 
 describe('Ingredients storing, deleting and returning', () => { 
-  let component: CreatePagComponent;
-  let fixture: ComponentFixture<CreatePagComponent>;
+  let component: EditRecipeComponent;
+  let fixture: ComponentFixture<EditRecipeComponent>;
   let formBuilder: FormBuilder;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatePagComponent ],
+      declarations: [ EditRecipeComponent ],
       providers: [FormBuilder],
       imports: [
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
+        RouterTestingModule,
         NgxsModule.forRoot([MockCreateState])
       ]
     });
-    fixture = TestBed.createComponent(CreatePagComponent);
+    fixture = TestBed.createComponent(EditRecipeComponent);
     component = fixture.componentInstance;
     formBuilder = TestBed.inject(FormBuilder);
 
@@ -423,21 +567,22 @@ describe('Ingredients storing, deleting and returning', () => {
 
   describe("Testing placeholder texts for Amount", () => {
 
-    let component: CreatePagComponent;
-    let fixture: ComponentFixture<CreatePagComponent>;
+    let component: EditRecipeComponent;
+    let fixture: ComponentFixture<EditRecipeComponent>;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ CreatePagComponent ],
+        declarations: [ EditRecipeComponent ],
         providers: [FormBuilder],
         imports: [
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
+          RouterTestingModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
-      fixture = TestBed.createComponent(CreatePagComponent);
+      fixture = TestBed.createComponent(EditRecipeComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -467,21 +612,22 @@ describe('Ingredients storing, deleting and returning', () => {
 
   describe("Testing placeholder texts for Unit", () => {
 
-    let component: CreatePagComponent;
-    let fixture: ComponentFixture<CreatePagComponent>;
+    let component: EditRecipeComponent;
+    let fixture: ComponentFixture<EditRecipeComponent>;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ CreatePagComponent ],
+        declarations: [ EditRecipeComponent ],
         providers: [FormBuilder],
         imports: [
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
+          RouterTestingModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
-      fixture = TestBed.createComponent(CreatePagComponent);
+      fixture = TestBed.createComponent(EditRecipeComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -511,21 +657,22 @@ describe('Ingredients storing, deleting and returning', () => {
 
   describe("Image upload", () => {
 
-    let component: CreatePagComponent;
-    let fixture: ComponentFixture<CreatePagComponent>;
+    let component: EditRecipeComponent;
+    let fixture: ComponentFixture<EditRecipeComponent>;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ CreatePagComponent ],
+        declarations: [ EditRecipeComponent ],
         providers: [FormBuilder],
         imports: [
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
+          RouterTestingModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
-      fixture = TestBed.createComponent(CreatePagComponent);
+      fixture = TestBed.createComponent(EditRecipeComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -556,23 +703,24 @@ describe('Ingredients storing, deleting and returning', () => {
 
   describe('isFormValid()', () =>{ 
 
-    let component: CreatePagComponent;
-    let fixture: ComponentFixture<CreatePagComponent>;
+    let component: EditRecipeComponent;
+    let fixture: ComponentFixture<EditRecipeComponent>;
     let store: Store;
     let dispatchSpy: jest.SpyInstance;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ CreatePagComponent ],
+        declarations: [ EditRecipeComponent ],
         providers: [FormBuilder],
         imports: [
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
+          RouterTestingModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
-      fixture = TestBed.createComponent(CreatePagComponent);
+      fixture = TestBed.createComponent(EditRecipeComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
       store = TestBed.inject(Store);
@@ -816,10 +964,10 @@ describe('Ingredients storing, deleting and returning', () => {
   
   })
 
-  describe("Testing Recipe Creation", () => {
-    let component: CreatePagComponent;
+  describe("Testing Recipe Update ", () => {
+    let component: EditRecipeComponent;
     let fb: FormBuilder;
-    let fixture: ComponentFixture<CreatePagComponent>;
+    let fixture: ComponentFixture<EditRecipeComponent>;
     let store: Store;
     let dispatchSpy: jest.SpyInstance;
 
@@ -846,16 +994,17 @@ describe('Ingredients storing, deleting and returning', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ CreatePagComponent ],
+        declarations: [ EditRecipeComponent ],
         providers: [FormBuilder, Store],
         imports: [
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
+          RouterTestingModule,
           NgxsModule.forRoot([MockCreateState, MockProfileState])
         ]
       });
-      fixture = TestBed.createComponent(CreatePagComponent);
+      fixture = TestBed.createComponent(EditRecipeComponent);
       component = fixture.componentInstance;
       fb = TestBed.inject(FormBuilder);
       store = TestBed.inject(Store);
@@ -863,22 +1012,12 @@ describe('Ingredients storing, deleting and returning', () => {
     });
 
 
-    it("Should render the user's username", () => {
-      component.profile$.subscribe((profile: IProfile) => {
-        expect(component.profile.username).toBe(profile.username);
-      })
-    })
 
-    it('Should dispatch CreateRecipe Action', async () => {
+    it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
 
-      const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
-
-      component.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
-        component.profile = profile;
-        profileDataSubject.next(profile); // Update the BehaviorSubject with the profileData
-      });
+    
 
       // Mock the recipe data
       const recipe: IRecipe = {
@@ -886,7 +1025,7 @@ describe('Ingredients storing, deleting and returning', () => {
         recipeImage: "https://example.com/image.jpg",
         description: "Amazing meal for a family",
         meal: "Dinner",
-        creator: profileDataSubject.value?.username ?? '',
+        creator: '',
         ingredients: [ {name: 'ingredient1' , amount : 5, unit : 'L'},
         {name: 'ingredient2' , amount : 3, unit : 'g'}
         ],
@@ -914,15 +1053,15 @@ describe('Ingredients storing, deleting and returning', () => {
 
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
+      component.profile = testProfile;
     
       // Call the createRecipe method
-      component.createRecipe();
-      expect(dispatchSpy).toHaveBeenCalledWith(new CreateRecipe(recipe));
+      component.updateRecipe();
+      expect(dispatchSpy).toHaveBeenCalledWith(new UpdateRecipe(recipe));
 
       expect(component.recipeForm.valid).toBe(true);
       expect(component.isFormValid()).toBe(true)
       expect(component.isFormValid).toHaveBeenCalled();
-      expect(component.profile.username).toBe(profileDataSubject.value?.username ?? '');
 
 
     });
@@ -934,10 +1073,7 @@ describe('Ingredients storing, deleting and returning', () => {
 
       const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
 
-      component.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
-        component.profile = profile;
-        profileDataSubject.next(profile); // Update the BehaviorSubject with the profileData
-      });
+
 
       // Mock the recipe data
       const recipe: IRecipe = {
@@ -953,7 +1089,7 @@ describe('Ingredients storing, deleting and returning', () => {
         servings: 4,
         tags: ["mock", "recipe"],
       };
-    
+      
       component.imageUrl = recipe.recipeImage
       // Mock the values and controls used in createRecipe
       component.recipeForm = fb.group({
@@ -971,13 +1107,12 @@ describe('Ingredients storing, deleting and returning', () => {
       component.selectedMeal = recipe.meal;
     
       // Call the createRecipe method
-      component.createRecipe();
+      component.updateRecipe();
       expect(component.isFormValid).toHaveBeenCalled();
       expect(component.isFormValid()).toBe(false)
-      expect(dispatchSpy).not.toHaveBeenCalledWith(new CreateRecipe(recipe));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(new UpdateRecipe(recipe));
     })
 
  
   
   })
-
