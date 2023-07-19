@@ -12,11 +12,9 @@ import {
 } from "@fridge-to-plate/app/notifications/data-access";
 import {Location} from "@angular/common";
 import {NgxsModule, State, Store} from "@ngxs/store";
-import {IProfile} from "@fridge-to-plate/app/profile/utils";
 import {Injectable} from "@angular/core";
-import {of} from "rxjs";
 
-describe('NotificationsPage_class', () => {
+describe('NotificationsPage tests', () => {
 
   @State({
     name: 'notifications',
