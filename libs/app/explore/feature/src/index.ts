@@ -1,1 +1,1 @@
-export * from './lib/app-explore-feature.module';
+export * from './explore.module';

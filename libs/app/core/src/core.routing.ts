@@ -14,6 +14,11 @@ const routes: Routes = [
         canActivate: [RouteGuardService]
     },
     {
+        path: 'explore',
+        loadChildren: () => import('@fridge-to-plate/app/explore/feature').then((m) => m.ExploreModule),
+        canActivate: [RouteGuardService]
+    },
+    {
         path: 'login',
         loadChildren: () => import('@fridge-to-plate/app/login/feature').then((m) => m.LoginModule),
     },

@@ -1,1 +1,1 @@
-export * from './lib/app-explore-ui.module';
+export * from './explore.module';

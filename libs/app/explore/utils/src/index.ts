@@ -1,1 +1,1 @@
-export * from './lib/app-explore-utils.module';
+export * from './explore.actions';
