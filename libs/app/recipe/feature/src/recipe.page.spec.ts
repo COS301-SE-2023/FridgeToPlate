@@ -11,6 +11,7 @@ import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
 describe('RecipeDetailPageComponent', () => {
   let location: Location;
   let component: RecipePage;
@@ -39,7 +40,7 @@ describe('RecipeDetailPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipePage],
-      imports: [IonicModule, HttpClientModule, RouterTestingModule, RecipeUIModule, NavigationBarModule],
+      imports: [IonicModule, HttpClientModule, RouterTestingModule, RecipeUIModule, NavigationBarModule, NgxsModule.forRoot()],
       providers: [HttpClientModule]
     })
     .compileComponents();

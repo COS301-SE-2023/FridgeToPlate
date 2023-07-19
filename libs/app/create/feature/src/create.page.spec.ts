@@ -223,6 +223,8 @@ describe('Testing Tags', () => {
     // Assert
     expect(component.difficulty).toBe(difficulty);
     expect(component.toggleDifficulty).toBeCalledWith(difficulty);
+    expect(component.difficulty).toBe(difficulty);
+    expect(component.toggleDifficulty).toBeCalledWith(difficulty);
   })
   
   it("The selected difficulty should change when the user changes", () => {
@@ -237,7 +239,7 @@ describe('Testing Tags', () => {
   
     // Assert
     expect(component.difficulty).toBe(difficulty2);
-    expect(component.toggleDifficulty).not.toBe(difficulty1);
+    expect(component.difficulty).not.toBe(difficulty1);
     
   })
 
