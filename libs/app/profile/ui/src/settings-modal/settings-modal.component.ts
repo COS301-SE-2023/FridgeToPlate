@@ -23,7 +23,6 @@ export class SettingsModalComponent {
   @Select(PreferencesState.getPreference) preferences$ !: Observable<IPreferences>;
 
   editablePreferences !: IPreferences;
-  tempProfile !: IProfile;
 
   constructor(private store: Store) {
     this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreferences = Object.create(preferences));
@@ -33,12 +32,7 @@ export class SettingsModalComponent {
     this.closeFunc.emit();
   }
 
-  save() {
-    this.profile$.pipe(take(1)).subscribe(profile => this.tempProfile = Object.create(profile));
-
-    if(this.tempProfile)
-      this.editablePreferences.username = this.tempProfile.username;
-      
+  save() {      
     this.store.dispatch(new UpdatePreferences(this.editablePreferences));
   }
 
