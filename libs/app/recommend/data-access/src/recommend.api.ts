@@ -5,8 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IRecommend } from '@fridge-to-plate/app/recommend/utils';
 
-const baseUrl = 'http://localhost:5000/';
+const baseUrl = 'http://localhost:5000/recommend';
 
 @Injectable({
   providedIn: 'root',
@@ -59,19 +60,22 @@ export class RecommendApi {
   }
 
   //Step 3
-  getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
-    const req: Observable<IRecipe[]> = this.httpClient
-      .get<IRecipe[]>(`${baseUrl}recommend`)
-      .pipe(
-        switchMap((res: IRecipe[]) => {
-          return new BehaviorSubject<IRecipe[]>(res);
-        }),
-        catchError(async (error) => {
-          console.log('An error has occured: ', error);
-          return error;
-        })
-      );
+  getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
 
+    const dummyRecommendations: IRecipe[] = []
+    // const req: Observable<IRecipe[]> = this.httpClient
+    //   .get<IRecipe[]>(`${baseUrl}recommend`)
+    //   .pipe(
+    //     switchMap((res: IRecipe[]) => {
+    //       return new BehaviorSubject<IRecipe[]>(res);
+    //     }),
+    //     catchError(async (error) => {
+    //       console.log('An error has occured: ', error);
+    //       return error;
+    //     })
+    //   );
+
+    const req: Observable<IRecipe[]> = new BehaviorSubject<IRecipe[]>(dummyRecommendations)
     return req;
   }
 }
