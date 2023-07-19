@@ -2,13 +2,9 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
-import {
-  AddReview,
-  DeleteReview,
-  GetRecipe,
-  UpdateRecipe,
-} from './recipe.actions';
-
+import { CreateRecipe, DeleteRecipe, RetrieveRecipe, UpdateRecipe, AddReview, DeleteReview, GetRecipe, } from "@fridge-to-plate/app/recipe/utils"
+import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { Location } from "@angular/common";
 import { take } from 'rxjs';
 
 export interface RecipeStateModel {
@@ -54,7 +50,15 @@ export class RecipeState {
       recipe: recipe,
     });
 
-    this.api.updateRecipe(recipe);
+    this.api.updateRecipe(recipe).subscribe( (response) => {
+        patchState({
+            recipe : recipe
+        })
+    },
+    (error: Error) => {
+        console.error('Failed to update recipe:', error);
+        this.store.dispatch(new ShowError(error.message))
+    });
   }
 
   @Action(AddReview)
@@ -86,4 +90,49 @@ export class RecipeState {
       this.store.dispatch(new UpdateRecipe(newRecipe));
     }
   }
+
+  @Action(DeleteRecipe)
+    deleteRecipe({ patchState } : StateContext<RecipeStateModel>, { recipeId }: DeleteRecipe) {
+        patchState({
+            recipe : null
+        })
+
+        this.api.deleteRecipe(recipeId).subscribe( (response) => {
+                console.log(response)
+            },
+            (error: Error) => {
+                console.error('Failed to delete recipe:', error);
+                this.store.dispatch(new ShowError(error.message))
+            });
+    }
+
+
+    @Action(CreateRecipe)
+    createRecipe({ patchState } : StateContext<RecipeStateModel>, { recipe } : CreateRecipe) {
+
+        patchState({
+            recipe : recipe
+        })
+        this.api.createNewRecipe(recipe);
+    }
+
+    @Action(RetrieveRecipe)
+    retrieveRecipe( { setState } : StateContext<RecipeStateModel>, { recipeId } : RetrieveRecipe){
+            this.api.getRecipeById(recipeId).subscribe( (recipe) => {
+                if(recipe){
+                    setState({
+                        recipe : recipe
+                    })
+                }
+                else {
+                    this.store.dispatch( new ShowError("Error: Something is wrong with the recipe: " + recipe))
+                }
+
+            },
+            (error: Error) => {
+                console.error('Failed to retrieve recipe:', error);
+                this.store.dispatch(new ShowError(error.message))
+            })
+
+    }
 }
