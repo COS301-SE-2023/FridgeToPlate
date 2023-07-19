@@ -24,6 +24,8 @@ module.exports = {
         'primary-highlight': '#E26310',
         'accept': '#2bc917',
         'reject': '#d70b0b',
+        'delete': '#B9261C',
+        'delete-highlight': '#DC2626',
         'subtitle': '#9D9D9D',
         'input-outline': '#E6E6E6',
       },

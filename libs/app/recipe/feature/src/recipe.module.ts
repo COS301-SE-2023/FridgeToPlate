@@ -5,8 +5,8 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { IonicModule } from '@ionic/angular';
 import { RecipeRouting } from './recipe.routing';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { ReviewModule } from "@fridge-to-plate/app/review/feature";
-import {RecipeDataAccessModule} from "@fridge-to-plate/app/recipe/data-access";
+import { ReviewModule } from '@fridge-to-plate/app/review/feature';
+import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import {RecipeDataAccessModule} from "@fridge-to-plate/app/recipe/data-access";
     RecipeRouting,
     NavigationBarModule,
     ReviewModule,
-    RecipeDataAccessModule
+    RecipeDataAccessModule,
   ],
   declarations: [RecipePage],
 })

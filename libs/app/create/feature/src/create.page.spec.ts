@@ -10,7 +10,7 @@ import { BehaviorSubject, take } from "rxjs";
 import { Injectable } from '@angular/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
+import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 
@@ -221,6 +221,8 @@ describe('Testing Tags', () => {
     component.toggleDifficulty(difficulty);
   
     // Assert
+    expect(component.difficulty).toBe(difficulty);
+    expect(component.toggleDifficulty).toBeCalledWith(difficulty);
     expect(component.difficulty).toBe(difficulty);
     expect(component.toggleDifficulty).toBeCalledWith(difficulty);
   })
