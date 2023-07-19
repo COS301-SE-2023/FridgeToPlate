@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RecipeService } from '@fridge-to-plate/app/recipe/data-access';
+import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,7 +18,7 @@ export class RecipePage implements OnInit {
 
   constructor(
     private location: Location,
-    private recipeService: RecipeService,
+    private recipeService: RecipeAPI,
     private route: ActivatedRoute
   ) {}
 
@@ -46,8 +46,10 @@ export class RecipePage implements OnInit {
       (response: IRecipe) => {
         this.recipe = response;
       },
-      error => {
+     
+      (error: Error) => {
         this.errorMessage = 'Error retrieving recipe data.';
+        console.error(error)
         this.recipe = undefined;
       }
     );
