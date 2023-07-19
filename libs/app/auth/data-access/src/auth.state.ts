@@ -5,6 +5,8 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { IPreferences, CreateNewPreference } from "@fridge-to-plate/app/preferences/utils";
+
 
 interface formDataInterface {
     "custom:username": string;
@@ -82,8 +84,18 @@ export class AuthState {
             createdRecipes: [],
             currMealPlan: null,
           };
+
+          const preference : IPreferences = {
+            username: username,
+            darkMode: false,
+            recommendNotif: false,
+            viewsNotif: false,
+            reviewNotif: false,
+          };
           
           this.store.dispatch(new CreateNewProfile(profile));
+          
+          this.store.dispatch(new CreateNewPreference(preference));
     
           this.store.dispatch(new Navigate(['/recommend']));
       });
