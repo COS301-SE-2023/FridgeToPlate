@@ -14,10 +14,11 @@ export interface RecipeStateModel{
     name: 'recipe',
     defaults: {
         recipe: {
+            recipeId : 'recipe-test-id',
             name: 'Hello world',
             tags: [],
             difficulty: 'Medium',
-            recipeImage: '',
+            recipeImage: 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg',
             description: '',
             servings: 1,
             prepTime: 0,
