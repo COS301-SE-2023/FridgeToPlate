@@ -5,7 +5,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
-import { IPreferences, CreateNewPreference } from "@fridge-to-plate/app/preferences/utils";
+import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 
 
 interface formDataInterface {
@@ -95,7 +95,7 @@ export class AuthState {
           
           this.store.dispatch(new CreateNewProfile(profile));
           
-          this.store.dispatch(new CreateNewPreference(preference));
+          this.store.dispatch(new CreateNewPreferences(preference));
     
           this.store.dispatch(new Navigate(['/recommend']));
       });
@@ -115,6 +115,7 @@ export class AuthState {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         this.store.dispatch(new RetrieveProfile(username));
+        this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
       },
       onFailure: (err) => {
@@ -133,6 +134,7 @@ export class AuthState {
     });
 
     this.store.dispatch(new ResetProfile());
+    this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new Navigate(['/login']));
   }
 }
