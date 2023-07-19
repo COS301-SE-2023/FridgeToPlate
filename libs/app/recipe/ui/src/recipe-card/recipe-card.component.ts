@@ -63,12 +63,10 @@ export class RecipeCardComponent implements OnInit {
   }
 
   edit() {
-
       if(!this.recipe){
         this.store.dispatch( new ShowError('ERROR: No recipe available to edit.'))
         return;
       }
-      
       this.ngZone.run( ()=> {
         this.router.navigate( [
           'edit-recipe'
@@ -105,7 +103,6 @@ export class RecipeCardComponent implements OnInit {
   }
 
   removeFromMealPlan() {
-    console.log("remove from Meal Plan")
     if(!this.profile) {
       this.store.dispatch( new ShowError('ERROR: No profile available to remove from meal plan.'))
       return;
