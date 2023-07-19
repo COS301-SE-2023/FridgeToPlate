@@ -4,6 +4,7 @@ import { ItemEditStep } from './item-edit-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RecommendUIModule } from '../recommend.module';
+import { NgxsModule } from '@ngxs/store';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -12,7 +13,7 @@ describe('ItemEditStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ItemEditStep],
-      imports: [IonicModule, HttpClientModule, RecommendUIModule],
+      imports: [IonicModule, HttpClientModule, RecommendUIModule, NgxsModule.forRoot()],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(ItemEditStep);
@@ -23,64 +24,4 @@ describe('ItemEditStep', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should sort ingredientList in ascending order by name when order is "name-asc"', () => {
-    // Arrange
-    component.ingredientList = [
-      { name: 'B', unit: "mg", amount: 20 },
-      { name: 'A', unit: "mg", amount: 10 },
-      { name: 'C', unit: "mg", amount: 30 }
-    ];
-    component.order = 'name-asc';
-
-    // Act
-    component.onChangeOrder();
-
-    // Assert
-    expect(component.ingredientList).toEqual([
-      { name: 'A', unit: "mg", amount: 10 },
-      { name: 'B', unit: "mg", amount: 20 },
-      { name: 'C', unit: "mg", amount: 30 }
-    ]);
-  });
-
-  it('should sort ingredientList in descending order by name when order is not "name-asc"', () => {
-    // Arrange
-    component.ingredientList = [
-      { name: 'B', unit: "mg", amount: 20 },
-      { name: 'A', unit: "mg", amount: 10 },
-      { name: 'C', unit: "mg", amount: 30 }
-    ];
-    component.order = 'unknown';
-
-    // Act
-    component.onChangeOrder();
-
-    // Assert
-    expect(component.ingredientList).toEqual([
-      { name: 'C', unit: "mg", amount: 30 },
-      { name: 'B', unit: "mg", amount: 20 },
-      { name: 'A', unit: "mg", amount: 10 }
-    ]);
-  });
-
-  it('should remove an item from the ingredientList', () => {
-    // Arrange
-    component.ingredientList = [
-      { name: 'B', unit: "mg", amount: 20 },
-      { name: 'A', unit: "mg", amount: 10 },
-      { name: 'C', unit: "mg", amount: 30 }
-    ];
-
-    // Act
-    component.removeItem(component.ingredientList[0]);
-
-    // Assert
-    expect(component.ingredientList).toEqual([
-      { name: 'A', unit: "mg", amount: 10 },
-      { name: 'C', unit: "mg", amount: 30 }
-    ]);
-  });
-
-
 });

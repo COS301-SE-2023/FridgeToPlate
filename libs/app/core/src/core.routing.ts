@@ -35,6 +35,11 @@ const routes: Routes = [
         path: 'recipe',
         loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule),
         canActivate: [RouteGuardService]
+    },
+    {
+        path: 'edit-recipe',
+        loadChildren : () => import('@fridge-to-plate/app/edit-recipe/feature').then((m) => m.EditRecipeModule),
+        canActivate: [RouteGuardService]
     }
 ];
 

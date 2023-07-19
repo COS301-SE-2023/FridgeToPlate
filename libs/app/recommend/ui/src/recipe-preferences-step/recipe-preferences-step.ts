@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
+import { Select, Store } from "@ngxs/store";
+import { RecommendState } from "@fridge-to-plate/app/recommend/data-access";
+import { IRecipePreferences, UpdateRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
 
 @Component({
   selector: 'recipe-preferences-step',
@@ -9,26 +10,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['recipe-preferences-step.scss'],
 })
 export class RecipePreferencesStep {
-  dietCategories: string[] = [];
 
-  dietList$: Observable<string[]> = this.recommendApi.getDietList();
+  @Select(RecommendState.getRecipePreferences) recipePreferences$ !: Observable<IRecipePreferences>;
 
-  recipePreferences = new FormGroup({
-    diet: new FormControl(this.dietCategories),
-    keywords: new FormControl([]),
-    other: new FormGroup({
-      difficulty: new FormControl('easy'),
-      rating: new FormControl(3),
-      servings: new FormControl(1),
-    }),
-  });
+  editableRecipePreferences !: IRecipePreferences;
 
-  dietSelect(dietPill: string) {
-    if (typeof dietPill === 'string') {
-      this.dietCategories?.push(dietPill);
-      this.recipePreferences.controls['diet'].setValue(this.dietCategories);
-    }
+  constructor(private store: Store) {
+    this.recipePreferences$.pipe(take(1)).subscribe(recipePreferences => this.editableRecipePreferences = Object.create(recipePreferences));
   }
 
-  constructor(formBuilder: FormBuilder, private recommendApi: RecommendApi) {}
+  updateRecipePreferences() {
+    this.store.dispatch(new UpdateRecipePreferences(this.editableRecipePreferences));
+  }
 }
