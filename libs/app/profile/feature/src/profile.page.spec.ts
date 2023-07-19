@@ -7,12 +7,11 @@ import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByN
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
-import {NotificationsPage} from "../../../notifications/feature/src/notifications.page";
-import {Router, Routes} from "@angular/router";
-import {NotificationsUiModule} from "@fridge-to-plate/app/notifications/ui";
-import {RouterTestingModule} from "@angular/router/testing";
-import {TabbedComponent} from "../../../core/src/tabbed-component/tabbed-component";
-import {TabComponent} from "../../../notifications/ui/src/tab/tab.component";
+import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
+import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
+import { ProfileDataAccessModule} from "@fridge-to-plate/app/profile/data-access";
+import { ProfileModule } from "./profile.module";
+import {RecipeCardComponent} from "../../../recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
 
@@ -43,8 +42,8 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState])],
-      declarations: [ProfilePage],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([ProfileState]), ProfileUiModule],
+      declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProfilePage);
@@ -175,29 +174,4 @@ describe("ProfilePage", () => {
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
   });
-});
-
-
-let component: NotificationsPage;
-let fixture: ComponentFixture<NotificationsPage>;
-let router: Router;
-
-const routes: Routes = [
-  {
-    path: 'recipe/:id',
-    component: NotificationsPage,
-  },
-];
-beforeEach(async () => {
-  await TestBed.configureTestingModule({
-    imports: [NotificationsUiModule, RouterTestingModule.withRoutes(routes)],
-    declarations: [NotificationsPage, TabbedComponent, TabComponent],
-    providers: [],
-  }).compileComponents();
-
-  fixture = TestBed.createComponent(NotificationsPage);
-  component = fixture.componentInstance;
-  fixture.detectChanges();
-
-  router = TestBed.inject(Router);
 });
