@@ -11,6 +11,10 @@ export class RecipeAPI {
 
   constructor(private http: HttpClient) {}
 
+  createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
+    const url = 'http://localhost:5000/recipes/create';
+    return this.http.post<IRecipe>(url, recipe);
+}
   UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
     const url = this.baseUrl + '/' + recipe.recipeId;
     return this.http.put<IRecipe>(url, recipe);
@@ -94,8 +98,8 @@ export class RecipeAPI {
     return new BehaviorSubject<IRecipe>(dummyRecipe);
   }
 
-  updateRecipe(recipe: IRecipe): void {
+  updateRecipe(recipe: IRecipe) {
     const url = `${this.baseUrl}/${recipe.recipeId}`;
-    this.http.put<IRecipe>(url, recipe);
+    return this.http.put<IRecipe>(url, recipe);
   }
 }
