@@ -1,4 +1,4 @@
-import { Action, Select, Selector, State, StateContext } from '@ngxs/store';
+import {Action, NgxsModule, Select, Selector, State, StateContext, Store} from '@ngxs/store';
 import { INotification } from '../../utils/src/interfaces';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
@@ -11,6 +11,8 @@ import {
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take} from 'rxjs';
+import {TestBed} from "@angular/core/testing";
+import {NotificationsDataAccessModule} from "./notifications.module";
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
@@ -77,3 +79,16 @@ export class NotificationsState {
     })
   }
 }
+
+
+
+// let store: Store;
+//
+// beforeEach(() => {
+//   TestBed.configureTestingModule({
+//     imports: [NgxsModule.forRoot([NotificationsState]), NotificationsDataAccessModule],
+//     declarations: []
+//   });
+//
+//   store = TestBed.inject(Store);
+// });

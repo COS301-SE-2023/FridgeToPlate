@@ -1,17 +1,41 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NotificationsPage } from './notifications.page';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TabComponent } from '../../ui/src/tab/tab.component';
-import { TabbedComponent } from 'libs/app/core/src/tabbed-component/tabbed-component';
-import { NotificationsUiModule as NotificationsUiModule } from '@fridge-to-plate/app/notifications/ui';
-import { Router, Routes } from '@angular/router';
-import { INotification } from '@fridge-to-plate/app/notifications/utils';
+import {NotificationsPage} from "./notifications.page";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {ActivatedRoute, convertToParamMap, Router, Routes} from "@angular/router";
+import {NotificationsUiModule} from "@fridge-to-plate/app/notifications/ui";
+import {RouterTestingModule} from "@angular/router/testing";
+import {TabbedComponent} from "../../../core/src/tabbed-component/tabbed-component";
+import {TabComponent} from "../../ui/src/tab/tab.component";
+import {
+  ClearGeneralNotifications,
+  ClearRecommendationNotifications,
+  NotificationsApi, NotificationsState, NotificationsStateModel, RefreshRecommendationNotifications
+} from "@fridge-to-plate/app/notifications/data-access";
+import {Location} from "@angular/common";
+import {NgxsModule, State, Store} from "@ngxs/store";
+import {IProfile} from "@fridge-to-plate/app/profile/utils";
+import {Injectable} from "@angular/core";
+import {of} from "rxjs";
 
-describe('NotificationsPageComponent', () => {
+describe('NotificationsPage_class', () => {
+
+  @State({
+    name: 'notifications',
+    defaults: {
+      generalNotifications: [],
+      recommendationNotification: [],
+    }
+  })
+  @Injectable()
+  class MockNotificationsState {}
+
+
   let component: NotificationsPage;
   let fixture: ComponentFixture<NotificationsPage>;
   let router: Router;
-
+  let location: Location;
+  let notificationsApi: NotificationsApi;
+  let store: Store;
+  let page: any;
   const routes: Routes = [
     {
       path: 'recipe/:id',
@@ -20,7 +44,7 @@ describe('NotificationsPageComponent', () => {
   ];
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationsUiModule, RouterTestingModule.withRoutes(routes)],
+      imports: [NotificationsUiModule, RouterTestingModule.withRoutes(routes), NgxsModule.forRoot([NotificationsState])],
       declarations: [NotificationsPage, TabbedComponent, TabComponent],
       providers: [],
     }).compileComponents();
@@ -28,30 +52,73 @@ describe('NotificationsPageComponent', () => {
     fixture = TestBed.createComponent(NotificationsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
+    location = TestBed.inject(Location);
     router = TestBed.inject(Router);
+    notificationsApi = TestBed.inject(NotificationsApi);
+    page = fixture.componentInstance;
+    store = TestBed.inject(Store);
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should instantiate with correct parameters', () => {
-    expect(component.tabs.length).toBe(2);
-    expect(component.tabs[0].category).toBe('General');
-    expect(component.tabs[1].category).toBe('Recommendations');
+  it('should navigate back when goBack() is called', () => {
+    const locationSpy = jest.spyOn(location, 'back');
+    component.goBack();
+    expect(locationSpy).toHaveBeenCalled();
   });
 
-  it('should emit correct notifications', () => {
-    component.notifications$.subscribe((next: INotification[]) => {
-      expect(next).toBeTruthy();
-      expect(next.length).toBeGreaterThan(0);
-    });
+  it('should dispatch ClearGeneralNotifications action on clearAllNotifications', () => {
+    const storeSpy = jest.spyOn(store, 'dispatch');
+    page.clearAllNotifications('general');
+    expect(storeSpy).toHaveBeenCalledWith(ClearGeneralNotifications);
   });
 
-  it('should navigate to recipe on click', waitForAsync(() => {
-    jest.spyOn(router, 'navigate');
-    component.onNotificationClick('random-recipe-id');
-    expect(router.navigate).toHaveBeenCalledWith(['recipe/random-recipe-id']);
-  }));
+  it('should dispatch ClearRecommendationNotifications action on clearAllNotifications', () => {
+    const storeSpy = jest.spyOn(store, 'dispatch');
+    page.clearAllNotifications('recommendations');
+    expect(storeSpy).toHaveBeenCalledWith(ClearRecommendationNotifications);
+  });
+
+  it('should dispatch ClearGeneralNotifications action on clearAllNotifications', () => {
+    const storeSpy = jest.spyOn(store, 'dispatch');
+    page.clearAllNotifications('general');
+    expect(storeSpy).toHaveBeenCalledWith(ClearGeneralNotifications);
+  });
+
+  it('should have general notifications in state', () => {
+    component.generalNotifications$.subscribe( next => {
+      expect(next).not.toBeFalsy();
+    })
+  });
+
+  it('should have recommendation notifications in state', () => {
+    component.recommendationNotifications$.subscribe( next => {
+      expect(next).not.toBeFalsy();
+    })
+  });
+
+  it('should clear general notifications in state', () => {
+    page.clearAllNotifications('general')
+    component.generalNotifications$.subscribe( next => {
+      expect(next).toBeFalsy();
+    })
+  });
+
+  it('should clear recommendation notifications in state', () => {
+    page.clearAllNotifications('recommendation')
+    component.recommendationNotifications$.subscribe( next => {
+      expect(next).toBeFalsy();
+    })
+  });
+
+  it('test on notification click navigates to recipe_page', () => {
+    router = TestBed.inject(Router);
+    const navigateSpy = jest.spyOn(router, 'navigate');
+    component.onNotificationClick('testRecipeId');
+    expect(navigateSpy).toHaveBeenCalled();
+  });
+
 });
