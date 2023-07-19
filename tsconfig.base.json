@@ -30,6 +30,10 @@
       "@fridge-to-plate/app/create/utils": [
         "libs/app/create/utils/src/index.ts"
       ],
+      "@fridge-to-plate/app/edit-recipe": ["libs/app/edit-recipe/src/index.ts"],
+      "@fridge-to-plate/app/edit-recipe/feature": [
+        "libs/app/edit-recipe/feature/src/index.ts"
+      ],
       "@fridge-to-plate/app/error/data-access": [
         "libs/app/error/data-access/src/index.ts"
       ],

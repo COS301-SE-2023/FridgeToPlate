@@ -6,13 +6,28 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService {
+export class RecipeAPI {
   private baseUrl = 'http://localhost:5000/recipes';
 
-  constructor(private http: HttpClient) { }
+  constructor( private http: HttpClient){ }
 
-  getRecipeById(id: string): Observable<IRecipe> {
-    const url = `${this.baseUrl}/${id}`;
-    return this.http.get<IRecipe>(url);
+    UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
+        const url = this.baseUrl + '/' + recipe.recipeId;
+        return this.http.put<IRecipe>(url, recipe);
+    }
+
+    deleteRecipe(id: string): Observable<string> {
+        const url = this.baseUrl + '/' + id;
+        return this.http.delete<string>(url);
+    }
+
+    getRecipeById(id: string): Observable<IRecipe> {
+      const url = `${this.baseUrl}/${id}`;
+      return this.http.get<IRecipe>(url);
+    }
+
+    createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
+      const url = 'http://localhost:5000/recipes/create';
+      return this.http.post<IRecipe>(url, recipe);
   }
 }

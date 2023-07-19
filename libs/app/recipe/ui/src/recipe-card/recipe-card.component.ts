@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router'; 
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,9 +19,9 @@ export class RecipeCardComponent implements OnInit {
 
   @Input() recipe !: any;
   bookmarked = false;
-  editable = false;
+  editable = true;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
@@ -43,6 +45,19 @@ export class RecipeCardComponent implements OnInit {
 
   edit() {
 
+      if(!this.recipe){
+        this.store.dispatch( new ShowError('ERROR: No recipe available to edit.'))
+        return;
+      }
+      
+      this.ngZone.run( ()=> {
+        this.router.navigate( [
+          'edit-recipe'
+        ],
+        { queryParams: { 
+          recipeId: JSON.stringify(this.recipe.recipeId) 
+        }})
+      })
   }
 
 }
