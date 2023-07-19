@@ -66,7 +66,7 @@ export class RecipeState {
     let newRecipe = getState().recipe;
 
     if(newRecipe){
-      newRecipe?.reviews?.filter( currentReview => currentReview.reviewId !== reviewId);
+      newRecipe.reviews = newRecipe?.reviews?.filter( currentReview => currentReview.reviewId !== reviewId);
 
       this.store.dispatch(new UpdateRecipe(newRecipe));
 
