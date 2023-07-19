@@ -1,7 +1,7 @@
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { RecipeService } from './recipe.api';
+import { RecipeAPI } from './recipe.api';
 import {
   AddReview,
   DeleteReview,
@@ -23,7 +23,7 @@ export interface RecipeStateModel {
 })
 @Injectable()
 export class RecipeState {
-  constructor(private api: RecipeService, private store: Store) {}
+  constructor(private api: RecipeAPI, private store: Store) {}
 
   @Selector()
   static getRecipe(state: RecipeStateModel) {
@@ -38,7 +38,7 @@ export class RecipeState {
     this.api
       .getRecipeById(recipeId)
       .pipe(take(1))
-      .subscribe((recipeData) => {
+      .subscribe((recipeData: IRecipe) => {
         patchState({
           recipe: recipeData,
         });
