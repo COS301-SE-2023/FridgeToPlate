@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
 import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
-import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 import { NgxsModule, State, Store } from '@ngxs/store';
@@ -12,7 +11,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 describe('RecipeCardComponent', () => {
-
   const testProfile: IProfile = {
     displayName: "John Doe",
     username: "jdoe",
@@ -22,26 +20,7 @@ describe('RecipeCardComponent', () => {
     profilePic: "image-url",
     createdRecipes: [],
     currMealPlan: null,
-
-  const testProfile: IProfile = {
-    displayName: "John Doe",
-    username: "jdoe",
-    email: "jdoe@gmail.com",
-    savedRecipes: [],
-    ingredients: [],
-    profilePic: "image-url",
-    createdRecipes: [],
-    currMealPlan: null,
-  };
-
-  @State({ 
-    name: 'profile', 
-    defaults: {
-      profile: testProfile
-    } 
-  }) 
-  @Injectable()
-  class MockProfileState {}
+    }
 
   @State({ 
     name: 'profile', 
@@ -49,10 +28,10 @@ describe('RecipeCardComponent', () => {
       profile: testProfile
     } 
   })
-
+  
   @Injectable()
   class MockProfileState {}
-  let store: Store;
+
 
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
@@ -80,8 +59,6 @@ describe('RecipeCardComponent', () => {
     creator: "Kristap P",
   };
 
-  let dispatchSpy: jest.SpyInstance;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
@@ -91,12 +68,6 @@ describe('RecipeCardComponent', () => {
     fixture = TestBed.createComponent(RecipeCardComponent);
     component = fixture.componentInstance;
     component.recipe = testRecipe;
-    store = TestBed.inject(Store);
-    dispatchSpy = jest.spyOn(store, 'dispatch');
-    fixture.detectChanges();
-    store = TestBed.inject(Store);
-    dispatchSpy = jest.spyOn(store, 'dispatch');
-    fixture.detectChanges();
     store = TestBed.inject(Store);
     dispatchSpy = jest.spyOn(store, 'dispatch');
     fixture.detectChanges();
@@ -140,4 +111,6 @@ describe('RecipeCardComponent', () => {
       component.edit();
       expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to edit.'));
   });
+  
 });
+
