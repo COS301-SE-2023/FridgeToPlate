@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { DeleteRecipe, IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -28,7 +28,7 @@ export class EditRecipeComponent implements OnInit {
 
   @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
 
-  constructor(private fb: FormBuilder, private store : Store, private location: Location, private route: ActivatedRoute) {}
+  constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute) {}
 
   ngOnInit() {
     this.createForm();
@@ -53,17 +53,11 @@ export class EditRecipeComponent implements OnInit {
       this.recipeId = JSON.parse(params['recipeId']) as string;
     });
     this.store.dispatch(new RetrieveRecipe(this.recipeId));
-    this.recipe$.pipe(take(1)).subscribe(recipe => {
-      if(recipe) {
-        this.recipe = recipe;
-      }
-      else {
-        this.store.dispatch( new ShowError("Error: Something is wrong with the recipe"))
-      }
-    });
+    this.recipe$.pipe(take(1)).subscribe(recipe => {  this.recipe = recipe;});
   }
 
   populateForm(): void {
+
     this.recipe?.ingredients.forEach((ingredient) => {
       const ingredientGroup = this.fb.group({
         name: [ingredient.name, Validators.required],
@@ -133,7 +127,6 @@ export class EditRecipeComponent implements OnInit {
   }
 
   updateRecipe() : void {
-    
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
@@ -147,16 +140,16 @@ export class EditRecipeComponent implements OnInit {
     // Create Recipe details
     const recipe: IRecipe = {
       recipeId: this.recipe?.recipeId,
-      name: this.recipeForm.get('name')?.value,
+      name: this.recipeForm.value.name,
       recipeImage: this.imageUrl,
-      description: this.recipeForm.get('description')?.value,
+      description: this.recipeForm.value.description,
       meal: this.selectedMeal,
-      creator: 'creator',
+      creator: this.recipe?.creator ?? '',
       ingredients: ingredients,
       steps: instructions,
       difficulty: this.difficulty,
-      prepTime: this.recipeForm.get('preparationTime')?.value as number,
-      servings: this.recipeForm.get('servings')?.value as number,
+      prepTime: this.recipeForm.value.preparationTime as number,
+      servings: this.recipeForm.value.servings as number,
       tags: this.tags,
     };
     this.store.dispatch( new UpdateRecipe(recipe) )
@@ -173,6 +166,16 @@ export class EditRecipeComponent implements OnInit {
     };
     
     reader.readAsDataURL(file);
+  }
+
+  deleteRecipe() {
+    
+    if(!this.recipe?.recipeId) {
+      this.store.dispatch( new ShowError('Could not delete recipe'));
+    }
+
+    this.store.dispatch( new DeleteRecipe( this.recipe?.recipeId as string ))
+    this.location.back()
   }
 
   toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
@@ -226,7 +229,7 @@ export class EditRecipeComponent implements OnInit {
       this.store.dispatch( new ShowError("Only a maximum of three tags"))
     }
     // reset the form value after adding it to array
-    this.recipeForm.get('tag')?.reset();
+    this.recipeForm.get('tags')?.reset();
   }
 
   deleteTag(index: number) {
@@ -260,10 +263,10 @@ export class EditRecipeComponent implements OnInit {
       return false;
     }
 
-    // if(!this.profile){
-    //   this.store.dispatch( new ShowError("Please login to create a recipe"))
-    //   return false;
-    // }
+    if(!this.profile){
+      this.store.dispatch( new ShowError("Please login to create a recipe"))
+      return false;
+    }
 
     return true;
   }
@@ -292,22 +295,6 @@ export class EditRecipeComponent implements OnInit {
 
   cancelEdit(): void {
     this.location.back();
-  }
-
-  setDefaultRecipe() {
-    return  {
-      name: '',
-      recipeImage: this.imageUrl,
-      description: this.recipeForm.get('description')?.value,
-      meal: 'Breakfast',
-      creator: 'creator',
-      ingredients: [],
-      steps: [],
-      difficulty: 'Easy',
-      prepTime: 0,
-      servings: 0,
-      tags: [],
-    }
   }
 
 }
