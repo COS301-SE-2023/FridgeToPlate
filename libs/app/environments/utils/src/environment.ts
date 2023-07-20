@@ -1,6 +1,6 @@
 export const environment = {
-    type: process.env['type'],
-    apiURL: process.env['apiURL'],
-    cognitoUserPoolId: process.env['cognitoUserPoolId'],
-    cognitoAppClientId: process.env['cognitoAppClientId']
+    TYPE: process.env['TYPE'],
+    API_URL: process.env['API_URL'],
+    COGNITO_USERPOOL_ID: process.env['COGNITO_USERPOOL_ID'] || 'none',
+    COGNITO_APP_CLIENT_ID: process.env['COGNITO_APP_CLIENT_ID'] || 'none'
 }
