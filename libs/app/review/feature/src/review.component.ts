@@ -1,11 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IReview } from '../../utils/src/interfaces';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { Observable } from 'rxjs';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 
 @Component({
   selector: 'review',
@@ -19,6 +24,7 @@ export class Review {
   constructor (private store: Store) {}
 
   @Input() reviews!: IReview[];
+  // @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
 
   setRating(num: number) {
     this.rating = num;
@@ -34,6 +40,8 @@ export class Review {
       this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }
+
+
 
     const review: IReview = {
       reviewId: 'uyassuigasiugfasou56tug',
