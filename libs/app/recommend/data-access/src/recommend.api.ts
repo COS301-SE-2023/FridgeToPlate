@@ -6,8 +6,9 @@ import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { IRecommend } from '@fridge-to-plate/app/recommend/utils';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
-const baseUrl = 'http://localhost:5000/recommend';
+const baseUrl = environment.API_URL + '/recommend';
 
 @Injectable({
   providedIn: 'root',

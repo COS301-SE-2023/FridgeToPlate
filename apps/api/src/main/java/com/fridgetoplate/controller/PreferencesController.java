@@ -30,9 +30,9 @@ public class PreferencesController {
     }
 
 
-    @GetMapping("/{id}")
-    public Preferences findById(@PathVariable(value = "id") String id){
-        return preferencesRepository.findById(id);
+    @GetMapping("/{username}")
+    public Preferences findById(@PathVariable(value = "username") String username){
+        return preferencesRepository.findByName(username);
     }
 
     @GetMapping
@@ -45,14 +45,14 @@ public class PreferencesController {
         return "Testing purposes";
     }
 
-    @PutMapping("/{id}")
-    public Preferences update(@PathVariable(value = "id") String id, @RequestBody Preferences preferences){
-        return preferencesRepository.update(id, preferences);
+    @PutMapping("/{username}")
+    public Preferences update(@PathVariable(value = "username") String username, @RequestBody Preferences preferences){
+        return preferencesRepository.update(username, preferences);
     }
 
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id){
-        return preferencesRepository.delete(id);
+    @DeleteMapping("/{username}")
+    public String delete(@PathVariable(value = "username") String username){
+        return preferencesRepository.delete(username);
     }
 }

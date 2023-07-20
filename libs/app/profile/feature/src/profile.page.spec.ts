@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
@@ -7,9 +7,14 @@ import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByN
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
+import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
+import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
+import { ProfileDataAccessModule} from "@fridge-to-plate/app/profile/data-access";
+import { ProfileModule } from "./profile.module";
+import {RecipeCardComponent} from "../../../recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
-  
+
   const testProfile: IProfile = {
     displayName: "John Doe",
     username: "jdoe",
@@ -21,12 +26,12 @@ describe("ProfilePage", () => {
     currMealPlan: null,
   };
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: testProfile
-    } 
-  }) 
+    }
+  })
   @Injectable()
   class MockProfileState {}
 
@@ -37,8 +42,8 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState])],
-      declarations: [ProfilePage],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([ProfileState]), ProfileUiModule],
+      declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProfilePage);
@@ -128,7 +133,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort saved by name ascending", () => {
     store = TestBed.inject(Store);
@@ -136,7 +141,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort saved by name descending", () => {
     store = TestBed.inject(Store);
@@ -144,7 +149,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameDesc());
-  }); 
+  });
 
   it("should dispatch sort created by difficulty", () => {
     store = TestBed.inject(Store);
@@ -152,7 +157,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort created by name ascending", () => {
     store = TestBed.inject(Store);
@@ -160,7 +165,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort created by name descending", () => {
     store = TestBed.inject(Store);
@@ -168,5 +173,5 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
-  }); 
+  });
 });
