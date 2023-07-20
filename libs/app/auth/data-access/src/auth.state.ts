@@ -5,6 +5,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 
 
@@ -28,10 +29,8 @@ export interface AuthStateModel {
 export class AuthState {
 
   private poolData = {
-  //  UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
-  //  ClientId: environment.cognitoAppClientId // Your client id here
-      UserPoolId: "temp", // Your user pool id here
-      ClientId: "temp"
+   UserPoolId: environment.COGNITO_USERPOOL_ID, // Your user pool id here
+   ClientId: environment.COGNITO_APP_CLIENT_ID // Your client id here
   };
   
   constructor(private store: Store) {}
