@@ -1,8 +1,10 @@
 import { Component } from "@angular/core";
 import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
+import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
 
 @Component({

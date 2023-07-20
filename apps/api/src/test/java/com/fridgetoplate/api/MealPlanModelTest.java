@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.fridgetoplate.frontendmodels.MealPlanFrontendModel;
 import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.repository.MealPlanRepository;
 

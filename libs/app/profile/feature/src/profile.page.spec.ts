@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
@@ -7,8 +7,11 @@ import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByN
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Navigate } from '@ngxs/router-plugin';
-
+import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
+import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
+import { ProfileDataAccessModule} from "@fridge-to-plate/app/profile/data-access";
+import { ProfileModule } from "./profile.module";
+import {RecipeCardComponent} from "../../../recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
 
@@ -39,8 +42,8 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState])],
-      declarations: [ProfilePage],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([ProfileState]), ProfileUiModule],
+      declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProfilePage);
@@ -170,6 +173,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
+  });
   });
 
   it("should open notifications page when notifications button is clicked", () => {
