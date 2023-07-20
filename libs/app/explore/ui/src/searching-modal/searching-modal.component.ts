@@ -5,6 +5,8 @@ import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preference
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
 import { Navigate } from "@ngxs/router-plugin";
+import { RetrieveProfile } from '@fridge-to-plate/app/profile/utils';
+import { RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -33,13 +35,14 @@ export class SearchingModalComponent {
 
     switch (this.result) {
       case 'All':
-
+        this.store.dispatch(new RetrieveRecipe(this.searchText));
+        this.store.dispatch(new RetrieveProfile(this.searchText));
         break;
       case 'Recipe':
-        
+        this.store.dispatch(new RetrieveRecipe(this.searchText));
         break;
       case 'People':
-        
+        this.store.dispatch(new RetrieveProfile(this.searchText));
         break;
     }
 
