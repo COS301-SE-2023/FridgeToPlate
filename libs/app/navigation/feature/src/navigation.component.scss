@@ -2,18 +2,66 @@ nav a ion-icon {
   font-size: 24px; /* default font size */
 }
 
-@media (min-width: 640px) {
+nav a.active {
+  color: rgb(202, 64, 5);
+}
+
+.active {
+  color: rgb(202, 64, 5);
+  // font-weight: bold;
+}
+
+@media (min-width: 700px) {
   nav a ion-icon {
     font-size: 32px; /* increase font size on screens wider than 640px */
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   nav a ion-icon {
-    font-size: 48px; /* increase font size on screens wider than 768px */
+    // font-size: 48px; /* increase font size on screens wider than 768px */
+    font-size: 15px;
   }
+
+  .tab-size {
+    font-size: 15px;
+  }
+
+  // // nav a.active {
+  // //   color: rgb(202, 64, 5);
+  // // }
+
+  // nav {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   z-index: 50;
+  //   padding: 5px;
+  // }
+
+  // nav a {
+  //   display: inline-block;
+  //   margin: 0 5px;
+  //   padding: 10px;
+  //   color: #333;
+  //   text-decoration: none;
+  //   position: relative;
+  // }
+
+  // nav a.active {
+  //   color: rgb(202, 64, 5);
+  // }
+
+  // nav a.active::after {
+  //   content: "";
+  //   position: absolute;
+  //   left: 50%;
+  //   bottom: 0;
+  //   width: 80%;
+  //   height: 2px;
+  //   background-color: rgb(202, 64, 5);
+  //   transform: translateX(-48%);
+  // }
 }
 
-nav a.active {
-  color: rgb(202, 64, 5);
-}
