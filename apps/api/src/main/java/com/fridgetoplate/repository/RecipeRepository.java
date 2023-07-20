@@ -159,5 +159,24 @@ public class RecipeRepository {
         return recipes;
     }
 
+    public List<RecipeFrontendModel> getRecipesByRecipename(String recipename) {
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+            
+            if (recipe.getName().equals(recipename)) {
+                RecipeFrontendModel response = findById(recipe.getRecipeId());
+                if(response != null) {
+                    recipes.add(response);
+                }
+
+            }
+        }
+
+        return recipes;
+    }
+
     
 }
