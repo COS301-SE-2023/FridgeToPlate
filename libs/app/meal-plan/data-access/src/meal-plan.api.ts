@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 @Injectable({
@@ -7,7 +8,7 @@ import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
   })
 export class MealPlanAPI {
    
-    private baseUrl = 'http://localhost:5000/meal-plans';
+    private baseUrl = environment.API_URL + '/meal-plans';
 
     constructor( private http: HttpClient){ }
 
