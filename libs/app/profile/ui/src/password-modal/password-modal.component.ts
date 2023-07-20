@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChangePassword } from '@fridge-to-plate/app/auth/utils';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Store } from '@ngxs/store';
 
 @Component({
@@ -27,7 +28,7 @@ export class PasswordModalComponent {
   save() {
 
     if(this.newPassword != this.confirmPassword)
-      alert("Passwords Must Match");
+      this.store.dispatch( new ShowError("Please enter matching passwords"));
     else{
       this.store.dispatch(new ChangePassword(this.oldPassword, this.newPassword));
       this.saveFunc.emit();
