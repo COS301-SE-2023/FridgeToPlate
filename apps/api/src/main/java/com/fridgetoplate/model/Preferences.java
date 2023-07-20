@@ -10,10 +10,10 @@ import lombok.Data;
 public class Preferences {
 
     @DynamoDBHashKey(attributeName = "username")
-    private String userName;
+    private String username;
 
     @DynamoDBAttribute(attributeName = "darkMode")
-    private String darkMode;
+    private boolean darkMode;
 
     @DynamoDBAttribute(attributeName = "recommendNotif")
     private boolean recommendNotif;
