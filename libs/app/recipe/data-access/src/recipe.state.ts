@@ -66,7 +66,7 @@ export class RecipeState {
     { getState }: StateContext<RecipeStateModel>,
     { review }: AddReview
   ) {
-    let newRecipe = getState().recipe;
+    const newRecipe = getState().recipe;
 
     if(newRecipe){
       newRecipe?.reviews?.unshift(review);
@@ -80,7 +80,7 @@ export class RecipeState {
     { getState }: StateContext<RecipeStateModel>,
     { reviewId }: DeleteReview
   ) {
-    let newRecipe = getState().recipe;
+    const newRecipe = getState().recipe;
 
     if (newRecipe) {
       newRecipe.reviews = newRecipe?.reviews?.filter(

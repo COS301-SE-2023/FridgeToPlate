@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IReview } from '../../utils/src/interfaces';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
@@ -22,12 +25,12 @@ export class Review {
   }
 
   submitReview() {
-    if (this.rating === 0) {
+    if (!this.rating || this.rating === 0) {
       this.store.dispatch(new ShowError('Please rate the recipe before submitting your review!'));
       return;
     }
 
-    if (this.description === '') {
+    if (!this.description || this.description === '') {
       this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }
