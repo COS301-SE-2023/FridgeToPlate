@@ -1,1 +1,1 @@
-export * from './lib/app-login-ui.module';
+export * from './login.module';
