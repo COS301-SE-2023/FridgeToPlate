@@ -6,6 +6,8 @@ import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUs
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
+import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
+
 
 interface formDataInterface {
     "custom:username": string;
@@ -81,8 +83,18 @@ export class AuthState {
             createdRecipes: [],
             currMealPlan: null,
           };
+
+          const preference : IPreferences = {
+            username: username,
+            darkMode: false,
+            recommendNotif: false,
+            viewsNotif: false,
+            reviewNotif: false,
+          };
           
           this.store.dispatch(new CreateNewProfile(profile));
+          
+          this.store.dispatch(new CreateNewPreferences(preference));
     
           this.store.dispatch(new Navigate(['/recommend']));
       });
@@ -102,6 +114,7 @@ export class AuthState {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         this.store.dispatch(new RetrieveProfile(username));
+        this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
       },
       onFailure: (err) => {
@@ -120,6 +133,7 @@ export class AuthState {
     });
 
     this.store.dispatch(new ResetProfile());
+    this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new Navigate(['/login']));
   }
 }

@@ -1,6 +1,9 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { INotification } from '@fridge-to-plate/app/notifications/utils';
+import {
+  INotification,
+  INotificationResponse,
+} from '@fridge-to-plate/app/notifications/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +68,11 @@ export class NotificationsApi {
     },
   ];
 
-  getAllNotifications(userId: string) {
-    return new BehaviorSubject(this.data);
+  getAllNotifications(userId: string): Observable<INotificationResponse> {
+    const notificationApiResponse: INotificationResponse = {
+      general: this.data,
+      recommendations: this.data,
+    };
+    return new BehaviorSubject(notificationApiResponse);
   }
 }

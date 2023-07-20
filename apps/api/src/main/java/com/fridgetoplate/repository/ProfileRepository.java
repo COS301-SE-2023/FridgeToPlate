@@ -136,7 +136,7 @@ public class ProfileRepository {
     public String delete(String id){
        Profile profile = dynamoDBMapper.load(Profile.class, id);
         dynamoDBMapper.delete(profile);
-        return "Profile deleted successfully:: " + id;
+        return "Profile deleted successfully: " + id;
     }
 
 
