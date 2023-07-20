@@ -1,5 +1,5 @@
 import {TestBed} from "@angular/core/testing";
-import {RecipeService} from "./recipe.api";
+import {RecipeAPI} from "./recipe.api";
 import {NgxsModule, State, Store} from "@ngxs/store";
 import {AddReview, GetRecipe, UpdateRecipe} from "./recipe.actions";
 import {RecipeState} from "./recipe.state";
@@ -10,6 +10,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {RecipePage} from "../../feature/src/recipe.page";
 import {RouterTestingModule} from "@angular/router/testing";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import {ReviewModule} from "@fridge-to-plate/app/review/feature";
 
 describe('RecipeState tests', () => {
@@ -57,7 +58,7 @@ describe('RecipeState tests', () => {
 
   // Tests that getRecipe returns the expected recipe when given a valid recipeId
   it('test_get_recipe_valid_id', () => {
-    const recipeService = TestBed.inject(RecipeService);
+    const recipeService = TestBed.inject(RecipeAPI);
     const store = TestBed.inject(Store);
 
     jest.spyOn(recipeService, 'getRecipeById').mockReturnValue(of(testRecipe));
@@ -79,7 +80,7 @@ describe('RecipeState tests', () => {
 
   // Tests that updateRecipe does not update the recipe state when given an invalid recipe
   it('test_update_recipe_invalid', () => {
-    const recipeService = TestBed.inject(RecipeService);
+    const recipeService = TestBed.inject(RecipeAPI);
     const store = TestBed.inject(Store);
 
     jest.spyOn(recipeService, 'updateRecipe').mockImplementation(() => {
