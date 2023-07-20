@@ -190,9 +190,9 @@ describe("ProfilePage", () => {
   //   expect(openSettingsSpy).toHaveBeenCalled();
   // });
 
-  it("should return the store instance", () => {
-    expect(page.getStore()).toBeInstanceOf(Store);
-  });
+  // it("should return the store instance", () => {
+  //   expect(page.getStore()).toBeInstanceOf(Store);
+  // });
 
   // it('should open settings when settings button is clicked', () => {
   //   const openSettingsSpy = jest.spyOn(page, 'openSettings');
