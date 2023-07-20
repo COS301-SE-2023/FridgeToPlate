@@ -1,17 +1,15 @@
-<div class="justify-center pt-8 bg-background-light h-full overflow-y-auto [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6">
+<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6 lg:mt-16">
 
-  <navigation-bar></navigation-bar>
-  
-  <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
+  <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-7 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
     <div class="flex justify-center my-auto">
       <img (click)="fileInput.click()"
       [src]="imageUrl"
       class="max-h-96 rounded-2xl aspect-square cursor-pointer"
       alt="Recipe Image"
       />
-  
+
       <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
-  
+
     </div>
 
     <div>
@@ -26,8 +24,8 @@
           required
         >
       </div>
-      
-    
+
+
       <div class="mb-7">
         <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
         <textarea
@@ -50,7 +48,7 @@
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl"
           >
         </div>
-      
+
         <div>
           <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
           <input
@@ -148,7 +146,7 @@
         </button>
       </div>
     </div>
-  
+
     <div>
       <div class="flex justify-between">
         <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
@@ -165,23 +163,23 @@
               type="text"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
             </div>
-  
+
             <div class="w-1/5 mx-2">
               <input formControlName="amount"
               type="number"
               [placeholder]="getAmountPlaceholderText()"
-              required 
+              required
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
-      
+
             </div>
-           
+
             <div class="w-1/5">
               <input formControlName="scale"
               [placeholder]="getUnitPlaceholderText()"
               required
               type="text"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-2xl">
-  
+
             </div>
 
             <div>
@@ -190,13 +188,13 @@
               </button>
             </div>
 
-          </div> 
+          </div>
         </div>
       </div>
 
     </div>
-      
-  
+
+
     <div>
       <div class="flex justify-between">
         <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
@@ -218,7 +216,7 @@
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -277,7 +275,7 @@
     <div>
       <label for="tag" class="block text-gray-700 font-bold mb-2">Tag<span class="text-red-500">*</span></label>
 
-      <div class="flex items-center space-x-4"> 
+      <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
@@ -298,9 +296,9 @@
         </li>
         </ul>
       </div>
-      
+
     </div>
-   
+
     <div class="flex justify-center lg:col-span-2 lg:px-36">
       <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full">Create Recipe</button>
     </div>
