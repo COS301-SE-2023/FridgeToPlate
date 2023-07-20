@@ -183,54 +183,5 @@ describe("ProfilePage", () => {
     expect(openNotificationsSpy).toHaveBeenCalled();
   });
 
-  // it("should open settings page when settings button is clicked", () => {
-  //   const openSettingsSpy = jest.spyOn(page, 'openSettings');
-  //   const settingsButton = compiled.querySelector("#settings-button");
-  //   settingsButton.click();
-  //   expect(openSettingsSpy).toHaveBeenCalled();
-  // });
-
-  // it("should return the store instance", () => {
-  //   expect(page.getStore()).toBeInstanceOf(Store);
-  // });
-
-  // it('should open settings when settings button is clicked', () => {
-  //   const openSettingsSpy = jest.spyOn(page, 'openSettings');
-  //   const settingsButton = compiled.querySelector("#settings-button");
-  //   settingsButton.click();
-  //   expect(openSettingsSpy).toHaveBeenCalled();
-  // });
-
-  // it('should open settings when settings button is clicked', () => {
-  //   const settingsButton = compiled.querySelector("#settings-button");
-  //   settingsButton.click();
-  //   expect(page.displaySettings).toEqual("block");
-  // });
-
-  // it('should set displaySettings to "block" when openSettings is called', () => {
-  //   page.openSettings();
-  //   expect(page.displaySettings).toEqual("block");
-  // });
 });
 
-
-// describe('ProfilePage', () => {
-//   let component: ProfilePage;
-//   let fixture: ComponentFixture<ProfilePage>;
-
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [ProfilePage],
-//       imports: [IonicModule.forRoot(), NgxsModule.forRoot()],
-//     }).compileComponents();
-
-//     fixture = TestBed.createComponent(ProfilePage);
-//     component = fixture.componentInstance;
-//   });
-
-//   it('should dispatch a Navigate action with the correct route', () => {
-//     const navigateSpy = jest.spyOn(component.getStore(), 'dispatch');
-//     component.handleNotificationsClicked();
-//     expect(navigateSpy).toHaveBeenCalledWith(new Navigate(['/profile/notifications']));
-//   });
-// });
