@@ -74,4 +74,17 @@ describe('EditModalComponent', () => {
     component.logout();
     expect(dispatchSpy).toBeCalledWith(new Logout());
   });
+
+  it('should set displayChangePassword to "block" when calling openPassword', () => {
+    component.openPassword();
+
+    expect(component.displayChangePassword).toBe("block");
+  });
+
+  it('should set displayChangePassword to "none" when calling closeChangePassword', () => {
+    component.closeChangePassword();
+
+    expect(component.displayChangePassword).toBe("none");
+  });
+
 });
