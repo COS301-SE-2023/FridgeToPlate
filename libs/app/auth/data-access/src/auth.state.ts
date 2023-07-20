@@ -5,6 +5,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 interface formDataInterface {
     "custom:username": string;
@@ -127,6 +128,31 @@ export class AuthState {
   @Action(ChangePassword)
   ChangePassword({ setState } : StateContext<AuthStateModel>, { oldPassword, newPassword } : ChangePassword) {
 
-    return;
+    if(localStorage.getItem("access_token")) {
+      const accessToken = localStorage.getItem("access_token");
+      const params = {
+        PreviousPassword: oldPassword,
+        ProposedPassword: newPassword,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        AccessToken: accessToken!,
+      };
+
+      const region = 'eu-west-3';
+    const cognito = new CognitoIdentityServiceProvider({ region });
+
+      cognito.changePassword(params, (err, data) => {
+        if (err) {
+          console.error('Password change error:', err);
+        } else {
+          console.log('Password changed successfully.');
+        }
+      });
+    
+    
+    }
+    
+
+    
+
   }
 }
