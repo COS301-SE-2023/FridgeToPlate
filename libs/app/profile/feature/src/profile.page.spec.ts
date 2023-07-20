@@ -176,12 +176,12 @@ describe("ProfilePage", () => {
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
   });
 
-  // it("should open notifications page when notifications button is clicked", () => {
-  //   const openNotificationsSpy = jest.spyOn(page, 'openNotifications');
-  //   const notificationsButton = compiled.querySelector("#notifications-button");
-  //   notificationsButton.click();
-  //   expect(openNotificationsSpy).toHaveBeenCalled();
-  // });
+  it("should open notifications page when notifications button is clicked", () => {
+    const openNotificationsSpy = jest.spyOn(page, 'openNotifications');
+    const notificationsButton = compiled.querySelector("#notifications-button");
+    notificationsButton.click();
+    expect(openNotificationsSpy).toHaveBeenCalled();
+  });
 
   // it("should open settings page when settings button is clicked", () => {
   //   const openSettingsSpy = jest.spyOn(page, 'openSettings');
@@ -190,9 +190,9 @@ describe("ProfilePage", () => {
   //   expect(openSettingsSpy).toHaveBeenCalled();
   // });
 
-  // it("should return the store instance", () => {
-  //   expect(page.getStore()).toBeInstanceOf(Store);
-  // });
+  it("should return the store instance", () => {
+    expect(page.getStore()).toBeInstanceOf(Store);
+  });
 
   // it('should open settings when settings button is clicked', () => {
   //   const openSettingsSpy = jest.spyOn(page, 'openSettings');
