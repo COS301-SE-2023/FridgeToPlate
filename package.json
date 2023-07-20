@@ -77,6 +77,8 @@
     "@ngxs/devtools-plugin": "^3.8.1",
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/router-plugin": "^3.8.1",
+    "@ngxs/schematics": "^0.0.1-alpha.5",
+    "@ngxs/storage-plugin": "^3.8.1",
     "@ngxs/store": "^3.8.1",
     "@nrwl/angular": "^16.0.3",
     "@types/swiper": "^6.0.0",
