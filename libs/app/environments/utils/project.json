@@ -1,7 +1,7 @@
 {
-  "name": "app-enviroments-utils",
+  "name": "app-environments-utils",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/app/enviroments/utils/src",
+  "sourceRoot": "libs/app/environments/utils/src",
   "prefix": "fridge-to-plate",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/app/enviroments/utils/jest.config.ts",
+        "jestConfig": "libs/app/environments/utils/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/app/enviroments/utils/**/*.ts",
-          "libs/app/enviroments/utils/**/*.html"
+          "libs/app/environments/utils/**/*.ts",
+          "libs/app/environments/utils/**/*.html"
         ]
       }
     }
