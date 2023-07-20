@@ -1,6 +1,6 @@
 package com.fridgetoplate.model;
 
-public class SpponacularResponseModel {
+public class SpoonacularResponseModel {
      private SpoonacularRecipeModel[] results;
      private int offset;
      private int number;
