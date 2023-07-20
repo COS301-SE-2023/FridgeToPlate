@@ -5,7 +5,7 @@ public class SpoonacularRecipeModel {
     private String title;
     private String image;
     private String imageType;
-    private String[] nutrition;
+    private SpoonacularNutritionModel[] nutrition;
     
     public int getId() {
         return id;
@@ -19,7 +19,7 @@ public class SpoonacularRecipeModel {
         return imageType;
     }
 
-    public String[] getNutrition() {
+    public SpoonacularNutritionModel[] getNutrition() {
         return nutrition;
     }
 
