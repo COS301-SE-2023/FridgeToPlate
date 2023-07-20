@@ -19,6 +19,7 @@ import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { environment } from '@fridge-to-plate/app/environments/utils';
     NzIconModule,
     HttpClientModule,
     FormsModule,
+    NavigationBarModule,
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
       disabled: environment.TYPE == 'production',

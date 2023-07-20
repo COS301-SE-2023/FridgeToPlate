@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Navigate } from "@ngxs/router-plugin";
 // import { ShowError } from '@fridge-to-plate/app/error/utils';
 
@@ -10,10 +10,8 @@ import { Navigate } from "@ngxs/router-plugin";
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationBar {
-  @Output() notificationsClicked = new EventEmitter<void>();
-  @Output() settingsClicked = new EventEmitter<void>();
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(public router: Router, private store: Store) {}
 
   isActive(pageName: string) {
     const currentUrl = this.router.url;
@@ -37,6 +35,10 @@ export class NavigationBar {
 
   openProfile() {
     this.store.dispatch(new Navigate(['/profile']));
+  }
+
+  openNotifications() {
+    this.store.dispatch(new Navigate(['/profile/notifications']));
   }
 
 }
