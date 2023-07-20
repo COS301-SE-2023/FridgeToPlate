@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ChangePassword, Login, Logout, SignUp } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
-import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
+import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser, CognitoUserSession } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { AuthService } from "./auth.api";
 
 interface formDataInterface {
     "custom:username": string;
@@ -30,11 +31,11 @@ export interface AuthStateModel {
 export class AuthState {
 
   private poolData = {
-   UserPoolId: environment.COGNITO_USERPOOL_ID, // Your user pool id here
-   ClientId: environment.COGNITO_APP_CLIENT_ID // Your client id here
+   UserPoolId: environment.COGNITO_USERPOOL_ID, 
+   ClientId: environment.COGNITO_APP_CLIENT_ID
   };
   
-  constructor(private store: Store) {}
+  constructor(private store: Store, private api: AuthService) {}
 
   @Selector()
   getAccessGranted(state: AuthStateModel) {
@@ -114,6 +115,9 @@ export class AuthState {
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
+        localStorage.setItem('access_token', result.getAccessToken().getJwtToken());
+        localStorage.setItem('id_token', result.getIdToken().getJwtToken());
+        localStorage.setItem('refresh_token', result.getRefreshToken().getToken());
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
@@ -150,22 +154,28 @@ export class AuthState {
         AccessToken: accessToken!,
       };
 
+      alert("Passed 1" + oldPassword);
+
       const region = 'eu-west-3';
     const cognito = new CognitoIdentityServiceProvider({ region });
 
       cognito.changePassword(params, (err, data) => {
         if (err) {
+          alert("Failed");
           console.error('Password change error:', err);
         } else {
+          alert("Finished");
           console.log('Password changed successfully.');
         }
       });
     
     
     }
+    else  
+      alert("Not Working");
     
 
-    
+    alert("End");
 
   }
 }
