@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
-import { Login, Logout, SignUp } from "@fridge-to-plate/app/auth/utils";
+import { ChangePassword, Login, Logout, SignUp } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
@@ -122,5 +122,11 @@ export class AuthState {
 
     this.store.dispatch(new ResetProfile());
     this.store.dispatch(new Navigate(['/login']));
+  }
+
+  @Action(ChangePassword)
+  ChangePassword({ setState } : StateContext<AuthStateModel>, { oldPassword, newPassword } : ChangePassword) {
+
+    return;
   }
 }
