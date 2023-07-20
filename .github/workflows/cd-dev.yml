@@ -35,6 +35,11 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
+    
+    - name: Setup Enviroment File
+      run: |
+        printf "${{ secrets.ENV_FILE }}" > .env
+      shell: bash
 
     - name: Install Dependencies
       run: npm install
@@ -73,7 +78,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
+          distribution: 'temurin'      
+    
+      - name: Setup Enviroment File
+        run: |
+          printf "${{ secrets.ENV_FILE }}" > .env
+        shell: bash
           
       - name: Setup NX
         run: npm install nx@latest
