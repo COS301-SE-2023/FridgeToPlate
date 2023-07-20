@@ -20,7 +20,7 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" = "Breakfast";
+  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
