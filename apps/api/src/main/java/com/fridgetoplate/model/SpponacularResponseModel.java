@@ -1,12 +1,12 @@
 package com.fridgetoplate.model;
 
 public class SpponacularResponseModel {
-     private RecipeModel[] results;
+     private SpoonacularRecipeModel[] results;
      private int offset;
      private int number;
      private int totalResults;
 
-     public RecipeModel[] getResults(){
+     public SpoonacularRecipeModel[] getResults(){
         return results;
      }
 
