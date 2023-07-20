@@ -139,6 +139,7 @@ export class AuthState {
 
     this.store.dispatch(new ResetProfile());
     this.store.dispatch(new ResetPreferences());
+    localStorage.clear();
     this.store.dispatch(new Navigate(['/login']));
   }
 
@@ -154,28 +155,19 @@ export class AuthState {
         AccessToken: accessToken!,
       };
 
-      alert("Passed 1" + oldPassword);
-
-      const region = 'eu-west-3';
+    const region = 'eu-west-3';
     const cognito = new CognitoIdentityServiceProvider({ region });
 
       cognito.changePassword(params, (err, data) => {
         if (err) {
-          alert("Failed");
           console.error('Password change error:', err);
         } else {
-          alert("Finished");
           console.log('Password changed successfully.');
         }
       });
     
     
     }
-    else  
-      alert("Not Working");
     
-
-    alert("End");
-
   }
 }
