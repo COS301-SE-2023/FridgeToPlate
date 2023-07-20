@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { IReview } from '../../utils/src/interfaces';
 import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
   selector: 'review',
@@ -15,15 +16,6 @@ export class Review {
   constructor (private store: Store) {}
 
   @Input() reviews!: IReview[];
-  //null check for if recipe has no reviews
-
-  // reviews = [
-  //   { recipeId: 'abcd' , rating: 4, description: 'Good stuff'},
-  //   { recipeId: 'abcd' , rating: 3, description: 'Nice'},
-  //   { recipeId: 'abcn' , rating: 5, description: 'Perfect'},
-  //   { recipeId: 'abcw' , rating: 1, description: 'Mediocre'},
-  // ]
-
 
   setRating(num: number) {
     this.rating = num;
@@ -31,12 +23,12 @@ export class Review {
 
   submitReview() {
     if (this.rating === 0) {
-      alert('Please rate the recipe before submitting your review!');
+      this.store.dispatch(new ShowError('Please rate the recipe before submitting your review!'));
       return;
     }
 
     if (this.description === '') {
-      alert('Please add a description before submitting your review!');
+      this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }
 
@@ -53,12 +45,6 @@ export class Review {
     this.rating = 0;
     this.description = '';
 
-    //this.store.dispatch(new RemoveReview(reviewId))
-
-    // this.reviews.unshift(review);
-
-    // // send the review data to a server or store it locally
-    // console.log(this.reviews);
   }
 
   deleteReview() {
