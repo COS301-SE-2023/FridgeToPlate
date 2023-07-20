@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Navigate } from "@ngxs/router-plugin";
-import { ShowError } from '@fridge-to-plate/app/error/utils';
+// import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
   selector: 'navigation-bar',
@@ -27,7 +27,8 @@ export class NavigationBar {
   }
 
   openSearch() {
-    this.store.dispatch(new ShowError("Not Yet Implemeneted"));
+    // this.store.dispatch(new ShowError("Not Yet Implemeneted"));
+    alert("Not Yet Implemeneted");
   }
 
   openCreate() {
