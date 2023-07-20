@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Store } from '@ngxs/store';
 
-const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class PreferencesAPI {
 
   constructor(private http: HttpClient, private store: Store) {}
 
-  private baseUrl = "http://localhost:5000/preferences";
+  private baseUrl = environment.API_URL + "/preferences";
 
   updatePreference(preferences: IPreferences) {
 
@@ -26,5 +26,22 @@ export class PreferencesAPI {
         this.store.dispatch(new ShowError(error));
       }
     })
+  }
+
+  savePreferences(preferences: IPreferences) {
+
+    const url = `${this.baseUrl}/create`;
+
+    this.http.post<IPreferences>(url, preferences).subscribe({
+      error: error => {
+        this.store.dispatch(new ShowError(error));
+      }
+    });
+  }
+
+  getPreferences(username: string) {
+    const url = `${this.baseUrl}/${username}`;
+
+    return this.http.get<IPreferences | null>(url);
   }
 }
