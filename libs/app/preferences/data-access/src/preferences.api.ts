@@ -4,7 +4,6 @@ import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Store } from '@ngxs/store';
 
-const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +25,22 @@ export class PreferencesAPI {
         this.store.dispatch(new ShowError(error));
       }
     })
+  }
+
+  savePreferences(preferences: IPreferences) {
+
+    const url = `${this.baseUrl}/create`;
+
+    this.http.post<IPreferences>(url, preferences).subscribe({
+      error: error => {
+        this.store.dispatch(new ShowError(error));
+      }
+    });
+  }
+
+  getPreferences(username: string) {
+    const url = `${this.baseUrl}/${username}`;
+
+    return this.http.get<IPreferences | null>(url);
   }
 }
