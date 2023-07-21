@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
@@ -89,6 +90,23 @@ public class RecipeRepository {
     }
 
     public List<RecipeFrontendModel> findAll(){
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+            
+            RecipeFrontendModel response = findById(recipe.getRecipeId());
+                if(response != null) {
+                    recipes.add(response);
+                }
+        }
+
+        return recipes;
+    }
+
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
+        
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());

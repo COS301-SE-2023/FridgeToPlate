@@ -27,8 +27,7 @@ public class RecommendController {
 
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
-        System.out.println(recipePreferences.getMeal());
-        apiService.spoonacularRecipeSearch();
+        apiService.spoonacularRecipeSearch(recipePreferences);
         return recipeRepository.findAll();
     }
     
