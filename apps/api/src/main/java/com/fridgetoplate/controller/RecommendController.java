@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.service.ExternalApiService;
 
@@ -25,10 +26,10 @@ public class RecommendController {
     }
 
     @PostMapping
-    public List<RecipeFrontendModel> getExternalRecommendation() {
+    public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
+        System.out.println(recipePreferences.getMeal());
         apiService.spoonacularRecipeSearch();
         return recipeRepository.findAll();
     }
-
     
 }
