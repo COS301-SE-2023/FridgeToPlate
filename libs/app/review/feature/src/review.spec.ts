@@ -67,93 +67,50 @@ describe('Review Component', () => {
 
 });
 
-      // Tests that a review can be submitted with a valid rating and description
-// describe('Review Component', () => {
-//   let component: Review;
-//   let fixture: ComponentFixture<Review>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [Review],
-//       imports: [NgxsModule.forRoot()],
-//       providers: [
-//         {
-//           provide: Store,
-//           useValue: {
-//             dispatch: jest.fn()
-//           }
-//         }
-//       ]
-//     }).compileComponents();
-//   });
+describe('Review Component', () => {
+  let component: Review;
+  let fixture: ComponentFixture<Review>;
+  let store: Store;
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(Review);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [Review],
+      imports: [NgxsModule.forRoot()],
+    }).compileComponents();
+  });
 
-//   it('should submit a review with a valid rating and description', () => {
-//     // Arrange
-//     const review = {
-//       reviewId: 'uyassuigasiugfasou56tug',
-//       recipeId: '65vgbfg-6gdfbg-75789yh-t754vu',
-//       username:'jdoe',
-//       rating: 5,
-//       description: 'This recipe is amazing!'
-//     };
-//     const store = TestBed.inject(Store);
-//     const dispatchMock = jest.spyOn(store, 'dispatch');
+  beforeEach(() => {
+    fixture = TestBed.createComponent(Review);
+    component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    fixture.detectChanges();
+  });
 
-//     // Act
-//     component.rating = 5;
-//     component.description = 'This recipe is amazing!';
-//     component.submitReview();
+  // it('should dispatch a DeleteReview action to the store with the correct review ID', () => {
+  //   const reviewId = '12345';
+  //   const selectedReview = { reviewId: reviewId } as IReview;
+  //   const dispatchSpy = jest.spyOn(store, 'dispatch');
+  //   const findSpy = jest.spyOn(Array.prototype, 'find').mockReturnValueOnce(selectedReview);
 
-//     // Assert
-//     expect(dispatchMock).toHaveBeenCalledWith(new AddReview(review));
-//     expect(component.rating).toEqual(0);
-//     expect(component.description).toEqual('');
-//     // expect(component.errorMessage).toEqual('');
-//   });
+  //   component.deleteReview(reviewId);
 
-// });
+  //   expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
+  //   expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
+  // });
 
-// describe('Review Component', () => {
-//   let component: Review;
-//   let fixture: ComponentFixture<Review>;
+  it('should dispatch a DeleteReview action to the store with the correct review ID from state if no review ID is provided', () => {
+    const reviewId = '12345';
+    const selectedReview = { reviewId: reviewId } as IReview;
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
+    const findSpy = jest.spyOn(Array.prototype, 'find').mockReturnValueOnce(selectedReview);
+    const getStateSpy = jest.spyOn(store, 'select').mockReturnValueOnce(of({ reviews: [selectedReview] }));
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [Review],
-//       imports: [NgxsModule.forRoot()],
-//       providers: [
-//         {
-//           provide: Store,
-//           useValue: {
-//             dispatch: jest.fn()
-//           }
-//         }
-//       ]
-//     }).compileComponents();
-//   });
+    component.deleteReview();
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(Review);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    expect(getStateSpy).toHaveBeenCalled();
+    expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
+    expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
+  });
+});
 
-//   it('should dispatch a DeleteReview action when deleteReview is called', () => {
-//     // Arrange
-//     const reviewId = 'uyassuigasiugfasou56tug';
-//     const store = TestBed.inject(Store);
-//     const dispatchMock = jest.spyOn(store, 'dispatch');
-
-//     // Act
-//     component.deleteReview();
-
-//     // Assert
-//     expect(dispatchMock).toHaveBeenCalledWith(new DeleteReview(reviewId));
-//   });
-// });
