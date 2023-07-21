@@ -11,6 +11,8 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 @Component({
   selector: 'review',
@@ -20,11 +22,13 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 export class Review {
   rating = 0;
   description = '';
+  stateUsername = '';
 
   constructor (private store: Store) {}
 
   @Input() reviews!: IReview[];
-  // @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
+  @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
+  @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
 
   setRating(num: number) {
     this.rating = num;
@@ -41,12 +45,20 @@ export class Review {
       return;
     }
 
+    this.profile$.subscribe( (stateProfile) => {
+      this.stateUsername = stateProfile.username;
+    });
+
+    let stateRecipeId = '';
+    this.recipe$.subscribe( (stateRecipe) => {
+      stateRecipeId = stateRecipe.recipeId!;
+    });
 
 
     const review: IReview = {
       reviewId: 'uyassuigasiugfasou56tug',
-      recipeId: '65vgbfg-6gdfbg-75789yh-t754vu',
-      username:'jdoe',
+      recipeId: stateRecipeId,
+      username: this.stateUsername,
       rating: this.rating,
       description: this.description
     };
@@ -58,10 +70,16 @@ export class Review {
 
   }
 
-  deleteReview() {
+  deleteReview(selectedReview: string | null = null) {
 
-    const reviewId = 'uyassuigasiugfasou56tug';
-    this.store.dispatch(new DeleteReview(reviewId));
+    let stateReviewId = 'uyassuigasiugfasou56tug';
+
+    this.recipe$.subscribe( (stateRecipe) => {
+      stateReviewId = stateRecipe.reviews?.find((el) => el.reviewId === selectedReview)?.reviewId!;
+    });
+
+
+    this.store.dispatch(new DeleteReview(stateReviewId));
   }
 
 }
