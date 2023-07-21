@@ -25,7 +25,7 @@ public class RecipePreferencesFrontendModel {
         return rating;
     }
 
-    public String[] getKeyword() {
+    public String[] getKeywords() {
         return keywords;
     }
 
