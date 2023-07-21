@@ -19,12 +19,14 @@ interface formDataInterface {
 
 export interface AuthStateModel {
     accessGranted: boolean;
+    accessToken: string;
 }
 
 @State<AuthStateModel>({
     name: 'auth',
     defaults: {
-        accessGranted: false
+        accessGranted: false,
+        accessToken: "none"
     }
 })
 @Injectable()
@@ -40,6 +42,11 @@ export class AuthState {
   @Selector()
   getAccessGranted(state: AuthStateModel) {
       return state.accessGranted;
+  }
+
+  @Selector()
+  getAccessToken(state: AuthStateModel) {
+      return state.accessToken;
   }
 
   @Action(SignUp)
@@ -66,13 +73,15 @@ export class AuthState {
           if (err) {
             this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
             setState({
-              accessGranted: false
+              accessGranted: false,
+              accessToken: "none"
             });
             return;
           }
     
           setState({
-              accessGranted: true
+              accessGranted: true,
+              accessToken: result?.user.getSignInUserSession()?.getAccessToken().getJwtToken() || 'none'
             });
 
           const profile : IProfile = {
@@ -115,9 +124,10 @@ export class AuthState {
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
-        localStorage.setItem('access_token', result.getAccessToken().getJwtToken());
-        localStorage.setItem('id_token', result.getIdToken().getJwtToken());
-        localStorage.setItem('refresh_token', result.getRefreshToken().getToken());
+        setState({
+          accessGranted: true,
+          accessToken: result.getAccessToken().getJwtToken()
+        });
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
@@ -125,7 +135,8 @@ export class AuthState {
       onFailure: (err) => {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
         setState({
-          accessGranted: false
+          accessGranted: false,
+          accessToken: "none"
         });
       },
     });
@@ -134,7 +145,8 @@ export class AuthState {
   @Action(Logout)
   logout({ setState } : StateContext<AuthStateModel>) {
     setState({
-      accessGranted: false
+      accessGranted: false,
+      accessToken: "none"
     });
 
     this.store.dispatch(new ResetProfile());
@@ -144,10 +156,10 @@ export class AuthState {
   }
 
   @Action(ChangePassword)
-  ChangePassword({ setState } : StateContext<AuthStateModel>, { oldPassword, newPassword } : ChangePassword) {
+  ChangePassword({ getState } : StateContext<AuthStateModel>, { oldPassword, newPassword } : ChangePassword) {
 
-    if(localStorage.getItem("access_token")) {
-      const accessToken = localStorage.getItem("access_token");
+    if(getState().accessToken != "none") {
+      const accessToken = getState().accessToken;
       const params = {
         PreviousPassword: oldPassword,
         ProposedPassword: newPassword,
