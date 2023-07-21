@@ -1,29 +1,27 @@
 package com.fridgetoplate.frontendmodels;
 
-import com.fridgetoplate.interfaces.Difficulty;
-
 public class RecipePreferencesFrontendModel {
 
-    private Difficulty difficulty;
-    private Difficulty meal;
-    private Difficulty servings;
-    private Difficulty rating;
+    private String difficulty;
+    private String meal;
+    private String servings;
+    private String rating;
     private String[] keyword;
-    private Difficulty prepTime;
+    private String prepTime;
 
-    public Difficulty getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
     
-    public Difficulty getMeal() {
+    public String getMeal() {
         return meal;
     }
 
-    public Difficulty getServings() {
+    public String getServings() {
         return servings;
     }
 
-    public Difficulty getRating() {
+    public String getRating() {
         return rating;
     }
 
@@ -31,7 +29,7 @@ public class RecipePreferencesFrontendModel {
         return keyword;
     }
 
-    public Difficulty getPrepTime() {
+    public String getPrepTime() {
         return prepTime;
     }
 
