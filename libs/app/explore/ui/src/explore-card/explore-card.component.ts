@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { IonicModule } from '@ionic/angular';
+
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'recipe-card',
-  templateUrl: './recipe-card.component.html',
-  styleUrls: ['./recipe-card.component.scss'],
+  selector: 'explore-card',
+  templateUrl: './explore-card.component.html',
+  styleUrls: ['./explore-card.component.scss'],
 })
-export class RecipeCardComponent implements OnInit {
+export class ExploreCardComponent {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
@@ -41,7 +43,7 @@ export class RecipeCardComponent implements OnInit {
     }
   }
 
-  edit() {
+  edit(){
     return;
   }
 

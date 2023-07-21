@@ -14,6 +14,7 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { ExploreDataAccessModule } from '@fridge-to-plate/app/explore/data-access';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
+
 @NgModule({
   imports: [
     CommonModule,
