@@ -5,6 +5,9 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { environment } from "@fridge-to-plate/app/environments/utils";
+import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
+
 
 interface formDataInterface {
     "custom:username": string;
@@ -26,10 +29,8 @@ export interface AuthStateModel {
 export class AuthState {
 
   private poolData = {
-  //  UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
-  //  ClientId: environment.cognitoAppClientId // Your client id here
-      UserPoolId: "temp", // Your user pool id here
-      ClientId: "temp"
+   UserPoolId: environment.COGNITO_USERPOOL_ID, // Your user pool id here
+   ClientId: environment.COGNITO_APP_CLIENT_ID // Your client id here
   };
   
   constructor(private store: Store) {}
@@ -82,8 +83,18 @@ export class AuthState {
             createdRecipes: [],
             currMealPlan: null,
           };
+
+          const preference : IPreferences = {
+            username: username,
+            darkMode: false,
+            recommendNotif: false,
+            viewsNotif: false,
+            reviewNotif: false,
+          };
           
           this.store.dispatch(new CreateNewProfile(profile));
+          
+          this.store.dispatch(new CreateNewPreferences(preference));
     
           this.store.dispatch(new Navigate(['/recommend']));
       });
@@ -103,6 +114,7 @@ export class AuthState {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         this.store.dispatch(new RetrieveProfile(username));
+        this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
       },
       onFailure: (err) => {
@@ -121,6 +133,7 @@ export class AuthState {
     });
 
     this.store.dispatch(new ResetProfile());
+    this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new Navigate(['/login']));
   }
 }
