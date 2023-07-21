@@ -1,7 +1,9 @@
 package com.fridgetoplate.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
@@ -13,7 +15,10 @@ import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -107,9 +112,24 @@ public class RecipeRepository {
 
     public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
         
+        System.out.println(recipePreferences.getMeal());
+
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        eav.put(":difficulty", new AttributeValue().withS(recipePreferences.getDifficulty()));
+        eav.put(":mealType", new AttributeValue().withS(recipePreferences.getMeal()));
+        eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
+        eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
+        eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+        
+        //Filter Expression
+        .withFilterExpression("difficulty=:difficulty AND mealType=:mealType AND rating=:rating AND servings=:servings AND prepTime=:prepTime")
+        .withExpressionAttributeValues(eav);
+
+
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, scanExpression);
 
         for (RecipeModel recipe : scanResult) {
             
