@@ -11,7 +11,9 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 @Component({

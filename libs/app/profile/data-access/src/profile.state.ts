@@ -28,7 +28,7 @@ export interface ProfileStateModel {
     defaults: {
         profile: {
             displayName: "John Doe",
-            username: "jdoe2",
+            username: "jdoe",
             email: "jdoe@gmail.com",
             savedRecipes: [
                 {
