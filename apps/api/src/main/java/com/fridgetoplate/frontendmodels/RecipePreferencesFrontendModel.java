@@ -6,7 +6,7 @@ public class RecipePreferencesFrontendModel {
     private String meal;
     private String servings;
     private String rating;
-    private String[] keyword;
+    private String[] keywords;
     private String prepTime;
 
     public String getDifficulty() {
@@ -26,7 +26,7 @@ public class RecipePreferencesFrontendModel {
     }
 
     public String[] getKeyword() {
-        return keyword;
+        return keywords;
     }
 
     public String getPrepTime() {
