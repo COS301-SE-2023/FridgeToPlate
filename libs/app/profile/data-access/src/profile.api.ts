@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
@@ -11,7 +12,7 @@ export class ProfileAPI {
 
   constructor(private http: HttpClient, private store: Store) {}
 
-  private baseUrl = "http://localhost:5000/profiles";
+  private baseUrl = environment.API_URL + "/profiles";
 
   updateProfile(profile: IProfile) {
 

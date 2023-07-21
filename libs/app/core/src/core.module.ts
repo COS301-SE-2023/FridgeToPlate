@@ -18,6 +18,8 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { environment } from '@fridge-to-plate/app/environments/utils';
+import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 
 
 @NgModule({
@@ -35,12 +37,13 @@ import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
     NzIconModule,
     HttpClientModule,
     FormsModule,
+    NavigationBarModule,
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
-      // disabled: ENVIRONMENT == 'production',
+      disabled: environment.TYPE == 'production',
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      // disabled: ENVIRONMENT == 'production',
+      disabled: environment.TYPE == 'production',
     }),
     NgxsModule.forRoot([AuthState, ErrorState, RecipeState, UndoState]),
     NgxsRouterPluginModule.forRoot(),
