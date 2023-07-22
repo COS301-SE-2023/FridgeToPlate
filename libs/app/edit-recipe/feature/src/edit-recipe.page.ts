@@ -179,7 +179,7 @@ export class EditRecipeComponent implements OnInit {
     this.store.dispatch( new DeleteRecipe( this.recipe?.recipeId as string ))
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
       profile.createdRecipes = profile.createdRecipes.filter( recipe => this.recipeId !== recipe.recipeId);
-      this.store.dispatch( new UpdateProfile(profile))
+      this.store.dispatch( new UpdateProfile(profile)) // TODO: add test coverage
   })
     this.location.back()
   }
