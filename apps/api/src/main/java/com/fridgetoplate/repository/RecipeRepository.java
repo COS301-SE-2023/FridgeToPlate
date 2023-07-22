@@ -112,8 +112,6 @@ public class RecipeRepository {
 
     public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
         
-        System.out.println(recipePreferences.getMeal());
-
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
@@ -122,10 +120,25 @@ public class RecipeRepository {
         eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
         eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
         eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
+        
+        String [] keywordArray = recipePreferences.getKeywords();
+        
+        String keywordQueryString = "";
+        
+        for(int i = 0; i < keywordArray.length; i++){
+            eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
+            if(i == 0){
+                keywordQueryString = keywordQueryString + "contains(keywords, :val_" + keywordArray[i] + ")";
+            }
+            else{
+                keywordQueryString = keywordQueryString + " OR contains(keywords, :val_" + keywordArray[i] + ")";
+            }
+        }
+
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
         
         //Filter Expression
-        .withFilterExpression("difficulty=:difficulty AND mealType=:mealType AND rating=:rating AND servings=:servings AND prepTime=:prepTime")
+        .withFilterExpression("difficulty=:difficulty AND mealType=:mealType AND rating=:rating AND servings=:servings AND prepTime=:prepTime AND " + keywordQueryString)
         .withExpressionAttributeValues(eav);
 
 
