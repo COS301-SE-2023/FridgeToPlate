@@ -1,12 +1,17 @@
 package com.fridgetoplate.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.interfaces.SpoonacularAnalyzedInstruction;
+import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
+import com.fridgetoplate.interfaces.SpoonacularStep;
+import com.fridgetoplate.model.Ingredient;
 
 public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], Recipe[]> {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -22,11 +27,19 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
         if(spoonacularRecipes != null){
 
+            SpoonacularMiscUtils utils = new SpoonacularMiscUtils();
+
+            List<Recipe> convertedRecipes = new ArrayList<Recipe>();
+ 
             for(int i = 0; i < spoonacularRecipes.length; i++){
                 
                 Recipe newRecipe = new Recipe();
                 
                 SpoonacularRecipe currentRecipe = spoonacularRecipes[i];
+
+                List<Ingredient> currentIngredients = new ArrayList<Ingredient>();
+
+                List<String> currentRecipeSteps = new ArrayList<String>();
 
                 //TODO: Potemntial hash for ID
                 //newRecipe.setRecipeId(null);
@@ -35,32 +48,62 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setName(currentRecipe.getTitle());
 
-                //Combine cuisines, dish types and diets 
-                newRecipe.setTags(null);
+                newRecipe.setTags(utils.generateRecipeTags( currentRecipe.getCuisines(), currentRecipe.getDishTypes(), currentRecipe.getDiets() ) );
                 
                 //Create difficulty evaluation function
-                newRecipe.setDifficulty(null);
+                newRecipe.setDifficulty(utils.estimateRecipeDifficulty(currentRecipe.getCookingMinutes(), null));
 
-                //Create take subset function
-                newRecipe.setDescription("");
+                newRecipe.setDescription(currentRecipe.getSummary());
                 
-
-                newRecipe.setMeal(null);
+                newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
 
                 newRecipe.setPrepTime(currentRecipe.getCookingMinutes());
                 
-                //Create serving size estimator
-                newRecipe.setServings(null);
+                newRecipe.setServings(currentRecipe.getServings());
 
-                //Iterate through ingredients and add
-                newRecipe.setIngredients(null);
-                
-                //Iterate through steps and add
-                newRecipe.setSteps(null);
+                //Iterate through ingredients and add                
+                if(currentRecipe.getAnalyzedInstructions().length != 0){
+                    SpoonacularStep[] recipeSteps = currentRecipe.getAnalyzedInstructions()[0].getSteps();
+
+        
+                    for(int x = 0; x < recipeSteps.length; x++){
+                        SpoonacularStep currentStep = recipeSteps[x];
+
+                        currentRecipeSteps.add(currentStep.getStep());
+
+                        if(currentStep.getIngredients() != null){
+                            SpoonacularIngredient[] stepIngredients = currentStep.getIngredients();
+                            
+                            for(int j = 0; j < stepIngredients.length; j++){
+                                Ingredient newIngredient = new Ingredient();
+                                
+                                newIngredient.setName(stepIngredients[j].getName());
+                                
+                                newIngredient.setAmount(1);
+                                
+                                newIngredient.setUnit("unit");
+
+                                currentIngredients.add(newIngredient);
+                            }
+                        }
+
+                    }
+                    
+                    //Iterate through steps and add
+                    newRecipe.setSteps(currentRecipeSteps);
+
+                    newRecipe.setIngredients(currentIngredients);
+                }
 
                 newRecipe.setCreator("Spoonacular");
+
+                convertedRecipes.add(newRecipe);
             }
+
+            return convertedRecipes.toArray(new Recipe[convertedRecipes.size()]);
         }
+    
+        return null;
     }
 
     public SpoonacularResponse spoonacularTest(SpoonacularResponse response){
