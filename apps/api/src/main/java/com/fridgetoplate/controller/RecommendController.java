@@ -8,6 +8,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.service.ExternalApiService;
+import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -27,7 +28,8 @@ public class RecommendController {
 
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
-        apiService.spoonacularRecipeSearch(recipePreferences);
+        SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
+        converter.spoonacularTest(apiService.spoonacularRecipeSearch(recipePreferences));
         return recipeRepository.findAll();
     }
     
