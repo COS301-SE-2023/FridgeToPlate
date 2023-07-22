@@ -14,7 +14,7 @@ export interface RecipeStateModel{
     name: 'recipe',
     defaults: {
         recipe: {
-            recipeId : 'recipe-test-id',
+            recipeId : 'b6df9e16-4916-4869-a7d9-eb0293142f1f',
             name: 'Hello world',
             tags: [],
             difficulty: 'Medium',

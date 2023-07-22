@@ -16,7 +16,6 @@ public class MealPlanRepository {
     private DynamoDBMapper dynamoDBMapper;
 
     public MealPlanModel save(MealPlanModel mealPlan) {
-        // 
         dynamoDBMapper.save(mealPlan);
         return mealPlan;
     }
