@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Select, Selector, Store } from '@ngxs/store';
@@ -17,8 +17,8 @@ import { state } from '@angular/animations';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
-  @Select(RecipeState) recipe$!: Observable<IRecipe>;
-  recipe !: IRecipe | undefined;
+  @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
+  recipe!: IRecipe | undefined;
   errorMessage: string | undefined;
 
   constructor(
@@ -48,25 +48,10 @@ export class RecipePage implements OnInit {
       return;
     }
 
-    this.store.dispatch(new GetRecipe(id));
-    this.recipe$.pipe(take(1)).subscribe(stateRecipe => {
-      // console.log(Object.create(stateRecipe).recipe);
-      this.recipe = Object.create(stateRecipe).recipe;
+    this.store.dispatch(new RetrieveRecipe(id));
+
+    this.recipe$.subscribe((stateRecipe) => {
+      this.recipe = stateRecipe;
     });
-
-    // Object.create(profile)
-    // this.recipe$.pipe(take(1)).subscribe(recipe => {  this.recipe = recipe;})
-
-    // this.recipeService.getRecipeById(id).subscribe(
-    //   (response: IRecipe) => {
-    //     this.recipe = response;
-    //   },
-    //   error => {
-    //     this.errorMessage = 'Error retrieving recipe data.';
-    //     this.recipe = undefined;
-    //   }
-    // );
-
   }
 }
-
