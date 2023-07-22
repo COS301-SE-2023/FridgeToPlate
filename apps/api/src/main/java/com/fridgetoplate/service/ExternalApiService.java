@@ -10,8 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
-import com.fridgetoplate.model.SpoonacularRecipeModel;
-import com.fridgetoplate.model.SpoonacularResponseModel;
+import com.fridgetoplate.interfaces.SpoonacularResponse;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -85,7 +85,7 @@ public class ExternalApiService {
         "drink"
         );
         
-        Set<String> mealTypeSet = new HashSet<String>(cuisineList);
+        Set<String> mealTypeSet = new HashSet<String>(mealTypeList);
 
         
         List<String> dietList = Arrays.asList(
@@ -102,23 +102,22 @@ public class ExternalApiService {
             "Whole30"
             );
             
-            Set<String> dietSet = new HashSet<String>(cuisineList);
+            Set<String> dietSet = new HashSet<String>(dietList);
             
-            public SpoonacularResponseModel spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences){
+            public SpoonacularResponse spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences){
 
         String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
         
         if(!recipePreferences.getPrepTime().isEmpty())
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
-        //TODO: Change to Ingredients array
-        if(recipePreferences.getKeywords().length != 0){
-            String[] ingredientsList = recipePreferences.getKeywords();
+        if(recipePreferences.getIngredients().length != 0){
+            Ingredient[] ingredientsList = recipePreferences.getIngredients();
             
-            String ingredientsListString = "&includeIngredients=tomato";
+            String ingredientsListString = "&includeIngredients=";
              for(int i = 0; i < ingredientsList.length; i++){
                 
-                ingredientsListString += ingredientsList[i].toLowerCase();
+                ingredientsListString += ingredientsList[i].getName().toLowerCase();
                 
                  if(i < ingredientsList.length - 1)
                     ingredientsListString += ",";
@@ -140,35 +139,35 @@ public class ExternalApiService {
             String titlePreference = "";
 
             for(int i = 0; i < keywordsList.length; i++){
-                if(cuisineSet.contains(keywordsList[i])){
+                if(cuisineSet.contains(keywordsList[i].strip())){
                     if(cuisinePreferences.length() != 0)
-                        cuisinePreferences += "," + keywordsList[i];
+                        cuisinePreferences += "," + keywordsList[i].strip();
                     else
-                        cuisinePreferences += keywordsList[i];
+                        cuisinePreferences += keywordsList[i].strip();
                     continue;
                 }
 
-                if(mealTypeSet.contains(keywordsList[i])){
+                if(mealTypeSet.contains(keywordsList[i].strip().toLowerCase())){
                     if(mealPreference.length() != 0)
-                        mealPreference += "," + keywordsList[i];
+                        mealPreference += "," + keywordsList[i].strip();
                     else
-                        mealPreference += keywordsList[i];
+                        mealPreference += keywordsList[i].strip();
                     continue;                    
                 }
 
-                if(dietPreferences.contains(keywordsList[i])){
+                if(dietSet.contains(keywordsList[i].strip())){
                     if(dietPreferences.length() != 0)
-                        dietPreferences += "," + keywordsList[i];
+                        dietPreferences += "," + keywordsList[i].strip();
                     else
-                        dietPreferences += keywordsList[i];
+                        dietPreferences += keywordsList[i].strip();
                     continue;
                 }
 
                 else{
                     if(titlePreference.length() != 0)
-                        titlePreference += "," + keywordsList[i];
+                        titlePreference += "," + keywordsList[i].strip();
                     else
-                        titlePreference += keywordsList[i];
+                        titlePreference += keywordsList[i].strip();
                     continue;
                 }
             }
@@ -183,12 +182,12 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&mealType=" + mealPreference;            
 
             if(!titlePreference.isEmpty())
-                recipeSearchEndpoint += "&titleMatch=" + dietPreferences;
+                recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
         System.out.println(recipeSearchEndpoint);
 
-        return template.getForObject( recipeSearchEndpoint , SpoonacularResponseModel.class);
+        return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
     }
 }
