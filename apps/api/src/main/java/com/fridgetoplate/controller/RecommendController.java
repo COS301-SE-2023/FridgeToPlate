@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.service.ExternalApiService;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
@@ -29,7 +30,9 @@ public class RecommendController {
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
         SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
-        converter.spoonacularTest(apiService.spoonacularRecipeSearch(recipePreferences));
+        
+        Recipe[] recipeList = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences).getResults());
+        
         return recipeRepository.findAll();
     }
     
