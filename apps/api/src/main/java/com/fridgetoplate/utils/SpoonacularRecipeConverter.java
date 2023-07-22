@@ -18,18 +18,60 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
     }
 
     @Override
-    public Recipe[] unconvert(SpoonacularRecipe[] object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unconvert'");
+    public Recipe[] unconvert(SpoonacularRecipe[] spoonacularRecipes) {
+
+        if(spoonacularRecipes != null){
+
+            for(int i = 0; i < spoonacularRecipes.length; i++){
+                
+                Recipe newRecipe = new Recipe();
+                
+                SpoonacularRecipe currentRecipe = spoonacularRecipes[i];
+
+                //TODO: Potemntial hash for ID
+                //newRecipe.setRecipeId(null);
+
+                newRecipe.setRecipeImage(currentRecipe.getImage());
+
+                newRecipe.setName(currentRecipe.getTitle());
+
+                //Combine cuisines, dish types and diets 
+                newRecipe.setTags(null);
+                
+                //Create difficulty evaluation function
+                newRecipe.setDifficulty(null);
+
+                //Create take subset function
+                newRecipe.setDescription("");
+                
+
+                newRecipe.setMeal(null);
+
+                newRecipe.setPrepTime(currentRecipe.getCookingMinutes());
+                
+                //Create serving size estimator
+                newRecipe.setServings(null);
+
+                //Iterate through ingredients and add
+                newRecipe.setIngredients(null);
+                
+                //Iterate through steps and add
+                newRecipe.setSteps(null);
+
+                newRecipe.setCreator("Spoonacular");
+            }
+        }
     }
 
     public SpoonacularResponse spoonacularTest(SpoonacularResponse response){
+
+        System.out.println("In Here: ");
 
         SpoonacularRecipe[] recipeList = response.getResults();
         
         if(recipeList.length > 0){
             for(int i = 0; i < recipeList.length; i++){
-                System.out.println("Recipe Title: " + recipeList[i].getTitle() + "\n" + recipeList[i].getImage());
+                
             }            
         }
 
