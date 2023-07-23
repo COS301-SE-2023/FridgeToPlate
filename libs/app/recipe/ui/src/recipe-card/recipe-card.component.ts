@@ -4,7 +4,7 @@ import { IProfile, RemoveSavedRecipe, SaveRecipe, UpdateProfile } from '@fridge-
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router'; 
+import { Router } from '@angular/router'; 
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { AddToMealPlan, GetMealPlan, IMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
@@ -27,7 +27,7 @@ export class RecipeCardComponent implements OnInit {
   added = false;
   mealPlan !: IMealPlan;
   showMenu = false;
-  selectedMealType !: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | null;
+  selectedMealType : 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | null = null;
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
@@ -126,6 +126,7 @@ export class RecipeCardComponent implements OnInit {
     this.store.dispatch( new AddToMealPlan(this.mealPlan) );
     this.profile.currMealPlan = this.mealPlan;
     // this.store.dispatch ( new UpdateProfile(this.profile) )
+    this.selectedMealType = null;
     this.added = true;
     this.toggleDropdown();    
   }

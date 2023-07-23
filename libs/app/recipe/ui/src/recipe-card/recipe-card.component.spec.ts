@@ -149,7 +149,7 @@ describe('RecipeCardComponent', () => {
         const mealPlan = {username: 'user', date: new Date().toISOString().slice(0, 10), breakfast: recipe, lunch: null, dinner: null, snack: null};
         component.recipe = recipe;
         component.profile = profile;
-        component.selectedMealType = 'BreakFast';
+        component.selectedMealType = 'Breakfast';
         component.addToMealPlan();
         expect(component.added).toBe(true);
         expect(component.profile.currMealPlan).toEqual(mealPlan);
