@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Arrays;
 
-
 @Service
 public class ExternalApiService {
 
@@ -186,8 +185,6 @@ public class ExternalApiService {
         }
 
         recipeSearchEndpoint += "&addRecipeInformation=true&ranking=1";
-
-        System.out.println(recipeSearchEndpoint);
 
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       

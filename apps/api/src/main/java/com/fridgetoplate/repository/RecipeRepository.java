@@ -1,9 +1,7 @@
 package com.fridgetoplate.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
@@ -17,7 +15,6 @@ import com.fridgetoplate.model.Review;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,6 +28,11 @@ public class RecipeRepository {
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
         dynamoDBMapper.save(recipe);
         return recipe;
+    }
+    
+    public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList){
+        dynamoDBMapper.batchSave(recipeList);
+        return recipeList;
     }
 
     public RecipeFrontendModel findById(String id){
@@ -80,8 +82,8 @@ public class RecipeRepository {
 
 
         /*
-         * Getting the Reviews
-         */
+        * Getting the Reviews
+        */
 
         // Declaring the Reviews object 
         List<Review> reviews = this.getReviewsById(recipeId);
@@ -112,34 +114,87 @@ public class RecipeRepository {
 
     public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
         
+        //Build Expression
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":difficulty", new AttributeValue().withS(recipePreferences.getDifficulty()));
-        eav.put(":mealType", new AttributeValue().withS(recipePreferences.getMeal()));
-        eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
-        eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
-        eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
         
-        String [] keywordArray = recipePreferences.getKeywords();
+        String querySrting = "";
+
+        if(recipePreferences.getDifficulty() != null){
+            eav.put(":difficulty", new AttributeValue().withS(recipePreferences.getDifficulty()));
         
-        String keywordQueryString = "";
-        
-        for(int i = 0; i < keywordArray.length; i++){
-            eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
-            if(i == 0){
-                keywordQueryString = keywordQueryString + "contains(keywords, :val_" + keywordArray[i] + ")";
-            }
-            else{
-                keywordQueryString = keywordQueryString + " OR contains(keywords, :val_" + keywordArray[i] + ")";
-            }
+            querySrting += "difficulty=:difficulty";
         }
 
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+        if(recipePreferences.getMeal() != null){
+            eav.put(":mealType", new AttributeValue().withS(recipePreferences.getMeal()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND mealType=:mealType";
+            } else {
+                querySrting += "mealType=:mealType";
+            }
+        }
+        
+        if(recipePreferences.getRating() != null){
+            eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND rating=:rating";
+            } else {
+                querySrting += "rating=:rating";
+            }
+
+        }
+        
+        if(recipePreferences.getServings() != null){
+            eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND servings=:servings";
+            } else {
+                querySrting += "servings=:servings";
+            }            
+
+        }
+        
+        if(recipePreferences.getPrepTime() != null){
+            eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND prepTime=:prepTime";
+            } else {
+                querySrting += "prepTime=:prepTime";
+            }
+
+        }
+        
+        
+        String keywordQueryString = "";
+
+        if(recipePreferences != null && recipePreferences.getKeywords().length != 0){
+
+            String [] keywordArray = recipePreferences.getKeywords();
+            
+            for(int i = 0; i < keywordArray.length; i++){
+                eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
+                if(i == 0){
+                    keywordQueryString = keywordQueryString + "contains(keywords, :val_" + keywordArray[i] + ")";
+                }
+                else{
+                    keywordQueryString = keywordQueryString + " OR contains(keywords, :val_" + keywordArray[i] + ")";
+                }
+            }
+        }
+        
+
+        if(!keywordQueryString.isEmpty())
+            querySrting += " AND " + keywordQueryString;
+         
         
         //Filter Expression
-        .withFilterExpression("difficulty=:difficulty AND mealType=:mealType AND rating=:rating AND servings=:servings AND prepTime=:prepTime AND " + keywordQueryString)
-        .withExpressionAttributeValues(eav);
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression(querySrting).withExpressionAttributeValues(eav);
 
 
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, scanExpression);
