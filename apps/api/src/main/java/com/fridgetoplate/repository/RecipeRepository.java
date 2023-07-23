@@ -128,12 +128,12 @@ public class RecipeRepository {
         }
 
         if(recipePreferences.getMeal() != null){
-            eav.put(":mealType", new AttributeValue().withS(recipePreferences.getMeal()));
+            eav.put(":meal", new AttributeValue().withS(recipePreferences.getMeal()));
 
             if(querySrting.length() != 0){
-                querySrting += " AND mealType=:mealType";
+                querySrting += " AND meal=:meal";
             } else {
-                querySrting += "mealType=:mealType";
+                querySrting += "meal=:meal";
             }
         }
         
@@ -173,7 +173,7 @@ public class RecipeRepository {
         
         String keywordQueryString = "";
 
-        if(recipePreferences != null && recipePreferences.getKeywords().length != 0){
+        if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
 
             String [] keywordArray = recipePreferences.getKeywords();
             
