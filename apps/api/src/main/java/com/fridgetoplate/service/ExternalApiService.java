@@ -107,10 +107,10 @@ public class ExternalApiService {
 
         String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
         
-        if(!recipePreferences.getPrepTime().isEmpty())
+        if(recipePreferences.getPrepTime() != null)
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
-        if(recipePreferences.getIngredients().length != 0){
+        if(recipePreferences.getIngredients() != null && recipePreferences.getIngredients().length != 0){
             Ingredient[] ingredientsList = recipePreferences.getIngredients();
             
             String ingredientsListString = "&includeIngredients=";
@@ -126,7 +126,7 @@ public class ExternalApiService {
         }
 
 
-        if(recipePreferences.getKeywords().length != 0){
+        if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
             String[] keywordsList = recipePreferences.getKeywords();
             
             String dietPreferences = "";

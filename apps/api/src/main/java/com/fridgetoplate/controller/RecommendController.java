@@ -44,7 +44,7 @@ public class RecommendController {
         
         //3. Add External API recipes to DB
         if(apiQueryResults.length != 0)
-            recipeRepository.saveBatch(apiQueryResults);
+            recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
 
         //4. Combine Result sets
         List<RecipeFrontendModel> queryResults = Arrays.asList( converter.combineQueryResults(apiQueryResults, dbQueryResults.toArray(new RecipeFrontendModel[dbQueryResults.size()])));

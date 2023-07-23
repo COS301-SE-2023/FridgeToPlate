@@ -11,6 +11,7 @@ import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularStep;
 import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], RecipeFrontendModel[]> {
@@ -74,6 +75,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                             SpoonacularIngredient[] stepIngredients = currentStep.getIngredients();
                             
                             for(int j = 0; j < stepIngredients.length; j++){
+
                                 Ingredient newIngredient = new Ingredient();
                                 
                                 newIngredient.setName(stepIngredients[j].getName());
@@ -82,7 +84,8 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                                 
                                 newIngredient.setUnit("unit");
 
-                                currentIngredients.add(newIngredient);
+                                if(!currentIngredients.contains(newIngredient))
+                                    currentIngredients.add(newIngredient);
                             }
                         }
 
@@ -117,5 +120,44 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
         System.arraycopy(dbResults, 0, resultArray , apiResults.length, dbResults.length );
         
         return resultArray;
+    }
+
+    public RecipeModel[] toRecipeModelArray(RecipeFrontendModel[] apiResults){
+        if(apiResults == null)
+            return null;
+        
+        List<RecipeModel> convertedResults = new ArrayList<RecipeModel>();
+
+        for(int i = 0; i < apiResults.length; i++){
+            RecipeModel newRecipe = new RecipeModel();
+
+            newRecipe.setName(apiResults[i].getName());
+
+            newRecipe.setDescription(apiResults[i].getDescription());
+
+            newRecipe.setDifficulty(apiResults[i].getDifficulty());
+
+            newRecipe.setRecipeImage(apiResults[i].getRecipeImage());
+
+            newRecipe.setMeal(apiResults[i].getMeal());
+
+            newRecipe.setPrepTime(apiResults[i].getPrepTime());
+
+            newRecipe.setServings(apiResults[i].getServings());
+
+            newRecipe.setCreator(apiResults[i].getCreator());
+
+            newRecipe.setViews(0);
+
+            newRecipe.setSteps(apiResults[i].getSteps());
+
+            newRecipe.setIngredients(apiResults[i].getIngredients());
+
+            newRecipe.setTags(apiResults[i].getTags());
+
+            convertedResults.add(newRecipe);
+        }
+
+        return convertedResults.toArray(new RecipeModel[convertedResults.size()]);
     }
 }
