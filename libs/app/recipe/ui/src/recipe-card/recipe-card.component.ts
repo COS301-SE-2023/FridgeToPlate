@@ -27,7 +27,7 @@ export class RecipeCardComponent implements OnInit {
   added = false;
   mealPlan !: IMealPlan;
   showMenu = false;
-  selectedMealType = 'Breakfast';
+  selectedMealType !: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | null;
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
@@ -86,18 +86,46 @@ export class RecipeCardComponent implements OnInit {
       return;
     }
 
-    const mealPlan = {
-      username: this.profile.username,
-      date: new Date().toISOString().slice(0, 10),
-      breakfast: this.selectedMealType === 'BreakFast' ? this.recipe : null,
-      lunch: this.selectedMealType === 'Lunch' ? this.recipe : null,
-      dinner: this.selectedMealType === 'Dinner' ? this.recipe : null,
-      snack: this.selectedMealType === 'Snack' ? this.recipe : null,
-    } as IMealPlan
+    switch(this.selectedMealType) {
+      case 'Breakfast':
+        if(this.mealPlan.breakfast){
+          this.store.dispatch( new ShowError('ERROR: Breakfast already selected.'))
+          return; 
+        }
+        this.mealPlan.breakfast = this.recipe;
+        break;
+      case 'Lunch':
+        if(this.mealPlan.lunch){
+          this.store.dispatch( new ShowError('ERROR: Lunch already selected.'))
+          return;
+        }
+        this.mealPlan.lunch = this.recipe;
+        break;
+      case 'Dinner':
+        if(this.mealPlan.dinner){
+          this.store.dispatch( new ShowError('ERROR: Dinner already selected.'))
+          return;
+        }
+        this.mealPlan.dinner = this.recipe;
+        break;
+      case 'Snack':
+        if(this.mealPlan.snack){
+          this.store.dispatch( new ShowError('ERROR: Snack already selected.'))
+          return;
+        }
+        this.mealPlan.snack = this.recipe;
+        break;
+      default:
+        this.store.dispatch( new ShowError('ERROR: No meal type selected.'))
+        return;
+    }
 
-    this.store.dispatch( new AddToMealPlan(mealPlan) );
-    this.profile.currMealPlan = mealPlan;
-    this.store.dispatch ( new UpdateProfile(this.profile) )
+    this.mealPlan.username = this.profile.username;
+    this.mealPlan.date = new Date().toISOString().slice(0, 10);
+
+    this.store.dispatch( new AddToMealPlan(this.mealPlan) );
+    this.profile.currMealPlan = this.mealPlan;
+    // this.store.dispatch ( new UpdateProfile(this.profile) )
     this.added = true;
     this.toggleDropdown();    
   }

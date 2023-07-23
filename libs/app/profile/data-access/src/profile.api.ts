@@ -17,12 +17,10 @@ export class ProfileAPI {
   updateProfile(profile: IProfile) {
 
     const username = profile.username;
-
     const url = `${this.baseUrl}/${username}`;
-
     this.http.put<IProfile>(url, profile).subscribe({
       error: error => {
-        this.store.dispatch(new ShowError(error));
+        this.store.dispatch(new ShowError(error.message));
       }
     });
   }
@@ -30,7 +28,6 @@ export class ProfileAPI {
   saveProfile(profile: IProfile) {
 
     const url = `${this.baseUrl}/create`;
-
     this.http.post<IProfile>(url, profile).subscribe({
       error: error => {
         this.store.dispatch(new ShowError(error));

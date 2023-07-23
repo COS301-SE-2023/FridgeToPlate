@@ -3,15 +3,16 @@ package com.fridgetoplate.model;
 import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fridgetoplate.interfaces.Profile;
+import com.fridgetoplate.interfaces.RecipeDesc;
 
 
-@DynamoDBTable(tableName = "profiles")
+@DynamoDBDocument
 public class ProfileModel extends Profile {
 
-    private List<String> savedRecipes;
+    private List<RecipeDesc> savedRecipes;
 
     @DynamoDBHashKey(attributeName = "username")
     public String getUsername() {
@@ -33,20 +34,14 @@ public class ProfileModel extends Profile {
         return profilePicture;
     }
 
-    @DynamoDBAttribute(attributeName = "ingredients")
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
     @DynamoDBAttribute(attributeName = "savedRecipes")
-    public List<String> getSavedRecipes() {
+    public List<RecipeDesc> getSavedRecipes() {
         return savedRecipes;
     }
 
 
     // setters
-    @DynamoDBAttribute(attributeName = "savedRecipes")
-    public void setSavedRecipes(List<String> savedRecipes) {
+    public void setSavedRecipes(List<RecipeDesc> savedRecipes) {
         this.savedRecipes = savedRecipes;
     }
 

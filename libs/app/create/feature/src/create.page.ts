@@ -7,7 +7,7 @@ import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable, take } from 'rxjs';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -36,7 +36,7 @@ export class CreatePagComponent implements OnInit  {
     this.recipeForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      servings: ['', Validators.required, Validators.min(1)],
+      servings: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
@@ -117,8 +117,10 @@ export class CreatePagComponent implements OnInit  {
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
     };
+    this.profile.createdRecipes.unshift(recipe);
 
-    this.store.dispatch( new CreateRecipe(recipe) )
+    // this.store.dispatch( new CreateRecipe(recipe) )
+    this.store.dispatch( new UpdateProfile(this.profile) )
   }
 
 

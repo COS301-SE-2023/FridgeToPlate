@@ -30,39 +30,24 @@ export interface ProfileStateModel {
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
-            savedRecipes: [
-                {
-                    recipeId: "testid",
-                    recipeImage: "testimage",
-                    difficulty: "Hard",
-                    name: "The hard recipe",
-                    tags: ["Tag"],
-                },
-                {
-                    recipeId: "testid",
-                    recipeImage: "testimage",
-                    difficulty: "Medium",
-                    name: "The med recipe",
-                    tags: ["Tag"],
-                },
-                {
-                    recipeId: "testid",
-                    recipeImage: "testimage",
-                    difficulty: "Easy",
-                    name: "The easy recipe",
-                    tags: ["Tag"],
-                },
-            ],
+            savedRecipes: [],
             ingredients: [],
             profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [
                 {
                     recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
-                    recipeImage: "testimage",
-                    difficulty: "Easy",
-                    name: "The recipe",
-                    tags: ["Tag"],
-                }
+                    recipeImage: "https://source.unsplash.com/800x800/?food",
+                    name: "Delicious Pasta",
+                    tags: ["pasta", "Italian", "dinner"],
+                    difficulty: "Easy"
+                    },
+                {
+                    recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
+                    recipeImage: "https://source.unsplash.com/800x800/?food",
+                    name: "Cheesy Meal",
+                    tags: ["pasta", "Italian", "dinner"],
+                    difficulty: "Easy"
+                    }
             ],
             currMealPlan: null
         }

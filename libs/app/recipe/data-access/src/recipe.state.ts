@@ -81,7 +81,11 @@ export class RecipeState {
         patchState({
             recipe : recipe
         })
-        this.api.createNewRecipe(recipe);
+        this.api.createNewRecipe(recipe).subscribe({
+            error: error => {
+              this.store.dispatch(new ShowError(error.message));
+            }
+          });
     }
 
     @Action(RetrieveRecipe)

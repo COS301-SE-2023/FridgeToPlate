@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.interfaces.Profile;
-import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ProfileRepository;
 import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 
@@ -19,7 +18,7 @@ public class ProfileController {
     private ProfileRepository profileRepository;
 
     @PostMapping("/create")
-    public ProfileModel save(@RequestBody ProfileModel profile) {
+    public ProfileFrontendModel save(@RequestBody ProfileFrontendModel profile) {
         return profileRepository.save(profile);
     }
 
@@ -29,7 +28,7 @@ public class ProfileController {
     }
 
     @GetMapping
-    public List<ProfileModel> findAll() {
+    public List<ProfileFrontendModel> findAll() {
         return profileRepository.findAll();
     }
 
@@ -38,9 +37,9 @@ public class ProfileController {
         return "Testing purposes";
     }
 
-    @PutMapping("/{id}")
-    public Profile update(@PathVariable(value = "id") String id, @RequestBody Profile profile) {
-        return profileRepository.update(id, profile);
+    @PutMapping("/{username}")
+    public ProfileFrontendModel update(@PathVariable(value = "username") String username, @RequestBody ProfileFrontendModel profile) {
+        return profileRepository.update(username, profile);
     }
 
     @DeleteMapping("/{id}")

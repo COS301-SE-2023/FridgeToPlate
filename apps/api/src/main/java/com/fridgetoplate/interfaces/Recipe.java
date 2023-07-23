@@ -7,7 +7,6 @@ public class Recipe extends RecipeDesc {
 
     protected String description;
 
-
     protected String meal;
 
     protected Integer prepTime;

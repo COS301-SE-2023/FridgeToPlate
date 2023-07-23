@@ -35,9 +35,15 @@ export class MealPlanState {
 
     @Action(AddToMealPlan)
     addToMealPlan({ patchState } : StateContext<MealPlanStateModel>, { mealPlan }: AddToMealPlan){
-        this.api.addToMealPlan(mealPlan).pipe(tap((mealplan
-            )=>patchState({'mealPlan': mealplan})), catchError(()=>{return this.store.
-                dispatch(new ShowError("Unable to retrieve Meal Plan"));})).subscribe()
+
+        patchState({
+            mealPlan: mealPlan
+        })
+        this.api.addToMealPlan(mealPlan).subscribe({
+            error: error => {
+                this.store.dispatch(new ShowError(error.message));
+              }
+        })
     }
 
     @Action(RemoveFromMealPlan)
