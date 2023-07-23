@@ -48,3 +48,4 @@ Thumbs.db
 .env
 .prod.env
 # *application.properties
+apps/api/src/main/resources/*
