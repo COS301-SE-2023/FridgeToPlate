@@ -41,9 +41,6 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 List<String> currentRecipeSteps = new ArrayList<String>();
 
-                //TODO: Potemntial hash for ID
-                //newRecipe.setRecipeId(null);
-
                 newRecipe.setRecipeImage(currentRecipe.getImage());
 
                 newRecipe.setName(currentRecipe.getTitle());
@@ -57,7 +54,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                 
                 newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
 
-                newRecipe.setPrepTime(currentRecipe.getCookingMinutes());
+                newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
                 
                 newRecipe.setServings(currentRecipe.getServings());
 

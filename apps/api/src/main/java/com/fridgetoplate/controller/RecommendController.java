@@ -34,22 +34,18 @@ public class RecommendController {
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
         
         SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
-        
-        //.1 Query Database by prefrence
-        List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
 
-        
-        //2. Query External API and convert to Recipe
+        //1. Query External API and convert to Recipe
         RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences).getResults());
         
-        //3. Add External API recipes to DB
+        //2. Add External API recipes to DB
         if(apiQueryResults.length != 0)
             recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
+        
+        //.3 Query Database by prefrence
+        List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
 
-        //4. Combine Result sets
-        List<RecipeFrontendModel> queryResults = Arrays.asList( converter.combineQueryResults(apiQueryResults, dbQueryResults.toArray(new RecipeFrontendModel[dbQueryResults.size()])));
-
-        return queryResults;
+        return dbQueryResults;
     }
     
 }
