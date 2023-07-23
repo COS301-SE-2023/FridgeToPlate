@@ -36,10 +36,9 @@ public class RecommendController {
         SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
         
         //.1 Query Database by prefrence
-        //List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
+        List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
 
-        List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAll();
-
+        
         //2. Query External API and convert to Recipe
         RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences).getResults());
         

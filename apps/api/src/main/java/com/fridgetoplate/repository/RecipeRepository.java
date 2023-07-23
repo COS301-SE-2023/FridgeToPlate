@@ -180,18 +180,24 @@ public class RecipeRepository {
             for(int i = 0; i < keywordArray.length; i++){
                 eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
                 if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(keywords, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordArray[i] + ")";
                 }
                 else{
-                    keywordQueryString = keywordQueryString + " OR contains(keywords, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordArray[i] + ")";
                 }
             }
         }
         
 
-        if(!keywordQueryString.isEmpty())
-            querySrting += " AND " + keywordQueryString;
-         
+        if(!keywordQueryString.isBlank()){
+            if(querySrting.isEmpty())
+                querySrting += keywordQueryString;
+
+            else{
+                querySrting += " AND " + keywordQueryString;
+            }
+        }
+
         
         //Filter Expression
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression(querySrting).withExpressionAttributeValues(eav);
