@@ -30,8 +30,14 @@ public class RecipeRepository {
         return recipe;
     }
     
-    public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList){
-        dynamoDBMapper.batchSave(recipeList);
+    public RecipeModel[] saveBatch(RecipeModel[] recipeList){
+        if(recipeList.length != 0)
+        {
+            for(int i = 0; i < recipeList.length; i++){
+                dynamoDBMapper.save(recipeList[i]);
+            }
+        }
+        
         return recipeList;
     }
 
@@ -187,8 +193,24 @@ public class RecipeRepository {
                 }
             }
         }
-        
 
+        String ingredientQueryString = "";
+
+        if(recipePreferences.getIngredients() != null && recipePreferences.getIngredients().length != 0){
+
+            Ingredient [] ingredientsArray = recipePreferences.getIngredients();
+            
+            for(int i = 0; i < ingredientsArray.length; i++){
+                eav.put(":val_" + ingredientsArray[i] , new AttributeValue().withS(ingredientsArray[i].getName()));
+                if(i == 0){
+                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                }
+                else{
+                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                }
+            }
+        }
+        
         if(!keywordQueryString.isBlank()){
             if(querySrting.isEmpty())
                 querySrting += keywordQueryString;
@@ -198,7 +220,15 @@ public class RecipeRepository {
             }
         }
 
-        
+        if(!ingredientQueryString.isBlank()){
+            if(querySrting.isEmpty())
+                querySrting += ingredientQueryString;
+
+            else{
+                querySrting += " AND " + ingredientQueryString;
+            }
+        }
+
         //Filter Expression
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression(querySrting).withExpressionAttributeValues(eav);
 
