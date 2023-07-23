@@ -1,39 +1,38 @@
 package com.fridgetoplate.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fridgetoplate.interfaces.Recipe;
-import com.fridgetoplate.interfaces.SpoonacularAnalyzedInstruction;
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
-import com.fridgetoplate.interfaces.SpoonacularResponse;
 import com.fridgetoplate.interfaces.SpoonacularStep;
 import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.model.Review;
 
-public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], Recipe[]> {
+public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], RecipeFrontendModel[]> {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public SpoonacularRecipe[] convert(Recipe[] object) {
-        // TODO Auto-generated method stub
+    public SpoonacularRecipe[] convert(RecipeFrontendModel[] object) {
         throw new UnsupportedOperationException("Unimplemented method 'convert'");
     }
 
     @Override
-    public Recipe[] unconvert(SpoonacularRecipe[] spoonacularRecipes) {
+    public RecipeFrontendModel[] unconvert(SpoonacularRecipe[] spoonacularRecipes) {
 
         if(spoonacularRecipes != null){
 
             SpoonacularMiscUtils utils = new SpoonacularMiscUtils();
 
-            List<Recipe> convertedRecipes = new ArrayList<Recipe>();
+            List<RecipeFrontendModel> convertedRecipes = new ArrayList<RecipeFrontendModel>();
  
             for(int i = 0; i < spoonacularRecipes.length; i++){
                 
-                Recipe newRecipe = new Recipe();
+                RecipeFrontendModel newRecipe = new RecipeFrontendModel();
                 
                 SpoonacularRecipe currentRecipe = spoonacularRecipes[i];
 
@@ -97,27 +96,26 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setCreator("Spoonacular");
 
+                newRecipe.setReviews( new ArrayList<Review>() );
+
                 convertedRecipes.add(newRecipe);
             }
 
-            return convertedRecipes.toArray(new Recipe[convertedRecipes.size()]);
+            return convertedRecipes.toArray(new RecipeFrontendModel[convertedRecipes.size()]);
         }
     
         return null;
     }
 
-    public SpoonacularResponse spoonacularTest(SpoonacularResponse response){
 
-        System.out.println("In Here: ");
-
-        SpoonacularRecipe[] recipeList = response.getResults();
+    public RecipeFrontendModel[] combineQueryResults(RecipeFrontendModel[] apiResults, RecipeFrontendModel[] dbResults){
+        if(apiResults == null || dbResults == null)
+            return null;
         
-        if(recipeList.length > 0){
-            for(int i = 0; i < recipeList.length; i++){
-                
-            }            
-        }
+        RecipeFrontendModel[] resultArray = Arrays.copyOf(apiResults, apiResults.length + dbResults.length);
 
-        return response;
+        System.arraycopy(dbResults, 0, resultArray , apiResults.length, dbResults.length );
+        
+        return resultArray;
     }
 }
