@@ -13,10 +13,10 @@ public class SpoonacularMiscUtils {
             return "Easy";
         
         else{
-            if( (recipePrepTime > 0 && recipePrepTime <= 15) || ( ingredients.length > 0 && ingredients.length <= 5) )
+            if( (recipePrepTime > 0 && recipePrepTime <= 15) && ( ingredients.length > 0 && ingredients.length <= 5) )
                 return "Easy";
             
-            else if( (recipePrepTime > 15 && recipePrepTime <= 30) || ( ingredients.length > 5 && ingredients.length <= 10) )
+            else if( (recipePrepTime > 15 && recipePrepTime <= 30) && ( ingredients.length > 5 && ingredients.length <= 10) )
                 return "Medium";            
             
             else
