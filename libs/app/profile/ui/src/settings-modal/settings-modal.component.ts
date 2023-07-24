@@ -28,6 +28,8 @@ export class SettingsModalComponent {
     this.preferences$.pipe(take(1)).subscribe(preferences => this.editablePreferences = Object.create(preferences));
   }
 
+  displayChangePassword = "none";
+
   close() {
     this.closeFunc.emit();
   }
@@ -39,4 +41,13 @@ export class SettingsModalComponent {
   logout() {
     this.store.dispatch(new Logout());
   }
+
+  openPassword(){
+    this.displayChangePassword = "block";
+  }
+
+  closeChangePassword() {
+    this.displayChangePassword = "none";
+  }
+
 }
