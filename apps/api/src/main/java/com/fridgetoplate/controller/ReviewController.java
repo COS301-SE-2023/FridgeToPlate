@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.ReviewRepository;
 
@@ -20,7 +23,7 @@ import com.fridgetoplate.repository.ReviewRepository;
 @RequestMapping("/reviews")
 
 public class ReviewController {
-    
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -48,5 +51,10 @@ public class ReviewController {
      @GetMapping
     public List<Review> findAll(){
         return reviewRepository.findAll();
+    }
+
+    @DeleteMapping("/{recipeId}/{reviewId}")
+    public String delete(@PathVariable(value = "recipeId") String recipeId, @PathVariable(value = "reviewId") String reviewId) {
+        return reviewRepository.delete(recipeId, reviewId);
     }
 }
