@@ -1,10 +1,13 @@
 package com.fridgetoplate.frontendmodels;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import com.fridgetoplate.interfaces.MealPlan;
 import com.fridgetoplate.interfaces.RecipeDesc;
+
 
 public class MealPlanFrontendModel extends MealPlan{
     
@@ -19,12 +22,12 @@ public class MealPlanFrontendModel extends MealPlan{
 
     // getters
 
-    @DynamoDBAttribute(attributeName = "username")
+    @DynamoDBHashKey(attributeName = "username")
     public String getUsername() {
         return username;
     }
 
-    @DynamoDBAttribute(attributeName = "date_Time")
+    @DynamoDBRangeKey(attributeName = "date")
     public String getDate() {
         return date;
     }

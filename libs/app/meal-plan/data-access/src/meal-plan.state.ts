@@ -35,7 +35,6 @@ export class MealPlanState {
 
     @Action(AddToMealPlan)
     addToMealPlan({ patchState } : StateContext<MealPlanStateModel>, { mealPlan }: AddToMealPlan){
-
         patchState({
             mealPlan: mealPlan
         })
@@ -51,7 +50,6 @@ export class MealPlanState {
         this.api.removeFromMealPlan(username, recipeId).pipe(tap((mealplan)=>patchState
             ({"mealPlan": mealplan}),catchError (()=>this.store
             .dispatch(new ShowError('Unfortunately, the recipe was not removed successfully'))))).subscribe();
-        
     }
 
     @Action(GetMealPlan)

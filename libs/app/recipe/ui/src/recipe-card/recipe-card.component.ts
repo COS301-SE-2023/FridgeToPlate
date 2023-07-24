@@ -125,7 +125,7 @@ export class RecipeCardComponent implements OnInit {
 
     this.store.dispatch( new AddToMealPlan(this.mealPlan) );
     this.profile.currMealPlan = this.mealPlan;
-    // this.store.dispatch ( new UpdateProfile(this.profile) )
+    this.store.dispatch ( new UpdateProfile(this.profile) )
     this.selectedMealType = null;
     this.added = true;
     this.toggleDropdown();    
@@ -160,19 +160,15 @@ export class RecipeCardComponent implements OnInit {
   checkMealPlan(mealPlan : IMealPlan): boolean {
 
     if(mealPlan.breakfast) {
-      console.log('Breakfast')
       return true;
     }
     if(mealPlan.lunch) {
-      console.log('Lunch')
       return true;
     }
     if(mealPlan.dinner) {
-      console.log('Dinner')
       return true;
     }
     if(mealPlan.snack) {
-      console.log('snack')
       return true;
     }
 

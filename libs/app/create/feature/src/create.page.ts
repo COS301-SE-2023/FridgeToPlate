@@ -29,7 +29,7 @@ export class CreatePagComponent implements OnInit  {
 
   ngOnInit() {
     this.createForm();
-    this.profile$.pipe(take(1)).subscribe(profile => this.profile = Object.create(profile));
+    this.profile$.subscribe(profile => this.profile = profile);
   }
 
   createForm(): void {
@@ -117,10 +117,11 @@ export class CreatePagComponent implements OnInit  {
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
     };
-    this.profile.createdRecipes.unshift(recipe);
 
-    // this.store.dispatch( new CreateRecipe(recipe) )
-    this.store.dispatch( new UpdateProfile(this.profile) )
+    this.store.dispatch( new CreateRecipe(recipe) )
+
+    this.profile.createdRecipes.unshift(recipe);
+    this.store.dispatch ( new UpdateProfile(this.profile) )
   }
 
 

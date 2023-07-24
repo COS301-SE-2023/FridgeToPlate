@@ -155,6 +155,16 @@ export class EditRecipeComponent implements OnInit {
       tags: this.tags,
     };
     this.store.dispatch( new UpdateRecipe(recipe) )
+    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
+    const index = profile.createdRecipes.findIndex( recipe => this.recipeId !== recipe.recipeId);
+    if(index === -1) {
+      this.store.dispatch( new ShowError('Could not update recipe'));
+    }
+    profile.createdRecipes[index] = recipe;
+    this.store.dispatch( new UpdateProfile(profile))
+     // TODO: add test coverage
+    })
+
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -23,10 +23,6 @@ public class ProfileFrontendModel extends Profile {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @DynamoDBAttribute(attributeName = "email")
     public String getEmail() {
         return email;
@@ -53,11 +49,13 @@ public class ProfileFrontendModel extends Profile {
         this.savedRecipes = savedRecipes;
     }
 
+    @DynamoDBAttribute(attributeName = "created_recipes")
     public List<RecipeDesc> getCreatedRecipes() {
         return createdRecipes;
     }
 
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    @DynamoDBAttribute(attributeName = "meal_plans")
     public MealPlanFrontendModel getCurrMealPlan() {
         return currMealPlan;
     }
