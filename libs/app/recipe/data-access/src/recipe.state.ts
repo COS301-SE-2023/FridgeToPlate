@@ -13,7 +13,7 @@ import {
 } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Location } from '@angular/common';
-import { take } from 'rxjs';
+import { catchError, take, tap } from 'rxjs';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
@@ -59,7 +59,7 @@ export class RecipeState {
     });
 
     this.api.updateRecipe(recipe).subscribe(
-      (response) => {
+      () => {
         patchState({
           recipe: recipe,
         });
@@ -126,10 +126,8 @@ export class RecipeState {
     { patchState }: StateContext<RecipeStateModel>,
     { recipe }: CreateRecipe
   ) {
-    patchState({
-      recipe: recipe,
-    });
-    this.api.createNewRecipe(recipe);
+    this.api.createNewRecipe(recipe).pipe(tap((recipe)=>patchState({"recipe": recipe}),
+        catchError (()=>this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))))).subscribe();
   }
 
   @Action(RetrieveRecipe)
