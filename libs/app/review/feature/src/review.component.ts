@@ -53,12 +53,11 @@ export class Review {
 
     let stateRecipeId = '';
     this.recipe$.subscribe( (stateRecipe) => {
-      stateRecipeId = stateRecipe.recipeId!;
+      stateRecipeId = stateRecipe.recipeId ?? '';
     });
 
 
     const review: IReview = {
-      reviewId: 'uyassuigasiugfasou56tug',
       recipeId: stateRecipeId,
       username: this.stateUsername,
       rating: this.rating,
@@ -74,12 +73,11 @@ export class Review {
 
   deleteReview(selectedReview: string | null = null) {
 
-    let stateReviewId = 'uyassuigasiugfasou56tug';
+    let stateReviewId = '';
 
     this.recipe$.subscribe( (stateRecipe) => {
-      stateReviewId = stateRecipe.reviews?.find((el) => el.reviewId === selectedReview)?.reviewId!;
+      stateReviewId = stateRecipe.reviews?.find((el) => el.reviewId === selectedReview)?.reviewId ?? "";
     });
-
 
     this.store.dispatch(new DeleteReview(stateReviewId));
   }

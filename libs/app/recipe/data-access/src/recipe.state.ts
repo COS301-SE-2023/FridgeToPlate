@@ -81,6 +81,8 @@ export class RecipeState {
     if (newRecipe) {
       newRecipe?.reviews?.unshift(review);
 
+      this.api.createNewReview(review).subscribe();
+
       this.store.dispatch(new UpdateRecipe(newRecipe));
     }
   }
@@ -97,7 +99,9 @@ export class RecipeState {
         (currentReview) => currentReview.reviewId !== reviewId
       );
 
-      this.store.dispatch(new UpdateRecipe(newRecipe));
+      if (newRecipe.recipeId) {
+        this.api.deleteReview(newRecipe.recipeId, reviewId).subscribe();
+        this.store.dispatch(new UpdateRecipe(newRecipe));}
     }
   }
 
