@@ -32,18 +32,23 @@ public class RecommendController {
 
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecipePreferencesFrontendModel recipePreferences) {
-        
-        SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 
-        //1. Query External API and convert to Recipe
-        RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences).getResults());
-        
-        //2. Add External API recipes to DB
-        if(apiQueryResults.length != 0)
-            recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
-        
-        //.3 Query Database by prefrence
         List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
+
+        if(dbQueryResults.size() < 25){
+            SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
+    
+            //1. Query External API and convert to Recipe
+            RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences).getResults());
+            
+            //2. Add External API recipes to DB
+            if(apiQueryResults.length != 0)
+                recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
+            
+            //.3 Query Database by prefrence
+            dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences);
+
+        }
 
         return dbQueryResults;
     }
