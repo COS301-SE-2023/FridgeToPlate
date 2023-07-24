@@ -34,6 +34,13 @@ public class NotificationsRepository {
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+        
+        for (NotificationModel notification : scanResult) {
+            
+                if(notification != null) {
+                    notifications.add(notification);
+                }
+        }
 
         return notifications;
     }
