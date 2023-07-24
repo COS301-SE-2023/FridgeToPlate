@@ -19,10 +19,23 @@ export interface RecipeStateModel {
   recipe: IRecipe | null;
 }
 
+const initialState:IRecipe = {
+  description: '',
+  servings: 0,
+  prepTime: 0,
+  meal: 'Breakfast',
+  ingredients: [],
+  steps: [],
+  creator: '',
+  name: '',
+  tags: [],
+  difficulty: 'Easy',
+  recipeImage: ''
+};
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: null,
+    recipe: initialState,
   },
 })
 @Injectable()
