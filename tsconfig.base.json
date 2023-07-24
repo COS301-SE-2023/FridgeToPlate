@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -18,6 +19,7 @@
       "@fridge-to-plate/app/auth/data-access": [
         "libs/app/auth/data-access/src/index.ts"
       ],
+      "@fridge-to-plate/app/auth/utils": ["libs/app/auth/utils/src/index.ts"],
       "@fridge-to-plate/app/core": ["libs/app/core/src/index.ts"],
       "@fridge-to-plate/app/create/data-access": [
         "libs/app/create/data-access/src/index.ts"
@@ -27,6 +29,13 @@
       ],
       "@fridge-to-plate/app/create/utils": [
         "libs/app/create/utils/src/index.ts"
+      ],
+      "@fridge-to-plate/app/edit-recipe": ["libs/app/edit-recipe/src/index.ts"],
+      "@fridge-to-plate/app/edit-recipe/feature": [
+        "libs/app/edit-recipe/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/environments/utils": [
+        "libs/app/environments/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/error/data-access": [
         "libs/app/error/data-access/src/index.ts"
@@ -41,11 +50,26 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/meal-plan/data-access": [
+        "libs/app/meal-plan/data-access/src/index.ts"
+      ],
       "@fridge-to-plate/app/meal-plan/utils": [
         "libs/app/meal-plan/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/navigation/feature": [
         "libs/app/navigation/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/data-access": [
+        "libs/app/notifications/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/feature": [
+        "libs/app/notifications/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/ui": [
+        "libs/app/notifications/ui/src/index.ts"
+      ],
+      "@fridge-to-plate/app/notifications/utils": [
+        "libs/app/notifications/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/preferences/data-access": [
         "libs/app/preferences/data-access/src/index.ts"
@@ -82,19 +106,25 @@
       "@fridge-to-plate/app/recommend/ui": [
         "libs/app/recommend/ui/src/index.ts"
       ],
-      "@fridge-to-plate/app/review/utils": [
-        "libs/app/review/utils/src/index.ts"
+      "@fridge-to-plate/app/recommend/utils": [
+        "libs/app/recommend/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/review/data-access": [
         "libs/app/review/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/review/feature": [
         "libs/app/review/feature/src/index.ts"
-
+      ],
+      "@fridge-to-plate/app/review/utils": [
+        "libs/app/review/utils/src/index.ts"
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
-      ]
+      ],
+      "@fridge-to-plate/app/undo/data-access": [
+        "libs/app/undo/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/undo/utils": ["libs/app/undo/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

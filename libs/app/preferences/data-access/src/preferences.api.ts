@@ -1,28 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@fridge-to-plate/app/environments/utils';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
+import { Store } from '@ngxs/store';
 
-export interface IResponse {
-  status: number;
-  message: string;
-  data: object;
-}
-
-export interface PreferenceRequest extends IResponse {
-  data: {
-    preferences: IPreferences;
-  };
-}
-
-const baseUrl = 'http://dev-fridgetoplate-api.af-south-1.elasticbeanstalk.com/';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PreferencesAPI {
-  constructor(private http: HttpClient) {}
 
-  private baseUrl = "http://localhost:5000/preferences";
+  constructor(private http: HttpClient, private store: Store) {}
+
+  private baseUrl = environment.API_URL + "/preferences";
 
   updatePreference(preferences: IPreferences) {
 
@@ -30,15 +21,27 @@ export class PreferencesAPI {
 
     const url = `${this.baseUrl}/${username}` ;
 
-    this.http.put<IResponse>(url, preferences).subscribe({
-      next: data => {
-          console.log(data.status);
-          return data.status;
-      },
+    this.http.put<IPreferences>(url, preferences).subscribe({
       error: error => {
-          console.error('There was an error!', error);
-          return error.status;
+        this.store.dispatch(new ShowError(error));
       }
     })
+  }
+
+  savePreferences(preferences: IPreferences) {
+
+    const url = `${this.baseUrl}/create`;
+
+    this.http.post<IPreferences>(url, preferences).subscribe({
+      error: error => {
+        this.store.dispatch(new ShowError(error));
+      }
+    });
+  }
+
+  getPreferences(username: string) {
+    const url = `${this.baseUrl}/${username}`;
+
+    return this.http.get<IPreferences | null>(url);
   }
 }

@@ -1,8 +1,12 @@
 <div class="w-full rounded-lg overflow-hidden shadow-lg mb-4 bg-primary">
-    <div class="my-4 flex justify-between px-3">
-        <div class="flex items-center gap-2">
-            <p class="text-white md:max-w-[375px] truncate max-w-[280px] place-self-auto"> {{ingredient.name }} {{ ingredient.amount }} </p>
+    <div class="my-4 flex justify-between px-3 relative">
+        <div>
+            <p class="text-white text-lg font-bold"> {{ingredient.name }}</p>
+            <p class="text-white">{{ ingredient.amount }}&ThinSpace;{{ ingredient.unit }} </p>
         </div> 
-        <span (click)="remove()" class="h-8 cursor-pointer w-8 flex justify-center items-center border border-white rounded-full "><ion-icon name="trash-outline" class="text-white"></ion-icon></span>
+        <span (click)="remove()" class=" inline-flex absolute top-1/2 right-2 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
+        px-2 py-2 text-center m-3 border cursor-pointer">
+            <ion-icon name="trash-outline" class="text-white"></ion-icon>
+        </span>
     </div>
 </div>

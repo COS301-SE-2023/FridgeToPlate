@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeListStep } from './recipe-list-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxsModule } from '@ngxs/store';
 
 describe('RecipeListStep', () => {
   let component: RecipeListStep;
@@ -11,7 +12,7 @@ describe('RecipeListStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecipeListStep],
-      imports: [IonicModule, HttpClientModule],
+      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot()],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipeListStep);
