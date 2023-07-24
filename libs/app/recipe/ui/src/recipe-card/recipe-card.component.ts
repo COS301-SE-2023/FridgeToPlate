@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { IProfile, RemoveSavedRecipe, SaveRecipe, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
-import { Observable, take } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router'; 
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router'; 
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { AddToMealPlan, GetMealPlan, IMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
-import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,16 +18,13 @@ import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
 export class RecipeCardComponent implements OnInit {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
-  @Select(MealPlanState.getMealPlan) mealPlan$ !: Observable<IMealPlan | null>;
 
   @Input() recipe !: any;
   bookmarked = false;
   editable = true;
-  profile !: IProfile;
   added = false;
-  mealPlan !: IMealPlan;
   showMenu = false;
-  selectedMealType = 'Breakfast';
+  mealType!: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
@@ -36,20 +33,10 @@ export class RecipeCardComponent implements OnInit {
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
         this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
-        this.profile = profile;
+        this.added = this.checkMealPlan(profile.currMealPlan);
       } else {
         this.bookmarked = false;
         this.editable = false;
-      }
-    });
-    this.store.dispatch( new GetMealPlan(this.profile.username))
-    this.mealPlan$.pipe(take(1)).subscribe(mealPlan => {
-      if(mealPlan) {
-        this.mealPlan = mealPlan;
-        this.added = this.checkMealPlan(mealPlan);
-      }
-      else {
-        this.store.dispatch(new ShowError("Error: Something is wrong with the mealPlan"))
       }
     });
   }
@@ -64,7 +51,7 @@ export class RecipeCardComponent implements OnInit {
 
   edit() {
       if(!this.recipe){
-        this.store.dispatch( new ShowError('ERROR: No recipe available to edit.'))
+        this.store.dispatch(new ShowError('ERROR: No recipe available to edit.'))
         return;
       }
       this.ngZone.run( ()=> {
@@ -76,78 +63,59 @@ export class RecipeCardComponent implements OnInit {
         }})
       })
   }
-  toggleDropdown() {
+
+  toggleMealPlan() {
     this.showMenu = !this.showMenu;
   }
 
-  addToMealPlan() {
+  addToMealPlan(meal: string) {
     if(!this.recipe) {
-      this.store.dispatch( new ShowError('ERROR: No recipe available to add to meal plan.'))
+      this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
+    
+    this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
 
-    const mealPlan = {
-      username: this.profile.username,
-      date: new Date().toISOString().slice(0, 10),
-      breakfast: this.selectedMealType === 'BreakFast' ? this.recipe : null,
-      lunch: this.selectedMealType === 'Lunch' ? this.recipe : null,
-      dinner: this.selectedMealType === 'Dinner' ? this.recipe : null,
-      snack: this.selectedMealType === 'Snack' ? this.recipe : null,
-    } as IMealPlan
-
-    this.store.dispatch( new AddToMealPlan(mealPlan) );
-    this.profile.currMealPlan = mealPlan;
-    this.store.dispatch ( new UpdateProfile(this.profile) )
+    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
     this.added = true;
-    this.toggleDropdown();    
   }
 
   removeFromMealPlan() {
-    if(!this.profile) {
-      this.store.dispatch( new ShowError('ERROR: No profile available to remove from meal plan.'))
-      return;
-    }
-
     if(!this.recipe) {
-      this.store.dispatch( new ShowError('ERROR: No recipe available to remove from meal plan.'))
+      this.store.dispatch(new ShowError('ERROR: No recipe available to remove from meal plan.'))
       return;
     }
-    this.store.dispatch( new RemoveFromMealPlan(this.profile.username, this.recipe.recipeId))
 
-    this.mealPlan$.pipe(take(1)).subscribe(mealPlan => {
-      if(mealPlan) {
-        this.mealPlan = mealPlan;
-        this.added = this.checkMealPlan(mealPlan);
-        this.profile.currMealPlan = mealPlan;
-        this.store.dispatch( new UpdateProfile(this.profile))
-      }
-      else {
-        this.store.dispatch( new ShowError("Error: Something is wrong with the mealPlan"))
-      }
-    });
+    this.store.dispatch(new RemoveFromMealPlan(this.recipe.recipeId));
     this.added = false;
   }
 
-  checkMealPlan(mealPlan : IMealPlan): boolean {
+  checkMealPlan(mealPlan : IMealPlan | null): boolean {
+    if (mealPlan === null) {
+      return false;
+    }
 
-    if(mealPlan.breakfast) {
-      console.log('Breakfast')
+    if(mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.lunch) {
-      console.log('Lunch')
+
+    if(mealPlan.lunch?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.dinner) {
-      console.log('Dinner')
+
+    if(mealPlan.dinner?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.snack) {
-      console.log('snack')
+
+    if(mealPlan.snack?.recipeId === this.recipe.recipeId) {
       return true;
     }
 
     return false;
+  }
+
+  navigateToRecipe() {
+    this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
   }
 
 }

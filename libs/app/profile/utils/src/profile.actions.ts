@@ -58,3 +58,18 @@ export class SortCreatedByNameAsc {
 export class SortCreatedByNameDesc {
     static readonly type = '[Profile] SortCreatedByNameDesc';
 }
+
+export class AddToMealPlan{
+    static readonly type = '[MealPlan] AddToMealPlan';
+    constructor(public recipe: IRecipeDesc, public meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack'){} 
+}
+
+export class RemoveFromMealPlan {
+    static readonly type = "[MealPlan] Remove From Meal Plan"
+    constructor(public readonly recipeId: string) {}
+}
+
+export class GetMealPlan {
+    static readonly type = "[MealPlan] Get Meal Plan By Username"
+    constructor (public readonly username: string){}
+}
