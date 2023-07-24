@@ -6,6 +6,8 @@ import lombok.Data;
 public class Notification {
     protected String recipeId;
 
+    protected String notificationId;
+
     protected String userName;
 
     protected String profilePictureUrl;
