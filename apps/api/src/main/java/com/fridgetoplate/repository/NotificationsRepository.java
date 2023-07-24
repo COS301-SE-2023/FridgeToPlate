@@ -19,6 +19,11 @@ public class NotificationsRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    public NotificationModel save(NotificationModel notification){
+        dynamoDBMapper.save(notification);
+        return notification;
+    }
+
     public List<NotificationModel> findAll(String userId){
         
         List<NotificationModel> notifications = new ArrayList<>();
