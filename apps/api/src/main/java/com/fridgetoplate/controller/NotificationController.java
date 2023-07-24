@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fridgetoplate.model.NotificationModel;
+import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
 import com.fridgetoplate.repository.NotificationsRepository;
 
 @RestController
@@ -24,7 +24,7 @@ public class NotificationController {
     private NotificationsRepository notificationsRepository;
 
     @GetMapping("/{userId}")
-    public List<NotificationModel> findAll(@PathVariable(value = "userId") String userId){
+    public NotificationsResponseModel findAll(@PathVariable(value = "userId") String userId){
         return notificationsRepository.findAll(userId);
     }
 
@@ -37,5 +37,11 @@ public class NotificationController {
     public String clearNotifications(@PathVariable(value = "userId") String userId){
         return notificationsRepository.clearNotifications(userId);
     }
+
+    @DeleteMapping("/clear/{userId}/{notificationType}")
+    public String clearAllNotificationsOfType(@PathVariable(value = "userId") String userId, @PathVariable(value = "notificationType") String type){
+        return notificationsRepository.clearAllNotificationOfType(userId, type);
+    }
+
 
 }
