@@ -23,7 +23,7 @@ export class RouteGuardService implements CanActivate {
     if(this.profile){
       return true;
     } else {
-      return this.router.parseUrl('login');
+      return this.router.parseUrl('unauthorised');
     }
   }
 }

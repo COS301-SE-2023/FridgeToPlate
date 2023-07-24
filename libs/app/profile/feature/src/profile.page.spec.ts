@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
@@ -7,12 +7,8 @@ import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByN
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { of, take } from "rxjs";
 import { Injectable } from "@angular/core";
-import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
 import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
-import { ProfileDataAccessModule} from "@fridge-to-plate/app/profile/data-access";
-import { ProfileModule } from "./profile.module";
 import {RecipeCardComponent} from "@fridge-to-plate/app/recipe/ui";
-import { Navigate } from '@ngxs/router-plugin';
 
 describe("ProfilePage", () => {
 
@@ -43,7 +39,7 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([ProfileState]), ProfileUiModule],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState]), ProfileUiModule],
       declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 

@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { Navigate } from "@ngxs/router-plugin";
+import { Store } from "@ngxs/store";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -7,4 +9,15 @@ import { Component } from "@angular/core";
   styleUrls: ["./unauthorised.page.scss"],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class UnauthorisedPage {}
+export class UnauthorisedPage {
+  
+  constructor(private store: Store) {}
+  
+  login() {
+    this.store.dispatch(new Navigate(['/login']));
+  }
+
+  signUp() {
+    this.store.dispatch(new Navigate(['/signup']));
+  }
+}
