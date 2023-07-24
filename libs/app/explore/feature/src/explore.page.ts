@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IExplore } from '@fridge-to-plate/app/explore/utils';
 import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { Navigate } from "@ngxs/router-plugin";
 
