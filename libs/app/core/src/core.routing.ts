@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
     },
     {
+        path: 'forgot',
+        loadChildren: () => import('@fridge-to-plate/app/forgot/feature').then((m) => m.ForgotModule),
+    },
+    {
         path: 'profile',
         loadChildren: () => import('@fridge-to-plate/app/profile/feature').then((m) => m.ProfileModule),
         canActivate: [RouteGuardService]
