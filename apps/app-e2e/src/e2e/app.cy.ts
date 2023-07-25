@@ -153,17 +153,17 @@ describe('Profile Tests', () => {
 
    });
 
-  describe('home tests', () => {
-    beforeEach(() => cy.visit('/'));
+  // describe('home tests', () => {
+  //   beforeEach(() => cy.visit('/'));
 
-  });
+  // });
 
-  describe('search tests', () => {
-    beforeEach(() => cy.visit('/'));
+  // describe('search tests', () => {
+  //   beforeEach(() => cy.visit('/'));
 
-  });
+  // });
 
-  describe('notifications tests', () => {
-    beforeEach(() => cy.visit('/'));
+  // describe('notifications tests', () => {
+  //   beforeEach(() => cy.visit('/'));
 
-  });
+  // });
