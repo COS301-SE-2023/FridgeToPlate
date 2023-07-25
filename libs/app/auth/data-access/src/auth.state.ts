@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
-import { Login, Logout, SignUp } from "@fridge-to-plate/app/auth/utils";
+import { Login, Logout, SignUp, Forgot } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 
 interface formDataInterface {
@@ -32,6 +33,9 @@ export class AuthState {
    UserPoolId: environment.COGNITO_USERPOOL_ID, // Your user pool id here
    ClientId: environment.COGNITO_APP_CLIENT_ID // Your client id here
   };
+
+  private cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
+
   
   constructor(private store: Store) {}
 
@@ -136,4 +140,27 @@ export class AuthState {
     this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new Navigate(['/login']));
   }
+
+  @Action(Forgot)
+   forgot({ setState } : StateContext<AuthStateModel>, { username } : Forgot) {
+    
+    const params = {
+      ClientId: environment.COGNITO_APP_CLIENT_ID, // Your client id here
+      Username: username,
+    };
+  
+    try {
+      // Initiate the password reset
+      this.cognitoIdentityServiceProvider.forgotPassword(params).promise();
+  
+      // Password reset initiated successfully, redirect the user to a confirmation page
+      this.store.dispatch(new Navigate(['/confirm']));
+      // (You can handle the confirmation page in your frontend application)
+      console.log('Password reset initiated successfully');
+    } catch (error) {
+      // Handle errors
+      console.error('Error initiating password reset:', error);
+    }
+  }
+
 }
