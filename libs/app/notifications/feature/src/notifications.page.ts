@@ -3,19 +3,19 @@ import { Router } from '@angular/router';
 import {
   ClearGeneralNotifications,
   ClearRecommendationNotifications,
-  NotificationsApi,
   RefreshRecommendationNotifications,
 } from '@fridge-to-plate/app/notifications/data-access';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import {
   INotification,
   INotificationResponse,
 } from '@fridge-to-plate/app/notifications/utils';
 import { Select, Store } from '@ngxs/store';
-import { NotificationsState } from '../../data-access/src/notifications.state';
+import { NotificationsState } from '@fridge-to-plate/app/notifications/data-access';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,7 +44,6 @@ export class NotificationsPage {
 
   constructor(
     private location: Location,
-    private notificationsApi: NotificationsApi,
     private router: Router,
     private store: Store
   ) {
@@ -52,7 +51,7 @@ export class NotificationsPage {
   }
 
   onNotificationClick(recipeId: string): void {
-    this.router.navigate([`recipe/${recipeId}`]);
+    this.store.dispatch(new Navigate([`recipe/${recipeId}`]));
   }
 
   goBack() {
