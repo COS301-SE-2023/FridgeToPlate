@@ -6,6 +6,7 @@ import { TempRecipeCardComponent } from './temp-recipe-card/temp-recipe-card.com
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { MealPlanDataAccessModule } from '@fridge-to-plate/app/meal-plan/data-access';
 import { FormsModule } from '@angular/forms';
+import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     RecipeCardComponent, 
     TempRecipeCardComponent,
+    MealPlanModalComponent
   ],
   exports: [
     RecipeCardComponent,
