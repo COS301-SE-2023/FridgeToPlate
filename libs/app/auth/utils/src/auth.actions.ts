@@ -11,3 +11,8 @@ export class Login {
 export class Logout {
     static readonly type = '[Auth] Logout';
 }
+
+export class Forgot {
+    static readonly type = '[Auth] Forgot';
+    constructor(public readonly username: string) {}
+}
