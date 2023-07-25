@@ -8,8 +8,6 @@ import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { AuthService } from "./auth.api";
 
 interface formDataInterface {

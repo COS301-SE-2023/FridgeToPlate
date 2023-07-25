@@ -7,7 +7,7 @@
         <h1 class="text-3xl text-center md:text-5xl text-left mb-4 font-extrabold bg-dark">Forgot Password</h1>
 
         <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block pb-6">
-          <p class="text-sm text-center md:text-base text-gray-500"> Please enter your email to receive verification code </p>
+          <p class="text-sm text-center md:text-base text-gray-500"> Please enter your username to receive your verification code </p>
         </div>
 
         <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg place-content-center">
@@ -21,5 +21,8 @@
       </div>
 
     </div>
+
+    <confirm-modal [ngStyle]="{ 'display': displayConfirm }" (closeFunc)="closeConfirm()"></confirm-modal>
+    <verification-modal [ngStyle]="{ 'display': displayVerification }" (closeFunc)="closeVerification()"></verification-modal>
 
 </ion-content>
