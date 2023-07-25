@@ -16,6 +16,9 @@ export class ForgotPage {
   username = "";
   password = "";
 
+  displayConfirm = "none";
+  displayVerification = "none";
+
   constructor(private store: Store) { }
 
   onSignIn(form: NgForm){
@@ -24,6 +27,13 @@ export class ForgotPage {
     }
   }
   
+  closeConfirm(){
+    return;
+  }
+
+  closeVerification(){
+    return;
+  }
 
 }
 

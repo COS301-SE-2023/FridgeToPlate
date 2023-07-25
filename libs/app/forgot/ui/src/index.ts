@@ -1,1 +1,1 @@
-export * from './lib/app-forgot-ui.module';
+export * from './forgot.module';
