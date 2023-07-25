@@ -44,6 +44,7 @@
       "@fridge-to-plate/app/forgot/feature": [
         "libs/app/forgot/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
