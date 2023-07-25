@@ -1,19 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EditModalComponent } from './edit-modal.component';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { MealPlanModalComponent } from './meal-plan-modal.component';
 
 describe('EditModalComponent', () => {
-  let component: EditModalComponent;
-  let fixture: ComponentFixture<EditModalComponent>;
+  let component: MealPlanModalComponent;
+  let fixture: ComponentFixture<MealPlanModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditModalComponent],
+      declarations: [MealPlanModalComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EditModalComponent);
+    fixture = TestBed.createComponent(MealPlanModalComponent);
     component = fixture.componentInstance;
-    component.editableProfile = testProfile;
     fixture.detectChanges();
   });
 
@@ -24,8 +22,9 @@ describe('EditModalComponent', () => {
   it('save should call save and close func', () => {
     jest.spyOn(component.saveFunc, 'emit');
     jest.spyOn(component.closeFunc, 'emit');
-    component.save()
+    component.save("Breakfast")
     expect(component.saveFunc.emit).toBeCalled();
+    expect(component.saveFunc.emit).toBeCalledWith("Breakfast");
     expect(component.closeFunc.emit).toBeCalled();
   }); 
 
