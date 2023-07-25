@@ -5,10 +5,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
 import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
-import { of, take } from "rxjs";
+import { take } from "rxjs";
 import { Injectable } from "@angular/core";
-import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
-import {RecipeCardComponent} from "@fridge-to-plate/app/recipe/ui";
+import { ProfileUiModule } from "@fridge-to-plate/app/profile/ui";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RecipeCardComponent } from "libs/app/recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
 

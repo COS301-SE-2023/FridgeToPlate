@@ -6,56 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { IProfile, SaveRecipe, RemoveSavedRecipe, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, SaveRecipe, RemoveSavedRecipe, AddToMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/profile/utils';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { AddToMealPlan, GetMealPlan, IMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
-import { of } from 'rxjs';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 
 describe('RecipeCardComponent', () => {
-  const testProfile: IProfile = {
-    displayName: "John Doe",
-    username: "jdoe",
-    email: "jdoe@gmail.com",
-    savedRecipes: [],
-    ingredients: [],
-    profilePic: "image-url",
-    createdRecipes: [],
-    currMealPlan: null,
-    }
-
-  @State({ 
-    name: 'profile', 
-    defaults: {
-      profile: testProfile
-    } 
-  })
-  
-  @Injectable()
-  class MockProfileState {}
-
-  @State({
-    name: 'recipe',
-    defaults: {
-        recipe: {
-            name: 'Hello world',
-            tags: [],
-            difficulty: 'Medium',
-            recipeImage: '',
-            description: '',
-            servings: 1,
-            prepTime: 0,
-            meal: 'Lunch',
-            ingredients: [],
-            steps: [],
-            creator: '',
-            reviews: [],
-        }
-    }
-})
-  @Injectable()
-  class MockRecipeState {}
-
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
   let store: Store;
@@ -81,6 +37,33 @@ describe('RecipeCardComponent', () => {
     steps: ['Chop onions'],
     creator: "Kristap P",
   };
+
+  const testProfile: IProfile = {
+    displayName: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: {
+      username: "jdoe",
+      date: "",
+      breakfast: null,
+      lunch: testRecipe,
+      dinner: null,
+      snack: null
+    },
+  }
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  })
+  @Injectable()
+  class MockProfileState {}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -114,227 +97,127 @@ describe('RecipeCardComponent', () => {
     expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(component.recipe as IRecipeDesc));
   });
 
-      // Tests that the user can navigate to the edit-recipe page with the correct query params
-      it('test edit recipe with recipe id', () => {
-        const routerSpy = jest.spyOn(TestBed.inject(Router), 'navigate');
-        component.recipe = { recipeId: '123' };
-        component.edit();
-        expect(routerSpy).toHaveBeenCalledWith([
-            'edit-recipe'
-        ], {
-            queryParams: {
-                recipeId: '"123"'
-            }
-        });
-    });
-
-    it('test edit recipe with undefined recipe', () => {
-      const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
-      component.recipe = undefined;
+    // Tests that the user can navigate to the edit-recipe page with the correct query params
+    it('test edit recipe with recipe id', () => {
+      const routerSpy = jest.spyOn(TestBed.inject(Router), 'navigate');
+      component.recipe = { recipeId: '123' };
       component.edit();
-      expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to edit.'));
+      expect(routerSpy).toHaveBeenCalledWith([
+          'edit-recipe'
+      ], {
+          queryParams: {
+              recipeId: '"123"'
+          }
+      });
   });
 
-      // Tests that toggleDropdown method toggles the value of 'showMenu' from false to true
-    it('test toggle dropdown toggles show menu from false to true', () => {
-      component.showMenu = false;
-      component.toggleDropdown();
-      expect(component.showMenu).toBe(true);
-  });
+  it('test edit recipe with undefined recipe', () => {
+    const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+    component.recipe = undefined;
+    component.edit();
+    expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to edit.'));
+});
 
-      // Tests that a recipe can be added to the meal plan successfully
-      it('test add to meal plan successfully', () => {
-        const recipe = {recipeId: 1};
-        const profile = {username: 'user', currMealPlan: null} as IProfile;
-        const mealPlan = {username: 'user', date: new Date().toISOString().slice(0, 10), breakfast: recipe, lunch: null, dinner: null, snack: null};
-        component.recipe = recipe;
-        component.profile = profile;
-        component.selectedMealType = 'BreakFast';
-        component.addToMealPlan();
-        expect(component.added).toBe(true);
-        expect(component.profile.currMealPlan).toEqual(mealPlan);
-    });
-    
-    it('should set added to true if recipe is in meal plan', () => {
-      const mealPlan: IMealPlan = {
-        username: 'test',
-        date: '2022-01-01',
-        breakfast: { recipeId: '1' } as IRecipeDesc,
-        lunch: null,
-        dinner: null,
-        snack: null,
-      };
-      jest.spyOn(component.mealPlan$, 'pipe').mockReturnValue(of(mealPlan))
-      component.recipe = { recipeId: '1' };
-      component.ngOnInit();
+    // Tests that toggleDropdown method toggles the value of 'showMenu' from false to true
+  it('test toggle dropdown toggles show menu from false to true', () => {
+    component.showMenu = false;
+    component.toggleMealPlan();
+    expect(component.showMenu).toBe(true);
+});
+
+    // Tests that a recipe can be added to the meal plan successfully
+    it('test add to meal plan successfully', () => {
+      component.mealType = 'Breakfast';
+      component.addToMealPlan("Breakfast");
       expect(component.added).toBe(true);
-    });
-    
-    it('should dispatchError action if mealPlan is null', () => {
-      component.recipe = { recipeId: '1' };
-      component.ngOnInit();
-      expect(store.dispatch).toHaveBeenCalledWith(new ShowError('Error: Something is wrong with the mealPlan'));
-    });
-
+      expect(store.dispatch).toBeCalledWith(new AddToMealPlan(testRecipe, "Breakfast"));
+  });
+  
+  it('should set added to true if recipe is in meal plan', () => {
+    component.ngOnInit();
+    expect(component.added).toBe(true);
+  });
 
   it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
     component.recipe = null;
-    component.addToMealPlan();
+    component.addToMealPlan("Breakfast");
     expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'));
   });
 
-
-  it('should dispatch ShowError action if meal plan is falsy', () => {
-    component.recipe = { recipeId: '1' };
-    component.removeFromMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('Error: Something is wrong with the mealPlan'));
-  });
-
-  it('should dispatch ShowError action if profile is falsy', () => {
-    jest.spyOn(RecipeCardComponent.prototype, 'ngOnInit').mockImplementation( ()=> {
-    component.profile
-    })
-    component.recipe = { recipeId: '1' };
-    component.removeFromMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('Error: Something is wrong with the mealPlan'));
-  });
-
   it('should dispatch ShowError action if recipe is not available to remove from meal plan', () => {
-    component.profile = { username: 'test' }as IProfile;
     component.recipe = null;
     component.removeFromMealPlan();
     expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to remove from meal plan.'));
   });
 
   it('should return true if mealPlan has breakfast', () => {
-    const mealPlan: IMealPlan = {
-      username: 'test',
-      date: '2022-01-01',
-      breakfast: { recipeId: '1' } as IRecipeDesc,
+    const testMealPlan: IMealPlan = {
+      username: "jdoe",
+      date: "",
+      breakfast: testRecipe,
       lunch: null,
       dinner: null,
-      snack: null,
-    };
-    expect(component.checkMealPlan(mealPlan)).toBe(true);
+      snack: null
+    }
+
+    expect(component.checkMealPlan(testMealPlan)).toBe(true);
   });
 
   it('should return true if mealPlan has lunch', () => {
-    const mealPlan: IMealPlan = {
-      username: 'test',
-      date: '2022-01-01',
+    const testMealPlan: IMealPlan = {
+      username: "jdoe",
+      date: "",
       breakfast: null,
-      lunch: { recipeId: '1' } as IRecipeDesc,
+      lunch: testRecipe,
       dinner: null,
-      snack: null,
-    };
-    expect(component.checkMealPlan(mealPlan)).toBe(true);
+      snack: null
+    }
+
+    expect(component.checkMealPlan(testMealPlan)).toBe(true);
   });
 
   it('should return true if mealPlan has dinner', () => {
-    const mealPlan: IMealPlan = {
-      username: 'test',
-      date: '2022-01-01',
+    const testMealPlan: IMealPlan = {
+      username: "jdoe",
+      date: "",
       breakfast: null,
       lunch: null,
-      dinner: { recipeId: '1' } as IRecipeDesc,
-      snack: null,
-    };
-    expect(component.checkMealPlan(mealPlan)).toBe(true);
+      dinner: testRecipe,
+      snack: null
+    }
+
+    expect(component.checkMealPlan(testMealPlan)).toBe(true);
   });
 
   it('should return true if mealPlan has snack', () => {
-    const mealPlan: IMealPlan = {
-      username: 'test',
-      date: '2022-01-01',
+    const testMealPlan: IMealPlan = {
+      username: "jdoe",
+      date: "",
       breakfast: null,
       lunch: null,
       dinner: null,
-      snack: { recipeId: '1' } as IRecipeDesc,
-    };
-    expect(component.checkMealPlan(mealPlan)).toBe(true);
+      snack: testRecipe
+    }
+
+    expect(component.checkMealPlan(testMealPlan)).toBe(true);
   });
 
   it('should return false if mealPlan no meals', () => {
-    const mealPlan: IMealPlan = {
-      username: 'test',
-      date: '2022-01-01',
+    const testMealPlan: IMealPlan = {
+      username: "jdoe",
+      date: "",
       breakfast: null,
       lunch: null,
       dinner: null,
-      snack: null,
-    };
-    expect(component.checkMealPlan(mealPlan)).toBe(false);
+      snack: null
+    }
+
+    expect(component.checkMealPlan(testMealPlan)).toBe(false);
   });
 
-  it('should dispatch RemoveFromMealPlan and ShowError actions when removeFromMealPlan is called', () => {
-    const profile: IProfile = {
-      username: 'test',
-      savedRecipes: [],
-      createdRecipes: [],
-      currMealPlan: {
-        username: 'test',
-        date: '2022-10-01',
-        breakfast: { recipeId: '1' } as IRecipeDesc,
-        lunch: null,
-        dinner: null,
-        snack: null,
-      },
-      email: '',
-      displayName: '',
-      profilePic: '',
-      ingredients: []
-    };
-
-    const mealPlan = {
-      username: 'test',
-      date: '2022-10-01',
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: null,
-    }
-    component.profile = profile;
-    component.recipe = { recipeId: '1' };
-    jest.spyOn(component.mealPlan$, 'pipe').mockReturnValue(of(null));
+  it('should dispatch RemoveFromMealPlan when removeFromMealPlan is called', () => {
     component.removeFromMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith(new RemoveFromMealPlan('test', '1'));
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('Error: Something is wrong with the mealPlan'));
-    expect(component.added).toBe(false);
-  });
-
-  it('should dispatch RemoveFromMealPlan and UpdateProfile actions when removeFromMealPlan is called', () => {
-    const profile: IProfile = {
-      username: 'test',
-      savedRecipes: [],
-      createdRecipes: [],
-      currMealPlan: {
-        username: 'test',
-        date: '2022-10-01',
-        breakfast: { recipeId: '1' } as IRecipeDesc,
-        lunch: null,
-        dinner: null,
-        snack: null,
-      },
-      email: '',
-      displayName: '',
-      profilePic: '',
-      ingredients: []
-    };
-
-    const mealPlan = {
-      username: 'test',
-      date: '2022-10-01',
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: null,
-    }
-    component.profile = profile;
-    component.recipe = { recipeId: '1' };
-    jest.spyOn(component.mealPlan$, 'pipe').mockReturnValue(of(mealPlan));
-    component.removeFromMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith(new RemoveFromMealPlan('test', '1'));
-    expect(store.dispatch).toHaveBeenCalledWith(new UpdateProfile(profile));
+    expect(store.dispatch).toHaveBeenCalledWith(new RemoveFromMealPlan(testRecipe.recipeId as string));
     expect(component.added).toBe(false);
   });
 });

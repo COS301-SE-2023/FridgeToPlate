@@ -37,6 +37,7 @@ export class RecipeCardComponent implements OnInit {
       } else {
         this.bookmarked = false;
         this.editable = false;
+        this.added = false;
       }
     });
   }
