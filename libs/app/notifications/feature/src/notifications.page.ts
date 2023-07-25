@@ -66,7 +66,6 @@ export class NotificationsPage {
         this.store.dispatch(
           new ClearRecommendationNotifications(next.username)
         );
-        return;
       }
     });
   }
