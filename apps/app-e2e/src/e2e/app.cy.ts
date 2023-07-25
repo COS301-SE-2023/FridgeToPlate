@@ -115,7 +115,16 @@ import { it } from "mocha";
     beforeEach(() => {cy.visit('http://localhost:4200/create');});
 
     it('enters recipe details', () => {
-      
+      cy.get('#name').type('Egg Salad');
+      cy.get('#description').type('A delicious egg salad recipe');
+      cy.get('#servings').type('4');
+      cy.get('#preparation-time').type('10');
+      cy.get('div').contains('Ingredients').get('button').contains('Add').click();
+      // cy.get('label').contains('Ingredients').type('Crack eggs');
+      cy.get('div').contains('Instructions').get('button').contains('Add').click();
+      // cy.get('#instruction-0').type('Crack eggs');
+      cy.get('#tag').type('Vegan');
+      cy.get('button').contains('Add Tag').click();
     });
   });
 
