@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Review } from './review.component';
+import {IonicModule} from "@ionic/angular";
+import {FormsModule} from "@angular/forms";
 
 describe('Review', () => {
   let component: Review;
@@ -7,6 +9,7 @@ describe('Review', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [IonicModule, FormsModule],
       declarations: [Review]
     }).compileComponents();
   });
