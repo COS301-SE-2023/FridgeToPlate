@@ -26,14 +26,5 @@ export class ForgotPage {
       this.store.dispatch(new Forgot(this.username));
     }
   }
-  
-  closeConfirm(){
-    return;
-  }
-
-  closeVerification(){
-    return;
-  }
-
 }
 
