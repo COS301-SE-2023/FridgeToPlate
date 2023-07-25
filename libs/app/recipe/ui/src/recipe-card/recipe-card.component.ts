@@ -1,13 +1,12 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { IProfile, RemoveSavedRecipe, SaveRecipe, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, RemoveSavedRecipe, SaveRecipe, UpdateMealPlan } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router'; 
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { AddToMealPlan, GetMealPlan, IMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
-import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,7 +17,6 @@ import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
 export class RecipeCardComponent implements OnInit {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
-  @Select(MealPlanState.getMealPlan) mealPlan$ !: Observable<IMealPlan | null>;
 
   @Input() recipe !: any;
   bookmarked = false;
@@ -36,20 +34,15 @@ export class RecipeCardComponent implements OnInit {
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
         this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
+
+        this.mealPlan = profile.currMealPlan ?? {
+          username : profile.username,
+          date : new Date().toISOString().slice(0, 10)
+        } as IMealPlan
         this.profile = profile;
       } else {
         this.bookmarked = false;
         this.editable = false;
-      }
-    });
-    this.store.dispatch( new GetMealPlan(this.profile.username))
-    this.mealPlan$.pipe(take(1)).subscribe(mealPlan => {
-      if(mealPlan) {
-        this.mealPlan = mealPlan;
-        this.added = this.checkMealPlan(mealPlan);
-      }
-      else {
-        this.store.dispatch(new ShowError("Error: Something is wrong with the mealPlan"))
       }
     });
   }
@@ -85,47 +78,47 @@ export class RecipeCardComponent implements OnInit {
       this.store.dispatch( new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
-
-    switch(this.selectedMealType) {
-      case 'Breakfast':
-        if(this.mealPlan.breakfast){
-          this.store.dispatch( new ShowError('ERROR: Breakfast already selected.'))
-          return; 
-        }
-        this.mealPlan.breakfast = this.recipe;
-        break;
-      case 'Lunch':
-        if(this.mealPlan.lunch){
-          this.store.dispatch( new ShowError('ERROR: Lunch already selected.'))
+    if(this.mealPlan) {
+      switch(this.selectedMealType) {
+        case 'Breakfast':
+          if(this.mealPlan.breakfast){
+            this.store.dispatch( new ShowError('ERROR: Breakfast already selected.'))
+            return; 
+          }
+          this.mealPlan.breakfast = this.recipe;
+          break;
+        case 'Lunch':
+          if(this.mealPlan.lunch){
+            this.store.dispatch( new ShowError('ERROR: Lunch already selected.'))
+            return;
+          }
+          this.mealPlan.lunch = this.recipe;
+          break;
+        case 'Dinner':
+          if(this.mealPlan.dinner){
+            this.store.dispatch( new ShowError('ERROR: Dinner already selected.'))
+            return;
+          }
+          this.mealPlan.dinner = this.recipe;
+          break;
+        case 'Snack':
+          if(this.mealPlan.snack){
+            this.store.dispatch( new ShowError('ERROR: Snack already selected.'))
+            return;
+          }
+          this.mealPlan.snack = this.recipe;
+          break;
+        default:
+          this.store.dispatch( new ShowError('ERROR: No meal type selected.'))
           return;
-        }
-        this.mealPlan.lunch = this.recipe;
-        break;
-      case 'Dinner':
-        if(this.mealPlan.dinner){
-          this.store.dispatch( new ShowError('ERROR: Dinner already selected.'))
-          return;
-        }
-        this.mealPlan.dinner = this.recipe;
-        break;
-      case 'Snack':
-        if(this.mealPlan.snack){
-          this.store.dispatch( new ShowError('ERROR: Snack already selected.'))
-          return;
-        }
-        this.mealPlan.snack = this.recipe;
-        break;
-      default:
-        this.store.dispatch( new ShowError('ERROR: No meal type selected.'))
-        return;
+      }
     }
-
-    this.mealPlan.username = this.profile.username;
-    this.mealPlan.date = new Date().toISOString().slice(0, 10);
-
-    this.store.dispatch( new AddToMealPlan(this.mealPlan) );
-    this.profile.currMealPlan = this.mealPlan;
-    this.store.dispatch ( new UpdateProfile(this.profile) )
+    else {
+      this.store.dispatch( new ShowError("Something is fishy with the meal plan"))
+      return;
+    }
+  
+    this.store.dispatch( new UpdateMealPlan(this.mealPlan)); 
     this.selectedMealType = null;
     this.added = true;
     this.toggleDropdown();    
@@ -141,20 +134,32 @@ export class RecipeCardComponent implements OnInit {
       this.store.dispatch( new ShowError('ERROR: No recipe available to remove from meal plan.'))
       return;
     }
-    this.store.dispatch( new RemoveFromMealPlan(this.profile.username, this.recipe.recipeId))
 
-    this.mealPlan$.pipe(take(1)).subscribe(mealPlan => {
-      if(mealPlan) {
-        this.mealPlan = mealPlan;
-        this.added = this.checkMealPlan(mealPlan);
-        this.profile.currMealPlan = mealPlan;
-        this.store.dispatch( new UpdateProfile(this.profile))
+    if(this.mealPlan){
+      if(this.mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
+        this.mealPlan.breakfast = null;
       }
-      else {
-        this.store.dispatch( new ShowError("Error: Something is wrong with the mealPlan"))
+
+      if(this.mealPlan.lunch?.recipeId === this.recipe.recipeId) {
+        this.mealPlan.lunch = null;
       }
-    });
-    this.added = false;
+
+      if(this.mealPlan.dinner?.recipeId === this.recipe.recipeId) {
+        this.mealPlan.dinner = null;
+      }
+
+      if(this.mealPlan.snack?.recipeId === this.recipe.recipeId) {
+        this.mealPlan.snack = null;
+      }
+
+      this.store.dispatch( new UpdateMealPlan(this.mealPlan)); 
+      this.added = false;
+    }
+    else {
+      this.store.dispatch( new ShowError("Something is fishy with the meal plan"))
+      return;
+    }
+   
   }
 
   checkMealPlan(mealPlan : IMealPlan): boolean {

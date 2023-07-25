@@ -1,5 +1,6 @@
 import { IRecipeDesc } from "@fridge-to-plate/app/recipe/utils";
 import { IProfile } from "./interfaces";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export class UpdateProfile {
     static readonly type = '[Profile] UpdateProfile';
@@ -57,4 +58,9 @@ export class SortCreatedByNameAsc {
 
 export class SortCreatedByNameDesc {
     static readonly type = '[Profile] SortCreatedByNameDesc';
+}
+
+export class UpdateMealPlan {
+    static readonly type = '[Profile] Update the Meal Plan';
+    constructor(public readonly mealPlan: IMealPlan){}
 }

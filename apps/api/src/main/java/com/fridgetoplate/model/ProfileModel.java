@@ -3,16 +3,14 @@ package com.fridgetoplate.model;
 import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fridgetoplate.interfaces.Profile;
-import com.fridgetoplate.interfaces.RecipeDesc;
 
-
-@DynamoDBDocument
+@DynamoDBTable(tableName = "recipes")
 public class ProfileModel extends Profile {
 
-    private List<RecipeDesc> savedRecipes;
+    private List<String> savedRecipeIds;
 
     @DynamoDBHashKey(attributeName = "username")
     public String getUsername() {
@@ -24,25 +22,24 @@ public class ProfileModel extends Profile {
         return email;
     }
 
-    @DynamoDBAttribute(attributeName = "displayName")
+    @DynamoDBAttribute(attributeName = "display_name")
     public String getDisplayName() {
         return displayName;
     }
 
-    @DynamoDBAttribute(attributeName = "profilePicture")
+    @DynamoDBAttribute(attributeName = "profile_picture")
     public String getProfilePicture() {
         return profilePicture;
     }
 
-    @DynamoDBAttribute(attributeName = "savedRecipes")
-    public List<RecipeDesc> getSavedRecipes() {
-        return savedRecipes;
+    @DynamoDBAttribute(attributeName = "saved_recipes")
+    public List<String> getSavedRecipes() {
+        return savedRecipeIds;
     }
 
-
     // setters
-    public void setSavedRecipes(List<RecipeDesc> savedRecipes) {
-        this.savedRecipes = savedRecipes;
+    public void setSavedRecipes(List<String> savedRecipeIds) {
+        this.savedRecipeIds = savedRecipeIds;
     }
 
     

@@ -5,6 +5,7 @@ import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { RecipeAPI } from "./recipe.api";
 import { Location } from "@angular/common";
+import { catchError, tap } from "rxjs";
 
 export interface RecipeStateModel{
     recipe: IRecipe | null;
@@ -45,7 +46,6 @@ export class RecipeState {
     @Action(UpdateRecipe)
     updatedRecipe({ patchState } : StateContext<RecipeStateModel>, { recipe }: UpdateRecipe) {
 
-
         this.api.UpdateRecipe(recipe).subscribe( (response) => {
             console.log(response)
             patchState({
@@ -77,34 +77,14 @@ export class RecipeState {
     
     @Action(CreateRecipe)
     createRecipe({ patchState } : StateContext<RecipeStateModel>, { recipe } : CreateRecipe) {
-
-        patchState({
-            recipe : recipe
-        })
-        this.api.createNewRecipe(recipe).subscribe({
-            error: error => {
-              this.store.dispatch(new ShowError(error.message));
-            }
-          });
+        this.api.createNewRecipe(recipe).pipe(tap((recipe)=>patchState({"recipe": recipe}),
+        catchError (()=>this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))))).subscribe();
     }
 
     @Action(RetrieveRecipe)
     retrieveRecipe( { setState } : StateContext<RecipeStateModel>, { recipeId } : RetrieveRecipe){
-            this.api.getRecipeById(recipeId).subscribe( (recipe) => {
-                if(recipe){
-                    setState({
-                        recipe : recipe
-                    })
-                }
-                else {
-                    this.store.dispatch( new ShowError("Error: Something is wrong with the recipe: " + recipe))
-                }
-                
-            },
-            (error: Error) => {
-                console.error('Failed to retrieve recipe:', error);
-                this.store.dispatch(new ShowError(error.message))
-            })
+        this.api.getRecipeById(recipeId).pipe(tap((recipe)=>setState({"recipe": recipe}),
+        catchError (()=>this.store.dispatch(new ShowError('Unfortunately, the recipe was not retrieved successfully'))))).subscribe();
 
     }
 }

@@ -12,7 +12,8 @@ import {
     SortCreatedByDifficulty, 
     SortCreatedByNameAsc, 
     ResetProfile, 
-    UndoRemoveSavedRecipe
+    UndoRemoveSavedRecipe,
+    UpdateMealPlan
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -262,7 +263,6 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
             updatedProfile.createdRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
@@ -277,4 +277,19 @@ export class ProfileState {
             });
         }
     }
+
+    @Action(UpdateMealPlan)
+    saveMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
+        const updatedProfile = getState().profile;
+        
+        if (updatedProfile && mealPlan) {
+            updatedProfile.currMealPlan = mealPlan;
+            patchState({
+                profile: updatedProfile
+            });
+            this.api.updateProfile(updatedProfile);
+            this.api.updateMealPlan(mealPlan);
+        }
+    }
+
 }

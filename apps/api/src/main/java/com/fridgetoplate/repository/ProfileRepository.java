@@ -16,6 +16,8 @@ import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 import com.fridgetoplate.interfaces.Profile;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.MealPlanModel;
+import com.fridgetoplate.model.ProfileModel;
+import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 @Repository
@@ -38,7 +40,7 @@ public class ProfileRepository {
          ProfileFrontendModel profileResponse = new ProfileFrontendModel();
 
              // Find the Profile model
-        ProfileFrontendModel profileModel = dynamoDBMapper.load(ProfileFrontendModel.class, username);
+        ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, username);
 
         if(profileModel == null) {
             return null;
@@ -47,8 +49,8 @@ public class ProfileRepository {
         // Getting profile attributes
         String displayName = profileModel.getDisplayName();
         String email = profileModel.getEmail();
-        List<RecipeDesc> savedRecipes = profileModel.getSavedRecipes();
-        List<RecipeDesc> createdRecipes = profileModel.getCreatedRecipes();
+        List<RecipeDesc> savedRecipes = this.getSavedRecipes(profileModel.getSavedRecipes());
+        List<RecipeDesc> createdRecipes =  this.getCreateRecipes(username);
         String profilePicture = profileModel.getProfilePicture();
 
         // Creating profile response
@@ -76,17 +78,17 @@ public class ProfileRepository {
             // creating response
             mealPlanResponse.setUsername(username);
 
-            // Get the Recipe id for breakfast plam
-            RecipeDesc breaKfastDesc = mealPlanModel.getBreakfast();
+            String breakFastId = mealPlanModel.getBreakfastId();
+            RecipeDesc breaKfastDesc = dynamoDBMapper.load(RecipeModel.class, breakFastId);
 
-            // Get recipe  for lunch
-            RecipeDesc LunchDesc = mealPlanModel.getLunch();
+            String lunchId = mealPlanModel.getLunchId();
+            RecipeDesc LunchDesc = dynamoDBMapper.load(RecipeModel.class, lunchId);
 
-            // Get the recipe  for dinner
-            RecipeDesc DinnerDesc = mealPlanModel.getDinner();
+            String dinnerId = mealPlanModel.getDinnerId();
+            RecipeDesc DinnerDesc = dynamoDBMapper.load(RecipeModel.class, dinnerId);
 
-            // Get recipe  for snack
-            RecipeDesc SnackDesc = mealPlanModel.getSnack();
+            String snackId = mealPlanModel.getSnackId();
+            RecipeDesc SnackDesc = dynamoDBMapper.load(RecipeModel.class, snackId);   
 
             // Creating the mealPlanResponse
             mealPlanResponse.setDate(date);
@@ -146,5 +148,36 @@ public class ProfileRepository {
         }
 
         return reviews;
+    }
+
+    private List<RecipeDesc> getCreateRecipes(String username) {
+        List<RecipeDesc> recipes = new ArrayList<>();
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+
+        for (RecipeModel recipeModel : scanResult) {
+            if (recipeModel.getCreator().equals(username)) {
+                recipes.add(recipeModel);
+            }
+        }
+
+
+        return recipes;
+    }
+
+
+    private List<RecipeDesc> getSavedRecipes(List<String> ids) {
+        List<RecipeDesc> recipes = new ArrayList<>();
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (String id : ids) {
+            for (RecipeModel recipeModel : scanResult) {
+                if (recipeModel.getRecipeId().equals(id)) {
+                    recipes.add(recipeModel);
+                }
+            }
+        }
+
+        return recipes;
     }
 }

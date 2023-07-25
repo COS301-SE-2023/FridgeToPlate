@@ -34,6 +34,7 @@ export class EditRecipeComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
   }
 
   createForm(): void {
@@ -291,8 +292,12 @@ export class EditRecipeComponent implements OnInit {
     const ingredients: IIngredient[] = [];
     this.ingredientControls.forEach((ingredient) => {
       if (ingredient.value) {
-        ingredients.push(ingredient.value);
-      }
+        ingredients.push({
+          name: ingredient.value.name,
+          amount: ingredient.value.amount,
+          unit: ingredient.value.unit
+      })
+    }
     });
 
     return ingredients;

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
 
@@ -39,5 +40,14 @@ export class ProfileAPI {
     const url = `${this.baseUrl}/${username}`;
 
     return this.http.get<IProfile | null>(url);
+  }
+
+  updateMealPlan(mealPlan : IMealPlan) {
+    const url = 'http://localhost:5000/meal-plans/save';
+    this.http.post<IMealPlan>(url, mealPlan).subscribe({
+      error: error => {
+        this.store.dispatch(new ShowError(error.message));
+      }
+    });
   }
 }
