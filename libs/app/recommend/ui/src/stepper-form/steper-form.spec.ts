@@ -11,6 +11,7 @@ import { RecipeListStep } from '../recipe-list-step/recipe-list-step';
 import { RecipePreferencesStep } from '../recipe-preferences-step/recipe-preferences-step';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
+import {IngredientUIModule} from "@fridge-to-plate/app/ingredient/ui";
 describe('StepperForm', () => {
   let component: StepperForm;
   let fixture: ComponentFixture<StepperForm>;
@@ -30,6 +31,7 @@ describe('StepperForm', () => {
         RecipeUIModule,
         RecommendDataAccessModule,
         FormsModule,
+        IngredientUIModule,
         HttpClientTestingModule,
         NgxsModule.forRoot()
       ],
