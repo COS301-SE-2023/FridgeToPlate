@@ -1,1 +1,1 @@
-export * from './lib/app-forgot-feature.module';
+export * from './forgot.module';
