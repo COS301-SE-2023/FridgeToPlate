@@ -10,6 +10,7 @@ import { IProfile, SaveRecipe, RemoveSavedRecipe, AddToMealPlan, RemoveFromMealP
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
@@ -219,6 +220,11 @@ describe('RecipeCardComponent', () => {
     component.removeFromMealPlan();
     expect(store.dispatch).toHaveBeenCalledWith(new RemoveFromMealPlan(testRecipe.recipeId as string));
     expect(component.added).toBe(false);
+  });
+
+  it('should navigate to recipe page', () => {
+    component.navigateToRecipe();
+    expect(store.dispatch).toBeCalledWith(new Navigate([`/recipe/${testRecipe.recipeId}`]));
   });
 });
 
