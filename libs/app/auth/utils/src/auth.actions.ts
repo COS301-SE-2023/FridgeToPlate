@@ -16,3 +16,8 @@ export class Forgot {
     static readonly type = '[Auth] Forgot';
     constructor(public readonly username: string) {}
 }
+
+export class ChangePassword {
+    static readonly type = '[Auth] ChangePassword';
+    constructor(public readonly oldPassword: string, public readonly newPassword: string) {}
+}

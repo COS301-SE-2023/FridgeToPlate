@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
-import { Login, Logout, SignUp, Forgot } from "@fridge-to-plate/app/auth/utils";
+import { ChangePassword, Login, Logout, SignUp, Forgot } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
-import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
+import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser, CognitoUserSession } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { AuthService } from "./auth.api";
 
 interface formDataInterface {
     "custom:username": string;
@@ -18,30 +20,36 @@ interface formDataInterface {
 
 export interface AuthStateModel {
     accessGranted: boolean;
+    accessToken: string;
 }
 
 @State<AuthStateModel>({
     name: 'auth',
     defaults: {
-        accessGranted: false
+        accessGranted: false,
+        accessToken: "none"
     }
 })
 @Injectable()
 export class AuthState {
 
   private poolData = {
-   UserPoolId: environment.COGNITO_USERPOOL_ID, // Your user pool id here
-   ClientId: environment.COGNITO_APP_CLIENT_ID // Your client id here
+   UserPoolId: environment.COGNITO_USERPOOL_ID, 
+   ClientId: environment.COGNITO_APP_CLIENT_ID
   };
-
+  
   private cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 
-  
-  constructor(private store: Store) {}
+  constructor(private store: Store, private api: AuthService) {}
 
   @Selector()
   getAccessGranted(state: AuthStateModel) {
       return state.accessGranted;
+  }
+
+  @Selector()
+  getAccessToken(state: AuthStateModel) {
+      return state.accessToken;
   }
 
   @Action(SignUp)
@@ -68,13 +76,15 @@ export class AuthState {
           if (err) {
             this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
             setState({
-              accessGranted: false
+              accessGranted: false,
+              accessToken: "none"
             });
             return;
           }
     
           setState({
-              accessGranted: true
+              accessGranted: true,
+              accessToken: result?.user.getSignInUserSession()?.getAccessToken().getJwtToken() || 'none'
             });
 
           const profile : IProfile = {
@@ -117,6 +127,10 @@ export class AuthState {
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
+        setState({
+          accessGranted: true,
+          accessToken: result.getAccessToken().getJwtToken()
+        });
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new Navigate(['/recommend']));
@@ -124,7 +138,8 @@ export class AuthState {
       onFailure: (err) => {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
         setState({
-          accessGranted: false
+          accessGranted: false,
+          accessToken: "none"
         });
       },
     });
@@ -133,12 +148,42 @@ export class AuthState {
   @Action(Logout)
   logout({ setState } : StateContext<AuthStateModel>) {
     setState({
-      accessGranted: false
+      accessGranted: false,
+      accessToken: "none"
     });
 
     this.store.dispatch(new ResetProfile());
     this.store.dispatch(new ResetPreferences());
+    localStorage.clear();
     this.store.dispatch(new Navigate(['/login']));
+  }
+
+  @Action(ChangePassword)
+  ChangePassword({ getState } : StateContext<AuthStateModel>, { oldPassword, newPassword } : ChangePassword) {
+
+    if(getState().accessToken != "none") {
+      const accessToken = getState().accessToken;
+      const params = {
+        PreviousPassword: oldPassword,
+        ProposedPassword: newPassword,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        AccessToken: accessToken!,
+      };
+
+    const region = 'eu-west-3';
+    const cognito = new CognitoIdentityServiceProvider({ region });
+
+      cognito.changePassword(params, (err, data) => {
+        if (err) {
+          console.error('Password change error:', err);
+        } else {
+          console.log('Password changed successfully.');
+        }
+      });
+    
+    
+    }
+    
   }
 
   @Action(Forgot)

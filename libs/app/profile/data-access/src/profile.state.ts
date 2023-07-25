@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
-import { 
-    IProfile, 
-    UpdateProfile, 
-    CreateNewProfile, 
-    RetrieveProfile, 
-    SaveRecipe, 
-    RemoveSavedRecipe, 
-    SortSavedByDifficulty, 
-    SortSavedByNameAsc, 
-    SortSavedByNameDesc, 
-    SortCreatedByDifficulty, 
-    SortCreatedByNameAsc, 
-    ResetProfile, 
+import {
+    IProfile,
+    UpdateProfile,
+    CreateNewProfile,
+    RetrieveProfile,
+    SaveRecipe,
+    RemoveSavedRecipe,
+    SortSavedByDifficulty,
+    SortSavedByNameAsc,
+    SortSavedByNameDesc,
+    SortCreatedByDifficulty,
+    SortCreatedByNameAsc,
+    ResetProfile,
     UndoRemoveSavedRecipe
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
@@ -73,7 +73,7 @@ export interface ProfileStateModel {
 export class ProfileState {
 
     constructor(private api: ProfileAPI, private store: Store) {}
-    
+
     @Selector()
     static getProfile(state: ProfileStateModel) {
         return state.profile;
@@ -93,7 +93,7 @@ export class ProfileState {
             profile: null
         })
     }
-    
+
     @Action(CreateNewProfile)
     createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
         setState({
@@ -119,7 +119,7 @@ export class ProfileState {
     @Action(SaveRecipe)
     saveRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : SaveRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
                 if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
@@ -127,7 +127,7 @@ export class ProfileState {
                     return;
                 }
             }
-            
+
             updatedProfile?.savedRecipes.push(recipe);
             patchState({
                 profile: updatedProfile
@@ -140,7 +140,7 @@ export class ProfileState {
     @Action(RemoveSavedRecipe)
     removeSavedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveSavedRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             this.store.dispatch(new ShowUndo("Removed recipe from saved recipes", new UndoRemoveSavedRecipe(updatedProfile.savedRecipes)));
 
@@ -214,7 +214,7 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
+
             updatedProfile.savedRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
@@ -277,7 +277,7 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
+
             updatedProfile.createdRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
