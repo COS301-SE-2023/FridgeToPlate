@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
+import {ReviewModule} from "@fridge-to-plate/app/review/feature";
 describe('RecipeDetailPageComponent', () => {
   let location: Location;
   let component: RecipePage;
@@ -40,7 +41,7 @@ describe('RecipeDetailPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipePage],
-      imports: [IonicModule, HttpClientModule, RouterTestingModule, RecipeUIModule, NavigationBarModule, NgxsModule.forRoot()],
+      imports: [IonicModule, HttpClientModule, RouterTestingModule, RecipeUIModule, NavigationBarModule, NgxsModule.forRoot(), ReviewModule],
       providers: [HttpClientModule]
     })
     .compileComponents();
