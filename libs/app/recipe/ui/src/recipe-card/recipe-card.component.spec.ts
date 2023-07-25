@@ -216,6 +216,10 @@ describe('RecipeCardComponent', () => {
     expect(component.checkMealPlan(testMealPlan)).toBe(false);
   });
 
+  it('should return false if mealPlan is null', () => {
+    expect(component.checkMealPlan(null)).toBe(false);
+  });
+
   it('should dispatch RemoveFromMealPlan when removeFromMealPlan is called', () => {
     component.removeFromMealPlan();
     expect(store.dispatch).toHaveBeenCalledWith(new RemoveFromMealPlan(testRecipe.recipeId as string));
@@ -228,3 +232,59 @@ describe('RecipeCardComponent', () => {
   });
 });
 
+describe('RecipeCardComponent', () => {
+  
+  let component: RecipeCardComponent;
+  let fixture: ComponentFixture<RecipeCardComponent>;
+  let store: Store;
+
+  const testRecipe: IRecipe = {
+    recipeId: 'test-id',
+    name: 'Pizza',
+    recipeImage: 'image-url',
+    difficulty: 'Easy',
+    ingredients: [
+      {
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+      },
+    ],
+    description: 'Heading',
+    tags: ['Paleo'],
+    servings: 2,
+    prepTime: 30,
+    meal: 'Snack',
+    steps: ['Chop onions'],
+    creator: "Kristap P",
+  };
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: null
+    } 
+  })
+  @Injectable()
+  class MockProfileState {}
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [RecipeCardComponent],
+      imports: [IonicModule, HttpClientModule, RouterTestingModule, NgxsModule.forRoot([MockProfileState])],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(RecipeCardComponent);
+    component = fixture.componentInstance;
+    component.recipe = testRecipe;
+    store = TestBed.inject(Store);
+    fixture.detectChanges();
+  });
+
+  it('should be default if profile becomes null', () => {
+    component.ngOnInit();
+    expect(component.bookmarked).toBe(false);
+    expect(component.editable).toBe(false);
+    expect(component.added).toBe(false);
+  });
+});
