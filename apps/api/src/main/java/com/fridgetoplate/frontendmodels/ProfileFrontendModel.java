@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 import com.fridgetoplate.interfaces.Profile;
-import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.model.Ingredient;
-
+import com.fridgetoplate.interfaces.RecipeDesc;;
+@DynamoDBTable(tableName = "profiles")
 public class ProfileFrontendModel extends Profile {
     
     public MealPlanFrontendModel currMealPlan;
@@ -36,27 +38,24 @@ public class ProfileFrontendModel extends Profile {
         return profilePicture;
     }
 
-    @DynamoDBAttribute(attributeName = "ingredients")
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
 
     @DynamoDBAttribute(attributeName = "saved_recipes")
     public List<RecipeDesc> getSavedRecipes() {
         return savedRecipes;
     }
 
-
     // setters
     public void setSavedRecipes(List<RecipeDesc> savedRecipes) {
         this.savedRecipes = savedRecipes;
     }
 
+    @DynamoDBAttribute(attributeName = "created_recipes")
     public List<RecipeDesc> getCreatedRecipes() {
         return createdRecipes;
     }
 
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
+    @DynamoDBAttribute(attributeName = "meal_plans")
     public MealPlanFrontendModel getCurrMealPlan() {
         return currMealPlan;
     }

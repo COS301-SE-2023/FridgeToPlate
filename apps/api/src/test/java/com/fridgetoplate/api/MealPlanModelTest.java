@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         // repository.setDynamoDBMapper(dynamoDBMapper);
 
         // Act
-        MealPlanModel savedMealPlan = repository.save(mealPlan);
+        MealPlanFrontendModel savedMealPlan = repository.save(mealPlan);
 
         // Assert
         // Optionally, verify the save method was called

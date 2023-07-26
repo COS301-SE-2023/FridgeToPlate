@@ -488,27 +488,27 @@ describe('Ingredients storing, deleting and returning', () => {
       // create a mock form array with some form controls
       const formArray = new FormArray([
         new FormControl({
-          ingredientName: 'Mango',
+          name: 'Mango',
           amount: 100,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Potato',
+          name: 'Potato',
           amount: 1,
           unit: 'kg'
         }),
         new FormControl({
-          ingredientName: 'Banana',
+          name: 'Banana',
           amount: 300,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Salad',
+          name: 'Salad',
           amount: 100,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Onion',
+          name: 'Onion',
           amount: 1,
           unit: 'whole'
         }),
@@ -525,11 +525,11 @@ describe('Ingredients storing, deleting and returning', () => {
   
   
       // assert that the instructions array was created correctly
-      expect(ingredients[0]).toEqual({ ingredientName: "Mango", amount: 100, unit: "g" });
-      expect(ingredients[1]).toEqual({ ingredientName: "Potato", amount: 1, unit: "kg" })
-      expect(ingredients[2]).toEqual({ ingredientName: "Banana", amount: 300, unit: "g" })
-      expect(ingredients[3]).toEqual({ ingredientName: "Salad", amount: 100, unit: "g" })
-      expect(ingredients[4]).toEqual({ ingredientName: "Onion", amount: 1, unit: "whole" })
+      expect(ingredients[0]).toEqual({ name: "Mango", amount: 100, unit: "g" });
+      expect(ingredients[1]).toEqual({ name: "Potato", amount: 1, unit: "kg" })
+      expect(ingredients[2]).toEqual({ name: "Banana", amount: 300, unit: "g" })
+      expect(ingredients[3]).toEqual({ name: "Salad", amount: 100, unit: "g" })
+      expect(ingredients[4]).toEqual({ name: "Onion", amount: 1, unit: "whole" })
     
     })
 
@@ -538,12 +538,12 @@ describe('Ingredients storing, deleting and returning', () => {
     component.recipeForm = formBuilder.group({
       ingredients: formBuilder.array([
         formBuilder.group({
-          ingredientName: ['Ingredient 1', Validators.required],
+          name: ['Ingredient 1', Validators.required],
           amount: [1, Validators.required],
           scale: ['kg', Validators.required],
         }),
         formBuilder.group({
-          ingredientName: ['Ingredient 2', Validators.required],
+          name: ['Ingredient 2', Validators.required],
           amount: [2, Validators.required],
           scale: ['g', Validators.required],
         }),
@@ -751,7 +751,7 @@ describe('Ingredients storing, deleting and returning', () => {
       const formBuilder: FormBuilder = new FormBuilder();
       const ingredientsFormArray = new FormArray([
         new FormControl({
-          ingredientName: 'Mango',
+          name: 'Mango',
           amount: 100,
           unit: 'g'
         })])
@@ -776,7 +776,7 @@ describe('Ingredients storing, deleting and returning', () => {
       const formBuilder: FormBuilder = new FormBuilder();
       const ingredientsFormArray = new FormArray([
         new FormControl({
-          ingredientName: 'Mango',
+          name: 'Mango',
           amount: 100,
           unit: 'g'
         })])
@@ -803,7 +803,7 @@ describe('Ingredients storing, deleting and returning', () => {
         const formBuilder: FormBuilder = new FormBuilder();
         const ingredientsFormArray = new FormArray([
           new FormControl({
-            ingredientName: 'Mango',
+            name: 'Mango',
             amount: 100,
             unit: 'g'
           })])
@@ -829,7 +829,7 @@ describe('Ingredients storing, deleting and returning', () => {
         const formBuilder: FormBuilder = new FormBuilder();
         const ingredientsFormArray = new FormArray([
           new FormControl({
-            ingredientName: 'Mango',
+            name: 'Mango',
             amount: 100,
             unit: 'g'
           })])
@@ -858,7 +858,7 @@ describe('Ingredients storing, deleting and returning', () => {
         const formBuilder: FormBuilder = new FormBuilder();
         const ingredientsFormArray = new FormArray([
           new FormControl({
-            ingredientName: 'Mango',
+            name: 'Mango',
             amount: 100,
             unit: 'g'
           })])
@@ -907,27 +907,27 @@ describe('Ingredients storing, deleting and returning', () => {
 
       const ingredientsFormArray = new FormArray([
         new FormControl({
-          ingredientName: 'Mango',
+          name: 'Mango',
           amount: 100,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Potato',
+          name: 'Potato',
           amount: 1,
           unit: 'kg'
         }),
         new FormControl({
-          ingredientName: 'Banana',
+          name: 'Banana',
           amount: 300,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Salad',
+          name: 'Salad',
           amount: 100,
           unit: 'g'
         }),
         new FormControl({
-          ingredientName: 'Onion',
+          name: 'Onion',
           amount: 1,
           unit: 'whole'
         }),
