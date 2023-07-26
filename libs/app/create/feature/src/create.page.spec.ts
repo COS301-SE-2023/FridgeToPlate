@@ -10,7 +10,7 @@ import { BehaviorSubject, take } from "rxjs";
 import { Injectable } from '@angular/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
+import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 
@@ -187,15 +187,15 @@ describe('Testing Tags', () => {
     const mealType = 'Breakfast';
     component.selectedMeal = mealType;
     jest.spyOn(component, 'toggleMeal');
-  
+
     // Act
     component.toggleMeal(mealType);
-  
+
     // Assert
     expect(component.selectedMeal).toBe(mealType)
     expect(component.toggleMeal).toBeCalledWith(mealType)
   })
-  
+
   it("The selected meals should change when the user changes", () => {
 
     const mealType = 'Lunch';
@@ -205,26 +205,28 @@ describe('Testing Tags', () => {
     const mealType2 = 'Dinner';
     // Act
     component.toggleMeal(mealType2);
-  
+
     // Assert
     expect(component.selectedMeal).toBe(mealType2);
     expect(component.selectedMeal).not.toBe(mealType);
-    
+
   })
 
   it("Should selet a difficulty successfully", () => {
     const difficulty = 'Easy';
     component.difficulty = difficulty;
     jest.spyOn(component, 'toggleDifficulty');
-  
+
     // Act
     component.toggleDifficulty(difficulty);
-  
+
     // Assert
     expect(component.difficulty).toBe(difficulty);
     expect(component.toggleDifficulty).toBeCalledWith(difficulty);
+    expect(component.difficulty).toBe(difficulty);
+    expect(component.toggleDifficulty).toBeCalledWith(difficulty);
   })
-  
+
   it("The selected difficulty should change when the user changes", () => {
 
     const difficulty1 = 'Easy';
@@ -234,11 +236,11 @@ describe('Testing Tags', () => {
     const difficulty2 = 'Medium';
     // Act
     component.toggleDifficulty(difficulty2);
-  
+
     // Assert
     expect(component.difficulty).toBe(difficulty2);
     expect(component.difficulty).not.toBe(difficulty1);
-    
+
   })
 
   it('should not add a tag if tagValue is empty', () => {
@@ -267,7 +269,7 @@ describe('Testing Tags', () => {
     expect(component.tags.length).toBe(size);
     expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No duplicates: Tag already selected'));
     expect(component.tags).toEqual(testTags);
-    
+
   });
 
   it('Should not add if tags is already at size three(3)',  () => {
@@ -314,7 +316,7 @@ describe('Testing Tags', () => {
 });
 
 
-describe('Ingredients storing, deleting and returning', () => { 
+describe('Ingredients storing, deleting and returning', () => {
   let component: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
   let formBuilder: FormBuilder;
@@ -367,24 +369,24 @@ describe('Ingredients storing, deleting and returning', () => {
           unit: 'whole'
         }),
       ]);
-  
+
         // create a new recipe form using the form array
         const recipeForm = new FormGroup({
           ingredients: formArray,
         });
-  
+
         component.recipeForm = recipeForm;
-      
+
       const ingredients : IIngredient[] = component.getIngredients();
-  
-  
+
+
       // assert that the instructions array was created correctly
       expect(ingredients[0]).toEqual({ ingredientName: "Mango", amount: 100, unit: "g" });
       expect(ingredients[1]).toEqual({ ingredientName: "Potato", amount: 1, unit: "kg" })
       expect(ingredients[2]).toEqual({ ingredientName: "Banana", amount: 300, unit: "g" })
       expect(ingredients[3]).toEqual({ ingredientName: "Salad", amount: 100, unit: "g" })
       expect(ingredients[4]).toEqual({ ingredientName: "Onion", amount: 1, unit: "whole" })
-    
+
     })
 
   it('should remove the ingredient at the specified index', () => {
@@ -407,7 +409,7 @@ describe('Ingredients storing, deleting and returning', () => {
     // Arrange
     const indexToRemove = 1;
     const initialIngredientsCount = component.ingredientControls.length;
-    
+
     // Act
     component.removeIngredient(indexToRemove);
 
@@ -416,7 +418,7 @@ describe('Ingredients storing, deleting and returning', () => {
     expect(finalIngredientsCount).toBe(initialIngredientsCount - 1);
     expect(component.ingredientControls[1]).toBeUndefined();
   });
-  
+
   });
 
   describe("Testing placeholder texts for Amount", () => {
@@ -439,25 +441,25 @@ describe('Ingredients storing, deleting and returning', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
-    
+
     it('should return "e.g 10" when window width is less than 1024', () => {
       // Arrange
       global.innerWidth = 800; // Set the window width to a value less than 1024
-  
+
       // Act
       const placeholderText = component.getAmountPlaceholderText();
-  
+
       // Assert
       expect(placeholderText).toBe('e.g 10');
     });
-  
+
     it('should return "Amount" when window width is greater than or equal to 1024', () => {
       // Arrange
       global.innerWidth = 1200; // Set the window width to a value greater than or equal to 1024
-  
+
       // Act
       const placeholderText = component.getAmountPlaceholderText();
-  
+
       // Assert
       expect(placeholderText).toBe('Amount');
     });
@@ -483,25 +485,25 @@ describe('Ingredients storing, deleting and returning', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
-    
+
     it('should return "e.g 10" when window width is less than 1024', () => {
       // Arrange
       global.innerWidth = 800; // Set the window width to a value less than 1024
-  
+
       // Act
       const placeholderText = component.getUnitPlaceholderText();
-  
+
       // Assert
       expect(placeholderText).toBe('e.g L');
     });
-  
+
     it('should return "Amount" when window width is greater than or equal to 1024', () => {
       // Arrange
       global.innerWidth = 1200; // Set the window width to a value greater than or equal to 1024
-  
+
       // Act
       const placeholderText = component.getUnitPlaceholderText();
-  
+
       // Assert
       expect(placeholderText).toBe('Unit');
     });
@@ -527,13 +529,13 @@ describe('Ingredients storing, deleting and returning', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
-    
+
     it('should update the imageUrl when a file is selected', () => {
       // Arrange
       const file = new File(['sample content'], 'sample.jpg', { type: 'image/jpeg' });
       const event = { target: { files: [file] } };
       const existingImage = component.imageUrl;
-      
+
       const readAsDataURLStringSpy = jest.spyOn(FileReader.prototype, 'readAsDataURL');
 
       // Act
@@ -549,10 +551,10 @@ describe('Ingredients storing, deleting and returning', () => {
         expect(component.imageUrl).not.toBe(existingImage);
       });
     });
-   
+
   });
 
-  describe('isFormValid()', () =>{ 
+  describe('isFormValid()', () =>{
 
     let component: CreatePagComponent;
     let fixture: ComponentFixture<CreatePagComponent>;
@@ -660,18 +662,18 @@ describe('Ingredients storing, deleting and returning', () => {
         const instructionsFormArray = new FormArray([
           new FormControl('Step 1')
         ]);
-  
+
         const formGroup: FormGroup = formBuilder.group({
           ingredients: ingredientsFormArray,
           instructions: instructionsFormArray
         })
 
         component.tags = ['Asian']
-  
+
         component.recipeForm = formGroup;
         component.isFormValid();
         expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
-      
+
       })
 
 
@@ -686,7 +688,7 @@ describe('Ingredients storing, deleting and returning', () => {
         const instructionsFormArray = new FormArray([
           new FormControl('Step 1')
         ]);
-  
+
         const formGroup: FormGroup = formBuilder.group({
           name: ['Name', Validators.required],
           description: ['Description', Validators.required],
@@ -695,7 +697,7 @@ describe('Ingredients storing, deleting and returning', () => {
           ingredients: ingredientsFormArray,
           instructions: instructionsFormArray
         })
-  
+
         component.recipeForm = formGroup;
         component.tags = ['Asian'];
         component.selectedMeal = 'Breakfast';
@@ -715,7 +717,7 @@ describe('Ingredients storing, deleting and returning', () => {
         const instructionsFormArray = new FormArray([
           new FormControl('Step 1')
         ]);
-  
+
         const formGroup: FormGroup = formBuilder.group({
           name: ['', Validators.required],
           description: ['', Validators.required],
@@ -736,7 +738,7 @@ describe('Ingredients storing, deleting and returning', () => {
           createdRecipes: [],
           currMealPlan: null,
         };
-  
+
         component.recipeForm = formGroup;
         component.selectedMeal = 'Breakfast';
         component.tags = ['Asian'];
@@ -744,7 +746,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.isFormValid();
         expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
       })
-      
+
 
     it('The form should test valid', () => {
       const formBuilder: FormBuilder = new FormBuilder();
@@ -811,7 +813,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       expect(component.isFormValid()).toBe(true);
     })
-  
+
   })
 
   describe("Testing Recipe Creation", () => {
@@ -831,13 +833,13 @@ describe('Ingredients storing, deleting and returning', () => {
       createdRecipes: [],
       currMealPlan: null,
     };
-  
-    @State({ 
-      name: 'profile', 
+
+    @State({
+      name: 'profile',
       defaults: {
         profile: testProfile
-      } 
-    }) 
+      }
+    })
     @Injectable()
     class MockProfileState {}
 
@@ -896,7 +898,7 @@ describe('Ingredients storing, deleting and returning', () => {
         servings: 4,
         tags: ["mock", "recipe"],
       };
-    
+
       component.imageUrl = recipe.recipeImage
       // Mock the values and controls used in createRecipe
       component.recipeForm = fb.group({
@@ -912,7 +914,7 @@ describe('Ingredients storing, deleting and returning', () => {
 
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
-    
+
       // Call the createRecipe method
       component.createRecipe();
       expect(dispatchSpy).toHaveBeenCalledWith(new CreateRecipe(recipe));
@@ -928,7 +930,7 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should not create recipe if form is invalid', () => {
 
       jest.spyOn(component, 'isFormValid');
-    
+
 
       const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
 
@@ -951,7 +953,7 @@ describe('Ingredients storing, deleting and returning', () => {
         servings: 4,
         tags: ["mock", "recipe"],
       };
-    
+
       component.imageUrl = recipe.recipeImage
       // Mock the values and controls used in createRecipe
       component.recipeForm = fb.group({
@@ -967,7 +969,7 @@ describe('Ingredients storing, deleting and returning', () => {
 
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
-    
+
       // Call the createRecipe method
       component.createRecipe();
       expect(component.isFormValid).toHaveBeenCalled();
@@ -975,7 +977,6 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(dispatchSpy).not.toHaveBeenCalledWith(new CreateRecipe(recipe));
     })
 
- 
-  
-  })
 
+
+  })

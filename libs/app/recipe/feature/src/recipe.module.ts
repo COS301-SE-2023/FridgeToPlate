@@ -5,7 +5,10 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { IonicModule } from '@ionic/angular';
 import { RecipeRouting } from './recipe.routing';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { ReviewModule } from "@fridge-to-plate/app/review/feature";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ReviewModule } from '@fridge-to-plate/app/review/feature';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access';
 
 @NgModule({
   imports: [
@@ -14,7 +17,8 @@ import { ReviewModule } from "@fridge-to-plate/app/review/feature";
     IonicModule,
     RecipeRouting,
     NavigationBarModule,
-    ReviewModule
+    ReviewModule,
+    RecipeDataAccessModule,
   ],
   declarations: [RecipePage],
 })

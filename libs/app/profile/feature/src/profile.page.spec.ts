@@ -5,11 +5,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
 import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
-import { of, take } from "rxjs";
+import { take } from "rxjs";
 import { Injectable } from "@angular/core";
+import { ProfileUiModule } from "@fridge-to-plate/app/profile/ui";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RecipeCardComponent } from "libs/app/recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
-  
+
   const testProfile: IProfile = {
     displayName: "John Doe",
     username: "jdoe",
@@ -21,12 +24,12 @@ describe("ProfilePage", () => {
     currMealPlan: null,
   };
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: testProfile
-    } 
-  }) 
+    }
+  })
   @Injectable()
   class MockProfileState {}
 
@@ -37,8 +40,8 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState])],
-      declarations: [ProfilePage],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState]), ProfileUiModule],
+      declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProfilePage);
@@ -128,7 +131,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort saved by name ascending", () => {
     store = TestBed.inject(Store);
@@ -136,7 +139,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort saved by name descending", () => {
     store = TestBed.inject(Store);
@@ -144,7 +147,7 @@ describe("ProfilePage", () => {
 
     page.sortSavedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortSavedByNameDesc());
-  }); 
+  });
 
   it("should dispatch sort created by difficulty", () => {
     store = TestBed.inject(Store);
@@ -152,7 +155,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('difficulty');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByDifficulty());
-  }); 
+  });
 
   it("should dispatch sort created by name ascending", () => {
     store = TestBed.inject(Store);
@@ -160,7 +163,7 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameAsc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameAsc());
-  }); 
+  });
 
   it("should dispatch sort created by name descending", () => {
     store = TestBed.inject(Store);
@@ -168,5 +171,14 @@ describe("ProfilePage", () => {
 
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
-  }); 
+  });
+
+  it("should open notifications page when notifications button is clicked", () => {
+    const openNotificationsSpy = jest.spyOn(page, 'openNotifications');
+    const notificationsButton = compiled.querySelector("#notifications-button");
+    notificationsButton.click();
+    expect(openNotificationsSpy).toHaveBeenCalled();
+  });
+
 });
+

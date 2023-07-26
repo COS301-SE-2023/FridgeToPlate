@@ -6,8 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import org.springframework.stereotype.Repository;
 
@@ -24,11 +29,11 @@ public class ReviewRepository {
 
      public List<Review> getReviewsByRecipeId(String id) {
         List<Review> reviews = new ArrayList<>();
-        
+
         PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
 
         for (Review review : scanResult) {
-            
+
             if (review.getRecipeId().equals(id)) {
                 reviews.add(review);
             }
@@ -39,11 +44,11 @@ public class ReviewRepository {
 
     public List<Review> getReviewsByUsername(String username) {
         List<Review> reviews = new ArrayList<>();
-        
+
         PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
 
         for (Review review : scanResult) {
-            
+
             if (review.getUsername().equals(username)) {
                 reviews.add(review);
             }
@@ -60,7 +65,9 @@ public class ReviewRepository {
         return dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
     }
 
-
-
-
+    public String delete(String recipeId, String reviewId){
+       Review review = dynamoDBMapper.load(Review.class, recipeId, reviewId);
+        dynamoDBMapper.delete(review);
+        return "Recipe deleted successfully:: " + recipeId + reviewId;
+    }
 }

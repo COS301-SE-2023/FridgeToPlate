@@ -4,9 +4,9 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { CreateRecipe } from '@fridge-to-plate/app/create/utils';
+import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 
 @Component({
@@ -20,7 +20,7 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal !: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
@@ -29,9 +29,7 @@ export class CreatePagComponent implements OnInit  {
 
   ngOnInit() {
     this.createForm();
-    this.profile$.subscribe(profile => {
-      this.profile = profile;
-    });
+    this.profile$.pipe(take(1)).subscribe(profile => this.profile = Object.create(profile));
   }
 
   createForm(): void {
@@ -56,7 +54,7 @@ export class CreatePagComponent implements OnInit  {
       amount: ['', Validators.required],
       scale: ['', Validators.required]
     });
-  
+
     // Add the new ingredient group to the FormArray
     (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
   }
@@ -98,10 +96,10 @@ export class CreatePagComponent implements OnInit  {
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
-    
+
     // Ingredients array
     const ingredients = this.getIngredients();
-    
+
     // Instructions array
     const instructions = this.getInstructions()
 
@@ -114,7 +112,7 @@ export class CreatePagComponent implements OnInit  {
       creator: this.profile.username,
       ingredients: ingredients,
       steps: instructions,
-      difficulty:this.difficulty,
+      difficulty: this.difficulty,
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
@@ -124,17 +122,17 @@ export class CreatePagComponent implements OnInit  {
   }
 
 
- 
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
     };
-    
+
     reader.readAsDataURL(file);
   }
 
@@ -209,6 +207,11 @@ export class CreatePagComponent implements OnInit  {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
+      return false;
+    }
+
+    if(!this.difficulty) {
+      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
       return false;
     }
 

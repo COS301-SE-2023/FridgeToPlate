@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -29,10 +30,21 @@
       "@fridge-to-plate/app/create/utils": [
         "libs/app/create/utils/src/index.ts"
       ],
+      "@fridge-to-plate/app/edit-recipe": ["libs/app/edit-recipe/src/index.ts"],
+      "@fridge-to-plate/app/edit-recipe/feature": [
+        "libs/app/edit-recipe/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/environments/utils": [
+        "libs/app/environments/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/error/data-access": [
         "libs/app/error/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
+      "@fridge-to-plate/app/forgot/feature": [
+        "libs/app/forgot/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
       "@fridge-to-plate/app/explore/data-access": [
         "libs/app/explore/data-access/src/index.ts"
       ],
@@ -51,6 +63,11 @@
       ],
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/login/ui": ["libs/app/login/ui/src/index.ts"],
+      "@fridge-to-plate/app/login/utils": ["libs/app/login/utils/src/index.ts"],
+      "@fridge-to-plate/app/meal-plan/data-access": [
+        "libs/app/meal-plan/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/meal-plan/utils": [
         "libs/app/meal-plan/utils/src/index.ts"
@@ -105,6 +122,9 @@
       "@fridge-to-plate/app/recommend/ui": [
         "libs/app/recommend/ui/src/index.ts"
       ],
+      "@fridge-to-plate/app/recommend/utils": [
+        "libs/app/recommend/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/review/data-access": [
         "libs/app/review/data-access/src/index.ts"
       ],
@@ -116,6 +136,9 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/unauthorised/feature": [
+        "libs/app/unauthorised/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/undo/data-access": [
         "libs/app/undo/data-access/src/index.ts"

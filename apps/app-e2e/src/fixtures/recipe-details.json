@@ -1,0 +1,136 @@
+[
+  {
+    "recipeId": "1",
+    "name": "Spaghetti Carbonara",
+    "tags": ["pasta", "italian"],
+    "difficulty": "Medium",
+    "recipeImage": "https://example.com/spaghetti-carbonara.jpg",
+    "description": "A classic Italian pasta dish with bacon, eggs, and cheese.",
+    "servings": 4,
+    "prepTime": 20,
+    "meal": "Dinner",
+    "ingredients": [
+      { "name": "spaghetti", "amount": 1, "unit": "pound" },
+      { "name": "bacon", "amount": 8, "unit": "slices" },
+      { "name": "eggs", "amount": 4, "unit": "" },
+      { "name": "parmesan cheese", "amount": 1, "unit": "cup" },
+      { "name": "black pepper", "amount": 0.5, "unit": "tsp" }
+    ],
+    "steps": [
+      "Cook spaghetti according to package directions.",
+      "Cook bacon in a large skillet until crispy; remove from skillet and crumble.",
+      "In a small bowl, beat eggs and parmesan cheese together.",
+      "Drain spaghetti and return to skillet.",
+      "Add bacon to skillet and stir to combine.",
+      "Pour egg mixture over spaghetti and stir quickly to combine.",
+      "Season with black pepper and serve immediately."
+    ],
+    "creator": "italian_food_lover",
+    "reviews": [
+      {
+        "reviewId": "1",
+        "recipeId": "1",
+        "username": "pasta_guru",
+        "rating": 5,
+        "description": "This is the best spaghetti carbonara recipe I've ever tried!"
+      },
+      {
+        "reviewId": "2",
+        "recipeId": "1",
+        "username": "foodie_mom",
+        "rating": 4,
+        "description": "My family loved this recipe, but it was a bit too rich for my taste."
+      }
+    ]
+  },
+  {
+    "recipeId": "2",
+    "name": "Chicken Caesar Salad",
+    "tags": ["salad", "chicken"],
+    "difficulty": "Easy",
+    "recipeImage": "https://example.com/chicken-caesar-salad.jpg",
+    "description": "A classic salad with chicken, romaine lettuce, and Caesar dressing.",
+    "servings": 4,
+    "prepTime": 15,
+    "meal": "Lunch",
+    "ingredients": [
+      { "name": "romaine lettuce", "amount": 1, "unit": "head" },
+      { "name": "grilled chicken breast", "amount": 2, "unit": "" },
+      { "name": "caesar dressing", "amount": 0.5, "unit": "cup" },
+      { "name": "croutons", "amount": 0.5, "unit": "cup" },
+      { "name": "parmesan cheese", "amount": 0.5, "unit": "cup" }
+    ],
+    "steps": [
+      "Wash and chop romaine lettuce.",
+      "Slice grilled chicken breast into strips.",
+      "In a large bowl, combine romaine lettuce, chicken, and croutons.",
+      "Drizzle Caesar dressing over salad and toss to combine.",
+      "Sprinkle with parmesan cheese and serve immediately."
+    ],
+    "creator": "healthy_eater",
+    "reviews": [
+      {
+        "reviewId": "3",
+        "recipeId": "2",
+        "username": "salad_lover",
+        "rating": 4,
+        "description": "This is a great recipe for a quick and easy meal."
+      },
+      {
+        "reviewId": "4",
+        "recipeId": "2",
+        "username": "gym_rat",
+        "rating": 5,
+        "description": "I make this salad all the time for a healthy and delicious lunch."
+      }
+    ]
+  },
+  {
+    "recipeId": "3",
+    "name": "Blueberry Muffins",
+    "tags": ["breakfast", "baking"],
+    "difficulty": "Easy",
+    "recipeImage": "https://example.com/blueberry-muffins.jpg",
+    "description": "A classic breakfast muffin with fresh blueberries.",
+    "servings": 12,
+    "prepTime": 15,
+    "meal": "Breakfast",
+    "ingredients": [
+      { "name": "all-purpose flour", "amount": 2, "unit": "cups" },
+      { "name":"granulated sugar", "amount": 0.75, "unit": "cup" },
+      { "name": "baking powder", "amount": 2, "unit": "tsp" },
+      { "name": "salt", "amount": 0.5, "unit": "tsp" },
+      { "name": "milk", "amount": 0.5, "unit": "cup" },
+      { "name": "vegetable oil", "amount": 0.25, "unit": "cup" },
+      { "name": "eggs", "amount": 2, "unit": "" },
+      { "name": "fresh blueberries", "amount": 1.5, "unit": "cups" }
+    ],
+    "steps": [
+      "Preheat oven to 400°F (200°C).",
+      "In a large bowl, combine flour, sugar, baking powder, and salt.",
+      "In a separate bowl, whisk together milk, vegetable oil, and eggs.",
+      "Add wet ingredients to dry ingredients and stir until just combined.",
+      "Fold in blueberries.",
+      "Spoon batter into greased muffin tins, filling each cup 2/3 full.",
+      "Bake for 18-20 minutes or until a toothpick inserted in the center comes out clean.",
+      "Cool muffins in tin for 5 minutes before removing to a wire rack to cool completely."
+    ],
+    "creator": "baking_queen",
+    "reviews": [
+      {
+        "reviewId": "5",
+        "recipeId": "3",
+        "username": "blueberry_fan",
+        "rating": 5,
+        "description": "These muffins are amazing! They're so moist and flavorful."
+      },
+      {
+        "reviewId": "6",
+        "recipeId": "3",
+        "username": "muffin_lover",
+        "rating": 4,
+        "description": "This is a great basic muffin recipe. I added some cinnamon for extra flavor."
+      }
+    ]
+  }
+]

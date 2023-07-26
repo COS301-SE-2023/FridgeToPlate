@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProfilePage } from './profile.page';
 import { ProfileRouting } from './profile.routing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
-import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
-import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
@@ -19,9 +17,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     ProfileRouting,
     IonicModule,
     RecipeUIModule,
-    IngredientUIModule,
     ProfileUiModule,
-    NavigationBarModule,
     ProfileDataAccessModule,
     NotificationsFeatureModule,
     NzListModule,
