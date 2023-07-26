@@ -157,7 +157,7 @@
           <div [formGroupName]="i" class=" flex mb-2 ">
 
             <div class="w-3/5">
-              <input formControlName="ingredientName"
+              <input formControlName="name"
               placeholder="Ingredient Name"
               required
               type="text"
@@ -174,7 +174,7 @@
             </div>
 
             <div class="w-1/5">
-              <input formControlName="scale"
+              <input formControlName="unit"
               [placeholder]="getUnitPlaceholderText()"
               required
               type="text"

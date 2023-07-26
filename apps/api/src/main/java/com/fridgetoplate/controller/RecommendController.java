@@ -19,4 +19,5 @@ public class RecommendController {
     public List<RecipeFrontendModel> findAll() {
         return recipeRepository.findAll();
     }
+
 }

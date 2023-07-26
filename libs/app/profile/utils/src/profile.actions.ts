@@ -1,5 +1,6 @@
 import { IRecipeDesc } from "@fridge-to-plate/app/recipe/utils";
 import { IProfile } from "./interfaces";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export class UpdateProfile {
     static readonly type = '[Profile] UpdateProfile';
@@ -59,17 +60,17 @@ export class SortCreatedByNameDesc {
     static readonly type = '[Profile] SortCreatedByNameDesc';
 }
 
-export class AddToMealPlan{
-    static readonly type = '[MealPlan] AddToMealPlan';
-    constructor(public recipe: IRecipeDesc, public meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack'){} 
+export class UpdateMealPlan {
+    static readonly type = '[Profile] Update the Meal Plan';
+    constructor(public readonly mealPlan: IMealPlan){}
 }
 
 export class RemoveFromMealPlan {
-    static readonly type = "[MealPlan] Remove From Meal Plan"
-    constructor(public readonly recipeId: string) {}
+    static readonly type = '[Profile] Remove from Meal Plan';
+    constructor(public readonly recipeId: string){}
 }
 
-export class GetMealPlan {
-    static readonly type = "[MealPlan] Get Meal Plan By Username"
-    constructor (public readonly username: string){}
+export class AddToMealPlan {
+    static readonly type = '[Profile] Add to Meal Plan';
+    constructor(public readonly recipe: IRecipeDesc, public readonly mealType: string){}
 }
