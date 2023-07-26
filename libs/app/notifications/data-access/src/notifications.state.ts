@@ -1,4 +1,12 @@
-import {Action, NgxsModule, Select, Selector, State, StateContext, Store} from '@ngxs/store';
+import {
+  Action,
+  NgxsModule,
+  Select,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import { INotification } from '../../utils/src/interfaces';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
@@ -10,9 +18,9 @@ import {
 } from '../../utils/notifications.actions';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { Observable, take} from 'rxjs';
-import {TestBed} from "@angular/core/testing";
-import {NotificationsDataAccessModule} from "./notifications.module";
+import { Observable, take } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { NotificationsDataAccessModule } from './notifications.module';
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
@@ -65,8 +73,10 @@ export class NotificationsState {
     { userId }: ClearGeneralNotifications
   ) {
     ctx.patchState({
-      generalNotifications: []
-    })
+      generalNotifications: [],
+    });
+
+    this.notificationsApi.clearGeneralNotifications(userId).subscribe();
   }
 
   @Action(ClearRecommendationNotifications)
@@ -75,12 +85,12 @@ export class NotificationsState {
     { userId }: ClearRecommendationNotifications
   ) {
     ctx.patchState({
-      recommendationNotification: []
-    })
+      recommendationNotification: [],
+    });
+
+    this.notificationsApi.clearRecommendationNotifications(userId).subscribe();
   }
 }
-
-
 
 // let store: Store;
 //
