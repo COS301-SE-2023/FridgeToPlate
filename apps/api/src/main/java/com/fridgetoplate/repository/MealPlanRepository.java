@@ -81,32 +81,6 @@ public class MealPlanRepository {
         return modelData;
     }
 
-    public MealPlanModel remove(String username, String recipeId) {
-           PaginatedScanList<MealPlanModel> scanResult = dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
-            MealPlanModel modelData = null;
-           for (MealPlanModel model : scanResult) {
-            
-                if(model.getUsername().equals(username)){
-                    if(model.getBreakfastId() != null && model.getBreakfastId().equals(recipeId)) {
-                        model.setBreakfastId("");
-                    } else if(model.getLunchId() != null && model.getLunchId().equals(recipeId)) {
-                        model.setLunchId("");
-                    } else if(model.getDinnerId() != null && model.getDinnerId().equals(recipeId)) {
-                        model.setDinnerId("");
-                    }
-                    else if(model.getSnackId() != null && model.getSnackId().equals(recipeId)){
-                        model.setSnackId("");
-                    }
-
-                    dynamoDBMapper.save(model);
-                    modelData = model;
-                    return model;
-                }
-           }
-
-           return modelData;
-    }
-
     public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper){
         this.dynamoDBMapper = dynamoDBMapper;
     }

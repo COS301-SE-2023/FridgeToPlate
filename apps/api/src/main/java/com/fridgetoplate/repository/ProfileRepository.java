@@ -79,23 +79,23 @@ public class ProfileRepository {
             mealPlanResponse.setUsername(username);
 
             String breakFastId = mealPlanModel.getBreakfastId();
-            RecipeDesc breaKfastDesc = dynamoDBMapper.load(RecipeModel.class, breakFastId);
+            RecipeDesc breakfast = dynamoDBMapper.load(RecipeModel.class, breakFastId);
 
             String lunchId = mealPlanModel.getLunchId();
-            RecipeDesc LunchDesc = dynamoDBMapper.load(RecipeModel.class, lunchId);
+            RecipeDesc lunch = dynamoDBMapper.load(RecipeModel.class, lunchId);
 
             String dinnerId = mealPlanModel.getDinnerId();
-            RecipeDesc DinnerDesc = dynamoDBMapper.load(RecipeModel.class, dinnerId);
+            RecipeDesc dinner = dynamoDBMapper.load(RecipeModel.class, dinnerId);
 
             String snackId = mealPlanModel.getSnackId();
-            RecipeDesc SnackDesc = dynamoDBMapper.load(RecipeModel.class, snackId);   
+            RecipeDesc snack = dynamoDBMapper.load(RecipeModel.class, snackId);   
 
             // Creating the mealPlanResponse
             mealPlanResponse.setDate(date);
-            mealPlanResponse.setBreakfast(breaKfastDesc);
-            mealPlanResponse.setLunch(LunchDesc);
-            mealPlanResponse.setDinner(DinnerDesc);
-            mealPlanResponse.setSnack(SnackDesc);
+            mealPlanResponse.setBreakfast(breakfast);
+            mealPlanResponse.setLunch(lunch);
+            mealPlanResponse.setDinner(dinner);
+            mealPlanResponse.setSnack(snack);
             
             // saving meal plan response to profile response
             profileResponse.setCurrMealPlan(mealPlanResponse);

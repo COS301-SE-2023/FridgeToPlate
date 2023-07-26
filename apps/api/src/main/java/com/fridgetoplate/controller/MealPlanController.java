@@ -27,7 +27,7 @@ public class MealPlanController {
     private MealPlanRepository mealPlanRepository;
 
     @PostMapping("/save")
-    public MealPlanModel save(@RequestBody MealPlanFrontendModel mealPlan) {
+    public MealPlanFrontendModel save(@RequestBody MealPlanFrontendModel mealPlan) {
 
         MealPlanModel plan = new MealPlanModel();
         if(mealPlan.getBreakfast() != null) {
@@ -58,18 +58,12 @@ public class MealPlanController {
 
         plan.setUsername(mealPlan.getUsername());
         plan.setDate(mealPlan.getDate());
-        mealPlanRepository.save(plan);
-        return plan;
+        return mealPlanRepository.save(plan);
     }
 
     @GetMapping
     public List<MealPlanModel> findAll() {
         return mealPlanRepository.findAll();
-    }
-
-    @PutMapping("/{username}")
-    public MealPlanModel removeRecipe(@PathVariable(value = "username") String username, @RequestBody String recipeId) {
-        return mealPlanRepository.remove(username, recipeId);
     }
 
     @GetMapping("/{username}")
