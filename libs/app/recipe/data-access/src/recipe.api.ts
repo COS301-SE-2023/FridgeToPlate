@@ -1,34 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecipeAPI {
   private baseUrl = environment.API_URL + '/recipes';
 
-  constructor( private http: HttpClient){ }
+  constructor(private http: HttpClient) {}
 
-    UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
-        const url = this.baseUrl + '/' + recipe.recipeId;
-        return this.http.put<IRecipe>(url, recipe);
-    }
+  createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
+    const url = 'http://localhost:5000/recipes/create';
+    return this.http.post<IRecipe>(url, recipe);
+  }
+  UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
+    const url = this.baseUrl + '/' + recipe.recipeId;
+    return this.http.put<IRecipe>(url, recipe);
+  }
 
-    deleteRecipe(id: string): Observable<string> {
-        const url = this.baseUrl + '/' + id;
-        return this.http.delete<string>(url);
-    }
+  deleteRecipe(id: string): Observable<string> {
+    const url = this.baseUrl + '/' + id;
+    return this.http.delete<string>(url);
+  }
 
-    getRecipeById(id: string): Observable<IRecipe> {
-      const url = `${this.baseUrl}/${id}`;
-      return this.http.get<IRecipe>(url);
-    }
+  getRecipeById(id: string): Observable<IRecipe> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<IRecipe>(url);
+  }
 
-    createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
-      const url = 'http://localhost:5000/recipes/create';
-      return this.http.post<IRecipe>(url, recipe);
+  updateRecipe(recipe: IRecipe) {
+    const url = `${this.baseUrl}/${recipe.recipeId}`;
+    return this.http.put<IRecipe>(url, recipe);
+  }
+
+  createNewReview(review: IReview): Observable<IReview> {
+    const url = 'http://localhost:5000/reviews/create';
+    return this.http.post<IReview>(url, review);
+  }
+
+  deleteReview(recipeId: string, reviewId:string): Observable<string> {
+    const url = 'http://localhost:5000/reviews/' + recipeId + reviewId;
+    return this.http.delete<string>(url);
   }
 }

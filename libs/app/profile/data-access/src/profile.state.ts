@@ -12,12 +12,16 @@ import {
     SortCreatedByDifficulty, 
     SortCreatedByNameAsc, 
     ResetProfile, 
-    UndoRemoveSavedRecipe
+    UndoRemoveSavedRecipe,
+    AddToMealPlan,
+    RemoveFromMealPlan
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
+import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -32,21 +36,21 @@ export interface ProfileStateModel {
             email: "jdoe@gmail.com",
             savedRecipes: [
                 {
-                    recipeId: "testid",
+                    recipeId: "testid1",
                     recipeImage: "testimage",
                     difficulty: "Hard",
                     name: "The hard recipe",
                     tags: ["Tag"],
                 },
                 {
-                    recipeId: "testid",
+                    recipeId: "testid2",
                     recipeImage: "testimage",
                     difficulty: "Medium",
                     name: "The med recipe",
                     tags: ["Tag"],
                 },
                 {
-                    recipeId: "testid",
+                    recipeId: "testid3",
                     recipeImage: "testimage",
                     difficulty: "Easy",
                     name: "The easy recipe",
@@ -72,7 +76,7 @@ export interface ProfileStateModel {
 @Injectable()
 export class ProfileState {
 
-    constructor(private api: ProfileAPI, private store: Store) {}
+    constructor(private profileAPI: ProfileAPI, private store: Store, private readonly mealPlanAPI: MealPlanAPI) {}
     
     @Selector()
     static getProfile(state: ProfileStateModel) {
@@ -84,7 +88,7 @@ export class ProfileState {
         patchState({
             profile: profile
         });
-        this.api.updateProfile(profile);
+        this.profileAPI.updateProfile(profile);
     }
 
     @Action(ResetProfile)
@@ -93,18 +97,18 @@ export class ProfileState {
             profile: null
         })
     }
-    
+
     @Action(CreateNewProfile)
     createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
         setState({
             profile: profile
         });
-        this.api.saveProfile(profile);
+        this.profileAPI.saveProfile(profile);
     }
 
     @Action(RetrieveProfile)
     async retrieveProfile({ setState } : StateContext<ProfileStateModel>, { username } : RetrieveProfile) {
-        (await this.api.getProfile(username)).subscribe({
+        (await this.profileAPI.getProfile(username)).subscribe({
             next: data => {
                 setState({
                     profile: data
@@ -119,7 +123,7 @@ export class ProfileState {
     @Action(SaveRecipe)
     saveRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : SaveRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
                 if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
@@ -127,20 +131,20 @@ export class ProfileState {
                     return;
                 }
             }
-            
+
             updatedProfile?.savedRecipes.push(recipe);
             patchState({
                 profile: updatedProfile
             });
 
-            this.api.updateProfile(updatedProfile);
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
     @Action(RemoveSavedRecipe)
     removeSavedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveSavedRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             this.store.dispatch(new ShowUndo("Removed recipe from saved recipes", new UndoRemoveSavedRecipe(updatedProfile.savedRecipes)));
 
@@ -151,7 +155,7 @@ export class ProfileState {
                 profile: updatedProfile
             });
 
-            this.api.updateProfile(updatedProfile);
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
@@ -214,7 +218,7 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
+
             updatedProfile.savedRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
@@ -277,7 +281,7 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
+
             updatedProfile.createdRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
@@ -290,6 +294,74 @@ export class ProfileState {
             patchState({
                 profile: updatedProfile
             });
+        }
+    }
+
+    @Action(AddToMealPlan)
+    addToMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { recipe, meal }: AddToMealPlan) {
+        const updatedProfile = getState().profile;
+
+        if (updatedProfile) {
+            
+            if (!updatedProfile.currMealPlan) {
+                updatedProfile.currMealPlan = {
+                    username: updatedProfile.username,
+                    date: "",
+                    breakfast: null,
+                    lunch: null,
+                    dinner: null,
+                    snack: null
+                }
+            }
+
+            switch(meal) {
+                case 'Breakfast':  
+                    updatedProfile.currMealPlan.dinner = recipe;
+                    break;
+                
+                case 'Lunch':  
+                    updatedProfile.currMealPlan.lunch = recipe;
+                    break;
+
+                
+                case 'Dinner':  
+                    updatedProfile.currMealPlan.dinner = recipe;
+                    break;
+
+                
+                case 'Snack':  
+                    updatedProfile.currMealPlan.snack = recipe;
+                    break;
+            }
+
+            patchState({
+                profile: updatedProfile
+            });
+
+            this.mealPlanAPI.saveMealPlan(updatedProfile.currMealPlan as IMealPlan);
+        }
+    }
+
+    @Action(RemoveFromMealPlan)
+    removeFromMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { recipeId }: RemoveFromMealPlan) {
+        const updatedProfile = getState().profile;
+
+        if (updatedProfile && updatedProfile.currMealPlan) {
+            if (updatedProfile.currMealPlan.breakfast?.recipeId === recipeId) {
+                updatedProfile.currMealPlan.breakfast = null;
+            } else if (updatedProfile.currMealPlan.lunch?.recipeId === recipeId) {
+                updatedProfile.currMealPlan.lunch = null;
+            } else if (updatedProfile.currMealPlan.dinner?.recipeId === recipeId) {
+                updatedProfile.currMealPlan.dinner = null;
+            } else if (updatedProfile.currMealPlan.snack?.recipeId === recipeId) {
+                updatedProfile.currMealPlan.snack = null;
+            }
+            
+            patchState({
+                profile: updatedProfile
+            });
+            
+            this.mealPlanAPI.saveMealPlan(updatedProfile.currMealPlan as IMealPlan);
         }
     }
 }
