@@ -39,6 +39,33 @@ describe('RecipeCardComponent', () => {
     creator: "Kristap P",
   };
 
+  const testProfile: IProfile = {
+    displayName: "John Doe",
+    username: "jdoe",
+    email: "jdoe@gmail.com",
+    savedRecipes: [],
+    ingredients: [],
+    profilePic: "image-url",
+    createdRecipes: [],
+    currMealPlan: {
+      username: "jdoe",
+      date: "",
+      breakfast: null,
+      lunch: testRecipe,
+      dinner: null,
+      snack: null
+    },
+  }
+
+  @State({ 
+    name: 'profile', 
+    defaults: {
+      profile: testProfile
+    } 
+  })
+  @Injectable()
+  class MockProfileState {}
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipeCardComponent],
