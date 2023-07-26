@@ -25,7 +25,7 @@ export class LoginPage {
   }
 
   reset() {
-    alert("Resetting...");
+    this.store.dispatch(new Navigate(['/forgot']));
   }
 
   create() {
