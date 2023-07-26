@@ -13,7 +13,9 @@ import {
     SortCreatedByNameAsc, 
     ResetProfile, 
     UndoRemoveSavedRecipe,
-    UpdateMealPlan
+    UpdateMealPlan,
+    RemoveFromMealPlan,
+    AddToMealPlan
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -281,7 +283,7 @@ export class ProfileState {
     }
 
     @Action(UpdateMealPlan)
-    saveMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
+    updateMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
         const updatedProfile = getState().profile;
         
         if (updatedProfile && mealPlan) {
@@ -289,8 +291,60 @@ export class ProfileState {
             patchState({
                 profile: updatedProfile
             });
-            this.api.updateProfile(updatedProfile);
-            this.api.updateMealPlan(mealPlan);
+            this.profileAPI.updateProfile(updatedProfile);
+            this.mealPlanAPI.saveMealPlan(mealPlan);
+        }
+    }
+
+    @Action(RemoveFromMealPlan)
+    removeFromMealPlan({ getState } : StateContext<ProfileStateModel>, { recipeId } : RemoveFromMealPlan) {
+        const updatedProfile = getState().profile;
+        if(!updatedProfile){
+            this.store.dispatch(new ShowError("No profile: Not signed in"));
+            return;
+        }
+        const mealPlan = updatedProfile?.currMealPlan;
+        if (mealPlan) {
+
+            if(mealPlan.breakfast && mealPlan.breakfast.recipeId === recipeId) {
+                mealPlan.breakfast = null;
+            }
+            if(mealPlan.lunch && mealPlan.lunch.recipeId === recipeId) {
+                mealPlan.lunch = null;
+            }
+            if(mealPlan.dinner && mealPlan.dinner.recipeId === recipeId) {
+                mealPlan.dinner = null;
+            }
+            if(mealPlan.snack && mealPlan.snack.recipeId === recipeId) {
+                mealPlan.snack = null;
+            }
+            this.store.dispatch(new UpdateMealPlan(mealPlan))
+        }
+    }
+
+    @Action(AddToMealPlan)
+    addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType } : AddToMealPlan) {
+        const updatedProfile = getState().profile;
+        if(!updatedProfile){
+            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            return;
+        }
+        const mealPlan = updatedProfile?.currMealPlan;
+        if (mealPlan) {
+
+            if(mealType === "Breakfast") {
+                mealPlan.breakfast = recipe;
+            }
+            if(mealType === "Lunch") {
+                mealPlan.lunch = recipe;
+            }
+            if(mealType === "Dinner") {
+                mealPlan.dinner = recipe;
+            }
+            if(mealType === "Snack") {
+                mealPlan.snack = recipe;
+            }
+            this.store.dispatch(new UpdateMealPlan(mealPlan))
         }
     }
 

@@ -64,3 +64,13 @@ export class UpdateMealPlan {
     static readonly type = '[Profile] Update the Meal Plan';
     constructor(public readonly mealPlan: IMealPlan){}
 }
+
+export class RemoveFromMealPlan {
+    static readonly type = '[Profile] Remove from Meal Plan';
+    constructor(public readonly recipeId: string){}
+}
+
+export class AddToMealPlan {
+    static readonly type = '[Profile] Add to Meal Plan';
+    constructor(public readonly recipe: IRecipeDesc, public readonly mealType: string){}
+}
