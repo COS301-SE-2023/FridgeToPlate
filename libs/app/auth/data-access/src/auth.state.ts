@@ -10,7 +10,6 @@ import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferenc
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { ConfirmForgotPasswordRequest } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
-import { AuthService } from "./auth.api";
 
 
 interface formDataInterface {
@@ -40,7 +39,7 @@ export class AuthState {
   };
   
 
-  constructor(private store: Store, private api: AuthService) {}
+  constructor(private store: Store) {}
 
   @Selector()
   getAccessGranted(state: AuthStateModel) {

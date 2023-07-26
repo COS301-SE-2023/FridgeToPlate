@@ -127,6 +127,9 @@
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/unauthorised/feature": [
+        "libs/app/unauthorised/feature/src/index.ts"
+      ],
       "@fridge-to-plate/app/undo/data-access": [
         "libs/app/undo/data-access/src/index.ts"
       ],
