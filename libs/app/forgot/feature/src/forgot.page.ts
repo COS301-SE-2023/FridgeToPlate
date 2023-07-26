@@ -21,7 +21,7 @@ export class ForgotPage {
 
   constructor(private store: Store) { }
 
-  onSignIn(form: NgForm){
+  onForgot(form: NgForm){
     if (form.valid) {
       this.store.dispatch(new Forgot(this.username));
     }
