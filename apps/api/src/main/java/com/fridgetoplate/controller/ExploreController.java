@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.MealPlanModel;
+import com.fridgetoplate.repository.ExploreRepository;
 import com.fridgetoplate.repository.IngredientRepository;
 import com.fridgetoplate.repository.MealPlanRepository;
 
@@ -36,13 +38,13 @@ public class ExploreController {
 
 
     @GetMapping
-    public List<Recipe> findAll() {
+    public List<RecipeFrontendModel> findAll() {
         return exploreRepository.findAll();
     }
 
 
     @GetMapping("/refine")
-    public List<Recipe>  findBySearch(@RequestBody Explore search) {
+    public List<RecipeFrontendModel>  findBySearch(@RequestBody Explore search) {
         return exploreRepository.findBySearch(search);
     }
 }
