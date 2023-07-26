@@ -14,8 +14,8 @@ describe('Review Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, IonicModule, NgxsModule.forRoot()],
-      declarations: [Review]
+      imports: [IonicModule, FormsModule, NgxsModule.forRoot()],
+      declarations: [Review],
     }).compileComponents();
   });
 
