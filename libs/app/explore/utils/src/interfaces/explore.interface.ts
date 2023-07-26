@@ -5,6 +5,4 @@ export interface IExplore {
     name: string;
     tags: string[];
     difficulty: 'Easy' | 'Medium' | 'Hard';
-    resultRecipes: IRecipeDesc[];
-    exploreImage: string;
 }
