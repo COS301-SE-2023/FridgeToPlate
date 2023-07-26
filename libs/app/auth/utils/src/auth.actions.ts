@@ -23,6 +23,6 @@ export class ChangePassword {
 }
 
 export class NewPassword {
-    static readonly type = '[Auth] Forgot';
+    static readonly type = '[Auth] NewPassword';
     constructor(public readonly verificationCode: string, public readonly newPassword: string) {}
 }

@@ -39,8 +39,6 @@ export class AuthState {
    ClientId: environment.COGNITO_APP_CLIENT_ID
   };
   
-  private region = "eu-west-3";
-  private cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider();
 
   constructor(private store: Store, private api: AuthService) {}
 
@@ -198,11 +196,8 @@ export class AuthState {
   
     try {
       // Initiate the password reset
-      console.log('1');
-      alert('1');
-      this.cognitoIdentityServiceProvider.forgotPassword(params).promise();
-      console.log('2');
-      alert('2');
+      const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider(({ region: "eu-west-3" }));
+      cognitoIdentityServiceProvider.forgotPassword(params).promise();
 
       // Password reset initiated successfully, redirect the user to a confirmation page
       localStorage.setItem("username", username);

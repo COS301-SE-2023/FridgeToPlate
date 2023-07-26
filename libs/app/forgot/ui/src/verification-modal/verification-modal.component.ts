@@ -17,22 +17,18 @@ export class VerificationModalComponent {
   }
 
   verification_code = "";
-  username = "";
   new_password = "";
   confirm_password = "";
 
   onVerify(){
 
-    //alert("Sho");
-    //console.log('Sho');
-    if (this.verification_code != '' && this.username != '' && this.new_password != '' && this.confirm_password != '') {
-      //console.log('Ssfndcv');
-      //alert("Ssfndcv ho");
+    if (this.verification_code != "" && this.new_password != "" && this.confirm_password != "") {
       if (this.new_password != this.confirm_password) 
         this.store.dispatch(new ShowError("Please Enter Matching Passwords"));
-        //alert("Please Enter Matching Passwords");
+      
       else
         this.store.dispatch(new NewPassword(this.verification_code, this.new_password));
+      
     }
   }
   
