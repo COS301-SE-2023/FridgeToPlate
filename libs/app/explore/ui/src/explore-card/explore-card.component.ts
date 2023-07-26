@@ -18,30 +18,18 @@ export class ExploreCardComponent {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
-  @Input() recipe !: any;
+  explore : IExplore;
   bookmarked = false;
   editable = false;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.profile$.subscribe(profile => {
-      if (profile !== null && this.recipe !== undefined) {
-        this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
-        this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
-      } else {
-        this.bookmarked = false;
-        this.editable = false;
-      }
-    });
+    return;
   }
 
   changeSaved() {
-    if (this.bookmarked) {
-      this.store.dispatch(new RemoveSavedRecipe(this.recipe as IRecipeDesc));
-    } else {
-      this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
-    }
+    return;
   }
 
   edit(){

@@ -25,8 +25,7 @@ export class NavigationBar {
   }
 
   openSearch() {
-    // this.store.dispatch(new ShowError("Not Yet Implemeneted"));
-    alert("Not Yet Implemeneted");
+    this.store.dispatch(new Navigate(['/explore']));
   }
 
   openCreate() {
