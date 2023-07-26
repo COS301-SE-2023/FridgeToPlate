@@ -50,6 +50,8 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/login/ui": ["libs/app/login/ui/src/index.ts"],
+      "@fridge-to-plate/app/login/utils": ["libs/app/login/utils/src/index.ts"],
       "@fridge-to-plate/app/meal-plan/data-access": [
         "libs/app/meal-plan/data-access/src/index.ts"
       ],
