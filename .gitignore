@@ -2,6 +2,8 @@
 
 # npm run start:app:dev
 
+# npm run start:app:dev
+
 # compiled output
 dist
 tmp
@@ -48,4 +50,3 @@ Thumbs.db
 .env
 .prod.env
 # *application.properties
-apps/api/src/main/resources/*
