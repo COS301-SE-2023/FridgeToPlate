@@ -10,7 +10,7 @@
           <p class="text-sm text-center md:text-base text-gray-500"> Please enter your username to receive your verification code </p>
         </div>
 
-        <form (submit)="onSignIn(signInForm)" #signInForm="ngForm" class="w-full max-w-lg place-content-center">
+        <form (submit)="onForgot(forgotForm)" #forgotForm="ngForm" class="w-full max-w-lg place-content-center">
 
           <input [(ngModel)]="username" ngModel type="username" #usernameInput="ngModel"  required name="username" placeholder="Username" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
 
