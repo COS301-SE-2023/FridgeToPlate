@@ -9,7 +9,6 @@ import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
 
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import { AuthService } from "./auth.api";
 
 interface formDataInterface {
     "custom:username": string;
@@ -37,7 +36,7 @@ export class AuthState {
    ClientId: environment.COGNITO_APP_CLIENT_ID
   };
   
-  constructor(private store: Store, private api: AuthService) {}
+  constructor(private store: Store) {}
 
   @Selector()
   getAccessGranted(state: AuthStateModel) {
