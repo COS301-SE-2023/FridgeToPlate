@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { VerificationModalComponent } from './verification-modal.component';
-import { NgForm } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { NewPassword } from '@fridge-to-plate/app/auth/utils';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 // Mock the dependencies
 const mockStore = {
@@ -29,7 +29,7 @@ describe('VerificationModalComponent', () => {
     jest.clearAllMocks();
   });
 
-  it('should dispatch a NewPassword action when all fields are filled and passwords match', () => {
+  it('should dispatch a NewPassword action when all required fields are filled and passwords match', () => {
     // Set up component properties
     component.verification_code = '123456'; // Replace with your test verification code
     component.new_password = 'new_password'; // Replace with your test new password
@@ -42,7 +42,7 @@ describe('VerificationModalComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(new NewPassword('123456', 'new_password'));
   });
 
-  it('should not dispatch any action when any field is empty', () => {
+  it('should not dispatch any action when any required field is empty', () => {
     // Call the onVerify function without setting any properties
 
     // Call the onVerify function
@@ -52,7 +52,7 @@ describe('VerificationModalComponent', () => {
     expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 
-  it('should not dispatch any action when passwords do not match', () => {
+  it('should dispatch a ShowError action when passwords do not match', () => {
     // Set up component properties
     component.verification_code = '123456'; // Replace with your test verification code
     component.new_password = 'password1'; // Replace with your test new password
@@ -61,8 +61,8 @@ describe('VerificationModalComponent', () => {
     // Call the onVerify function
     component.onVerify();
 
-    // Check if the store.dispatch method was not called
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
+    // Check if the store.dispatch method was called with the ShowError action
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowError('Please Enter Matching Passwords'));
   });
 
   // Add more tests as needed for the component's behavior
