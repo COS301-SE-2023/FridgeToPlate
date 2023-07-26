@@ -1,17 +1,15 @@
-import {ComponentFixture, TestBed} from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
 import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
-import { of, take } from "rxjs";
+import { take } from "rxjs";
 import { Injectable } from "@angular/core";
-import {ProfileState} from "@fridge-to-plate/app/profile/data-access";
-import {ProfileUiModule} from "@fridge-to-plate/app/profile/ui";
-import { ProfileDataAccessModule} from "@fridge-to-plate/app/profile/data-access";
-import { ProfileModule } from "./profile.module";
-import {RecipeCardComponent} from "../../../recipe/ui/src/recipe-card/recipe-card.component";
+import { ProfileUiModule } from "@fridge-to-plate/app/profile/ui";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RecipeCardComponent } from "libs/app/recipe/ui/src/recipe-card/recipe-card.component";
 
 describe("ProfilePage", () => {
 
@@ -42,7 +40,7 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([ProfileState]), ProfileUiModule],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState]), ProfileUiModule],
       declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
@@ -174,4 +172,13 @@ describe("ProfilePage", () => {
     page.sortCreatedBy('nameDesc');
     expect(dispatchSpy).toBeCalledWith(new SortCreatedByNameDesc());
   });
+
+  it("should open notifications page when notifications button is clicked", () => {
+    const openNotificationsSpy = jest.spyOn(page, 'openNotifications');
+    const notificationsButton = compiled.querySelector("#notifications-button");
+    notificationsButton.click();
+    expect(openNotificationsSpy).toHaveBeenCalled();
+  });
+
 });
+
