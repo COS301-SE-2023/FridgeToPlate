@@ -3,20 +3,20 @@ package com.fridgetoplate.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fridgetoplate.interfaces.SpoonacularIngredient;
+import com.fridgetoplate.model.Ingredient;
 
 public class SpoonacularMiscUtils {
     
-    public String estimateRecipeDifficulty(int recipePrepTime, SpoonacularIngredient[] ingredients){
+    public String estimateRecipeDifficulty(int recipePrepTime, List<Ingredient> ingredients){
 
         if(recipePrepTime == 0 || ingredients == null ) 
             return "Easy";
         
         else{
-            if( (recipePrepTime > 0 && recipePrepTime <= 15) && ( ingredients.length > 0 && ingredients.length <= 5) )
+            if( (recipePrepTime > 0 && recipePrepTime <= 30) && ( ingredients.size() > 0 && ingredients.size() <= 5) )
                 return "Easy";
             
-            else if( (recipePrepTime > 15 && recipePrepTime <= 30) && ( ingredients.length > 5 && ingredients.length <= 10) )
+            else if( (recipePrepTime > 30 && recipePrepTime <= 60) && ( ingredients.size() > 5 && ingredients.size() <= 10) )
                 return "Medium";            
             
             else

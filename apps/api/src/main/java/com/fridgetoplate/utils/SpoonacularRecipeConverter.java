@@ -47,17 +47,6 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setTags(utils.generateRecipeTags( currentRecipe.getCuisines(), currentRecipe.getDishTypes(), currentRecipe.getDiets() ) );
                 
-                //Create difficulty evaluation function
-                newRecipe.setDifficulty(utils.estimateRecipeDifficulty(currentRecipe.getCookingMinutes(), null));
-
-                newRecipe.setDescription(currentRecipe.getSummary());
-                
-                newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
-
-                newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
-                
-                newRecipe.setServings(currentRecipe.getServings());
-
                 //Iterate through ingredients and add                
                 if(currentRecipe.getAnalyzedInstructions().length != 0){
                     SpoonacularStep[] recipeSteps = currentRecipe.getAnalyzedInstructions()[0].getSteps();
@@ -93,6 +82,18 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                     newRecipe.setIngredients(currentIngredients);
                 }
+
+                //Create difficulty evaluation function
+                newRecipe.setDifficulty(utils.estimateRecipeDifficulty(currentRecipe.getCookingMinutes(), currentIngredients));
+
+                newRecipe.setDescription(currentRecipe.getSummary());
+                
+                newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
+
+                newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
+                
+                newRecipe.setServings(currentRecipe.getServings());
+
 
                 newRecipe.setCreator("Spoonacular");
 
