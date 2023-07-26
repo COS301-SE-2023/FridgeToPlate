@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { IProfile, RemoveSavedRecipe, SaveRecipe, UpdateMealPlan } from '@fridge-to-plate/app/profile/utils';
+import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router'; 
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -21,11 +22,9 @@ export class RecipeCardComponent implements OnInit {
   @Input() recipe !: any;
   bookmarked = false;
   editable = true;
-  profile !: IProfile;
   added = false;
-  mealPlan !: IMealPlan;
   showMenu = false;
-  selectedMealType : 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | null = null;
+  mealType!: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
@@ -34,15 +33,11 @@ export class RecipeCardComponent implements OnInit {
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
         this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
-
-        this.mealPlan = profile.currMealPlan ?? {
-          username : profile.username,
-          date : new Date().toISOString().slice(0, 10)
-        } as IMealPlan
-        this.profile = profile;
+        this.added = this.checkMealPlan(profile.currMealPlan);
       } else {
         this.bookmarked = false;
         this.editable = false;
+        this.added = false;
       }
     });
   }
@@ -57,7 +52,7 @@ export class RecipeCardComponent implements OnInit {
 
   edit() {
       if(!this.recipe){
-        this.store.dispatch( new ShowError('ERROR: No recipe available to edit.'))
+        this.store.dispatch(new ShowError('ERROR: No recipe available to edit.'))
         return;
       }
       this.ngZone.run( ()=> {
@@ -69,115 +64,59 @@ export class RecipeCardComponent implements OnInit {
         }})
       })
   }
-  toggleDropdown() {
+
+  toggleMealPlan() {
     this.showMenu = !this.showMenu;
   }
 
-  addToMealPlan() {
+  addToMealPlan(meal: string) {
     if(!this.recipe) {
-      this.store.dispatch( new ShowError('ERROR: No recipe available to add to meal plan.'))
+      this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
-    if(this.mealPlan) {
-      switch(this.selectedMealType) {
-        case 'Breakfast':
-          if(this.mealPlan.breakfast){
-            this.store.dispatch( new ShowError('ERROR: Breakfast already selected.'))
-            return; 
-          }
-          this.mealPlan.breakfast = this.recipe;
-          break;
-        case 'Lunch':
-          if(this.mealPlan.lunch){
-            this.store.dispatch( new ShowError('ERROR: Lunch already selected.'))
-            return;
-          }
-          this.mealPlan.lunch = this.recipe;
-          break;
-        case 'Dinner':
-          if(this.mealPlan.dinner){
-            this.store.dispatch( new ShowError('ERROR: Dinner already selected.'))
-            return;
-          }
-          this.mealPlan.dinner = this.recipe;
-          break;
-        case 'Snack':
-          if(this.mealPlan.snack){
-            this.store.dispatch( new ShowError('ERROR: Snack already selected.'))
-            return;
-          }
-          this.mealPlan.snack = this.recipe;
-          break;
-        default:
-          this.store.dispatch( new ShowError('ERROR: No meal type selected.'))
-          return;
-      }
-    }
-    else {
-      this.store.dispatch( new ShowError("Something is fishy with the meal plan"))
-      return;
-    }
-  
-    this.store.dispatch( new UpdateMealPlan(this.mealPlan)); 
-    this.selectedMealType = null;
+    
+    this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
+
+    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
     this.added = true;
-    this.toggleDropdown();    
   }
 
   removeFromMealPlan() {
-    if(!this.profile) {
-      this.store.dispatch( new ShowError('ERROR: No profile available to remove from meal plan.'))
-      return;
-    }
-
     if(!this.recipe) {
-      this.store.dispatch( new ShowError('ERROR: No recipe available to remove from meal plan.'))
+      this.store.dispatch(new ShowError('ERROR: No recipe available to remove from meal plan.'))
       return;
     }
 
-    if(this.mealPlan){
-      if(this.mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
-        this.mealPlan.breakfast = null;
-      }
-
-      if(this.mealPlan.lunch?.recipeId === this.recipe.recipeId) {
-        this.mealPlan.lunch = null;
-      }
-
-      if(this.mealPlan.dinner?.recipeId === this.recipe.recipeId) {
-        this.mealPlan.dinner = null;
-      }
-
-      if(this.mealPlan.snack?.recipeId === this.recipe.recipeId) {
-        this.mealPlan.snack = null;
-      }
-
-      this.store.dispatch( new UpdateMealPlan(this.mealPlan)); 
-      this.added = false;
-    }
-    else {
-      this.store.dispatch( new ShowError("Something is fishy with the meal plan"))
-      return;
-    }
-   
+    this.store.dispatch(new RemoveFromMealPlan(this.recipe.recipeId));
+    this.added = false;
   }
 
-  checkMealPlan(mealPlan : IMealPlan): boolean {
+  checkMealPlan(mealPlan : IMealPlan | null): boolean {
+    if (mealPlan === null) {
+      return false;
+    }
 
-    if(mealPlan.breakfast) {
+    if(mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.lunch) {
+
+    if(mealPlan.lunch?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.dinner) {
+
+    if(mealPlan.dinner?.recipeId === this.recipe.recipeId) {
       return true;
     }
-    if(mealPlan.snack) {
+
+    if(mealPlan.snack?.recipeId === this.recipe.recipeId) {
       return true;
     }
 
     return false;
+  }
+
+  navigateToRecipe() {
+    this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
   }
 
 }

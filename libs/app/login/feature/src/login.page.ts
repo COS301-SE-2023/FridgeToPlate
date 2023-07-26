@@ -23,11 +23,11 @@ export class LoginPage {
       this.store.dispatch(new Login(this.username, this.password));
     }
   }
-  
+
   reset() {
-    alert("Resetting...");
+    this.store.dispatch(new Navigate(['/forgot']));
   }
-  
+
   create() {
     this.store.dispatch(new Navigate(['/signup']));
   }

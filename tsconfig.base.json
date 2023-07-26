@@ -41,6 +41,10 @@
         "libs/app/error/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
+      "@fridge-to-plate/app/forgot/feature": [
+        "libs/app/forgot/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
@@ -50,6 +54,8 @@
       "@fridge-to-plate/app/login/feature": [
         "libs/app/login/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/login/ui": ["libs/app/login/ui/src/index.ts"],
+      "@fridge-to-plate/app/login/utils": ["libs/app/login/utils/src/index.ts"],
       "@fridge-to-plate/app/meal-plan/data-access": [
         "libs/app/meal-plan/data-access/src/index.ts"
       ],
@@ -120,6 +126,9 @@
       ],
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/unauthorised/feature": [
+        "libs/app/unauthorised/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/undo/data-access": [
         "libs/app/undo/data-access/src/index.ts"

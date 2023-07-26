@@ -19,6 +19,8 @@ import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
+import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -58,7 +60,7 @@ export interface ProfileStateModel {
 @Injectable()
 export class ProfileState {
 
-    constructor(private api: ProfileAPI, private store: Store) {}
+    constructor(private profileAPI: ProfileAPI, private store: Store, private readonly mealPlanAPI: MealPlanAPI) {}
     
     @Selector()
     static getProfile(state: ProfileStateModel) {
@@ -70,7 +72,7 @@ export class ProfileState {
         patchState({
             profile: profile
         });
-        this.api.updateProfile(profile);
+        this.profileAPI.updateProfile(profile);
     }
 
     @Action(ResetProfile)
@@ -79,18 +81,18 @@ export class ProfileState {
             profile: null
         })
     }
-    
+
     @Action(CreateNewProfile)
     createNewProfile({ setState } : StateContext<ProfileStateModel>, { profile } : CreateNewProfile) {
         setState({
             profile: profile
         });
-        this.api.saveProfile(profile);
+        this.profileAPI.saveProfile(profile);
     }
 
     @Action(RetrieveProfile)
     async retrieveProfile({ setState } : StateContext<ProfileStateModel>, { username } : RetrieveProfile) {
-        (await this.api.getProfile(username)).subscribe({
+        (await this.profileAPI.getProfile(username)).subscribe({
             next: data => {
                 setState({
                     profile: data
@@ -105,7 +107,7 @@ export class ProfileState {
     @Action(SaveRecipe)
     saveRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : SaveRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
                 if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
@@ -113,20 +115,20 @@ export class ProfileState {
                     return;
                 }
             }
-            
+
             updatedProfile?.savedRecipes.push(recipe);
             patchState({
                 profile: updatedProfile
             });
 
-            this.api.updateProfile(updatedProfile);
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
     @Action(RemoveSavedRecipe)
     removeSavedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : RemoveSavedRecipe) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile) {
             this.store.dispatch(new ShowUndo("Removed recipe from saved recipes", new UndoRemoveSavedRecipe(updatedProfile.savedRecipes)));
 
@@ -137,7 +139,7 @@ export class ProfileState {
                 profile: updatedProfile
             });
 
-            this.api.updateProfile(updatedProfile);
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
@@ -200,7 +202,7 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-            
+
             updatedProfile.savedRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;

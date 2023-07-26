@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('@fridge-to-plate/app/signup/feature').then((m) => m.SignupModule),
     },
     {
+        path: 'forgot',
+        loadChildren: () => import('@fridge-to-plate/app/forgot/feature').then((m) => m.ForgotModule),
+    },
+    {
         path: 'profile',
         loadChildren: () => import('@fridge-to-plate/app/profile/feature').then((m) => m.ProfileModule),
         canActivate: [RouteGuardService]
@@ -34,12 +38,15 @@ const routes: Routes = [
     {
         path: 'recipe',
         loadChildren: () => import('@fridge-to-plate/app/recipe/feature').then((m) => m.RecipeModule),
-        canActivate: [RouteGuardService]
     },
     {
         path: 'edit-recipe',
         loadChildren : () => import('@fridge-to-plate/app/edit-recipe/feature').then((m) => m.EditRecipeModule),
         canActivate: [RouteGuardService]
+    },
+    {
+        path: 'unauthorised',
+        loadChildren : () => import('@fridge-to-plate/app/unauthorised/feature').then((m) => m.UnauthorisedModule),
     }
 ];
 

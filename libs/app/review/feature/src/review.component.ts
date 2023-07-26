@@ -1,4 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { IReview } from '../../utils/src/interfaces';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ShowError } from '@fridge-to-plate/app/error/utils';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { Observable } from 'rxjs';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 @Component({
   selector: 'review',
@@ -8,40 +24,62 @@ import { Component } from '@angular/core';
 export class Review {
   rating = 0;
   description = '';
-  showReviews = false;
+  stateUsername = '';
 
-  reviews = [
-    { rating: 4, description: 'Good stuff'},
-    { rating: 3, description: 'Nice'},
-    { rating: 5, description: 'Perfect'},
-    { rating: 1, description: 'Mediocre'},
-  ]
+  constructor (private store: Store) {}
 
+  @Input() reviews!: IReview[];
+  @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
+  @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
 
   setRating(num: number) {
     this.rating = num;
   }
 
   submitReview() {
-    if (this.rating === 0) {
-      alert('Please rate the recipe before submitting your review!');
+    if (!this.rating || this.rating === 0) {
+      this.store.dispatch(new ShowError('Please rate the recipe before submitting your review!'));
       return;
     }
 
-    if (this.description === '') {
-      alert('Please add a description before submitting your review!');
+    if (!this.description || this.description === '') {
+      this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }
 
+    this.profile$.subscribe( (stateProfile) => {
+      this.stateUsername = stateProfile.username;
+    });
 
-    const review = {
+    let stateRecipeId = '';
+    this.recipe$.subscribe( (stateRecipe) => {
+      stateRecipeId = stateRecipe.recipeId ?? '';
+    });
+
+
+    const review: IReview = {
+      recipeId: stateRecipeId,
+      username: this.stateUsername,
       rating: this.rating,
       description: this.description
     };
 
-    this.reviews.unshift(review);
+    this.store.dispatch(new AddReview(review));
 
-    // send the review data to a server or store it locally
-    console.log(this.reviews);
+    this.rating = 0;
+    this.description = '';
+
   }
+
+  deleteReview(selectedReview: string | null = null) {
+
+    let stateReviewId = '';
+
+    this.recipe$.subscribe( (stateRecipe) => {
+      stateReviewId = stateRecipe.reviews?.find((el) => el.reviewId === selectedReview)?.reviewId ?? "";
+    });
+
+    this.store.dispatch(new DeleteReview(stateReviewId));
+  }
+
 }

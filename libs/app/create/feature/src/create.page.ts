@@ -56,7 +56,7 @@ export class CreatePagComponent implements OnInit  {
       amount: ['', Validators.required],
       unit: ['', Validators.required]
     });
-  
+
     // Add the new ingredient group to the FormArray
     (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
   }
@@ -98,10 +98,10 @@ export class CreatePagComponent implements OnInit  {
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
-    
+
     // Ingredients array
     const ingredients = this.getIngredients();
-    
+
     // Instructions array
     const instructions = this.getInstructions()
 
@@ -127,17 +127,17 @@ export class CreatePagComponent implements OnInit  {
   }
 
 
- 
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
     };
-    
+
     reader.readAsDataURL(file);
   }
 

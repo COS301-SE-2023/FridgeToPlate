@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { TempRecipeCardComponent } from './temp-recipe-card/temp-recipe-card.component';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { FormsModule } from '@angular/forms';
+import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     RecipeCardComponent, 
     TempRecipeCardComponent,
+    MealPlanModalComponent
   ],
   exports: [
     RecipeCardComponent,

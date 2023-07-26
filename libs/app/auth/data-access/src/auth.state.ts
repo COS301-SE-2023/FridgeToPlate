@@ -1,15 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
-import { ChangePassword, Login, Logout, SignUp } from "@fridge-to-plate/app/auth/utils";
+import { ChangePassword, Login, Logout, SignUp, Forgot, NewPassword } from "@fridge-to-plate/app/auth/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
-import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser, CognitoUserSession } from "amazon-cognito-identity-js";
+import { AuthenticationDetails, CognitoUserAttribute, CognitoUserPool, CognitoUser } from "amazon-cognito-identity-js";
 import { CreateNewProfile, IProfile, ResetProfile, RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
 import { Navigate } from "@ngxs/router-plugin";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IPreferences, CreateNewPreferences, ResetPreferences, RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
-
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import { AuthService } from "./auth.api";
+import { ConfirmForgotPasswordRequest } from 'aws-sdk/clients/cognitoidentityserviceprovider';
+
+
 
 interface formDataInterface {
     "custom:username": string;
@@ -37,7 +38,8 @@ export class AuthState {
    ClientId: environment.COGNITO_APP_CLIENT_ID
   };
   
-  constructor(private store: Store, private api: AuthService) {}
+
+  constructor(private store: Store) {}
 
   @Selector()
   getAccessGranted(state: AuthStateModel) {
@@ -182,4 +184,61 @@ export class AuthState {
     }
     
   }
+
+  @Action(Forgot)
+   forgot({ setState } : StateContext<AuthStateModel>, { username } : Forgot) {
+    
+    const params = {
+      ClientId: environment.COGNITO_APP_CLIENT_ID, // Your client id here
+      Username: username,
+    };
+  
+    try {
+      // Initiate the password reset
+      const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider(({ region: "eu-west-3" }));
+      cognitoIdentityServiceProvider.forgotPassword(params).promise();
+
+      // Password reset initiated successfully, redirect the user to a confirmation page
+      localStorage.setItem("username", username);
+      this.store.dispatch(new Navigate(['/forgot/verification']));
+      // (You can handle the confirmation page in your frontend application)
+      console.log('Password reset initiated successfully');
+    } catch (error) {
+      // Handle errors
+      this.store.dispatch( new ShowError("Could Not Send Verification Code"));
+      console.error('Error initiating password reset:', error);
+    }
+  }
+
+  @Action(NewPassword)
+  NewPassword({ getState } : StateContext<AuthStateModel>, { verificationCode, newPassword } : NewPassword) {
+
+    const region = "eu-west-3";
+
+    const cognitoIdentityServiceProvider = new CognitoIdentityServiceProvider({ region });
+
+    const cognito = new CognitoIdentityServiceProvider({ region: "eu-west-3" });
+
+
+    try {
+      const params: ConfirmForgotPasswordRequest = {
+        ClientId: environment.COGNITO_APP_CLIENT_ID,
+        ConfirmationCode: verificationCode,
+        Username: localStorage.getItem("username") || '',
+        Password: newPassword,
+      };
+  
+      cognito.confirmForgotPassword(params).promise();
+      console.log('Password successfully reset.');
+      this.store.dispatch(new Navigate(['/forgot/confirm']));  
+    } catch (err) {
+      console.error('Error confirming forgotten password:', err);
+      this.store.dispatch( new ShowError("Could Not Confirm New Password"));
+      throw err;
+    }
+    
+    
+    
+  }
+
 }

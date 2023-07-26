@@ -17,7 +17,7 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
   styleUrls: ['./edit-recipe.page.css'],
 })
 export class EditRecipeComponent implements OnInit {
-  
+
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
@@ -67,7 +67,7 @@ export class EditRecipeComponent implements OnInit {
         amount: [ingredient.amount, Validators.required],
         unit: [ingredient.unit, Validators.required]
       });
-  
+
       (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
     }
     );
@@ -92,11 +92,11 @@ export class EditRecipeComponent implements OnInit {
       amount: ['', Validators.required],
       unit: ['', Validators.required]
     });
-  
+
     // Add the new ingredient group to the FormArray
     (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
   }
-  
+
   get instructionControls() {
     return (this.recipeForm.get('instructions') as FormArray).controls;
   }
@@ -133,10 +133,10 @@ export class EditRecipeComponent implements OnInit {
     // Check first if the form is completely valid
     if(!this.isFormValid())
         return;
-    
+
     // Ingredients array
     const ingredients = this.getIngredients();
-    
+
     // Instructions array
     const instructions = this.getInstructions();
 
@@ -172,17 +172,17 @@ export class EditRecipeComponent implements OnInit {
   onFileChanged(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result;
     };
-    
+
     reader.readAsDataURL(file);
   }
 
   deleteRecipe() {
-    
+
     if(!this.recipe?.recipeId) {
       this.store.dispatch( new ShowError('Could not delete recipe'));
     }
