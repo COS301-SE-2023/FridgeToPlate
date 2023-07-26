@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Review } from './review.component';
+import {IonicModule} from "@ionic/angular";
+import {FormsModule} from "@angular/forms";
 import { IReview } from '../../utils/src/interfaces';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { AddReview, DeleteReview } from '@fridge-to-plate/app/recipe/utils';
@@ -12,8 +14,8 @@ describe('Review Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [IonicModule, FormsModule, NgxsModule.forRoot()],
       declarations: [Review],
-      imports: [NgxsModule.forRoot()],
     }).compileComponents();
   });
 
