@@ -32,7 +32,6 @@ describe('VerificationModalComponent', () => {
   it('should dispatch a NewPassword action when all fields are filled and passwords match', () => {
     // Set up component properties
     component.verification_code = '123456'; // Replace with your test verification code
-    component.username = 'testuser'; // Replace with your test username
     component.new_password = 'new_password'; // Replace with your test new password
     component.confirm_password = 'new_password'; // Make sure passwords match for this test
 
@@ -56,7 +55,6 @@ describe('VerificationModalComponent', () => {
   it('should not dispatch any action when passwords do not match', () => {
     // Set up component properties
     component.verification_code = '123456'; // Replace with your test verification code
-    component.username = 'testuser'; // Replace with your test username
     component.new_password = 'password1'; // Replace with your test new password
     component.confirm_password = 'password2'; // Make sure passwords do not match for this test
 
