@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { PasswordModalComponent } from './password-modal.component';
 import { ChangePassword } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import {FormsModule} from "@angular/forms";
 
 describe('PasswordModalComponent', () => {
   let component: PasswordModalComponent;
@@ -15,6 +16,7 @@ describe('PasswordModalComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [FormsModule],
       declarations: [PasswordModalComponent],
       providers: [{ provide: Store, useValue: mockStore }]
     }).compileComponents();
@@ -41,7 +43,7 @@ describe('PasswordModalComponent', () => {
 
     const saveFuncEmitterSpy = jest.spyOn(component.saveFunc, 'emit');
     const closeFuncEmitterSpy = jest.spyOn(component.closeFunc, 'emit');
-    
+
     component.save();
 
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ChangePassword('oldPassword', 'newPassword'));
@@ -56,7 +58,7 @@ describe('PasswordModalComponent', () => {
 
     const saveFuncEmitterSpy = jest.spyOn(component.saveFunc, 'emit');
     const closeFuncEmitterSpy = jest.spyOn(component.closeFunc, 'emit');
-    
+
     component.save();
 
     expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowError('Please enter matching passwords'));
