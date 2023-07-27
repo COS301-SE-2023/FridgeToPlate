@@ -7,7 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fridgetoplate.interfaces.Profile;
 
-@DynamoDBTable(tableName = "recipes")
+@DynamoDBTable(tableName = "profiles")
 public class ProfileModel extends Profile {
 
     private List<String> savedRecipeIds;
@@ -28,8 +28,8 @@ public class ProfileModel extends Profile {
     }
 
     @DynamoDBAttribute(attributeName = "profile_picture")
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getProfilePic() {
+        return profilePic;
     }
 
     @DynamoDBAttribute(attributeName = "saved_recipes")

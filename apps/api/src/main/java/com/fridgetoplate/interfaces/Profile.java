@@ -11,6 +11,6 @@ public class Profile {
 
     protected String displayName;
 
-    protected String profilePicture;
+    protected String profilePic;
     
 }
