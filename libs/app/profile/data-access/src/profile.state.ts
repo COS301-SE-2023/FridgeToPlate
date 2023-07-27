@@ -344,8 +344,10 @@ export class ProfileState {
             if(mealType === "Snack") {
                 mealPlan.snack = recipe;
             }
-            this.store.dispatch(new UpdateMealPlan(mealPlan))
+            this.store.dispatch(new UpdateMealPlan(mealPlan));
+
         } else {
+
             const newMealPlan: IMealPlan = {
                 username: profile.username,
                 date: new Date().toISOString().slice(0, 10),
@@ -355,6 +357,7 @@ export class ProfileState {
                 snack: mealType === "Snack" ? recipe : null
             }
             this.store.dispatch(new UpdateMealPlan(newMealPlan));
+            
         }
     }
 
