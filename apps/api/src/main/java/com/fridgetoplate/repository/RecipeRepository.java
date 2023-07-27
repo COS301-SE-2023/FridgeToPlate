@@ -9,6 +9,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
@@ -25,8 +26,25 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
-        dynamoDBMapper.save(recipe);
+        RecipeModel model = new RecipeModel(); 
+        model.setRecipeId(recipe.getRecipeId());
+        model.setDifficulty(recipe.getDifficulty());
+        model.setRecipeImage(recipe.getRecipeImage());
+        model.setName(recipe.getName());
+        model.setTags(recipe.getTags());
+        model.setMeal(recipe.getMeal());
+        model.setDescription(recipe.getDescription());
+        model.setIngredients(recipe.getIngredients());
+        model.setPrepTime(recipe.getPrepTime());
+        model.setSteps(recipe.getSteps());
+        model.setCreator(recipe.getCreator());
+        model.setServings(recipe.getServings());
+        model.setViews(0);
+        dynamoDBMapper.save(model);
         return recipe;
     }
     
@@ -258,8 +276,8 @@ public class RecipeRepository {
     }
 
     public String delete(String id){
-       Recipe person = dynamoDBMapper.load(Recipe.class, id);
-        dynamoDBMapper.delete(person);
+       RecipeModel recipe = dynamoDBMapper.load(RecipeModel.class, id);
+        dynamoDBMapper.delete(recipe);
         return "Recipe deleted successfully:: " + id;
     }
 

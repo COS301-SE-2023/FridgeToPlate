@@ -31,11 +31,6 @@ public class ProfileController {
         return profileRepository.findAll();
     }
 
-    @GetMapping("/testing")
-    public String testing() {
-        return "Testing purposes";
-    }
-
     @PutMapping("/{username}")
     public ProfileFrontendModel update(@PathVariable(value = "username") String username, @RequestBody ProfileFrontendModel profile) {
         return profileRepository.update(username, profile);

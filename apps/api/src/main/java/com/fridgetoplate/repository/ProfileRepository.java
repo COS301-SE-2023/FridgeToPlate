@@ -27,7 +27,12 @@ public class ProfileRepository {
     private DynamoDBMapper dynamoDBMapper;
 
     public ProfileFrontendModel save(ProfileFrontendModel profile){
-        dynamoDBMapper.save(profile);
+        ProfileModel model = new ProfileModel();
+        model.setUsername(profile.getUsername());
+        model.setDisplayName(profile.getDisplayName());
+        model.setEmail(profile.getEmail());
+        model.setProfilePic(profile.getProfilePic());
+        dynamoDBMapper.save(model);
         return profile;
     }
 
@@ -51,7 +56,7 @@ public class ProfileRepository {
         String email = profileModel.getEmail();
         List<RecipeDesc> savedRecipes = this.getSavedRecipes(profileModel.getSavedRecipes());
         List<RecipeDesc> createdRecipes =  this.getCreateRecipes(username);
-        String profilePicture = profileModel.getProfilePicture();
+        String profilePicture = profileModel.getProfilePic();
 
         // Creating profile response
         profileResponse.setUsername(username);
@@ -59,7 +64,7 @@ public class ProfileRepository {
         profileResponse.setEmail(email);
         profileResponse.setSavedRecipes(savedRecipes);
         profileResponse.setCreatedRecipes(createdRecipes);
-        profileResponse.setProfilePicture(profilePicture);
+        profileResponse.setProfilePic(profilePicture);
 
          /*
           * Getting the MealPan response
@@ -113,13 +118,18 @@ public class ProfileRepository {
     public ProfileFrontendModel update(String username, ProfileFrontendModel profile){
 
         //Retrieve the profile of the specified ID
-        ProfileFrontendModel profileData = dynamoDBMapper.load(ProfileFrontendModel.class, username);
+        ProfileModel profileData = dynamoDBMapper.load(ProfileModel.class, username);
 
         //Return null if user profile does not exist
         if(profileData == null)
             return null;
-
-        dynamoDBMapper.save(profile,
+        
+        profileData.setDisplayName(profile.getDisplayName());
+        profileData.setProfilePic(profile.getProfilePic());
+        profileData.setEmail(profile.getEmail());
+        profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
+        
+        dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()
         .withExpectedEntry("username",
                 new ExpectedAttributeValue(
@@ -179,5 +189,13 @@ public class ProfileRepository {
         }
 
         return recipes;
+    }
+
+    private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {
+        List<String> savedIds = new ArrayList<>();
+        for (RecipeDesc recipe : ids) {
+            savedIds.add(recipe.getRecipeId());
+        }
+        return savedIds;
     }
 }
