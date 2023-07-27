@@ -14,6 +14,7 @@ import {
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Location } from '@angular/common';
 import { catchError, take, tap } from 'rxjs';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
@@ -35,7 +36,7 @@ const initialState:IRecipe = {
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: initialState,
+    recipe: environment.TYPE === "production" ? null : initialState,
   },
 })
 @Injectable()

@@ -9,13 +9,11 @@ import {
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { RecommendApi } from "./recommend.api";
-import { take } from "rxjs";
-import { UpdateProfile } from "@fridge-to-plate/app/profile/utils";
 import { IRecipePreferences, IRecommend } from '@fridge-to-plate/app/recommend/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 export interface RecommendStateModel { 
-  recommendRequest: IRecommend
+  recommendRequest: IRecommend;
   recipes: IRecipe[];
 }
 @State<RecommendStateModel>({
