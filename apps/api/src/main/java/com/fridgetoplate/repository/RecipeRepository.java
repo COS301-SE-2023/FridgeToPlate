@@ -136,7 +136,7 @@ public class RecipeRepository {
         return recipes;
     }
 
-    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, Ingredient[] userIngredients){
         
         //Build Expression
         List<RecipeFrontendModel> recipes = new ArrayList<>();
@@ -214,17 +214,17 @@ public class RecipeRepository {
 
         String ingredientQueryString = "";
 
-        if(recipePreferences.getIngredients() != null && recipePreferences.getIngredients().length != 0){
-
-            Ingredient [] ingredientsArray = recipePreferences.getIngredients();
+        if(userIngredients != null && userIngredients.length != 0){
             
-            for(int i = 0; i < ingredientsArray.length; i++){
-                eav.put(":val_" + ingredientsArray[i] , new AttributeValue().withS(ingredientsArray[i].getName()));
+            for(int i = 0; i < userIngredients.length; i++){
+                String ingredientName = userIngredients[i].getName().strip().split(",")[0];
+
+                eav.put(":val_" + ingredientName , new AttributeValue().withS(ingredientName));
                 if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientName + ")";
                 }
                 else{
-                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientName + ")";
                 }
             }
         }

@@ -5,7 +5,7 @@ import com.fridgetoplate.model.Ingredient;
 public class RecommendFrontendModel {
     private String username;
     private Ingredient[] ingredients;
-    private String recipePreferences;
+    private RecipePreferencesFrontendModel recipePreferences;
 
     public Ingredient[] getIngredients() {
         return ingredients;
@@ -15,7 +15,7 @@ public class RecommendFrontendModel {
         return username;
     }
 
-    public String getRecipePreferences() {
+    public RecipePreferencesFrontendModel getRecipePreferences() {
         return recipePreferences;
     }
 }
