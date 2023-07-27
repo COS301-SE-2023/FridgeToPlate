@@ -18,9 +18,12 @@ export class ExploreCardComponent {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
-  explore : IExplore;
+  //explore : IExplore;
   bookmarked = false;
   editable = false;
+  image = "https://spoonacular.com/recipeImages/648279-312x231.jpg";
+  @Input() explore !: any;
+
 
   constructor(private store: Store) {}
 
