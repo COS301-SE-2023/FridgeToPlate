@@ -19,14 +19,12 @@ interface formDataInterface {
   };
 
 export interface AuthStateModel {
-    accessGranted: boolean;
     accessToken: string;
 }
 
 @State<AuthStateModel>({
     name: 'auth',
     defaults: {
-        accessGranted: false,
         accessToken: "none"
     }
 })
@@ -37,14 +35,8 @@ export class AuthState {
    UserPoolId: environment.COGNITO_USERPOOL_ID, 
    ClientId: environment.COGNITO_APP_CLIENT_ID
   };
-  
 
   constructor(private store: Store) {}
-
-  @Selector()
-  getAccessGranted(state: AuthStateModel) {
-      return state.accessGranted;
-  }
 
   @Selector()
   getAccessToken(state: AuthStateModel) {
@@ -75,14 +67,12 @@ export class AuthState {
           if (err) {
             this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
             setState({
-              accessGranted: false,
               accessToken: "none"
             });
             return;
           }
     
           setState({
-              accessGranted: true,
               accessToken: result?.user.getSignInUserSession()?.getAccessToken().getJwtToken() || 'none'
             });
 
@@ -127,7 +117,6 @@ export class AuthState {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         setState({
-          accessGranted: true,
           accessToken: result.getAccessToken().getJwtToken()
         });
         this.store.dispatch(new RetrieveProfile(username));
@@ -137,7 +126,6 @@ export class AuthState {
       onFailure: (err) => {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
         setState({
-          accessGranted: false,
           accessToken: "none"
         });
       },
@@ -147,7 +135,6 @@ export class AuthState {
   @Action(Logout)
   logout({ setState } : StateContext<AuthStateModel>) {
     setState({
-      accessGranted: false,
       accessToken: "none"
     });
 

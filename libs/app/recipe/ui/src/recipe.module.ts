@@ -6,13 +6,16 @@ import { TempRecipeCardComponent } from './temp-recipe-card/temp-recipe-card.com
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { FormsModule } from '@angular/forms';
 import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.component';
+import { NgxsModule } from '@ngxs/store';
+import { RecipeState } from '../../data-access/src/recipe.state';
 
 @NgModule({
   imports: [
     CommonModule, 
     IonicModule,
     ProfileDataAccessModule,
-    FormsModule
+    FormsModule,
+    NgxsModule.forFeature([RecipeState])
   ],
   declarations: [
     RecipeCardComponent, 

@@ -22,7 +22,7 @@ import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
-import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
+import { environment } from "@fridge-to-plate/app/environments/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -31,7 +31,7 @@ export interface ProfileStateModel {
 @State<ProfileStateModel>({
     name: 'profile',
     defaults: {
-        profile: {
+        profile: environment.TYPE === "production" ? null :  {
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",

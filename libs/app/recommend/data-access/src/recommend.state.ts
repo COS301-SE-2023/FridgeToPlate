@@ -9,19 +9,29 @@ import {
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { RecommendApi } from "./recommend.api";
-import { take } from "rxjs";
-import { UpdateProfile } from "@fridge-to-plate/app/profile/utils";
 import { IRecipePreferences, IRecommend } from '@fridge-to-plate/app/recommend/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 export interface RecommendStateModel { 
-  recommendRequest: IRecommend
+  recommendRequest: IRecommend;
   recipes: IRecipe[];
 }
 @State<RecommendStateModel>({
   name: 'recommend',
   defaults: {
-    recommendRequest: {
+    recommendRequest: environment.TYPE === 'production' ? {
+      username: 'joe',
+      ingredients: [],
+      recipePreferences: {
+        keywords: [],
+        difficulty: '',
+        rating: '',
+        meal: '',
+        servings: '',
+        prepTime: '',
+      },
+    } : {
       username: 'joe',
       ingredients: [
         {

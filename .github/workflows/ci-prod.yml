@@ -13,7 +13,7 @@ jobs:
 
     name: Lint, Test & Build Wokspace
     runs-on: windows-latest
-    environment: Production 
+    environment: Development 
 
     steps:
     - name: Checkout Repo

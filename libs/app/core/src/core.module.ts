@@ -17,10 +17,12 @@ import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
-import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-
+import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
+import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,23 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.TYPE == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, RecipeState, UndoState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState]),
+    NgxsStoragePluginModule.forRoot({
+      key: [
+        {
+          key: ProfileState,
+          engine: LOCAL_STORAGE_ENGINE
+        },
+        {
+          key: PreferencesState,
+          engine: LOCAL_STORAGE_ENGINE
+        },
+        {
+          key: RecommendState,
+          engine: LOCAL_STORAGE_ENGINE
+        },
+      ]
+    }),
     NgxsRouterPluginModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

@@ -3,6 +3,7 @@ import { IPreferences, UpdatePreferences, ResetPreferences, RetrievePreferences,
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { PreferencesAPI } from "./preferences.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { environment } from "@fridge-to-plate/app/environments/utils";
 
 export interface PreferencesStateModel {
     preferences: IPreferences | null;
@@ -11,7 +12,7 @@ export interface PreferencesStateModel {
 @State<PreferencesStateModel>({
     name: 'preferences',
     defaults: {
-        preferences: {
+        preferences: environment.TYPE === "production" ? null : {
             username: "jdoe",
             darkMode: false,
             recommendNotif: false,
