@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
-import { Select } from "@ngxs/store";
-import { RecommendState } from "../../../data-access/src/recommend.state";
+import { Select } from '@ngxs/store';
+import { RecommendState } from '../../../data-access/src/recommend.state';
 
 @Component({
   selector: 'recipe-list-step',
@@ -10,7 +10,5 @@ import { RecommendState } from "../../../data-access/src/recommend.state";
   styleUrls: ['recipe-list-step.scss'],
 })
 export class RecipeListStep {
-
-  @Select(RecommendState.getRecipes) recipes$ !: Observable<IRecipeDesc[]>;
-
+  @Select(RecommendState.getRecipes) recipes$!: Observable<IRecipeDesc[]>;
 }

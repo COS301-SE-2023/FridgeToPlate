@@ -34,25 +34,12 @@ export class RecommendApi {
 
   removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
-      (ingredientItem) =>
-        ingredientItem.name !== ingredient.name
+      (ingredientItem) => ingredientItem.name !== ingredient.name
     );
   }
 
   //Step 2
   getDietList(): Observable<string[]> {
-    //TODO:Comment out when backend connected.
-    // const req: Observable<string[]> = this.httpClient
-    //   .get<IngredientsResponse>('diet')
-    //   .pipe(
-    //     switchMap((res: IngredientsResponse) => {
-    //       return res.data.ingredientsList ?? ingredientsArray;
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
     const dietList = ['Vegan', 'Vegetarian', 'Paleo-tonic', 'Ketogenic'];
 
     const req = new BehaviorSubject<string[]>(dietList);
@@ -62,21 +49,17 @@ export class RecommendApi {
 
   //Step 3
   getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
-
-    const dummyRecommendations: IRecipe[] = []
-    // const req: Observable<IRecipe[]> = this.httpClient
-    //   .get<IRecipe[]>(`${baseUrl}recommend`)
-    //   .pipe(
-    //     switchMap((res: IRecipe[]) => {
-    //       return new BehaviorSubject<IRecipe[]>(res);
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
-
-    const req: Observable<IRecipe[]> = new BehaviorSubject<IRecipe[]>(dummyRecommendations)
+    const req: Observable<IRecipe[]> = this.httpClient
+      .get<IRecipe[]>(`${baseUrl}recommend`)
+      .pipe(
+        switchMap((res: IRecipe[]) => {
+          return new BehaviorSubject<IRecipe[]>(res);
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
     return req;
   }
 }
