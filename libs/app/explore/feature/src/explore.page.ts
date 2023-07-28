@@ -17,6 +17,7 @@ import { Navigate } from "@ngxs/router-plugin";
 export class ExplorePage {
 
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
+  @Select(ExploreState.getRecipes) recipes$ !: Observable<IExplore>;
 
   page = "searching";
 
