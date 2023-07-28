@@ -124,10 +124,21 @@ public class ProfileRepository {
         if(profileData == null)
             return null;
         
-        profileData.setDisplayName(profile.getDisplayName());
-        profileData.setProfilePic(profile.getProfilePic());
-        profileData.setEmail(profile.getEmail());
-        profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
+        if(profile.getDisplayName() != null) {
+            profileData.setDisplayName(profile.getDisplayName());
+        }
+
+        if(profile.getProfilePic() != null) {
+            profileData.setProfilePic(profile.getProfilePic());
+        }
+
+        if(profile.getEmail() != null) {
+            profileData.setEmail(profile.getEmail());
+        }
+
+        if(profile.getSavedRecipes() != null) {
+            profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
+        }
         
         dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()
@@ -177,7 +188,14 @@ public class ProfileRepository {
 
 
     private List<RecipeDesc> getSavedRecipes(List<String> ids) {
+
+
         List<RecipeDesc> recipes = new ArrayList<>();
+
+        if(ids == null || ids.isEmpty()) {
+            return recipes;
+        }
+
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
 
         for (String id : ids) {
@@ -193,6 +211,10 @@ public class ProfileRepository {
 
     private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {
         List<String> savedIds = new ArrayList<>();
+        if(ids == null || ids.isEmpty()) {
+            return savedIds;
+        }
+
         for (RecipeDesc recipe : ids) {
             savedIds.add(recipe.getRecipeId());
         }
