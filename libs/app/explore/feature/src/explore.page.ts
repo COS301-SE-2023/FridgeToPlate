@@ -44,29 +44,12 @@ export class ExplorePage {
       difficulty: "Easy",
     },
     {
-      exploreType: "supper",
+      exploreType: "dinner",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
-    {
-      exploreType: "side dish",
-      name: "",
-      tags: [],
-      difficulty: "Easy",
-    },
-    {
-      exploreType: "fingerfood",
-      name: "",
-      tags: [],
-      difficulty: "Easy",
-    },
-    {
-      exploreType: "soup",
-      name: "",
-      tags: [],
-      difficulty: "Easy",
-    },
+
   ];
 
 

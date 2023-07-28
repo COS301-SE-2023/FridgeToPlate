@@ -12,21 +12,12 @@
   <div *ngIf="explore.exploreType === 'dessert'">
     <img src="https://webknox.com/recipeImages/653836-556x370.jpg" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.exploreType === 'supper'">
+  <div *ngIf="explore.exploreType === 'dinner'">
     <img src="https://spoonacular.com/application/frontend/images/academy/south-american-cuisine.jpg" class="w-full aspect-square" />
-  </div>
-  <div *ngIf="explore.exploreType === 'side dish'">
-    <img src="https://webknox.com/recipeImages/1070175-556x370.jpg" class="w-full aspect-square" />
-  </div>
-  <div *ngIf="explore.exploreType === 'fingerfood'">
-    <img src="https://webknox.com/recipeImages/372797-556x370.jpg" class="w-full aspect-square" />
-  </div>
-  <div *ngIf="explore.exploreType === 'soup'">
-    <img src="https://webknox.com/recipeImages/406328-556x370.jpg" class="w-full aspect-square" />
   </div>
 
     <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full h-full text-center">
-        <h1 class="text-white font-semibold text-sm inline-block mt-16 md:mt-32 lg:mt-40"> {{ explore.exploreType }}</h1>
+        <h1 class="text-white font-semibold text-sm inline-block mt-16 md:mt-40 lg:mt-28"> {{ explore.exploreType }}</h1>
         <button (click)="edit()"></button>
     </div>
 </div>
