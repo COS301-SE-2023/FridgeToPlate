@@ -38,12 +38,12 @@ export class RecipeAPI {
   }
 
   createNewReview(review: IReview): Observable<IReview> {
-    const url = this.baseUrl + '/reviews/create';
+    const url = environment.API_URL + '/reviews/create';
     return this.http.post<IReview>(url, review);
   }
 
   deleteReview(recipeId: string, reviewId:string): Observable<string> {
-    const url = this.baseUrl + '/reviews/' + recipeId + reviewId;
+    const url = environment.API_URL + '/reviews/' + recipeId + reviewId;
     return this.http.delete<string>(url);
   }
 }
