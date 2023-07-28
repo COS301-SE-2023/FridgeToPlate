@@ -10,12 +10,18 @@ public class Explore {
 
     protected String search;
 
+    protected String type;
+
     protected List<String> tags;
 
     protected String difficulty;
 
     public String getSearch() {
         return search;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getDifficulty() {
