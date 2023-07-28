@@ -22,32 +22,32 @@ export class ExplorePage {
 
   allCategories : IExplore[] = [
     {
-      exploreType: "breakfast",
-      name: "",
+      type: "breakfast",
+      search: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "snack",
-      name: "",
+      type: "snack",
+      search: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "lunch",
-      name: "",
+      type: "lunch",
+      search: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "dessert",
-      name: "",
+      type: "dessert",
+      search: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "dinner",
-      name: "",
+      type: "dinner",
+      search: "",
       tags: [],
       difficulty: "Easy",
     },

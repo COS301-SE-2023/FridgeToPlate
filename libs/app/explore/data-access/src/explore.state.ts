@@ -18,8 +18,8 @@ export interface ExploreStateModel {
     name: 'explore',
     defaults: {
         explore: {
-            exploreType: "none",
-            name : "none",
+            type: "",
+            search : "",
             tags : [],
             difficulty : "Any",
         },

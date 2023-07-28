@@ -118,7 +118,7 @@ public class ExploreRepository {
         return recipes;
     }
 
-    public List<RecipeFrontendModel> findBySearch(Explore search){
+    public List<RecipeFrontendModel> findBySearch(Explore searchObject){
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
@@ -130,8 +130,13 @@ public class ExploreRepository {
                     recipes.add(response);
                 }
         }
+        
+        
 
         return recipes;
+    }
+
+    private void fiterBySearch(String search) {
     }
 
     

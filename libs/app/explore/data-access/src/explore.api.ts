@@ -32,10 +32,10 @@ export class ExploreAPI {
     return this.http.get<IProfile | null>(url);
   }
 
-  searchCategory(category : IExplore): Observable<IRecipe[] | null>  {
+  searchCategory(search : IExplore): Observable<IRecipe[] | null>  {
 
     const url = `${this.baseUrl}`;
-    return this.http.post<IRecipe[] | null>(url, category);
+    return this.http.post<IRecipe[] | null>(url, search);
   }
 
 }
