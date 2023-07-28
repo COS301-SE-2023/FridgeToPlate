@@ -23,6 +23,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
