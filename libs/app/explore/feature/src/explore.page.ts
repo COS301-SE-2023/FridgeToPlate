@@ -25,31 +25,31 @@ export class ExplorePage {
       type: "breakfast",
       search: "",
       tags: [],
-      difficulty: "Easy",
+      difficulty: "Any",
     },
     {
       type: "snack",
       search: "",
       tags: [],
-      difficulty: "Easy",
+      difficulty: "Any",
     },
     {
       type: "lunch",
       search: "",
       tags: [],
-      difficulty: "Easy",
+      difficulty: "Any",
     },
     {
       type: "dessert",
       search: "",
       tags: [],
-      difficulty: "Easy",
+      difficulty: "Any",
     },
     {
       type: "dinner",
       search: "",
       tags: [],
-      difficulty: "Easy",
+      difficulty: "Any",
     },
 
   ];
