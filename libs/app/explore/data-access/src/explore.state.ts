@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { RetrieveProfile, RetrieveRecipe } from "@fridge-to-plate/app/explore/utils";
+import { CategorySearch, RetrieveProfile, RetrieveRecipe } from "@fridge-to-plate/app/explore/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ExploreAPI } from "./explore.api";
 import { IExplore } from "@fridge-to-plate/app/explore/utils";
@@ -35,6 +35,34 @@ export class ExploreState {
     static getRecipes(state: ExploreStateModel) {
         return state.recipes;
     }
+
+    @Action(CategorySearch)
+    CategorySearch({ getState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
+
+        if(getState().accessToken != "none") {
+        const accessToken = getState().accessToken;
+        const params = {
+            PreviousPassword: oldPassword,
+            ProposedPassword: newPassword,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            AccessToken: accessToken!,
+        };
+
+        const region = 'eu-west-3';
+        const cognito = new CognitoIdentityServiceProvider({ region });
+
+        cognito.changePassword(params, (err, data) => {
+            if (err) {
+            console.error('Password change error:', err);
+            } else {
+            console.log('Password changed successfully.');
+            }
+        });
+        
+        
+        }
+    
+  }
     
 
 }
