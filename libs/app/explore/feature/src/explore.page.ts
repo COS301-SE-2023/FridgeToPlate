@@ -10,7 +10,7 @@ import { Navigate } from "@ngxs/router-plugin";
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'explore-page',
   templateUrl: './explore.page.html',
-  styleUrls: ['./explore.page.scss']
+  styleUrls: ['./explore.page.scss'],
 })
 
 // eslint-disable-next-line @angular-eslint/component-class-suffix
@@ -18,7 +18,44 @@ export class ExplorePage {
 
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
 
-  allCategories : IExplore[];
+  allCategories : IExplore[] = [
+    {
+      exploreType: "Breakfast",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "Snack",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "Lunch",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "Dessert",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "Supper",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "Salads",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+  ];
 
 
   constructor(private store: Store) {

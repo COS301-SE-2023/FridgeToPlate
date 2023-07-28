@@ -15,7 +15,7 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./explore-card.component.scss'],
 })
 export class ExploreCardComponent {
-  
+
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
   //explore : IExplore;
