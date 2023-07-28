@@ -1,23 +1,23 @@
 <div class="w-full rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300">
 
-  <div *ngIf="explore.exploreType === 'breakfast'">
+  <div *ngIf="explore.type === 'breakfast'">
     <img src="https://webknox.com/recipeImages/1747693-312x231.jpg" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.exploreType === 'snack'">
+  <div *ngIf="explore.type === 'snack'">
     <img src="https://webknox.com/recipeImages/1697823-556x370.jpg" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.exploreType === 'lunch'">
+  <div *ngIf="explore.type === 'lunch'">
     <img src="https://spoonacular.com/recipeImages/648279-312x231.jpg" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.exploreType === 'dessert'">
+  <div *ngIf="explore.type === 'dessert'">
     <img src="https://webknox.com/recipeImages/653836-556x370.jpg" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.exploreType === 'dinner'">
+  <div *ngIf="explore.type === 'dinner'">
     <img src="https://spoonacular.com/application/frontend/images/academy/south-american-cuisine.jpg" class="w-full aspect-square" />
   </div>
 
     <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full h-full text-center">
-        <h1 class="text-white font-semibold text-sm inline-block mt-16 md:mt-40 lg:mt-28"> {{ explore.exploreType }}</h1>
+        <h1 class="text-white font-semibold text-sm inline-block mt-16 md:mt-40 lg:mt-28"> {{ explore.type }}</h1>
         <button (click)="edit()"></button>
     </div>
 </div>
