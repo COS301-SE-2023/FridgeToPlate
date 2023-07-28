@@ -177,7 +177,14 @@ public class ProfileRepository {
 
 
     private List<RecipeDesc> getSavedRecipes(List<String> ids) {
+
+
         List<RecipeDesc> recipes = new ArrayList<>();
+
+        if(ids == null || ids.isEmpty()) {
+            return recipes;
+        }
+
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
 
         for (String id : ids) {
@@ -193,6 +200,10 @@ public class ProfileRepository {
 
     private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {
         List<String> savedIds = new ArrayList<>();
+        if(ids == null || ids.isEmpty()) {
+            return savedIds;
+        }
+
         for (RecipeDesc recipe : ids) {
             savedIds.add(recipe.getRecipeId());
         }
