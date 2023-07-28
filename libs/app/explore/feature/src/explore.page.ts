@@ -63,7 +63,7 @@ export class ExplorePage {
 
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  searchCategory(search : IExplore) {
+  search(search : IExplore) {
     this.store.dispatch(new CategorySearch(search));
   }
 
