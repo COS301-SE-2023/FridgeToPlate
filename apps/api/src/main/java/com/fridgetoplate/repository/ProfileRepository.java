@@ -124,10 +124,21 @@ public class ProfileRepository {
         if(profileData == null)
             return null;
         
-        profileData.setDisplayName(profile.getDisplayName());
-        profileData.setProfilePic(profile.getProfilePic());
-        profileData.setEmail(profile.getEmail());
-        profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
+        if(profile.getDisplayName() != null) {
+            profileData.setDisplayName(profile.getDisplayName());
+        }
+
+        if(profile.getProfilePic() != null) {
+            profileData.setProfilePic(profile.getProfilePic());
+        }
+
+        if(profile.getEmail() != null) {
+            profileData.setEmail(profile.getEmail());
+        }
+
+        if(profile.getSavedRecipes() != null) {
+            profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
+        }
         
         dynamoDBMapper.save(profileData,
                 new DynamoDBSaveExpression()
