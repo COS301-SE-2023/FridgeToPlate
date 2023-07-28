@@ -14,6 +14,8 @@ import {
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { catchError, take, tap } from 'rxjs';
 import { environment } from '@fridge-to-plate/app/environments/utils';
+import { Navigate } from '@ngxs/router-plugin';
+import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
@@ -40,6 +42,7 @@ const initialState:IRecipe = {
 })
 @Injectable()
 export class RecipeState {
+
   constructor(private api: RecipeAPI, private store: Store) {}
 
   @Selector()
@@ -143,8 +146,19 @@ export class RecipeState {
     { patchState }: StateContext<RecipeStateModel>,
     { recipe }: CreateRecipe
   ) {
-    this.api.createNewRecipe(recipe).pipe(tap((recipe)=>patchState({"recipe": recipe}),
-        catchError (()=>this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))))).subscribe();
+    this.api.createNewRecipe(recipe).pipe(
+      tap(
+        (recipe) => {
+          patchState({
+            "recipe": recipe
+          })
+
+          this.store.dispatch(new Navigate([`/recipe/${recipe.recipeId}`]));
+          this.store.dispatch (new AddCreatedRecipe(recipe));
+        },
+      catchError (
+        () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
+      ))).subscribe();
   }
 
   @Action(RetrieveRecipe)

@@ -121,9 +121,6 @@ export class CreatePagComponent implements OnInit  {
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
-    this.recipe$.subscribe((recipe: IRecipe) => this.profile.createdRecipes.unshift(recipe));
-    
-    this.store.dispatch ( new UpdateProfile(this.profile) )
   }
 
 
