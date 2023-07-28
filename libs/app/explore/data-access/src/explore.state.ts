@@ -39,28 +39,7 @@ export class ExploreState {
     @Action(CategorySearch)
     CategorySearch({ getState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
 
-        if(getState().accessToken != "none") {
-        const accessToken = getState().accessToken;
-        const params = {
-            PreviousPassword: oldPassword,
-            ProposedPassword: newPassword,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            AccessToken: accessToken!,
-        };
-
-        const region = 'eu-west-3';
-        const cognito = new CognitoIdentityServiceProvider({ region });
-
-        cognito.changePassword(params, (err, data) => {
-            if (err) {
-            console.error('Password change error:', err);
-            } else {
-            console.log('Password changed successfully.');
-            }
-        });
-        
-        
-        }
+        return this.api.searchCategory(category);
     
   }
     

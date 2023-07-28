@@ -17,7 +17,7 @@ export class ExploreAPI {
   
   constructor(private http: HttpClient, private store: Store) {}
 
-  private baseUrl = "http://localhost:5000/";
+  private baseUrl = "http://localhost:5000/explore";
 
   getRecipes(recipename: string) {
     const url = `${this.baseUrl}/${recipename}`;
@@ -29,6 +29,12 @@ export class ExploreAPI {
     const url = `${this.baseUrl}/profiles/${username}`;
 
     return this.http.get<IProfile | null>(url);
+  }
+
+  searchCategory(category : string) {
+
+    const url = `${this.baseUrl}/${category}`;
+    return this.http.get<IRecipe[] | null>(url);
   }
 
 }
