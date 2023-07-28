@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { IReview } from '@fridge-to-plate/app/review/utils';
@@ -14,7 +14,7 @@ export class RecipeAPI {
   constructor(private http: HttpClient) {}
 
   createNewRecipe(recipe: IRecipe): Observable<IRecipe> {
-    const url = 'http://localhost:5000/recipes/create';
+    const url = this.baseUrl + '/create';
     return this.http.post<IRecipe>(url, recipe);
   }
   UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
@@ -38,12 +38,12 @@ export class RecipeAPI {
   }
 
   createNewReview(review: IReview): Observable<IReview> {
-    const url = 'http://localhost:5000/reviews/create';
+    const url = this.baseUrl + '/reviews/create';
     return this.http.post<IReview>(url, review);
   }
 
   deleteReview(recipeId: string, reviewId:string): Observable<string> {
-    const url = 'http://localhost:5000/reviews/' + recipeId + reviewId;
+    const url = this.baseUrl + '/reviews/' + recipeId + reviewId;
     return this.http.delete<string>(url);
   }
 }

@@ -12,7 +12,6 @@ import {
   GetRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { Location } from '@angular/common';
 import { catchError, take, tap } from 'rxjs';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 

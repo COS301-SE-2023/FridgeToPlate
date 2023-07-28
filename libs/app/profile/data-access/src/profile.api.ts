@@ -43,7 +43,7 @@ export class ProfileAPI {
   }
 
   updateMealPlan(mealPlan : IMealPlan) {
-    const url = 'http://localhost:5000/meal-plans/save';
+    const url = this.baseUrl + '/meal-plans/save';
     this.http.post<IMealPlan>(url, mealPlan).subscribe({
       error: error => {
         this.store.dispatch(new ShowError(error.message));
