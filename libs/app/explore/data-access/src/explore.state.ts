@@ -26,7 +26,7 @@ export interface ExploreStateModel {
 @Injectable()
 export class ExploreState {
 
-    constructor(private store: Store, private api: ExploreAPI) {}
+    constructor(private store: Store, private exploreAPI: ExploreAPI) {}
     
     @Selector()
     static getExplore(state: ExploreStateModel) {
@@ -39,16 +39,20 @@ export class ExploreState {
     }
 
     @Action(CategorySearch)
-    CategorySearch({ setState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
+    async CategorySearch({ patchState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
 
-        const result1 = this.api.searchCategory(category);
+        (await this.exploreAPI.searchCategory(category)).subscribe({
+            next: data => {
+                patchState({
+                    recipes: data
+                });
+                //this.store.dispatch(new Navigate(['/explore']));
+            },
+            error: error => {
+                this.store.dispatch(new ShowError(error));
+            }
+        });
 
-        setState({
-            explore: null,
-            recipes: result1 
-          });
-
-          this.store.dispatch(new Navigate(['/explore/results']));
     
   }
     

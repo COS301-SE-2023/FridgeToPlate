@@ -31,7 +31,7 @@ export class ExploreAPI {
     return this.http.get<IProfile | null>(url);
   }
 
-  searchCategory(category : string) {
+  searchCategory(category : string): Observable<IRecipe[] | null>  {
 
     const url = `${this.baseUrl}/${category}`;
     return this.http.get<IRecipe[] | null>(url);
