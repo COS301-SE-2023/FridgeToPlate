@@ -34,8 +34,8 @@ export class ExploreAPI {
 
   searchCategory(category : IExplore): Observable<IRecipe[] | null>  {
 
-    const url = `${this.baseUrl}/${category}`;
-    return this.http.get<IRecipe[] | null>(url);
+    const url = `${this.baseUrl}`;
+    return this.http.post<IRecipe[] | null>(url, category);
   }
 
 }
