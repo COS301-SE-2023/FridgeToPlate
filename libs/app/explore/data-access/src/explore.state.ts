@@ -27,7 +27,7 @@ export interface ExploreStateModel {
 export class ExploreState {
 
     constructor(private store: Store, private api: ExploreAPI) {}
-    
+
     @Selector()
     static getExplore(state: ExploreStateModel) {
         return state.explore;
@@ -41,16 +41,16 @@ export class ExploreState {
     @Action(CategorySearch)
     CategorySearch({ setState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
 
-        const result1 = this.api.searchCategory(category);
+        // const result1 = this.api.searchCategory(category);
 
-        setState({
-            explore: null,
-            recipes: result1 
-          });
+        // setState({
+        //     explore: null,
+        //     recipes: result1
+        //   });
 
-          this.store.dispatch(new Navigate(['/explore/results']));
-    
+        //   this.store.dispatch(new Navigate(['/explore/results']));
+
   }
-    
+
 
 }
