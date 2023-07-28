@@ -59,4 +59,10 @@ export class ExplorePage {
 
   displaySearch = "block";
 
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  searchCategory(category : String) {
+    alert(category);
+  }
+
 }

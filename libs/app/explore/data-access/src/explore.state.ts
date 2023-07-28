@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { RetrieveProfile, RetrieveRecipe } from "@fridge-to-plate/app/explore/utils";
+import { CategorySearch, RetrieveProfile, RetrieveRecipe } from "@fridge-to-plate/app/explore/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ExploreAPI } from "./explore.api";
 import { IExplore } from "@fridge-to-plate/app/explore/utils";
@@ -35,6 +35,13 @@ export class ExploreState {
     static getRecipes(state: ExploreStateModel) {
         return state.recipes;
     }
+
+    @Action(CategorySearch)
+    CategorySearch({ getState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
+
+        return this.api.searchCategory(category);
+    
+  }
     
 
 }

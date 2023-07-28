@@ -11,3 +11,8 @@ export class RetrieveRecipe {
     static readonly type = '[Recipe] RetrieveRecipe';
     constructor(public readonly recipename: string) {}
 }
+
+export class CategorySearch {
+    static readonly type = '[Explore] CategorySearch';
+    constructor(public readonly category: string) {}
+}
