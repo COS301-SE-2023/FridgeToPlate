@@ -14,6 +14,7 @@ import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -140,12 +141,68 @@ public class ExploreRepository {
         String difficulty = searchObject.getDifficulty();
 
         if(search != "")
-            fiterBySearch(search);
+            fiterBySearch(search, recipes);
 
+        if(type != "")
+            fiterByType(type, recipes);
+
+        if(tags.size() != 0)
+            fiterByTags(tags, recipes);
+
+        if(difficulty != "")
+            fiterByDifficulty(difficulty, recipes);
+            
         return recipes;
     }
 
-    private void fiterBySearch(String search) {
+    private void fiterBySearch(String search, List<RecipeFrontendModel> recipes) {
+
+        for (RecipeFrontendModel recipe : recipes) {
+            
+                if(recipe.getName() != search) {
+                    recipes.remove(recipe);
+                }
+        }
+    }
+
+    private void fiterByType(String type, List<RecipeFrontendModel> recipes) {
+
+        for (RecipeFrontendModel recipe : recipes) {
+            
+                if(recipe.getMeal() != type) {
+                    recipes.remove(recipe);
+                }
+        }
+    }
+
+    private void fiterByTags(List<String> tags, List<RecipeFrontendModel> recipes) {
+
+        for (RecipeFrontendModel recipe : recipes) {
+
+            HashSet<String> results = new HashSet<>(recipe.getTags());
+            boolean anyItemsExist = false;
+
+            for (String item : tags) {
+                if (results.contains(item)) {
+                    anyItemsExist = true;
+                    break;
+                }
+            }
+
+            if(anyItemsExist == false){
+                recipes.remove(recipe);
+            }
+        }
+    }
+
+    private void fiterByDifficulty(String difficulty, List<RecipeFrontendModel> recipes) {
+
+        for (RecipeFrontendModel recipe : recipes) {
+            
+                if(recipe.getDifficulty() != difficulty) {
+                    recipes.remove(recipe);
+                }
+        }
     }
 
     
