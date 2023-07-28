@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.model.Ingredient;
@@ -43,11 +45,11 @@ public class RecommendRepository {
         return recommendObject;
     }
 
-    public RecommendFrontendModel getById(String recommendId){
+    public RecommendFrontendModel getById(String username){
         RecommendFrontendModel recommendObject = new RecommendFrontendModel();
 
         // Find the Recommend model
-        RecommendModel recommendModel = dynamoDBMapper.load(RecommendModel.class, recommendId);
+        RecommendModel recommendModel = dynamoDBMapper.load(RecommendModel.class, username);
 
         if(recommendModel == null) {
             return null;
@@ -74,45 +76,72 @@ public class RecommendRepository {
        return recommendObject;
     }
 
-    public List<RecommendFrontendModel> getAllUserRecommendations(String username){
-        List<RecommendFrontendModel> userRecommendations =new ArrayList<>();
-        
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        
-        eav.put(":username", new AttributeValue().withS(username));
+    public RecommendFrontendModel updateRecommendPreferences(RecommendFrontendModel userPreferences){
+        RecommendModel updatedRecommend = new RecommendModel();
 
-        //Filter Expression
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("username=:username").withExpressionAttributeValues(eav);
+        updatedRecommend.setUsername(userPreferences.getUsername());
 
-        PaginatedScanList<RecommendModel> scanResult = dynamoDBMapper.scan(RecommendModel.class, scanExpression);
-
-        for (RecommendModel recommendModel : scanResult) {
-            
-        RecommendFrontendModel recommendObject = new RecommendFrontendModel();        
+        updatedRecommend.setIngredients(userPreferences.getIngredients());
         
-        //Convert RecommendModel to Frontend model.
-        recommendObject.setUsername(recommendModel.getUsername());
+        RecipePreferences preferences = new RecipePreferences();
 
-        recommendObject.setIngredients(recommendModel.getIngredients());
-        
-        RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
+        RecipePreferencesFrontendModel preferencesFrontendObject = userPreferences.getRecipePreferences();
+
+        preferences.setDifficulty(preferencesFrontendObject.getDifficulty());
+        preferences.setMeal(preferencesFrontendObject.getMeal());
+        preferences.setServings(preferences.getServings());
+        preferences.setRating(preferencesFrontendObject.getRating());
+        preferences.setPrepTime(preferencesFrontendObject.getPrepTime());
+        preferences.setKeywords(Arrays.asList( preferencesFrontendObject.getKeywords() ) );
  
-        RecipePreferences currentPreferences = recommendModel.getRecipePreferences();
+        updatedRecommend.setRecipePreferences(preferences);      
         
-        preferencesFrontendObject.setDifficulty(currentPreferences.getDifficulty());
-        preferencesFrontendObject.setMeal(currentPreferences.getMeal());
-        preferencesFrontendObject.setServings(currentPreferences.getServings());
-        preferencesFrontendObject.setRating(currentPreferences.getRating());
-        preferencesFrontendObject.setPrepTime(currentPreferences.getPrepTime());
-        preferencesFrontendObject.setKeywords(currentPreferences.getKeywords().toArray(new String[currentPreferences.getKeywords().size()]));
- 
-        recommendObject.setPreferences(preferencesFrontendObject);
- 
-        userRecommendations.add(recommendObject);
-
-        }
-
-        return userRecommendations;
+        dynamoDBMapper.save(updatedRecommend, new DynamoDBSaveExpression().withExpectedEntry("username",
+                new ExpectedAttributeValue(
+                        new AttributeValue().withS(userPreferences.getUsername())
+                )) );
+        return userPreferences;
     }
+
+    // public List<RecommendFrontendModel> getAllUserRecommendations(String username){
+    //     List<RecommendFrontendModel> userRecommendations =new ArrayList<>();
+        
+    //     HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        
+    //     eav.put(":username", new AttributeValue().withS(username));
+
+    //     //Filter Expression
+    //     DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("username=:username").withExpressionAttributeValues(eav);
+
+    //     PaginatedScanList<RecommendModel> scanResult = dynamoDBMapper.scan(RecommendModel.class, scanExpression);
+
+    //     for (RecommendModel recommendModel : scanResult) {
+            
+    //     RecommendFrontendModel recommendObject = new RecommendFrontendModel();        
+        
+    //     //Convert RecommendModel to Frontend model.
+    //     recommendObject.setUsername(recommendModel.getUsername());
+
+    //     recommendObject.setIngredients(recommendModel.getIngredients());
+        
+    //     RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
+ 
+    //     RecipePreferences currentPreferences = recommendModel.getRecipePreferences();
+        
+    //     preferencesFrontendObject.setDifficulty(currentPreferences.getDifficulty());
+    //     preferencesFrontendObject.setMeal(currentPreferences.getMeal());
+    //     preferencesFrontendObject.setServings(currentPreferences.getServings());
+    //     preferencesFrontendObject.setRating(currentPreferences.getRating());
+    //     preferencesFrontendObject.setPrepTime(currentPreferences.getPrepTime());
+    //     preferencesFrontendObject.setKeywords(currentPreferences.getKeywords().toArray(new String[currentPreferences.getKeywords().size()]));
+ 
+    //     recommendObject.setPreferences(preferencesFrontendObject);
+ 
+    //     userRecommendations.add(recommendObject);
+
+    //     }
+
+    //     return userRecommendations;
+    // }
 
 }
