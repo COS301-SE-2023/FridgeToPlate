@@ -200,14 +200,16 @@ public class RecipeRepository {
         if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
 
             String [] keywordArray = recipePreferences.getKeywords();
-            
+        
             for(int i = 0; i < keywordArray.length; i++){
-                eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
+                String keywordString = keywordArray[i].replace("\s", keywordQueryString).strip();
+
+                eav.put(":val_" + keywordString,new AttributeValue().withS(keywordString));
                 if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordString + ")";
                 }
                 else{
-                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordString + ")";
                 }
             }
         }
@@ -217,7 +219,7 @@ public class RecipeRepository {
         if(userIngredients != null && userIngredients.length != 0){
             
             for(int i = 0; i < userIngredients.length; i++){
-                String ingredientName = userIngredients[i].getName().strip().split(",")[0];
+                String ingredientName = userIngredients[i].getName().strip().split(",")[0].replace("\s", "");
 
                 eav.put(":val_" + ingredientName , new AttributeValue().withS(ingredientName));
                 if(i == 0){
