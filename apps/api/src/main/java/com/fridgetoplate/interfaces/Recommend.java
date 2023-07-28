@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 public class Recommend {
     
-    private String username;
+    protected String username;
 
-    private Ingredient[] ingredients;
+    protected Ingredient[] ingredients;
 
-    private RecipePreferences recipePreferences;
+    protected RecipePreferences recipePreferences;
 }
