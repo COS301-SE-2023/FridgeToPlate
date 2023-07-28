@@ -9,6 +9,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.repository.RecommendRepository;
 import com.fridgetoplate.service.ExternalApiService;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 
@@ -19,6 +20,9 @@ import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 public class RecommendController {
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private RecommendRepository recommendRepository;
 
     @Autowired
     private ExternalApiService apiService;
@@ -33,6 +37,9 @@ public class RecommendController {
 
         if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
             return new ArrayList<RecipeFrontendModel>();
+
+        //0. Store User recommendation object
+        recommendRepository.save(userRecommendation);
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
