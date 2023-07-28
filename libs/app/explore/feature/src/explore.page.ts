@@ -18,6 +18,8 @@ export class ExplorePage {
 
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
 
+  page = "searching";
+
   allCategories : IExplore[] = [
     {
       exploreType: "breakfast",

@@ -4,5 +4,5 @@ export interface IExplore {
     exploreType: string;
     name: string;
     tags: string[];
-    difficulty: 'Easy' | 'Medium' | 'Hard';
+    difficulty: 'Any' | 'Easy' | 'Medium' | 'Hard';
 }

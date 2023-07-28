@@ -1,5 +1,6 @@
 import { IProfile } from "@fridge-to-plate/app/profile/utils";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
+import { IExplore } from "@fridge-to-plate/app/explore/utils";
 
 
 export class RetrieveProfile {
@@ -14,5 +15,5 @@ export class RetrieveRecipe {
 
 export class CategorySearch {
     static readonly type = '[Explore] CategorySearch';
-    constructor(public readonly category: string) {}
+    constructor(public readonly category: IExplore) {}
 }

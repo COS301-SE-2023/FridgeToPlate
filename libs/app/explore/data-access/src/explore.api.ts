@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { IExplore } from '@fridge-to-plate/app/explore/utils';
 
 
 
@@ -31,7 +32,7 @@ export class ExploreAPI {
     return this.http.get<IProfile | null>(url);
   }
 
-  searchCategory(category : string): Observable<IRecipe[] | null>  {
+  searchCategory(category : IExplore): Observable<IRecipe[] | null>  {
 
     const url = `${this.baseUrl}/${category}`;
     return this.http.get<IRecipe[] | null>(url);

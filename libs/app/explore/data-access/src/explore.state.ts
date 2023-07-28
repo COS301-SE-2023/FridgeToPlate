@@ -17,7 +17,12 @@ export interface ExploreStateModel {
 @State<ExploreStateModel>({
     name: 'explore',
     defaults: {
-        explore: null,
+        explore: {
+            exploreType: "none",
+            name : "none",
+            tags : [],
+            difficulty : "Any",
+        },
         recipes: [],
     }
 })
