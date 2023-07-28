@@ -20,37 +20,49 @@ export class ExplorePage {
 
   allCategories : IExplore[] = [
     {
-      exploreType: "Breakfast",
+      exploreType: "breakfast",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "Snack",
+      exploreType: "snack",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "Lunch",
+      exploreType: "lunch",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "Dessert",
+      exploreType: "dessert",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "Supper",
+      exploreType: "supper",
       name: "",
       tags: [],
       difficulty: "Easy",
     },
     {
-      exploreType: "Salads",
+      exploreType: "side dish",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "fingerfood",
+      name: "",
+      tags: [],
+      difficulty: "Easy",
+    },
+    {
+      exploreType: "soup",
       name: "",
       tags: [],
       difficulty: "Easy",
