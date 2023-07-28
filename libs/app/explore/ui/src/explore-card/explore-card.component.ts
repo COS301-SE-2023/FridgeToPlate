@@ -16,8 +16,6 @@ import { IonicModule } from '@ionic/angular';
 })
 export class ExploreCardComponent {
 
-  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
-
   //explore : IExplore;
   bookmarked = false;
   editable = false;

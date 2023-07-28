@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
-import { IExplore } from '@fridge-to-plate/app/explore/utils';
+import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { Observable } from "rxjs";
 import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { Navigate } from "@ngxs/router-plugin";
@@ -63,8 +63,8 @@ export class ExplorePage {
 
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  searchCategory(category : String) {
-    alert(category);
+  searchCategory(search : IExplore) {
+    this.store.dispatch(new CategorySearch(search));
   }
 
 }

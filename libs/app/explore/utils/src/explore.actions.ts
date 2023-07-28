@@ -15,5 +15,5 @@ export class RetrieveRecipe {
 
 export class CategorySearch {
     static readonly type = '[Explore] CategorySearch';
-    constructor(public readonly category: IExplore) {}
+    constructor(public readonly search: IExplore) {}
 }
