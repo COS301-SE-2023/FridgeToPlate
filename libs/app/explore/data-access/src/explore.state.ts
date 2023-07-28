@@ -49,6 +49,7 @@ export class ExploreState {
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
                 patchState({
+                    explore: search,
                     recipes: data
                 });
                 //this.store.dispatch(new Navigate(['/explore']));
