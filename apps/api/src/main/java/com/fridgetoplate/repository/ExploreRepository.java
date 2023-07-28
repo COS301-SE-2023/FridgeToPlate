@@ -131,7 +131,16 @@ public class ExploreRepository {
                 }
         }
         
-        
+        String search = searchObject.getSearch();
+
+        String type = searchObject.getType();
+
+        List<String> tags = searchObject.getTags();
+
+        String difficulty = searchObject.getDifficulty();
+
+        if(search != "")
+            fiterBySearch(search);
 
         return recipes;
     }
