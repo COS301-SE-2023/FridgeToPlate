@@ -43,7 +43,7 @@ export class RecipeAPI {
   }
 
   deleteReview(recipeId: string, reviewId:string): Observable<string> {
-    const url = environment.API_URL + '/reviews/' + recipeId + reviewId;
+    const url = environment.API_URL + '/reviews/' + recipeId + '/' + reviewId;
     return this.http.delete<string>(url);
   }
 }
