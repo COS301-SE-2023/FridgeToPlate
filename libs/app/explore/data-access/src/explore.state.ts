@@ -4,12 +4,13 @@ import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ExploreAPI } from "./explore.api";
 import { IExplore } from "@fridge-to-plate/app/explore/utils";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
-import { IRecipeDesc } from "@fridge-to-plate/app/recipe/utils";
+import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { Navigate } from "@ngxs/router-plugin";
 
 export interface ExploreStateModel {
     explore: IExplore | null;
-    recipes: IRecipeDesc[] ;
+    recipes: IRecipe[] | null;
 
 }
 
@@ -20,6 +21,7 @@ export interface ExploreStateModel {
         recipes: [],
     }
 })
+
 
 @Injectable()
 export class ExploreState {
@@ -37,9 +39,16 @@ export class ExploreState {
     }
 
     @Action(CategorySearch)
-    CategorySearch({ getState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
+    CategorySearch({ setState } : StateContext<ExploreStateModel>, { category } : CategorySearch) {
 
-        return this.api.searchCategory(category);
+        const result1 = this.api.searchCategory(category);
+
+        setState({
+            explore: null,
+            recipes: result1 
+          });
+
+          this.store.dispatch(new Navigate(['/explore/results']));
     
   }
     
