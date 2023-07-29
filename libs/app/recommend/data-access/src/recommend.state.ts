@@ -186,6 +186,9 @@ export class RecommendState {
       });
 
       //CALL API
+      this.store.dispatch(
+        new UpdateRecipeRecommendations(updatedRecommendRequest)
+      );
     }
   }
 
@@ -208,10 +211,6 @@ export class RecommendState {
       patchState({
         recommendRequest: updatedRecommendRequest,
       });
-
-      this.store.dispatch(
-        new UpdateRecipeRecommendations(updatedRecommendRequest)
-      );
     }
   }
 
@@ -260,12 +259,17 @@ export class RecommendState {
     getState,
   }: StateContext<RecommendStateModel>) {
     this.profile$.subscribe((userProfile) => {
+      console.log('HERE LOGGED IN: ', userProfile);
+
       this.recommendApi
         .getUpdatedPreferences(userProfile.username)
         .subscribe((updatedPreferences) => {
+          console.log('HERE RECOMMENDATIONS: ', updatedPreferences);
+
           //Case 1: User has preferences already - update on store
           if (
             updatedPreferences.ingredients !== null &&
+            updatedPreferences.ingredients.length > 0 &&
             updatedPreferences.recipePreferences !== null
           ) {
             //1. Update ingredients
@@ -281,7 +285,7 @@ export class RecommendState {
           //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
           else {
             this.store.dispatch(
-              new UpdateRecipePreferences(
+              new AddRecommendation(
                 getState().recommendRequest.recipePreferences
               )
             );
@@ -292,17 +296,21 @@ export class RecommendState {
 
   @Action(AddRecommendation)
   addRecipePreferences({ getState }: StateContext<RecommendStateModel>) {
-    const currentState = getState();
+    this.profile$.subscribe((currentUserProfile) => {
+      const currentState = getState();
 
-    if (currentState) {
-      const newPreferences: IRecommend = {
-        ingredients: currentState.recommendRequest.ingredients,
-        username: currentState.recommendRequest.username,
-        recipePreferences: currentState.recommendRequest.recipePreferences,
-      };
+      if (currentState) {
+        const newPreferences: IRecommend = {
+          ingredients: currentState.recommendRequest.ingredients,
+          username: currentUserProfile.username,
+          recipePreferences: currentState.recommendRequest.recipePreferences,
+        };
 
-      this.recommendApi.addPreferences(newPreferences);
-    }
+        this.recommendApi.addPreferences(newPreferences).subscribe((res) => {
+          console.log('HERE ADDED: ', newPreferences);
+        });
+      }
+    });
   }
 
   @Action(UpdateRecipeRecommendations)

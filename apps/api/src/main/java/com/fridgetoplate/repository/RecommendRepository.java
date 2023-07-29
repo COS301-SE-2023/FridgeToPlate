@@ -67,7 +67,11 @@ public class RecommendRepository {
         RecommendModel recommendModel = dynamoDBMapper.load(RecommendModel.class, username);
 
         if(recommendModel == null) {
-            return new RecommendFrontendModel();
+            RecommendFrontendModel emptyResponse = new RecommendFrontendModel();
+            emptyResponse.setUsername(username);
+            emptyResponse.setIngredients(new ArrayList<Ingredient>());
+            emptyResponse.setPreferences(new RecipePreferencesFrontendModel());
+            return emptyResponse;
         }        
 
         //Convert RecommendModel to Frontend model.
