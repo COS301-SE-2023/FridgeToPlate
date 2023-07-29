@@ -121,9 +121,6 @@ export class CreatePagComponent implements OnInit  {
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
-    this.recipe$.subscribe((recipe: IRecipe) => this.profile.createdRecipes.unshift(recipe));
-    
-    this.store.dispatch ( new UpdateProfile(this.profile) )
   }
 
 
@@ -212,11 +209,6 @@ export class CreatePagComponent implements OnInit  {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
-      return false;
-    }
-
-    if(!this.difficulty) {
-      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
       return false;
     }
 

@@ -3,8 +3,6 @@ import { Select, Store } from '@ngxs/store';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IReview } from '../../utils/src/interfaces';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { AddReview, DeleteReview } from 'libs/app/recipe/data-access/src/recipe.actions';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
@@ -14,7 +12,7 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { AddReview, DeleteReview, IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 @Component({
   selector: 'review',

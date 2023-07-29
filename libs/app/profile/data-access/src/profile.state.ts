@@ -15,7 +15,8 @@ import {
     UndoRemoveSavedRecipe,
     UpdateMealPlan,
     RemoveFromMealPlan,
-    AddToMealPlan
+    AddToMealPlan,
+    AddCreatedRecipe
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -105,6 +106,20 @@ export class ProfileState {
                 this.store.dispatch(new ShowError(error));
             }
         });
+    }
+
+    @Action(AddCreatedRecipe)
+    addCreatedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : AddCreatedRecipe) {
+        const updatedProfile = getState().profile;
+
+        if (updatedProfile) {
+            updatedProfile?.createdRecipes.unshift(recipe);
+            patchState({
+                profile: updatedProfile
+            });
+
+            this.profileAPI.updateProfile(updatedProfile);
+        }
     }
 
     @Action(SaveRecipe)
