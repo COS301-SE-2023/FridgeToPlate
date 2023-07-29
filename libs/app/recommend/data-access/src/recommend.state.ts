@@ -9,11 +9,13 @@ import {
 } from '@ngxs/store';
 import {
   AddIngredient,
+  AddRecommendation,
   GetRecipeRecommendations,
-  GetUpdatedRecipePreferences,
+  GetUpdatedRecommendation,
   RemoveIngredient,
   UpdateIngredients,
   UpdateRecipePreferences,
+  UpdateRecipeRecommendations,
 } from '@fridge-to-plate/app/recommend/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -207,7 +209,9 @@ export class RecommendState {
         recommendRequest: updatedRecommendRequest,
       });
 
-      //CALL API
+      this.store.dispatch(
+        new UpdateRecipeRecommendations(updatedRecommendRequest)
+      );
     }
   }
 
@@ -225,7 +229,9 @@ export class RecommendState {
         recommendRequest: updatedRecommendRequest,
       });
 
-      //CALL API
+      this.store.dispatch(
+        new UpdateRecipeRecommendations(updatedRecommendRequest)
+      );
     }
   }
 
@@ -248,7 +254,7 @@ export class RecommendState {
     });
   }
 
-  @Action(GetUpdatedRecipePreferences)
+  @Action(GetUpdatedRecommendation)
   getUpdatedPreferences({
     patchState,
     getState,
@@ -282,5 +288,35 @@ export class RecommendState {
           }
         });
     });
+  }
+
+  @Action(AddRecommendation)
+  addRecipePreferences({ getState }: StateContext<RecommendStateModel>) {
+    const currentState = getState();
+
+    if (currentState) {
+      const newPreferences: IRecommend = {
+        ingredients: currentState.recommendRequest.ingredients,
+        username: currentState.recommendRequest.username,
+        recipePreferences: currentState.recommendRequest.recipePreferences,
+      };
+
+      this.recommendApi.addPreferences(newPreferences);
+    }
+  }
+
+  @Action(UpdateRecipeRecommendations)
+  updateRecipeRecommendations({ getState }: StateContext<RecommendStateModel>) {
+    const currentState = getState();
+
+    if (currentState) {
+      const newRecommendations: IRecommend = {
+        ingredients: currentState.recommendRequest.ingredients,
+        username: currentState.recommendRequest.username,
+        recipePreferences: currentState.recommendRequest.recipePreferences,
+      };
+
+      this.recommendApi.updateRecommendations(newRecommendations);
+    }
   }
 }

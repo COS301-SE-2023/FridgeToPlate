@@ -1,5 +1,5 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipePreferences } from './interfaces';
+import { IRecipePreferences, IRecommend } from './interfaces';
 
 export class RefreshIngredientsList {
   static readonly type = '[Recommend] RefreshIngredientsList';
@@ -13,6 +13,20 @@ export class UpdateIngredients {
 export class UpdateRecipePreferences {
   static readonly type = '[Recommend] UpdateRecipePreferences';
   constructor(public recipePreference: IRecipePreferences) {}
+}
+
+export class AddRecommendation {
+  static readonly type = '[Recommend] Add RecipeRecommendation';
+  constructor(public recipePreference: IRecipePreferences) {}
+}
+
+export class GetUpdatedRecommendation {
+  static readonly type = '[Recommend] Get Updated RecipeRecommendation';
+}
+
+export class UpdateRecipeRecommendations {
+  static readonly type = '[Recommend] Update RecipeRecommendations';
+  constructor(public recipePreference: IRecommend) {}
 }
 
 export class GetRecipeRecommendations {
