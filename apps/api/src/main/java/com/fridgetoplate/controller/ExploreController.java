@@ -43,8 +43,14 @@ public class ExploreController {
         return exploreRepository.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/search")
     public List<RecipeFrontendModel> findBySearch(@RequestBody Explore search) {
+        return exploreRepository.findBySearch(search);
+    }
+
+     @PutMapping("/searching")
+    public List<RecipeFrontendModel> findBySearching(@RequestBody Explore search) {
+        System.out.println("Getting In");
         return exploreRepository.findBySearch(search);
     }
 }

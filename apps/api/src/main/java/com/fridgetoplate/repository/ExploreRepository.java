@@ -15,6 +15,7 @@ import com.fridgetoplate.model.Review;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -131,7 +132,7 @@ public class ExploreRepository {
                     recipes.add(response);
                 }
         }
-        
+
         String search = searchObject.getSearch();
 
         String type = searchObject.getType();
@@ -149,9 +150,9 @@ public class ExploreRepository {
         if(tags.size() != 0)
             fiterByTags(tags, recipes);
 
-        if(difficulty != "")
+        if(difficulty != "Any")
             fiterByDifficulty(difficulty, recipes);
-            
+
         return recipes;
     }
 
@@ -167,11 +168,11 @@ public class ExploreRepository {
 
     private void fiterByType(String type, List<RecipeFrontendModel> recipes) {
 
-        for (RecipeFrontendModel recipe : recipes) {
-            
-                if(recipe.getMeal() != type) {
-                    recipes.remove(recipe);
-                }
+        for (Iterator<RecipeFrontendModel> iterator = recipes.iterator(); iterator.hasNext(); ) {
+            RecipeFrontendModel recipe = iterator.next();
+            if(recipe.getMeal() != type) {
+                iterator.remove();
+            }
         }
     }
 
