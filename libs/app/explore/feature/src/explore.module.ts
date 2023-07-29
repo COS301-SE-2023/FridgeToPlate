@@ -13,6 +13,7 @@ import { ExplorePage } from './explore.page';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { ExploreDataAccessModule } from '@fridge-to-plate/app/explore/data-access';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
+import { RecipeModule } from "@fridge-to-plate/app/recipe/feature";
 
 
 @NgModule({
@@ -29,6 +30,8 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
     ExploreUIModule,
     ExploreDataAccessModule,
     NavigationBarModule,
+    RecipeModule,
+    RecipeUIModule
   ],
   declarations: [ExplorePage],
   exports: [ExplorePage],

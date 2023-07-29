@@ -5,6 +5,8 @@ import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { Observable } from "rxjs";
 import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { Navigate } from "@ngxs/router-plugin";
+import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
+import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,9 +19,11 @@ import { Navigate } from "@ngxs/router-plugin";
 export class ExplorePage {
 
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
-  @Select(ExploreState.getRecipes) recipes$ !: Observable<IExplore>;
+  @Select(ExploreState.getRecipes) recipes$ !: Observable<IExplore[]>;
 
   page = "searching";
+  retunedRecipes: any;
+  subpage = "beforeSearchApplied";
 
   allCategories : IExplore[] = [
     {
@@ -65,7 +69,21 @@ export class ExplorePage {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   search(search : IExplore) {
+
+    this.subpage = "searchAppliedByCaterogry"
     this.store.dispatch(new CategorySearch(search));
+
+    this.recipes$.subscribe( (recipes) => {
+      if(recipes.length > 0){
+        this.retunedRecipes = recipes;
+      }
+    })
   }
+
+  clearSearch(){
+    this.subpage = "beforeSearchApplied";
+  }
+
+
 
 }
