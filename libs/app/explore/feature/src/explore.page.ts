@@ -92,7 +92,11 @@ export class ExplorePage {
     // })
   }
 
-  
+  explore(text : string) {
+
+    return;
+
+  }
 
   clearSearch(){
     this.subpage = "beforeSearchApplied";
