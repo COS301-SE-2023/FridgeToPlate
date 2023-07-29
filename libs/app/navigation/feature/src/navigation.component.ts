@@ -39,5 +39,9 @@ export class NavigationBar {
   openNotifications() {
     this.store.dispatch(new Navigate(['/profile/notifications']));
   }
+  
+  openHome() {
+    this.store.dispatch(new Navigate(['/home']));
+  }
 
 }

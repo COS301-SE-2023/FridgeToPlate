@@ -6,13 +6,17 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Recipe;
 import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +26,39 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
-        dynamoDBMapper.save(recipe);
+        RecipeModel model = new RecipeModel(); 
+        model.setRecipeId(recipe.getRecipeId());
+        model.setDifficulty(recipe.getDifficulty());
+        model.setRecipeImage(recipe.getRecipeImage());
+        model.setName(recipe.getName());
+        model.setTags(recipe.getTags());
+        model.setMeal(recipe.getMeal());
+        model.setDescription(recipe.getDescription());
+        model.setIngredients(recipe.getIngredients());
+        model.setPrepTime(recipe.getPrepTime());
+        model.setSteps(recipe.getSteps());
+        model.setCreator(recipe.getCreator());
+        model.setServings(recipe.getServings());
+        model.setViews(0);
+        dynamoDBMapper.save(model);
+
+        recipe.setRecipeId(model.getRecipeId());
         return recipe;
+    }
+    
+    public RecipeModel[] saveBatch(RecipeModel[] recipeList){
+        if(recipeList.length != 0)
+        {
+            for(int i = 0; i < recipeList.length; i++){
+                dynamoDBMapper.save(recipeList[i]);
+            }
+        }
+        
+        return recipeList;
     }
 
     public RecipeFrontendModel findById(String id){
@@ -74,8 +108,8 @@ public class RecipeRepository {
 
 
         /*
-         * Getting the Reviews
-         */
+        * Getting the Reviews
+        */
 
         // Declaring the Reviews object 
         List<Review> reviews = this.getReviewsById(recipeId);
@@ -104,6 +138,134 @@ public class RecipeRepository {
         return recipes;
     }
 
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
+        
+        //Build Expression
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        
+        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        
+        String querySrting = "";
+
+        if(recipePreferences.getDifficulty() != null){
+            eav.put(":difficulty", new AttributeValue().withS(recipePreferences.getDifficulty()));
+        
+            querySrting += "difficulty=:difficulty";
+        }
+
+        if(recipePreferences.getMeal() != null){
+            eav.put(":meal", new AttributeValue().withS(recipePreferences.getMeal()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND meal=:meal";
+            } else {
+                querySrting += "meal=:meal";
+            }
+        }
+        
+        if(recipePreferences.getRating() != null){
+            eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND rating=:rating";
+            } else {
+                querySrting += "rating=:rating";
+            }
+
+        }
+        
+        if(recipePreferences.getServings() != null){
+            eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND servings=:servings";
+            } else {
+                querySrting += "servings=:servings";
+            }            
+
+        }
+        
+        if(recipePreferences.getPrepTime() != null){
+            eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
+
+            if(querySrting.length() != 0){
+                querySrting += " AND prepTime=:prepTime";
+            } else {
+                querySrting += "prepTime=:prepTime";
+            }
+
+        }
+        
+        
+        String keywordQueryString = "";
+
+        if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
+
+            String [] keywordArray = recipePreferences.getKeywords();
+            
+            for(int i = 0; i < keywordArray.length; i++){
+                eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
+                if(i == 0){
+                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordArray[i] + ")";
+                }
+                else{
+                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordArray[i] + ")";
+                }
+            }
+        }
+
+        String ingredientQueryString = "";
+
+        if(recipePreferences.getIngredients() != null && recipePreferences.getIngredients().length != 0){
+
+            Ingredient [] ingredientsArray = recipePreferences.getIngredients();
+            
+            for(int i = 0; i < ingredientsArray.length; i++){
+                eav.put(":val_" + ingredientsArray[i] , new AttributeValue().withS(ingredientsArray[i].getName()));
+                if(i == 0){
+                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                }
+                else{
+                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                }
+            }
+        }
+        
+        if(!keywordQueryString.isBlank()){
+            if(querySrting.isEmpty())
+                querySrting += keywordQueryString;
+
+            else{
+                querySrting += " AND " + keywordQueryString;
+            }
+        }
+
+        if(!ingredientQueryString.isBlank()){
+            if(querySrting.isEmpty())
+                querySrting += ingredientQueryString;
+
+            else{
+                querySrting += " AND " + ingredientQueryString;
+            }
+        }
+
+        //Filter Expression
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression(querySrting).withExpressionAttributeValues(eav);
+
+
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, scanExpression);
+
+        for (RecipeModel recipe : scanResult) {
+            
+            RecipeFrontendModel response = findById(recipe.getRecipeId());
+                if(response != null) {
+                    recipes.add(response);
+                }
+        }
+
+        return recipes;
+    }
+
     public RecipeModel update(String id, RecipeModel recipe){
 
         dynamoDBMapper.save(recipe,
@@ -116,8 +278,8 @@ public class RecipeRepository {
     }
 
     public String delete(String id){
-       Recipe person = dynamoDBMapper.load(Recipe.class, id);
-        dynamoDBMapper.delete(person);
+       RecipeModel recipe = dynamoDBMapper.load(RecipeModel.class, id);
+        dynamoDBMapper.delete(recipe);
         return "Recipe deleted successfully:: " + id;
     }
 

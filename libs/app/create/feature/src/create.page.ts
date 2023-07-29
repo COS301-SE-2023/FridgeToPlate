@@ -7,7 +7,8 @@ import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable, take } from 'rxjs';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -17,6 +18,7 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 export class CreatePagComponent implements OnInit  {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
@@ -29,14 +31,14 @@ export class CreatePagComponent implements OnInit  {
 
   ngOnInit() {
     this.createForm();
-    this.profile$.pipe(take(1)).subscribe(profile => this.profile = Object.create(profile));
+    this.profile$.subscribe(profile => this.profile = profile);
   }
 
   createForm(): void {
     this.recipeForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      servings: ['', Validators.required, Validators.min(1)],
+      servings: ['', Validators.required],
       preparationTime: ['', Validators.required],
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),
@@ -50,9 +52,9 @@ export class CreatePagComponent implements OnInit  {
 
   addIngredient() {
     const ingredientGroup = this.fb.group({
-      ingredientName: ['', Validators.required],
+      name: ['', Validators.required],
       amount: ['', Validators.required],
-      scale: ['', Validators.required]
+      unit: ['', Validators.required]
     });
 
     // Add the new ingredient group to the FormArray
@@ -210,11 +212,6 @@ export class CreatePagComponent implements OnInit  {
       return false;
     }
 
-    if(!this.difficulty) {
-      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
-      return false;
-    }
-
     if(this.tags.length < 1) {
       this.store.dispatch( new ShowError("No Tags"))
       return false;
@@ -236,8 +233,12 @@ export class CreatePagComponent implements OnInit  {
   getIngredients(): IIngredient[] {
     const ingredients: IIngredient[] = [];
     this.ingredientControls.forEach((ingredient) => {
-      if (ingredient.value) {
-        ingredients.push(ingredient.value);
+      if (ingredient) {
+        ingredients.push({
+          name: ingredient.value.name,
+          amount: ingredient.value.amount,
+          unit: ingredient.value.unit
+        });
       }
     });
 

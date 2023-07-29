@@ -1,7 +1,7 @@
 {
-  "name": "app-meal-plan-data-access",
+  "name": "app-home-feature",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/app/meal-plan/data-access/src",
+  "sourceRoot": "libs/app/home/feature/src",
   "prefix": "fridge-to-plate",
   "tags": [],
   "projectType": "library",
@@ -10,7 +10,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/app/meal-plan/data-access/jest.config.ts",
+        "jestConfig": "libs/app/home/feature/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -25,8 +25,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/app/meal-plan/data-access/**/*.ts",
-          "libs/app/meal-plan/data-access/**/*.html"
+          "libs/app/home/feature/**/*.ts",
+          "libs/app/home/feature/**/*.html"
         ]
       }
     }

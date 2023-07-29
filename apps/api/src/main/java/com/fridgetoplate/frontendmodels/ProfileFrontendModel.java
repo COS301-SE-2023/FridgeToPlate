@@ -2,11 +2,8 @@ package com.fridgetoplate.frontendmodels;
 
 import java.util.List;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.fridgetoplate.interfaces.Profile;
-import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.interfaces.RecipeDesc;;
 
 public class ProfileFrontendModel extends Profile {
     
@@ -16,37 +13,25 @@ public class ProfileFrontendModel extends Profile {
 
     public List<RecipeDesc> createdRecipes;
 
-    @DynamoDBHashKey(attributeName = "username")
     public String getUsername() {
         return username;
     }
 
-    @DynamoDBAttribute(attributeName = "email")
     public String getEmail() {
         return email;
     }
 
-    @DynamoDBAttribute(attributeName = "display_name")
     public String getDisplayName() {
         return displayName;
     }
 
-    @DynamoDBAttribute(attributeName = "profile_picture")
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    @DynamoDBAttribute(attributeName = "ingredients")
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-
-    @DynamoDBAttribute(attributeName = "saved_recipes")
     public List<RecipeDesc> getSavedRecipes() {
         return savedRecipes;
     }
-
 
     // setters
     public void setSavedRecipes(List<RecipeDesc> savedRecipes) {

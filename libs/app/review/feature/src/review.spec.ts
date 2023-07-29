@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Review } from './review.component';
-import {IonicModule} from "@ionic/angular";
-import {FormsModule} from "@angular/forms";
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 import { IReview } from '../../utils/src/interfaces';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { AddReview, DeleteReview } from '@fridge-to-plate/app/recipe/utils';
@@ -14,7 +14,7 @@ describe('Review Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, FormsModule, NgxsModule.forRoot()],
+      imports: [NgxsModule.forRoot(), IonicModule, FormsModule],
       declarations: [Review],
     }).compileComponents();
   });
@@ -40,7 +40,7 @@ describe('Review Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [Review],
-      imports: [NgxsModule.forRoot()],
+      imports: [NgxsModule.forRoot(), IonicModule, FormsModule],
     }).compileComponents();
   });
 
@@ -55,7 +55,9 @@ describe('Review Component', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
     component.submitReview();
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please rate the recipe before submitting your review!'));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      new ShowError('Please rate the recipe before submitting your review!')
+    );
   });
 
   it('should dispatch an error message if the description is not provided', () => {
@@ -63,12 +65,11 @@ describe('Review Component', () => {
 
     component.setRating(3);
     component.submitReview();
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please add a description before submitting your review!'));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      new ShowError('Please add a description before submitting your review!')
+    );
   });
-
-
 });
-
 
 describe('Review Component', () => {
   let component: Review;
@@ -78,7 +79,7 @@ describe('Review Component', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [Review],
-      imports: [NgxsModule.forRoot()],
+      imports: [NgxsModule.forRoot(), IonicModule, FormsModule],
     }).compileComponents();
   });
 
@@ -105,8 +106,12 @@ describe('Review Component', () => {
     const reviewId = '12345';
     const selectedReview = { reviewId: reviewId } as IReview;
     const dispatchSpy = jest.spyOn(store, 'dispatch');
-    const findSpy = jest.spyOn(Array.prototype, 'find').mockReturnValueOnce(selectedReview);
-    const getStateSpy = jest.spyOn(store, 'select').mockReturnValueOnce(of({ reviews: [selectedReview] }));
+    const findSpy = jest
+      .spyOn(Array.prototype, 'find')
+      .mockReturnValueOnce(selectedReview);
+    const getStateSpy = jest
+      .spyOn(store, 'select')
+      .mockReturnValueOnce(of({ reviews: [selectedReview] }));
 
     component.deleteReview();
 
@@ -115,4 +120,3 @@ describe('Review Component', () => {
     expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
   });
 });
-

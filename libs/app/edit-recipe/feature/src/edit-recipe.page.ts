@@ -4,11 +4,12 @@ import { DeleteRecipe, IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable, take } from 'rxjs';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 
 @Component({
   selector: 'fridge-to-plate-edit-recipe',
@@ -27,11 +28,13 @@ export class EditRecipeComponent implements OnInit {
   recipe !: IRecipe | null;
 
   @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
+  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
   constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute) {}
 
   ngOnInit() {
     this.createForm();
+    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
   }
 
   createForm(): void {
@@ -135,7 +138,7 @@ export class EditRecipeComponent implements OnInit {
     const ingredients = this.getIngredients();
 
     // Instructions array
-    const instructions = this.getInstructions()
+    const instructions = this.getInstructions();
 
     // Create Recipe details
     const recipe: IRecipe = {
@@ -153,7 +156,16 @@ export class EditRecipeComponent implements OnInit {
       tags: this.tags,
     };
     this.store.dispatch( new UpdateRecipe(recipe) )
-    this.location.back();
+    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
+    const index = profile.createdRecipes.findIndex( recipe => this.recipeId !== recipe.recipeId);
+    if(index === -1) {
+      this.store.dispatch( new ShowError('Could not update recipe'));
+    }
+    profile.createdRecipes[index] = recipe;
+    this.store.dispatch( new UpdateProfile(profile))
+     // TODO: add test coverage
+    })
+
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -176,6 +188,10 @@ export class EditRecipeComponent implements OnInit {
     }
 
     this.store.dispatch( new DeleteRecipe( this.recipe?.recipeId as string ))
+    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
+      profile.createdRecipes = profile.createdRecipes.filter( recipe => this.recipeId !== recipe.recipeId);
+      this.store.dispatch( new UpdateProfile(profile))
+  })
     this.location.back()
   }
 
@@ -276,8 +292,12 @@ export class EditRecipeComponent implements OnInit {
     const ingredients: IIngredient[] = [];
     this.ingredientControls.forEach((ingredient) => {
       if (ingredient.value) {
-        ingredients.push(ingredient.value);
-      }
+        ingredients.push({
+          name: ingredient.value.name,
+          amount: ingredient.value.amount,
+          unit: ingredient.value.unit
+      })
+    }
     });
 
     return ingredients;

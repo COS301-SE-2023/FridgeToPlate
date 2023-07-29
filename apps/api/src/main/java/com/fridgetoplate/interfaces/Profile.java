@@ -1,7 +1,4 @@
 package com.fridgetoplate.interfaces;
-import java.util.List;
-
-import com.fridgetoplate.model.Ingredient;
 
 import lombok.Data;
 
@@ -14,8 +11,6 @@ public class Profile {
 
     protected String displayName;
 
-    protected String profilePicture;
-
-    protected List<Ingredient> ingredients;
+    protected String profilePic;
     
 }

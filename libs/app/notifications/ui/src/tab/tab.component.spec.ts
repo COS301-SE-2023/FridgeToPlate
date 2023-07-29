@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabComponent } from './tab.component';
+import { IonicModule } from '@ionic/angular';
 
 describe('TabComponent', () => {
   let component: TabComponent;
@@ -7,6 +8,7 @@ describe('TabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [IonicModule],
       declarations: [TabComponent],
     }).compileComponents();
 
