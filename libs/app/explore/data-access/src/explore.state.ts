@@ -32,7 +32,7 @@ export interface ExploreStateModel {
 export class ExploreState {
 
     constructor(private store: Store, private exploreAPI: ExploreAPI) {}
-    
+
     @Selector()
     static getExplore(state: ExploreStateModel) {
         return state.explore;
@@ -58,10 +58,7 @@ export class ExploreState {
                 console.log(error);
             }
         });
-        
 
-    
   }
-
 
 }

@@ -24,6 +24,8 @@ export class ExplorePage {
   page = "searching";
   retunedRecipes: any;
   subpage = "beforeSearchApplied";
+  loading = false;
+  showRecipes = false;
 
   allCategories : IExplore[] = [
     {
@@ -71,23 +73,26 @@ export class ExplorePage {
   search(search : IExplore) {
 
     this.subpage = "searchAppliedByCaterogry"
+    this.showRecipes = false;
+    this.loading = true;
     this.store.dispatch(new CategorySearch(search));
 
     this.recipes$.subscribe( (recipes) => {
       if(recipes.length > 0){
         this.retunedRecipes = recipes;
+        this.loading = false;
+        this.showRecipes = true;
       }
     })
   }
 
   clearSearch(){
     this.subpage = "beforeSearchApplied";
+    this.showRecipes = false;
   }
 
   searchUsingBar() {
     this.subpage = "searchAppliedByBar"
   }
-
-
 
 }
