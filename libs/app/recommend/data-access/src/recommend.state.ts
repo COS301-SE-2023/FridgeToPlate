@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import {
+  Action,
+  Select,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import {
   AddIngredient,
   GetRecipeRecommendations,
+  GetUpdatedRecipePreferences,
   RemoveIngredient,
+  UpdateIngredients,
   UpdateRecipePreferences,
 } from '@fridge-to-plate/app/recommend/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
@@ -15,6 +24,10 @@ import {
 } from '@fridge-to-plate/app/recommend/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { Observable } from 'rxjs';
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend;
@@ -137,6 +150,8 @@ export interface RecommendStateModel {
 export class RecommendState {
   constructor(private recommendApi: RecommendApi, private store: Store) {}
 
+  @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
+
   @Selector()
   static getIngredients(state: RecommendStateModel): IIngredient[] {
     return state.recommendRequest.ingredients;
@@ -230,6 +245,42 @@ export class RecommendState {
       error: (error) => {
         this.store.dispatch(new ShowError(error));
       },
+    });
+  }
+
+  @Action(GetUpdatedRecipePreferences)
+  getUpdatedPreferences({
+    patchState,
+    getState,
+  }: StateContext<RecommendStateModel>) {
+    this.profile$.subscribe((userProfile) => {
+      this.recommendApi
+        .getUpdatedPreferences(userProfile.username)
+        .subscribe((updatedPreferences) => {
+          //Case 1: User has preferences already - update on store
+          if (
+            updatedPreferences.ingredients !== null &&
+            updatedPreferences.recipePreferences !== null
+          ) {
+            //1. Update ingredients
+            this.store.dispatch(
+              new UpdateIngredients(updatedPreferences.ingredients)
+            );
+
+            //2. Update preferences
+            patchState({
+              recommendRequest: updatedPreferences,
+            });
+          }
+          //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
+          else {
+            this.store.dispatch(
+              new UpdateRecipePreferences(
+                getState().recommendRequest.recipePreferences
+              )
+            );
+          }
+        });
     });
   }
 }
