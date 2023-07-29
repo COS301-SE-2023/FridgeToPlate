@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomePage } from './home.page';
 import { Router } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -8,6 +9,7 @@ describe('HomePage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot()],
       declarations: [HomePage],
     }).compileComponents();
 
