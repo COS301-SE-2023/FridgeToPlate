@@ -1,22 +1,22 @@
 <div class="w-full rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300">
 
   <div *ngIf="explore.type === 'breakfast'">
-    <img src="https://webknox.com/recipeImages/1747693-312x231.jpg" class="w-full aspect-square" />
+    <img src="https://source.unsplash.com/500x500/?breakfast" class="w-full aspect-square" />
   </div>
   <div *ngIf="explore.type === 'snack'">
-    <img src="https://webknox.com/recipeImages/1697823-556x370.jpg" class="w-full aspect-square" />
+    <img src="https://source.unsplash.com/500x500/?snack" class="w-full aspect-square" />
   </div>
   <div *ngIf="explore.type === 'lunch'">
-    <img src="https://spoonacular.com/recipeImages/648279-312x231.jpg" class="w-full aspect-square" />
+    <img src="https://source.unsplash.com/500x500/?lunch" class="w-full aspect-square" />
   </div>
   <div *ngIf="explore.type === 'dessert'">
-    <img src="https://webknox.com/recipeImages/653836-556x370.jpg" class="w-full aspect-square" />
+    <img src="https://source.unsplash.com/500x500/?dessert" class="w-full aspect-square" />
   </div>
   <div *ngIf="explore.type === 'dinner'">
-    <img src="https://spoonacular.com/application/frontend/images/academy/south-american-cuisine.jpg" class="w-full aspect-square" />
+    <img src="https://source.unsplash.com/500x500/?supper" class="w-full aspect-square" />
   </div>
 
-    <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full h-full flex items-center justify-center">
+    <div class="absolute bottom-0 px-4 py-3 backdrop-brightness-50 bg-black-900/30 w-full h-full flex items-center justify-center">
       <div *ngIf="explore.type === 'breakfast'">
         <div>
           <svg width="65" height="64" viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
             <path d="M28.0752 26.6567C27.7393 27.3383 27.7371 27.8528 28.1254 28.3881C28.1306 28.3896 28.282 26.7343 29.2868 26.0483C29.3688 26.6075 30.2385 26.8789 30.2385 26.8789C29.543 24.3914 31.5735 24.2617 31.5639 23.3691C30.4874 23.4609 29.876 24.2512 29.876 24.2512C29.0129 24.073 28.0774 24.5286 28.0774 24.5286C28.0774 24.5286 28.8608 24.9082 29.2809 25.0282C28.4968 25.6822 27.0113 24.8194 27.0113 24.8194C27.0113 24.8194 27.0113 25.577 27.602 25.8641C26.3298 26.3376 26.2102 27.3219 26.2102 27.3219C26.2102 27.3219 27.5436 26.5531 28.0752 26.6567ZM46.9404 30.0539C47.246 29.4678 46.8001 28.8586 46.8001 28.8586C46.8001 28.8586 46.1142 30.4447 45.099 30.3902C45.3662 30.0413 45.7723 29.2658 45.7723 29.2658C45.7723 29.2658 44.7519 29.4619 44.1628 30.1233C44.1628 30.1233 43.2059 29.8556 42.2874 30.4282C42.8057 31.1515 44.5142 30.0353 45.4201 32.4527C45.4201 32.4527 45.9591 31.7123 45.6955 31.2134C46.9079 31.1605 48.005 32.3998 48.0087 32.3953C48.0043 31.7317 47.7001 31.32 47.0275 30.9741C47.3937 30.5722 48.9191 30.3895 48.9191 30.3895C48.9191 30.3895 48.2428 29.6699 46.9404 30.0539Z" fill="white"/>
             </svg>
         </div>
-        
+
         <h1 class="text-white font-semibold text-sm mb-1 text-center justify-center">Dinner</h1>
       </div>
       <!-- <h1 class="text-white font-semibold text-sm mb-1 text-center justify-center"> {{ explore.type }}</h1> -->
