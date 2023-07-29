@@ -45,6 +45,8 @@ public class RecipeRepository {
         model.setServings(recipe.getServings());
         model.setViews(0);
         dynamoDBMapper.save(model);
+
+        recipe.setRecipeId(model.getRecipeId());
         return recipe;
     }
     

@@ -15,7 +15,8 @@ import {
     UndoRemoveSavedRecipe,
     UpdateMealPlan,
     RemoveFromMealPlan,
-    AddToMealPlan
+    AddToMealPlan,
+    AddCreatedRecipe
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -23,6 +24,7 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -104,6 +106,20 @@ export class ProfileState {
                 this.store.dispatch(new ShowError(error));
             }
         });
+    }
+
+    @Action(AddCreatedRecipe)
+    addCreatedRecipe({ patchState, getState } : StateContext<ProfileStateModel>, { recipe } : AddCreatedRecipe) {
+        const updatedProfile = getState().profile;
+
+        if (updatedProfile) {
+            updatedProfile?.createdRecipes.unshift(recipe);
+            patchState({
+                profile: updatedProfile
+            });
+
+            this.profileAPI.updateProfile(updatedProfile);
+        }
     }
 
     @Action(SaveRecipe)
@@ -298,12 +314,12 @@ export class ProfileState {
 
     @Action(RemoveFromMealPlan)
     removeFromMealPlan({ getState } : StateContext<ProfileStateModel>, { recipeId } : RemoveFromMealPlan) {
-        const updatedProfile = getState().profile;
-        if(!updatedProfile){
+        const profile = getState().profile;
+        if(!profile){
             this.store.dispatch(new ShowError("No profile: Not signed in"));
             return;
         }
-        const mealPlan = updatedProfile?.currMealPlan;
+        const mealPlan = profile?.currMealPlan;
         if (mealPlan) {
 
             if(mealPlan.breakfast && mealPlan.breakfast.recipeId === recipeId) {
@@ -324,12 +340,12 @@ export class ProfileState {
 
     @Action(AddToMealPlan)
     addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType } : AddToMealPlan) {
-        const updatedProfile = getState().profile;
-        if(!updatedProfile){
+        const profile = getState().profile;
+        if(!profile){
             this.store.dispatch(new ShowError("No profile: Not signed in."));
             return;
         }
-        const mealPlan = updatedProfile?.currMealPlan;
+        const mealPlan = profile?.currMealPlan;
         if (mealPlan) {
 
             if(mealType === "Breakfast") {
@@ -344,7 +360,20 @@ export class ProfileState {
             if(mealType === "Snack") {
                 mealPlan.snack = recipe;
             }
-            this.store.dispatch(new UpdateMealPlan(mealPlan))
+            this.store.dispatch(new UpdateMealPlan(mealPlan));
+
+        } else {
+
+            const newMealPlan: IMealPlan = {
+                username: profile.username,
+                date: new Date().toISOString().slice(0, 10),
+                breakfast: mealType === "Breakfast" ? recipe : null,
+                lunch: mealType === "Lunch" ? recipe : null,
+                dinner: mealType === "Dinner" ? recipe : null,
+                snack: mealType === "Snack" ? recipe : null
+            }
+            this.store.dispatch(new UpdateMealPlan(newMealPlan));
+            
         }
     }
 

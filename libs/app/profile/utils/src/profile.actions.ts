@@ -22,6 +22,11 @@ export class RetrieveProfile {
   constructor(public readonly username: string) {}
 }
 
+export class AddCreatedRecipe {
+    static readonly type = '[Profile] AddCreatedRecipe';
+    constructor(public readonly recipe: IRecipeDesc) {}
+}
+
 export class SaveRecipe {
   static readonly type = '[Profile] SaveRecipe';
   constructor(public readonly recipe: IRecipeDesc) {}
