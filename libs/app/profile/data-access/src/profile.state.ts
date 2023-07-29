@@ -13,14 +13,16 @@ import {
     SortCreatedByNameAsc, 
     ResetProfile, 
     UndoRemoveSavedRecipe,
-    AddToMealPlan,
-    RemoveFromMealPlan
+    UpdateMealPlan,
+    RemoveFromMealPlan,
+    AddToMealPlan
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
+import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export interface ProfileStateModel {
@@ -30,43 +32,28 @@ export interface ProfileStateModel {
 @State<ProfileStateModel>({
     name: 'profile',
     defaults: {
-        profile: {
+        profile: environment.TYPE === "production" ? null :  {
             displayName: "John Doe",
             username: "jdoe",
             email: "jdoe@gmail.com",
-            savedRecipes: [
-                {
-                    recipeId: "testid1",
-                    recipeImage: "testimage",
-                    difficulty: "Hard",
-                    name: "The hard recipe",
-                    tags: ["Tag"],
-                },
-                {
-                    recipeId: "testid2",
-                    recipeImage: "testimage",
-                    difficulty: "Medium",
-                    name: "The med recipe",
-                    tags: ["Tag"],
-                },
-                {
-                    recipeId: "testid3",
-                    recipeImage: "testimage",
-                    difficulty: "Easy",
-                    name: "The easy recipe",
-                    tags: ["Tag"],
-                },
-            ],
+            savedRecipes: [],
             ingredients: [],
             profilePic: "https://source.unsplash.com/150x150/?portrait",
             createdRecipes: [
                 {
                     recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
-                    recipeImage: "testimage",
-                    difficulty: "Easy",
-                    name: "The recipe",
-                    tags: ["Tag"],
-                }
+                    recipeImage: "https://source.unsplash.com/800x800/?food",
+                    name: "Delicious Pasta",
+                    tags: ["pasta", "Italian", "dinner"],
+                    difficulty: "Easy"
+                    },
+                {
+                    recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
+                    recipeImage: "https://source.unsplash.com/800x800/?food",
+                    name: "Cheesy Meal",
+                    tags: ["pasta", "Italian", "dinner"],
+                    difficulty: "Easy"
+                    }
             ],
             currMealPlan: null
         }
@@ -281,7 +268,6 @@ export class ProfileState {
         const updatedProfile = getState().profile;
 
         if (updatedProfile) {
-
             updatedProfile.createdRecipes.sort(function(a, b) {
                 if (a.name < b.name){
                     return 1;
@@ -297,71 +283,83 @@ export class ProfileState {
         }
     }
 
-    @Action(AddToMealPlan)
-    addToMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { recipe, meal }: AddToMealPlan) {
+    @Action(UpdateMealPlan)
+    updateMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
         const updatedProfile = getState().profile;
-
-        if (updatedProfile) {
-            
-            if (!updatedProfile.currMealPlan) {
-                updatedProfile.currMealPlan = {
-                    username: updatedProfile.username,
-                    date: "",
-                    breakfast: null,
-                    lunch: null,
-                    dinner: null,
-                    snack: null
-                }
-            }
-
-            switch(meal) {
-                case 'Breakfast':  
-                    updatedProfile.currMealPlan.dinner = recipe;
-                    break;
-                
-                case 'Lunch':  
-                    updatedProfile.currMealPlan.lunch = recipe;
-                    break;
-
-                
-                case 'Dinner':  
-                    updatedProfile.currMealPlan.dinner = recipe;
-                    break;
-
-                
-                case 'Snack':  
-                    updatedProfile.currMealPlan.snack = recipe;
-                    break;
-            }
-
+        
+        if (updatedProfile && mealPlan) {
+            updatedProfile.currMealPlan = mealPlan;
             patchState({
                 profile: updatedProfile
             });
-
-            this.mealPlanAPI.saveMealPlan(updatedProfile.currMealPlan as IMealPlan);
+            this.profileAPI.updateProfile(updatedProfile);
+            this.mealPlanAPI.saveMealPlan(mealPlan);
         }
     }
 
     @Action(RemoveFromMealPlan)
-    removeFromMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { recipeId }: RemoveFromMealPlan) {
-        const updatedProfile = getState().profile;
+    removeFromMealPlan({ getState } : StateContext<ProfileStateModel>, { recipeId } : RemoveFromMealPlan) {
+        const profile = getState().profile;
+        if(!profile){
+            this.store.dispatch(new ShowError("No profile: Not signed in"));
+            return;
+        }
+        const mealPlan = profile?.currMealPlan;
+        if (mealPlan) {
 
-        if (updatedProfile && updatedProfile.currMealPlan) {
-            if (updatedProfile.currMealPlan.breakfast?.recipeId === recipeId) {
-                updatedProfile.currMealPlan.breakfast = null;
-            } else if (updatedProfile.currMealPlan.lunch?.recipeId === recipeId) {
-                updatedProfile.currMealPlan.lunch = null;
-            } else if (updatedProfile.currMealPlan.dinner?.recipeId === recipeId) {
-                updatedProfile.currMealPlan.dinner = null;
-            } else if (updatedProfile.currMealPlan.snack?.recipeId === recipeId) {
-                updatedProfile.currMealPlan.snack = null;
+            if(mealPlan.breakfast && mealPlan.breakfast.recipeId === recipeId) {
+                mealPlan.breakfast = null;
             }
-            
-            patchState({
-                profile: updatedProfile
-            });
-            
-            this.mealPlanAPI.saveMealPlan(updatedProfile.currMealPlan as IMealPlan);
+            if(mealPlan.lunch && mealPlan.lunch.recipeId === recipeId) {
+                mealPlan.lunch = null;
+            }
+            if(mealPlan.dinner && mealPlan.dinner.recipeId === recipeId) {
+                mealPlan.dinner = null;
+            }
+            if(mealPlan.snack && mealPlan.snack.recipeId === recipeId) {
+                mealPlan.snack = null;
+            }
+            this.store.dispatch(new UpdateMealPlan(mealPlan))
         }
     }
+
+    @Action(AddToMealPlan)
+    addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType } : AddToMealPlan) {
+        const profile = getState().profile;
+        if(!profile){
+            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            return;
+        }
+        const mealPlan = profile?.currMealPlan;
+        if (mealPlan) {
+
+            if(mealType === "Breakfast") {
+                mealPlan.breakfast = recipe;
+            }
+            if(mealType === "Lunch") {
+                mealPlan.lunch = recipe;
+            }
+            if(mealType === "Dinner") {
+                mealPlan.dinner = recipe;
+            }
+            if(mealType === "Snack") {
+                mealPlan.snack = recipe;
+            }
+            this.store.dispatch(new UpdateMealPlan(mealPlan));
+
+        } else {
+
+            const newMealPlan: IMealPlan = {
+                username: profile.username,
+                date: new Date().toISOString().slice(0, 10),
+                breakfast: mealType === "Breakfast" ? recipe : null,
+                lunch: mealType === "Lunch" ? recipe : null,
+                dinner: mealType === "Dinner" ? recipe : null,
+                snack: mealType === "Snack" ? recipe : null
+            }
+            this.store.dispatch(new UpdateMealPlan(newMealPlan));
+            
+        }
+    }
+
 }
