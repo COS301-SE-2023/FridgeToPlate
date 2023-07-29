@@ -45,7 +45,10 @@ export class ExploreState {
 
     @Action(CategorySearch)
     async CategorySearch({ setState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
-
+        setState({
+            explore: search,
+            recipes: null
+        });
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
                 setState({

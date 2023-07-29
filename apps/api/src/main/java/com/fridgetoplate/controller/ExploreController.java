@@ -25,7 +25,7 @@ import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ExploreRepository;
-import com.fridgetoplate.repository.IngredientRepository;
+// import com.fridgetoplate.repository.IngredientRepository;
 import com.fridgetoplate.repository.MealPlanRepository;
 
 @RestController
