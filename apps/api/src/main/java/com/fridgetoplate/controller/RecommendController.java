@@ -63,6 +63,11 @@ public class RecommendController {
         return dbQueryResults;
     }
     
+    @PostMapping("/create")
+    public RecommendFrontendModel addRecommendation(@RequestBody RecommendFrontendModel userRecommendation){
+        recommendRepository.save(userRecommendation);
+        return userRecommendation;
+    }
     @PutMapping("/{id}")
     public RecommendFrontendModel updatePreferences(@RequestBody RecommendFrontendModel userRecommendation) {
         recommendRepository.updateRecommendPreferences(userRecommendation);

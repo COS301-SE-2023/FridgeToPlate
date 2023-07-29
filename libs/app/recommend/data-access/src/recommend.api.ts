@@ -49,21 +49,29 @@ export class RecommendApi {
 
   //Step 3
   getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
-    // const req: Observable<IRecipe[]> = this.httpClient
-    //   .get<IRecipe[]>(`${baseUrl}recommend`)
-    //   .pipe(
-    //     switchMap((res: IRecipe[]) => {
-    //       return new BehaviorSubject<IRecipe[]>(res);
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
     const req: Observable<IRecipe[]> = this.httpClient.post<IRecipe[]>(
       baseUrl,
       recomendationParams
     );
     return req;
+  }
+
+  updateRecommendations(
+    newRecommendations: IRecommend
+  ): Observable<IRecommend> {
+    const req: Observable<IRecommend> = this.httpClient.put<IRecommend>(
+      baseUrl,
+      newRecommendations
+    );
+
+    return req;
+  }
+
+  getUpdatedPreferences(username: string): Observable<IRecommend> {
+    return this.httpClient.get<IRecommend>(`${baseUrl}/${username}`);
+  }
+
+  addPreferences(preferences: IRecommend): Observable<IRecommend> {
+    return this.httpClient.post<IRecommend>(`${baseUrl}/create`, preferences);
   }
 }
