@@ -161,11 +161,18 @@ public class ExploreRepository {
 
     private void fiterBySearch(String search, List<RecipeFrontendModel> recipes) {
 
-        for (RecipeFrontendModel recipe : recipes) {
-            
-            if(recipe.getName() != search) {
-                recipes.remove(recipe);
+        for (Iterator<RecipeFrontendModel> iterator = recipes.iterator(); iterator.hasNext(); ) {
+
+            RecipeFrontendModel recipe = iterator.next();
+
+            if (recipe.getName() != null) {
+
+                if(!recipe.getName().contains(search)) {
+                    iterator.remove();
+
+                }
             }
+            
         }
     }
 
@@ -177,10 +184,10 @@ public class ExploreRepository {
 
             if (recipe.getMeal() != null) {
 
-                if(!recipe.getMeal().equalsIgnoreCase(type)) {
+                if(!recipe.getMeal().contains(type)) {
                     iterator.remove();
 
-            }
+                }
             }
             
         }
@@ -208,12 +215,20 @@ public class ExploreRepository {
 
     private void fiterByDifficulty(String difficulty, List<RecipeFrontendModel> recipes) {
 
-        for (RecipeFrontendModel recipe : recipes) {
-            
-            if(!recipe.getDifficulty().equalsIgnoreCase(difficulty)) {
-                recipes.remove(recipe);
+        for (Iterator<RecipeFrontendModel> iterator = recipes.iterator(); iterator.hasNext(); ) {
+
+            RecipeFrontendModel recipe = iterator.next();
+
+            if (recipe.getDifficulty() != null) {
+
+                if(!recipe.getDifficulty().contains(difficulty)) {
+                    iterator.remove();
+
+                }
             }
+            
         }
+        
     }
 
     

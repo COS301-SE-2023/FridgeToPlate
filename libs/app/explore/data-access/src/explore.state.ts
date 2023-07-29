@@ -52,8 +52,6 @@ export class ExploreState {
                     explore: search,
                     recipes: data
                 });
-                console.log(data);
-                //this.store.dispatch(new Navigate(['/explore']));
             },
             error: error => {
                 this.store.dispatch(new ShowError(error));
