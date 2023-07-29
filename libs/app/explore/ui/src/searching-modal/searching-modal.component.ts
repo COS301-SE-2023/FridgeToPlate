@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
 import { Navigate } from "@ngxs/router-plugin";
 import { RetrieveProfile } from '@fridge-to-plate/app/profile/utils';
-import { RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
+import { CategorySearch, IExplore, RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -16,14 +16,16 @@ import { RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
 })
 export class SearchingModalComponent {
 
+  @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
   searchText = "";
   result = "";
+  editExplore !: IExplore;
 
 
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
 
   constructor(private store: Store) {
-    return;
+    this.explore$.pipe(take(1)).subscribe(explore => this.editExplore = Object.create(explore));
   }
 
   close() {
@@ -31,20 +33,10 @@ export class SearchingModalComponent {
   }
 
   search() {
-    alert(this.result);
 
-    switch (this.result) {
-      case 'All':
-        this.store.dispatch(new RetrieveRecipe(this.searchText));
-        this.store.dispatch(new RetrieveProfile(this.searchText));
-        break;
-      case 'Recipe':
-        this.store.dispatch(new RetrieveRecipe(this.searchText));
-        break;
-      case 'People':
-        this.store.dispatch(new RetrieveProfile(this.searchText));
-        break;
-    }
+    this.editExplore.search = this.searchText;
+ 
+    this.store.dispatch(new CategorySearch(this.editExplore));
 
   }
 
