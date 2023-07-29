@@ -212,11 +212,6 @@ export class CreatePagComponent implements OnInit  {
       return false;
     }
 
-    if(!this.difficulty) {
-      this.store.dispatch( new ShowError("No Difficulty: Please select difficulty"))
-      return false;
-    }
-
     if(this.tags.length < 1) {
       this.store.dispatch( new ShowError("No Tags"))
       return false;
