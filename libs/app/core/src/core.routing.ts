@@ -47,6 +47,10 @@ const routes: Routes = [
     {
         path: 'unauthorised',
         loadChildren : () => import('@fridge-to-plate/app/unauthorised/feature').then((m) => m.UnauthorisedModule),
+    },
+    {
+        path: 'home',
+        loadChildren: () => import('@fridge-to-plate/app/home/feature').then((m) => m.HomeModule),
     }
 ];
 
