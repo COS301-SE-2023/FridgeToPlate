@@ -26,6 +26,7 @@ export class ExplorePage {
   subpage = "beforeSearchApplied";
   loading = false;
   showRecipes = false;
+  searchText = "";
 
   allCategories : IExplore[] = [
     {
@@ -72,19 +73,26 @@ export class ExplorePage {
   // eslint-disable-next-line @typescript-eslint/ban-types
   search(search : IExplore) {
 
-    this.subpage = "searchAppliedByCaterogry"
-    this.showRecipes = false;
-    this.loading = true;
-    this.store.dispatch(new CategorySearch(search));
+    alert(this.searchText);
+    search.search = this.searchText;
+    alert(search.search);
+    console.log(this.search);
+    // this.subpage = "searchAppliedByCaterogry"
+    // this.showRecipes = false;
+    // this.loading = true;
+    
+    // this.store.dispatch(new CategorySearch(search));
 
-    this.recipes$.subscribe( (recipes) => {
-      if(recipes.length > 0){
-        this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
-      }
-    })
+    // this.recipes$.subscribe( (recipes) => {
+    //   if(recipes.length > 0){
+    //     this.retunedRecipes = recipes;
+    //     this.loading = false;
+    //     this.showRecipes = true;
+    //   }
+    // })
   }
+
+  
 
   clearSearch(){
     this.subpage = "beforeSearchApplied";

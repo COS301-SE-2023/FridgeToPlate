@@ -22,21 +22,18 @@ export class SearchingModalComponent {
   editExplore !: IExplore;
 
 
-  @Output() closeFunc: EventEmitter<any> = new EventEmitter();
+  @Output() newSearchEvent = new EventEmitter<string>();
 
   constructor(private store: Store) {
     this.explore$.pipe(take(1)).subscribe(explore => this.editExplore = Object.create(explore));
   }
 
-  close() {
-    this.closeFunc.emit();
-  }
+  explore(text : string) {
 
-  search() {
-
-    this.editExplore.search = this.searchText;
- 
-    this.store.dispatch(new CategorySearch(this.editExplore));
+    alert(text);
+    this.searchText = text;
+    alert(this.searchText);
+    this.newSearchEvent.emit(this.searchText);
 
   }
 
