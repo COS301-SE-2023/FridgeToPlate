@@ -1,6 +1,7 @@
 package com.fridgetoplate.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,9 @@ public class RecommendController {
             
             //.3 Query Database by prefrence
             dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+
+            //Pad results - DEMO.
+            dbQueryResults.addAll( Arrays.asList(apiQueryResults) ); 
 
         }
 
