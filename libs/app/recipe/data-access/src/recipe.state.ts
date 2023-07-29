@@ -88,36 +88,45 @@ export class RecipeState {
   }
 
   @Action(AddReview)
-  addRecipeReview(
+  async addRecipeReview(
     { getState }: StateContext<RecipeStateModel>,
     { review }: AddReview
   ) {
-    const newRecipe = getState().recipe;
+    const updatedRecipe = getState().recipe;
 
-    if (newRecipe) {
-      newRecipe?.reviews?.unshift(review);
+    if (updatedRecipe) {
+      (await this.api.createNewReview(review)).subscribe({
+        next: data => {
+            updatedRecipe.reviews?.unshift(data);
 
-      this.api.createNewReview(review).subscribe();
-
-      this.store.dispatch(new UpdateRecipe(newRecipe));
+            this.store.dispatch(new UpdateRecipe(updatedRecipe));
+        },
+        error: error => {
+            this.store.dispatch(new ShowError(error.message));
+        }
+      });
     }
   }
 
   @Action(DeleteReview)
-  removeRecipeReview(
+  async removeRecipeReview(
     { getState }: StateContext<RecipeStateModel>,
     { reviewId }: DeleteReview
   ) {
-    const newRecipe = getState().recipe;
+    const updatedRecipe = getState().recipe;
 
-    if (newRecipe) {
-      newRecipe.reviews = newRecipe?.reviews?.filter(
+    if (updatedRecipe) {
+      updatedRecipe.reviews = updatedRecipe?.reviews?.filter(
         (currentReview) => currentReview.reviewId !== reviewId
       );
 
-      if (newRecipe.recipeId) {
-        this.api.deleteReview(newRecipe.recipeId, reviewId).subscribe();
-        this.store.dispatch(new UpdateRecipe(newRecipe));}
+      this.store.dispatch(new UpdateRecipe(updatedRecipe));
+
+      (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
+        error: error => {
+            this.store.dispatch(new ShowError(error.message));
+        }
+      });
     }
   }
 
