@@ -224,11 +224,6 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
-
-      //Update ingredients on user profile
-      this.store.dispatch(
-        new UpdateUserIngredients(updatedRecommendRequest.ingredients)
-      );
     }
   }
 
@@ -280,29 +275,39 @@ export class RecommendState {
         .getUpdatedPreferences(userProfile.username)
         .subscribe((updatedPreferences) => {
           //Case 1: User has preferences already - update on store
-          if (
-            updatedPreferences.ingredients !== null &&
-            updatedPreferences.ingredients.length > 0 &&
-            updatedPreferences.recipePreferences !== null
-          ) {
-            //1. Update ingredients
-            this.store.dispatch(
-              new UpdateIngredients(updatedPreferences.ingredients)
-            );
+          // if (
+          //   updatedPreferences.ingredients !== null &&
+          //   updatedPreferences.ingredients.length > 0 &&
+          //   updatedPreferences.recipePreferences !== null
+          // ) {
+          //   //1. Update ingredients
+          //   this.store.dispatch(
+          //     new UpdateIngredients(updatedPreferences.ingredients)
+          //   );
 
-            //2. Update preferences
-            patchState({
-              recommendRequest: updatedPreferences,
-            });
-          }
-          //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
-          else {
-            this.store.dispatch(
-              new AddRecommendation(
-                getState().recommendRequest.recipePreferences
-              )
-            );
-          }
+          //   //2. Update preferences
+          //   patchState({
+          //     recommendRequest: updatedPreferences,
+          //   });
+          // }
+          // //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
+          // else {
+          //   this.store.dispatch(
+          //     new AddRecommendation(
+          //       getState().recommendRequest.recipePreferences
+          //     )
+          //   );
+          // }
+
+          //   //1. Update ingredients
+          this.store.dispatch(
+            new UpdateIngredients(updatedPreferences.ingredients)
+          );
+
+          //   //2. Update preferences
+          patchState({
+            recommendRequest: updatedPreferences,
+          });
         });
     });
   }
