@@ -258,7 +258,6 @@ export class RecommendState {
     getState,
   }: StateContext<RecommendStateModel>) {
     const recommendRequest = getState().recommendRequest;
-    console.log('HELLOO: ', recommendRequest);
     this.recommendApi.getRecommendations(recommendRequest).subscribe({
       next: (data) => {
         patchState({
@@ -277,13 +276,9 @@ export class RecommendState {
     getState,
   }: StateContext<RecommendStateModel>) {
     this.profile$.subscribe((userProfile) => {
-      console.log('HERE LOGGED IN: ', userProfile);
-
       this.recommendApi
         .getUpdatedPreferences(userProfile.username)
         .subscribe((updatedPreferences) => {
-          console.log('HERE RECOMMENDATIONS: ', updatedPreferences);
-
           //Case 1: User has preferences already - update on store
           if (
             updatedPreferences.ingredients !== null &&
@@ -302,7 +297,6 @@ export class RecommendState {
           }
           //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
           else {
-            console.log('HERE ELSE RECOMMENDATIONS: ', updatedPreferences);
             this.store.dispatch(
               new AddRecommendation(
                 getState().recommendRequest.recipePreferences
@@ -325,9 +319,7 @@ export class RecommendState {
           recipePreferences: currentState.recommendRequest.recipePreferences,
         };
 
-        this.recommendApi.addPreferences(newPreferences).subscribe((res) => {
-          console.log('HERE ADDED: ', newPreferences);
-        });
+        this.recommendApi.addPreferences(newPreferences).subscribe((res) => {});
       }
     });
   }
@@ -335,8 +327,6 @@ export class RecommendState {
   @Action(UpdateRecipeRecommendations)
   updateRecipeRecommendations({ getState }: StateContext<RecommendStateModel>) {
     const currentState = getState();
-
-    console.log('HERE Updated Recommendations: ', currentState);
 
     if (currentState) {
       const newRecommendations: IRecommend = {
@@ -347,9 +337,7 @@ export class RecommendState {
 
       this.recommendApi
         .updateRecommendations(newRecommendations)
-        .subscribe((newRecommendations) => {
-          console.log('HERE Updated Shandis: ', newRecommendations);
-        });
+        .subscribe((newRecommendations) => {});
     }
   }
 }
