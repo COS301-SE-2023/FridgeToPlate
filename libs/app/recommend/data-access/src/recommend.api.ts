@@ -60,7 +60,7 @@ export class RecommendApi {
     newRecommendations: IRecommend
   ): Observable<IRecommend> {
     const req: Observable<IRecommend> = this.httpClient.put<IRecommend>(
-      baseUrl,
+      `${baseUrl}/${newRecommendations.username}`,
       newRecommendations
     );
 

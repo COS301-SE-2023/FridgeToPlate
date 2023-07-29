@@ -28,7 +28,10 @@ import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import {
+  IProfile,
+  UpdateUserIngredients,
+} from '@fridge-to-plate/app/profile/utils';
 import { UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 
 export interface RecommendStateModel {
@@ -189,6 +192,11 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
+
+      //Update ingredients on user profile
+      this.store.dispatch(
+        new UpdateUserIngredients(updatedRecommendRequest.ingredients)
+      );
     }
   }
 
@@ -211,6 +219,16 @@ export class RecommendState {
       patchState({
         recommendRequest: updatedRecommendRequest,
       });
+
+      //CALL API - add on remote
+      this.store.dispatch(
+        new UpdateRecipeRecommendations(updatedRecommendRequest)
+      );
+
+      //Update ingredients on user profile
+      this.store.dispatch(
+        new UpdateUserIngredients(updatedRecommendRequest.ingredients)
+      );
     }
   }
 
@@ -284,6 +302,7 @@ export class RecommendState {
           }
           //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
           else {
+            console.log('HERE ELSE RECOMMENDATIONS: ', updatedPreferences);
             this.store.dispatch(
               new AddRecommendation(
                 getState().recommendRequest.recipePreferences
@@ -317,6 +336,8 @@ export class RecommendState {
   updateRecipeRecommendations({ getState }: StateContext<RecommendStateModel>) {
     const currentState = getState();
 
+    console.log('HERE Updated Recommendations: ', currentState);
+
     if (currentState) {
       const newRecommendations: IRecommend = {
         ingredients: currentState.recommendRequest.ingredients,
@@ -324,7 +345,11 @@ export class RecommendState {
         recipePreferences: currentState.recommendRequest.recipePreferences,
       };
 
-      this.recommendApi.updateRecommendations(newRecommendations);
+      this.recommendApi
+        .updateRecommendations(newRecommendations)
+        .subscribe((newRecommendations) => {
+          console.log('HERE Updated Shandis: ', newRecommendations);
+        });
     }
   }
 }
