@@ -1,7 +1,9 @@
-<div class="w-full h-full overflow-y-scroll      my-5 ml-4 relative lg:mb-0">
+<div class="w-full h-full overflow-y-scroll      my-5 ml-4 relative lg:mb-0 lg:mt-16">
   <searching-modal ></searching-modal>
-  <h1 class="pb-4 pt-8"><b>Categories</b></h1>
-  <div class="pr-2 mr-5 my-2 grid grid-flow-row gap-3 grid-cols-2 [&>*]:mb-1 lg:grid-cols-5 lg:[&>*]:mb-2 lg:pr-1">
-    <explore-card (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
+  <div>
+    <h1 class="pb-4 pt-8"><b>Categories</b></h1>
+    <div class="pr-2 mr-5 my-2 grid grid-flow-row gap-3 grid-cols-2 [&>*]:mb-1 lg:grid-cols-5 lg:[&>*]:mb-2 lg:pr-1">
+      <explore-card (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
+    </div>
   </div>
 </div>
