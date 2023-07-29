@@ -192,11 +192,6 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
-
-      //Update ingredients on user profile
-      this.store.dispatch(
-        new UpdateUserIngredients(updatedRecommendRequest.ingredients)
-      );
     }
   }
 
@@ -334,14 +329,8 @@ export class RecommendState {
     const currentState = getState();
 
     if (currentState) {
-      const newRecommendations: IRecommend = {
-        ingredients: currentState.recommendRequest.ingredients,
-        username: currentState.recommendRequest.username,
-        recipePreferences: currentState.recommendRequest.recipePreferences,
-      };
-
       this.recommendApi
-        .updateRecommendations(newRecommendations)
+        .updateRecommendations(currentState.recommendRequest)
         .subscribe((newRecommendations) => {});
     }
   }
