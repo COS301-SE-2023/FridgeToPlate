@@ -112,9 +112,10 @@ public class ExploreRepository {
         for (RecipeModel recipe : scanResult) {
             
             RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
+
+            if(response != null) {
+                recipes.add(response);
+            }
         }
 
         return recipes;
@@ -128,10 +129,12 @@ public class ExploreRepository {
         for (RecipeModel recipe : scanResult) {
             
             RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
+
+            if(response != null) {
+                recipes.add(response);
+            }
         }
+
 
         String search = searchObject.getSearch();
 
@@ -141,16 +144,16 @@ public class ExploreRepository {
 
         String difficulty = searchObject.getDifficulty();
 
-        if(search != "")
+        if(!search.equalsIgnoreCase(""))
             fiterBySearch(search, recipes);
 
-        if(type != "")
+        if(!type.equalsIgnoreCase(""))
             fiterByType(type, recipes);
 
         if(tags.size() != 0)
             fiterByTags(tags, recipes);
 
-        if(difficulty != "Any")
+        if(!difficulty.equalsIgnoreCase("Any"))
             fiterByDifficulty(difficulty, recipes);
 
         return recipes;
@@ -160,19 +163,26 @@ public class ExploreRepository {
 
         for (RecipeFrontendModel recipe : recipes) {
             
-                if(recipe.getName() != search) {
-                    recipes.remove(recipe);
-                }
+            if(recipe.getName() != search) {
+                recipes.remove(recipe);
+            }
         }
     }
 
     private void fiterByType(String type, List<RecipeFrontendModel> recipes) {
 
         for (Iterator<RecipeFrontendModel> iterator = recipes.iterator(); iterator.hasNext(); ) {
+
             RecipeFrontendModel recipe = iterator.next();
-            if(recipe.getMeal() != type) {
-                iterator.remove();
+
+            if (recipe.getMeal() != null) {
+
+                if(!recipe.getMeal().equalsIgnoreCase(type)) {
+                    iterator.remove();
+
             }
+            }
+            
         }
     }
 
@@ -200,9 +210,9 @@ public class ExploreRepository {
 
         for (RecipeFrontendModel recipe : recipes) {
             
-                if(recipe.getDifficulty() != difficulty) {
-                    recipes.remove(recipe);
-                }
+            if(!recipe.getDifficulty().equalsIgnoreCase(difficulty)) {
+                recipes.remove(recipe);
+            }
         }
     }
 

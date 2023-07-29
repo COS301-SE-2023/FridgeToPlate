@@ -44,15 +44,14 @@ export class ExploreState {
     }
 
     @Action(CategorySearch)
-    async CategorySearch({ patchState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
+    async CategorySearch({ setState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
 
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
-                patchState({
+                setState({
                     explore: search,
                     recipes: data
                 });
-                alert(data);
                 console.log(data);
                 //this.store.dispatch(new Navigate(['/explore']));
             },
