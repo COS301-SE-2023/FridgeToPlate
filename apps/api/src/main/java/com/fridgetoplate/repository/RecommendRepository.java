@@ -76,15 +76,24 @@ public class RecommendRepository {
        recommendObject.setIngredients(recommendModel.getIngredients());
        
        RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
-
-       RecipePreferences preferences = recommendModel.getRecipePreferences();
        
-       preferences.setDifficulty(preferencesFrontendObject.getDifficulty());
-       preferences.setMeal(preferencesFrontendObject.getMeal());
-       preferences.setServings(preferences.getServings());
-       preferences.setRating(preferencesFrontendObject.getRating());
-       preferences.setPrepTime(preferencesFrontendObject.getPrepTime());
-       preferences.setKeywords(Arrays.asList( preferencesFrontendObject.getKeywords() ) );
+       if(recommendModel.getRecipePreferences().getDifficulty() != null && !recommendModel.getRecipePreferences().getDifficulty().isEmpty())
+       preferencesFrontendObject.setDifficulty(recommendModel.getRecipePreferences().getDifficulty());
+       
+        if(recommendModel.getRecipePreferences().getMeal() != null && !recommendModel.getRecipePreferences().getMeal().isEmpty())
+        preferencesFrontendObject.setMeal(recommendModel.getRecipePreferences().getMeal());
+        
+        if(recommendModel.getRecipePreferences().getPrepTime() != null && !recommendModel.getRecipePreferences().getPrepTime().isEmpty())
+        preferencesFrontendObject.setPrepTime(recommendModel.getRecipePreferences().getPrepTime());
+        
+        if(recommendModel.getRecipePreferences().getServings() != null && !recommendModel.getRecipePreferences().getServings().isEmpty())
+        preferencesFrontendObject.setServings(recommendModel.getRecipePreferences().getServings());
+            
+        if(recommendModel.getRecipePreferences().getRating() != null && !recommendModel.getRecipePreferences().getRating().isEmpty())        
+        preferencesFrontendObject.setRating(recommendModel.getRecipePreferences().getRating());
+        
+        if(recommendModel.getRecipePreferences().getKeywords() != null && recommendModel.getRecipePreferences().getKeywords().size() != 0)        
+        preferencesFrontendObject.setKeywords( recommendModel.getRecipePreferences().getKeywords().toArray(new String[recommendModel.getRecipePreferences().getKeywords().size()]) );
 
        recommendObject.setPreferences(preferencesFrontendObject);
 
@@ -102,13 +111,24 @@ public class RecommendRepository {
 
         RecipePreferencesFrontendModel preferencesFrontendObject = userPreferences.getRecipePreferences();
 
-        preferences.setDifficulty(preferencesFrontendObject.getDifficulty());
-        preferences.setMeal(preferencesFrontendObject.getMeal());
-        preferences.setServings(preferences.getServings());
-        preferences.setRating(preferencesFrontendObject.getRating());
-        preferences.setPrepTime(preferencesFrontendObject.getPrepTime());
-        preferences.setKeywords(Arrays.asList( preferencesFrontendObject.getKeywords() ) );
- 
+        if(preferencesFrontendObject.getDifficulty() != null && !preferencesFrontendObject.getDifficulty().isEmpty())
+            preferences.setDifficulty(preferencesFrontendObject.getDifficulty());
+            
+        if(preferencesFrontendObject.getMeal() != null && !preferencesFrontendObject.getMeal().isEmpty())
+            preferences.setMeal(preferencesFrontendObject.getMeal());
+        
+        if(preferencesFrontendObject.getPrepTime() != null && !preferencesFrontendObject.getPrepTime().isEmpty())
+            preferences.setPrepTime(preferencesFrontendObject.getPrepTime());
+        
+        if(preferencesFrontendObject.getServings() != null && !preferencesFrontendObject.getServings().isEmpty())
+            preferences.setServings(preferencesFrontendObject.getServings());
+            
+        if(preferencesFrontendObject.getRating() != null && !preferencesFrontendObject.getRating().isEmpty())        
+            preferences.setRating(preferencesFrontendObject.getRating());
+        
+        if(preferencesFrontendObject.getKeywords() != null && preferencesFrontendObject.getKeywords().length != 0)        
+            preferences.setKeywords(Arrays.asList( preferencesFrontendObject.getKeywords()));
+
         updatedRecommend.setRecipePreferences(preferences);      
         
         dynamoDBMapper.save(updatedRecommend, new DynamoDBSaveExpression().withExpectedEntry("username",
@@ -117,46 +137,4 @@ public class RecommendRepository {
                 )) );
         return userPreferences;
     }
-
-    // public List<RecommendFrontendModel> getAllUserRecommendations(String username){
-    //     List<RecommendFrontendModel> userRecommendations =new ArrayList<>();
-        
-    //     HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        
-    //     eav.put(":username", new AttributeValue().withS(username));
-
-    //     //Filter Expression
-    //     DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("username=:username").withExpressionAttributeValues(eav);
-
-    //     PaginatedScanList<RecommendModel> scanResult = dynamoDBMapper.scan(RecommendModel.class, scanExpression);
-
-    //     for (RecommendModel recommendModel : scanResult) {
-            
-    //     RecommendFrontendModel recommendObject = new RecommendFrontendModel();        
-        
-    //     //Convert RecommendModel to Frontend model.
-    //     recommendObject.setUsername(recommendModel.getUsername());
-
-    //     recommendObject.setIngredients(recommendModel.getIngredients());
-        
-    //     RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
- 
-    //     RecipePreferences currentPreferences = recommendModel.getRecipePreferences();
-        
-    //     preferencesFrontendObject.setDifficulty(currentPreferences.getDifficulty());
-    //     preferencesFrontendObject.setMeal(currentPreferences.getMeal());
-    //     preferencesFrontendObject.setServings(currentPreferences.getServings());
-    //     preferencesFrontendObject.setRating(currentPreferences.getRating());
-    //     preferencesFrontendObject.setPrepTime(currentPreferences.getPrepTime());
-    //     preferencesFrontendObject.setKeywords(currentPreferences.getKeywords().toArray(new String[currentPreferences.getKeywords().size()]));
- 
-    //     recommendObject.setPreferences(preferencesFrontendObject);
- 
-    //     userRecommendations.add(recommendObject);
-
-    //     }
-
-    //     return userRecommendations;
-    // }
-
 }
