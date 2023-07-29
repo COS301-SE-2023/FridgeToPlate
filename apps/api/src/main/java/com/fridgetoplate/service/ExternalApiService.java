@@ -103,21 +103,21 @@ public class ExternalApiService {
             
             Set<String> dietSet = new HashSet<String>(dietList);
             
-    public SpoonacularResponse spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences,Ingredient[] userIngredients){
+    public SpoonacularResponse spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences,List<Ingredient> userIngredients){
 
         String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
         
         if(recipePreferences.getPrepTime() != null)
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
-        if(userIngredients != null && userIngredients.length != 0){
+        if(userIngredients != null && userIngredients.size() != 0){
             
             String ingredientsListString = "&includeIngredients=";
-             for(int i = 0; i < userIngredients.length; i++){
+             for(int i = 0; i < userIngredients.size(); i++){
                 
-                ingredientsListString += userIngredients[i].getName().toLowerCase();
+                ingredientsListString += userIngredients.get(i).getName().toLowerCase();
                 
-                 if(i < userIngredients.length - 1)
+                 if(i < userIngredients.size() - 1)
                     ingredientsListString += ",";
              }
 

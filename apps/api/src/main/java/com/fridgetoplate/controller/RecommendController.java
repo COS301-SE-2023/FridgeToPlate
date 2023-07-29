@@ -63,14 +63,14 @@ public class RecommendController {
         return dbQueryResults;
     }
     
-    @PutMapping("/{id}")
-    public RecommendFrontendModel updatePreferences(@RequestBody RecommendFrontendModel userRecommendation) {
-        recommendRepository.updateRecommendPreferences(userRecommendation);
-        return userRecommendation;
-    }
+    // @PutMapping("/{id}")
+    // public RecommendFrontendModel updatePreferences(@RequestBody RecommendFrontendModel userRecommendation) {
+    //     recommendRepository.updateRecommendPreferences(userRecommendation);
+    //     return userRecommendation;
+    // }
 
-    @GetMapping("/{id}")
-    public RecommendFrontendModel getUserRecommendationPreferences(@PathVariable String username){
-        return recommendRepository.getById(username);
-    }
+    // @GetMapping("/{id}")
+    // public RecommendFrontendModel getUserRecommendationPreferences(@PathVariable String username){
+    //     return recommendRepository.getById(username);
+    // }
 }

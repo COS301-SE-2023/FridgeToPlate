@@ -136,7 +136,7 @@ public class RecipeRepository {
         return recipes;
     }
 
-    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, Ingredient[] userIngredients){
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients){
         
         //Build Expression
         List<RecipeFrontendModel> recipes = new ArrayList<>();
@@ -216,10 +216,10 @@ public class RecipeRepository {
 
         String ingredientQueryString = "";
 
-        if(userIngredients != null && userIngredients.length != 0){
+        if(userIngredients != null && userIngredients.size() != 0){
             
-            for(int i = 0; i < userIngredients.length; i++){
-                String ingredientName = userIngredients[i].getName().strip().split(",")[0].replace("\s", "");
+            for(int i = 0; i < userIngredients.size(); i++){
+                String ingredientName = userIngredients.get(i).getName().strip().split(",")[0].replace("\s", "");
 
                 eav.put(":val_" + ingredientName , new AttributeValue().withS(ingredientName));
                 if(i == 0){

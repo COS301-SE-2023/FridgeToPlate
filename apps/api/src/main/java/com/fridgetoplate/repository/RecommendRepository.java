@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
@@ -15,10 +16,11 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
+import com.fridgetoplate.interfaces.RecipePreferences;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.RecipePreferences;
 import com.fridgetoplate.model.RecommendModel;
 
+@Repository
 public class RecommendRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
@@ -33,14 +35,27 @@ public class RecommendRepository {
 
         RecipePreferences preferences = new RecipePreferences();
 
-        preferences.setDifficulty(recommendObject.getRecipePreferences().getDifficulty());
-        preferences.setMeal(recommendObject.getRecipePreferences().getMeal());
-        preferences.setPrepTime(recommendObject.getRecipePreferences().getPrepTime());
-        preferences.setServings(recommendObject.getRecipePreferences().getServings());
-        preferences.setRating(recommendObject.getRecipePreferences().getRating());
-        preferences.setKeywords(Arrays.asList( recommendObject.getRecipePreferences().getKeywords()));
+        if(recommendObject.getRecipePreferences().getDifficulty() != null && !recommendObject.getRecipePreferences().getDifficulty().isEmpty())
+            preferences.setDifficulty(recommendObject.getRecipePreferences().getDifficulty());
+            
+        if(recommendObject.getRecipePreferences().getMeal() != null && !recommendObject.getRecipePreferences().getMeal().isEmpty())
+            preferences.setMeal(recommendObject.getRecipePreferences().getMeal());
+        
+        if(recommendObject.getRecipePreferences().getPrepTime() != null && !recommendObject.getRecipePreferences().getPrepTime().isEmpty())
+            preferences.setPrepTime(recommendObject.getRecipePreferences().getPrepTime());
+        
+        if(recommendObject.getRecipePreferences().getServings() != null && !recommendObject.getRecipePreferences().getServings().isEmpty())
+            preferences.setServings(recommendObject.getRecipePreferences().getServings());
+            
+        if(recommendObject.getRecipePreferences().getRating() != null && !recommendObject.getRecipePreferences().getRating().isEmpty())        
+            preferences.setRating(recommendObject.getRecipePreferences().getRating());
+        
+        if(recommendObject.getRecipePreferences().getKeywords() != null && recommendObject.getRecipePreferences().getKeywords().length != 0)        
+            preferences.setKeywords(Arrays.asList( recommendObject.getRecipePreferences().getKeywords()));
 
-        dynamoDBMapper.save(preferences);        
+        model.setRecipePreferences(preferences);
+
+        dynamoDBMapper.save(model);        
 
         return recommendObject;
     }
@@ -52,7 +67,7 @@ public class RecommendRepository {
         RecommendModel recommendModel = dynamoDBMapper.load(RecommendModel.class, username);
 
         if(recommendModel == null) {
-            return null;
+            return new RecommendFrontendModel();
         }        
 
         //Convert RecommendModel to Frontend model.

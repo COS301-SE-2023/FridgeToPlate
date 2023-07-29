@@ -1,16 +1,19 @@
 package com.fridgetoplate.interfaces;
 
+import java.util.List;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.RecipePreferences;
 
 import lombok.Data;
 
 @Data
+@DynamoDBDocument
 public class Recommend {
     
     protected String username;
 
-    protected Ingredient[] ingredients;
+    protected List<Ingredient> ingredients;
 
     protected RecipePreferences recipePreferences;
 }
