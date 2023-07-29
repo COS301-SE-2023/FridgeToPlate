@@ -84,6 +84,10 @@ export class ExplorePage {
     this.subpage = "beforeSearchApplied";
   }
 
+  searchUsingBar() {
+    this.subpage = "searchAppliedByBar"
+  }
+
 
 
 }
