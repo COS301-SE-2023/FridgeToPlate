@@ -18,7 +18,7 @@ export class HomePage {
   mealType :'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' = 'Breakfast'
   messageHeader = '';
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
-  @Select(RecommendState.getRecipes) recipes$ !: Observable<IRecipe[]>;
+  // @Select(RecommendState.getRecipes) recipes$ !: Observable<IRecipe[]>;
   @Select(RecipeState.getFeaturedRecipes) featuredRecipes$ !: Observable<IRecipe[]>;
   
   constructor(private readonly router: Router, private readonly ngZone: NgZone){
