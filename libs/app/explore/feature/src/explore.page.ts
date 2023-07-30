@@ -19,7 +19,7 @@ import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
 export class ExplorePage {
 
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
-  @Select(ExploreState.getRecipes) recipes$ !: Observable<IExplore[]>;
+  @Select(ExploreState.getRecipes) recipes$ !: Observable<IRecipe[]>;
 
   page = "searching";
   retunedRecipes: any;
