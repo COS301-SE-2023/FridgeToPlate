@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeleteRecipe, IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { Select, Store } from '@ngxs/store';
+import { Select, Store, ofActionSuccessful, Actions } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Location } from '@angular/common';
@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable, take } from 'rxjs';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { Navigate } from '@ngxs/router-plugin';
+import { ActionsExecuting, actionsExecuting } from '@ngxs-labs/actions-executing';
 
 @Component({
   selector: 'fridge-to-plate-edit-recipe',
@@ -27,10 +29,12 @@ export class EditRecipeComponent implements OnInit {
   recipeId !: string;
   recipe !: IRecipe | null;
 
+  @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>;
+  ShowErrorSuccessful$ = this.actions$.pipe(ofActionSuccessful(ShowError));
   @Select(RecipeState.getRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
-  constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute) {}
+  constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute, private actions$: Actions) {}
 
   ngOnInit() {
     this.createForm();
@@ -157,13 +161,14 @@ export class EditRecipeComponent implements OnInit {
     };
     this.store.dispatch( new UpdateRecipe(recipe) )
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
-    const index = profile.createdRecipes.findIndex( recipe => this.recipeId !== recipe.recipeId);
+    const index = profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
     if(index === -1) {
       this.store.dispatch( new ShowError('Could not update recipe'));
+      return;
     }
     profile.createdRecipes[index] = recipe;
     this.store.dispatch( new UpdateProfile(profile))
-     // TODO: add test coverage
+    this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]))
     })
 
   }
