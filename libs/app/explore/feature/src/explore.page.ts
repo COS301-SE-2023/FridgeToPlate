@@ -104,10 +104,11 @@ export class ExplorePage {
     this.recipes$.subscribe( (recipes) => {
       if(recipes.length > 0){
         this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
       }
     })
+
+    this.loading = false;
+    this.showRecipes = true;
   }
 
   explorer(searchText: string) {
@@ -140,14 +141,11 @@ export class ExplorePage {
     this.recipes$.subscribe( (recipes) => {
       if(recipes.length > 0){
         this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
       }
     });
 
-    if (this.showCategories) {
-      this.showRecipes = false;
-    }
+    this.loading = false;
+    this.showRecipes = true;
 
   }
 
