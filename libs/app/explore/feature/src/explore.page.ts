@@ -27,7 +27,7 @@ export class ExplorePage {
   loading = false;
   showRecipes = false;
   showCategories = true;
-  searchText = "";
+  currSearch = false;
   editExplore !: IExplore;
   searchObject !: IExplore;
 
@@ -98,14 +98,16 @@ export class ExplorePage {
     this.subpage = "searchAppliedByCaterogry"
     this.showRecipes = false;
     this.loading = true;
+    this.currSearch = true;
 
     this.store.dispatch(new CategorySearch(search));
 
     this.recipes$.subscribe( (recipes) => {
-      if(recipes.length > 0){
+      if(recipes && recipes.length > 0 && this.currSearch){
         this.retunedRecipes = recipes;
         this.loading = false;
         this.showRecipes = true;
+        this.currSearch = false;
       }
     })
   }
@@ -116,13 +118,15 @@ export class ExplorePage {
       this.showCategories = false;
       this.loading = true;
       this.showRecipes = false;
+      this.currSearch = true;
     }
     else {
       this.loading = false;
       this.showRecipes = false;
       this.showCategories = true;
       this.subpage = "beforeSearchApplied";
-      
+      this.currSearch = false;
+
       return;
     }
 
@@ -136,18 +140,14 @@ export class ExplorePage {
 
     this.store.dispatch(new CategorySearch(this.searchObject));
 
-
     this.recipes$.subscribe( (recipes) => {
-      if(recipes.length > 0){
+      if(recipes && recipes.length > 0 && this.currSearch){
         this.retunedRecipes = recipes;
         this.loading = false;
         this.showRecipes = true;
+        this.currSearch = false;
       }
     });
-
-    if (this.showCategories) {
-      this.showRecipes = false;
-    }
 
   }
 

@@ -44,19 +44,16 @@ export class ExploreState {
     }
 
     @Action(CategorySearch)
-    async CategorySearch({ setState, getState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
-    console.log("Hello Action: ", search)
+    async CategorySearch({ setState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
+
         setState({
             explore: search,
             recipes: null
         });
-        const currentState = getState().explore;
-
-        console.log("Hello Action State", currentState);
 
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
-              console.log("Hello Action Result: ", data)
+
               setState({
                     explore: search,
                     recipes: data

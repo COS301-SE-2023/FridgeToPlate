@@ -32,7 +32,7 @@ export class SearchingModalComponent {
 
     fromEvent(this.input.nativeElement, 'keyup')
     .pipe(
-      debounceTime(1000),
+      debounceTime(1100),
       distinctUntilChanged(),
         tap( (text) => {
           this.newSearchEvent.emit(this.searchText)
