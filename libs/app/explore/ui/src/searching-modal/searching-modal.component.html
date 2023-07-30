@@ -7,7 +7,7 @@
           <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
       </button>
-      <input type="search" name="" id="" placeholder="What are you looking for?" [(ngModel)]="searchText"
+      <input #input type="search" name="" id="" placeholder="What are you looking for?" [(ngModel)]="searchText"
         class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent" (input)="explorer()">
       <div class="select">
         <select name="" id="" [(ngModel)]="result" class="text-sm outline-none focus:outline-none bg-transparent">

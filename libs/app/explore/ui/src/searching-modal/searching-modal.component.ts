@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Logout } from '@fridge-to-plate/app/auth/utils';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
-import { Observable, take } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, filter, fromEvent, take, tap } from 'rxjs';
 import { Navigate } from "@ngxs/router-plugin";
 import { RetrieveProfile } from '@fridge-to-plate/app/profile/utils';
 import { CategorySearch, IExplore, RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
@@ -23,11 +23,21 @@ export class SearchingModalComponent {
 
   @Output() newSearchEvent = new EventEmitter<string>();
 
+  @ViewChild('input') input: ElementRef;
+
   constructor(private store: Store) {
   }
 
   explorer() {
-    this.newSearchEvent.emit(this.searchText);
+
+    fromEvent(this.input.nativeElement, 'keyup')
+    .pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+        tap( (text) => {
+          this.newSearchEvent.emit(this.searchText)
+        })
+    ).subscribe()
   }
 
 }
