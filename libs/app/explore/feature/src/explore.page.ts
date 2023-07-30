@@ -132,7 +132,6 @@ export class ExplorePage {
         difficulty: "Any",
       };
 
-      console.log("Hello: ", this.searchObject)
     this.store.dispatch(new CategorySearch(this.searchObject));
 
 
@@ -156,19 +155,5 @@ export class ExplorePage {
     this.showRecipes = false;
     this.loading = false;
   }
-
-
-//   searchUsingBar(searchText: string) {
-
-//    if (searchText.length > 0) {
-//      this.showCategories = false;
-
-//    }
-//    else {
-//     this.showCategories = true;
-//    }
-//    console.log("searchText: " + searchText);
-
-//  }
 
 }

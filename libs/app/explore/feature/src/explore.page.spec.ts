@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { TestBed } from '@angular/core/testing';
 import { ExplorePage } from './explore.page';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
@@ -9,17 +10,19 @@ import { Injectable } from '@angular/core';
 
 describe('ExplorePage', () => {
   let component: ExplorePage;
-  // Mock the dependencies
-  const mockStore = {
-    dispatch: jest.fn(),
-  };
-  const mockExplore: IExplore = {
+  let mockStore: Store;
+  let mockExplore: IExplore;
+  let mockRecipes: IRecipe[];
+
+  // Set up mock search data
+  mockExplore = {
     type: 'breakfast',
     search: 'eggs',
     tags: ['healthy', 'quick'],
     difficulty: 'Easy',
   };
-  const mockRecipes: IRecipe[] = [
+  // Set up mock recipes
+  mockRecipes = [
     {
       recipeId: '1',
       name: 'Scrambled Eggs',
@@ -38,10 +41,8 @@ describe('ExplorePage', () => {
       steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
       creator: 'John Doe',
     },
-    // Add more mock recipes here...
+
   ];
-  const mockExplore$: Observable<IExplore> = of(mockExplore);
-  const mockRecipes$: Observable<IRecipe[]> = of(mockRecipes);
 
   @State({
     name: 'explore',
@@ -54,17 +55,24 @@ describe('ExplorePage', () => {
   class MockExploreState {}
 
   beforeEach(() => {
+    
+    mockStore = {
+      dispatch: jest.fn(),
+    } as unknown as Store;
+
     TestBed.configureTestingModule({
       declarations: [ExplorePage],
       providers: [
-        // Provide the mock store
         { provide: Store, useValue: mockStore },
       ],
       imports: [NgxsModule.forRoot([MockExploreState])],
     });
 
+    mockStore = TestBed.inject(Store);
+
     // Create an instance of the component
     component = TestBed.createComponent(ExplorePage).componentInstance;
+
   });
 
   afterEach(() => {
@@ -72,13 +80,8 @@ describe('ExplorePage', () => {
   });
 
   it('should update the subpage, loading, and showRecipes properties when calling the search method', () => {
-    // Set up mock search data
-    const mockSearch: IExplore = {
-      type: 'breakfast',
-      search: 'pancakes',
-      tags: ['sweet', 'easy'],
-      difficulty: 'Medium',
-    };
+    // Spy on the store dispatch method
+    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
 
     // Set the component properties to initial values
     component.subpage = 'beforeSearchApplied';
@@ -86,7 +89,7 @@ describe('ExplorePage', () => {
     component.showRecipes = false;
 
     // Call the search method with the mock search data
-    component.search(mockSearch);
+    component.search(mockExplore);
 
     // Check if the subpage, loading, and showRecipes properties are updated as expected
     expect(component.subpage).toBe('searchAppliedByCategory');
@@ -94,10 +97,13 @@ describe('ExplorePage', () => {
     expect(component.showRecipes).toBe(false);
 
     // Check if the store.dispatch method was called with the CategorySearch action
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new CategorySearch(mockSearch));
+    expect(dispatchSpy).toHaveBeenCalledWith(new CategorySearch(mockExplore));
   });
 
   it('should update the showCategories and showRecipes properties when calling the explorer method', () => {
+    // Spy on the store dispatch method
+    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
+
     // Set up mock search text
     const mockSearchText = 'pasta';
 
@@ -113,7 +119,7 @@ describe('ExplorePage', () => {
     expect(component.showRecipes).toBe(true);
 
     // Check if the store.dispatch method was called with the CategorySearch action and the updated explore object
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new CategorySearch(mockExplore));
+    expect(dispatchSpy).toHaveBeenCalledWith(new CategorySearch(mockExplore));
   });
 
   it('should clear the subpage, showCategories, showRecipes, and loading properties when calling the clearSearch method', () => {
