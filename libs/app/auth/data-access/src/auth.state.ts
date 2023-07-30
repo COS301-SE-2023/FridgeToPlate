@@ -99,7 +99,7 @@ export class AuthState {
           
           this.store.dispatch(new CreateNewPreferences(preference));
     
-          this.store.dispatch(new Navigate(['/recommend']));
+          this.store.dispatch(new Navigate(['/home']));
       });
   }
 

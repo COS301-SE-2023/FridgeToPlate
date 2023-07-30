@@ -1,9 +1,5 @@
-<div
-  class="overflow-scroll w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12"
->
-  <div
-    class="py-8 flex flex-row bg-background-light md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50"
-  >
+<div class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12">
+  <div class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50">
     <button id="back-button"
       (click)="goBack()"
       class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
@@ -25,7 +21,7 @@
     </button>
   </div>
   <div
-    class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+    class="w-full h-full flex flex-col items-center lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
   >
     <div
       class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
@@ -50,24 +46,20 @@
         </p>
       </div>
     </div>
-    <div
-      class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13"
-    >
+    <div class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13">
       <ion-list class="bg-background-lights h-full">
         <ion-list-header>
           <ion-label class="text-lg font-bold">Ingredients</ion-label>
         </ion-list-header>
         <ion-item *ngFor="let ingredient of recipe?.ingredients">
-          <div>{{ingredient?.name ?? 'Unknown ingredient'}}</div>
+          <div>{{ingredient?.amount ?? ''}} {{ingredient?.unit ?? ''}}   {{ingredient?.name ?? 'Unknown ingredient'}}</div>
         </ion-item>
       </ion-list>
     </div>
 
     <br />
 
-    <div
-      class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
-    >
+    <div class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13">
       <ion-list class="bg-background-lights h-full">
         <ion-list-header>
           <ion-label class="text-lg font-bold">Instructions</ion-label>
@@ -80,10 +72,8 @@
 
     <br />
 
-    <div
-      class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
-    >
-    <review [reviews]="recipe?.reviews ?? []"></review>
+    <div class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13">
+      <review [reviews]="recipe?.reviews ?? []"></review>
     </div>
 
   </div>
