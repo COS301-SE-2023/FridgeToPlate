@@ -42,3 +42,7 @@ export class AddIngredient {
   static readonly type = '[Recommend] AddIngredient';
   constructor(public readonly ingredient: IIngredient) {}
 }
+
+export class ClearRecommend {
+  static readonly type = '[Recommend] Clear Recommend State';
+}

@@ -10,6 +10,7 @@ import {
 import {
   AddIngredient,
   AddRecommendation,
+  ClearRecommend,
   GetRecipeRecommendations,
   GetUpdatedRecommendation,
   RemoveIngredient,
@@ -333,5 +334,13 @@ export class RecommendState {
         .updateRecommendations(currentState.recommendRequest)
         .subscribe((newRecommendations) => {});
     }
+  }
+
+  @Action(ClearRecommend)
+  clearRecommendState({ patchState }: StateContext<RecommendStateModel>) {
+    patchState({
+      recipes: undefined,
+      recommendRequest: undefined,
+    });
   }
 }

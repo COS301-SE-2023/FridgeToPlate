@@ -33,6 +33,7 @@ import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { ConfirmForgotPasswordRequest } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 import {
   AddRecommendation,
+  ClearRecommend,
   GetUpdatedRecommendation,
   IRecipePreferences,
   IRecommend,
@@ -188,6 +189,7 @@ export class AuthState {
 
     this.store.dispatch(new ResetProfile());
     this.store.dispatch(new ResetPreferences());
+    this.store.dispatch(new ClearRecommend());
     localStorage.clear();
     this.store.dispatch(new Navigate(['/login']));
   }
