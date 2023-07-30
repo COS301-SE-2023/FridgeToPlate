@@ -2,46 +2,56 @@ import { TestBed } from '@angular/core/testing';
 import { ExplorePage } from './explore.page';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Select, Store } from '@ngxs/store';
+import { Select, Store, NgxsModule, State } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-
-// Mock the dependencies
-const mockStore = {
-  dispatch: jest.fn(),
-};
-const mockExplore: IExplore = {
-  type: 'breakfast',
-  search: 'eggs',
-  tags: ['healthy', 'quick'],
-  difficulty: 'Easy',
-};
-const mockRecipes: IRecipe[] = [
-  {
-    recipeId: '1',
-    name: 'Scrambled Eggs',
-    tags: ['breakfast', 'easy', 'healthy'],
-    difficulty: 'Easy',
-    recipeImage: 'scrambled-eggs.jpg',
-    description: 'Delicious scrambled eggs recipe',
-    servings: 2,
-    prepTime: 10,
-    meal: 'Breakfast',
-    ingredients: [
-      { name: 'Eggs', amount: 4, unit: 'No.' },
-      { name: 'Milk', amount: 2, unit: 'tbsp' },
-      { name: 'Salt', amount: 1/4, unit: 'tsp' },
-    ],
-    steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
-    creator: 'John Doe',
-  },
-  // Add more mock recipes here...
-];
-const mockExplore$: Observable<IExplore> = of(mockExplore);
-const mockRecipes$: Observable<IRecipe[]> = of(mockRecipes);
+import { Injectable } from '@angular/core';
 
 describe('ExplorePage', () => {
   let component: ExplorePage;
+  // Mock the dependencies
+  const mockStore = {
+    dispatch: jest.fn(),
+  };
+  const mockExplore: IExplore = {
+    type: 'breakfast',
+    search: 'eggs',
+    tags: ['healthy', 'quick'],
+    difficulty: 'Easy',
+  };
+  const mockRecipes: IRecipe[] = [
+    {
+      recipeId: '1',
+      name: 'Scrambled Eggs',
+      tags: ['breakfast', 'easy', 'healthy'],
+      difficulty: 'Easy',
+      recipeImage: 'scrambled-eggs.jpg',
+      description: 'Delicious scrambled eggs recipe',
+      servings: 2,
+      prepTime: 10,
+      meal: 'Breakfast',
+      ingredients: [
+        { name: 'Eggs', amount: 4, unit: 'No.' },
+        { name: 'Milk', amount: 2, unit: 'tbsp' },
+        { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
+      ],
+      steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
+      creator: 'John Doe',
+    },
+    // Add more mock recipes here...
+  ];
+  const mockExplore$: Observable<IExplore> = of(mockExplore);
+  const mockRecipes$: Observable<IRecipe[]> = of(mockRecipes);
+
+  @State({
+    name: 'explore',
+    defaults: {
+      explore: mockExplore,
+      recipes: mockRecipes,
+    },
+  })
+  @Injectable()
+  class MockExploreState {}
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,6 +60,7 @@ describe('ExplorePage', () => {
         // Provide the mock store
         { provide: Store, useValue: mockStore },
       ],
+      imports: [NgxsModule.forRoot([MockExploreState])],
     });
 
     // Create an instance of the component
@@ -78,7 +89,7 @@ describe('ExplorePage', () => {
     component.search(mockSearch);
 
     // Check if the subpage, loading, and showRecipes properties are updated as expected
-    expect(component.subpage).toBe('searchAppliedByCaterogry');
+    expect(component.subpage).toBe('searchAppliedByCategory');
     expect(component.loading).toBe(true);
     expect(component.showRecipes).toBe(false);
 
@@ -102,12 +113,12 @@ describe('ExplorePage', () => {
     expect(component.showRecipes).toBe(true);
 
     // Check if the store.dispatch method was called with the CategorySearch action and the updated explore object
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new CategorySearch(component.searchObject));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new CategorySearch(mockExplore));
   });
 
   it('should clear the subpage, showCategories, showRecipes, and loading properties when calling the clearSearch method', () => {
     // Set the component properties to initial values
-    component.subpage = 'searchAppliedByCaterogry';
+    component.subpage = 'searchAppliedByCategory';
     component.showCategories = false;
     component.showRecipes = true;
     component.loading = true;
@@ -121,5 +132,4 @@ describe('ExplorePage', () => {
     expect(component.showRecipes).toBe(false);
     expect(component.loading).toBe(false);
   });
-
 });
