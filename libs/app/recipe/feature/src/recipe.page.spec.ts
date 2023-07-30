@@ -107,6 +107,7 @@ describe('RecipeDetailPageComponent', () => {
   // });
 
 it('should not retrieve recipe data with empty id', () => {
+  component.recipe = undefined;
   const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
   const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
 

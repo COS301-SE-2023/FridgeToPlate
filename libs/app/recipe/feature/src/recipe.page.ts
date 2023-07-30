@@ -20,7 +20,7 @@ export class RecipePage implements OnInit {
   @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>;
   ShowErrorSuccessful$ = this.actions$.pipe(ofActionSuccessful(ShowError));
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
-  recipe!: IRecipe | undefined;
+  recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
 
   constructor(
@@ -33,7 +33,7 @@ export class RecipePage implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
-      if (recipeId || recipeId?.length == 0) {
+      if (recipeId) {
         this.setRecipe(recipeId);
       }
       else {
@@ -48,10 +48,18 @@ export class RecipePage implements OnInit {
   }
 
   setRecipe(id: string) {
-    this.store.dispatch(new RetrieveRecipe(id));
-    this.recipe$.subscribe((stateRecipe) => {
-      this.recipe = stateRecipe;
-    });
+    if (id || id != '' || id.length > 0) {
+      this.store.dispatch(new RetrieveRecipe(id));
+      this.recipe$.subscribe((stateRecipe) => {
+        this.recipe = stateRecipe;
+      });
+    }
+    else {
+      this.store.dispatch(new ShowError('Invalid Recipe Id'));
+      return;
+    }
+    
+   
   }
 
   goHome() {
