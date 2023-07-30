@@ -96,34 +96,31 @@ export class ExplorePage {
 
     if (searchText.length > 0) {
       this.showCategories = false;
+      return;
 
     }
     else {
      this.showCategories = true;
+     this.showRecipes = false;
     }
-    console.log("searchText: " + searchText);
 
-    // this.searchObject =
-    //   {
-    //     type: "",
-    //     search: event,
-    //     tags: [],
-    //     difficulty: "Any",
-    //   };
+    this.searchObject =
+      {
+        type: "",
+        search: searchText,
+        tags: [],
+        difficulty: "Any",
+      };
 
-    // alert(this.searchObject.search);
+    this.store.dispatch(new CategorySearch(this.searchObject));
 
-    // this.store.dispatch(new CategorySearch(this.searchObject));
-
-    // alert("Done");
-
-    // this.recipes$.subscribe( (recipes) => {
-    //   if(recipes.length > 0){
-    //     this.retunedRecipes = recipes;
-    //     this.loading = false;
-    //     this.showRecipes = true;
-    //   }
-    // })
+    this.recipes$.subscribe( (recipes) => {
+      if(recipes.length > 0){
+        this.retunedRecipes = recipes;
+        this.loading = false;
+        this.showRecipes = true;
+      }
+    })
 
 
   }
