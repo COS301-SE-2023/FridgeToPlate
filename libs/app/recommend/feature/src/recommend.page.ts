@@ -8,11 +8,6 @@ import { GetUpdatedRecommendation } from '../../utils/src/recommend.actions';
   templateUrl: './recommend.page.html',
   styleUrls: ['./recommend.page.scss'],
 })
-export class RecommendPage implements OnInit {
+export class RecommendPage {
   constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    //Get user recommendations
-    this.store.dispatch(GetUpdatedRecommendation);
-  }
 }
