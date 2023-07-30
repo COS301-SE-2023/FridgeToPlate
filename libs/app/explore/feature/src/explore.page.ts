@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select, Store, NgxsModule } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { Observable, take } from "rxjs";

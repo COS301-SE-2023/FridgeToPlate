@@ -40,16 +40,6 @@ const mockRecipes: IRecipe[] = [
 const mockExplore$: Observable<IExplore> = of(mockExplore);
 const mockRecipes$: Observable<IRecipe[]> = of(mockRecipes);
 
-// Mock the @Select decorator
-jest.mock('@ngxs/store', () => ({
-  Select: (selector: any) => (target: any, key: string) => {
-    target[key] = key === 'explore$' ? mockExplore$ : key === 'recipes$' ? mockRecipes$ : undefined;
-  },
-  Store: class {
-    dispatch = mockStore.dispatch;
-  },
-}));
-
 describe('ExplorePage', () => {
   let component: ExplorePage;
 
