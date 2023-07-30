@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Observable } from "rxjs";
+import { Observable, take } from "rxjs";
 import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
 import { Navigate } from "@ngxs/router-plugin";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
@@ -27,6 +27,9 @@ export class ExplorePage {
   loading = false;
   showRecipes = false;
   searchText = "";
+  editExplore !: IExplore;
+  searchObject !: IExplore;
+
 
   allCategories : IExplore[] = [
     {
@@ -73,28 +76,54 @@ export class ExplorePage {
   // eslint-disable-next-line @typescript-eslint/ban-types
   search(search : IExplore) {
 
-    alert(this.searchText);
-    search.search = this.searchText;
-    alert(search.search);
-    console.log(this.search);
-    // this.subpage = "searchAppliedByCaterogry"
-    // this.showRecipes = false;
-    // this.loading = true;
+    this.subpage = "searchAppliedByCaterogry"
+    this.showRecipes = false;
+    this.loading = true;
     
-    // this.store.dispatch(new CategorySearch(search));
+    this.store.dispatch(new CategorySearch(search));
 
-    // this.recipes$.subscribe( (recipes) => {
-    //   if(recipes.length > 0){
-    //     this.retunedRecipes = recipes;
-    //     this.loading = false;
-    //     this.showRecipes = true;
-    //   }
-    // })
+    this.recipes$.subscribe( (recipes) => {
+      if(recipes.length > 0){
+        this.retunedRecipes = recipes;
+        this.loading = false;
+        this.showRecipes = true;
+      }
+    })
   }
 
-  explore(text : string) {
+  explorers(event: string) {
+    alert("Messages");
+  }
 
-    return;
+  explorer(event: string) {
+
+    this.subpage = "searchAppliedByCaterogry"
+    this.showRecipes = false;
+    this.loading = true;
+    alert("this.searchObject.search");
+    
+    this.searchObject = 
+      {
+        type: "",
+        search: event,
+        tags: [],
+        difficulty: "Any",
+      };
+
+    alert(this.searchObject.search);
+    
+    this.store.dispatch(new CategorySearch(this.searchObject));
+
+    alert("Done");
+
+    this.recipes$.subscribe( (recipes) => {
+      if(recipes.length > 0){
+        this.retunedRecipes = recipes;
+        this.loading = false;
+        this.showRecipes = true;
+      }
+    })
+
 
   }
 

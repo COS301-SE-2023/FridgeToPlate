@@ -19,20 +19,15 @@ export class SearchingModalComponent {
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
   searchText = "";
   result = "";
-  editExplore !: IExplore;
 
 
   @Output() newSearchEvent = new EventEmitter<string>();
 
   constructor(private store: Store) {
-    this.explore$.pipe(take(1)).subscribe(explore => this.editExplore = Object.create(explore));
   }
 
-  explore(text : string) {
+  explorers() {
 
-    alert(text);
-    this.searchText = text;
-    alert(this.searchText);
     this.newSearchEvent.emit(this.searchText);
 
   }
