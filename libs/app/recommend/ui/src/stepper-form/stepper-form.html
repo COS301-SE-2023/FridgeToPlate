@@ -99,9 +99,10 @@
         <item-edit-step class="w-full" />
         <recipe-preferences-step class="w-full" />
       </div>
-      <div *ngIf="currentStep === 2">
-        <recipe-list-step />
-      </div>
     </div>
+  </div>
+
+  <div *ngIf="currentStep === 2" class="hidden lg:block">
+    <recipe-list-step />
   </div>
 </div>
