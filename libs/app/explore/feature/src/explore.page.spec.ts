@@ -1,138 +1,123 @@
 /* eslint-disable prefer-const */
-import { TestBed } from '@angular/core/testing';
-import { ExplorePage } from './explore.page';
-import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
-import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Select, Store, NgxsModule, State } from '@ngxs/store';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store, NgxsModule, State } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
+import { ExplorePage } from './explore.page';
+import { ExploreState, } from '@fridge-to-plate/app/explore/data-access';
+import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Injectable } from '@angular/core';
 
+
+// Create a mock of the Ngxs selector
+class MockExploreState {
+  static getExplore = jest.fn(() => of({} as IExplore));
+  static getRecipes = jest.fn(() => of([]));
+}
+
 describe('ExplorePage', () => {
   let component: ExplorePage;
-  let mockStore: Store;
+  let fixture: ComponentFixture<ExplorePage>;
+  let store: Store;
+
   let mockExplore: IExplore;
   let mockRecipes: IRecipe[];
 
-  // Set up mock search data
-  mockExplore = {
-    type: 'breakfast',
-    search: 'eggs',
-    tags: ['healthy', 'quick'],
-    difficulty: 'Easy',
-  };
-  // Set up mock recipes
-  mockRecipes = [
-    {
-      recipeId: '1',
-      name: 'Scrambled Eggs',
-      tags: ['breakfast', 'easy', 'healthy'],
-      difficulty: 'Easy',
-      recipeImage: 'scrambled-eggs.jpg',
-      description: 'Delicious scrambled eggs recipe',
-      servings: 2,
-      prepTime: 10,
-      meal: 'Breakfast',
-      ingredients: [
-        { name: 'Eggs', amount: 4, unit: 'No.' },
-        { name: 'Milk', amount: 2, unit: 'tbsp' },
-        { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
-      ],
-      steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
-      creator: 'John Doe',
-    },
-
-  ];
+  
 
   @State({
     name: 'explore',
     defaults: {
-      explore: mockExplore,
-      recipes: mockRecipes,
+      explore: null,
+      recipes: [],
     },
   })
   @Injectable()
   class MockExploreState {}
 
-  beforeEach(() => {
-    
-    mockStore = {
-      dispatch: jest.fn(),
-    } as unknown as Store;
+  beforeEach(async () => {
+    const mockExplore: IExplore = {
+      type: 'breakfast',
+      search: 'eggs',
+      tags: ['healthy', 'quick'],
+      difficulty: 'Easy',
+    };
 
-    TestBed.configureTestingModule({
-      declarations: [ExplorePage],
-      providers: [
-        { provide: Store, useValue: mockStore },
-      ],
+    const mockRecipes: IRecipe[] = [
+      {
+        recipeId: '1',
+        name: 'Scrambled Eggs',
+        tags: ['breakfast', 'easy', 'healthy'],
+        difficulty: 'Easy',
+        recipeImage: 'scrambled-eggs.jpg',
+        description: 'Delicious scrambled eggs recipe',
+        servings: 2,
+        prepTime: 10,
+        meal: 'Breakfast',
+        ingredients: [
+          { name: 'Eggs', amount: 4, unit: 'No.' },
+          { name: 'Milk', amount: 2, unit: 'tbsp' },
+          { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
+        ],
+        steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
+        creator: 'John Doe',
+      },
+    ];
+
+    await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([MockExploreState])],
-    });
-
-    mockStore = TestBed.inject(Store);
-
-    // Create an instance of the component
-    component = TestBed.createComponent(ExplorePage).componentInstance;
-
+      declarations: [ExplorePage],
+    }).compileComponents();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ExplorePage);
+    component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    jest.spyOn(store, 'dispatch'); // Spy on store.dispatch to check if it's called
+    fixture.detectChanges();
   });
 
-  it('should update the subpage, loading, and showRecipes properties when calling the search method', () => {
-    // Spy on the store dispatch method
-    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-    // Set the component properties to initial values
-    component.subpage = 'beforeSearchApplied';
-    component.loading = false;
-    component.showRecipes = false;
+  it('should display recipes when search is applied by category', () => {
+    
+    jest.spyOn(component.recipes$, 'subscribe').mockReturnValue(of(mockRecipes).subscribe());
 
-    // Call the search method with the mock search data
     component.search(mockExplore);
 
-    // Check if the subpage, loading, and showRecipes properties are updated as expected
-    expect(component.subpage).toBe('searchAppliedByCategory');
-    expect(component.loading).toBe(true);
-    expect(component.showRecipes).toBe(false);
-
-    // Check if the store.dispatch method was called with the CategorySearch action
-    expect(dispatchSpy).toHaveBeenCalledWith(new CategorySearch(mockExplore));
-  });
-
-  it('should update the showCategories and showRecipes properties when calling the explorer method', () => {
-    // Spy on the store dispatch method
-    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
-
-    // Set up mock search text
-    const mockSearchText = 'pasta';
-
-    // Set the component properties to initial values
-    component.showCategories = true;
-    component.showRecipes = false;
-
-    // Call the explorer method with the mock search text
-    component.explorer(mockSearchText);
-
-    // Check if the showCategories and showRecipes properties are updated as expected
-    expect(component.showCategories).toBe(false);
+    expect(store.dispatch).toHaveBeenCalledWith(new CategorySearch(mockExplore));
+    expect(component.retunedRecipes).toEqual(mockRecipes);
+    expect(component.loading).toBe(false);
     expect(component.showRecipes).toBe(true);
-
-    // Check if the store.dispatch method was called with the CategorySearch action and the updated explore object
-    expect(dispatchSpy).toHaveBeenCalledWith(new CategorySearch(mockExplore));
   });
 
-  it('should clear the subpage, showCategories, showRecipes, and loading properties when calling the clearSearch method', () => {
-    // Set the component properties to initial values
-    component.subpage = 'searchAppliedByCategory';
-    component.showCategories = false;
-    component.showRecipes = true;
-    component.loading = true;
+  it('should display recipes when explorer search is applied', () => {
 
-    // Call the clearSearch method
+    jest.spyOn(component.recipes$, 'subscribe').mockReturnValue(of(mockRecipes).subscribe());
+
+    component.explorer('searchText');
+
+    expect(store.dispatch).toHaveBeenCalledWith(new CategorySearch(component.searchObject));
+    expect(component.retunedRecipes).toEqual(mockRecipes);
+    expect(component.loading).toBe(false);
+    expect(component.showRecipes).toBe(true);
+  });
+
+  it('should show categories when explorer search text is empty', () => {
+    component.explorer('');
+
+    expect(component.loading).toBe(false);
+    expect(component.showRecipes).toBe(false);
+    expect(component.showCategories).toBe(true);
+  });
+
+  it('should clear the search', () => {
     component.clearSearch();
 
-    // Check if the subpage, showCategories, showRecipes, and loading properties are cleared
     expect(component.subpage).toBe('beforeSearchApplied');
     expect(component.showCategories).toBe(true);
     expect(component.showRecipes).toBe(false);

@@ -110,6 +110,9 @@ export class ExplorePage {
         this.currSearch = false;
       }
     })
+
+    this.loading = false;
+    this.showRecipes = true;
   }
 
   explorer(searchText: string) {
