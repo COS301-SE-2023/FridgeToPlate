@@ -26,7 +26,7 @@ export class SearchingModalComponent {
   constructor(private store: Store) {
   }
 
-  explorers() {
+  explorer() {
 
     this.newSearchEvent.emit(this.searchText);
 

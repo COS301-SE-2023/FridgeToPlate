@@ -1,7 +1,7 @@
 <div class="w-full h-full overflow-y-scroll      my-5 ml-4 relative lg:mb-0 lg:mt-16">
 
   <div *ngIf="subpage === 'beforeSearchApplied'">
-    <searching-modal (newSearchEvent)="explorers($event)" (click)="searchUsingBar()"></searching-modal>
+    <searching-modal (newSearchEvent)="explorer($event)" (click)="searchUsingBar()"></searching-modal>
 
     <div *ngIf="showCategories === true">
       <h1 class="pb-4 pt-8"><b>Categories</b></h1>

@@ -92,10 +92,6 @@ export class ExplorePage {
     })
   }
 
-  explorers(event: string) {
-    alert("Messages");
-  }
-
   explorer(event: string) {
 
     this.subpage = "searchAppliedByCaterogry"
