@@ -114,8 +114,7 @@ export class ExplorePage {
 
     if (searchText.length > 0) {
       this.showCategories = false;
-      return;
-
+      this.showRecipes = true;
     }
     else {
      this.showCategories = true;
