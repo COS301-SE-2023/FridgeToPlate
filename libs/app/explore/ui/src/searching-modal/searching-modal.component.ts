@@ -37,4 +37,10 @@ export class SearchingModalComponent {
 
   }
 
+
+
+  enter() {
+    this.newSearchEvent.emit(this.searchText);
+  }
+
 }
