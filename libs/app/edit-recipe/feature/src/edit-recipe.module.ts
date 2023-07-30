@@ -7,6 +7,8 @@ import { EditRecipeComponent } from './edit-recipe.page';
 import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeModule } from '@fridge-to-plate/app/recipe/feature';
+import { NgxsModule } from '@ngxs/store';
+import {RecipeState as EditRecipeState } from '@fridge-to-plate/app/edit-recipe/data-access'
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { RecipeModule } from '@fridge-to-plate/app/recipe/feature';
     FormsModule,
     RecipeDataAccessModule,
     RecipeModule,
-    RecipeDataAccessModule
+    RecipeDataAccessModule,
+    NgxsModule.forFeature([EditRecipeState])
   ],
   declarations: [EditRecipeComponent]
 })

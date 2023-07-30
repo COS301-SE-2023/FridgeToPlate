@@ -4,6 +4,7 @@ import { RecipePage } from './recipe.page';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
