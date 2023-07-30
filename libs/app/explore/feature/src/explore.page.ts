@@ -121,6 +121,8 @@ export class ExplorePage {
       this.loading = false;
       this.showRecipes = false;
       this.showCategories = true;
+      this.subpage = "beforeSearchApplied";
+      
       return;
     }
 
