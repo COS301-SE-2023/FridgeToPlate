@@ -45,7 +45,7 @@ export class ExploreState {
 
     @Action(CategorySearch)
     async CategorySearch({ setState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
-        alert("Got In");
+    
         setState({
             explore: search,
             recipes: null

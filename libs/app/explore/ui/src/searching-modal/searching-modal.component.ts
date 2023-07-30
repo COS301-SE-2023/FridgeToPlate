@@ -27,14 +27,6 @@ export class SearchingModalComponent {
   }
 
   explorer() {
-
-    this.newSearchEvent.emit(this.searchText);
-
-  }
-
-
-
-  enter() {
     this.newSearchEvent.emit(this.searchText);
   }
 

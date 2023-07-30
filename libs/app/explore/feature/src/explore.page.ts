@@ -80,7 +80,7 @@ export class ExplorePage {
     this.subpage = "searchAppliedByCaterogry"
     this.showRecipes = false;
     this.loading = true;
-    
+
     this.store.dispatch(new CategorySearch(search));
 
     this.recipes$.subscribe( (recipes) => {
@@ -92,34 +92,38 @@ export class ExplorePage {
     })
   }
 
-  explorer(event: string) {
+  explorer(searchText: string) {
 
-    this.subpage = "searchAppliedByCaterogry"
-    this.showRecipes = false;
-    this.loading = true;
-    alert("this.searchObject.search");
-    
-    this.searchObject = 
-      {
-        type: "",
-        search: event,
-        tags: [],
-        difficulty: "Any",
-      };
+    if (searchText.length > 0) {
+      this.showCategories = false;
 
-    alert(this.searchObject.search);
-    
-    this.store.dispatch(new CategorySearch(this.searchObject));
+    }
+    else {
+     this.showCategories = true;
+    }
+    console.log("searchText: " + searchText);
 
-    alert("Done");
+    // this.searchObject =
+    //   {
+    //     type: "",
+    //     search: event,
+    //     tags: [],
+    //     difficulty: "Any",
+    //   };
 
-    this.recipes$.subscribe( (recipes) => {
-      if(recipes.length > 0){
-        this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
-      }
-    })
+    // alert(this.searchObject.search);
+
+    // this.store.dispatch(new CategorySearch(this.searchObject));
+
+    // alert("Done");
+
+    // this.recipes$.subscribe( (recipes) => {
+    //   if(recipes.length > 0){
+    //     this.retunedRecipes = recipes;
+    //     this.loading = false;
+    //     this.showRecipes = true;
+    //   }
+    // })
 
 
   }
@@ -132,17 +136,17 @@ export class ExplorePage {
   }
 
 
-  searchUsingBar(searchText: string) {
+//   searchUsingBar(searchText: string) {
 
-   if (searchText.length > 0) {
-     this.showCategories = false;
+//    if (searchText.length > 0) {
+//      this.showCategories = false;
 
-   }
-   else {
-    this.showCategories = true;
-   }
-   console.log("searchText: " + searchText);
+//    }
+//    else {
+//     this.showCategories = true;
+//    }
+//    console.log("searchText: " + searchText);
 
- }
+//  }
 
 }
