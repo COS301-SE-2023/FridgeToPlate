@@ -30,6 +30,9 @@ public class MealPlanController {
     public MealPlanFrontendModel save(@RequestBody MealPlanFrontendModel mealPlan) {
 
         MealPlanModel plan = new MealPlanModel();
+
+       
+
         if(mealPlan.getBreakfast() != null) {
             plan.setBreakfastId(mealPlan.getBreakfast().getRecipeId());
         }
@@ -55,7 +58,7 @@ public class MealPlanController {
         else {
             plan.setSnackId("");
         }
-
+        
         plan.setUsername(mealPlan.getUsername());
         plan.setDate(mealPlan.getDate());
         return mealPlanRepository.save(plan);

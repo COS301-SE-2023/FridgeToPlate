@@ -84,16 +84,29 @@ public class ProfileRepository {
             mealPlanResponse.setUsername(username);
 
             String breakFastId = mealPlanModel.getBreakfastId();
-            RecipeDesc breakfast = dynamoDBMapper.load(RecipeModel.class, breakFastId);
+
+            RecipeDesc breakfast = null;
+            if (breakFastId != null && breakFastId != "") {
+                breakfast = dynamoDBMapper.load(RecipeModel.class, breakFastId);
+            } 
 
             String lunchId = mealPlanModel.getLunchId();
-            RecipeDesc lunch = dynamoDBMapper.load(RecipeModel.class, lunchId);
+            RecipeDesc lunch = null;
+            if (lunchId != null && lunchId != "") {
+                lunch = dynamoDBMapper.load(RecipeModel.class, lunchId);
+            } 
 
             String dinnerId = mealPlanModel.getDinnerId();
-            RecipeDesc dinner = dynamoDBMapper.load(RecipeModel.class, dinnerId);
+            RecipeDesc dinner = null;
+            if (dinnerId != null && dinnerId != "") {
+                dinner = dynamoDBMapper.load(RecipeModel.class, dinnerId);
+            } 
 
             String snackId = mealPlanModel.getSnackId();
-            RecipeDesc snack = dynamoDBMapper.load(RecipeModel.class, snackId);   
+            RecipeDesc snack = null;
+            if (snackId != null && snackId != "") {
+                snack = dynamoDBMapper.load(RecipeModel.class, snackId);
+            } 
 
             // Creating the mealPlanResponse
             mealPlanResponse.setDate(date);
