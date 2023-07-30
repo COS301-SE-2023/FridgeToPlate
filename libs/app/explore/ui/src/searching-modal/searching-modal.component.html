@@ -8,7 +8,7 @@
         </svg>
       </button>
       <input type="search" name="" id="" placeholder="What are you looking for?" [(ngModel)]="searchText"
-        class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent">
+        class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent" (input)="enter()">
       <div class="select">
         <select name="" id="" [(ngModel)]="result" class="text-sm outline-none focus:outline-none bg-transparent">
           <option value="All" selected>All</option>
@@ -16,6 +16,7 @@
           <option value="People">People</option>
         </select>
       </div>
+
     </div>
 
 </div>

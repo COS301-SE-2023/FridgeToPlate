@@ -26,6 +26,7 @@ export class ExplorePage {
   subpage = "beforeSearchApplied";
   loading = false;
   showRecipes = false;
+  showCategories = true;
   searchText = "";
   editExplore !: IExplore;
   searchObject !: IExplore;
@@ -129,11 +130,23 @@ export class ExplorePage {
 
   clearSearch(){
     this.subpage = "beforeSearchApplied";
+    this.showCategories = true;
     this.showRecipes = false;
+    this.loading = false;
   }
 
-  searchUsingBar() {
-    this.subpage = "searchAppliedByBar"
-  }
+
+  searchUsingBar(searchText: string) {
+
+   if (searchText.length > 0) {
+     this.showCategories = false;
+
+   }
+   else {
+    this.showCategories = true;
+   }
+   console.log("searchText: " + searchText);
+
+ }
 
 }
