@@ -1,87 +1,65 @@
-import { TestBed } from '@angular/core/testing';
-import { SearchingModalComponent } from './searching-modal.component';
-import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
-import { IExplore, CategorySearch } from '@fridge-to-plate/app/explore/utils';
+// Import the required dependencies for testing
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
+import { SearchingModalComponent } from './searching-modal.component';
 
-// Mock the dependencies
-const mockStore = {
-  dispatch: jest.fn(),
+// Create a mock ExploreState to be used in the tests
+const mockExploreState = {
+  getExplore: jest.fn().mockReturnValue(of({})), // Return an empty object for simplicity
 };
-const mockExplore: IExplore = {
-    type: 'breakfast',
-    search: 'eggs',
-    tags: ['healthy', 'quick'],
-    difficulty: 'Easy',
-  };
-const mockExplore$: Observable<IExplore> = of(mockExplore);
 
-// Mock the @Select decorator
-jest.mock('@ngxs/store', () => ({
-  Select: (selector: any) => (target: any, key: string) => {
-    target[key] = key === 'explore$' ? mockExplore$ : undefined;
-  },
-  Store: class {
-    dispatch = mockStore.dispatch;
-  },
-}));
+// Create a mock Store
+class MockStore {
+  select() {
+    return of({}); // Return an empty object for simplicity
+  }
+}
 
 describe('SearchingModalComponent', () => {
   let component: SearchingModalComponent;
+  let fixture: ComponentFixture<SearchingModalComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [SearchingModalComponent],
       providers: [
-        // Provide the mock store
-        { provide: Store, useValue: mockStore },
+        { provide: Store, useClass: MockStore },
+        { provide: Select, useValue: mockExploreState },
       ],
-    });
-
-    // Create an instance of the component
-    component = TestBed.createComponent(SearchingModalComponent).componentInstance;
+    }).compileComponents();
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SearchingModalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should update the explore search text and dispatch a CategorySearch action when calling the search method', () => {
-    // Set up mock search text
-    const mockSearchText = 'pasta'; // Replace with your test search text
-
-    // Set up mock Explore object
-    component.editExplore = {
-        type: 'breakfast',
-        search: 'eggs',
-        tags: ['healthy', 'quick'],
-        difficulty: 'Easy',
-      };
-
-    // Set the search text in the component
-    component.searchText = mockSearchText;
-
-    // Call the search method
-    component.search();
-
-    // Check if the search text is updated in the editExplore object
-    expect(component.editExplore.search).toBe(mockSearchText);
-
-    // Check if the store.dispatch method was called with the CategorySearch action and the updated explore object
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new CategorySearch(component.editExplore));
+  it('should create the SearchingModalComponent', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should emit the closeFunc event when calling the close method', () => {
-    // Create a spy on the closeFunc EventEmitter
-    const emitSpy = jest.spyOn(component.closeFunc, 'emit');
+  it('should emit newSearchEvent on explorer() call', () => {
+    const searchQuery = 'Test search query';
+    component.searchText = searchQuery;
 
-    // Call the close method
-    component.close();
+    // Create a spy on the newSearchEvent EventEmitter
+    const emitSpy = jest.spyOn(component.newSearchEvent, 'emit');
 
-    // Check if the closeFunc event was emitted
-    expect(emitSpy).toHaveBeenCalled();
+    // Call the explorer() method
+    component.explorer();
+
+    // Check if the emit method was called with the correct argument
+    expect(emitSpy).toHaveBeenCalledWith(searchQuery);
   });
 
-  // Add more tests as needed for the component's behavior
+  it('should render the search input field', () => {
+    const inputElement = fixture.debugElement.query(By.css('input'));
+    expect(inputElement).toBeTruthy();
+  });
+
 });
+
