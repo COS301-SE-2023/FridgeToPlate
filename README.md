@@ -11,7 +11,7 @@
 [![CI/CD](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml/badge.svg)](https://github.com/COS301-SE-2023/FridgeToPlate/actions/workflows/cd-prod.yml)
 [![Website](https://img.shields.io/website?url=http%3A%2F%2Fdev-fridgetoplate.s3-website.af-south-1.amazonaws.com%2F)](http://fridgetoplate.s3-website.af-south-1.amazonaws.com/)
 
-[Website](http://fridgetoplate.s3-website.af-south-1.amazonaws.com/) — [Project Page](https://github.com/orgs/COS301-SE-2023/projects/5) — [Documentation](https://github.com/COS301-SE-2023/FridgeToPlate/wiki)
+[Website](http://fridgetoplate.s3-website.af-south-1.amazonaws.com/) — [Project Page](https://github.com/orgs/COS301-SE-2023/projects/5) — [Documentation](https://linktr.ee/fridgetoplate)
 
 </div>
 
@@ -75,14 +75,7 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 
  ### Resources:
 
-<div align="center">
-
-[![User Manual](https://img.shields.io/badge/View-User%20Manual-blue?style=for-the-badge)](https://github.com/COS301-SE-2023/FridgeToPlate/wiki/User-Manual)&ensp;
-[![Technical Installation Manual](https://img.shields.io/badge/View-Technical%20Installation%20Manual-blue?style=for-the-badge)](https://github.com/orgs/COS301-SE-2023/FridgeToPlate/wiki/Technical-Installation-Manual)&ensp;
-[![Documentation](https://img.shields.io/badge/View-System%20Documentation-blue?style=for-the-badge)](https://github.com/COS301-SE-2023/FridgeToPlate/wiki)&ensp;
-[![Coding Standards](https://img.shields.io/badge/View-Coding%20Standards-blue?style=for-the-badge)](https://github.com/orgs/COS301-SE-2023/FridgeToPlate/wiki/Coding-Standards)&ensp;
-
-</div>
+[![Documentation](https://img.shields.io/badge/View-Project%20Documentation-blue?style=for-the-badge)](https://linktr.ee/fridgetoplate)&ensp;
 
 ### Demo Videos:
  [![Demo One](https://img.shields.io/badge/View-Demo%20One-crimson?style=for-the-badge)](https://youtu.be/Q8OAO0uY0jg)
