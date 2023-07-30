@@ -96,12 +96,14 @@ export class ExplorePage {
 
     if (searchText.length > 0) {
       this.showCategories = false;
-      return;
-
+      this.loading = true;
+      this.showRecipes = false;
     }
     else {
-     this.showCategories = true;
-     this.showRecipes = false;
+      this.loading = false;
+      this.showRecipes = false;
+      this.showCategories = true;
+      return;
     }
 
     this.searchObject =
@@ -112,7 +114,9 @@ export class ExplorePage {
         difficulty: "Any",
       };
 
+      console.log("Hello: ", this.searchObject)
     this.store.dispatch(new CategorySearch(this.searchObject));
+
 
     this.recipes$.subscribe( (recipes) => {
       if(recipes.length > 0){
@@ -120,8 +124,11 @@ export class ExplorePage {
         this.loading = false;
         this.showRecipes = true;
       }
-    })
+    });
 
+    if (this.showCategories) {
+      this.showRecipes = false;
+    }
 
   }
 
