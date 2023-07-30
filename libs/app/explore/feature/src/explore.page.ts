@@ -64,7 +64,7 @@ export class ExplorePage {
       difficulty: "Any",
     },
     {
-      type: "side dish",
+      type: "soup",
       search: "",
       tags: [],
       difficulty: "Any",
