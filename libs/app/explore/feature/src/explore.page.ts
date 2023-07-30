@@ -111,8 +111,6 @@ export class ExplorePage {
       }
     })
 
-    this.loading = false;
-    this.showRecipes = true;
   }
 
   explorer(searchText: string) {
