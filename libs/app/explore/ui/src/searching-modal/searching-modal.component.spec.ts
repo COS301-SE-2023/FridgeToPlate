@@ -1,0 +1,56 @@
+// Import the required dependencies for testing
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgxsModule, Select, Store } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
+import { SearchingModalComponent } from './searching-modal.component';
+
+
+describe('SearchingModalComponent', () => {
+  let component: SearchingModalComponent;
+  let fixture: ComponentFixture<SearchingModalComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SearchingModalComponent],
+      imports: [NgxsModule.forRoot()]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SearchingModalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create the SearchingModalComponent', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should emit newSearchEvent on explorer() call', () => {
+    const searchQuery = 'Test search query';
+    component.searchText = searchQuery;
+
+    // Create a spy on the newSearchEvent EventEmitter
+    const emitSpy = jest.spyOn(component.newSearchEvent, 'emit');
+
+    // Call the explorer() method
+    component.explorer();
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      // Check if the emit method was called with the correct argument
+      expect(emitSpy).toHaveBeenCalledWith(searchQuery);
+    });
+
+    
+  });
+
+  it('should render the search input field', () => {
+    const inputElement = fixture.debugElement.query(By.css('input'));
+    expect(inputElement).toBeTruthy();
+  });
+
+});
+
