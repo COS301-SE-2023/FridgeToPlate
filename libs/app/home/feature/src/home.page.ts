@@ -1,12 +1,13 @@
 import { Component, NgZone } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Router } from '@angular/router';
 import { HomeState } from '../../data-access/src/home.state';
+import { RetrieveFeaturedRecipes } from '../../utils/src/home.actions';
 
 @Component({
   selector: 'fridge-to-plate-home',
@@ -20,7 +21,7 @@ export class HomePage {
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
   @Select(HomeState.getFeaturedRecipes) featuredRecipes$ !: Observable<IRecipe[]>;
   
-  constructor(private readonly router: Router, private readonly ngZone: NgZone){
+  constructor(private readonly router: Router, private readonly ngZone: NgZone, private store: Store){
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
     if (currentHour >= 5 && currentHour < 12) {
@@ -39,6 +40,8 @@ export class HomePage {
       this.mealType = 'Snack';
       this.messageHeader = `Time for a snack! What do you feel like making?`;
     }
+
+    this.store.dispatch(new RetrieveFeaturedRecipes("lunch"));
   }
 
   goToRecommend(): void {

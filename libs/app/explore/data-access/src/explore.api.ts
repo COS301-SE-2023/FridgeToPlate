@@ -6,11 +6,8 @@ import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
-import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IExplore } from '@fridge-to-plate/app/explore/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +31,6 @@ export class ExploreAPI {
   }
 
   searchCategory(search : IExplore): Observable<IRecipe[] | null>  {
-
     const url = `${this.baseUrl}/search`;
     return this.http.post<IRecipe[] | null>(url, search);
   }

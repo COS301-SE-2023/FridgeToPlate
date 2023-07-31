@@ -1,16 +1,17 @@
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { RetrieveFeaturedRecipes } from '../../utils/src/home.actions';
-import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
+import { ExploreAPI } from '@fridge-to-plate/app/explore/data-access';
+import { IExplore } from '@fridge-to-plate/app/explore/utils';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 export interface HomeStateModel {
-  featuredRecipes: IRecipe[];
+  featuredRecipes: IRecipe[] | null;
 }
 
 @State<HomeStateModel>({
-  name: 'recipe',
+  name: 'home',
   defaults: {
     featuredRecipes: []
   }
@@ -18,7 +19,7 @@ export interface HomeStateModel {
 @Injectable()
 export class HomeState {
 
-  constructor(private api: RecipeAPI, private store: Store) {}
+  constructor(private api: ExploreAPI, private store: Store) {}
 
   @Selector()
   static getFeaturedRecipes(state: HomeStateModel) {
@@ -28,17 +29,24 @@ export class HomeState {
 
   @Action(RetrieveFeaturedRecipes)
   async getRecipe({ setState }: StateContext<HomeStateModel>, { meal }: RetrieveFeaturedRecipes) {
+    
+    const explore : IExplore = {
+      type: meal,
+      search: "",
+      tags: [],
+      difficulty: "Any",
+    };
 
-    // (await this.api.getProfile(meal)).subscribe({
-    //     next: data => {
-    //         setState({
-    //             featuredRecipes: data
-    //         });
-    //     },
-    //     error: error => {
-    //         this.store.dispatch(new ShowError('Failed to retrieved featured recipes'));
-    //     }
-    // });
+    (await this.api.searchCategory(explore)).subscribe({
+        next: data => {
+            setState({
+                featuredRecipes: data
+            });
+        },
+        error: error => {
+            this.store.dispatch(new ShowError('Failed to retrieved featured recipes'));
+        }
+    });
     
   }
 }
