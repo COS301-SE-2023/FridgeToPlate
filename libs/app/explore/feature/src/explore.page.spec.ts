@@ -21,49 +21,45 @@ describe('ExplorePage', () => {
   let fixture: ComponentFixture<ExplorePage>;
   let store: Store;
 
-  let mockExplore: IExplore;
-  let mockRecipes: IRecipe[];
+  const mockExplore: IExplore = {
+    type: 'breakfast',
+    search: 'eggs',
+    tags: ['healthy', 'quick'],
+    difficulty: 'Easy',
+  };
 
-
+  const mockRecipes: IRecipe[] = [
+    {
+      recipeId: '1',
+      name: 'Scrambled Eggs',
+      tags: ['breakfast', 'easy', 'healthy'],
+      difficulty: 'Easy',
+      recipeImage: 'scrambled-eggs.jpg',
+      description: 'Delicious scrambled eggs recipe',
+      servings: 2,
+      prepTime: 10,
+      meal: 'Breakfast',
+      ingredients: [
+        { name: 'Eggs', amount: 4, unit: 'No.' },
+        { name: 'Milk', amount: 2, unit: 'tbsp' },
+        { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
+      ],
+      steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
+      creator: 'John Doe',
+    },
+  ];
 
   @State({
     name: 'explore',
     defaults: {
-      explore: null,
-      recipes: [],
+      explore: mockExplore,
+      recipes: mockRecipes,
     },
   })
   @Injectable()
   class MockExploreState {}
 
   beforeEach(async () => {
-    const mockExplore: IExplore = {
-      type: 'breakfast',
-      search: 'eggs',
-      tags: ['healthy', 'quick'],
-      difficulty: 'Easy',
-    };
-
-    const mockRecipes: IRecipe[] = [
-      {
-        recipeId: '1',
-        name: 'Scrambled Eggs',
-        tags: ['breakfast', 'easy', 'healthy'],
-        difficulty: 'Easy',
-        recipeImage: 'scrambled-eggs.jpg',
-        description: 'Delicious scrambled eggs recipe',
-        servings: 2,
-        prepTime: 10,
-        meal: 'Breakfast',
-        ingredients: [
-          { name: 'Eggs', amount: 4, unit: 'No.' },
-          { name: 'Milk', amount: 2, unit: 'tbsp' },
-          { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
-        ],
-        steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
-        creator: 'John Doe',
-      },
-    ];
 
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([MockExploreState])],
