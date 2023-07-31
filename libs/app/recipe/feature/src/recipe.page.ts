@@ -20,7 +20,6 @@ export class RecipePage implements OnInit {
   @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>
   recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
-  stateChanged = this.actions$.pipe(ofActionSuccessful(RetrieveRecipe));
   forceLoading = true;
 
   constructor(
