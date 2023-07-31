@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
@@ -100,16 +101,9 @@ describe('RecipeCardComponent', () => {
 
     // Tests that the user can navigate to the edit-recipe page with the correct query params
     it('test edit recipe with recipe id', () => {
-      const routerSpy = jest.spyOn(TestBed.inject(Router), 'navigate');
       component.recipe = { recipeId: '123' };
       component.edit();
-      expect(routerSpy).toHaveBeenCalledWith([
-          'edit-recipe'
-      ], {
-          queryParams: {
-              recipeId: '"123"'
-          }
-      });
+      expect(store.dispatch).toBeCalledWith(new LoadRecipe(component.recipe.recipeId));
   });
 
   it('test edit recipe with undefined recipe', () => {
