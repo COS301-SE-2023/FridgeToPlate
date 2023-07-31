@@ -31,9 +31,7 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
 import {
   IProfile,
-  UpdateUserIngredients,
 } from '@fridge-to-plate/app/profile/utils';
-import { UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend;
@@ -332,7 +330,11 @@ export class RecommendState {
     if (currentState) {
       this.recommendApi
         .updateRecommendations(currentState.recommendRequest)
-        .subscribe((newRecommendations) => {});
+        .subscribe({
+          error: error => {
+            this.store.dispatch(new ShowError("Unable to retrieve recommend"))
+          }
+        });
     }
   }
 
