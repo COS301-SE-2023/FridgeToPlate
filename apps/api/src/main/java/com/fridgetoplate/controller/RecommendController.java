@@ -30,56 +30,85 @@ public class RecommendController {
 
     @GetMapping
     public List<RecipeFrontendModel> findAll() {
-        return recipeRepository.findAll();
+        try{
+            return recipeRepository.findAll();
+        }
+        catch(Exception error){
+            System.out.println(error);
+            return new ArrayList<>();
+        }
     }
 
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecommendFrontendModel userRecommendation) {
 
-        if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
-            return new ArrayList<RecipeFrontendModel>();
-
-        //0. Store User recommendation object
-        recommendRepository.save(userRecommendation);
-        
-        RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
-
-        List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
-
-        if(dbQueryResults.size() < 25){
-            SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
+        try{
+            if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
+                return new ArrayList<RecipeFrontendModel>();
     
-            //1. Query External API and convert to Recipe
-            RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()).getResults());
+            //0. Store User recommendation object
+            recommendRepository.save(userRecommendation);
             
-            //2. Add External API recipes to DB
-            if(apiQueryResults.length != 0)
-                recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
-            
-            //.3 Query Database by prefrence
-            dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
-
-            //Pad results - DEMO.
-            dbQueryResults.addAll( Arrays.asList(apiQueryResults) ); 
-
+            RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
+    
+            List<RecipeFrontendModel> dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+    
+            if(dbQueryResults.size() < 25){
+                SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
+        
+                //1. Query External API and convert to Recipe
+                RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()).getResults());
+                
+                //2. Add External API recipes to DB
+                if(apiQueryResults.length != 0)
+                    recipeRepository.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
+                
+                //.3 Query Database by prefrence
+                dbQueryResults = recipeRepository.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+    
+                //Pad results - DEMO.
+                dbQueryResults.addAll( Arrays.asList(apiQueryResults) ); 
+    
+            }
+    
+            return dbQueryResults;
         }
-
-        return dbQueryResults;
+        catch(Exception error){
+            System.out.println(error);
+            return new ArrayList<>();
+        }
+        
     }
     
     @PostMapping("/create")
     public RecommendFrontendModel addRecommendation(@RequestBody RecommendFrontendModel userRecommendation){
-        recommendRepository.save(userRecommendation);
-        return userRecommendation;
+        try{
+            recommendRepository.save(userRecommendation);
+            return userRecommendation;
+        } catch(Exception error){
+            System.out.println(error);
+            return userRecommendation;
+        }
+        
     }
     @PutMapping("/{id}")
     public RecommendFrontendModel updatePreferences(@RequestBody RecommendFrontendModel userRecommendation) {
-        recommendRepository.updateRecommendPreferences(userRecommendation);
-        return userRecommendation;
+        try{
+            recommendRepository.updateRecommendPreferences(userRecommendation);
+            return userRecommendation;
+        } catch( Exception error ) {
+            System.out.println(error);
+            return userRecommendation;
+        }
     }
 
     @GetMapping("/{username}")
     public RecommendFrontendModel getUserRecommendationPreferences(@PathVariable String username){
-        return recommendRepository.getById(username);
+        try{
+            return recommendRepository.getById(username);
+        } catch (Exception error){
+            System.out.println(username);
+            return new RecommendFrontendModel();
+        }
     }
 }
