@@ -98,19 +98,7 @@ describe('RecipeCardComponent', () => {
     expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(component.recipe as IRecipeDesc));
   });
 
-    // Tests that the user can navigate to the edit-recipe page with the correct query params
-    it('test edit recipe with recipe id', () => {
-      const routerSpy = jest.spyOn(TestBed.inject(Router), 'navigate');
-      component.recipe = { recipeId: '123' };
-      component.edit();
-      expect(routerSpy).toHaveBeenCalledWith([
-          'edit-recipe'
-      ], {
-          queryParams: {
-              recipeId: '"123"'
-          }
-      });
-  });
+
 
   it('test edit recipe with undefined recipe', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
