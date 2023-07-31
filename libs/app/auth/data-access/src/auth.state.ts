@@ -36,9 +36,6 @@ import {
   ClearRecommend,
   GetUpdatedRecommendation,
   IRecipePreferences,
-  IRecommend,
-  UpdateRecipePreferences,
-  UpdateRecipeRecommendations,
 } from '@fridge-to-plate/app/recommend/utils';
 
 interface formDataInterface {
@@ -144,7 +141,7 @@ export class AuthState {
 
       this.store.dispatch(new AddRecommendation(defaultRecommend));
 
-      this.store.dispatch(new Navigate(['/recommend']));
+      this.store.dispatch(new Navigate(['/home']));
     });
   }
 
@@ -169,8 +166,8 @@ export class AuthState {
         });
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
-        this.store.dispatch(new Navigate(['/recommend']));
-        this.store.dispatch(new GetUpdatedRecommendation());
+        this.store.dispatch(new GetUpdatedRecommendation(username));
+        this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));

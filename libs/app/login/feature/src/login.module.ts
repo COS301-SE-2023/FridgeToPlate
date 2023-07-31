@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { LoginPage } from './login.page';
 import { LoginRouting } from './login.routing';
 import { FormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 
 
 @NgModule({
@@ -13,6 +15,7 @@ import { FormsModule } from '@angular/forms';
     LoginRouting,
     IonicModule,
     FormsModule,
+    NgxsModule.forFeature([ProfileState])
   ],
   declarations: [LoginPage],
 })
