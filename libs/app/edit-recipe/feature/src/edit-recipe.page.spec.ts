@@ -79,40 +79,44 @@ describe('EditRecipeComponent', () => {
   });
 
 
-  it('Should set recipe and recipe Id', ()=> {
-    const recipeId = 'valid_recipe_id';
-    const recipe = { recipeId } as IRecipe;
-    component.recipe = recipe;
-    component.recipeId = recipeId;
-    fixture.detectChanges();
-    expect(component.recipe).toEqual(recipe);
-    expect(component.recipeId).toEqual(recipeId);
-  })
+  it('should initialize recipe and recipeId correctly', () => {
+    const mockRecipe = { recipeId: 'sampleId'} as IRecipe;
+    jest.spyOn(component.recipe$, 'pipe').mockReturnValue(of(mockRecipe));
+    component.initialize()
+    expect(component.recipe).toEqual(mockRecipe);
+    expect(component.recipeId).toBe(mockRecipe.recipeId);
+    expect(component.recipeId).not.toBeUndefined();
+
+  });
+
+  it('does not set the recipeId property if the recipe property does not have a recipeId', () => {
+    component.initialize();
+    expect(component.recipeId).toBeUndefined();
+});
 
   it('test show error message if recipe id is not available', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     const component = fixture.componentInstance;
     component.recipe = null;
     fixture.detectChanges();
-
     component.deleteRecipe();
 
     expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('Could not delete recipe'));
   });
 
-      // Tests that DeleteRecipe action is dispatched with recipeId
-    it('test dispatch delete recipe action with recipe id', () => {
-      const recipeId = 'valid_recipe_id';
-      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch').mockReturnValue(of(null));
-      const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
-      const component = fixture.componentInstance;
-      component.recipe = { recipeId } as IRecipe;
-      fixture.detectChanges();
 
-      component.deleteRecipe();
+  it('test dispatch delete recipe action with recipe id', () => {
+    const recipeId = 'valid_recipe_id';
+    const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch').mockReturnValue(of(null));
+    const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
+    const component = fixture.componentInstance;
+    component.recipe = { recipeId } as IRecipe;
+    fixture.detectChanges();
 
-      expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
-      expect(locationBackSpy).toHaveBeenCalled();
+    component.deleteRecipe();
+
+    expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
+    expect(locationBackSpy).toHaveBeenCalled();
   });
 
   it('test cancel edit calls location back', () => {
