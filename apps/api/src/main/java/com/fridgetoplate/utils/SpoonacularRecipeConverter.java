@@ -137,7 +137,12 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
             newRecipe.setRecipeImage(apiResults[i].getRecipeImage());
 
-            newRecipe.setMeal(apiResults[i].getMeal());
+            if(apiResults[i].getMeal().isEmpty()){
+                newRecipe.setMeal("snack");
+            }
+            else{
+                newRecipe.setMeal(apiResults[i].getMeal());
+            }
 
             newRecipe.setPrepTime(apiResults[i].getPrepTime());
 
