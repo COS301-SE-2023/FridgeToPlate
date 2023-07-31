@@ -318,6 +318,7 @@ describe('Testing Tags', () => {
         HttpClientModule,
         NavigationBarModule,
         RouterTestingModule,
+        IonicModule,
         NgxsModule.forRoot([MockCreateState])
       ]
     });
@@ -480,6 +481,7 @@ describe('Ingredients storing, deleting and returning', () => {
         HttpClientModule,
         NavigationBarModule,
         RouterTestingModule,
+        IonicModule,
         NgxsModule.forRoot([MockCreateState])
       ]
     });
@@ -586,6 +588,7 @@ describe('Ingredients storing, deleting and returning', () => {
           HttpClientModule,
           NavigationBarModule,
           RouterTestingModule,
+          IonicModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
@@ -631,6 +634,7 @@ describe('Ingredients storing, deleting and returning', () => {
           HttpClientModule,
           NavigationBarModule,
           RouterTestingModule,
+          IonicModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
@@ -676,6 +680,7 @@ describe('Ingredients storing, deleting and returning', () => {
           HttpClientModule,
           NavigationBarModule,
           RouterTestingModule,
+          IonicModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
@@ -724,6 +729,7 @@ describe('Ingredients storing, deleting and returning', () => {
           HttpClientModule,
           NavigationBarModule,
           RouterTestingModule,
+          IonicModule,
           NgxsModule.forRoot([MockCreateState])
         ]
       });
@@ -1008,6 +1014,7 @@ describe('Ingredients storing, deleting and returning', () => {
           HttpClientModule,
           NavigationBarModule,
           RouterTestingModule,
+          IonicModule,
           NgxsModule.forRoot([MockCreateState, MockProfileState])
         ]
       });
