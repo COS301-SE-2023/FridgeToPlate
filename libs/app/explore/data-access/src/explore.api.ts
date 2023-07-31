@@ -8,6 +8,7 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IExplore } from '@fridge-to-plate/app/explore/utils';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 
 
@@ -18,7 +19,7 @@ export class ExploreAPI {
   
   constructor(private http: HttpClient, private store: Store) {}
 
-  private baseUrl = "http://localhost:5000/explore";
+  private baseUrl = environment.API_URL + "/explore";
 
   getRecipes(recipename: string) {
     const url = `${this.baseUrl}/${recipename}`;

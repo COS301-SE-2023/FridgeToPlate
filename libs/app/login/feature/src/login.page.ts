@@ -1,8 +1,14 @@
 import { Component } from "@angular/core";
 import { NgForm } from '@angular/forms';
 import { Login } from "@fridge-to-plate/app/auth/utils";
+import { RetrievePreferences } from "@fridge-to-plate/app/preferences/utils";
+import { RetrieveProfile } from "@fridge-to-plate/app/profile/utils";
+import { GetUpdatedRecommendation } from "@fridge-to-plate/app/recommend/utils";
+import { ActionsExecuting, actionsExecuting } from "@ngxs-labs/actions-executing";
 import { Navigate } from "@ngxs/router-plugin";
-import { Store } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
+import { Observable } from "rxjs";
+
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -15,10 +21,12 @@ export class LoginPage {
 
   username = "";
   password = "";
+  @Select(actionsExecuting([Login, RetrievePreferences, RetrieveProfile, GetUpdatedRecommendation])) busy$ !: Observable<ActionsExecuting>;
 
   constructor(private store: Store) { }
 
   onSignIn(form: NgForm){
+ 
     if (form.valid) {
       this.store.dispatch(new Login(this.username, this.password));
     }

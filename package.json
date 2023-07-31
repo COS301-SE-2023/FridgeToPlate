@@ -74,6 +74,7 @@
     "@aws-crypto/sha256-js": "^4.0.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.377.0",
     "@ionic/angular": "^7.0.6",
+    "@ngxs-labs/actions-executing": "^1.0.6",
     "@ngxs/devtools-plugin": "^3.8.1",
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/router-plugin": "^3.8.1",

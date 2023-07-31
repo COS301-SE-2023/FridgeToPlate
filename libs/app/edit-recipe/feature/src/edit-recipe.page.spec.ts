@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -57,6 +58,12 @@ describe('EditRecipeComponent', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
     });
+
+    it('Should go to Home Page', ()=> {
+      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+      component.goHome();
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
+    })
 
     it('test delete recipe with valid recipe id', () => {
       const recipeId = 'valid_recipe_id';
@@ -1112,6 +1119,8 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(component.isFormValid()).toBe(false)
       expect(dispatchSpy).not.toHaveBeenCalledWith(new UpdateRecipe(recipe));
     })
+
+
 
  
   

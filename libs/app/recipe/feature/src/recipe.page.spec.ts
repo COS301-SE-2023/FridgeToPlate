@@ -4,6 +4,7 @@ import { RecipePage } from './recipe.page';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -11,8 +12,9 @@ import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { ReviewModule } from '@fridge-to-plate/app/review/feature';
+import { Navigate } from '@ngxs/router-plugin';
 describe('RecipeDetailPageComponent', () => {
   let location: Location;
   let component: RecipePage;
@@ -106,6 +108,7 @@ describe('RecipeDetailPageComponent', () => {
   // });
 
 it('should not retrieve recipe data with empty id', () => {
+  component.recipe = undefined;
   const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
   const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
 
@@ -114,5 +117,11 @@ it('should not retrieve recipe data with empty id', () => {
   expect(getRecipeByIdSpy).not.toHaveBeenCalled();
   expect(component.recipe).toBeUndefined();
 });
+
+it('Should go to the Home Page', () => {
+  const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+  component.goHome();
+  expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
+})
 
 });
