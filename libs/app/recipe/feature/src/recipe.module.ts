@@ -14,6 +14,7 @@ import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access'
   imports: [
     CommonModule,
     RecipeUIModule,
+    IonicModule,
     RecipeRouting,
     NavigationBarModule,
     ReviewModule,
