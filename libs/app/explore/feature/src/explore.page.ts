@@ -63,25 +63,6 @@ export class ExplorePage {
       tags: [],
       difficulty: "Any",
     },
-    {
-      type: "soup",
-      search: "",
-      tags: [],
-      difficulty: "Any",
-    },
-    {
-      type: "drink",
-      search: "",
-      tags: [],
-      difficulty: "Any",
-    },
-    {
-      type: "salad",
-      search: "",
-      tags: [],
-      difficulty: "Any",
-    },
-
   ];
 
 
