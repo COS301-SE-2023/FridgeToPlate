@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable } from 'rxjs';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -25,8 +25,7 @@ export class RecipePage implements OnInit {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private store: Store,
-    private actions$: Actions
+    private store: Store
   ) {}
 
   ngOnInit(): void {

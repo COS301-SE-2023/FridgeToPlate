@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeleteRecipe, IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { Select, Store, ofActionSuccessful, Actions } from '@ngxs/store';
+import { Select, Store, Actions } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Location } from '@angular/common';
@@ -11,6 +11,7 @@ import { RecipeState } from '@fridge-to-plate/app/edit-recipe/data-access';
 import { Observable, take } from 'rxjs';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Navigate } from '@ngxs/router-plugin';
+import { actionsExecuting, ActionsExecuting } from '@ngxs-labs/actions-executing';
 
 @Component({
   selector: 'fridge-to-plate-edit-recipe',
@@ -30,10 +31,16 @@ export class EditRecipeComponent implements OnInit {
   
   @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>
+  forceLoading = true;
 
   constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute, private actions$: Actions) {}
 
   ngOnInit() {
+    this.forceLoading = true;
+    setTimeout(() => {
+      this.forceLoading = false;
+    }, 1000);
     this.createForm();
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
     
