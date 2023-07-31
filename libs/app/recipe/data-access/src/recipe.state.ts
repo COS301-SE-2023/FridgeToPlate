@@ -9,7 +9,6 @@ import {
   UpdateRecipe,
   AddReview,
   DeleteReview,
-  GetRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { catchError, take, tap } from 'rxjs';
@@ -50,23 +49,31 @@ export class RecipeState {
     return state.recipe;
   }
 
-
-  @Action(GetRecipe)
-  async getRecipe(
+  @Action(RetrieveRecipe)
+  async retrieveRecipe(
     { setState }: StateContext<RecipeStateModel>,
-    { recipeId }: GetRecipe
+    { recipeId }: RetrieveRecipe
   ) {
 
-    (await this.api.getRecipeById(recipeId)).subscribe({
-      next: data => {
+    this.api.getRecipeById(recipeId).subscribe(
+      (recipe) => {
+        if (recipe) {
           setState({
-              recipe: data
+            recipe: recipe,
           });
+        } else {
+          this.store.dispatch(
+            new ShowError(
+              'Error: Something is wrong with the recipe: ' + recipe
+            )
+          );
+        }
       },
-      error: error => {
-          this.store.dispatch(new ShowError(error));
+      (error: Error) => {
+        console.error('Failed to retrieve recipe:', error);
+        this.store.dispatch(new ShowError(error.message));
       }
-    });
+    );
   }
 
   @Action(UpdateRecipe)
@@ -172,34 +179,5 @@ export class RecipeState {
       catchError (
         () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
       ))).subscribe();
-  }
-
-  @Action(RetrieveRecipe)
-  async retrieveRecipe(
-    { setState, getState}: StateContext<RecipeStateModel>,
-    { recipeId }: RetrieveRecipe
-  ) {
-
-    const recipes = getState().featuredRecipes
-    this.api.getRecipeById(recipeId).subscribe(
-      (recipe) => {
-        if (recipe) {
-          setState({
-            recipe: recipe,
-            featuredRecipes: recipes
-          });
-        } else {
-          this.store.dispatch(
-            new ShowError(
-              'Error: Something is wrong with the recipe: ' + recipe
-            )
-          );
-        }
-      },
-      (error: Error) => {
-        console.error('Failed to retrieve recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
-      }
-    );
   }
 }

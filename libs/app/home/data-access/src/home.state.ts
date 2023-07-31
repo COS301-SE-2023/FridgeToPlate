@@ -15,7 +15,7 @@ export interface HomeStateModel {
   }
 })
 @Injectable()
-export class RecipeState {
+export class HomeState {
 
   constructor(private api: RecipeAPI, private store: Store) {}
 
