@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,6 +19,7 @@ import { Navigate } from '@ngxs/router-plugin';
 export class RecipeCardComponent implements OnInit {
   
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
+  
 
   @Input() recipe !: any;
   bookmarked = false;
@@ -55,14 +57,7 @@ export class RecipeCardComponent implements OnInit {
         this.store.dispatch(new ShowError('ERROR: No recipe available to edit.'))
         return;
       }
-      this.ngZone.run( ()=> {
-        this.router.navigate( [
-          'edit-recipe'
-        ],
-        { queryParams: { 
-          recipeId: JSON.stringify(this.recipe.recipeId) 
-        }})
-      })
+      this.store.dispatch(new LoadRecipe(this.recipe.recipeId))
   }
 
   toggleMealPlan() {

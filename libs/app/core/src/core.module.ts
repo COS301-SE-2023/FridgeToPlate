@@ -23,6 +23,7 @@ import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule, SESSION_STORAGE_ENGINE }
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
+import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
 
 @NgModule({
   declarations: [
@@ -65,6 +66,8 @@ import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
       ]
     }),
     NgxsRouterPluginModule.forRoot(),
+    NgxsActionsExecutingModule.forRoot()
+    
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

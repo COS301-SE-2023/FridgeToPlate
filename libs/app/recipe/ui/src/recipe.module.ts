@@ -7,6 +7,7 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
 import { FormsModule } from '@angular/forms';
 import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.component';
 import { NgxsModule } from '@ngxs/store';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '../../data-access/src/recipe.state';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { RecipeState } from '../../data-access/src/recipe.state';
     CommonModule, 
     IonicModule,
     ProfileDataAccessModule,
+
     FormsModule,
     NgxsModule.forFeature([RecipeState])
   ],

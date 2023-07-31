@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditRecipeComponent } from './edit-recipe.page';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { DeleteRecipe, IRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -58,6 +59,12 @@ describe('EditRecipeComponent', () => {
       expect(component).toBeTruthy();
     });
 
+    it('Should go to Home Page', ()=> {
+      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+      component.goHome();
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
+    })
+
     it('test delete recipe with valid recipe id', () => {
       const recipeId = 'valid_recipe_id';
       const deleteRecipeSpy = jest.spyOn(EditRecipeComponent.prototype, 'deleteRecipe');
@@ -71,30 +78,45 @@ describe('EditRecipeComponent', () => {
       expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
   });
 
+
+  it('should initialize recipe and recipeId correctly', () => {
+    const mockRecipe = { recipeId: 'sampleId'} as IRecipe;
+    jest.spyOn(component.recipe$, 'pipe').mockReturnValue(of(mockRecipe));
+    component.initialize()
+    expect(component.recipe).toEqual(mockRecipe);
+    expect(component.recipeId).toBe(mockRecipe.recipeId);
+    expect(component.recipeId).not.toBeUndefined();
+
+  });
+
+  it('does not set the recipeId property if the recipe property does not have a recipeId', () => {
+    component.initialize();
+    expect(component.recipeId).toBeUndefined();
+});
+
   it('test show error message if recipe id is not available', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     const component = fixture.componentInstance;
     component.recipe = null;
     fixture.detectChanges();
-
     component.deleteRecipe();
 
     expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('Could not delete recipe'));
   });
 
-      // Tests that DeleteRecipe action is dispatched with recipeId
-    it('test dispatch delete recipe action with recipe id', () => {
-      const recipeId = 'valid_recipe_id';
-      const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch').mockReturnValue(of(null));
-      const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
-      const component = fixture.componentInstance;
-      component.recipe = { recipeId } as IRecipe;
-      fixture.detectChanges();
 
-      component.deleteRecipe();
+  it('test dispatch delete recipe action with recipe id', () => {
+    const recipeId = 'valid_recipe_id';
+    const storeDispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch').mockReturnValue(of(null));
+    const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
+    const component = fixture.componentInstance;
+    component.recipe = { recipeId } as IRecipe;
+    fixture.detectChanges();
 
-      expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
-      expect(locationBackSpy).toHaveBeenCalled();
+    component.deleteRecipe();
+
+    expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
+    expect(locationBackSpy).toHaveBeenCalled();
   });
 
   it('test cancel edit calls location back', () => {
@@ -1016,9 +1038,7 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
-
-    
-
+      
       // Mock the recipe data
       const recipe: IRecipe = {
         name: "Mock Recipe",
@@ -1054,17 +1074,65 @@ describe('Ingredients storing, deleting and returning', () => {
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
       component.profile = testProfile;
+      component.profile.createdRecipes = [recipe];
     
       // Call the createRecipe method
       component.updateRecipe();
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateRecipe(recipe));
-
+      expect(dispatchSpy).toHaveBeenCalledWith(new UpdateProfile(testProfile));
+      expect(dispatchSpy).toHaveBeenCalledWith(new Navigate([`/recipe/${recipe.recipeId}`]));
       expect(component.recipeForm.valid).toBe(true);
       expect(component.isFormValid()).toBe(true)
       expect(component.isFormValid).toHaveBeenCalled();
 
-
     });
+
+
+    it('Should dispatch Could not update recipe error', () => {
+      component = fixture.componentInstance;
+      jest.spyOn(component, 'isFormValid');
+      
+      // Mock the recipe data
+      const recipe: IRecipe = {
+        name: "Mock Recipe",
+        recipeImage: "https://example.com/image.jpg",
+        description: "Amazing meal for a family",
+        meal: "Dinner",
+        creator: '',
+        ingredients: [ {name: 'ingredient1' , amount : 5, unit : 'L'},
+        {name: 'ingredient2' , amount : 3, unit : 'g'}
+        ],
+        steps: [
+            "Mock instructions",
+        ],
+        difficulty: "Easy",
+        prepTime: 30,
+        servings: 4,
+        tags: ["mock", "recipe"],
+      };
+    
+      component.imageUrl = recipe.recipeImage
+      // Mock the values and controls used in createRecipe
+      component.recipeForm = fb.group({
+        name: fb.control(recipe.name),
+        description: fb.control(recipe.description),
+        difficulty: fb.control(recipe.difficulty),
+        servings: fb.control(recipe.servings),
+        preparationTime: fb.control(recipe.prepTime),
+        ingredients: fb.array(recipe.ingredients.map(ingredient => fb.control(ingredient))),
+        instructions: fb.array(recipe.steps.map(instruction => fb.control(instruction))),
+        dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
+      });
+
+      component.tags = recipe.tags;
+      component.selectedMeal = recipe.meal;
+      component.profile = testProfile;
+      component.profile.createdRecipes = [];
+    
+      // Call the createRecipe method
+      component.updateRecipe();
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Could not update recipe'));
+    })
 
     it('Should not create recipe if form is invalid', () => {
 
@@ -1072,9 +1140,6 @@ describe('Ingredients storing, deleting and returning', () => {
     
 
       const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
-
-
-
       // Mock the recipe data
       const recipe: IRecipe = {
         name: "Mock Recipe",
@@ -1112,6 +1177,8 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(component.isFormValid()).toBe(false)
       expect(dispatchSpy).not.toHaveBeenCalledWith(new UpdateRecipe(recipe));
     })
+
+
 
  
   
