@@ -65,6 +65,7 @@ describe('ExplorePage', () => {
       imports: [NgxsModule.forRoot([MockExploreState])],
       declarations: [ExplorePage],
     }).compileComponents();
+    
   });
 
   beforeEach(() => {
