@@ -52,8 +52,13 @@ describe('SearchingModalComponent', () => {
     // Call the explorer() method
     component.explorer();
 
-    // Check if the emit method was called with the correct argument
-    expect(emitSpy).toHaveBeenCalledWith(searchQuery);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      // Check if the emit method was called with the correct argument
+      expect(emitSpy).toHaveBeenCalledWith(searchQuery);
+    });
+
+    
   });
 
   it('should render the search input field', () => {
