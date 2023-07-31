@@ -21,8 +21,12 @@
           </div>
 
           <div>
-          <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Login</button>
-        </div>
+          <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg " [disabled]="busy$ | async">
+            Login
+          </button>
+          
+          <ion-spinner *ngIf="busy$ | async" color="warning" name="circular"></ion-spinner>
+        </div> 
         </form>
 
 

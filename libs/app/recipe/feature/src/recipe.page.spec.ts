@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -86,8 +86,6 @@ describe('RecipeDetailPageComponent', () => {
     expect(setRecipeSpy).toHaveBeenCalledWith('test-id');
   });
 
- 
-
 it('should not retrieve recipe data with empty id', () => {
   component.recipe = undefined;
   const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
@@ -97,6 +95,20 @@ it('should not retrieve recipe data with empty id', () => {
 
   expect(getRecipeByIdSpy).not.toHaveBeenCalled();
   expect(component.recipe).toBeUndefined();
+});
+
+it('Should set forceLoading to false after the timer is done', ()=> {
+  jest.useFakeTimers();
+  component.forceLoading = true;
+  component.ngOnInit();
+  jest.advanceTimersByTime(1000);
+  expect(component.forceLoading).toBe(false);
+})
+
+it('Should go to the Home Page', () => {
+  const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+  component.goHome();
+  expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
 });
 
 it('Should set forceLoading to false after the timer is done', ()=> {

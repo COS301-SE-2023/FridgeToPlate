@@ -1,11 +1,6 @@
 import { IReview } from "@fridge-to-plate/app/review/utils";
 import { IRecipe } from "./interfaces";
 
-// export class UpdateRecipe {
-//     static readonly type = "[EditRecipe] UpdateRecipe";
-//     constructor(public readonly recipe: IRecipe) {}
-// }
-
 export class DeleteRecipe {
     static readonly type = "[EditRecipe] DeleteRecipe";
     constructor(public readonly recipeId: string) {}
@@ -19,11 +14,6 @@ export class CreateRecipe {
 export class RetrieveRecipe {
     static readonly type = "[Retrieve] RetrieveRecipe";
     constructor(public readonly recipeId: string) {}
-}
-
-export class GetRecipe {
-  static readonly type = '[Recipe] Get Recipe';
-  constructor(public readonly recipeId: string) {}
 }
 
 export class UpdateRecipe {

@@ -19,7 +19,7 @@ import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule, SESSION_STORAGE_ENGINE } from '@ngxs/storage-plugin';
+import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
@@ -66,8 +66,7 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
       ]
     }),
     NgxsRouterPluginModule.forRoot(),
-    NgxsActionsExecutingModule.forRoot()
-    
+    NgxsActionsExecutingModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

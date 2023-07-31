@@ -151,6 +151,8 @@ describe('Profile Tests', () => {
   //     cy.get('ion-button.review-button').click();
   //   });
 
+  //  });
+
   // describe('home tests', () => {
   //   beforeEach(() => cy.visit('/'));
 

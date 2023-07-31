@@ -261,49 +261,19 @@ export class RecommendState {
 
   @Action(GetUpdatedRecommendation)
   getUpdatedPreferences({
-    patchState,
-    getState,
-  }: StateContext<RecommendStateModel>) {
-    this.profile$.subscribe((userProfile) => {
-      this.recommendApi
-        .getUpdatedPreferences(userProfile.username)
+    patchState
+  }: StateContext<RecommendStateModel>, { username } : GetUpdatedRecommendation) {
+    this.recommendApi
+        .getUpdatedPreferences(username)
         .subscribe((updatedPreferences) => {
-          //Case 1: User has preferences already - update on store
-          // if (
-          //   updatedPreferences.ingredients !== null &&
-          //   updatedPreferences.ingredients.length > 0 &&
-          //   updatedPreferences.recipePreferences !== null
-          // ) {
-          //   //1. Update ingredients
-          //   this.store.dispatch(
-          //     new UpdateIngredients(updatedPreferences.ingredients)
-          //   );
-
-          //   //2. Update preferences
-          //   patchState({
-          //     recommendRequest: updatedPreferences,
-          //   });
-          // }
-          // //Case 2: User has no preferences stored - set current as on remote (Demo Purposes)
-          // else {
-          //   this.store.dispatch(
-          //     new AddRecommendation(
-          //       getState().recommendRequest.recipePreferences
-          //     )
-          //   );
-          // }
-
-          //   //1. Update ingredients
           this.store.dispatch(
             new UpdateIngredients(updatedPreferences.ingredients)
           );
 
-          //   //2. Update preferences
           patchState({
             recommendRequest: updatedPreferences,
           });
         });
-    });
   }
 
   @Action(AddRecommendation)

@@ -40,6 +40,7 @@ export class SettingsModalComponent {
 
   logout() {
     this.store.dispatch(new Logout());
+    this.close();
   }
 
   openPassword(){

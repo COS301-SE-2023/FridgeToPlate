@@ -46,7 +46,7 @@ export class Review {
     }
 
     this.profile$.subscribe( (stateProfile) => {
-      this.stateUsername = stateProfile.username;
+      this.stateUsername = stateProfile.displayName;
     });
 
     let stateRecipeId = '';

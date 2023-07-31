@@ -9,7 +9,6 @@ import {
   UpdateRecipe,
   AddReview,
   DeleteReview,
-  GetRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { catchError, take, tap } from 'rxjs';
@@ -19,72 +18,12 @@ import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
-  featuredRecipes: IRecipe[];
 }
 
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
     recipe: null,
-    featuredRecipes: [
-      {
-        recipeImage: "https://example.com/recipe5.jpg",
-        name: "Savory Stuffed Bell Peppers",
-        description: "Delicious and colorful stuffed bell peppers",
-        tags: ["stuffed", "bell peppers", "dinner"],
-        meal: "Dinner",
-        ingredients: [
-          { name: "Bell Peppers", amount: 4, unit: "large" },
-          { name: "Ground Beef", amount: 1, unit: "lb" },
-          { name: "Rice", amount: 1, unit: "cup" },
-          { name: "Onion", amount: 1, unit: "medium" },
-          { name: "Tomatoes", amount: 2, unit: "medium" },
-          { name: "Cheese", amount: 1, unit: "cup" },
-          { name: "Salt", amount: 1, unit: "teaspoon" },
-          { name: "Pepper", amount: 1, unit: "teaspoon" }
-        ],
-        steps: [
-          "Cook the rice according to package instructions.",
-          "Preheat the oven to 375°F (190°C).",
-          "Cut the tops off the bell peppers and remove the seeds and membranes.",
-          "In a skillet, cook the ground beef and onion until the beef is browned.",
-          "Stir in the cooked rice, tomatoes, cheese, salt, and pepper.",
-          "Stuff each bell pepper with the mixture.",
-          "Place the stuffed bell peppers in a baking dish and bake for 25-30 minutes or until the peppers are tender.",
-          "Enjoy these delicious and colorful stuffed bell peppers!"
-        ],
-        prepTime: 35,
-        servings: 4,
-        difficulty: "Medium",
-        creator: "Michael"
-      },
-      {
-        recipeImage: "https://example.com/recipe4.jpg",
-        name: "Mouthwatering Smoothie",
-        description: "A refreshing and delicious smoothie recipe",
-        tags: ["smoothie", "healthy", "breakfast"],
-        meal: "Breakfast",
-        ingredients: [
-          { name: "Banana", amount: 2, unit: "ripe" },
-          { name: "Strawberries", amount: 1, unit: "cup" },
-          { name: "Greek Yogurt", amount: 1, unit: "cup" },
-          { name: "Honey", amount: 1, unit: "tablespoon" },
-          { name: "Milk", amount: 1, unit: "cup" }
-        ],
-        steps: [
-          "Blend the banana, strawberries, Greek yogurt, honey, and milk together until smooth.",
-          "Pour the smoothie into a glass and enjoy!",
-          "This refreshing smoothie is perfect for breakfast or as a healthy snack."
-        ],
-        prepTime: 10,
-        servings: 2,
-        difficulty: "Easy",
-        creator: "Sophia",
-      }
-      
-
-      
-    ]
   }
 })
 @Injectable()
@@ -97,25 +36,31 @@ export class RecipeState {
     return state.recipe;
   }
 
-  @Selector()
-  static getFeaturedRecipes(state: RecipeStateModel) {
-    return state.featuredRecipes;
-  }
-
-
-  @Action(GetRecipe)
-  getRecipe(
-    { patchState }: StateContext<RecipeStateModel>,
-    { recipeId }: GetRecipe
+  @Action(RetrieveRecipe)
+  async retrieveRecipe(
+    { setState }: StateContext<RecipeStateModel>,
+    { recipeId }: RetrieveRecipe
   ) {
-    this.api
-      .getRecipeById(recipeId)
-      .pipe(take(1))
-      .subscribe((recipeData: IRecipe) => {
-        patchState({
-          recipe: recipeData,
-        });
-      });
+
+    this.api.getRecipeById(recipeId).subscribe(
+      (recipe) => {
+        if (recipe) {
+          setState({
+            recipe: recipe,
+          });
+        } else {
+          this.store.dispatch(
+            new ShowError(
+              'Error: Something is wrong with the recipe: ' + recipe
+            )
+          );
+        }
+      },
+      (error: Error) => {
+        console.error('Failed to retrieve recipe:', error);
+        this.store.dispatch(new ShowError(error.message));
+      }
+    );
   }
 
   @Action(UpdateRecipe)
@@ -221,27 +166,5 @@ export class RecipeState {
       catchError (
         () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
       ))).subscribe();
-  }
-
-  @Action(RetrieveRecipe)
-  async retrieveRecipe(
-    { setState, getState}: StateContext<RecipeStateModel>,
-    { recipeId }: RetrieveRecipe
-  ) {
-
-    const recipes = getState().featuredRecipes
-    this.api.getRecipeById(recipeId).subscribe(
-      (recipe) => {
-        setState({
-          recipe: recipe,
-          featuredRecipes: recipes
-        });
-        
-      },
-      (error: Error) => {
-        console.error('Failed to retrieve recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
-      }
-    );
   }
 }

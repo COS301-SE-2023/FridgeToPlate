@@ -22,6 +22,7 @@ export class AddRecommendation {
 
 export class GetUpdatedRecommendation {
   static readonly type = '[Recommend] Get Updated RecipeRecommendation';
+  constructor(public readonly username: string){}
 }
 
 export class UpdateRecipeRecommendations {

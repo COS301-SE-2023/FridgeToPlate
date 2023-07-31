@@ -99,7 +99,12 @@ describe('RecipeCardComponent', () => {
     expect(dispatchSpy).toBeCalledWith(new RemoveSavedRecipe(component.recipe as IRecipeDesc));
   });
 
-
+    // Tests that the user can navigate to the edit-recipe page with the correct query params
+    it('test edit recipe with recipe id', () => {
+      component.recipe = { recipeId: '123' };
+      component.edit();
+      expect(store.dispatch).toBeCalledWith(new LoadRecipe(component.recipe.recipeId));
+  });
 
   it('test edit recipe with undefined recipe', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');

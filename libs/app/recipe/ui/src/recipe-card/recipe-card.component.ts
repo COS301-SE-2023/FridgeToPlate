@@ -33,8 +33,8 @@ export class RecipeCardComponent implements OnInit {
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
       if (profile !== null && this.recipe !== undefined) {
-        this.bookmarked = profile.savedRecipes.includes(this.recipe as IRecipeDesc);
-        this.editable = profile.createdRecipes.includes(this.recipe as IRecipeDesc);
+        this.bookmarked = profile.savedRecipes.some((object) => object.recipeId === this.recipe.recipeId);
+        this.editable = profile.createdRecipes.some((object) => object.recipeId === this.recipe.recipeId);
         this.added = this.checkMealPlan(profile.currMealPlan);
       } else {
         this.bookmarked = false;
@@ -50,6 +50,8 @@ export class RecipeCardComponent implements OnInit {
     } else {
       this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
     }
+
+    this.bookmarked = !this.bookmarked;
   }
 
   edit() {

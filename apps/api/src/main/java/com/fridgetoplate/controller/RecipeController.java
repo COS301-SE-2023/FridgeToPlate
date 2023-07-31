@@ -33,7 +33,7 @@ public class RecipeController {
         return recipeRepository.getRecipesByUsername(username);
     }
 
-    @GetMapping("/{recipename}")
+    @GetMapping("/name/{recipename}")
     public List<RecipeFrontendModel> findRecipesByRecipename(@PathVariable(value = "recipename") String recipename){
         return recipeRepository.getRecipesByRecipename(recipename);
     }
