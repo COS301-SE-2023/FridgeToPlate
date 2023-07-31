@@ -2,21 +2,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { NgxsModule, Select, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { SearchingModalComponent } from './searching-modal.component';
 
-// Create a mock ExploreState to be used in the tests
-const mockExploreState = {
-  getExplore: jest.fn().mockReturnValue(of({})), // Return an empty object for simplicity
-};
-
-// Create a mock Store
-class MockStore {
-  select() {
-    return of({}); // Return an empty object for simplicity
-  }
-}
 
 describe('SearchingModalComponent', () => {
   let component: SearchingModalComponent;
@@ -25,10 +14,7 @@ describe('SearchingModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SearchingModalComponent],
-      providers: [
-        { provide: Store, useClass: MockStore },
-        { provide: Select, useValue: mockExploreState },
-      ],
+      imports: [NgxsModule.forRoot()]
     }).compileComponents();
   });
 
