@@ -17,9 +17,4 @@ export class ExploreCardComponent {
   editable = false;
   @Input() explore !: any;
 
-
-  constructor() {
-    return;
-  }
-
 }
