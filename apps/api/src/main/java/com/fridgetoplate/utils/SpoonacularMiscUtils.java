@@ -9,7 +9,7 @@ public class SpoonacularMiscUtils {
     
     public String estimateRecipeDifficulty(int recipePrepTime, List<Ingredient> ingredients){
 
-        if(recipePrepTime == 0 || ingredients == null ) 
+        if(recipePrepTime <= 0 || ingredients == null ) 
             return "Easy";
         
         else{

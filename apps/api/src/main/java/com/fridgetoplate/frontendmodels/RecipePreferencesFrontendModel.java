@@ -9,7 +9,6 @@ public class RecipePreferencesFrontendModel {
     private String servings;
     private String rating;
     private String[] keywords;
-    private Ingredient[] ingredients;
     private String prepTime;
 
     public String getDifficulty() {
@@ -36,7 +35,27 @@ public class RecipePreferencesFrontendModel {
         return prepTime;
     }
 
-    public Ingredient[] getIngredients() {
-        return ingredients;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+    
+    public void setMeal(String meal) {
+        this.meal = meal;
+    }
+
+    public void setServings(String servings) {
+        this.servings = servings;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public void setKeywords(String[] keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setPrepTime(String prepTime) {
+        this.prepTime = prepTime;
     }
 }

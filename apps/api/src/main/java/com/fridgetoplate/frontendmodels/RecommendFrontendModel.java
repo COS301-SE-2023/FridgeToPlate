@@ -1,13 +1,15 @@
 package com.fridgetoplate.frontendmodels;
 
+import java.util.List;
+
 import com.fridgetoplate.model.Ingredient;
 
 public class RecommendFrontendModel {
     private String username;
-    private Ingredient[] ingredients;
-    private String recipePreferences;
+    private List<Ingredient> ingredients;
+    private RecipePreferencesFrontendModel recipePreferences;
 
-    public Ingredient[] getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
@@ -15,7 +17,19 @@ public class RecommendFrontendModel {
         return username;
     }
 
-    public String getRecipePreferences() {
+    public RecipePreferencesFrontendModel getRecipePreferences() {
         return recipePreferences;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients){
+        this.ingredients = ingredients;
+    }
+
+    public void setPreferences(RecipePreferencesFrontendModel preferences){
+        this.recipePreferences = preferences;
     }
 }
