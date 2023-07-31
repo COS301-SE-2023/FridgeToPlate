@@ -41,13 +41,14 @@
         "libs/app/error/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
-      "@fridge-to-plate/app/home/feature": [
-        "libs/app/home/feature/src/index.ts"
-      ],
       "@fridge-to-plate/app/forgot/feature": [
         "libs/app/forgot/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
+      "@fridge-to-plate/app/home/feature": [
+        "libs/app/home/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/home/utils": ["libs/app/home/utils/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
