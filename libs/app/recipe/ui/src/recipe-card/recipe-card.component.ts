@@ -32,7 +32,6 @@ export class RecipeCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
-      console.log(profile);
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.some((object) => object.recipeId === this.recipe.recipeId);
         this.editable = profile.createdRecipes.some((object) => object.recipeId === this.recipe.recipeId);
