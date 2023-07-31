@@ -97,6 +97,14 @@ it('should not retrieve recipe data with empty id', () => {
   expect(component.recipe).toBeUndefined();
 });
 
+it('Should set forceLoading to false after the timer is done', ()=> {
+  jest.useFakeTimers();
+  component.forceLoading = true;
+  component.ngOnInit();
+  jest.advanceTimersByTime(1000);
+  expect(component.forceLoading).toBe(false);
+})
+
 it('Should go to the Home Page', () => {
   const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
   component.goHome();
@@ -116,5 +124,6 @@ it('Should go to the Home Page', () => {
   component.goHome();
   expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
 })
+
 
 });

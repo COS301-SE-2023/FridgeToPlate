@@ -60,7 +60,7 @@ export class EditRecipeComponent implements OnInit {
         if(recipe.recipeId) {
           this.recipeId = recipe.recipeId;
         }
-      });
+      }); // ?
   }
 
   populateForm(): void {
@@ -159,13 +159,14 @@ export class EditRecipeComponent implements OnInit {
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
     };
-    this.store.dispatch( new UpdateRecipe(recipe) )
+    
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
     const index = profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
     if(index === -1) {
       this.store.dispatch( new ShowError('Could not update recipe'));
       return;
     }
+    this.store.dispatch( new UpdateRecipe(recipe) );
     profile.createdRecipes[index] = recipe;
     this.store.dispatch( new UpdateProfile(profile))
     this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]))
@@ -194,8 +195,8 @@ export class EditRecipeComponent implements OnInit {
 
     this.store.dispatch( new DeleteRecipe( this.recipe?.recipeId as string ))
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
-      profile.createdRecipes = profile.createdRecipes.filter( recipe => this.recipeId !== recipe.recipeId);
-      this.store.dispatch( new UpdateProfile(profile))
+    profile.createdRecipes = profile.createdRecipes.filter( recipe => this.recipeId !== recipe.recipeId);
+    this.store.dispatch( new UpdateProfile(profile))
   })
     this.location.back()
   }
