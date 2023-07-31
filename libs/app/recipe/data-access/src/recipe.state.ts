@@ -22,23 +22,10 @@ export interface RecipeStateModel {
   featuredRecipes: IRecipe[];
 }
 
-const initialState:IRecipe = {
-  description: '',
-  servings: 0,
-  prepTime: 0,
-  meal: 'Breakfast',
-  ingredients: [],
-  steps: [],
-  creator: '',
-  name: '',
-  tags: [],
-  difficulty: 'Easy',
-  recipeImage: ''
-};
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: environment.TYPE === "production" ? null : initialState,
+    recipe: null,
     featuredRecipes: [
       {
         recipeImage: "https://example.com/recipe5.jpg",
@@ -245,18 +232,11 @@ export class RecipeState {
     const recipes = getState().featuredRecipes
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
-        if (recipe) {
-          setState({
-            recipe: recipe,
-            featuredRecipes: recipes
-          });
-        } else {
-          this.store.dispatch(
-            new ShowError(
-              'Error: Something is wrong with the recipe: ' + recipe
-            )
-          );
-        }
+        setState({
+          recipe: recipe,
+          featuredRecipes: recipes
+        });
+        
       },
       (error: Error) => {
         console.error('Failed to retrieve recipe:', error);
