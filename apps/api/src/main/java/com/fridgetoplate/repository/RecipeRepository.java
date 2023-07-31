@@ -138,7 +138,7 @@ public class RecipeRepository {
         return recipes;
     }
 
-    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences){
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients){
         
         //Build Expression
         List<RecipeFrontendModel> recipes = new ArrayList<>();
@@ -202,31 +202,33 @@ public class RecipeRepository {
         if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
 
             String [] keywordArray = recipePreferences.getKeywords();
-            
+        
             for(int i = 0; i < keywordArray.length; i++){
-                eav.put(":val_" + keywordArray[i],new AttributeValue().withS(keywordArray[i]));
+                String keywordString = keywordArray[i].replace("\s", keywordQueryString).strip();
+
+                eav.put(":val_" + keywordString,new AttributeValue().withS(keywordString));
                 if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordString + ")";
                 }
                 else{
-                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordArray[i] + ")";
+                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordString + ")";
                 }
             }
         }
 
         String ingredientQueryString = "";
 
-        if(recipePreferences.getIngredients() != null && recipePreferences.getIngredients().length != 0){
-
-            Ingredient [] ingredientsArray = recipePreferences.getIngredients();
+        if(userIngredients != null && userIngredients.size() != 0){
             
-            for(int i = 0; i < ingredientsArray.length; i++){
-                eav.put(":val_" + ingredientsArray[i] , new AttributeValue().withS(ingredientsArray[i].getName()));
+            for(int i = 0; i < userIngredients.size(); i++){
+                String ingredientName = userIngredients.get(i).getName().strip().split(",")[0].replace("\s", "");
+
+                eav.put(":val_" + ingredientName , new AttributeValue().withS(ingredientName));
                 if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientName + ")";
                 }
                 else{
-                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientsArray[i].getName() + ")";
+                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientName + ")";
                 }
             }
         }
