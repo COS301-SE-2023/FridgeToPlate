@@ -1085,8 +1085,54 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(component.isFormValid()).toBe(true)
       expect(component.isFormValid).toHaveBeenCalled();
 
-
     });
+
+
+    it('Should dispatch Could not update recipe error', () => {
+      component = fixture.componentInstance;
+      jest.spyOn(component, 'isFormValid');
+      
+      // Mock the recipe data
+      const recipe: IRecipe = {
+        name: "Mock Recipe",
+        recipeImage: "https://example.com/image.jpg",
+        description: "Amazing meal for a family",
+        meal: "Dinner",
+        creator: '',
+        ingredients: [ {name: 'ingredient1' , amount : 5, unit : 'L'},
+        {name: 'ingredient2' , amount : 3, unit : 'g'}
+        ],
+        steps: [
+            "Mock instructions",
+        ],
+        difficulty: "Easy",
+        prepTime: 30,
+        servings: 4,
+        tags: ["mock", "recipe"],
+      };
+    
+      component.imageUrl = recipe.recipeImage
+      // Mock the values and controls used in createRecipe
+      component.recipeForm = fb.group({
+        name: fb.control(recipe.name),
+        description: fb.control(recipe.description),
+        difficulty: fb.control(recipe.difficulty),
+        servings: fb.control(recipe.servings),
+        preparationTime: fb.control(recipe.prepTime),
+        ingredients: fb.array(recipe.ingredients.map(ingredient => fb.control(ingredient))),
+        instructions: fb.array(recipe.steps.map(instruction => fb.control(instruction))),
+        dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
+      });
+
+      component.tags = recipe.tags;
+      component.selectedMeal = recipe.meal;
+      component.profile = testProfile;
+      component.profile.createdRecipes = [];
+    
+      // Call the createRecipe method
+      component.updateRecipe();
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Could not update recipe'));
+    })
 
     it('Should not create recipe if form is invalid', () => {
 
@@ -1094,9 +1140,6 @@ describe('Ingredients storing, deleting and returning', () => {
     
 
       const profileDataSubject = new BehaviorSubject<IProfile | undefined>(undefined);
-
-
-
       // Mock the recipe data
       const recipe: IRecipe = {
         name: "Mock Recipe",
