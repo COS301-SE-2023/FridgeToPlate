@@ -30,7 +30,7 @@ export class NavigationBar {
   }
 
   openSearch() {
-    this.store.dispatch(new Navigate(['/explore']));
+    this.store.dispatch(new Navigate(['/search']));
   }
 
   openCreate() {

@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
@@ -106,6 +107,13 @@ describe('RecipeCardComponent', () => {
     component.edit();
     expect(showErrorSpy).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to edit.'));
 });
+
+  it('Should dispatch Load recipe Action', ()=>{
+    const loadRecipeSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+    component.recipe = { recipeId : 'Valid_recipe_id'} as IRecipe;
+    component.edit();
+    expect(loadRecipeSpy).toHaveBeenCalledWith(new LoadRecipe('Valid_recipe_id'));
+  })
 
     // Tests that toggleDropdown method toggles the value of 'showMenu' from false to true
   it('test toggle dropdown toggles show menu from false to true', () => {

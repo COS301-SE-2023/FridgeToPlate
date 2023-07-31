@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditRecipeComponent } from './edit-recipe.page';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { DeleteRecipe, IRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
@@ -77,6 +77,17 @@ describe('EditRecipeComponent', () => {
       expect(deleteRecipeSpy).toHaveBeenCalled();
       expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
   });
+
+
+  it('Should set recipe and recipe Id', ()=> {
+    const recipeId = 'valid_recipe_id';
+    const recipe = { recipeId } as IRecipe;
+    component.recipe = recipe;
+    component.recipeId = recipeId;
+    fixture.detectChanges();
+    expect(component.recipe).toEqual(recipe);
+    expect(component.recipeId).toEqual(recipeId);
+  })
 
   it('test show error message if recipe id is not available', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
@@ -1023,9 +1034,7 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
-
-    
-
+      
       // Mock the recipe data
       const recipe: IRecipe = {
         name: "Mock Recipe",
@@ -1061,11 +1070,13 @@ describe('Ingredients storing, deleting and returning', () => {
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
       component.profile = testProfile;
+      component.profile.createdRecipes = [recipe];
     
       // Call the createRecipe method
       component.updateRecipe();
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateRecipe(recipe));
-
+      expect(dispatchSpy).toHaveBeenCalledWith(new UpdateProfile(testProfile));
+      expect(dispatchSpy).toHaveBeenCalledWith(new Navigate([`/recipe/${recipe.recipeId}`]));
       expect(component.recipeForm.valid).toBe(true);
       expect(component.isFormValid()).toBe(true)
       expect(component.isFormValid).toHaveBeenCalled();
