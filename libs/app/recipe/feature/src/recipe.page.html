@@ -7,7 +7,7 @@
 </div>
 
 <ng-template #recipe>
-  <div *ngIf="recipe$ | async as recipe; else ErrorMessage" class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12">
+  <div *ngIf="recipe$ | async as recipe; else ErrorMessage" class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16">
   <div class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50">
     <button id="back-button"
       (click)="goBack()"
