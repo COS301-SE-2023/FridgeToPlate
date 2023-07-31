@@ -52,7 +52,7 @@
           <ion-label class="text-lg font-bold">Ingredients</ion-label>
         </ion-list-header>
         <ion-item *ngFor="let ingredient of recipe?.ingredients">
-          <div>{{ingredient?.amount ?? ''}} {{ingredient?.unit ?? ''}}   {{ingredient?.name ?? 'Unknown ingredient'}}</div>
+          <div>{{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}   {{ingredient?.name ?? 'Unknown ingredient'}}</div>
         </ion-item>
       </ion-list>
     </div>
