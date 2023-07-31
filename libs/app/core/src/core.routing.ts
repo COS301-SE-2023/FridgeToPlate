@@ -56,7 +56,11 @@ const routes: Routes = [
     {
         path: 'home',
         loadChildren: () => import('@fridge-to-plate/app/home/feature').then((m) => m.HomeModule),
-    }
+    },
+    {   
+        path: '**', 
+        redirectTo: 'home'
+    },
 ];
 
 @NgModule({

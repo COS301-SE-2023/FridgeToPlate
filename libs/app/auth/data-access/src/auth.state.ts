@@ -69,7 +69,7 @@ export class AuthState {
   }
 
   @Action(SignUp)
-  signUp(
+  async signUp(
     { setState }: StateContext<AuthStateModel>,
     { username, email, password }: SignUp
   ) {
@@ -91,7 +91,7 @@ export class AuthState {
       attributeList.push(attribute);
     }
 
-    userPool.signUp(username, password, attributeList, [], (err, result) => {
+    await userPool.signUp(username, password, attributeList, [], (err, result) => {
       if (err) {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
         setState({
@@ -146,7 +146,7 @@ export class AuthState {
   }
 
   @Action(Login)
-  login(
+  async login(
     { setState }: StateContext<AuthStateModel>,
     { username, password }: Login
   ) {
@@ -159,7 +159,7 @@ export class AuthState {
 
     const userData = { Username: username, Pool: userPool };
     const cognitoUser = new CognitoUser(userData);
-    cognitoUser.authenticateUser(authenticationDetails, {
+    await cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         setState({
           accessToken: result.getAccessToken().getJwtToken(),

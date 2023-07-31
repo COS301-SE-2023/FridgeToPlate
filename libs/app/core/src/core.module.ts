@@ -66,8 +66,7 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
       ]
     }),
     NgxsRouterPluginModule.forRoot(),
-    NgxsActionsExecutingModule.forRoot()
-    
+    NgxsActionsExecutingModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],
