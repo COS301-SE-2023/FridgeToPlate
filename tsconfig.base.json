@@ -51,8 +51,20 @@
         "libs/app/forgot/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
+<<<<<<< HEAD
       "@fridge-to-plate/app/home/feature": [
         "libs/app/home/feature/src/index.ts"
+=======
+      "@fridge-to-plate/app/explore/data-access": [
+        "libs/app/explore/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/explore/feature": [
+        "libs/app/explore/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/explore/ui": ["libs/app/explore/ui/src/index.ts"],
+      "@fridge-to-plate/app/explore/utils": [
+        "libs/app/explore/utils/src/index.ts"
+>>>>>>> 4bf7da7fe4b4894d754aac924aa1de2366f1b037
       ],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
