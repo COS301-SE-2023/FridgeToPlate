@@ -27,6 +27,7 @@ export class EditRecipeComponent implements OnInit {
   profile !: IProfile;
   recipeId !: string;
   recipe !: IRecipe | null;
+  
   @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 

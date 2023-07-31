@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Select, Store, ofActionSuccessful, Actions } from '@ngxs/store';
+import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable } from 'rxjs';
-import { ActionsExecuting, actionsExecuting } from '@ngxs-labs/actions-executing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Navigate } from '@ngxs/router-plugin';
-
+import { actionsExecuting, ActionsExecuting} from '@ngxs-labs/actions-executing';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
@@ -17,11 +16,12 @@ import { Navigate } from '@ngxs/router-plugin';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
-  @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>;
-  ShowErrorSuccessful$ = this.actions$.pipe(ofActionSuccessful(ShowError));
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
+  @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>
   recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
+  stateChanged = this.actions$.pipe(ofActionSuccessful(RetrieveRecipe));
+  forceLoading = true;
 
   constructor(
     private location: Location,
@@ -31,6 +31,10 @@ export class RecipePage implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.forceLoading = true;
+    setTimeout(() => {
+      this.forceLoading = false;
+    }, 1000);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
@@ -58,8 +62,7 @@ export class RecipePage implements OnInit {
       this.store.dispatch(new ShowError('Invalid Recipe Id'));
       return;
     }
-    
-   
+
   }
 
   goHome() {
