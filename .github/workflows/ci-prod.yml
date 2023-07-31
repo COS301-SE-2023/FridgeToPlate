@@ -13,7 +13,7 @@ jobs:
 
     name: Lint, Test & Build Wokspace
     runs-on: windows-latest
-    environment: Production 
+    environment: Development 
 
     steps:
     - name: Checkout Repo
@@ -54,7 +54,7 @@ jobs:
         files: coverage/lcov.info  
 
     - name: e2e Test App
-      run: npm run e2e:app:prod
+      run: npm run e2e:app:test
       
     - name: Build App
       run: npm run build:app:prod

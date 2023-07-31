@@ -9,8 +9,8 @@ module.exports = {
   ],
   theme: {
     screens: {
-      'sm': '200px',
-      'md': '740px',
+      'sm': '320px',
+      'md': '700px',
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
@@ -24,6 +24,8 @@ module.exports = {
         'primary-highlight': '#E26310',
         'accept': '#2bc917',
         'reject': '#d70b0b',
+        'delete': '#B9261C',
+        'delete-highlight': '#DC2626',
         'subtitle': '#9D9D9D',
         'input-outline': '#E6E6E6',
       },

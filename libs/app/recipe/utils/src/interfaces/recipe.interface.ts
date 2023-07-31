@@ -1,15 +1,21 @@
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { IRecipeStep } from './recipe-step.interface';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 
-export interface IRecipe {
+export interface IRecipeDesc {
   recipeId?: string;
   name: string;
+  tags: string[];
+  difficulty: 'Easy' | 'Medium' | 'Hard';
   recipeImage: string;
+}
+
+export interface IRecipe extends IRecipeDesc {
+  description: string;
+  servings: number;
+  prepTime: number;
+  meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert';
   ingredients: IIngredient[];
-  instructions: IRecipeStep[];
-  rating?: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-  prepTime?: number;
-  numberOfServings?: number;
-  tags?: string[];
+  steps: string[];
+  creator: string;
+  reviews?: IReview[];
 }

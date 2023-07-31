@@ -1,72 +1,64 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ItemEditStep} from "../item-edit-step/item-edit-step";
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { GetRecipeRecommendations } from '@fridge-to-plate/app/recommend/utils';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'stepper-form',
   templateUrl: './stepper-form.html',
-  styleUrls: ['./stepper-form.scss']
+  styleUrls: ['./stepper-form.scss'],
 })
-
-export class StepperForm implements OnInit{
-
+export class StepperForm {
   currentStep = 1;
 
   recipeRecommendForm!: FormGroup;
 
-  stepContent = `Edit Fridge Items`;
-
-  step = ItemEditStep;
+  stepContent = `Edit Your Ingredients`;
+  stepContentDesktop = `Edit Your Ingredients and Preferences`;
 
   recipePreferencesForm!: FormGroup;
+
+  constructor(private store: Store) {}
+
   changeContent(): void {
     switch (this.currentStep) {
       case 1: {
-        this.stepContent = 'Edit Fridge Items'
+        this.stepContent = 'Edit Your Ingredients';
+        this.stepContentDesktop = `Edit Your Ingredients and Preferences`;
         break;
       }
       case 2: {
-        this.stepContent = 'Verify Preferences'
+        this.stepContent = 'Choose Preferences';
+        this.stepContentDesktop = `Recipe Suggestions`;
         break;
       }
       case 3: {
-        this.stepContent = 'Suggestions'
+        this.stepContent = 'Suggestions';
+        this.stepContentDesktop = `error`;
         break;
       }
       default: {
-        this.stepContent = 'error'
+        this.stepContent = 'error';
+        this.stepContentDesktop = `error`;
       }
     }
   }
 
   previousStep(): void {
-    if(this.currentStep <= 1) return;
-    this.currentStep -=1;
+    if (this.currentStep <= 1) return;
+    this.currentStep -= 1;
     this.changeContent();
   }
 
   nextStep(): void {
-    if(this.currentStep >= 3) return;
-    this.currentStep +=1;
+    if (this.currentStep >= 3) return;
+    this.currentStep += 1;
     this.changeContent();
   }
 
   attemptRecommendation(): void {
-    console.log(this.recipeRecommendForm.value)
-  }
-
-  constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit() {
-    this.recipeRecommendForm = this.formBuilder.group({
-      items: [[], [Validators.required]],
-      preferences: this.formBuilder.group({
-        diet: [[]],
-        keywords: [[]],
-        difficulty: [''],
-        rating: [5]
-      }),
-    })
+    this.store.dispatch(new GetRecipeRecommendations());
+    this.currentStep += 1;
+    this.changeContent();
   }
 }

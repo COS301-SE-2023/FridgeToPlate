@@ -1,74 +1,39 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import {
-  IngredientItem,
-  RecommendDataAccessModule,
-  ingredientsArray,
-} from '@fridge-to-plate/app/recommend/data-access';
-
-import { getAllIngredients } from '@fridge-to-plate/app/recommend/data-access';
-import { RecommendApi } from '../../../data-access/src/recommend.api';
-
-import { Observable, BehaviorSubject, switchMap, Subscription } from 'rxjs';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { AddIngredient, RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
+import { Select, Store } from '@ngxs/store';
+import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
+import {Observable } from 'rxjs';
 
 @Component({
   selector: 'item-edit-step',
   templateUrl: './item-edit-step.html',
   styleUrls: ['item-edit-step.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ItemEditStep {
-  constructor(private recommendApiClient: RecommendApi) {}
-
-  ingredientList: IIngredient[] | undefined;
-
-  ingredientsToBeDeleted: string[] = [];
 
   order = '';
+  ingredientName = '';
+  ingredientAmount = 1;
+  ingredientScale = '';
+  
+  constructor(private store: Store) {}
 
-  @ViewChild('teams') orderBy!: ElementRef;
+  @Select(RecommendState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
-  ingredientItems$: Subscription = this.recommendApiClient
-    .getUserIngredientsList()
-    .subscribe({
-      next: (userIngredients) => {
-        this.ingredientList = userIngredients;
-      },
-      error: (error) => {
-        this.ingredientList = [];
-        console.log(error);
-      },
-    });
-
-  removeItem(item: IIngredient) {
-    console.log(item);
-    if (!item.ingredientId) return;
-
-    this.ingredientsToBeDeleted.push(item.ingredientId);
-
-    console.log('To be deleted: ', this.ingredientsToBeDeleted);
-    const updatedList = this.ingredientList?.filter((item) => {
-      if (item.ingredientId)
-        return !this.ingredientsToBeDeleted.includes(item.ingredientId);
-      else return false;
-    });
-    this.ingredientList = updatedList;
+  removeItem(deleteItem: IIngredient) {
+    this.store.dispatch(new RemoveIngredient(deleteItem));
   }
 
-  onChangeOrder() {
-    if (this.order === '') return;
-    else {
-      switch (this.order) {
-        case 'name-asc':
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          );
-          break;
-        default:
-          this.ingredientList = this.ingredientList?.sort((a, b) =>
-            a.name > b.name ? -1 : 1
-          );
-          break;
-      }
+  addIngredient() {
+    const testIngredient: IIngredient = {
+      name: this.ingredientName,
+      amount: this.ingredientAmount as number,
+      unit: this.ingredientScale
     }
+    
+    this.store.dispatch(new AddIngredient(testIngredient));
   }
 }

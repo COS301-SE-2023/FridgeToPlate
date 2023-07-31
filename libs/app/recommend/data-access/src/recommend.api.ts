@@ -5,25 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, switchMap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-export interface IResponse {
-  status: number;
-  message: string;
-  data: {};
-}
+import { IRecommend } from '@fridge-to-plate/app/recommend/utils';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
-export interface IngredientsResponse extends IResponse {
-  data: {
-    ingredientsList: IIngredient[];
-  };
-}
-
-export interface DietResponse extends IResponse {
-  data: {
-    dietList: string[];
-  };
-}
-
-const baseUrl = 'http://localhost:5000/';
+const baseUrl = environment.API_URL + '/recommend';
 
 @Injectable({
   providedIn: 'root',
@@ -49,25 +34,12 @@ export class RecommendApi {
 
   removeIngredient(ingredient: IIngredient) {
     return ingredientsArray.filter(
-      (ingredientItem) =>
-        ingredientItem.ingredientId !== ingredient.ingredientId
+      (ingredientItem) => ingredientItem.name !== ingredient.name
     );
   }
 
   //Step 2
   getDietList(): Observable<string[]> {
-    //TODO:Comment out when backend connected.
-    // const req: Observable<string[]> = this.httpClient
-    //   .get<IngredientsResponse>('diet')
-    //   .pipe(
-    //     switchMap((res: IngredientsResponse) => {
-    //       return res.data.ingredientsList ?? ingredientsArray;
-    //     }),
-    //     catchError(async (error) => {
-    //       console.log('An error has occured: ', error);
-    //       return error;
-    //     })
-    //   );
     const dietList = ['Vegan', 'Vegetarian', 'Paleo-tonic', 'Ketogenic'];
 
     const req = new BehaviorSubject<string[]>(dietList);
@@ -76,19 +48,30 @@ export class RecommendApi {
   }
 
   //Step 3
-  getRecommendations(recomendationParams: {}): Observable<IRecipe[]> {
-    const req: Observable<IRecipe[]> = this.httpClient
-      .get<IRecipe[]>(`${baseUrl}recommend`)
-      .pipe(
-        switchMap((res: IRecipe[]) => {
-          return new BehaviorSubject<IRecipe[]>(res);
-        }),
-        catchError(async (error) => {
-          console.log('An error has occured: ', error);
-          return error;
-        })
-      );
+  getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
+    const req: Observable<IRecipe[]> = this.httpClient.post<IRecipe[]>(
+      baseUrl,
+      recomendationParams
+    );
+    return req;
+  }
+
+  updateRecommendations(
+    newRecommendations: IRecommend
+  ): Observable<IRecommend> {
+    const req: Observable<IRecommend> = this.httpClient.put<IRecommend>(
+      `${baseUrl}/${newRecommendations.username}`,
+      newRecommendations
+    );
 
     return req;
+  }
+
+  getUpdatedPreferences(username: string): Observable<IRecommend> {
+    return this.httpClient.get<IRecommend>(`${baseUrl}/${username}`);
+  }
+
+  addPreferences(preferences: IRecommend): Observable<IRecommend> {
+    return this.httpClient.post<IRecommend>(`${baseUrl}/create`, preferences);
   }
 }

@@ -1,109 +1,40 @@
 import { Component } from "@angular/core";
-import { ProfileAPI } from "@fridge-to-plate/app/profile/data-access";
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
+import { Select, Store } from '@ngxs/store';
+import { Observable, take } from "rxjs";
+import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
+import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
+import { Navigate } from "@ngxs/router-plugin";
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: "profile-page",
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ProfilePage {
 
+  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+
   displayEditProfile = "none";
+  displaySettings = "none";
+  displaySort = "none";
+  subpage = "saved";
 
-  subpage: string = "saved";
+  editableProfile !: IProfile;
 
-  profile : any;
-
-  editableProfile : any;
-
-  ingredientArray: IIngredient = {
-    ingredientId: "75e4269f-c3bd-4dbf-bd2c-e1ec60ac048c",
-    name: "garlic"
-  }
-
-
-  constructor(private api: ProfileAPI) {}
-
-  ngOnInit() {
-    this.profile = {
-      profileId: "1",
-      name: "John Doe",
-      username: "jdoe",
-      email: "jdoe@gmail.com",
-      saved_recipes: [
-        {
-          id: "1",
-          name: "Shrimp Pasta",
-          difficulty: "Medium",
-          tags: ["Seafood", "Pasta"]
-        },
-        {
-          id: "2",
-          name: "Pizza",
-          difficulty: "Easy",
-          tags: ["Italian", "Pizza"]
-        },
-        {
-          id: "3",
-          name: "Mushroom Pie",
-          difficulty: "Medium",
-          tags: ["Quick"]
-        },
-        {
-          id: "4",
-          name: "Beef Stew",
-          difficulty: "Easy",
-          tags: ["Winter", "Hearty"]
-        },
-        {
-          id: "5",
-          name: "Beef Stew",
-          difficulty: "Easy",
-          tags: ["Winter", "Hearty"]
-        },
-        {
-          id: "6",
-          name: "Beef Stew",
-          difficulty: "Easy",
-          tags: ["Winter", "Hearty"]
-        },
-      ],
-      ingredients: [
-        {
-          name: "Tomato",
-          amount: "3"
-        },
-        {
-          name: "Cucumber",
-          amount: "1"
-        },
-        {
-          name: "Beef",
-          amount: "200g"
-        },
-        {
-          name: "Chicken Stock",
-          amount: "500ml"
-        },
-      ],
-    };
-    this.editableProfile = Object.create(this.profile);
-
+  constructor(private store: Store) {
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
   }
 
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
   }
 
-  removeIngredient(ingredient: any) {
-    this.profile.ingredients = this.profile.ingredients.filter((item: any) => item !== ingredient );
-  }
-
   openEditProfile() {
-    this.editableProfile = Object.create(this.profile);
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
     this.displayEditProfile = "block";
   }
 
@@ -111,9 +42,53 @@ export class ProfilePage {
     this.displayEditProfile = "none";
   }
 
-  saveProfile() {
-    this.editableProfile.profileId = "9be7b531-4980-4d3b-beff-a35d08f2637e";
-    this.api.editProfile(this.editableProfile);
-    this.profile = this.editableProfile;
+  openSettings() {
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.displaySettings = "block";
   }
+
+  closeSettings() {
+    this.displaySettings = "none";
+  }
+
+  saveProfile() {
+    this.store.dispatch(new UpdateProfile(this.editableProfile));
+  }
+
+  openNotifications() {
+    this.store.dispatch(new Navigate(['/profile/notifications']));
+  }
+
+  openSort() {
+    this.displaySort = "block";
+  }
+
+  closeSort() {
+    this.displaySort = "none";
+  }
+
+  sortSavedBy(type: string) {
+    if (type === 'difficulty') {
+      this.store.dispatch(new SortSavedByDifficulty());
+    } else if (type === 'nameAsc') {
+      this.store.dispatch(new SortSavedByNameAsc());
+    } else if (type === 'nameDesc') {
+      this.store.dispatch(new SortSavedByNameDesc());
+    }
+
+    this.closeSort();
+  }
+
+  sortCreatedBy(type: string) {
+    if (type === 'difficulty') {
+      this.store.dispatch(new SortCreatedByDifficulty());
+    } else if (type === 'nameAsc') {
+      this.store.dispatch(new SortCreatedByNameAsc());
+    } else if (type === 'nameDesc') {
+      this.store.dispatch(new SortCreatedByNameDesc());
+    }
+
+    this.closeSort();
+  }
+
 }

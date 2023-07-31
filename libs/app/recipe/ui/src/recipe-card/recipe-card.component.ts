@@ -1,26 +1,119 @@
-import { Component, Input } from '@angular/core';
-import { ProfileAPI } from '@fridge-to-plate/app/profile/data-access';
+import { Component, Input, OnInit, NgZone  } from '@angular/core';
+import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
+import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
+import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router'; 
+import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
+import { Navigate } from '@ngxs/router-plugin';
+import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-card',
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss'],
 })
-export class RecipeCardComponent {
-  @Input() recipe : any;
-  @Input() bookmarked : boolean = false;
-  @Input() profile : any;
+export class RecipeCardComponent implements OnInit {
+  
+  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
+  
 
-  constructor(private profileAPI: ProfileAPI) {}
+  @Input() recipe !: any;
+  bookmarked = false;
+  editable = true;
+  added = false;
+  showMenu = false;
+  mealType!: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
-  changeSaved() {
-    this.bookmarked = !this.bookmarked;
+  constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
 
-    if (!this.bookmarked) {
-      this.profile.saved_recipes = this.profile.saved_recipes.filter((item: any) => item !== this.recipe );
-      this.profileAPI.editProfile(this.profile);
-    }
+  ngOnInit(): void {
+    this.profile$.subscribe(profile => {
+      if (profile !== null && this.recipe !== undefined) {
+        this.bookmarked = profile.savedRecipes.some((object) => object.recipeId === this.recipe.recipeId);
+        this.editable = profile.createdRecipes.some((object) => object.recipeId === this.recipe.recipeId);
+        this.added = this.checkMealPlan(profile.currMealPlan);
+      } else {
+        this.bookmarked = false;
+        this.editable = false;
+        this.added = false;
+      }
+    });
   }
 
+  changeSaved() {
+    if (this.bookmarked) {
+      this.store.dispatch(new RemoveSavedRecipe(this.recipe as IRecipeDesc));
+    } else {
+      this.store.dispatch(new SaveRecipe(this.recipe as IRecipeDesc));
+    }
+
+    this.bookmarked = !this.bookmarked;
+  }
+
+  edit() {
+      if(!this.recipe){
+        this.store.dispatch(new ShowError('ERROR: No recipe available to edit.'))
+        return;
+      }
+      this.store.dispatch(new LoadRecipe(this.recipe.recipeId))
+  }
+
+  toggleMealPlan() {
+    this.showMenu = !this.showMenu;
+  }
+
+  addToMealPlan(meal: string) {
+    if(!this.recipe) {
+      this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
+      return;
+    }
+    
+    this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
+
+    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
+    this.added = true;
+  }
+
+  removeFromMealPlan() {
+    if(!this.recipe) {
+      this.store.dispatch(new ShowError('ERROR: No recipe available to remove from meal plan.'))
+      return;
+    }
+
+    this.store.dispatch(new RemoveFromMealPlan(this.recipe.recipeId));
+    this.added = false;
+  }
+
+  checkMealPlan(mealPlan : IMealPlan | null): boolean {
+    if (mealPlan === null) {
+      return false;
+    }
+
+    if(mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.lunch?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.dinner?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.snack?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  navigateToRecipe() {
+    this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
+  }
 
 }

@@ -1,21 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Store } from '@ngxs/store';
 import { RecipePreferencesStep } from './recipe-preferences-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
-import { RecommendModule } from '@fridge-to-plate/app/recommend/feature';
 import { RecommendUIModule } from '../recommend.module';
-import { RecommendApi } from 'libs/app/recommend/data-access/src/recommend.api';
+import { NgxsModule } from '@ngxs/store';
+import { UpdateRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
   let fixture: ComponentFixture<RecipePreferencesStep>;
-  let dietlListService: RecommendApi;
+  let store: Store;
+  let dispatchSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecipePreferencesStep],
-      imports: [IonicModule, HttpClientModule, RecommendUIModule],
+      imports: [IonicModule, HttpClientModule, RecommendUIModule, NgxsModule.forRoot()],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
@@ -27,17 +28,11 @@ describe('RecipePreferencesStep', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return 4 diets', () => {
-    component.dietList$.subscribe((next) => {
-      expect(next.length).toBe(4);
-    });
-  });
+  it('update preferences should dispatch an update', () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
 
-  it('should add a selected diet to list of selected diets', () => {
-    component.dietList$.subscribe((next) => {
-      let dietList = next;
-      component.dietSelect('Vegan');
-      expect(component.dietCategories).toContain('Vegan');
-    });
+    component.updateRecipePreferences();
+    expect(dispatchSpy).toBeCalledWith(new UpdateRecipePreferences(component.editableRecipePreferences));
   });
 });

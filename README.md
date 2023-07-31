@@ -17,7 +17,7 @@
 
 <br>
 
-FridgeToPlate is a user-friendly app that utilizes preference AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
+FridgeToPlate is a user-friendly app that utilizes preferences AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
 COS301 Capstone Project for [Amazon Web Services](https://aws.amazon.com/).
 
@@ -36,7 +36,7 @@ Final year Computer Science student at the University of Pretoria. I'm an enthus
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ryan-trickett/)
 
 ### Paul Pilane
-I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing enviroments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation. 
+I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing environments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation. 
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/PaulPilane)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/paul-pilane/)
