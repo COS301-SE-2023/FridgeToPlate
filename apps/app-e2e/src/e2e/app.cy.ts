@@ -27,11 +27,7 @@ describe('login tests', () => {
     cy.fixture('user-details.json').then((userData) => {
       cy.get('input[name="username"]').type(userData[0].username);
       cy.get('input[name="password"]').type(userData[0].password);
-<<<<<<< HEAD
-      cy.get('button').click();
-=======
       cy.get('button').contains('Login').click();
->>>>>>> e32c4815c0b19ae517b580ad67dcb02be739085a
       cy.url().should('include', 'login');
     });
   });
@@ -154,11 +150,8 @@ describe('Profile Tests', () => {
   //     cy.get('ion-icon[name="star"]:nth-child(2)').click();
   //     cy.get('ion-button.review-button').click();
   //   });
-<<<<<<< HEAD
 
   //  });
-=======
->>>>>>> e32c4815c0b19ae517b580ad67dcb02be739085a
 
   // describe('home tests', () => {
   //   beforeEach(() => cy.visit('/'));
