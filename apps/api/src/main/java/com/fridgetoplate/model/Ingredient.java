@@ -10,7 +10,7 @@ public class Ingredient {
     
     private String name;
 
-    private Integer amount;
+    private Double amount;
 
     private String unit;
 
