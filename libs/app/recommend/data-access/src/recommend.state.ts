@@ -28,10 +28,8 @@ import {
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable } from 'rxjs';
-import {
-  IProfile,
-} from '@fridge-to-plate/app/profile/utils';
+import { Observable, catchError } from 'rxjs';
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend;
@@ -43,7 +41,7 @@ export interface RecommendStateModel {
     recommendRequest:
       environment.TYPE === 'production'
         ? {
-            username: 'joe',
+            username: '',
             ingredients: [],
             recipePreferences: {
               keywords: [],
@@ -55,96 +53,15 @@ export interface RecommendStateModel {
             },
           }
         : {
-            username: 'joe',
-            ingredients: [
-              {
-                name: 'Tomato',
-                amount: 2,
-                unit: 'kg',
-              },
-              {
-                name: 'Onion',
-                amount: 1,
-                unit: 'kg',
-              },
-              {
-                name: 'Rice',
-                amount: 3,
-                unit: 'kg',
-              },
-              {
-                name: 'Chicken',
-                amount: 2,
-                unit: 'kg',
-              },
-              {
-                name: 'Rump Steak',
-                amount: 3,
-                unit: 'kg',
-              },
-              {
-                name: 'Rice',
-                amount: 3,
-                unit: 'kg',
-              },
-              {
-                name: 'Flour',
-                amount: 2,
-                unit: 'kg',
-              },
-              {
-                name: 'Egg',
-                amount: 500,
-                unit: 'g',
-              },
-              {
-                name: 'Peppers',
-                amount: 2,
-                unit: 'kg',
-              },
-              {
-                name: 'Sunflower Oil',
-                amount: 2,
-                unit: 'l',
-              },
-              {
-                name: 'Milk',
-                amount: 4,
-                unit: 'l',
-              },
-              {
-                name: 'Soy Sauce',
-                amount: 500,
-                unit: 'ml',
-              },
-              {
-                name: 'Beef Stock',
-                amount: 200,
-                unit: 'ml',
-              },
-              {
-                name: 'Pasta',
-                amount: 2,
-                unit: 'kg',
-              },
-              {
-                name: 'Salt',
-                amount: 200,
-                unit: 'g',
-              },
-              {
-                name: 'Salmon',
-                amount: 1,
-                unit: 'kg',
-              },
-            ],
+            username: '',
+            ingredients: [],
             recipePreferences: {
               keywords: [],
-              difficulty: 'Easy',
+              difficulty: '',
               rating: '',
               meal: '',
               servings: '',
-              prepTime: '30 - 60 Minutes',
+              prepTime: '',
             },
           },
     recipes: [],
@@ -260,12 +177,13 @@ export class RecommendState {
   }
 
   @Action(GetUpdatedRecommendation)
-  getUpdatedPreferences({
-    patchState
-  }: StateContext<RecommendStateModel>, { username } : GetUpdatedRecommendation) {
-    this.recommendApi
-        .getUpdatedPreferences(username)
-        .subscribe((updatedPreferences) => {
+  getUpdatedPreferences(
+    { patchState }: StateContext<RecommendStateModel>,
+    { username }: GetUpdatedRecommendation
+  ) {
+    this.recommendApi.getUpdatedPreferences(username).subscribe(
+      (updatedPreferences) => {
+        if (updatedPreferences?.username) {
           this.store.dispatch(
             new UpdateIngredients(updatedPreferences.ingredients)
           );
@@ -273,7 +191,12 @@ export class RecommendState {
           patchState({
             recommendRequest: updatedPreferences,
           });
-        });
+        } else throw new Error('User Recommend preferences do not exist');
+      },
+      catchError((error) => {
+        return this.store.dispatch(new ShowError(error));
+      })
+    );
   }
 
   @Action(AddRecommendation)
@@ -301,9 +224,9 @@ export class RecommendState {
       this.recommendApi
         .updateRecommendations(currentState.recommendRequest)
         .subscribe({
-          error: error => {
-            this.store.dispatch(new ShowError("Unable to retrieve recommend"))
-          }
+          error: (error) => {
+            this.store.dispatch(new ShowError('Unable to retrieve recommend'));
+          },
         });
     }
   }

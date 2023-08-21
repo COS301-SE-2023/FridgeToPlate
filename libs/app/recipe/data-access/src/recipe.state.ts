@@ -24,11 +24,10 @@ export interface RecipeStateModel {
   name: 'recipe',
   defaults: {
     recipe: null,
-  }
+  },
 })
 @Injectable()
 export class RecipeState {
-
   constructor(private api: RecipeAPI, private store: Store) {}
 
   @Selector()
@@ -41,7 +40,6 @@ export class RecipeState {
     { setState }: StateContext<RecipeStateModel>,
     { recipeId }: RetrieveRecipe
   ) {
-
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
         if (recipe) {
@@ -94,14 +92,14 @@ export class RecipeState {
 
     if (updatedRecipe) {
       (await this.api.createNewReview(review)).subscribe({
-        next: data => {
-            updatedRecipe.reviews?.unshift(data);
+        next: (data) => {
+          updatedRecipe.reviews?.unshift(data);
 
-            this.store.dispatch(new UpdateRecipe(updatedRecipe));
+          this.store.dispatch(new UpdateRecipe(updatedRecipe));
         },
-        error: error => {
-            this.store.dispatch(new ShowError(error.message));
-        }
+        error: (error) => {
+          this.store.dispatch(new ShowError(error.message));
+        },
       });
     }
   }
@@ -120,10 +118,12 @@ export class RecipeState {
 
       this.store.dispatch(new UpdateRecipe(updatedRecipe));
 
-      (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
-        error: error => {
-            this.store.dispatch(new ShowError(error.message));
-        }
+      (
+        await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)
+      ).subscribe({
+        error: (error) => {
+          this.store.dispatch(new ShowError(error.message));
+        },
       });
     }
   }
@@ -138,9 +138,7 @@ export class RecipeState {
     });
 
     this.api.deleteRecipe(recipeId).subscribe(
-      (response) => {
-        console.log(response);
-      },
+      (response) => {},
       (error: Error) => {
         console.error('Failed to delete recipe:', error);
         this.store.dispatch(new ShowError(error.message));
@@ -153,18 +151,27 @@ export class RecipeState {
     { patchState }: StateContext<RecipeStateModel>,
     { recipe }: CreateRecipe
   ) {
-    this.api.createNewRecipe(recipe).pipe(
-      tap(
-        (recipe) => {
-          patchState({
-            "recipe": recipe
-          })
+    this.api
+      .createNewRecipe(recipe)
+      .pipe(
+        tap(
+          (recipe) => {
+            patchState({
+              recipe: recipe,
+            });
 
-          this.store.dispatch(new Navigate([`/recipe/${recipe.recipeId}`]));
-          this.store.dispatch (new AddCreatedRecipe(recipe));
-        },
-      catchError (
-        () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
-      ))).subscribe();
+            this.store.dispatch(new Navigate([`/recipe/${recipe.recipeId}`]));
+            this.store.dispatch(new AddCreatedRecipe(recipe));
+          },
+          catchError(() =>
+            this.store.dispatch(
+              new ShowError(
+                'Unfortunately, the recipe was not created successfully'
+              )
+            )
+          )
+        )
+      )
+      .subscribe();
   }
 }

@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import {
+  Action,
+  Select,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import {
   ChangePassword,
   Login,
@@ -37,6 +44,11 @@ import {
   GetUpdatedRecommendation,
   IRecipePreferences,
 } from '@fridge-to-plate/app/recommend/utils';
+import {
+  ProfileState,
+  ProfileStateModel,
+} from '@fridge-to-plate/app/profile/data-access';
+import { Observable } from 'rxjs';
 
 interface formDataInterface {
   'custom:username': string;
@@ -60,11 +72,17 @@ export class AuthState {
     UserPoolId: environment.COGNITO_USERPOOL_ID,
     ClientId: environment.COGNITO_APP_CLIENT_ID,
   };
+  @Select(ProfileState) loggedInUser$: Observable<ProfileStateModel>;
 
   constructor(private store: Store) {}
 
   @Selector()
   getAccessToken(state: AuthStateModel) {
+    return state.accessToken;
+  }
+
+  @Selector()
+  getLoggedInUser(state: AuthStateModel) {
     return state.accessToken;
   }
 
@@ -91,58 +109,68 @@ export class AuthState {
       attributeList.push(attribute);
     }
 
-    await userPool.signUp(username, password, attributeList, [], (err, result) => {
-      if (err) {
-        this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
+    await userPool.signUp(
+      username,
+      password,
+      attributeList,
+      [],
+      (err, result) => {
+        if (err) {
+          this.store.dispatch(
+            new ShowError(err.message || JSON.stringify(err))
+          );
+          setState({
+            accessToken: 'none',
+          });
+          return;
+        }
+
         setState({
-          accessToken: 'none',
+          accessToken:
+            result?.user
+              .getSignInUserSession()
+              ?.getAccessToken()
+              .getJwtToken() || 'none',
         });
-        return;
+
+        const profile: IProfile = {
+          displayName: username,
+          username: username,
+          profilePic:
+            'https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png',
+          email: email,
+          ingredients: [],
+          savedRecipes: [],
+          createdRecipes: [],
+          currMealPlan: null,
+        };
+
+        const preference: IPreferences = {
+          username: username,
+          darkMode: false,
+          recommendNotif: false,
+          viewsNotif: false,
+          reviewNotif: false,
+        };
+
+        const defaultRecommend: IRecipePreferences = {
+          difficulty: '',
+          meal: '',
+          keywords: [],
+          prepTime: '',
+          rating: '',
+          servings: '',
+        };
+
+        this.store.dispatch(new CreateNewProfile(profile));
+
+        this.store.dispatch(new CreateNewPreferences(preference));
+
+        this.store.dispatch(new AddRecommendation(defaultRecommend));
+
+        this.store.dispatch(new Navigate(['/home']));
       }
-
-      setState({
-        accessToken:
-          result?.user.getSignInUserSession()?.getAccessToken().getJwtToken() ||
-          'none',
-      });
-
-      const profile: IProfile = {
-        displayName: username,
-        username: username,
-        profilePic:
-          'https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png',
-        email: email,
-        ingredients: [],
-        savedRecipes: [],
-        createdRecipes: [],
-        currMealPlan: null,
-      };
-
-      const preference: IPreferences = {
-        username: username,
-        darkMode: false,
-        recommendNotif: false,
-        viewsNotif: false,
-        reviewNotif: false,
-      };
-
-      const defaultRecommend: IRecipePreferences = {
-        difficulty: '',
-        meal: '',
-        keywords: [],
-        prepTime: '',
-        rating: '',
-        servings: '',
-      };
-
-      this.store.dispatch(new CreateNewProfile(profile));
-
-      this.store.dispatch(new CreateNewPreferences(preference));
-
-      this.store.dispatch(new AddRecommendation(defaultRecommend));
-
-      this.store.dispatch(new Navigate(['/home']));
-    });
+    );
   }
 
   @Action(Login)
@@ -160,14 +188,25 @@ export class AuthState {
     const userData = { Username: username, Pool: userPool };
     const cognitoUser = new CognitoUser(userData);
     await cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (result) => {
+      onSuccess: async (result) => {
         setState({
           accessToken: result.getAccessToken().getJwtToken(),
         });
-        this.store.dispatch(new RetrieveProfile(username));
-        this.store.dispatch(new RetrievePreferences(username));
-        this.store.dispatch(new GetUpdatedRecommendation(username));
-        this.store.dispatch(new Navigate(['/home']));
+        await this.store.dispatch(new RetrieveProfile(username));
+        await this.store.dispatch(new RetrievePreferences(username));
+        await this.store.dispatch(new GetUpdatedRecommendation(username));
+
+        //Select state to check if loggedInUser correct first
+        this.loggedInUser$.subscribe((userState) => {
+          if (userState.profile != null) {
+            this.store.dispatch(new Navigate(['/home']));
+          } else {
+            this.store.dispatch(this.logout);
+            new ShowError(
+              'The provided details are incorrect, please try again'
+            );
+          }
+        });
       },
       onFailure: (err) => {
         this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
