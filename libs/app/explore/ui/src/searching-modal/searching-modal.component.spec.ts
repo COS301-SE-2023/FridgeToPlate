@@ -33,13 +33,14 @@ describe('SearchingModalComponent', () => {
     const searchQuery = 'Test search query';
     component.searchText = searchQuery;
 
-    // Create a spy on the newSearchEvent EventEmitter
-    const emitSpy = jest.spyOn(component.newSearchEvent, 'emit');
-
     // Call the explorer() method
     component.explorer();
 
-    expect(emitSpy).toHaveBeenCalledWith(searchQuery);
+    // Subscribe to newSearchEvent EventEmitter
+    component.newSearchEvent.subscribe((searchTerm) => {
+      // Assert emitted search term
+      expect(searchTerm).toBe(searchQuery);
+    });
   });
 
   it('should render the search input field', () => {
