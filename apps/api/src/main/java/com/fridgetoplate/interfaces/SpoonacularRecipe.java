@@ -37,4 +37,5 @@ public class SpoonacularRecipe {
     private SpoonacularAnalyzedInstruction[] analyzedInstructions;
     private String spoonacularSourceUrl;
     private String license;
+    private ExtendedIngredient[] extendedIngredients;
 }
