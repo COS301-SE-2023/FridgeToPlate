@@ -1,4 +1,4 @@
-import { it } from "mocha";
+import { it } from 'mocha';
 
 /* eslint-disable cypress/unsafe-to-chain-command */
 describe('login tests', () => {
@@ -11,7 +11,10 @@ describe('login tests', () => {
   it('should display a correct input form', () => {
     cy.get('input[name="username"]').should('exist').should('be.visible');
     cy.get('input[name="password"]').should('exist').should('be.visible');
-    cy.get('button[type="submit"]').should('exist').should('be.visible').contains('Login');
+    cy.get('button[type="submit"]')
+      .should('exist')
+      .should('be.visible')
+      .contains('Login');
   });
 
   it('should display link to continue as guest', () => {
@@ -49,8 +52,13 @@ describe('signup tests', () => {
     cy.get('input[name="username"]').should('exist').should('be.visible');
     cy.get('input[name="email_address"]').should('exist').should('be.visible');
     cy.get('input[name="password"]').should('exist').should('be.visible');
-    cy.get('input[name="confirm_password"]').should('exist').should('be.visible');
-    cy.get('button[type="submit"]').should('exist').should('be.visible').contains('Create Account');
+    cy.get('input[name="confirm_password"]')
+      .should('exist')
+      .should('be.visible');
+    cy.get('button[type="submit"]')
+      .should('exist')
+      .should('be.visible')
+      .contains('Create Account');
   });
 
   it('should display link to continue as guest', () => {
@@ -67,11 +75,37 @@ describe('signup tests', () => {
   });
 });
 
+//Login for each set of tests before proceeding as you need to be logged in to access tested features.
+
+beforeEach(() => {
+  cy.intercept('GET', '**/profiles/**', {
+    statusCode: 200,
+    body: {
+      username: 'jdoe',
+      email: 'jdoe@gmail.com',
+      displayName: 'John Doe',
+      profilePic: 'https://source.unsplash.com/random/600%C3%97600?person',
+      ingredients: [],
+      currMealPlan: null,
+      savedRecipes: [],
+      createdRecipes: [],
+    },
+  }).as('getProfile');
+
+  cy.visit('http://localhost:4200/login');
+
+  cy.fixture('user-details.json').then((userData) => {
+    cy.get('input[name="username"]').type(userData[0].username);
+    cy.get('input[name="password"]').type(userData[0].password);
+    cy.get('button').contains('Login').click();
+    cy.wait('@getProfile').then(() => {});
+  });
+});
+
 describe('Profile Tests', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4200/profile');
   });
-
   it('displays user profile information', () => {
     cy.get('h2').should('be.visible');
     cy.get('h2').should('contain', 'John Doe');
@@ -87,22 +121,22 @@ describe('Profile Tests', () => {
 
   it('opens the saved recipes tab', () => {
     cy.get('a').contains('Saved').click();
-    cy.get('div').contains('Sort')
+    cy.get('div').contains('Sort');
   });
 
   it('opens the meal plan tab', () => {
     cy.get('a').contains('Meal Plan').click();
-    cy.get('div').contains('Breakfast')
+    cy.get('div').contains('Breakfast');
   });
 
   it('opens the created recipes tab', () => {
     cy.get('a').contains('Created').click();
-    cy.get('div').contains('Sort')
+    cy.get('div').contains('Sort');
   });
 
   it('opens edit settings modal', () => {
     cy.get('#settings-button').click();
-    cy.get('settings-modal').get('button').contains('Logout').click();
+    cy.get('settings-modal').contains('Logout');
   });
 
   it('opens notifications page', () => {
@@ -111,60 +145,66 @@ describe('Profile Tests', () => {
   });
 });
 
-  describe('create tests', () => {
-    beforeEach(() => {cy.visit('http://localhost:4200/create');});
-
-    it('enters recipe details', () => {
-      cy.get('#name').type('Egg Salad');
-      cy.get('#description').type('A delicious egg salad recipe');
-      cy.get('#servings').type('4');
-      cy.get('#preparation-time').type('10');
-      cy.get('div').contains('Ingredients').get('button').contains('Add').click();
-      // cy.get('label').contains('Ingredients').type('Crack eggs');
-      cy.get('div').contains('Instructions').get('button').contains('Add').click();
-      // cy.get('#instruction-0').type('Crack eggs');
-      cy.get('#tag').type('Vegan');
-      cy.get('button').contains('Add Tag').click();
-    });
+describe('create tests', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/create');
   });
 
-  // describe('recipe details tests', () => {
-  //   beforeEach(() => cy.visit('http://localhost:4200/recipe/by0r-0Bo5t-D3se00'));
+  it('enters recipe details', () => {
+    cy.get('#name').type('Egg Salad');
+    cy.get('#description').type('A delicious egg salad recipe');
+    cy.get('#servings').type('4');
+    cy.get('#preparation-time').type('10');
+    cy.get('div').contains('Ingredients').get('button').contains('Add').click();
+    // cy.get('label').contains('Ingredients').type('Crack eggs');
+    cy.get('div')
+      .contains('Instructions')
+      .get('button')
+      .contains('Add')
+      .click();
+    // cy.get('#instruction-0').type('Crack eggs');
+    cy.get('#tag').type('Vegan');
+    cy.get('button').contains('Add Tag').click();
+  });
+});
 
-  //   it('goes to previous page', () => {
-  //     cy.get('#back-button').click();
-  //   });
+// describe('recipe details tests', () => {
+//   beforeEach(() => cy.visit('http://localhost:4200/recipe/by0r-0Bo5t-D3se00'));
 
-  //   it('displays the recipe details', () => {
-  //     cy.get('p').contains('Prep Time');
-  //     cy.get('p').contains('Ingredients');
-  //     cy.get('p').contains('Servings');
-  //     cy.get('ion-label').contains('Ingredients');
-  //     cy.get('ion-label').contains('Instructions');
-  //     cy.get('h1').contains('Reviews');
-  //   });
+//   it('goes to previous page', () => {
+//     cy.get('#back-button').click();
+//   });
 
-  //   it('adds a review', () => {
-  //     cy.get('ion-textarea').click();
-  //     cy.get('ion-textarea').type('NOT SO GOOD STUFF!!!');
-  //     cy.get('ion-icon[name="star"]:nth-child(2)').click();
-  //     cy.get('ion-button.review-button').click();
-  //   });
+//   it('displays the recipe details', () => {
+//     cy.get('p').contains('Prep Time');
+//     cy.get('p').contains('Ingredients');
+//     cy.get('p').contains('Servings');
+//     cy.get('ion-label').contains('Ingredients');
+//     cy.get('ion-label').contains('Instructions');
+//     cy.get('h1').contains('Reviews');
+//   });
 
-  //  });
+//   it('adds a review', () => {
+//     cy.get('ion-textarea').click();
+//     cy.get('ion-textarea').type('NOT SO GOOD STUFF!!!');
+//     cy.get('ion-icon[name="star"]:nth-child(2)').click();
+//     cy.get('ion-button.review-button').click();
+//   });
 
-  // describe('home tests', () => {
-  //   beforeEach(() => cy.visit('/'));
+//  });
 
-  // });
+// describe('home tests', () => {
+//   beforeEach(() => cy.visit('/'));
 
-  // describe('search tests', () => {
-  //   beforeEach(() => cy.visit('/'));
+// });
 
-  // });
+// describe('search tests', () => {
+//   beforeEach(() => cy.visit('/'));
 
-  // describe('notifications tests', () => {
-  //   beforeEach(() => cy.visit('/'));
+// });
 
-  // });
+// describe('notifications tests', () => {
+//   beforeEach(() => cy.visit('/'));
+
+// });
 // });
