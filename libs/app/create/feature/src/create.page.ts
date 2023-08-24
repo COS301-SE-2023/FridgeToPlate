@@ -128,6 +128,12 @@ export class CreatePagComponent implements OnInit  {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
+    const fileSize = event.target.files[0].size;
+
+    if(fileSize > 300000){
+      this.store.dispatch( new ShowError("Can Not Upload Image Larger Than 300KB"));
+      return;
+    }
     const reader = new FileReader();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
