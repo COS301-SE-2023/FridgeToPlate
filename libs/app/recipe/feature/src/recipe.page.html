@@ -1,4 +1,7 @@
-<div *ngIf="(busy$ | async) || forceLoading; else recipe" class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
+<div
+  *ngIf="(busy$ | async) || forceLoading; else recipe"
+  class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full"
+>
   <div class="flex justify-center items-center h-full">
     <div class="px-10">
       <ion-spinner class="text-primary" name="circular"></ion-spinner>
@@ -7,100 +10,127 @@
 </div>
 
 <ng-template #recipe>
-  <div *ngIf="recipe$ | async as recipe; else ErrorMessage" class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16">
-  <div class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50">
-    <button id="back-button"
-      (click)="goBack()"
-      class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
-    >
-      <svg
-        stroke="currentColor"
-        fill="none"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        height="1em"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-    </button>
-  </div>
-  <div 
-    class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+  <div
+    *ngIf="recipe$ | async as recipe; else ErrorMessage"
+    class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16"
   >
     <div
-      class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
+      class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50"
     >
-      <recipe-card [recipe]="recipe" />
+      <button
+        id="back-button"
+        (click)="goBack()"
+        class="bg-primary text-white h-11 w-11 rounded-full flex justify-center items-center ml-8"
+      >
+        <svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
     </div>
     <div
-      class="w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary lg:row-start-9 lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8"
-    >  
-      <div>
-        <p class="text-xs font-semibold">Prep Time </p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.prepTime ?? '10'}}m</p>
+      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+    >
+      <div
+        class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
+      >
+        <recipe-card [recipe]="recipe" />
       </div>
-      <div>
-        <p class="text-xs font-semibold">Ingredients</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '4'}}</p>
+      <div
+        class="w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary lg:row-start-9 lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8"
+      >
+        <div>
+          <p class="text-xs font-semibold">Prep Time</p>
+          <p class="text-3xl mt-2 font-bold">{{recipe?.prepTime ?? '10'}}m</p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold">Ingredients</p>
+          <p class="text-3xl mt-2 font-bold">
+            {{recipe?.ingredients?.length ?? '4'}}
+          </p>
+        </div>
+        <div>
+          <p class="text-xs font-semibold">Servings</p>
+          <p class="text-3xl mt-2 font-bold">{{recipe?.servings ?? '1'}}</p>
+        </div>
       </div>
-      <div>
-        <p class="text-xs font-semibold">Servings</p>
-        <p class="text-3xl mt-2 font-bold">
-          {{recipe?.servings ?? '1'}}
+      <div
+        class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13"
+      >
+        <ion-list class="bg-background-lights h-full">
+          <ion-list-header>
+            <ion-label class="text-lg font-bold">Ingredients</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let ingredient of recipe?.ingredients">
+            <div>
+              {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
+              {{ingredient?.name ?? 'Unknown ingredient'}}
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <br />
+
+      <div
+        class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
+      >
+        <ion-list class="bg-background-lights h-full">
+          <ion-list-header>
+            <ion-label class="text-lg font-bold">Instructions</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let instruction of recipe?.steps">
+            <div>{{ instruction }}</div>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <br />
+
+      <div
+        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
+      >
+        <review [reviews]="recipe?.reviews ?? []"></review>
+      </div>
+
+      <div
+        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
+      >
+        <p class="text-delete-highlight text-sm italic">
+          <span class="font-bold underline">Disclaimer:</span> The video above
+          may not correlate to the recipe instructions provided.
         </p>
       </div>
     </div>
-    <div class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13">
-      <ion-list class="bg-background-lights h-full">
-        <ion-list-header>
-          <ion-label class="text-lg font-bold">Ingredients</ion-label>
-        </ion-list-header>
-        <ion-item *ngFor="let ingredient of recipe?.ingredients">
-          <div>{{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}   {{ingredient?.name ?? 'Unknown ingredient'}}</div>
-        </ion-item>
-      </ion-list>
-    </div>
-
-    <br />
-
-    <div class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13">
-      <ion-list class="bg-background-lights h-full">
-        <ion-list-header>
-          <ion-label class="text-lg font-bold">Instructions</ion-label>
-        </ion-list-header>
-        <ion-item *ngFor="let instruction of recipe?.steps">
-          <div>{{ instruction }}</div>
-        </ion-item>
-      </ion-list>
-    </div>
-
-    <br />
-
-    <div class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13">
-      <review [reviews]="recipe?.reviews ?? []"></review>
-    </div>
-
-  </div>  
-</div>
+  </div>
 </ng-template>
 
 <ng-template #ErrorMessage>
   <div class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
-    <div class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10">
-        <p class="text-center">Unfortunately, No recipe available to be displayed</p>
-        <div class="grid grid-flow-col columns-2 gap-3">
-            <button (click)="goHome()" class="mt-6 bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-3 max-w-lg">Home</button>
-        </div>
+    <div
+      class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10"
+    >
+      <p class="text-center">
+        Unfortunately, No recipe available to be displayed
+      </p>
+      <div class="grid grid-flow-col columns-2 gap-3">
+        <button
+          (click)="goHome()"
+          class="mt-6 bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-3 max-w-lg"
+        >
+          Home
+        </button>
+      </div>
     </div>
   </div>
 </ng-template>
-
-
-
-
-
