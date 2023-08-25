@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <recipe-card *ngFor="let recipe of profile.savedRecipes" [recipe]="recipe"></recipe-card>
+            <recipe-card *ngFor="let recipe of profile.savedRecipes" [recipe]="recipe" class="py-1"></recipe-card>
         </div>
     </div>
     <!-- Meal Plan Tab -->
@@ -134,7 +134,7 @@
             </div>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe"></recipe-card>
+            <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe" class="py-1"></recipe-card>
         </div>
     </div>
 </div>
