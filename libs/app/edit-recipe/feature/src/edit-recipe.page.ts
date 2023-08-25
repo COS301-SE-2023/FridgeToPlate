@@ -21,7 +21,7 @@ export class EditRecipeComponent implements OnInit {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | 'Drink';
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
@@ -201,7 +201,7 @@ export class EditRecipeComponent implements OnInit {
     this.location.back()
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
+  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
     this.selectedMeal = option;
   }
 

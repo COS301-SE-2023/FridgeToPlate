@@ -144,13 +144,43 @@
         >
         Dessert
         </button>
+
+        <button
+        type="button"
+        [ngClass]="getMealPlan('Drink')"
+        (click)="toggleMeal('Drink')"
+        value="Drink"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Drink
+      </button>
+
+      <button
+        type="button"
+        [ngClass]="getMealPlan('Salad')"
+        (click)="toggleMeal('Salad')"
+        value="Salad"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Salad
+      </button>
+
+      <button
+        type="button"
+        [ngClass]="getMealPlan('Soup')"
+        (click)="toggleMeal('Soup')"
+        value="Soup"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Soup
+      </button>
       </div>
     </div>
 
     <div>
       <div class="flex justify-between">
         <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
-        <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
+        <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
       <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
         <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
@@ -169,8 +199,10 @@
               type="number"
               [placeholder]="getAmountPlaceholderText()"
               required
+              min="0"
+              pattern="[0-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-
+              
             </div>
 
             <div class="w-1/5 relative">
@@ -208,7 +240,7 @@
     <div>
       <div class="flex justify-between">
         <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
-        <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
+        <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
       <div formArrayName="instructions" class="flex-shrink-0 max-h-40 overflow-y-auto">
         <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2">
@@ -233,7 +265,7 @@
 
     <div class="hidden lg:block">
       <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
-      <div class="lg:flex lg:justify-between ">
+      <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2">
         <button
           type="button"
           [ngClass]="getMealPlan('Breakfast')"
@@ -279,11 +311,41 @@
         >
         Dessert
         </button>
+
+        <button
+        type="button"
+        [ngClass]="getMealPlan('Drink')"
+        (click)="toggleMeal('Drink')"
+        value="Drink"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Drink
+      </button>
+
+      <button
+        type="button"
+        [ngClass]="getMealPlan('Salad')"
+        (click)="toggleMeal('Salad')"
+        value="Salad"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Salad
+      </button>
+
+      <button
+        type="button"
+        [ngClass]="getMealPlan('Soup')"
+        (click)="toggleMeal('Soup')"
+        value="Soup"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+        Soup
+      </button>
       </div>
     </div>
 
     <div>
-      <label for="tag" class="block text-gray-700 font-bold mb-2">Tag<span class="text-red-500">*</span></label>
+      <label for="tag" class="block text-gray-700 font-bold lg:mt-5 mb-2">Tag<span class="text-red-500">*</span></label>
 
       <div class="flex items-center space-x-4">
         <input
@@ -293,8 +355,8 @@
           formControlName="tag"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
         >
-        <button type="button" (click)="addTag()" class=" text-white bg-primary hover:bg-primary-highlight font-medium rounded-sm text-sm px-10 text-center">
-          Add Tag
+        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight mt-2 font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">
+          Add
         </button>
       </div>
       <div class="py-2">
@@ -310,7 +372,7 @@
     </div>
 
     <div class="flex justify-center lg:col-span-2 lg:px-36">
-      <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-sm w-full">Create Recipe</button>
+      <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full">Create Recipe</button>
     </div>
   </form>
 
