@@ -22,24 +22,30 @@
                 <a
                 [ngClass]="subpage === 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('saved')">
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                    Saved
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="bookmark-outline"></ion-icon>
+                      Saved
+                    </div>
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage === 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('meal plan')">
-                    <ion-icon name="calendar-clear-outline"></ion-icon>
-                    Meal Plan
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="calendar-clear-outline"></ion-icon>
+                      Meal Plan
+                    </div>
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage === 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('created')">
-                    <ion-icon name="create-outline"></ion-icon>
-                    Created
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="create-outline"></ion-icon>
+                      Created
+                    </div>
                 </a>
             </li>
         </ul>
@@ -49,7 +55,7 @@
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
             <button
                 (click)="openSort()"
-                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-2 text-center inline-flex items-center mb-3 "
+                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-1 text-center inline-flex items-center mb-3 "
                 type="button">
                 Sort <ion-icon class="pl-8 pr-2 text-2xl" name="caret-down-outline"></ion-icon>
             </button>
@@ -109,7 +115,7 @@
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
             <button
                 (click)="openSort()"
-                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-2 text-center inline-flex items-center mb-3 ml-1"
+                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-1 text-center inline-flex items-center mb-3 ml-1"
                 type="button">
                 Sort <ion-icon class="pl-8 pr-2 text-2xl" name="caret-down-outline"></ion-icon>
             </button>
