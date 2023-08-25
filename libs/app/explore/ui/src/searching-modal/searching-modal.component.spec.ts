@@ -6,6 +6,7 @@ import { NgxsModule, Select, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { SearchingModalComponent } from './searching-modal.component';
 import { ExploreUIModule } from '../explore.module';
+import { FormsModule } from '@angular/forms';
 
 describe('SearchingModalComponent', () => {
   let component: SearchingModalComponent;
@@ -14,7 +15,7 @@ describe('SearchingModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SearchingModalComponent],
-      imports: [NgxsModule.forRoot(), ExploreUIModule],
+      imports: [NgxsModule.forRoot(), FormsModule],
     }).compileComponents();
   });
 
