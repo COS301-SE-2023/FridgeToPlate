@@ -14,7 +14,7 @@
         <div class="flex justify-center my-auto">
           <img (click)="fileInput.click()"
           [src]="imageUrl"
-          class="max-h-96 rounded-md aspect-square cursor-pointer"
+          class="obect-cover max-h-96 rounded-md aspect-square cursor-pointer"
           alt="Recipe Image"
           />
           <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
