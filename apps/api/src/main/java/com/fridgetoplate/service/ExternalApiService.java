@@ -67,6 +67,7 @@ public class ExternalApiService {
     
     
     
+    
     List<String> mealTypeList = Arrays.asList(
         "main course",
         "side dish",
