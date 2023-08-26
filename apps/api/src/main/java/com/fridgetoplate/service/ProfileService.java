@@ -11,7 +11,6 @@ import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
-import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.MealPlanRepository;
 import com.fridgetoplate.repository.ProfileRepository;
 import com.fridgetoplate.repository.RecipeRepository;
@@ -27,6 +26,9 @@ public class ProfileService {
 
     @Autowired
     private RecipeRepository recipeRepository;
+    
+    @Autowired
+    private RecipeService recipeService;
 
     public ProfileFrontendModel save(ProfileFrontendModel profile) {
         return profileRepository.save(profile);
@@ -50,8 +52,8 @@ public class ProfileService {
         // Getting profile attributes
         String displayName = profileModel.getDisplayName();
         String email = profileModel.getEmail();
-        List<RecipeDesc> savedRecipes = this.getSavedRecipes(profileModel.getSavedRecipes());
-        List<RecipeDesc> createdRecipes =  this.getCreateRecipes(username);
+        List<RecipeDesc> savedRecipes = recipeService.getSavedRecipes(profileModel.getSavedRecipes());
+        List<RecipeDesc> createdRecipes =  recipeService.getCreatedRecipes(username);
         String profilePicture = profileModel.getProfilePic();
 
         // Creating profile response

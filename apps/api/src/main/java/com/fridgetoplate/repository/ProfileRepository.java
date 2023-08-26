@@ -36,92 +36,8 @@ public class ProfileRepository {
         return profile;
     }
 
-    public ProfileFrontendModel findByName(String username) {
-        /*
-         * Getting the Profile Response
-         */
-
-         // Declaring the Profile Response object
-         ProfileFrontendModel profileResponse = new ProfileFrontendModel();
-
-             // Find the Profile model
-        ProfileModel profileModel = dynamoDBMapper.load(ProfileModel.class, username);
-
-        if(profileModel == null) {
-            return null;
-        }
-
-        // Getting profile attributes
-        String displayName = profileModel.getDisplayName();
-        String email = profileModel.getEmail();
-        List<RecipeDesc> savedRecipes = this.getSavedRecipes(profileModel.getSavedRecipes());
-        List<RecipeDesc> createdRecipes =  this.getCreateRecipes(username);
-        String profilePicture = profileModel.getProfilePic();
-
-        // Creating profile response
-        profileResponse.setUsername(username);
-        profileResponse.setDisplayName(displayName);
-        profileResponse.setEmail(email);
-        profileResponse.setSavedRecipes(savedRecipes);
-        profileResponse.setCreatedRecipes(createdRecipes);
-        profileResponse.setProfilePic(profilePicture);
-
-         /*
-          * Getting the MealPan response
-          */
-
-        // Find Meal
-        String date = LocalDate.now().toString();
-       
-        MealPlanModel mealPlanModel = dynamoDBMapper.load(MealPlanModel.class, username, date);
-
-        if(mealPlanModel != null) {
-
-            // Declare the response object
-            MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
-
-            // creating response
-            mealPlanResponse.setUsername(username);
-
-            String breakFastId = mealPlanModel.getBreakfastId();
-
-            RecipeDesc breakfast = null;
-            if (breakFastId != null && breakFastId != "") {
-                breakfast = dynamoDBMapper.load(RecipeModel.class, breakFastId);
-            } 
-
-            String lunchId = mealPlanModel.getLunchId();
-            RecipeDesc lunch = null;
-            if (lunchId != null && lunchId != "") {
-                lunch = dynamoDBMapper.load(RecipeModel.class, lunchId);
-            } 
-
-            String dinnerId = mealPlanModel.getDinnerId();
-            RecipeDesc dinner = null;
-            if (dinnerId != null && dinnerId != "") {
-                dinner = dynamoDBMapper.load(RecipeModel.class, dinnerId);
-            } 
-
-            String snackId = mealPlanModel.getSnackId();
-            RecipeDesc snack = null;
-            if (snackId != null && snackId != "") {
-                snack = dynamoDBMapper.load(RecipeModel.class, snackId);
-            } 
-
-            // Creating the mealPlanResponse
-            mealPlanResponse.setDate(date);
-            mealPlanResponse.setBreakfast(breakfast);
-            mealPlanResponse.setLunch(lunch);
-            mealPlanResponse.setDinner(dinner);
-            mealPlanResponse.setSnack(snack);
-            
-            // saving meal plan response to profile response
-            profileResponse.setCurrMealPlan(mealPlanResponse);
-        } else {
-            profileResponse.setCurrMealPlan(null);
-        }
-        
-       return profileResponse;
+    public ProfileModel findByName(String username) {
+        return dynamoDBMapper.load(ProfileModel.class, username);
     }
 
     public List<ProfileFrontendModel> findAll(){
@@ -182,44 +98,6 @@ public class ProfileRepository {
         }
 
         return reviews;
-    }
-
-    private List<RecipeDesc> getCreateRecipes(String username) {
-        List<RecipeDesc> recipes = new ArrayList<>();
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-
-        for (RecipeModel recipeModel : scanResult) {
-            if (recipeModel.getCreator().equals(username)) {
-                recipes.add(recipeModel);
-            }
-        }
-
-
-        return recipes;
-    }
-
-
-    private List<RecipeDesc> getSavedRecipes(List<String> ids) {
-
-
-        List<RecipeDesc> recipes = new ArrayList<>();
-
-        if(ids == null || ids.isEmpty()) {
-            return recipes;
-        }
-
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (String id : ids) {
-            for (RecipeModel recipeModel : scanResult) {
-                if (recipeModel.getRecipeId().equals(id)) {
-                    recipes.add(recipeModel);
-                }
-            }
-        }
-
-        return recipes;
     }
 
     private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {

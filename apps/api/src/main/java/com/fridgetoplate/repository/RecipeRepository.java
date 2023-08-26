@@ -61,81 +61,8 @@ public class RecipeRepository {
         return recipeList;
     }
 
-    public RecipeFrontendModel findById(String id){
-
-        /*
-         * Getting the Recipe Response
-         */
-
-         // Declaring the Recipe Response object
-        RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
-
-
-        // Find the Recipe model
-        RecipeModel recipeModel = dynamoDBMapper.load(RecipeModel.class, id);
-
-        if(recipeModel == null) {
-            return null;
-        }
-
-        // Getting recipe attributes
-        String recipeId = recipeModel.getRecipeId();
-        String difficulty = recipeModel.getDifficulty();
-        String recipeImage = recipeModel.getRecipeImage();
-        String name = recipeModel.getName();
-        List<String> tags = recipeModel.getTags();
-        String meal = recipeModel.getMeal();
-        String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
-        Integer prepTime = recipeModel.getPrepTime();
-        List<String> instructions = recipeModel.getSteps();
-        String creator = recipeModel.getCreator();
-        Integer servings = recipeModel.getServings();
-
-        // Creating recipe response
-        recipeResponse.setRecipeId(recipeId);
-        recipeResponse.setDifficulty(difficulty);
-        recipeResponse.setRecipeImage(recipeImage);
-        recipeResponse.setName(name);
-        recipeResponse.setTags(tags);
-        recipeResponse.setMeal(meal);
-        recipeResponse.setDescription(description);
-        recipeResponse.setIngredients(ingredients);
-        recipeResponse.setPrepTime(prepTime);
-        recipeResponse.setSteps(instructions);
-        recipeResponse.setCreator(creator);
-        recipeResponse.setServings(servings);
-
-
-        /*
-        * Getting the Reviews
-        */
-
-        // Declaring the Reviews object 
-        List<Review> reviews = this.getReviewsById(recipeId);
-
-        // Adding the reviews to the recipe response
-        recipeResponse.setReviews(reviews);
-
-
-
-       return recipeResponse;
-    }
-
-    public List<RecipeFrontendModel> findAll(){
-        List<RecipeFrontendModel> recipes = new ArrayList<>();
-        
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (RecipeModel recipe : scanResult) {
-            
-            RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
-        }
-
-        return recipes;
+    public RecipeModel findById(String id){
+        return dynamoDBMapper.load(RecipeModel.class, id);
     }
 
     public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients){
