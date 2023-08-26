@@ -18,4 +18,5 @@ export interface IRecipe extends IRecipeDesc {
   steps: string[];
   creator: string;
   reviews?: IReview[];
+  youtubeId?: string;
 }
