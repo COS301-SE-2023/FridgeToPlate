@@ -74,4 +74,11 @@ export class RecommendApi {
   addPreferences(preferences: IRecommend): Observable<IRecommend> {
     return this.httpClient.post<IRecommend>(`${baseUrl}/create`, preferences);
   }
+
+  getProductInformation(productBarcode: string) {
+    return this.httpClient.post<IRecommend>(
+      `${baseUrl}/create`,
+      productBarcode
+    );
+  }
 }
