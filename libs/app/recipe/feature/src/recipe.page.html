@@ -104,12 +104,22 @@
       </div>
 
       <div
+        *ngIf="this.safeUrl"
         class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
       >
-        <p class="text-delete-highlight text-sm italic">
-          <span class="font-bold underline">Disclaimer:</span> The video above
-          may not correlate to the recipe instructions provided.
-        </p>
+        <div class="h-full">
+          <iframe
+            class="h-full w-full"
+            [src]="this.safeUrl"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="pt-3">
+          <p class="text-delete-highlight text-xs italic">
+            <span class="font-bold underline">Disclaimer:</span> The video above
+            may not correlate to the recipe instructions provided.
+          </p>
+        </div>
       </div>
     </div>
   </div>
