@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
@@ -21,6 +22,7 @@ public class RecipeService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
 
     public RecipeFrontendModel findById(String id){
 
@@ -91,4 +93,27 @@ public class RecipeService {
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
         return recipeRepository.getSavedRecipes(ids);
     }
+
+
+    public List<RecipeFrontendModel> findAll(){
+       
+        List<RecipeModel> recipeModel = this.recipeRepository.allRecipeModels();
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        for (RecipeModel recipe : recipeModel) {
+            
+            RecipeFrontendModel response = findById(recipe.getRecipeId());
+
+            if(response != null) {
+                recipes.add(response);
+            }
+        }
+
+        return recipes;
+    }
+
+
+     public List<RecipeModel> filterSearch(Explore explore){
+        return this.recipeRepository.filterSearch(explore);
+    }
+    
 }

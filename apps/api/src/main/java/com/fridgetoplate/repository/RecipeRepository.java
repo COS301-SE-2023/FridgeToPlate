@@ -4,17 +4,22 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
+import com.fridgetoplate.service.RecipeService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,6 +29,9 @@ public class RecipeRepository {
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
+
+    @Autowired
+    RecipeService recipeService;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -372,5 +380,49 @@ public class RecipeRepository {
 
 
        return recipeResponse;
+    }
+
+
+    public List<RecipeModel> allRecipeModels(){
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+        return(List<RecipeModel>) scanResult;
+    }
+
+    public List<RecipeModel> filterSearch(Explore explore){
+       
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+        if(explore.getType() != null && !explore.getTags().isEmpty()){
+            Condition condition = new Condition()
+                .withComparisonOperator("EQ")
+                .withAttributeValueList(new AttributeValue().withS(explore.getType()));
+
+            scanFilter.put("meal", condition);
+        }
+
+        if (explore.getTags() != null && !explore.getTags().isEmpty()) {
+            List<AttributeValue> attributeValues = explore.getTags().stream()
+                .map(tag -> new AttributeValue().withS(tag))
+                .toList();
+        
+            Condition condition = new Condition()
+                .withComparisonOperator("CONTAINS")
+                .withAttributeValueList(attributeValues);
+        
+            scanFilter.put("tags", condition);
+        }
+
+        if(explore.getDifficulty() != null && !explore.getDifficulty().isEmpty()){
+            Condition condition = new Condition()
+                .withComparisonOperator("EQ")
+                .withAttributeValueList(new AttributeValue().withS(explore.getDifficulty()));
+
+            scanFilter.put("difficulty", condition);
+        }
+
+
+        List<RecipeModel> results = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression().withScanFilter(scanFilter).withLimit(2));
+        return results;
+
     }
 }

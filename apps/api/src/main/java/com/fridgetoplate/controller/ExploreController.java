@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
-import com.fridgetoplate.repository.ExploreRepository;
-
+import com.fridgetoplate.service.ExploreApiService;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/explore")
@@ -26,17 +25,17 @@ import com.fridgetoplate.repository.ExploreRepository;
 public class ExploreController {
     
     @Autowired
-    private ExploreRepository exploreRepository;
+    private  ExploreApiService exploreApiService;
 
 
     @GetMapping
     public List<RecipeFrontendModel> findAll() {
-        return exploreRepository.findAll();
+        return exploreApiService.findAll();
     }
 
     @PostMapping("/search")
     public List<RecipeFrontendModel> findBySearch(@RequestBody Explore search) {
-        return exploreRepository.findBySearch(search);
+        return exploreApiService.findBySearch(search);
     }
 
 }
