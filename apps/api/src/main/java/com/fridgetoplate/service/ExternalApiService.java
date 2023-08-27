@@ -183,7 +183,7 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
-        recipeSearchEndpoint += "&addRecipeInformation=true&ranking=1";
+        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=1";
 
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
