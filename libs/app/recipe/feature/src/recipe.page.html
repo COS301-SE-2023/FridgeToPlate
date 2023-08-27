@@ -32,29 +32,31 @@
   <div 
     class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
   >
-    <div
-      class="w-5/6 h-full lg:row-start-1 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
-    >
-      <recipe-card [recipe]="recipe" />
+  <div class="w-5/6  py-8 lg:row-start-8 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8">
+    <div class="flex flex-col ">
+        <div class="h-full" >
+            <recipe-card [recipe]="recipe" />
+        </div>
+
+        <div class="flex justify-between py-8 text-primary">
+            <div>
+                <p class="text-xs font-semibold">Prep Time </p>
+                <p class="text-3xl mt-2 font-bold">{{recipe?.prepTime ?? '10'}}m</p>
+            </div>
+            <div>
+                <p class="text-xs font-semibold">Ingredients</p>
+                <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '4'}}</p>
+            </div>
+            <div>
+                <p class="text-xs font-semibold">Servings</p>
+                <p class="text-3xl mt-2 font-bold">
+                    {{recipe?.servings ?? '1'}}
+                </p>
+            </div>
+        </div>
     </div>
-    <div
-      class="w-5/6 flex flex-row justify-between ion-align-items-end py-8 text-primary lg:row-start-9 lg:row-end-11 lg:col-start-1 lg:col-end-6 lg:ml-8"
-    >  
-      <div>
-        <p class="text-xs font-semibold">Prep Time </p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.prepTime ?? '10'}}m</p>
-      </div>
-      <div>
-        <p class="text-xs font-semibold">Ingredients</p>
-        <p class="text-3xl mt-2 font-bold">{{recipe?.ingredients?.length ?? '4'}}</p>
-      </div>
-      <div>
-        <p class="text-xs font-semibold">Servings</p>
-        <p class="text-3xl mt-2 font-bold">
-          {{recipe?.servings ?? '1'}}
-        </p>
-      </div>
-    </div>
+  </div>  
+
     <div class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13">
       <ion-list class="bg-background-lights h-full">
         <ion-list-header>

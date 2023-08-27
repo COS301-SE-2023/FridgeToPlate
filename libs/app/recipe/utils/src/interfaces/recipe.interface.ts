@@ -13,7 +13,7 @@ export interface IRecipe extends IRecipeDesc {
   description: string;
   servings: number;
   prepTime: number;
-  meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert';
+  meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | 'Salad' | 'Soup' | 'Drink';
   ingredients: IIngredient[];
   steps: string[];
   creator: string;
