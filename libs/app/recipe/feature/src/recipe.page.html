@@ -104,14 +104,8 @@
       <br />
 
       <div
-        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
-      >
-        <review [reviews]="recipe?.reviews ?? []"></review>
-      </div>
-
-      <div
         *ngIf="this.safeUrl"
-        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
+        class="w-5/6 h-full lg:row-start-11 lg:row-end-13 lg:col-start-6 lg:col-end-13 sm:mt-10 sm:mb-20 z-50"
       >
         <div class="h-full">
           <iframe
@@ -126,6 +120,14 @@
             may not correlate to the recipe instructions provided.
           </p>
         </div>
+      </div>
+
+      <br />
+
+      <div
+        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
+      >
+        <review [reviews]="recipe?.reviews ?? []"></review>
       </div>
     </div>
   </div>
