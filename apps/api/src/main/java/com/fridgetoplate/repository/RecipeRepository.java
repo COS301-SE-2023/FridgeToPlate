@@ -271,7 +271,13 @@ public class RecipeRepository {
 
         for (RecipeModel recipeModel : scanResult) {
             if (recipeModel.getCreator().equals(username)) {
-                recipes.add(recipeModel);
+                RecipeDesc recipeDesc = new RecipeDesc();
+                recipeDesc.setRecipeId(recipeModel.getRecipeId());
+                recipeDesc.setName(recipeModel.getName());
+                recipeDesc.setRecipeImage(recipeModel.getRecipeImage());
+                recipeDesc.setTags(recipeModel.getTags());
+                recipeDesc.setDifficulty(recipeModel.getDifficulty()); 
+                recipes.add(recipeDesc);
             }
         }
 
@@ -293,7 +299,13 @@ public class RecipeRepository {
         for (String id : ids) {
             for (RecipeModel recipeModel : scanResult) {
                 if (recipeModel.getRecipeId().equals(id)) {
-                    recipes.add(recipeModel);
+                    RecipeDesc recipeDesc = new RecipeDesc();
+                    recipeDesc.setRecipeId(recipeModel.getRecipeId());
+                    recipeDesc.setName(recipeModel.getName());
+                    recipeDesc.setRecipeImage(recipeModel.getRecipeImage());
+                    recipeDesc.setTags(recipeModel.getTags());
+                    recipeDesc.setDifficulty(recipeModel.getDifficulty()); 
+                    recipes.add(recipeDesc);
                 }
             }
         }
