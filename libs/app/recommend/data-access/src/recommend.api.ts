@@ -88,8 +88,13 @@ export class RecommendApi {
   }
 
   getProductInformation(productBarcode: string) {
+    const upcApiUrl = environment.GOUPC_API_URL;
+    const upcApiKey = environment.GOUPC_APIKEY;
+
     return this.httpClient
-      .post<IProductInformationAPIResponse>(`${baseUrl}/create`, productBarcode)
+      .get<IProductInformationAPIResponse>(
+        `${upcApiUrl}/code/${productBarcode}?key=${upcApiKey}`
+      )
       .pipe(
         map((productFromApi) => {
           if (!productFromApi?.product)
