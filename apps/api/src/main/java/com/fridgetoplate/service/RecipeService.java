@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
@@ -86,40 +84,11 @@ public class RecipeService {
     }
 
     public List<RecipeDesc> getCreatedRecipes(String username) {
-        List<RecipeDesc> recipes = new ArrayList<>();
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-
-        for (RecipeModel recipeModel : scanResult) {
-            if (recipeModel.getCreator().equals(username)) {
-                recipes.add(recipeModel);
-            }
-        }
-
-
-        return recipes;
+        return recipeRepository.getCreatedRecipes(username);
     }
 
 
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
-
-
-        List<RecipeDesc> recipes = new ArrayList<>();
-
-        if(ids == null || ids.isEmpty()) {
-            return recipes;
-        }
-
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (String id : ids) {
-            for (RecipeModel recipeModel : scanResult) {
-                if (recipeModel.getRecipeId().equals(id)) {
-                    recipes.add(recipeModel);
-                }
-            }
-        }
-
-        return recipes;
+        return recipeRepository.getSavedRecipes(ids);
     }
 }

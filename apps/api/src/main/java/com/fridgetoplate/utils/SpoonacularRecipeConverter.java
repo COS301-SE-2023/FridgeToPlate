@@ -66,7 +66,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                                 
                                 newIngredient.setName(stepIngredients[j].getName());
                                 
-                                newIngredient.setAmount(1);
+                                newIngredient.setAmount(1.0);
                                 
                                 newIngredient.setUnit("unit");
 

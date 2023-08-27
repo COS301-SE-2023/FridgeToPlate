@@ -30,9 +30,4 @@ public class ProfileController {
     public ProfileFrontendModel update(@PathVariable(value = "username") String username, @RequestBody ProfileFrontendModel profile) {
         return profileService.update(username, profile);
     }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id) {
-        return profileService.delete(id);
-    }
 }

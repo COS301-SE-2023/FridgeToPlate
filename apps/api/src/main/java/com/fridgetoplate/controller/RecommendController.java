@@ -28,17 +28,6 @@ public class RecommendController {
     @Autowired
     private ExternalApiService apiService;
 
-    @GetMapping
-    public List<RecipeFrontendModel> findAll() {
-        try{
-            return recipeRepository.findAll();
-        }
-        catch(Exception error){
-            System.out.println(error);
-            return new ArrayList<>();
-        }
-    }
-
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecommendFrontendModel userRecommendation) {
 
