@@ -22,13 +22,13 @@ public class ReviewRepository {
         return review;
     }
 
-     public List<Review> getReviewsByRecipeId(String id) {
+    public List<Review> getReviewsById(String id) {
         List<Review> reviews = new ArrayList<>();
-
+        
         PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
 
         for (Review review : scanResult) {
-
+            
             if (review.getRecipeId().equals(id)) {
                 reviews.add(review);
             }

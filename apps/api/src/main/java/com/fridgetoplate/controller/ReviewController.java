@@ -34,7 +34,7 @@ public class ReviewController {
 
      @GetMapping("/{id}")
     public List<Review> findReviewsById(@PathVariable(value = "id") String id){
-        return reviewRepository.getReviewsByRecipeId(id);
+        return reviewRepository.getReviewsById(id);
     }
 
     @GetMapping("/{recipeId}/{reviewId}")
