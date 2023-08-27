@@ -124,7 +124,7 @@ describe('Profile Tests', () => {
       cy.get('div').contains('Instructions').get('button').contains('Add').click();
       // cy.get('#instruction-0').type('Crack eggs');
       cy.get('#tag').type('Vegan');
-      cy.get('button').contains('Add Tag').click();
+      cy.get('button').contains('Add').click();
     });
   });
 
