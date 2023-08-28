@@ -1,6 +1,4 @@
-import { Component } from "@angular/core";
-import { Login } from "@fridge-to-plate/app/auth/utils";
-import { ActionsExecuting, actionsExecuting } from "@ngxs-labs/actions-executing";
+import { Component, OnInit } from "@angular/core";
 import { Navigate } from "@ngxs/router-plugin";
 import {  Store } from "@ngxs/store";
 
@@ -12,10 +10,17 @@ import {  Store } from "@ngxs/store";
   styleUrls: ["./splash.page.scss"],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class SplashPage {
+export class SplashPage implements OnInit {
 
 
   constructor(private store: Store) { }
+
+  ngOnInit() {
+    // Simulate an asynchronous initialization process
+    setTimeout(() => {
+      this.store.dispatch(new Navigate(['/login']));
+    }, 3000); // Replace with the actual initialization time
+  }
 
 }
 
