@@ -132,4 +132,29 @@ describe('RecipeDetailPageComponent', () => {
     component.goHome();
     expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
   });
+
+  it('Should set safeUrl accordingly with value', () => {
+    const store: Store = TestBed.inject(Store);
+    jest.spyOn(store, 'select').mockReturnValue(of(testRecipe));
+    jest
+      .spyOn(store, 'dispatch')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    component.setRecipe('test-id');
+    expect(component.safeUrl).toEqual({
+      changingThisBreaksApplicationSecurity:
+        'https://www.youtube.com/embed/testId',
+    });
+  });
+
+  it('Should not set safeUrl no youtubeId', () => {
+    const store: Store = TestBed.inject(Store);
+    jest
+      .spyOn(store, 'select')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    jest
+      .spyOn(store, 'dispatch')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    component.setRecipe('test-id');
+    expect(component.safeUrl).toBe(undefined);
+  });
 });
