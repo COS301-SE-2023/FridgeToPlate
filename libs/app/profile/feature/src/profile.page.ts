@@ -18,10 +18,12 @@ export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
+  displayShoppinglist = "none"
   displayEditProfile = "none";
   displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
+
 
   editableProfile !: IProfile;
 
@@ -40,6 +42,14 @@ export class ProfilePage {
 
   closeEditProfile() {
     this.displayEditProfile = "none";
+  }
+
+  openShoppingList() {
+    this.displayShoppinglist = "block";
+  }
+  
+  closeShoppingList() {
+    this.displayShoppinglist = "none";
   }
 
   openSettings() {

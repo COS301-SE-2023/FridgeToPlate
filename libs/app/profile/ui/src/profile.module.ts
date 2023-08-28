@@ -6,15 +6,16 @@ import { SettingsModalComponent } from './settings-modal/settings-modal.componen
 import { NgxsModule } from '@ngxs/store';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
-
+import { ShoppinglistComponent } from './shopping-list-modal/shoppinglist.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgxsModule.forRoot([PreferencesState]),
+  imports: [CommonModule, FormsModule, NgxsModule.forRoot([PreferencesState])],
+  declarations: [
+    EditModalComponent,
+    SettingsModalComponent,
+    PasswordModalComponent,
+    ShoppinglistComponent,
   ],
-  declarations: [EditModalComponent, SettingsModalComponent, PasswordModalComponent],
-  exports: [EditModalComponent, SettingsModalComponent, PasswordModalComponent]
+  exports: [EditModalComponent, SettingsModalComponent, PasswordModalComponent],
 })
 export class ProfileUiModule {}
