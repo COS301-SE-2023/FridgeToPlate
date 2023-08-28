@@ -12,14 +12,16 @@ import {  Store } from "@ngxs/store";
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class SplashPage implements OnInit {
 
-
+  splashLogoImage = "/assets/Final Logo.png";
+  splashFooterImage = "/assets/Splash Footer.png";
   constructor(private store: Store) { }
 
   ngOnInit() {
 
-    setTimeout(() => {
-      this.store.dispatch(new Navigate(['/login']));
-    }, 1500); 
+    // setTimeout(() => {
+    //   this.store.dispatch(new Navigate(['/login']));
+    // }, 1500); 
+    return;
   }
 
 }
