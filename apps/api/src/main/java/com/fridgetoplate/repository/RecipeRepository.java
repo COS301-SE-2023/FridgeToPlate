@@ -421,7 +421,7 @@ public class RecipeRepository {
         }
 
 
-        List<RecipeModel> results = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression().withScanFilter(scanFilter).withLimit(2));
+        List<RecipeModel> results = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression().withScanFilter(scanFilter));
         return results;
 
     }
