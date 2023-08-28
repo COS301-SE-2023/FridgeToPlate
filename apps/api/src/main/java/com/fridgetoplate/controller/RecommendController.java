@@ -12,6 +12,7 @@ import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.RecommendRepository;
 import com.fridgetoplate.service.ExternalApiService;
+import com.fridgetoplate.service.RecommendService;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 
 @RestController
@@ -27,6 +28,9 @@ public class RecommendController {
 
     @Autowired
     private ExternalApiService apiService;
+
+    @Autowired
+    private RecommendService recommendService;
 
     @PostMapping
     public List<RecipeFrontendModel> getExternalRecommendation(@RequestBody RecommendFrontendModel userRecommendation) {
