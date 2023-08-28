@@ -16,10 +16,10 @@ export class SplashPage implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit() {
-    // Simulate an asynchronous initialization process
+
     setTimeout(() => {
       this.store.dispatch(new Navigate(['/login']));
-    }, 1500); // Replace with the actual initialization time
+    }, 1500); 
   }
 
 }
