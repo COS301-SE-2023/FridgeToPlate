@@ -19,7 +19,7 @@ export class SplashPage implements OnInit {
     // Simulate an asynchronous initialization process
     setTimeout(() => {
       this.store.dispatch(new Navigate(['/login']));
-    }, 3000); // Replace with the actual initialization time
+    }, 1500); // Replace with the actual initialization time
   }
 
 }

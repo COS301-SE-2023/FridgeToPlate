@@ -6,7 +6,7 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'home',
+        redirectTo: 'splash',
     },
     {
         path: 'recommend',
@@ -55,6 +55,14 @@ const routes: Routes = [
     {
         path: 'home',
         loadChildren: () => import('@fridge-to-plate/app/home/feature').then((m) => m.HomeModule),
+    },
+    {
+        path: 'home',
+        loadChildren: () => import('@fridge-to-plate/app/home/feature').then((m) => m.HomeModule),
+    },
+    {
+        path: 'splash',
+        loadChildren: () => import('@fridge-to-plate/app/splash/ui').then((m) => m.SplashUIModule),
     },
     {   
         path: '**', 
