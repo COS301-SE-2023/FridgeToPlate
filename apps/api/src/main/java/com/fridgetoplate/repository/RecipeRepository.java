@@ -49,15 +49,13 @@ public class RecipeRepository {
         return recipe;
     }
     
-    public RecipeModel[] saveBatch(RecipeModel[] recipeList){
+    public void saveBatch(RecipeModel[] recipeList){
         if(recipeList.length != 0)
         {
             for(int i = 0; i < recipeList.length; i++){
                 dynamoDBMapper.save(recipeList[i]);
             }
         }
-        
-        return recipeList;
     }
 
     public RecipeModel findById(String id){

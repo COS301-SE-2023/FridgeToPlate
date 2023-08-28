@@ -1,12 +1,12 @@
 package com.fridgetoplate.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
@@ -90,5 +90,14 @@ public class RecipeService {
 
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
         return recipeRepository.getSavedRecipes(ids);
+    }
+
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
+        return recipeRepository.findAllByPreferences(recipePreferences, userIngredients);
+    }
+
+    public RecipeModel[] saveBatch(RecipeModel[] recipeList) {
+        recipeRepository.saveBatch(recipeList);
+        return recipeList;
     }
 }
