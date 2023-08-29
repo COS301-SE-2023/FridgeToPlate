@@ -1,12 +1,17 @@
-<div class="lg:inline-grid lg:grid-cols-2 flex flex-col h-full justify-center items-center overflow-hidden bg-background-dark">
+<div class="flex flex-col min-h-screen bg-background-dark space-y-80">
 
-  <div class="flex flex-col justify-center px-10 text-left main-cont md:text-center md:px-36 mx-auto">
-
-    <img class="block m-auto w-max pr-24 h-auto rounded-lg text-white" [src]="splashLogoImage" alt="Splash2 Photo">
+  <div class="flex mx-auto items-center justify-center w-2/5  block rounded-lg text-white pt-64">
+    <img class="max-w-full h-auto" [src]="splashLogoImage" alt="Splash2 Photo">
+  </div>
+    
 
     <!-- <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold text-white font-serif">Fridge To Plate</h1> -->
 
-    <img class="block m-auto w-max pr-24 h-auto rounded-lg text-white" [src]="splashFooterImage" alt="Footer Photo">
-  </div>
-  
+    <footer>
+      <div class=" container mx-auto flex justify-center items-end rounded-lg">
+        <img class=" max-w-full h-auto" [src]="splashFooterImage" alt="Footer Photo">
+      </div>
+    </footer>
+    
+
 </div>
