@@ -6,6 +6,7 @@ import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -26,6 +27,7 @@ export class ProfilePage {
 
 
   editableProfile !: IProfile;
+  mealPlan!: IMealPlan;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
@@ -45,6 +47,7 @@ export class ProfilePage {
   }
 
   openShoppingList() {
+    this.profile$.pipe(take(1)).subscribe(profile => this.mealPlan = Object.create(profile.currMealPlan));
     this.displayShoppinglist = "block";
   }
   
