@@ -33,7 +33,7 @@ public class ExploreApiService {
         List<RecipeFrontendModel> recipeFrontendModels = new ArrayList<RecipeFrontendModel>();
         for (RecipeModel recipeModel : recipes) {
             RecipeFrontendModel frontendModel = this.recipeService.findById(recipeModel.getRecipeId());
-            if(!recipeFrontendModels.contains(recipeModel)){
+            if(!recipeFrontendModels.contains(frontendModel)){
                 recipeFrontendModels.add(frontendModel);
             }
         }
