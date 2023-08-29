@@ -22,5 +22,9 @@ export class ShoppinglistComponent {
       this.closeFunc.emit();
   }
 
+  getIngredients(id: string) {
+    //TODO: get ingredientds using the recipe id
+  }
+
 
 }
