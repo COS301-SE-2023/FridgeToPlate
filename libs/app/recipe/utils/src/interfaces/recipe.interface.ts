@@ -7,13 +7,14 @@ export interface IRecipeDesc {
   tags: string[];
   difficulty: 'Easy' | 'Medium' | 'Hard';
   recipeImage: string;
+  rating: number | null;
 }
 
 export interface IRecipe extends IRecipeDesc {
   description: string;
   servings: number;
   prepTime: number;
-  meal: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | 'Salad' | 'Soup' | 'Drink';
+  meal: string;
   ingredients: IIngredient[];
   steps: string[];
   creator: string;

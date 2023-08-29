@@ -21,7 +21,7 @@ export class EditRecipeComponent implements OnInit {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | 'Drink';
+  selectedMeal!: string;
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
@@ -158,6 +158,7 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.value.preparationTime as number,
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
+      rating: this.recipe?.rating ?? null
     };
     
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
