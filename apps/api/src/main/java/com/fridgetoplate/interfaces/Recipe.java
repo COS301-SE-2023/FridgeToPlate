@@ -1,7 +1,6 @@
 package com.fridgetoplate.interfaces;
 
 import java.util.List;
-import com.fridgetoplate.model.Ingredient;
 
 public class Recipe extends RecipeDesc {
 

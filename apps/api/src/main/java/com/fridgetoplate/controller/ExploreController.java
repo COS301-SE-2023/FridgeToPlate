@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.Recipe;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.repository.ExploreRepository;

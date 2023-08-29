@@ -7,12 +7,13 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.Recipe;
 
 @DynamoDBTable(tableName = "recipes")
 public class RecipeModel extends Recipe {
 
-        private Integer views = 0;
+    private Integer views = 0;
 
     // The getters
     @DynamoDBHashKey(attributeName = "recipeId")

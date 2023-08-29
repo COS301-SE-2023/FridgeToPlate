@@ -8,8 +8,8 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.Recipe;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 

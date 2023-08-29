@@ -8,10 +8,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.ExtendedIngredient;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularStep;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 

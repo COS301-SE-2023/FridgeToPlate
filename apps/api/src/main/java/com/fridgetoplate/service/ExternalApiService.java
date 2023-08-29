@@ -10,8 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Value;

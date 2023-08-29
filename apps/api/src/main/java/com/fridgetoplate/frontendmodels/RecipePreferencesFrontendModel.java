@@ -1,6 +1,6 @@
 package com.fridgetoplate.frontendmodels;
 
-import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.interfaces.Ingredient;
 
 public class RecipePreferencesFrontendModel {
 
