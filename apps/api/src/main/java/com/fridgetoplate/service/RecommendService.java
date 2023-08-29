@@ -14,7 +14,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.interfaces.RecipePreferences;
-import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.model.RecommendModel;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.RecommendRepository;

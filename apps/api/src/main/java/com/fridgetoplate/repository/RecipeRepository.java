@@ -1,5 +1,6 @@
 package com.fridgetoplate.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
@@ -9,6 +10,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.RecipeDesc;
+import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
@@ -37,7 +39,6 @@ public class RecipeRepository {
         model.setTags(recipe.getTags());
         model.setMeal(recipe.getMeal());
         model.setDescription(recipe.getDescription());
-        model.setIngredients(recipe.getIngredients());
         model.setPrepTime(recipe.getPrepTime());
         model.setSteps(recipe.getSteps());
         model.setCreator(recipe.getCreator());
@@ -60,6 +61,13 @@ public class RecipeRepository {
 
     public RecipeModel findById(String id){
         return dynamoDBMapper.load(RecipeModel.class, id);
+    }
+
+    public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+        DynamoDBQueryExpression<IngredientModel> query = new DynamoDBQueryExpression<IngredientModel>()
+            .withIndexName(recipeId);
+
+        return dynamoDBMapper.query(IngredientModel.class, query);
     }
 
     public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients){
@@ -336,7 +344,6 @@ public class RecipeRepository {
         List<String> tags = recipeModel.getTags();
         String meal = recipeModel.getMeal();
         String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
         Integer prepTime = recipeModel.getPrepTime();
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();

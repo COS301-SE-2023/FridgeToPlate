@@ -52,7 +52,7 @@ public class ExploreRepository {
         List<String> tags = recipeModel.getTags();
         String meal = recipeModel.getMeal();
         String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
+        List<Ingredient> ingredients = recipeR;
         Integer prepTime = recipeModel.getPrepTime();
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();

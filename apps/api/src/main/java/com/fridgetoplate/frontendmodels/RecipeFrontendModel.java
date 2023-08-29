@@ -10,6 +10,8 @@ public class RecipeFrontendModel extends Recipe {
 
     private List<Review> reviews;
 
+    private List<Ingredient> ingredients;
+
     public String getRecipeId() {
         return recipeId;
     }
@@ -68,5 +70,9 @@ public class RecipeFrontendModel extends Recipe {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

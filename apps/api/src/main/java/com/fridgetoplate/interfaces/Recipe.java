@@ -12,8 +12,6 @@ public class Recipe extends RecipeDesc {
 
     protected Integer servings;
 
-    protected List<Ingredient> ingredients;
-
     protected List<String> steps;
 
     protected String creator;
@@ -33,10 +31,6 @@ public class Recipe extends RecipeDesc {
 
     public void setServings(Integer servings) {
         this.servings = servings;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
     }
 
     public void setSteps(List<String> steps) {

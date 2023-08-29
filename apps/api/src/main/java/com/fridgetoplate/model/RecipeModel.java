@@ -51,12 +51,6 @@ public class RecipeModel extends Recipe {
     public String getDescription() {
         return description;
     }
-    
-    @DynamoDBAttribute(attributeName = "ingredients")
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.L)
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
 
     @DynamoDBAttribute(attributeName = "steps")
     public List<String> getSteps() {

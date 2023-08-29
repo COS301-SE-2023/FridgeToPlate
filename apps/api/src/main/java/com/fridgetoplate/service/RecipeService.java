@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.interfaces.Ingredient;
+import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
@@ -31,9 +32,11 @@ public class RecipeService {
          // Declaring the Recipe Response object
         RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
 
-
         // Find the Recipe model
         RecipeModel recipeModel = recipeRepository.findById(id);
+
+        // Get ingredients for Recipe
+        List<IngredientModel> ingredientModel = recipeRepository.findIngredientsByRecipeId(id);
 
         if(recipeModel == null) {
             return null;
@@ -47,7 +50,6 @@ public class RecipeService {
         List<String> tags = recipeModel.getTags();
         String meal = recipeModel.getMeal();
         String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
         Integer prepTime = recipeModel.getPrepTime();
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
@@ -61,7 +63,7 @@ public class RecipeService {
         recipeResponse.setTags(tags);
         recipeResponse.setMeal(meal);
         recipeResponse.setDescription(description);
-        recipeResponse.setIngredients(ingredients);
+        recipeResponse.setIngredients(ingredientModel);
         recipeResponse.setPrepTime(prepTime);
         recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
