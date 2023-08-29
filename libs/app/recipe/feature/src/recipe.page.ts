@@ -62,9 +62,7 @@ export class RecipePage implements OnInit {
         this.recipe = stateRecipe;
         if (stateRecipe.youtubeId)
           this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
-            `https://www.youtube.com/embed/${
-              this.recipe.youtubeId ?? '81bn4p8H3Kg'
-            }`
+            `https://www.youtube.com/embed/${this.recipe.youtubeId}`
           );
       });
     } else {
