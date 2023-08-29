@@ -21,6 +21,7 @@ export class LoginPage {
 
   username = "";
   password = "";
+  logoImage = "/assets/Fridge Transparent.png";
   @Select(actionsExecuting([Login, RetrievePreferences, RetrieveProfile, GetUpdatedRecommendation])) busy$ !: Observable<ActionsExecuting>;
 
   constructor(private store: Store) { }
