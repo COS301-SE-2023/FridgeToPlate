@@ -7,7 +7,11 @@ import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable } from 'rxjs';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Navigate } from '@ngxs/router-plugin';
-import { actionsExecuting, ActionsExecuting} from '@ngxs-labs/actions-executing';
+import {
+  actionsExecuting,
+  ActionsExecuting,
+} from '@ngxs-labs/actions-executing';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
@@ -17,16 +21,19 @@ import { actionsExecuting, ActionsExecuting} from '@ngxs-labs/actions-executing'
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
-  @Select(actionsExecuting([RetrieveRecipe])) busy$ !: Observable<ActionsExecuting>
+  @Select(actionsExecuting([RetrieveRecipe]))
+  busy$!: Observable<ActionsExecuting>;
   recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
   forceLoading = true;
+  safeUrl: SafeResourceUrl;
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
     private store: Store,
-    private actions$: Actions
+    private actions$: Actions,
+    private _sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -38,12 +45,10 @@ export class RecipePage implements OnInit {
       const recipeId = params.get('id');
       if (recipeId) {
         this.setRecipe(recipeId);
-      }
-      else {
+      } else {
         this.store.dispatch(new ShowError('Invalid Recipe Id'));
       }
     });
-
   }
 
   goBack() {
@@ -55,13 +60,15 @@ export class RecipePage implements OnInit {
       this.store.dispatch(new RetrieveRecipe(id));
       this.recipe$.subscribe((stateRecipe) => {
         this.recipe = stateRecipe;
+        if (stateRecipe.youtubeId)
+          this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
+            `https://www.youtube.com/embed/${this.recipe.youtubeId}`
+          );
       });
-    }
-    else {
+    } else {
       this.store.dispatch(new ShowError('Invalid Recipe Id'));
       return;
     }
-
   }
 
   goHome() {
