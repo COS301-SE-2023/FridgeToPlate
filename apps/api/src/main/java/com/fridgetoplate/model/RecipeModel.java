@@ -32,6 +32,11 @@ public class RecipeModel extends Recipe {
         return name;
     }
 
+    @DynamoDBAttribute(attributeName = "rating")
+    public Double getRating() {
+        return rating;
+    }
+
     @DynamoDBAttribute(attributeName = "tags")
     public List<String> getTags() {
         return tags;
@@ -46,7 +51,6 @@ public class RecipeModel extends Recipe {
     public String getDescription() {
         return description;
     }
-
     
     @DynamoDBAttribute(attributeName = "ingredients")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.L)
