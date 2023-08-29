@@ -16,6 +16,6 @@ import { ShoppinglistComponent } from './shopping-list-modal/shoppinglist.compon
     PasswordModalComponent,
     ShoppinglistComponent,
   ],
-  exports: [EditModalComponent, SettingsModalComponent, PasswordModalComponent],
+  exports: [EditModalComponent, SettingsModalComponent, PasswordModalComponent, ShoppinglistComponent],
 })
 export class ProfileUiModule {}
