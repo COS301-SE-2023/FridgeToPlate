@@ -39,6 +39,7 @@ describe('RecipeDetailPageComponent', () => {
     steps: ['Chop onions'],
     creator: 'Kristap P',
     youtubeId: 'testId',
+    rating: 2,
   };
 
   beforeEach(async () => {
