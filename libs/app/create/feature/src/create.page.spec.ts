@@ -51,6 +51,34 @@ describe('CreatePagComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should set selectedVideo and call previewVideo on file change', () => {
+    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
+    const mockEvent = {
+      target: { files: [mockFile] },
+    };
+
+    jest.spyOn(createPage, 'previewVideo');
+
+    createPage.onVideoChanged(mockEvent);
+
+    expect(createPage.selectedVideo).toBe(mockFile);
+    expect(createPage.displayVideo).toBe('block');
+    expect(createPage.displayImage).toBe('none');
+    expect(createPage.previewVideo).toHaveBeenCalled();
+  });
+
+  it('should set videoPlayer src when previewVideo is called', () => {
+    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
+    createPage.selectedVideo = mockFile;
+
+    const mockVideoPlayer = document.createElement('video');
+    jest.spyOn(document, 'getElementById').and.returnValue(mockVideoPlayer as HTMLVideoElement);
+
+    createPage.previewVideo();
+
+    expect(mockVideoPlayer.src).toBe(URL.createObjectURL(mockFile));
+  });
+
   it('should set the name, description, servings, and preparationTime fields as required', () => {
     createPage.createForm();
 
@@ -464,6 +492,8 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(placeholderText).toBe('Amount');
     });
   })
+
+
 
   describe("Testing placeholder texts for Unit", () => {
 
