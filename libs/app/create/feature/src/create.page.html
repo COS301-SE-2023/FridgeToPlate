@@ -371,16 +371,16 @@
 
     </div>
 
-    <div class="flex justify-center my-auto">
+    <div class="flex justify-center my-auto ">
       <img (click)="videoInput.click()"
       [src]="videoUrl"
-      class="object-cover rounded-md aspect-square cursor-pointer"
+      class="object-cover rounded-md aspect-square cursor-pointer w-5/6 h-4/6"
       alt="Recipe Video"
       [ngStyle]="{ 'display': displayImage }"
       />
 
       <input style="display: none" type="file" (change)="onVideoChanged($event)" #videoInput accept="video/*">
-      <video id="video-player" controls autoplay class="w-40 h-28" [ngStyle]="{ 'display': displayVideo }"></video>
+      <video id="video-player" controls autoplay class="w-5/6 h-4/6" [ngStyle]="{ 'display': displayVideo }"></video>
 
     </div>
 
