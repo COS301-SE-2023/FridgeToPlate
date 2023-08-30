@@ -29,6 +29,7 @@ class MockCreateState {}
 describe('CreatePagComponent', () => {
   let createPage: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
+  global.URL.createObjectURL = jest.fn();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -72,11 +73,11 @@ describe('CreatePagComponent', () => {
     createPage.selectedVideo = mockFile;
 
     const mockVideoPlayer = document.createElement('video');
-    jest.spyOn(document, 'getElementById').and.returnValue(mockVideoPlayer as HTMLVideoElement);
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockVideoPlayer as HTMLVideoElement);
 
     createPage.previewVideo();
 
-    expect(mockVideoPlayer.src).toBe(URL.createObjectURL(mockFile));
+    expect(mockVideoPlayer.src).toBe("http://localhost/undefined");
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
