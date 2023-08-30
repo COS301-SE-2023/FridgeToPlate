@@ -1,5 +1,6 @@
 package com.fridgetoplate.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,21 @@ public class RecipeService {
         // Find the Recipe model
         RecipeModel recipeModel = recipeRepository.findById(id);
 
-        // Get ingredients for Recipe
-        List<IngredientModel> ingredientModel = recipeRepository.findIngredientsByRecipeId(id);
-
         if(recipeModel == null) {
             return null;
+        }
+
+        // Get ingredients for Recipe
+        List<IngredientModel> ingredientsModel = recipeRepository.findIngredientsByRecipeId(id);
+
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (IngredientModel ingredientModel : ingredientsModel) {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientModel.getName());
+            ingredient.setAmount(ingredientModel.getAmount());
+            ingredient.setUnit(ingredientModel.getUnit());
+
+            ingredients.add(ingredient);
         }
 
         // Getting recipe attributes
@@ -54,6 +65,7 @@ public class RecipeService {
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
         Integer servings = recipeModel.getServings();
+        Double rating = recipeModel.getRating();
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -63,12 +75,12 @@ public class RecipeService {
         recipeResponse.setTags(tags);
         recipeResponse.setMeal(meal);
         recipeResponse.setDescription(description);
-        recipeResponse.setIngredients(ingredientModel);
+        recipeResponse.setIngredients(ingredients);
         recipeResponse.setPrepTime(prepTime);
         recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
         recipeResponse.setServings(servings);
-
+        recipeResponse.setRating(rating);
 
         /*
         * Getting the Reviews
@@ -79,8 +91,6 @@ public class RecipeService {
 
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
-
-
 
        return recipeResponse;
     }

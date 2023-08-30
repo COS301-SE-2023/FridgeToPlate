@@ -23,6 +23,7 @@ public class RecipeController {
     @PostMapping("/create")
     public RecipeFrontendModel save(@RequestBody RecipeFrontendModel recipe){
         // Save the recipe
+        System.out.println("saving");
         return recipeRepository.save(recipe);
     }
 

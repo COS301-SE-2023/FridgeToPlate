@@ -166,7 +166,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
             newRecipe.setSteps(apiResults[i].getSteps());
 
-            newRecipe.setIngredients(apiResults[i].getIngredients());
+            // newRecipe.setIngredients(apiResults[i].getIngredients());
 
             newRecipe.setTags(apiResults[i].getTags());
 

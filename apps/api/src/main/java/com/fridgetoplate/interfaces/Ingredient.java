@@ -19,4 +19,16 @@ public class Ingredient {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }

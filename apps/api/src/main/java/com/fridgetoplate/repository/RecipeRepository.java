@@ -14,6 +14,8 @@ import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
+import graphql.com.google.common.collect.ImmutableMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,8 @@ public class RecipeRepository {
     private ReviewRepository reviewRepository;
 
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
+        System.out.println("saving");
+
         RecipeModel model = new RecipeModel(); 
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
@@ -44,9 +48,20 @@ public class RecipeRepository {
         model.setCreator(recipe.getCreator());
         model.setServings(recipe.getServings());
         model.setViews(0);
+        model.setRating(recipe.getRating());
         dynamoDBMapper.save(model);
 
         recipe.setRecipeId(model.getRecipeId());
+
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            IngredientModel ingredientModel = new IngredientModel();
+            ingredientModel.setRecipeId(recipe.getRecipeId());
+            ingredientModel.setName(ingredient.getName());
+            ingredientModel.setAmount(ingredient.getAmount());
+            ingredientModel.setUnit(ingredient.getUnit());
+            
+            dynamoDBMapper.save(ingredientModel);
+        }
         return recipe;
     }
     
@@ -64,8 +79,9 @@ public class RecipeRepository {
     }
 
     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
-        DynamoDBQueryExpression<IngredientModel> query = new DynamoDBQueryExpression<IngredientModel>()
-            .withIndexName(recipeId);
+        DynamoDBQueryExpression<IngredientModel> query = new DynamoDBQueryExpression<IngredientModel>();
+            query.setKeyConditionExpression("recipeId = :id");
+            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
 
         return dynamoDBMapper.query(IngredientModel.class, query);
     }
@@ -336,6 +352,19 @@ public class RecipeRepository {
             return null;
         }
 
+        // Get ingredients for Recipe
+        List<IngredientModel> ingredientsModel = this.findIngredientsByRecipeId(id);
+
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (IngredientModel ingredientModel : ingredientsModel) {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientModel.getName());
+            ingredient.setAmount(ingredientModel.getAmount());
+            ingredient.setUnit(ingredientModel.getUnit());
+
+            ingredients.add(ingredient);
+        }
+
         // Getting recipe attributes
         String recipeId = recipeModel.getRecipeId();
         String difficulty = recipeModel.getDifficulty();
@@ -348,6 +377,7 @@ public class RecipeRepository {
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
         Integer servings = recipeModel.getServings();
+        Double rating = recipeModel.getRating();
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -362,7 +392,7 @@ public class RecipeRepository {
         recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
         recipeResponse.setServings(servings);
-
+        recipeResponse.setRating(rating);
 
         /*
         * Getting the Reviews
