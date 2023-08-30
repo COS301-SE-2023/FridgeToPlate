@@ -371,16 +371,11 @@
 
     </div>
 
-    <div class="flex flex-col justify-center  lg:col-span-2 lg:px-36 px-10 w-full">
+    <div class="flex flex-col  lg:col-span-2 lg:px-36 px-10 w-full mx-auto">
       <label for="instructions" class="block text-gray-700 font-bold mb-2">Video</label>
-      <img (click)="videoInput.click()"
-      [src]="videoUrl"
-      class="object-cover rounded-md aspect-square cursor-pointer"
-      alt="Recipe Video"
-      [ngStyle]="{ 'display': displayImage }"
-      />
 
-      <input style="display: none" type="file" (change)="onVideoChanged($event)" #videoInput accept="video/*">
+      <input class="input:selection:bg-primary mb-2 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" #videoInput type="file" accept="video/*" (change)="onVideoChanged($event) " placeholder="Upload Recipe Video">
+
       <video id="video-player" controls autoplay class=" flex justify-center rounded-lg" [ngStyle]="{ 'display': displayVideo }"></video>
 
     </div>
