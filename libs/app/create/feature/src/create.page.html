@@ -371,6 +371,19 @@
 
     </div>
 
+    <div class="flex justify-center my-auto">
+      <img (click)="videoInput.click()"
+      [src]="videoUrl"
+      class="object-cover rounded-md aspect-square cursor-pointer"
+      alt="Recipe Video"
+      [ngStyle]="{ 'display': displayImage }"
+      />
+
+      <input style="display: none" type="file" (change)="onVideoChanged($event)" #videoInput accept="video/*">
+      <video id="video-player" controls autoplay class="w-40 h-28" [ngStyle]="{ 'display': displayVideo }"></video>
+
+    </div>
+
     <div class="flex justify-center lg:col-span-2 lg:px-36">
       <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full">Create Recipe</button>
     </div>

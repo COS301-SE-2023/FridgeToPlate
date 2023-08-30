@@ -22,10 +22,14 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
+  videoUrl = 'https://img.freepik.com/free-photo/female-food-blogger-streaming-home-while-cooking_23-2148771599.jpg';
   selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink";
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
+  selectedVideo: File | null = null;
+  displayVideo = "none";
+  displayImage = "block";
 
   constructor(private fb: FormBuilder, private store : Store) {}
 
@@ -262,6 +266,6 @@ export class CreatePagComponent implements OnInit  {
     return instructions;
   }
 
-
+  
 
 }
