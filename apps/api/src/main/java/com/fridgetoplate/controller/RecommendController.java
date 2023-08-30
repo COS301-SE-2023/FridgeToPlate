@@ -1,19 +1,13 @@
 package com.fridgetoplate.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
-import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
-import com.fridgetoplate.repository.RecipeRepository;
-import com.fridgetoplate.repository.RecommendRepository;
-import com.fridgetoplate.service.ExternalApiService;
 import com.fridgetoplate.service.RecommendService;
-import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -30,7 +24,7 @@ public class RecommendController {
             return recommendService.getRecipeRecommendations(userRecommendation);
         }
         catch(Exception error){
-            System.out.println(error);
+            error.printStackTrace();
             return new ArrayList<>();
         }
         
@@ -42,7 +36,7 @@ public class RecommendController {
             recommendService.save(userRecommendation);
             return userRecommendation;
         } catch(Exception error){
-            System.out.println(error);
+            error.printStackTrace();
             return userRecommendation;
         }
         
@@ -53,7 +47,7 @@ public class RecommendController {
             recommendService.updateRecommendPreferences(userRecommendation);
             return userRecommendation;
         } catch( Exception error ) {
-            System.out.println(error);
+            error.printStackTrace();
             return userRecommendation;
         }
     }
@@ -63,7 +57,7 @@ public class RecommendController {
         try{
             return recommendService.getById(username);
         } catch (Exception error){
-            System.out.println(username);
+            error.printStackTrace();
             return new RecommendFrontendModel();
         }
     }

@@ -2,7 +2,7 @@ package com.fridgetoplate.frontendmodels;
 
 import java.util.List;
 
-import com.fridgetoplate.interfaces.Ingredient;
+import com.fridgetoplate.model.Ingredient;
 
 public class RecommendFrontendModel {
     private String username;

@@ -1,7 +1,5 @@
 package com.fridgetoplate.repository;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +7,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
-import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
-import com.fridgetoplate.interfaces.RecipePreferences;
 import com.fridgetoplate.model.RecommendModel;
 
 @Repository

@@ -1,5 +1,8 @@
-package com.fridgetoplate.interfaces;
+package com.fridgetoplate.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
+@DynamoDBDocument
 public class Ingredient {
     
     protected String name;

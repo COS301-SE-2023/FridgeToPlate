@@ -7,16 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.interfaces.RecipePreferences;
-import com.fridgetoplate.interfaces.Ingredient;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecommendModel;
-import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.RecommendRepository;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
 
@@ -51,7 +47,7 @@ public class RecommendService {
             
             //2. Add External API recipes to DB
             if(apiQueryResults.length != 0)
-                recipeService.saveBatch( converter.toRecipeModelArray(apiQueryResults) );
+                recipeService.saveBatch( apiQueryResults );
             
             //.3 Query Database by prefrence
             dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
@@ -74,22 +70,22 @@ public class RecommendService {
 
         RecipePreferences preferences = new RecipePreferences();
 
-        if(recommendObject.getRecipePreferences().getDifficulty() != null && !recommendObject.getRecipePreferences().getDifficulty().isEmpty())
+        if(recommendObject.getRecipePreferences().getDifficulty() != null)
             preferences.setDifficulty(recommendObject.getRecipePreferences().getDifficulty());
             
-        if(recommendObject.getRecipePreferences().getMeal() != null && !recommendObject.getRecipePreferences().getMeal().isEmpty())
+        if(recommendObject.getRecipePreferences().getMeal() != null)
             preferences.setMeal(recommendObject.getRecipePreferences().getMeal());
         
-        if(recommendObject.getRecipePreferences().getPrepTime() != null && !recommendObject.getRecipePreferences().getPrepTime().isEmpty())
+        if(recommendObject.getRecipePreferences().getPrepTime() != null)
             preferences.setPrepTime(recommendObject.getRecipePreferences().getPrepTime());
         
-        if(recommendObject.getRecipePreferences().getServings() != null && !recommendObject.getRecipePreferences().getServings().isEmpty())
+        if(recommendObject.getRecipePreferences().getServings() != null)
             preferences.setServings(recommendObject.getRecipePreferences().getServings());
             
-        if(recommendObject.getRecipePreferences().getRating() != null && !recommendObject.getRecipePreferences().getRating().isEmpty())        
+        if(recommendObject.getRecipePreferences().getRating() != null)        
             preferences.setRating(recommendObject.getRecipePreferences().getRating());
         
-        if(recommendObject.getRecipePreferences().getKeywords() != null && recommendObject.getRecipePreferences().getKeywords().length != 0)        
+        if(recommendObject.getRecipePreferences().getKeywords() != null)        
             preferences.setKeywords(Arrays.asList( recommendObject.getRecipePreferences().getKeywords()));
 
         model.setRecipePreferences(preferences);
@@ -106,37 +102,45 @@ public class RecommendService {
         RecommendModel recommendModel = recommendRepository.getById(username);
 
         if(recommendModel == null) {
-            RecommendFrontendModel emptyResponse = new RecommendFrontendModel();
-            emptyResponse.setUsername(username);
-            emptyResponse.setIngredients(new ArrayList<Ingredient>());
-            emptyResponse.setPreferences(new RecipePreferencesFrontendModel());
-            return emptyResponse;
+            return null;
         }        
 
         //Convert RecommendModel to Frontend model.
-       recommendObject.setUsername(recommendModel.getUsername());
-       
-       recommendObject.setIngredients(recommendModel.getIngredients());
-       
-       RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
-       
-       if(recommendModel.getRecipePreferences().getDifficulty() != null && !recommendModel.getRecipePreferences().getDifficulty().isEmpty())
-       preferencesFrontendObject.setDifficulty(recommendModel.getRecipePreferences().getDifficulty());
-       
-        if(recommendModel.getRecipePreferences().getMeal() != null && !recommendModel.getRecipePreferences().getMeal().isEmpty())
-        preferencesFrontendObject.setMeal(recommendModel.getRecipePreferences().getMeal());
+        recommendObject.setUsername(recommendModel.getUsername());
         
-        if(recommendModel.getRecipePreferences().getPrepTime() != null && !recommendModel.getRecipePreferences().getPrepTime().isEmpty())
-        preferencesFrontendObject.setPrepTime(recommendModel.getRecipePreferences().getPrepTime());
+        recommendObject.setIngredients(recommendModel.getIngredients());
         
-        if(recommendModel.getRecipePreferences().getServings() != null && !recommendModel.getRecipePreferences().getServings().isEmpty())
-        preferencesFrontendObject.setServings(recommendModel.getRecipePreferences().getServings());
+        RecipePreferencesFrontendModel preferencesFrontendObject = new RecipePreferencesFrontendModel();
+       
+        if(recommendModel.getRecipePreferences().getDifficulty() != null)
+            preferencesFrontendObject.setDifficulty(recommendModel.getRecipePreferences().getDifficulty());
+        else 
+            preferencesFrontendObject.setDifficulty("");
+       
+        if(recommendModel.getRecipePreferences().getMeal() != null)
+            preferencesFrontendObject.setMeal(recommendModel.getRecipePreferences().getMeal());
+        else 
+            preferencesFrontendObject.setMeal("");
+        
+        if(recommendModel.getRecipePreferences().getPrepTime() != null)
+            preferencesFrontendObject.setPrepTime(recommendModel.getRecipePreferences().getPrepTime());
+        else 
+            preferencesFrontendObject.setPrepTime("");
+        
+        if(recommendModel.getRecipePreferences().getServings() != null)
+            preferencesFrontendObject.setServings(recommendModel.getRecipePreferences().getServings());
+        else 
+            preferencesFrontendObject.setServings("");
             
-        if(recommendModel.getRecipePreferences().getRating() != null && !recommendModel.getRecipePreferences().getRating().isEmpty())        
-        preferencesFrontendObject.setRating(recommendModel.getRecipePreferences().getRating());
+        if(recommendModel.getRecipePreferences().getRating() != null)        
+            preferencesFrontendObject.setRating(recommendModel.getRecipePreferences().getRating());
+        else 
+            preferencesFrontendObject.setRating("");
         
-        if(recommendModel.getRecipePreferences().getKeywords() != null && recommendModel.getRecipePreferences().getKeywords().size() != 0)        
-        preferencesFrontendObject.setKeywords( recommendModel.getRecipePreferences().getKeywords().toArray(new String[recommendModel.getRecipePreferences().getKeywords().size()]) );
+        if(recommendModel.getRecipePreferences().getKeywords() != null)        
+            preferencesFrontendObject.setKeywords( recommendModel.getRecipePreferences().getKeywords().toArray(new String[recommendModel.getRecipePreferences().getKeywords().size()]) );
+        else 
+            preferencesFrontendObject.setKeywords(new String[0]);
 
        recommendObject.setPreferences(preferencesFrontendObject);
 
@@ -154,22 +158,22 @@ public class RecommendService {
 
         RecipePreferencesFrontendModel preferencesFrontendObject = userPreferences.getRecipePreferences();
 
-        if(preferencesFrontendObject.getDifficulty() != null && !preferencesFrontendObject.getDifficulty().isEmpty())
+        if(preferencesFrontendObject.getDifficulty() != null)
             preferences.setDifficulty(preferencesFrontendObject.getDifficulty());
             
-        if(preferencesFrontendObject.getMeal() != null && !preferencesFrontendObject.getMeal().isEmpty())
+        if(preferencesFrontendObject.getMeal() != null)
             preferences.setMeal(preferencesFrontendObject.getMeal());
         
-        if(preferencesFrontendObject.getPrepTime() != null && !preferencesFrontendObject.getPrepTime().isEmpty())
+        if(preferencesFrontendObject.getPrepTime() != null)
             preferences.setPrepTime(preferencesFrontendObject.getPrepTime());
         
-        if(preferencesFrontendObject.getServings() != null && !preferencesFrontendObject.getServings().isEmpty())
+        if(preferencesFrontendObject.getServings() != null)
             preferences.setServings(preferencesFrontendObject.getServings());
             
-        if(preferencesFrontendObject.getRating() != null && !preferencesFrontendObject.getRating().isEmpty())        
+        if(preferencesFrontendObject.getRating() != null)        
             preferences.setRating(preferencesFrontendObject.getRating());
         
-        if(preferencesFrontendObject.getKeywords() != null && preferencesFrontendObject.getKeywords().length != 0)        
+        if(preferencesFrontendObject.getKeywords() != null)        
             preferences.setKeywords(Arrays.asList( preferencesFrontendObject.getKeywords()));
 
         updatedRecommend.setRecipePreferences(preferences);      

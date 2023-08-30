@@ -3,7 +3,7 @@ package com.fridgetoplate.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fridgetoplate.interfaces.Ingredient;
+import com.fridgetoplate.model.Ingredient;
 
 public class SpoonacularMiscUtils {
     

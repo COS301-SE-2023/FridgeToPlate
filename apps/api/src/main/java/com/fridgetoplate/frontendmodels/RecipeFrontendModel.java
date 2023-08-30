@@ -2,8 +2,8 @@ package com.fridgetoplate.frontendmodels;
 
 import java.util.List;
 
-import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.Review;
 
 public class RecipeFrontendModel extends Recipe {

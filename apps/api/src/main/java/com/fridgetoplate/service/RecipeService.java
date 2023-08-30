@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.interfaces.Ingredient;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
@@ -108,8 +108,10 @@ public class RecipeService {
         return recipeRepository.findAllByPreferences(recipePreferences, userIngredients);
     }
 
-    public RecipeModel[] saveBatch(RecipeModel[] recipeList) {
-        recipeRepository.saveBatch(recipeList);
+    public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList) {
+        for (RecipeFrontendModel recipeFrontendModel : recipeList) {
+            recipeRepository.save(recipeFrontendModel);
+        }
         return recipeList;
     }
 }

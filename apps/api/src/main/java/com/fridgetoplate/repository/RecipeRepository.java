@@ -8,8 +8,8 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
-import com.fridgetoplate.interfaces.Ingredient;
 import com.fridgetoplate.interfaces.RecipeDesc;
+import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
@@ -33,8 +33,6 @@ public class RecipeRepository {
     private ReviewRepository reviewRepository;
 
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
-        System.out.println("saving");
-
         RecipeModel model = new RecipeModel(); 
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
