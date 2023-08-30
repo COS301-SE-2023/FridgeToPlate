@@ -39,10 +39,10 @@
       </button>
     </div>
     <div
-      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
     >
       <div
-        class="w-5/6 py-8 lg:row-start-8 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
+        class="w-5/6 py-8 lg:row-start-2 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
       >
         <div class="flex flex-col">
           <div class="h-full">
@@ -70,44 +70,54 @@
         </div>
       </div>
 
+      <!-- <div class="w-5/6 h-full py-4 px-4 bg-white lg:row-start-8 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8">
+        <h1 class="text-lg font-bold">Creator</h1>
+        <p>{{ recipe?.creator }}</p>
+      </div> -->
+
+      <div class="w-5/6 h-full py-4 px-4 bg-white lg:row-start-8 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8">
+        <h1 class="text-lg font-bold">Description</h1>
+        <p>{{ recipe?.description }}</p>
+      </div>
+
       <div
         class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13"
       >
-        <ion-list class="bg-background-lights h-full">
-          <ion-list-header>
-            <ion-label class="text-lg font-bold">Ingredients</ion-label>
-          </ion-list-header>
-          <ion-item *ngFor="let ingredient of recipe?.ingredients">
-            <div>
-              {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
-              {{ingredient?.name ?? 'Unknown ingredient'}}
-            </div>
-          </ion-item>
-        </ion-list>
+        <div class="mt-8 lg:mt-4">
+          <ion-list class="bg-background-lights h-full">
+            <ion-list-header>
+              <ion-label class="text-lg font-bold">Ingredients</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let ingredient of recipe?.ingredients">
+              <div>
+                {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
+                {{ingredient?.name ?? 'Unknown ingredient'}}
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
       </div>
-
-      <br />
 
       <div
-        class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
+        class="w-5/6 h-full lg:row-start-6 lg:row-end-8 lg:col-start-6 lg:col-end-13"
       >
-        <ion-list class="bg-background-lights h-full">
-          <ion-list-header>
-            <ion-label class="text-lg font-bold">Instructions</ion-label>
-          </ion-list-header>
-          <ion-item *ngFor="let instruction of recipe?.steps">
-            <div>{{ instruction }}</div>
-          </ion-item>
-        </ion-list>
+        <div class="mt-8 lg:mt-4">
+          <ion-list class="bg-background-lights h-full">
+            <ion-list-header>
+              <ion-label class="text-lg font-bold">Instructions</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let instruction of recipe?.steps; let i = index;">
+              <div>{{i+1}}. {{ instruction }}</div>
+            </ion-item>
+          </ion-list>
+        </div>
       </div>
-
-      <br />
 
       <div
         *ngIf="this.safeUrl"
-        class="w-5/6 h-full lg:row-start-11 lg:row-end-13 lg:col-start-6 lg:col-end-13 sm:mt-10 sm:mb-20 z-50"
+        class="w-5/6 h-full lg:row-start-8 lg:row-end-14 lg:col-start-6 lg:col-end-13 sm:mt-10 sm:mb-20 z-50"
       >
-        <div class="h-full">
+        <div class="h-full lg:mt-8">
           <iframe
             class="h-full w-full"
             [src]="this.safeUrl"
@@ -122,12 +132,12 @@
         </div>
       </div>
 
-      <br />
-
       <div
-        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
+        class="w-5/6 h-full lg:row-start-14 lg:row-end-18 lg:col-start-6 lg:col-end-13"
       >
-        <review [reviews]="recipe?.reviews ?? []"></review>
+        <div class="lg:mt-16">
+          <review [reviews]="recipe?.reviews ?? []"></review>
+        </div>
       </div>
     </div>
   </div>
