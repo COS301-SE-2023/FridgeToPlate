@@ -266,6 +266,25 @@ export class CreatePagComponent implements OnInit  {
     return instructions;
   }
 
-  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onVideoChanged(event: any) {
+    const file = event.target.files;
+
+    if (file) {
+      this.selectedVideo = file[0];
+      this.displayVideo = "block";
+      this.displayImage = "none";
+      this.previewVideo();
+    }
+
+  }
+
+  previewVideo() {
+    const videoPlayer = document.getElementById('video-player') as HTMLVideoElement;
+    
+    if (videoPlayer && this.selectedVideo) {
+      videoPlayer.src = URL.createObjectURL(this.selectedVideo);
+    }
+  }
 
 }
