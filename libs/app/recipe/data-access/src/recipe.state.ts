@@ -23,7 +23,8 @@ export interface RecipeStateModel {
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: {
+    recipe:
+    {
       recipeId: '123',
       name: "Mock Recipe",
       recipeImage: "https://example.com/image.jpg",
