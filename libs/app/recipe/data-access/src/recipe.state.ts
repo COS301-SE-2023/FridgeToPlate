@@ -43,6 +43,12 @@ export interface RecipeStateModel {
       prepTime: 30,
       servings: 4,
       tags: ["mock", "recipe"],
+      reviews: [
+        { reviewId: "123_1", recipeId: "123", username: "Simphiwe",  rating: 4, description: "Amazing" },
+        { reviewId: "123_2", recipeId: "123", username: "Azola",  rating: 1, description: "Terrible" },
+        { reviewId: "123_3", recipeId: "123", username: "Kopano",  rating: 3, description: "Mid" },
+      ],
+      youtubeId: "https://www.youtube.com/watch?v=I5ER9pWl8Nw&ab_channel=ReelGo-Getters"
     }, // set back to null
   }
 })
