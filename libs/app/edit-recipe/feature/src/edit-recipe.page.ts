@@ -27,7 +27,7 @@ export class EditRecipeComponent implements OnInit {
   profile !: IProfile;
   recipeId !: string;
   recipe !: IRecipe | null;
-  
+
   @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
@@ -36,7 +36,7 @@ export class EditRecipeComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
-    
+
   }
 
   createForm(): void {
@@ -54,8 +54,8 @@ export class EditRecipeComponent implements OnInit {
   }
 
   initialize(): void {
-    this.recipe$.pipe(take(1)).subscribe(recipe => 
-      { 
+    this.recipe$.pipe(take(1)).subscribe(recipe =>
+      {
         this.recipe = recipe;
         if(recipe.recipeId) {
           this.recipeId = recipe.recipeId;
@@ -158,9 +158,9 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.value.preparationTime as number,
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
-      rating: this.recipe?.rating ?? null
+      rating: this.recipe?.rating as number | null
     };
-    
+
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
     const index = profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
     if(index === -1) {
