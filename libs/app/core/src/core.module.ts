@@ -28,6 +28,7 @@ import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -42,6 +43,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzSelectModule,
     HttpClientModule,
     FormsModule,
+    NgxSkeletonLoaderModule,
     NavigationBarModule,
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
