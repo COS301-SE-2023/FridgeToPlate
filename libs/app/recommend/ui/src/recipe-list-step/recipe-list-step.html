@@ -1,50 +1,12 @@
 <div class="w-full h-full">
   <ng-container *ngIf="recipes$ | async as recipes; else noRecommendations">
-    <!-- <div
+    <div
       class="mx-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
     >
       <recipe-card
         *ngFor="let recipe of recipes"
         [recipe]="recipe"
       ></recipe-card>
-    </div> -->
-    <div
-      class="w-full h-full sm:grid sm:grid-cols-1 sm:grid-rows-6 sm:gap-3 sm:px-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-4 md:px-8 md:pr-1 md:ml-2"
-    >
-      <div
-        *ngFor="let item of [].constructor(6); let i = index"
-        class="bg-gray-200 sm:mb-4 lg:my-12 p-8 m-2 rounded-lg overflow-hidden shadow-sm relative lg:h-4/6"
-      >
-        <div class="md:h-4/6 w-full bg-gray-300 sm:h-2/3 sm:w-full lg:h-2/5">
-          <div class="hidden sm:block sm:w-full h-full py-24 mb-8"></div>
-        </div>
-        <div class="sm:w-2/3 md:h-fit md:w-2/5 md:pt-8 sm:pt-6">
-          <ngx-skeleton-loader
-            appearance="line"
-            animation="pulse"
-            ngClass="h-16"
-          />
-        </div>
-        <div class="sm:w-2/5 md:h-fit md:w-4/5">
-          <ngx-skeleton-loader
-            appearance="line"
-            animation="pulse"
-            ngClass="h-16"
-          />
-        </div>
-        <div class="sm:hidden md:h-fit md:w-full md:flex md:flex-row">
-          <div
-            *ngFor="let item of [].constructor(6); let i = index"
-            class="md:w-16 mr-3"
-          >
-            <ngx-skeleton-loader
-              appearance="line"
-              animation="pulse"
-              ngClass="h-16"
-            />
-          </div>
-        </div>
-      </div>
     </div>
   </ng-container>
   <ng-template #noRecommendations class="h-full w-full">
