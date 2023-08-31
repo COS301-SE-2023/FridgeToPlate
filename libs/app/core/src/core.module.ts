@@ -19,17 +19,18 @@ import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { LOCAL_STORAGE_ENGINE, NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import {
+  LOCAL_STORAGE_ENGINE,
+  NgxsStoragePluginModule,
+} from '@ngxs/storage-plugin';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
-import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
+import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
-  declarations: [
-    CoreShell, 
-    TabbedComponent, 
-  ],
+  declarations: [CoreShell, TabbedComponent],
   imports: [
     BrowserModule,
     CoreRouting,
@@ -38,6 +39,7 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
     NzStepsModule,
     NzFormModule,
     NzIconModule,
+    NzSelectModule,
     HttpClientModule,
     FormsModule,
     NavigationBarModule,
@@ -53,17 +55,17 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
       key: [
         {
           key: ProfileState,
-          engine: LOCAL_STORAGE_ENGINE
+          engine: LOCAL_STORAGE_ENGINE,
         },
         {
           key: PreferencesState,
-          engine: LOCAL_STORAGE_ENGINE
+          engine: LOCAL_STORAGE_ENGINE,
         },
         {
           key: RecommendState,
-          engine: LOCAL_STORAGE_ENGINE
+          engine: LOCAL_STORAGE_ENGINE,
         },
-      ]
+      ],
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsActionsExecutingModule.forRoot(),
