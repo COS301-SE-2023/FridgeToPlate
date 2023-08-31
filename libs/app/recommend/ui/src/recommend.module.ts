@@ -12,6 +12,10 @@ import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-a
 import { FormsModule } from '@angular/forms';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
+import {
+  NgxSkeletonLoaderComponent,
+  NgxSkeletonLoaderModule,
+} from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
     RecommendDataAccessModule,
     FormsModule,
     IngredientUIModule,
-    ProfileDataAccessModule
+    ProfileDataAccessModule,
+    NgxSkeletonLoaderModule,
   ],
   exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
 })
