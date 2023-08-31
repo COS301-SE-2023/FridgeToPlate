@@ -26,7 +26,7 @@ export class EditRecipeComponent implements OnInit {
   tags: string[] = [];
   profile !: IProfile;
   recipeId !: string;
-  recipe !: IRecipe | null;
+  recipe !: IRecipe;
 
   @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
@@ -60,7 +60,7 @@ export class EditRecipeComponent implements OnInit {
         if(recipe.recipeId) {
           this.recipeId = recipe.recipeId;
         }
-      }); // ?
+      });
   }
 
   populateForm(): void {
@@ -161,17 +161,16 @@ export class EditRecipeComponent implements OnInit {
       rating: this.recipe?.rating as number | null
     };
 
-    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
-    const index = profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
+    const index = this.profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
     if(index === -1) {
       this.store.dispatch( new ShowError('Could not update recipe'));
       return;
     }
+    
     this.store.dispatch( new UpdateRecipe(recipe) );
-    profile.createdRecipes[index] = recipe;
-    this.store.dispatch( new UpdateProfile(profile))
+    this.profile.createdRecipes[index] = recipe;
+    this.store.dispatch( new UpdateProfile(this.profile))
     this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]))
-    })
 
   }
 

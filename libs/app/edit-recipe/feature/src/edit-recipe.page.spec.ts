@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditRecipeComponent } from './edit-recipe.page';
 import { NgxsModule, State, Store } from '@ngxs/store';
-import { DeleteRecipe, IRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { DeleteRecipe, IRecipe, IRecipeDesc, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IonicModule } from '@ionic/angular';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -97,7 +98,6 @@ describe('EditRecipeComponent', () => {
   it('test show error message if recipe id is not available', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     const component = fixture.componentInstance;
-    component.recipe = null;
     fixture.detectChanges();
     component.deleteRecipe();
 
@@ -1042,6 +1042,7 @@ describe('Ingredients storing, deleting and returning', () => {
       
       // Mock the recipe data
       const recipe: IRecipe = {
+        recipeId: "123",
         name: "Mock Recipe",
         recipeImage: "https://example.com/image.jpg",
         description: "Amazing meal for a family",
@@ -1073,19 +1074,26 @@ describe('Ingredients storing, deleting and returning', () => {
         dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
       });
 
+
+
+      
+      component.recipe = {
+        recipeId: "123",
+        rating: null
+      } as IRecipe;
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
       component.profile = testProfile;
       component.profile.createdRecipes = [recipe];
-    
+      component.recipeId = '123';
       // Call the createRecipe method
       component.updateRecipe();
+      expect(component.isFormValid).toHaveBeenCalled();
+      expect(component.recipeForm.valid).toBe(true);
+      expect(component.isFormValid()).toBe(true)
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateRecipe(recipe));
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateProfile(testProfile));
       expect(dispatchSpy).toHaveBeenCalledWith(new Navigate([`/recipe/${recipe.recipeId}`]));
-      expect(component.recipeForm.valid).toBe(true);
-      expect(component.isFormValid()).toBe(true)
-      expect(component.isFormValid).toHaveBeenCalled();
 
     });
 
