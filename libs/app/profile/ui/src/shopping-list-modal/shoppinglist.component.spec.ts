@@ -18,4 +18,10 @@ describe('ShoppinglistComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should close the modal when close() is called', () => {
+    const closeFuncEmitterSpy = jest.spyOn(component.closeFunc, 'emit');
+    component.close();
+    expect(closeFuncEmitterSpy).toHaveBeenCalled();
+  });
 });

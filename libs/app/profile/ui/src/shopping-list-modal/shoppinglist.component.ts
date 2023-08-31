@@ -17,14 +17,13 @@ export class ShoppinglistComponent {
   }
 
   save() {
-
+    // TODO: What to do with this function
     this.saveFunc.emit();
-      this.closeFunc.emit();
+    this.closeFunc.emit();
   }
 
   getIngredients(id: string) {
     //TODO: get ingredientds using the recipe id
   }
-
 
 }
