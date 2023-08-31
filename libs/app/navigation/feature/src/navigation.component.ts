@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Navigate } from "@ngxs/router-plugin";
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { IProfile, ProfileService } from '@fridge-to-plate/app/profile/utils';
 // import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
@@ -16,7 +16,7 @@ export class NavigationBar {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
-  constructor(public router: Router, private store: Store) {}
+  constructor(public router: Router, private store: Store, private profileService: ProfileService) {}
 
   isActive(pageName: string) {
     const currentUrl = this.router.url;
@@ -55,5 +55,9 @@ export class NavigationBar {
 
   openLogin() {
     this.store.dispatch(new Navigate(['/login']));
+  }
+
+  openSettings() {
+    this.profileService.settingsSubject.next(true);
   }
 }

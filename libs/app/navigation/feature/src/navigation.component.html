@@ -21,7 +21,7 @@
       <div class="ml-auto" *ngIf="profile$ | async; else loggedout">
         <button (click)="openProfile()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('profile') }"> <b class="tab-size mx-1">PROFILE</b> </button>
         <button (click)="openNotifications()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('profile/notifications') }"> <ion-icon name="notifications-outline"></ion-icon> </button>
-        <button class="mr-4 mt-4 mb-4 text-black-300 hover:text-white"> <ion-icon name="settings-outline"></ion-icon> </button>
+        <button (click)="openSettings()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white"> <ion-icon name="settings-outline"></ion-icon> </button>
       </div>
       <ng-template #loggedout>
         <div class="ml-auto">

@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { Component, DoCheck, OnInit } from "@angular/core";
+import { IProfile, ProfileService, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
@@ -14,7 +14,7 @@ import { Navigate } from "@ngxs/router-plugin";
   styleUrls: ["./profile.page.scss"],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class ProfilePage {
+export class ProfilePage implements OnInit {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
@@ -25,9 +25,23 @@ export class ProfilePage {
 
   editableProfile !: IProfile;
 
-  constructor(private store: Store) {
+  constructor(private store: Store,  private profileService: ProfileService) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+   
   }
+
+  ngOnInit() {
+    this.profileService.settingsSubject.subscribe( (open) => {
+      if (open) {
+        this.openSettings();
+      }
+      else {
+        // this.openSettings();
+      }
+    })
+  }
+
+
 
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
