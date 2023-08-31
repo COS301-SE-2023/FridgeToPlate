@@ -53,6 +53,7 @@ describe('ExplorePage', () => {
         'Cook in a non-stick pan until fluffy',
       ],
       creator: 'John Doe',
+      rating: 2
     },
   ];
 

@@ -2,16 +2,36 @@ package com.fridgetoplate.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 
-import lombok.Data;
-
-@Data
 @DynamoDBDocument
 public class Ingredient {
     
-    private String name;
+    protected String name;
 
-    private Double amount;
+    protected Double amount;
 
-    private String unit;
+    protected String unit;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }
