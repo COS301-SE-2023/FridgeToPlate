@@ -1,5 +1,5 @@
 
-<div class="z-0 relative">
+<div class="z-20 relative">
   <!-- Bottom navbar (small and medium display) -->
   <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gray-300 p-3 pb-5 lg:hidden">
     <div class="flex items-center justify-evenly">
@@ -12,7 +12,7 @@
 
 
   <!-- Top navbar (large display) -->
-  <nav class="lg:fixed top-0 left-0 right-0 z-50 bg-gray-300 p-1 hidden lg:block">
+  <nav class="lg:fixed top-0 left-0 right-0 z-20 bg-gray-300 p-1 hidden lg:block">
     <div class="flex items-center">
       <button (click)="openHome()" class="ml-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('home') }"> <b class="tab-size mx-1">HOME</b> </button>
       <button (click)="openRecommend()" class="m-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('recommend') }"> <b class="tab-size mx-1">RECOMMEND</b> </button>
