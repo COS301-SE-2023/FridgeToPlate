@@ -9,5 +9,6 @@ import { SplashRouting } from './splash.routing';
     SplashRouting,
   ],
   declarations: [SplashPage],
+  exports: [SplashPage]
 })
 export class SplashUIModule {}
