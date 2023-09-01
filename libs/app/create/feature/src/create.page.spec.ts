@@ -68,16 +68,21 @@ describe('CreatePagComponent', () => {
     expect(createPage.previewVideo).toHaveBeenCalled();
   });
 
-  it('should set videoPlayer src when previewVideo is called', () => {
-    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
-    createPage.selectedVideo = mockFile;
+  it('should update the video when a file is selected', () => {
+    // Arrange
+    const file = new File(['sample content'], 'sample.mp4', { type: 'video/mp4' });
+    const event = { target: { files: [file] } };
 
-    const mockVideoPlayer = document.createElement('video');
-    jest.spyOn(document, 'getElementById').mockReturnValue(mockVideoPlayer as HTMLVideoElement);
+    const createObjectURLStringSpy = jest.spyOn(URL, 'createObjectURL');
 
-    createPage.previewVideo();
+    // Act
+    createPage.onVideoChanged(event);
 
-    expect(mockVideoPlayer.src).toBe("http://localhost/undefined");
+    // Assert
+    expect(createObjectURLStringSpy).toHaveBeenCalledWith(file);
+
+    
+
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
@@ -177,6 +182,8 @@ describe('CreatePagComponent', () => {
     expect(createPage.getInstructions()).toEqual(['Step 2', 'Step 3'])
   }
   );
+
+  
 
 });
 
