@@ -24,6 +24,7 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
+import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
     HttpClientModule,
     FormsModule,
     NavigationBarModule,
+    SplashUIModule,
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
       disabled: environment.TYPE == 'production',
