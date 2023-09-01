@@ -158,4 +158,16 @@ describe('RecipeDetailPageComponent', () => {
     component.setRecipe('test-id');
     expect(component.safeUrl).toBe(undefined);
   });
+
+  it('should toggle isDescriptionExpanded from false to true', () => {
+    component.isDescriptionExpanded = false;
+    component.toggleDescriptionExpanded();
+    expect(component.isDescriptionExpanded).toBe(true);
+  });
+
+  it('should toggle isDescriptionExpanded from true to false', () => {
+    component.isDescriptionExpanded = true;
+    component.toggleDescriptionExpanded();
+    expect(component.isDescriptionExpanded).toBe(false);
+  });
 });
