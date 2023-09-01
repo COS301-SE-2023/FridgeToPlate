@@ -23,7 +23,7 @@ export class CreatePagComponent implements OnInit  {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   videoUrl = 'https://img.freepik.com/free-photo/female-food-blogger-streaming-home-while-cooking_23-2148771599.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink";
+  selectedMeal!: string;
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
@@ -122,6 +122,7 @@ export class CreatePagComponent implements OnInit  {
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
+      rating: null
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
@@ -148,7 +149,7 @@ export class CreatePagComponent implements OnInit  {
     reader.readAsDataURL(file);
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 

@@ -953,6 +953,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
 
       component.imageUrl = recipe.recipeImage
@@ -1008,6 +1009,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: 2
       };
 
       component.imageUrl = recipe.recipeImage

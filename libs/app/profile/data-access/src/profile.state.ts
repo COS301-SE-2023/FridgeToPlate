@@ -46,15 +46,17 @@ export interface ProfileStateModel {
                     recipeImage: "https://source.unsplash.com/800x800/?food",
                     name: "Delicious Pasta",
                     tags: ["pasta", "Italian", "dinner"],
-                    difficulty: "Easy"
-                    },
+                    difficulty: "Easy",
+                    rating: null
+                },
                 {
                     recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
                     recipeImage: "https://source.unsplash.com/800x800/?food",
                     name: "Cheesy Meal",
                     tags: ["pasta", "Italian", "dinner"],
-                    difficulty: "Easy"
-                    }
+                    difficulty: "Easy",
+                    rating: 4.5
+                }
             ],
             currMealPlan: null
         }
