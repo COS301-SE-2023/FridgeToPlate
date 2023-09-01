@@ -24,14 +24,14 @@ export class SplashPage implements OnInit {
     this.hidden = false;
     this.hide = false;
 
-    // setTimeout(() => {
-    //   this.hidden = true;
+    setTimeout(() => {
+      this.hidden = true;
       
-    //   setTimeout(() => {
-    //     this.hide = true;
-    //   }, 250);
-    // }, 2500); 
-    // return;
+      setTimeout(() => {
+        this.hide = true;
+      }, 250);
+    }, 2500); 
+    return;
   }
 
 }
