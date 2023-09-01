@@ -14,13 +14,23 @@ export class SplashPage implements OnInit {
 
   splashLogoImage = "/assets/Final Logo.png";
   splashFooterImage = "/assets/Splash Footer.png";
+
+  hidden = false;
+  hide = false;
+
   constructor(private store: Store) { }
 
   ngOnInit() {
+    this.hidden = false;
+    this.hide = false;
 
-    // setTimeout(() => {
-    //   this.store.dispatch(new Navigate(['/login']));
-    // }, 1500); 
+    setTimeout(() => {
+      this.hidden = true;
+      
+      setTimeout(() => {
+        this.hide = true;
+      }, 250);
+    }, 2500); 
     return;
   }
 
