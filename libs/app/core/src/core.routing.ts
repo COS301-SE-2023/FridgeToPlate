@@ -6,7 +6,7 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadChildren: () => import('@fridge-to-plate/app/splash/ui').then((m) => m.SplashUIModule),
+        redirectTo: 'home',
     },
     {
         path: 'recommend',
