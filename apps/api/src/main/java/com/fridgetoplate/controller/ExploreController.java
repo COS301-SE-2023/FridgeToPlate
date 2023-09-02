@@ -27,12 +27,6 @@ public class ExploreController {
     @Autowired
     private  ExploreApiService exploreApiService;
 
-
-    @GetMapping
-    public List<RecipeFrontendModel> findAll() {
-        return exploreApiService.findAll();
-    }
-
     @PostMapping("/search")
     public List<RecipeFrontendModel> findBySearch(@RequestBody Explore search) {
         return exploreApiService.findBySearch(search);

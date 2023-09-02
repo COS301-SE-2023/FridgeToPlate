@@ -20,10 +20,6 @@ public class ExploreApiService {
        return this.recipeService.findById(id);
     }
 
-    public List<RecipeFrontendModel> findAll() {
-        return this.recipeService.findAll();
-    }
-
     public List<RecipeFrontendModel> findBySearch(Explore searchObject){
         List<RecipeModel> recipes = this.recipeService.filterSearch(searchObject);
         return beautify(recipes);

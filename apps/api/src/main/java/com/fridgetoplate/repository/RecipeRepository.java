@@ -5,8 +5,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
@@ -409,9 +411,6 @@ public class RecipeRepository {
 
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
-
-
-
        return recipeResponse;
     }
 
@@ -422,40 +421,58 @@ public class RecipeRepository {
     }
 
     public List<RecipeModel> filterSearch(Explore explore){
+
+        int numberOfWorkers = 3;
+        String search = explore.getSearch();
+        String type = explore.getType();
+        List<String> tags = explore.getTags();
+        String difficulty = explore.getDifficulty();
+      
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
        
         Map<String, Condition> scanFilter = new HashMap<>();
 
-        if(explore.getType() != null && !explore.getTags().isEmpty()){
+          if (search != null && !search.isEmpty()) {
+            // Add the condition for 'meal'
             Condition condition = new Condition()
-                .withComparisonOperator("EQ")
-                .withAttributeValueList(new AttributeValue().withS(explore.getType()));
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(search));
+            scanFilter.put("name", condition);
+        }
 
+        if (type != null && !type.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(type));
             scanFilter.put("meal", condition);
         }
 
-        if (explore.getTags() != null && !explore.getTags().isEmpty()) {
-            List<AttributeValue> attributeValues = explore.getTags().stream()
+        if (tags != null && !tags.isEmpty()) {
+            // Add the condition for 'tags'
+            List<AttributeValue> attributeValues = tags.stream()
                 .map(tag -> new AttributeValue().withS(tag))
                 .toList();
-        
             Condition condition = new Condition()
-                .withComparisonOperator("CONTAINS")
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
                 .withAttributeValueList(attributeValues);
-        
             scanFilter.put("tags", condition);
         }
 
-        if(explore.getDifficulty() != null && !explore.getDifficulty().isEmpty()){
+        if (difficulty != null && !difficulty.isEmpty()) {    
             Condition condition = new Condition()
-                .withComparisonOperator("EQ")
-                .withAttributeValueList(new AttributeValue().withS(explore.getDifficulty()));
-
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(difficulty));
             scanFilter.put("difficulty", condition);
         }
 
+        if (!scanFilter.isEmpty()) {
+            scanExpression.setScanFilter(scanFilter);
+        }
 
-        List<RecipeModel> results = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression().withScanFilter(scanFilter));
+        List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
         return results;
 
     }
+      
 }
