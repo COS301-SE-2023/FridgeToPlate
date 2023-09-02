@@ -1,7 +1,5 @@
 package com.fridgetoplate.frontendmodels;
 
-import com.fridgetoplate.model.Ingredient;
-
 public class RecipePreferencesFrontendModel {
 
     private String difficulty;

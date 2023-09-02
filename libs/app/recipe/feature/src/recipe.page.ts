@@ -36,6 +36,11 @@ export class RecipePage implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
+  isDescriptionExpanded = false;
+  toggleDescriptionExpanded() {
+    this.isDescriptionExpanded = !this.isDescriptionExpanded;
+  }
+
   ngOnInit(): void {
     this.forceLoading = true;
     setTimeout(() => {

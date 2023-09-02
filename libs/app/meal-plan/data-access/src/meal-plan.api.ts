@@ -4,6 +4,8 @@ import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { Store } from "@ngxs/store";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { Observable } from "rxjs";
+import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 
 @Injectable({
     providedIn: 'root'
@@ -22,4 +24,8 @@ export class MealPlanAPI {
             }
         });
     }
+    getMealPlanShoppingList(username: string): Observable<IIngredient[]> {
+        const url = `${this.baseUrl}/${username}/ingredients`;
+        return this.http.get<IIngredient[]>(url);
+    }    
 }

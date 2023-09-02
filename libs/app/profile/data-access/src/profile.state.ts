@@ -25,6 +25,7 @@ import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -46,15 +47,17 @@ export interface ProfileStateModel {
                     recipeImage: "https://source.unsplash.com/800x800/?food",
                     name: "Delicious Pasta",
                     tags: ["pasta", "Italian", "dinner"],
-                    difficulty: "Easy"
-                    },
+                    difficulty: "Easy",
+                    rating: null
+                },
                 {
                     recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
                     recipeImage: "https://source.unsplash.com/800x800/?food",
                     name: "Cheesy Meal",
                     tags: ["pasta", "Italian", "dinner"],
-                    difficulty: "Easy"
-                    }
+                    difficulty: "Easy",
+                    rating: 4.5
+                }
             ],
             currMealPlan: null
         }
@@ -309,6 +312,7 @@ export class ProfileState {
             });
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
+            this.store.dispatch( new RetrieveMealPlanIngredients(updatedProfile.username) );
         }
     }
 
@@ -335,6 +339,7 @@ export class ProfileState {
                 mealPlan.snack = null;
             }
             this.store.dispatch(new UpdateMealPlan(mealPlan))
+            this.store.dispatch( new RetrieveMealPlanIngredients(profile.username) )
         }
     }
 

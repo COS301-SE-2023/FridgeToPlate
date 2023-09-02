@@ -12,7 +12,7 @@ import com.fridgetoplate.interfaces.Recipe;
 @DynamoDBTable(tableName = "recipes")
 public class RecipeModel extends Recipe {
 
-        private Integer views = 0;
+    private Integer views = 0;
 
     // The getters
     @DynamoDBHashKey(attributeName = "recipeId")
@@ -31,6 +31,11 @@ public class RecipeModel extends Recipe {
         return name;
     }
 
+    @DynamoDBAttribute(attributeName = "rating")
+    public Double getRating() {
+        return rating;
+    }
+
     @DynamoDBAttribute(attributeName = "tags")
     public List<String> getTags() {
         return tags;
@@ -44,13 +49,6 @@ public class RecipeModel extends Recipe {
     @DynamoDBAttribute(attributeName = "description")
     public String getDescription() {
         return description;
-    }
-
-    
-    @DynamoDBAttribute(attributeName = "ingredients")
-    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.L)
-    public List<Ingredient> getIngredients() {
-        return ingredients;
     }
 
     @DynamoDBAttribute(attributeName = "steps")
