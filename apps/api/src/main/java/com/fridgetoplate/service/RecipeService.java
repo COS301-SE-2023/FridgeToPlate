@@ -13,6 +13,7 @@ import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
+import com.fridgetoplate.repository.MealPlanRepository;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.ReviewRepository;
 
@@ -23,6 +24,9 @@ public class RecipeService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    MealPlanRepository mealPlanRepository;
 
     public RecipeFrontendModel findById(String id){
 
@@ -108,10 +112,16 @@ public class RecipeService {
         return recipeRepository.findAllByPreferences(recipePreferences, userIngredients);
     }
 
+   
+
     public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList) {
         for (RecipeFrontendModel recipeFrontendModel : recipeList) {
             recipeRepository.save(recipeFrontendModel);
         }
         return recipeList;
+    }
+
+     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+       return this.recipeRepository.findIngredientsByRecipeId(recipeId);
     }
 }

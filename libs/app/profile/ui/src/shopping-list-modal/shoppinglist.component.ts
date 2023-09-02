@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -8,22 +8,14 @@ import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
   styleUrls: ['./shoppinglist.component.css'],
 })
 export class ShoppinglistComponent {
+
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
-  @Output() saveFunc: EventEmitter<any> = new EventEmitter();
-  @Input() mealPlan: IMealPlan;
+  @Output() openFunc: EventEmitter<any> = new EventEmitter();
+  @Input() ingredients: IIngredient[] | null;
+  @Input() username: string; 
 
-  close() {
+  close() { 
     this.closeFunc.emit();
-  }
-
-  save() {
-    // TODO: What to do with this function
-    this.saveFunc.emit();
-    this.closeFunc.emit();
-  }
-
-  getIngredients(id: string) {
-    //TODO: get ingredientds using the recipe id
   }
 
 }

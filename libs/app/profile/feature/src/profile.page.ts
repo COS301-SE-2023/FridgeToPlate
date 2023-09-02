@@ -7,6 +7,9 @@ import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
+import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
+import { IRecipe, RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -18,6 +21,7 @@ import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
   displayShoppinglist = "none"
   displayEditProfile = "none";
@@ -25,12 +29,13 @@ export class ProfilePage {
   displaySort = "none";
   subpage = "saved";
 
-
+  ingredients : IIngredient[] = [];
   editableProfile !: IProfile;
   mealPlan!: IMealPlan;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) )
   }
 
   displaySubpage(subpageName : string) {
@@ -47,8 +52,12 @@ export class ProfilePage {
   }
 
   openShoppingList() {
-    this.profile$.pipe(take(1)).subscribe(profile => this.mealPlan = Object.create(profile.currMealPlan));
-    this.displayShoppinglist = "block";
+    this.ingredients$.pipe(take(1)).subscribe(
+      ingredients => {
+        this.ingredients = ingredients;
+        this.displayShoppinglist = "block";
+      }
+    );
   }
   
   closeShoppingList() {
@@ -56,7 +65,6 @@ export class ProfilePage {
   }
 
   openSettings() {
-    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
     this.displaySettings = "block";
   }
 
