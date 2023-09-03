@@ -12,10 +12,7 @@ import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-a
 import { FormsModule } from '@angular/forms';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
-import {
-  NgxSkeletonLoaderComponent,
-  NgxSkeletonLoaderModule,
-} from 'ngx-skeleton-loader';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
