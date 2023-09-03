@@ -16,6 +16,7 @@ import {
   NgxSkeletonLoaderComponent,
   NgxSkeletonLoaderModule,
 } from 'ngx-skeleton-loader';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {
     IngredientUIModule,
     ProfileDataAccessModule,
     NgxSkeletonLoaderModule,
+    NzSelectModule,
   ],
   exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
 })
