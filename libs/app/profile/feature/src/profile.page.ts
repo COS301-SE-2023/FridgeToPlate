@@ -35,7 +35,7 @@ export class ProfilePage {
   displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
-  dateSelected !: Date;
+  dateSelected !: string;
 
   ingredients : IIngredient[] = [];
   editableProfile !: IProfile;
@@ -44,10 +44,14 @@ export class ProfilePage {
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
     this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) );
-    this.dateSelected = new Date();
+    this.dateSelected = new Date().toISOString().slice(0, 10);
   }
 
   displaySubpage(subpageName : string) {
+    if (subpageName == 'meal plan') {
+      this.getMealPlan();
+    }
+
     this.subpage = subpageName;
   }
 

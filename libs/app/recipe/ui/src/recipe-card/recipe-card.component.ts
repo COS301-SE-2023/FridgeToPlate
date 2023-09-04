@@ -74,7 +74,7 @@ export class RecipeCardComponent implements OnInit {
     
     this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
 
-    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
+    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType, new Date().toISOString().slice(0, 10)));
     this.added = true;
   }
 

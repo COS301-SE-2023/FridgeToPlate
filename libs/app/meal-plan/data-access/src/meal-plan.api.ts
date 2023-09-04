@@ -30,7 +30,7 @@ export class MealPlanAPI {
         return this.http.get<IIngredient[]>(url);
     }    
 
-    getMealPlan(date: Date, username: string) {
+    getMealPlan(date: string, username: string) {
         const url = `${this.baseUrl}/${username}/${date}`;
         return this.http.get<IMealPlan>(url);
     }

@@ -80,7 +80,8 @@ export class AddToMealPlan {
   static readonly type = '[Profile] AddToMealPlan';
   constructor(
     public readonly recipe: IRecipeDesc,
-    public readonly mealType: string
+    public readonly mealType: string,
+    public readonly date: string
   ) {}
 }
 
@@ -91,5 +92,5 @@ export class UpdateUserIngredients {
 
 export class RetrieveMealPlan {
   static readonly type = '[Profile] RetrieveMealPlan';
-  constructor(public readonly date: Date) {}
+  constructor(public readonly date: string) {}
 }
