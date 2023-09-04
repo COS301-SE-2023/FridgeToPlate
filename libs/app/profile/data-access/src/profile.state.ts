@@ -17,7 +17,7 @@ import {
     RemoveFromMealPlan,
     AddToMealPlan,
     AddCreatedRecipe,
-    RetrieveMealPlan
+    RetrieveMealPlan,
     OpenSettings,
     CloseSettings
 } from "@fridge-to-plate/app/profile/utils";
