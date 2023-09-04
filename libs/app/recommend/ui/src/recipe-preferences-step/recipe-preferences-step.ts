@@ -28,7 +28,6 @@ export class RecipePreferencesStep {
       );
   }
   keywordSelected(selectedKeyword: string) {
-    console.log(selectedKeyword);
     if (this.selectedKeywords.includes(selectedKeyword)) {
       this.selectedKeywords = this.selectedKeywords.filter(
         (currentKeyword) => currentKeyword !== selectedKeyword
@@ -42,6 +41,12 @@ export class RecipePreferencesStep {
         ...this.editableRecipePreferences,
         keywords: this.selectedKeywords,
       })
+    );
+  }
+
+  filterKeywordsList(searchText: string) {
+    this.keywordOptions = keywordsArray.filter((keyword) =>
+      keyword.includes(searchText)
     );
   }
 

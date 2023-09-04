@@ -5,27 +5,44 @@
 >
   <div class="w-full mb-1">
     <input
+      #input
       (focus)="showDropdown()"
+      (input)="filterOptions()"
       type="text"
       [placeholder]="placeholderText"
       class="w-full bg-gray-200 border border-gray-400 rounded-md p-2"
+      [(ngModel)]="searchText"
     />
   </div>
   <div
     class="w-full h-[832px] max-h-[256px] rounded-sm flex flex-col overflow-y-scroll shadow-lg transition duration-150 ease-in-out"
     [ngClass]="!isDropdownShowing ? 'opacity-0' : 'opacity-100'"
   >
-    <div
-      class="w-full py-2 pl-4 hover:bg-gray-100 cursor-pointer"
-      *ngFor="let option of selectOptions"
-      (click)="onSelect(option)"
-      [ngClass]="
-        selectedOptions.includes(option)
-          ? 'bg-primary-highlight hover:bg-primary-highlight'
-          : ''
-      "
-    >
-      <p>{{ option }}</p>
-    </div>
+    <ng-container *ngIf="!isLoading; else loading">
+      <div
+        class="w-full py-2 pl-4 hover:bg-gray-100 cursor-pointer"
+        *ngFor="let option of selectOptions"
+        (click)="onSelect(option)"
+        [ngClass]="
+          selectedOptions.includes(option)
+            ? 'bg-primary-highlight hover:bg-primary-highlight'
+            : ''
+        "
+      >
+        <p>{{ option }}</p>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div
+        *ngFor="let item of [].constructor(6); let i = index"
+        class="w-full flex flex-col justify-center items-center"
+      >
+        <ngx-skeleton-loader
+          appearance="line"
+          animation="pulse"
+          ngClass="w-3/4 mt-4 "
+        />
+      </div>
+    </ng-template>
   </div>
 </div>

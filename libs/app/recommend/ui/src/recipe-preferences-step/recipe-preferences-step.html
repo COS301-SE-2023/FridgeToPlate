@@ -81,6 +81,7 @@
       [selectedOptions]="selectedKeywords"
       placeholderText="Search Keywords"
       (selectedOption)="keywordSelected($event)"
+      (newSearchEvent)="filterKeywordsList($event)"
     />
   </div>
 </div>
