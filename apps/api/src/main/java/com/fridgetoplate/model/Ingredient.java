@@ -1,8 +1,7 @@
 package com.fridgetoplate.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
-
-@DynamoDBDocument
+import lombok.Data;
+@Data
 public class Ingredient {
     
     protected String name;
@@ -11,27 +10,4 @@ public class Ingredient {
 
     protected String unit;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
 }
