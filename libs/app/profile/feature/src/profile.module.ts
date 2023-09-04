@@ -10,7 +10,6 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
 import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
 import { NotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { ProfileService } from '@fridge-to-plate/app/profile/utils';
 
 @NgModule({
   imports: [
@@ -23,7 +22,6 @@ import { ProfileService } from '@fridge-to-plate/app/profile/utils';
     NotificationsFeatureModule,
     NzListModule,
   ],
-  declarations: [ProfilePage, ClickedOutsideDirective],
-  providers: [ProfileService]
+  declarations: [ProfilePage, ClickedOutsideDirective]
 })
 export class ProfileModule {}

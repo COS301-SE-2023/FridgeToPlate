@@ -140,5 +140,4 @@
 </div>
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
-<settings-modal [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
-<navigation-bar [ngStyle]="{ 'display': 'block' }" (openSettingsEvent)="openSettings()"></navigation-bar>
+<settings-modal *ngIf="settings$ | async as displaySettings" [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>

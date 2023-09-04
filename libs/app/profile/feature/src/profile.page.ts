@@ -1,5 +1,5 @@
 import { Component, DoCheck, OnInit } from "@angular/core";
-import { IProfile, ProfileService, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
@@ -14,34 +14,20 @@ import { Navigate } from "@ngxs/router-plugin";
   styleUrls: ["./profile.page.scss"],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class ProfilePage implements OnInit {
+export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(ProfileState.getSettings) settings$ !: Observable<string>;
 
   displayEditProfile = "none";
-  displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
 
   editableProfile !: IProfile;
 
-  constructor(private store: Store,  private profileService: ProfileService) {
+  constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-   
   }
-
-  ngOnInit() {
-    this.profileService.settingsSubject.subscribe( (open) => {
-      if (open) {
-        this.openSettings();
-      }
-      else {
-        // this.openSettings();
-      }
-    })
-  }
-
-
 
   displaySubpage(subpageName : string) {
     this.subpage = subpageName;
@@ -58,11 +44,11 @@ export class ProfilePage implements OnInit {
 
   openSettings() {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.displaySettings = "block";
+    this.store.dispatch(new OpenSettings());
   }
 
   closeSettings() {
-    this.displaySettings = "none";
+    this.store.dispatch(new CloseSettings());
   }
 
   saveProfile() {
