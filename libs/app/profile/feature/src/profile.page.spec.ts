@@ -125,7 +125,7 @@ describe("ProfilePage", () => {
   it("Should dispatch Close Settings", () => {
     store = TestBed.inject(Store);
     const closeSpy = jest.spyOn(store, 'dispatch');
-    page.openSettings();(app)
+    page.openSettings();
     page.closeSettings();
     expect(closeSpy).toBeCalledWith(new CloseSettings());
 
