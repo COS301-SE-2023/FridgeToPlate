@@ -1,1 +1,20 @@
-<p>dropdown-select works!</p>
+<div class="w-full h-full">
+  <div class="bg-green-200 w-full mb-1">
+    <input
+      type="text"
+      [placeholder]="placeholderText"
+      class="w-full bg-gray-200 border border-gray-400 rounded-md p-2"
+    />
+  </div>
+  <div
+    class="w-full h-[832px] max-h-[256px] rounded-sm flex flex-col overflow-y-scroll shadow-lg"
+  >
+    <div
+      class="w-full py-2 pl-4 hover:bg-gray-100 cursor-pointer"
+      *ngFor="let option of selectOptions"
+      (click)="onSelect(option)"
+    >
+      <p>{{ option }}</p>
+    </div>
+  </div>
+</div>
