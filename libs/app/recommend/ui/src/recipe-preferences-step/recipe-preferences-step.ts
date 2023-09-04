@@ -16,7 +16,7 @@ export class RecipePreferencesStep {
   @Select(RecommendState.getRecipePreferences)
   recipePreferences$!: Observable<IRecipePreferences>;
   keywordOptions = keywordsArray;
-
+  selectedKeywords: string[] = [];
   editableRecipePreferences!: IRecipePreferences;
 
   constructor(private store: Store) {
@@ -26,6 +26,23 @@ export class RecipePreferencesStep {
         (recipePreferences) =>
           (this.editableRecipePreferences = Object.create(recipePreferences))
       );
+  }
+  keywordSelected(selectedKeyword: string) {
+    console.log(selectedKeyword);
+    if (this.selectedKeywords.includes(selectedKeyword)) {
+      this.selectedKeywords = this.selectedKeywords.filter(
+        (currentKeyword) => currentKeyword !== selectedKeyword
+      );
+    } else {
+      this.selectedKeywords.push(selectedKeyword);
+    }
+
+    this.store.dispatch(
+      new UpdateRecipePreferences({
+        ...this.editableRecipePreferences,
+        keywords: this.selectedKeywords,
+      })
+    );
   }
 
   updateRecipePreferences() {

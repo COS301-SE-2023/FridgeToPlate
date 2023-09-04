@@ -76,17 +76,11 @@
   </div>
   <div class="mt-8">
     <h3 class="text-xl font-bold my-2">Keywords</h3>
-    <nz-select
-      nzMode="tags"
-      placeholder="Search by keyword"
-      type="text"
-      class="w-full py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black"
-    >
-      <nz-option
-        *ngFor="let option of keywordOptions"
-        [nzLabel]="option"
-        [nzValue]="option"
-      ></nz-option>
-    </nz-select>
+    <fridge-to-plate-dropdown-select
+      [selectOptions]="keywordOptions"
+      [selectedOptions]="selectedKeywords"
+      placeholderText="Search Keywords"
+      (selectedOption)="keywordSelected($event)"
+    />
   </div>
 </div>
