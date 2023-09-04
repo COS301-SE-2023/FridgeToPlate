@@ -39,75 +39,78 @@
       </button>
     </div>
     <div
-      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-12 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
     >
       <div
-        class="w-5/6 py-8 lg:row-start-8 lg:row-end-8 lg:col-start-1 lg:col-end-6 lg:ml-8"
+        class="w-5/6 mb-4 h-auto lg:h-full pt-4 lg:row-start-2 lg:row-end-auto lg:col-start-1 lg:col-end-6 lg:ml-8 lg:mt-16"
       >
         <div class="flex flex-col">
           <div class="h-full">
             <recipe-card [recipe]="recipe" />
           </div>
 
-          <div class="flex justify-between py-8 text-primary">
+          <div class="flex justify-between text-primary pt-4 py-8">
             <div>
-              <p class="text-xs font-semibold">Prep Time</p>
-              <p class="text-3xl mt-2 font-bold">
+              <p class="text-xs font-semibold">Preparation Time</p>
+              <p class="text-center text-3xl mt-2 font-bold">
                 {{recipe?.prepTime ?? '10'}}m
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Ingredients</p>
-              <p class="text-3xl mt-2 font-bold">
+              <p class="text-center text-3xl mt-2 font-bold">
                 {{recipe?.ingredients?.length ?? '4'}}
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Servings</p>
-              <p class="text-3xl mt-2 font-bold">{{recipe?.servings ?? '1'}}</p>
+              <p class="text-center text-3xl mt-2 font-bold">{{recipe?.servings ?? '1'}}</p>
             </div>
           </div>
+
+          <div class="px-4 pb-8">
+            <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
+            <p>{{ recipe?.creator }}</p>
+          </div>
+
+          <div class="rounded-2xl bg-white h-auto py-4 px-4">
+            <h1 class="text-lg font-bold">Description</h1>
+            <p [ngClass]="{'line-clamp-4': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
+          </div>
+
         </div>
       </div>
 
       <div
-        class="w-5/6 h-full lg:row-start-1 lg:row-end-6 lg:col-start-6 lg:col-end-13"
+        class="w-5/6 h-full lg:row-start-2 lg:row-end-auto lg:col-start-6 lg:col-end-13"
       >
-        <ion-list class="bg-background-lights h-full">
-          <ion-list-header>
-            <ion-label class="text-lg font-bold">Ingredients</ion-label>
-          </ion-list-header>
-          <ion-item *ngFor="let ingredient of recipe?.ingredients">
-            <div>
-              {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
-              {{ingredient?.name ?? 'Unknown ingredient'}}
-            </div>
-          </ion-item>
-        </ion-list>
-      </div>
+        <div class="mt-8 lg:mt-4">
+          <ion-list class="bg-background-lights h-full rounded-2xl">
+            <ion-list-header>
+              <ion-label class="text-lg font-bold">Ingredients</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let ingredient of recipe?.ingredients">
+              <div>
+                {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
+                {{ingredient?.name ?? 'Unknown ingredient'}}
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
 
-      <br />
+        <div class="mt-8">
+          <ion-list class="bg-background-lights h-full rounded-2xl">
+            <ion-list-header>
+              <ion-label class="text-lg font-bold">Instructions</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let instruction of recipe?.steps; let i = index;">
+              <div>{{i+1}}. {{ instruction }}</div>
+            </ion-item>
+          </ion-list>
+        </div>
 
-      <div
-        class="w-5/6 h-full lg:row-start-7 lg:row-end-12 lg:col-start-6 lg:col-end-13"
-      >
-        <ion-list class="bg-background-lights h-full">
-          <ion-list-header>
-            <ion-label class="text-lg font-bold">Instructions</ion-label>
-          </ion-list-header>
-          <ion-item *ngFor="let instruction of recipe?.steps">
-            <div>{{ instruction }}</div>
-          </ion-item>
-        </ion-list>
-      </div>
-
-      <br />
-
-      <div
-        *ngIf="this.safeUrl"
-        class="w-5/6 h-full lg:row-start-11 lg:row-end-13 lg:col-start-6 lg:col-end-13 sm:mt-10 sm:mb-20 z-50"
-      >
-        <div class="h-full">
+        <div *ngIf="this.safeUrl" class="w-full h-2/5 lg:h-1/4 sm:mt-10 sm:mb-20 z-50">
+        <div class="h-full lg:mt-8">
           <iframe
             class="h-full w-full"
             [src]="this.safeUrl"
@@ -120,15 +123,15 @@
             may not correlate to the recipe instructions provided.
           </p>
         </div>
+
+
       </div>
 
-      <br />
-
-      <div
-        class="w-5/6 h-full lg:row-start-13 lg:row-end-18 lg:col-start-6 lg:col-end-13"
-      >
-        <review [reviews]="recipe?.reviews ?? []"></review>
+        <div class="mt-8">
+          <review [reviews]="recipe?.reviews ?? []"></review>
+        </div>
       </div>
+
     </div>
   </div>
 </ng-template>

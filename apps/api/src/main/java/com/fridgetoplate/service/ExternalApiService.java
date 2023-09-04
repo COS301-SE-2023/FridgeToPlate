@@ -107,7 +107,7 @@ public class ExternalApiService {
 
         String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
         
-        if(recipePreferences.getPrepTime() != null)
+        if(recipePreferences.getPrepTime() != null && !recipePreferences.getPrepTime().equals(""))
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
         if(userIngredients != null && userIngredients.size() != 0){

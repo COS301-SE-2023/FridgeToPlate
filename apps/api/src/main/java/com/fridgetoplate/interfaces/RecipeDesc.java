@@ -17,4 +17,6 @@ public class RecipeDesc {
     protected List<String> tags;
 
     protected String difficulty;
+
+    protected Double rating;
 }
