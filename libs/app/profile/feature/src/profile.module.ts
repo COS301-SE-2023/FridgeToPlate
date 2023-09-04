@@ -23,5 +23,6 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NzListModule,
   ],
   declarations: [ProfilePage, ClickedOutsideDirective],
+  exports: [ClickedOutsideDirective],
 })
 export class ProfileModule {}

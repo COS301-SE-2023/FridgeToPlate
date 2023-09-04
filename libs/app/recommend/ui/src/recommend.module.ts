@@ -15,6 +15,7 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { DropdownSelectComponent } from './dropdown-select/dropdown-select.component';
+import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DropdownSelectComponent } from './dropdown-select/dropdown-select.compo
     ProfileDataAccessModule,
     NgxSkeletonLoaderModule,
     NzSelectModule,
+    ProfileModule,
   ],
   exports: [
     ItemEditStep,
