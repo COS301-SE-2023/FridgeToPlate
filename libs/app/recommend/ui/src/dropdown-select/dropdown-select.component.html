@@ -13,6 +13,11 @@
       class="w-full py-2 pl-4 hover:bg-gray-100 cursor-pointer"
       *ngFor="let option of selectOptions"
       (click)="onSelect(option)"
+      [ngClass]="
+        selectedOptions.includes(option)
+          ? 'bg-primary-highlight hover:bg-primary-highlight'
+          : ''
+      "
     >
       <p>{{ option }}</p>
     </div>
