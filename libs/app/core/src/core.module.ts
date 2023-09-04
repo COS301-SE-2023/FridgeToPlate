@@ -29,11 +29,13 @@ import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CoreRouting,
     ReactiveFormsModule,
     IonicModule.forRoot(),

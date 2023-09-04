@@ -14,6 +14,7 @@ import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { DropdownSelectComponent } from './lib/dropdown-select/dropdown-select.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm,
+    DropdownSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,12 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NgxSkeletonLoaderModule,
     NzSelectModule,
   ],
-  exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
+  exports: [
+    ItemEditStep,
+    RecipeListStep,
+    RecipePreferencesStep,
+    StepperForm,
+    DropdownSelectComponent,
+  ],
 })
 export class RecommendUIModule {}
