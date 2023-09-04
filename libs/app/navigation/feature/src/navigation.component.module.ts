@@ -10,5 +10,6 @@ import { IonicModule } from '@ionic/angular';
   ],
   declarations: [NavigationBar],
   exports: [NavigationBar]
+
 })
 export class NavigationBarModule {}

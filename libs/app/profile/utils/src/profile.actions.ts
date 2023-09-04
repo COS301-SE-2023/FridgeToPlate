@@ -94,3 +94,10 @@ export class RetrieveMealPlan {
   static readonly type = '[Profile] RetrieveMealPlan';
   constructor(public readonly date: string) {}
 }
+export class OpenSettings {
+  static readonly type = '[Profile] OpenSettings';
+}
+
+export class CloseSettings {
+  static readonly type = '[Profile] CloseSettings';
+}

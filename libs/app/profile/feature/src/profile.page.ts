@@ -7,7 +7,9 @@ import { IProfile,
   SortSavedByDifficulty, 
   SortSavedByNameAsc, 
   SortSavedByNameDesc, 
-  UpdateProfile 
+  UpdateProfile,
+  OpenSettings,
+  CloseSettings
 } from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
@@ -28,11 +30,11 @@ import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(ProfileState.getSettings) settings$ !: Observable<string>;
   @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
   displayShoppinglist = "none"
   displayEditProfile = "none";
-  displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
   dateSelected !: string;
@@ -78,11 +80,12 @@ export class ProfilePage {
   }
 
   openSettings() {
-    this.displaySettings = "block";
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.store.dispatch(new OpenSettings());
   }
 
   closeSettings() {
-    this.displaySettings = "none";
+    this.store.dispatch(new CloseSettings());
   }
 
   saveProfile() {

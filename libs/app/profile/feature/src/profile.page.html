@@ -144,5 +144,4 @@
 </div>
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
-<settings-modal [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
-<shopping-list-modal [ngStyle]="{ 'display': displayShoppinglist }" (closeFunc)="closeShoppingList()" (openFunc)="openShoppingList()" [ingredients]="ingredients" [username]="editableProfile.username"> </shopping-list-modal>
+<settings-modal *ngIf="settings$ | async as displaySettings" [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
