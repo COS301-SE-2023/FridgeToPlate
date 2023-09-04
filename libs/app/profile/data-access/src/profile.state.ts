@@ -16,7 +16,9 @@ import {
     UpdateMealPlan,
     RemoveFromMealPlan,
     AddToMealPlan,
-    AddCreatedRecipe
+    AddCreatedRecipe,
+    OpenSettings,
+    CloseSettings
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -29,6 +31,10 @@ import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
+}
+
+export interface SettingsStateModel {
+    settings: string;
 }
 
 @State<ProfileStateModel>({
@@ -64,6 +70,14 @@ export interface ProfileStateModel {
     }
 })
 
+@State<SettingsStateModel>({
+    name: 'settings',
+    defaults: {
+        settings: 'none'
+    }
+})
+
+
 @Injectable()
 export class ProfileState {
 
@@ -72,6 +86,11 @@ export class ProfileState {
     @Selector()
     static getProfile(state: ProfileStateModel) {
         return state.profile;
+    }
+
+    @Selector()
+    static getSettings(state: SettingsStateModel) {
+        return state.settings;
     }
 
     @Action(UpdateProfile)
@@ -380,6 +399,23 @@ export class ProfileState {
             this.store.dispatch(new UpdateMealPlan(newMealPlan));
             
         }
+    }
+
+
+    @Action(OpenSettings)
+    openSettings({ patchState } : StateContext<SettingsStateModel>) {
+
+        patchState({
+            settings: 'block'
+        });
+    }
+
+    @Action(CloseSettings)
+    closeSettings({ patchState } : StateContext<SettingsStateModel>) {
+            
+            patchState({
+                settings: 'none'
+            });
     }
 
 }
