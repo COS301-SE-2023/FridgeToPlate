@@ -1,3 +1,3 @@
 export * from './recommend.module';
 
-export * from './lib/dropdown-select/dropdown-select.component';
+export * from './dropdown-select/dropdown-select.component';

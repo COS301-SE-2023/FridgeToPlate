@@ -14,7 +14,7 @@ import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { DropdownSelectComponent } from './lib/dropdown-select/dropdown-select.component';
+import { DropdownSelectComponent } from './dropdown-select/dropdown-select.component';
 
 @NgModule({
   declarations: [
