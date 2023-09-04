@@ -86,28 +86,28 @@
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Breakfast</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe" [recipe]="profile.currMealPlan?.breakfast"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe" [recipe]="profile.currMealPlan?.breakfast" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Lunch</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe" [recipe]="profile.currMealPlan?.lunch"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe" [recipe]="profile.currMealPlan?.lunch" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Dinner</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe" [recipe]="profile.currMealPlan?.dinner"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe" [recipe]="profile.currMealPlan?.dinner" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Snack</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe" [recipe]="profile.currMealPlan?.snack"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe" [recipe]="profile.currMealPlan?.snack" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
