@@ -27,6 +27,7 @@ import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -330,6 +331,7 @@ export class ProfileState {
             });
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
+            this.store.dispatch( new RetrieveMealPlanIngredients(updatedProfile.username) );
         }
     }
 
@@ -356,6 +358,7 @@ export class ProfileState {
                 mealPlan.snack = null;
             }
             this.store.dispatch(new UpdateMealPlan(mealPlan))
+            this.store.dispatch( new RetrieveMealPlanIngredients(profile.username) )
         }
     }
 

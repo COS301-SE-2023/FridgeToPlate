@@ -104,6 +104,19 @@ describe("ProfilePage", () => {
     expect(page.displaySort).toEqual("none");
   });
 
+  it("should change shopping list display to block", () => {
+    page.openShoppingList();
+
+    expect(page.displayShoppinglist).toEqual("block");
+  });
+
+  it("should change shopping list display to none", () => {
+    page.openShoppingList();
+    page.closeShoppingList();
+
+    expect(page.displayShoppinglist).toEqual("none");
+  });
+
   it("should save profile", () => {
     page.openEditProfile();
     page.editableProfile.name = "JD";
