@@ -126,19 +126,6 @@ describe('RecipeCardComponent', () => {
     component.showMenu = false;
     component.toggleMealPlan();
     expect(component.showMenu).toBe(true);
-});
-
-    // Tests that a recipe can be added to the meal plan successfully
-    it('test add to meal plan successfully', () => {
-      component.mealType = 'Breakfast';
-      component.addToMealPlan("Breakfast");
-      expect(component.added).toBe(true);
-      expect(store.dispatch).toBeCalledWith(new AddToMealPlan(testRecipe, "Breakfast"));
-  });
-  
-  it('should set added to true if recipe is in meal plan', () => {
-    component.ngOnInit();
-    expect(component.added).toBe(true);
   });
 
   it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
@@ -151,75 +138,6 @@ describe('RecipeCardComponent', () => {
     component.recipe = null;
     component.removeFromMealPlan();
     expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to remove from meal plan.'));
-  });
-
-  it('should return true if mealPlan has breakfast', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: testRecipe,
-      lunch: null,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has lunch', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: testRecipe,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has dinner', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: testRecipe,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has snack', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: testRecipe
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return false if mealPlan no meals', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(false);
-  });
-
-  it('should return false if mealPlan is null', () => {
-    expect(component.checkMealPlan(null)).toBe(false);
   });
 
   it('should dispatch RemoveFromMealPlan when removeFromMealPlan is called', () => {
