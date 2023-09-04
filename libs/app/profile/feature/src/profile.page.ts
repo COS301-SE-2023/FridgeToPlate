@@ -1,14 +1,21 @@
 import { Component } from "@angular/core";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
-import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
+import { IProfile, 
+  RetrieveMealPlan, 
+  SortCreatedByDifficulty, 
+  SortCreatedByNameAsc, 
+  SortCreatedByNameDesc, 
+  SortSavedByDifficulty, 
+  SortSavedByNameAsc, 
+  SortSavedByNameDesc, 
+  UpdateProfile 
+} from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
-import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
-import { IRecipe, RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 
 @Component({
@@ -28,6 +35,7 @@ export class ProfilePage {
   displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
+  dateSelected !: Date;
 
   ingredients : IIngredient[] = [];
   editableProfile !: IProfile;
@@ -35,7 +43,8 @@ export class ProfilePage {
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) )
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) );
+    this.dateSelected = new Date();
   }
 
   displaySubpage(subpageName : string) {
@@ -112,4 +121,7 @@ export class ProfilePage {
     this.closeSort();
   }
 
+  getMealPlan() {
+    this.store.dispatch(new RetrieveMealPlan(this.dateSelected));
+  }
 }

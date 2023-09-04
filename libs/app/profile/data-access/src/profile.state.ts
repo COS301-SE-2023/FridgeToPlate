@@ -16,7 +16,8 @@ import {
     UpdateMealPlan,
     RemoveFromMealPlan,
     AddToMealPlan,
-    AddCreatedRecipe
+    AddCreatedRecipe,
+    RetrieveMealPlan
 } from "@fridge-to-plate/app/profile/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ProfileAPI } from "./profile.api";
@@ -382,4 +383,25 @@ export class ProfileState {
         }
     }
 
+    @Action(RetrieveMealPlan) 
+    async retrieveMealPlan({ getState, patchState } : StateContext<ProfileStateModel>, { date } : RetrieveMealPlan) {
+        const newProfile = getState().profile;
+        if(!newProfile){
+            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            return;
+        }
+
+        (await this.mealPlanAPI.getMealPlan(date, newProfile.username)).subscribe({
+            next: data => {
+                newProfile.currMealPlan = data;
+
+                patchState({
+                    profile: newProfile
+                });
+            },
+            error: error => {
+                this.store.dispatch(new ShowError(error.message));
+            }
+        });
+    }
 }
