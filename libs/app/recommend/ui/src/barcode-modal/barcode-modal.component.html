@@ -7,8 +7,22 @@
           </button>
           <div class="px-6 py-6 lg:px-8">
               <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Scan Ingredients</h3>
-              <div id="interactive" class="viewport">
+              <div id="scanner-container">
                 <!-- QuaggaJS will populate this element -->
+              </div>
+              <div>
+                <div *ngIf="ingredient" class="w-full rounded-lg overflow-hidden shadow-lg mb-4 bg-primary">
+                  <div class="my-4 flex justify-between px-3 relative">
+                      <div>
+                          <p class="text-white text-lg font-bold"> {{ingredient.name }}</p>
+                          <p class="text-white">{{ ingredient.amount }}&ThinSpace;{{ ingredient.unit }} </p>
+                      </div> 
+                      <span (click)="addIngredient()" class=" inline-flex absolute top-1/2 right-2 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
+                      px-2 py-2 text-center m-3 border cursor-pointer">
+                          <ion-icon name="add-outline" class="text-white"></ion-icon>
+                      </span>
+                  </div>
+              </div>
               </div>
           </div>
       </div>

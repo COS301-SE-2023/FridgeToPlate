@@ -1,5 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import Quagga from '@ericblade/quagga2';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { AddIngredient } from '@fridge-to-plate/app/recommend/utils';
+import { Store } from '@ngxs/store';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -54,9 +57,13 @@ export class BarcodeModalComponent implements AfterViewInit {
   started: boolean | undefined;
   errorMessage: string | undefined;
   acceptAnyCode = true;
+  ingredient : IIngredient | null = {
+    name: "Carrot",
+    amount: 2,
+    unit: "g"
+  };
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-  }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store, private ) {}
 
   ngAfterViewInit(): void {
     if (!navigator.mediaDevices || !(typeof navigator.mediaDevices.getUserMedia === 'function')) {
@@ -79,15 +86,12 @@ export class BarcodeModalComponent implements AfterViewInit {
       .then(mediaDeviceInfos => {
         const mainCamera = this.getMainBarcodeScanningCamera(mediaDeviceInfos);
         if (mainCamera) {
-          console.log(`Using ${mainCamera.label} (${mainCamera.deviceId}) as initial camera`);
           return this.initializeScannerWithDevice(mainCamera.deviceId);
         } else {
-          console.error(`Unable to determine suitable camera, will fall back to default handling`);
           return this.initializeScannerWithDevice(undefined);
         }
       })
       .catch(error => {
-        this.errorMessage = `Failed to enumerate devices: ${error}`;
         this.started = false;
       });
   }
@@ -125,11 +129,8 @@ export class BarcodeModalComponent implements AfterViewInit {
       },
       (err) => {
         if (err) {
-          console.error(`Quagga initialization failed: ${err}`);
-          this.errorMessage = `Initialization error: ${err}`;
           this.started = false;
         } else {
-          console.log(`Quagga initialization succeeded`);
           Quagga.start();
           this.started = true;
           this.changeDetectorRef.detectChanges();
@@ -157,6 +158,11 @@ export class BarcodeModalComponent implements AfterViewInit {
     const backCameras = devices.filter(v => this.isKnownBackCameraLabel(v.label));
     const sortedBackCameras = backCameras.sort((a, b) => a.label.localeCompare(b.label));
     return sortedBackCameras.length > 0 ? sortedBackCameras[0] : undefined;
+  }
+
+  addIngredient() {
+    this.store.dispatch(new AddIngredient(this.ingredient as IIngredient));
+    this.ingredient = null;
   }
 
   close() {
