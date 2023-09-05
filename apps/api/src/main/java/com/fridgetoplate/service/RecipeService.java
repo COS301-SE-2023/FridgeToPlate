@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
+import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
+import com.fridgetoplate.repository.MealPlanRepository;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.ReviewRepository;
 
@@ -22,6 +25,9 @@ public class RecipeService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    MealPlanRepository mealPlanRepository;
+
     public RecipeFrontendModel findById(String id){
 
         /*
@@ -31,12 +37,24 @@ public class RecipeService {
          // Declaring the Recipe Response object
         RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
 
-
         // Find the Recipe model
         RecipeModel recipeModel = recipeRepository.findById(id);
 
         if(recipeModel == null) {
             return null;
+        }
+
+        // Get ingredients for Recipe
+        List<IngredientModel> ingredientsModel = recipeRepository.findIngredientsByRecipeId(id);
+
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (IngredientModel ingredientModel : ingredientsModel) {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientModel.getName());
+            ingredient.setAmount(ingredientModel.getAmount());
+            ingredient.setUnit(ingredientModel.getUnit());
+
+            ingredients.add(ingredient);
         }
 
         // Getting recipe attributes
@@ -47,11 +65,11 @@ public class RecipeService {
         List<String> tags = recipeModel.getTags();
         String meal = recipeModel.getMeal();
         String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
         Integer prepTime = recipeModel.getPrepTime();
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
         Integer servings = recipeModel.getServings();
+        Double rating = recipeModel.getRating();
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -66,7 +84,7 @@ public class RecipeService {
         recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
         recipeResponse.setServings(servings);
-
+        recipeResponse.setRating(rating);
 
         /*
         * Getting the Reviews
@@ -78,8 +96,6 @@ public class RecipeService {
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
 
-
-
        return recipeResponse;
     }
 
@@ -90,5 +106,22 @@ public class RecipeService {
 
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
         return recipeRepository.getSavedRecipes(ids);
+    }
+
+    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
+        return recipeRepository.findAllByPreferences(recipePreferences, userIngredients);
+    }
+
+   
+
+    public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList) {
+        for (RecipeFrontendModel recipeFrontendModel : recipeList) {
+            recipeRepository.save(recipeFrontendModel);
+        }
+        return recipeList;
+    }
+
+     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+       return this.recipeRepository.findIngredientsByRecipeId(recipeId);
     }
 }

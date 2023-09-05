@@ -30,3 +30,8 @@ export class DeleteReview {
   static readonly type = '[Recipe] Delete Recipe Review';
   constructor(public readonly reviewId: string) {}
 }
+
+export class RetrieveMealPlanIngredients {
+  static readonly type = '[Meal Plan] Retrieve Meal Plan Ingredients';
+  constructor(public readonly username: string) {}
+}

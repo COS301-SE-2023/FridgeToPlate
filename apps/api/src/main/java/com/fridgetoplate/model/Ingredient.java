@@ -1,17 +1,13 @@
 package com.fridgetoplate.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
-
 import lombok.Data;
-
 @Data
-@DynamoDBDocument
 public class Ingredient {
     
-    private String name;
+    protected String name;
 
-    private Double amount;
+    protected Double amount;
 
-    private String unit;
+    protected String unit;
 
 }

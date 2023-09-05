@@ -29,7 +29,8 @@ import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -47,6 +48,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FormsModule,
     NgxSkeletonLoaderModule,
     NavigationBarModule,
+    SplashUIModule,
     NgxsLoggerPluginModule.forRoot({
       collapsed: false,
       disabled: environment.TYPE == 'production',

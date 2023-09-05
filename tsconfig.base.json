@@ -150,6 +150,7 @@
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/splash/ui": ["libs/app/splash/ui/src/index.ts"],
       "@fridge-to-plate/app/unauthorised/feature": [
         "libs/app/unauthorised/feature/src/index.ts"
       ],
