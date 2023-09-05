@@ -63,7 +63,7 @@ export class BarcodeModalComponent implements AfterViewInit {
     unit: "g"
   };
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store, private ) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store ) {}
 
   ngAfterViewInit(): void {
     if (!navigator.mediaDevices || !(typeof navigator.mediaDevices.getUserMedia === 'function')) {
