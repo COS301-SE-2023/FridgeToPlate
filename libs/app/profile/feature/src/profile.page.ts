@@ -1,11 +1,15 @@
-import { Component } from "@angular/core";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { Component, DoCheck, OnInit } from "@angular/core";
+import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
+import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
+import { IRecipe, RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,16 +21,21 @@ import { Navigate } from "@ngxs/router-plugin";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(ProfileState.getSettings) settings$ !: Observable<string>;
+  @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
+  displayShoppinglist = "none"
   displayEditProfile = "none";
-  displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
 
+  ingredients : IIngredient[] = [];
   editableProfile !: IProfile;
+  mealPlan!: IMealPlan;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) )
   }
 
   displaySubpage(subpageName : string) {
@@ -42,13 +51,26 @@ export class ProfilePage {
     this.displayEditProfile = "none";
   }
 
+  openShoppingList() {
+    this.ingredients$.pipe(take(1)).subscribe(
+      ingredients => {
+        this.ingredients = ingredients;
+        this.displayShoppinglist = "block";
+      }
+    );
+  }
+  
+  closeShoppingList() {
+    this.displayShoppinglist = "none";
+  }
+
   openSettings() {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.displaySettings = "block";
+    this.store.dispatch(new OpenSettings());
   }
 
   closeSettings() {
-    this.displaySettings = "none";
+    this.store.dispatch(new CloseSettings());
   }
 
   saveProfile() {

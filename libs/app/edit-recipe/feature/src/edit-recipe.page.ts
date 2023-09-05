@@ -21,13 +21,13 @@ export class EditRecipeComponent implements OnInit {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  selectedMeal!: string;
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
   recipeId !: string;
-  recipe !: IRecipe | null;
-  
+  recipe !: IRecipe;
+
   @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
 
@@ -36,7 +36,7 @@ export class EditRecipeComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
-    
+
   }
 
   createForm(): void {
@@ -54,13 +54,13 @@ export class EditRecipeComponent implements OnInit {
   }
 
   initialize(): void {
-    this.recipe$.pipe(take(1)).subscribe(recipe => 
-      { 
+    this.recipe$.pipe(take(1)).subscribe(recipe =>
+      {
         this.recipe = recipe;
         if(recipe.recipeId) {
           this.recipeId = recipe.recipeId;
         }
-      }); // ?
+      });
   }
 
   populateForm(): void {
@@ -158,19 +158,19 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.value.preparationTime as number,
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
+      rating: this.recipe?.rating as number | null
     };
-    
-    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
-    const index = profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
+
+    const index = this.profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
     if(index === -1) {
       this.store.dispatch( new ShowError('Could not update recipe'));
       return;
     }
+    
     this.store.dispatch( new UpdateRecipe(recipe) );
-    profile.createdRecipes[index] = recipe;
-    this.store.dispatch( new UpdateProfile(profile))
+    this.profile.createdRecipes[index] = recipe;
+    this.store.dispatch( new UpdateProfile(this.profile))
     this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]))
-    })
 
   }
 
@@ -201,7 +201,7 @@ export class EditRecipeComponent implements OnInit {
     this.location.back()
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
+  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
     this.selectedMeal = option;
   }
 

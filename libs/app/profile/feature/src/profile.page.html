@@ -12,8 +12,8 @@
             <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">{{ profile.displayName }}</h2>
             <p class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light">{{ profile.username }}</p>
         </div>
-        <button (click)="openSettings()" id="settings-button" class="absolute top-0.5 right-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="settings-outline"></ion-icon></button>
-        <button (click)="openNotifications()" id="notifications-button" class="absolute top-0.5 left-0.5 text-gray-500 font-medium rounded-full text-2xl px-2 py-2 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="notifications-outline"></ion-icon></button>
+        <button (click)="openSettings()" id="settings-button" class="absolute top-0.5 right-0.5 text-gray-500 font-medium rounded-full text-2xl px-4 py-4 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="settings-outline"></ion-icon></button>
+        <button (click)="openNotifications()" id="notifications-button" class="absolute top-0.5 left-0.5 text-gray-500 font-medium rounded-full text-2xl px-4 py-4 text-center inline-flex items-center mb-3 lg:hidden"><ion-icon name="notifications-outline"></ion-icon></button>
     </div>
     <!-- Tab Menu -->
     <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mt-10">
@@ -22,24 +22,30 @@
                 <a
                 [ngClass]="subpage === 'saved' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('saved')">
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                    Saved
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="bookmark-outline"></ion-icon>
+                      Saved
+                    </div>
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage === 'meal plan' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('meal plan')">
-                    <ion-icon name="calendar-clear-outline"></ion-icon>
-                    Meal Plan
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="calendar-clear-outline"></ion-icon>
+                      Meal Plan
+                    </div>
                 </a>
             </li>
             <li class="mx-auto cursor-pointer">
                 <a
                 [ngClass]="subpage === 'created' ? 'inline-block p-4 text-primary border-b-2 border-primary rounded-t-lg' : 'inline-block p-4 border-b-2 border-transparent rounded-t-lg active hover:text-primary-highlight hover:border-primary-highlight'"
                 (click)="displaySubpage('created')">
-                    <ion-icon name="create-outline"></ion-icon>
-                    Created
+                    <div class="flex">
+                      <ion-icon class="mt-1 mr-1" name="create-outline"></ion-icon>
+                      Created
+                    </div>
                 </a>
             </li>
         </ul>
@@ -49,11 +55,11 @@
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
             <button
                 (click)="openSort()"
-                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3 ml-1"
+                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-1 text-center inline-flex items-center mb-3 "
                 type="button">
-                Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
+                Sort <ion-icon class="pl-8 pr-2 text-2xl" name="caret-down-outline"></ion-icon>
             </button>
-            <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-44 top-10 z-10">
+            <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-36 top-10 z-10">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer">
                 <li>
                     <a (click)="sortSavedBy('difficulty')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Difficulty</a>
@@ -68,34 +74,37 @@
             </div>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <recipe-card *ngFor="let recipe of profile.savedRecipes" [recipe]="recipe"></recipe-card>
+            <recipe-card *ngFor="let recipe of profile.savedRecipes" [recipe]="recipe" class="py-1"></recipe-card>
         </div>
     </div>
     <!-- Meal Plan Tab -->
     <div *ngIf="subpage === 'meal plan'" class="mt-5 ml-4 mb-5 lg:mb-0">
+        <div class="flex justify-center" >
+            <button  data-te-toggle="tooltip"  title="Get your Meal Plan collective ingredients" (click)="openShoppingList()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex  mb-3">Shopping List</button>
+        </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <div>
+            <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Breakfast</h3>
                 <recipe-card *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe" [recipe]="profile.currMealPlan?.breakfast"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
-            <div>
+            <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Lunch</h3>
                 <recipe-card *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe" [recipe]="profile.currMealPlan?.lunch"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
-            <div>
+            <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Dinner</h3>
                 <recipe-card *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe" [recipe]="profile.currMealPlan?.dinner"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
-            <div>
+            <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Snack</h3>
                 <recipe-card *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe" [recipe]="profile.currMealPlan?.snack"></recipe-card>
                 <ng-template #tempRecipe>
@@ -109,11 +118,11 @@
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
             <button
                 (click)="openSort()"
-                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-sm text-sm px-10 py-1 text-center inline-flex items-center mb-3 ml-1"
+                class="text-white bg-primary hover:bg-primary-highlight focus:ring-4 focus:outline-none focus:ring-primary-highlight focus:bg-primary-highlight font-medium rounded-md text-sm pl-12 py-1 text-center inline-flex items-center mb-3 ml-1"
                 type="button">
-                Sort<ion-icon class="ml-2 text-2xl" name="caret-down-outline"></ion-icon>
+                Sort <ion-icon class="pl-8 pr-2 text-2xl" name="caret-down-outline"></ion-icon>
             </button>
-            <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-44 top-10 z-10">
+            <div  [ngStyle]="{ 'display': displaySort }" class="absolute bg-white divide-y rounded-lg shadow w-36 top-10 z-10">
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer">
                 <li>
                     <a (click)="sortCreatedBy('difficulty')" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Difficulty</a>
@@ -128,10 +137,10 @@
             </div>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe"></recipe-card>
+            <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe" class="py-1"></recipe-card>
         </div>
     </div>
 </div>
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
-<settings-modal [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
+<settings-modal *ngIf="settings$ | async as displaySettings" [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>

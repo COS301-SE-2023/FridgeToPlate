@@ -20,10 +20,10 @@ describe('RecipeDetailPageComponent', () => {
   let component: RecipePage;
   let fixture: ComponentFixture<RecipePage>;
   const testRecipe: IRecipe = {
-    recipeId: "test-id",
-    name: "Test Recipe",
-    difficulty: "Easy",
-    recipeImage: "url.com/image",
+    recipeId: 'test-id',
+    name: 'Test Recipe',
+    difficulty: 'Easy',
+    recipeImage: 'url.com/image',
     ingredients: [
       {
         name: 'Carrot',
@@ -37,16 +37,25 @@ describe('RecipeDetailPageComponent', () => {
     prepTime: 30,
     meal: 'Snack',
     steps: ['Chop onions'],
-    creator: "Kristap P",
+    creator: 'Kristap P',
+    youtubeId: 'testId',
+    rating: 2,
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RecipePage],
-      imports: [ReviewModule, IonicModule, HttpClientModule, RouterTestingModule, RecipeUIModule, NavigationBarModule, NgxsModule.forRoot()],
-      providers: [HttpClientModule]
-    })
-    .compileComponents();
+      imports: [
+        ReviewModule,
+        IonicModule,
+        HttpClientModule,
+        RouterTestingModule,
+        RecipeUIModule,
+        NavigationBarModule,
+        NgxsModule.forRoot(),
+      ],
+      providers: [HttpClientModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RecipePage);
     component = fixture.componentInstance;
@@ -59,21 +68,21 @@ describe('RecipeDetailPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should observe recipe details', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    jest.spyOn(component, 'setRecipe').mockImplementation((id: string) => component.recipe = testRecipe);
-    component.setRecipe("test-id");
+    jest
+      .spyOn(component, 'setRecipe')
+      .mockImplementation((id: string) => (component.recipe = testRecipe));
+    component.setRecipe('test-id');
     expect(component.recipe).toEqual(testRecipe);
+    expect(component.safeUrl).toBe(undefined);
   });
-
 
   it('should navigate back when goBack() is called', () => {
     const locationSpy = jest.spyOn(location, 'back');
     component.goBack();
     expect(locationSpy).toHaveBeenCalled();
   });
-
 
   it('should initialize the component and call setRecipe() with the correct id', () => {
     const paramMap = convertToParamMap({ id: 'test-id' });
@@ -86,44 +95,79 @@ describe('RecipeDetailPageComponent', () => {
     expect(setRecipeSpy).toHaveBeenCalledWith('test-id');
   });
 
-it('should not retrieve recipe data with empty id', () => {
-  component.recipe = undefined;
-  const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
-  const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
+  it('should not retrieve recipe data with empty id', () => {
+    component.recipe = undefined;
+    const recipeService: RecipeAPI = TestBed.inject(RecipeAPI);
+    const getRecipeByIdSpy = jest.spyOn(recipeService, 'getRecipeById');
 
-  component.setRecipe('');
+    component.setRecipe('');
 
-  expect(getRecipeByIdSpy).not.toHaveBeenCalled();
-  expect(component.recipe).toBeUndefined();
-});
+    expect(getRecipeByIdSpy).not.toHaveBeenCalled();
+    expect(component.recipe).toBeUndefined();
+  });
 
-it('Should set forceLoading to false after the timer is done', ()=> {
-  jest.useFakeTimers();
-  component.forceLoading = true;
-  component.ngOnInit();
-  jest.advanceTimersByTime(1000);
-  expect(component.forceLoading).toBe(false);
-})
+  it('Should set forceLoading to false after the timer is done', () => {
+    jest.useFakeTimers();
+    component.forceLoading = true;
+    component.ngOnInit();
+    jest.advanceTimersByTime(1000);
+    expect(component.forceLoading).toBe(false);
+  });
 
-it('Should go to the Home Page', () => {
-  const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
-  component.goHome();
-  expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
-});
+  it('Should go to the Home Page', () => {
+    const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+    component.goHome();
+    expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
+  });
 
-it('Should set forceLoading to false after the timer is done', ()=> {
-  jest.useFakeTimers();
-  component.forceLoading = true;
-  component.ngOnInit();
-  jest.advanceTimersByTime(1000);
-  expect(component.forceLoading).toBe(false);
-})
+  it('Should set forceLoading to false after the timer is done', () => {
+    jest.useFakeTimers();
+    component.forceLoading = true;
+    component.ngOnInit();
+    jest.advanceTimersByTime(1000);
+    expect(component.forceLoading).toBe(false);
+  });
 
-it('Should go to the Home Page', () => {
-  const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
-  component.goHome();
-  expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
-})
+  it('Should go to the Home Page', () => {
+    const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+    component.goHome();
+    expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
+  });
 
+  it('Should set safeUrl accordingly with value', () => {
+    const store: Store = TestBed.inject(Store);
+    jest.spyOn(store, 'select').mockReturnValue(of(testRecipe));
+    jest
+      .spyOn(store, 'dispatch')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    component.setRecipe('test-id');
+    expect(component.safeUrl).toEqual({
+      changingThisBreaksApplicationSecurity:
+        'https://www.youtube.com/embed/testId',
+    });
+  });
 
+  it('Should not set safeUrl no youtubeId', () => {
+    const store: Store = TestBed.inject(Store);
+    jest
+      .spyOn(store, 'select')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    jest
+      .spyOn(store, 'dispatch')
+      .mockReturnValue(of({ ...testRecipe, youtubeId: '' }));
+    component.setRecipe('test-id');
+    expect(component.safeUrl).toBe(undefined);
+  });
+
+  it('should toggle isDescriptionExpanded from false to true', () => {
+    component.isDescriptionExpanded = false;
+    component.toggleDescriptionExpanded();
+    expect(component.isDescriptionExpanded).toBe(true);
+  });
+
+  it('should toggle isDescriptionExpanded from true to false', () => {
+    component.isDescriptionExpanded = true;
+    component.toggleDescriptionExpanded();
+    expect(component.isDescriptionExpanded).toBe(false);
+  });
 });

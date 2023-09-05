@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -29,6 +30,7 @@ class MockCreateState {}
 describe('CreatePagComponent', () => {
   let createPage: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
+  global.URL.createObjectURL = jest.fn();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,6 +51,39 @@ describe('CreatePagComponent', () => {
     fixture = TestBed.createComponent(CreatePagComponent);
     createPage = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should set selectedVideo and call previewVideo on file change', () => {
+    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
+    const mockEvent = {
+      target: { files: [mockFile] },
+    };
+
+    jest.spyOn(createPage, 'previewVideo');
+
+    createPage.onVideoChanged(mockEvent);
+
+    expect(createPage.selectedVideo).toBe(mockFile);
+    expect(createPage.displayVideo).toBe('block');
+    expect(createPage.displayImage).toBe('none');
+    expect(createPage.previewVideo).toHaveBeenCalled();
+  });
+
+  it('should update the video when a file is selected', () => {
+    // Arrange
+    const file = new File(['sample content'], 'sample.mp4', { type: 'video/mp4' });
+    const event = { target: { files: [file] } };
+
+    const createObjectURLStringSpy = jest.spyOn(URL, 'createObjectURL');
+
+    // Act
+    createPage.onVideoChanged(event);
+
+    // Assert
+    expect(createObjectURLStringSpy).toHaveBeenCalledWith(file);
+
+    
+
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
@@ -148,6 +183,8 @@ describe('CreatePagComponent', () => {
     expect(createPage.getInstructions()).toEqual(['Step 2', 'Step 3'])
   }
   );
+
+  
 
 });
 
@@ -464,6 +501,8 @@ describe('Ingredients storing, deleting and returning', () => {
       expect(placeholderText).toBe('Amount');
     });
   })
+
+
 
   describe("Testing placeholder texts for Unit", () => {
 
@@ -915,6 +954,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
 
       component.imageUrl = recipe.recipeImage
@@ -970,6 +1010,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: 2
       };
 
       component.imageUrl = recipe.recipeImage

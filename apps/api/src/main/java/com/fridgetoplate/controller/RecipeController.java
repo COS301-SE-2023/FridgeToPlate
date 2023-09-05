@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.service.RecipeService;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 
 @RestController
@@ -17,6 +18,9 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private RecipeService recipeService;
+
     @PostMapping("/create")
     public RecipeFrontendModel save(@RequestBody RecipeFrontendModel recipe){
         // Save the recipe
@@ -25,7 +29,7 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public RecipeFrontendModel findById(@PathVariable(value = "id") String id){
-        return recipeRepository.findById(id);
+        return recipeService.findById(id);
     }
 
     @GetMapping("/creator/{username}")
@@ -36,11 +40,6 @@ public class RecipeController {
     @GetMapping("/name/{recipename}")
     public List<RecipeFrontendModel> findRecipesByRecipename(@PathVariable(value = "recipename") String recipename){
         return recipeRepository.getRecipesByRecipename(recipename);
-    }
-
-    @GetMapping
-    public List<RecipeFrontendModel> findAll(){
-        return recipeRepository.findAll();
     }
 
     @PutMapping("/{id}")

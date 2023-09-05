@@ -38,6 +38,7 @@ describe('RecipeCardComponent', () => {
     meal: 'Snack',
     steps: ['Chop onions'],
     creator: "Kristap P",
+    rating: 2,
   };
 
   const testProfile: IProfile = {
@@ -258,6 +259,7 @@ describe('RecipeCardComponent', () => {
     meal: 'Snack',
     steps: ['Chop onions'],
     creator: "Kristap P",
+    rating: 2
   };
 
   @State({ 
