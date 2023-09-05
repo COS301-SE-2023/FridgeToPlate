@@ -7,15 +7,9 @@
           </button>
           <div class="px-6 py-6 lg:px-8">
               <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Scan Ingredients</h3>
-              <div>
-                
+              <div id="interactive" class="viewport">
+                <!-- QuaggaJS will populate this element -->
               </div>
-              <section class="results" *ngIf="qrResultString">
-                <div>
-                  <small>Result</small>
-                  <strong>{{ qrResultString }}</strong>
-                </div>
-              </section>
           </div>
       </div>
 
