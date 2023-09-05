@@ -1,7 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import Quagga from '@ericblade/quagga2';
+import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { AddIngredient } from '@fridge-to-plate/app/recommend/utils';
+import { RecommendApi } from '@fridge-to-plate/app/recommend/data-access';
+import { AddIngredient, convertProductFromApi } from '@fridge-to-plate/app/recommend/utils';
 import { Store } from '@ngxs/store';
 
 @Component({
@@ -55,30 +57,23 @@ export class BarcodeModalComponent implements AfterViewInit {
   ];
 
   started: boolean | undefined;
-  errorMessage: string | undefined;
   acceptAnyCode = true;
-  ingredient : IIngredient | null = {
-    name: "Carrot",
-    amount: 2,
-    unit: "g"
-  };
+  ingredient : IIngredient | null = null;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store ) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef, private store: Store, private recommendAPI: RecommendApi) {}
 
   ngAfterViewInit(): void {
     if (!navigator.mediaDevices || !(typeof navigator.mediaDevices.getUserMedia === 'function')) {
-      this.errorMessage = 'getUserMedia is not supported';
       return;
     }
 
     this.initializeScanner();
   }
 
-  private initializeScanner(): Promise<void> {
+  private initializeScanner() {
     if (!navigator.mediaDevices || !(typeof navigator.mediaDevices.getUserMedia === 'function')) {
-      this.errorMessage = 'getUserMedia is not supported. Please use Chrome on Android or Safari on iOS';
+      this.store.dispatch(new ShowError('Scanning not supported. Please use Chrome on Android or Safari on iOS'));
       this.started = false;
-      return Promise.reject(this.errorMessage);
     }
 
     // enumerate devices and do some heuristics to find a suitable first camera
@@ -96,8 +91,7 @@ export class BarcodeModalComponent implements AfterViewInit {
       });
   }
 
-  private initializeScannerWithDevice(preferredDeviceId: string | undefined): Promise<void> {
-    console.log(`Initializing Quagga scanner...`);
+  private initializeScannerWithDevice(preferredDeviceId: string | undefined): Promise<void> {\
 
     const constraints: MediaTrackConstraints = {};
     if (preferredDeviceId) {
@@ -144,7 +138,19 @@ export class BarcodeModalComponent implements AfterViewInit {
   }
 
   onBarcodeScanned(code: string) {
-    alert(code);
+    this.recommendAPI.getProductInformation(code).subscribe({
+      next: (productFromApi) => {
+        if (!productFromApi?.product)
+            throw Error('Product does not exist on database');
+          else {
+            return convertProductFromApi(productFromApi.product);
+          }
+      },
+      error: error => {
+        this.store.dispatch(new ShowError("Error retrieving product info"));
+        console.log(error);
+      }
+    });
   }
   
   isKnownBackCameraLabel(label: string): boolean {
@@ -166,6 +172,7 @@ export class BarcodeModalComponent implements AfterViewInit {
   }
 
   close() {
+    Quagga.stop();
     this.closeFunc.emit();
   }
 }

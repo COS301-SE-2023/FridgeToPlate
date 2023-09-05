@@ -17,10 +17,8 @@ export class ItemEditStep {
   ingredientName = '';
   ingredientAmount = 1;
   ingredientScale = '';
-
-  torch = false;
-  barcodeValue: any;
-  scannerOpened = true;
+  
+  scannerOpened = false;
 
   @Select(RecommendState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
   
