@@ -16,7 +16,12 @@ describe('RecipePreferencesStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecipePreferencesStep],
-      imports: [IonicModule, HttpClientModule, RecommendUIModule, NgxsModule.forRoot()],
+      imports: [
+        IonicModule,
+        HttpClientModule,
+        RecommendUIModule,
+        NgxsModule.forRoot(),
+      ],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
@@ -33,6 +38,27 @@ describe('RecipePreferencesStep', () => {
     dispatchSpy = jest.spyOn(store, 'dispatch');
 
     component.updateRecipePreferences();
-    expect(dispatchSpy).toBeCalledWith(new UpdateRecipePreferences(component.editableRecipePreferences));
+    expect(dispatchSpy).toBeCalledWith(
+      new UpdateRecipePreferences(component.editableRecipePreferences)
+    );
+  });
+
+  it('should update preferences with new keyword', () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    component.keywordSelected('test');
+
+    expect(dispatchSpy).toBeCalledWith(
+      new UpdateRecipePreferences({
+        ...component.editableRecipePreferences,
+        keywords: ['test'],
+      })
+    );
+  });
+
+  it('should filter keywordsList', () => {
+    component.filterKeywordsList('Asian');
+    expect(component.keywordOptions).toStrictEqual(['Asian']);
   });
 });

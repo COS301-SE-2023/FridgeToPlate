@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownSelectComponent } from './dropdown-select.component';
+import { RecommendUIModule } from '../recommend.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('DropdownSelectComponent', () => {
   let component: DropdownSelectComponent;
@@ -7,7 +9,9 @@ describe('DropdownSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RecommendUIModule, HttpClientTestingModule],
       declarations: [DropdownSelectComponent],
+      // providers: [HttpClientTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DropdownSelectComponent);
