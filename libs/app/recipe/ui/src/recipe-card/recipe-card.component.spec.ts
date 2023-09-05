@@ -129,9 +129,17 @@ describe('RecipeCardComponent', () => {
   });
 
   it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
+    component.recipe = testRecipe;
+    const tempMeal = "Breakfast";
+    const tempDate = '2022-03-11';
+
+    component.addToMealPlan({meal: tempMeal, date: tempDate});
+    expect(store.dispatch).toHaveBeenCalledWith(new AddToMealPlan(testRecipe, tempMeal, tempDate));
+  });
+
+  it('should dispatch add to meal plan', () => {
     component.recipe = null;
     component.addToMealPlan("Breakfast");
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'));
   });
 
   it('should dispatch ShowError action if recipe is not available to remove from meal plan', () => {

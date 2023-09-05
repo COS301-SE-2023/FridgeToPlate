@@ -26,7 +26,6 @@ export class RecipeCardComponent implements OnInit {
   editable = true;
   @Input() added = false;
   showMenu = false;
-  mealType!: string;
 
   constructor(private store: Store ) {}
 
@@ -70,10 +69,8 @@ export class RecipeCardComponent implements OnInit {
       this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
-    
-    this.mealType = data.meal;
 
-    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType, data.date));
+    this.store.dispatch(new AddToMealPlan(this.recipe, data.meal, data.date));
   }
 
   removeFromMealPlan() {
