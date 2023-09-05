@@ -12,7 +12,7 @@ import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-a
 import { FormsModule } from '@angular/forms';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
-import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
+import { BarcodeModalComponent } from './barcode-modal/barcode-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm,
+    BarcodeModalComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +32,7 @@ import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
     FormsModule,
     IngredientUIModule,
     ProfileDataAccessModule,
-    BarcodeScannerLivestreamModule
   ],
-  exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm],
+  exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm, BarcodeModalComponent],
 })
 export class RecommendUIModule {}
