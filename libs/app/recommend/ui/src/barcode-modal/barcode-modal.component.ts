@@ -91,7 +91,7 @@ export class BarcodeModalComponent implements AfterViewInit {
       });
   }
 
-  private initializeScannerWithDevice(preferredDeviceId: string | undefined): Promise<void> {\
+  private initializeScannerWithDevice(preferredDeviceId: string | undefined): Promise<void> {
 
     const constraints: MediaTrackConstraints = {};
     if (preferredDeviceId) {
