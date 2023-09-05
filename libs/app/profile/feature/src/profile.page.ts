@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { Component, DoCheck, OnInit } from "@angular/core";
+import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
@@ -21,11 +21,11 @@ import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(ProfileState.getSettings) settings$ !: Observable<string>;
   @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
   displayShoppinglist = "none"
   displayEditProfile = "none";
-  displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
 
@@ -65,11 +65,12 @@ export class ProfilePage {
   }
 
   openSettings() {
-    this.displaySettings = "block";
+    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.store.dispatch(new OpenSettings());
   }
 
   closeSettings() {
-    this.displaySettings = "none";
+    this.store.dispatch(new CloseSettings());
   }
 
   saveProfile() {

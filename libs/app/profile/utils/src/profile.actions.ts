@@ -88,3 +88,11 @@ export class UpdateUserIngredients {
   static readonly type = '[Profile] Update User Ingredients';
   constructor(public readonly updatedIngredientsList: IIngredient[]) {}
 }
+
+export class OpenSettings {
+  static readonly type = '[Profile] Open Settings';
+}
+
+export class CloseSettings {
+  static readonly type = '[Profile] Close Settings';
+}
