@@ -36,6 +36,7 @@ public class NotificationsService {
         NotificationsResponseModel notifications = new NotificationsResponseModel();
 
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        
         eav.put(":userId", new AttributeValue().withS(userId));
 
 
@@ -70,6 +71,7 @@ public class NotificationsService {
         List<NotificationModel> notifications = new ArrayList<>();
 
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+
         eav.put(":userId", new AttributeValue().withS(userId));
 
         PaginatedScanList <NotificationModel> scanResult = notificationsRepository.clearNotifications(userId, eav);
@@ -79,17 +81,24 @@ public class NotificationsService {
         }
 
         return "Notifications for " + userId + " deleted successfully";
-        
+
     }
 
     public String clearAllNotificationOfType(String userId, String type){
         List<NotificationModel> notifications = new ArrayList<>();
 
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+
         eav.put(":userId", new AttributeValue().withS(userId));
         eav.put(":notificationType", new AttributeValue().withS(type));
 
-        return notificationsRepository.clearAllNotificationOfType(userId, type, eav);
+        PaginatedScanList <NotificationModel> scanResult = notificationsRepository.clearAllNotificationOfType(userId, type, eav);
+
+        for(int i = 0; i < scanResult.size(); i++){
+            this.delete( scanResult.get(i).getNotificationId() );
+        }
+
+        return "All "+ type + " Notifications for " + userId + " deleted successfully";
 
     }
 }
