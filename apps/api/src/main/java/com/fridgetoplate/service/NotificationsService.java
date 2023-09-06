@@ -2,11 +2,15 @@ package com.fridgetoplate.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
@@ -18,94 +22,76 @@ public class NotificationsService {
     private NotificationsRepository notificationsRepository;
     
 
-    public NotificationsFrontendModel save(ProfileFrontendModel profile) {
-        ProfileModel model = new ProfileModel();
-        model.setUsername(profile.getUsername());
-        model.setDisplayName(profile.getDisplayName());
-        model.setEmail(profile.getEmail());
-        model.setProfilePic(profile.getProfilePic());
-
-        profileRepository.save(model);
-
-        return profile;
+    public NotificationModel save(NotificationModel notification){
+        notificationsRepository.save(notification);
+        return notification;
     }
 
-    public ProfileFrontendModel findByName(String username) {
-        /*
-         * Getting the Profile Response
-         */
+    public NotificationsResponseModel findAll(String userId){
+        
+        List<NotificationModel> generalNotifications = new ArrayList<>();
 
-         // Declaring the Profile Response object
-         ProfileFrontendModel profileResponse = new ProfileFrontendModel();
+        List<NotificationModel> recommendationNotifications = new ArrayList<>();
 
-             // Find the Profile model
-        ProfileModel profileModel = profileRepository.findByName(username);
+        NotificationsResponseModel notifications = new NotificationsResponseModel();
 
-        if(profileModel == null) {
-            return null;
-        }
+        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        eav.put(":userId", new AttributeValue().withS(userId));
 
-        // Getting profile attributes
-        String displayName = profileModel.getDisplayName();
-        String email = profileModel.getEmail();
-        List<RecipeDesc> savedRecipes = recipeService.getSavedRecipes(profileModel.getSavedRecipes());
-        List<RecipeDesc> createdRecipes =  recipeService.getCreatedRecipes(username);
-        String profilePicture = profileModel.getProfilePic();
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
-        // Creating profile response
-        profileResponse.setUsername(username);
-        profileResponse.setDisplayName(displayName);
-        profileResponse.setEmail(email);
-        profileResponse.setSavedRecipes(savedRecipes);
-        profileResponse.setCreatedRecipes(createdRecipes);
-        profileResponse.setProfilePic(profilePicture);
+        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+        
+        for (NotificationModel notification : scanResult) {
             
-        // saving meal plan response to profile response
-        String date = LocalDate.now().toString();
-        profileResponse.setCurrMealPlan(mealPlanService.findMealPlan(username, date));
-        
-       return profileResponse;
+                if(notification != null) {
+                    if(notification.getNotificationType().equals("general"))
+                        generalNotifications.add(notification);
+                    else
+                        recommendationNotifications.add(notification);
+                }
+        }
+
+        notifications.setGeneral(generalNotifications);
+
+        notifications.setRecommendations(recommendationNotifications);
+
+        return notifications;
     }
 
-    public ProfileFrontendModel update(String username, ProfileFrontendModel profile){
-
-        //Retrieve the profile of the specified ID
-        ProfileModel profileData = profileRepository.findByName(username);
-
-        //Return null if user profile does not exist
-        if(profileData == null)
-            return null;
+    public String delete(String notificationId){
+        NotificationModel notification = dynamoDBMapper.load(NotificationModel.class, notificationId);
         
-        if(profile.getDisplayName() != null) {
-            profileData.setDisplayName(profile.getDisplayName());
-        }
+        dynamoDBMapper.delete(notification);
 
-        if(profile.getProfilePic() != null) {
-            profileData.setProfilePic(profile.getProfilePic());
-        }
-
-        if(profile.getEmail() != null) {
-            profileData.setEmail(profile.getEmail());
-        }
-
-        if(profile.getSavedRecipes() != null) {
-            profileData.setSavedRecipes(this.getSavedRecipeIds(profile.getSavedRecipes()));
-        }
-        
-        profileRepository.update(username, profileData);
-
-        return profile;
+        return "Notification deleted successfully " + notificationId;
     }
 
-    private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {
-        List<String> savedIds = new ArrayList<>();
-        if(ids == null || ids.isEmpty()) {
-            return savedIds;
+    public String clearNotifications(String userId){
+        List<NotificationModel> notifications = new ArrayList<>();
+
+        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        eav.put(":userId", new AttributeValue().withS(userId));
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
+
+        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+        
+        for(int i = 0; i < scanResult.size(); i++){
+            this.delete( scanResult.get(i).getNotificationId() );
         }
 
-        for (RecipeDesc recipe : ids) {
-            savedIds.add(recipe.getRecipeId());
-        }
-        return savedIds;
+        return "Notifications for " + userId + " deleted successfully";
+    }
+
+    public String clearAllNotificationOfType(String userId, String type){
+        List<NotificationModel> notifications = new ArrayList<>();
+
+        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        eav.put(":userId", new AttributeValue().withS(userId));
+        eav.put(":notificationType", new AttributeValue().withS(type));
+
+        return notificationsRepository.clearAllNotificationOfType(userId, type, eav);
+
     }
 }
