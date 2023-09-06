@@ -60,11 +60,9 @@ public class NotificationsService {
     }
 
     public String delete(String notificationId){
-        NotificationModel notification = dynamoDBMapper.load(NotificationModel.class, notificationId);
-        
-        dynamoDBMapper.delete(notification);
 
-        return "Notification deleted successfully " + notificationId;
+        return notificationsRepository.delete(notificationId);
+
     }
 
     public String clearNotifications(String userId){
