@@ -43,16 +43,13 @@ public class NotificationsRepository {
         return "Notification deleted successfully " + notificationId;
     }
 
-    public String clearNotifications(String userId, HashMap<String, AttributeValue> eav){
+    public PaginatedScanList <NotificationModel> clearNotifications(String userId, HashMap<String, AttributeValue> eav){
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for(int i = 0; i < scanResult.size(); i++){
-            this.delete( scanResult.get(i).getNotificationId() );
-        }
 
-        return "Notifications for " + userId + " deleted successfully";
+        return scanResult;
+        
     }
 
     public String clearAllNotificationOfType(String userId, String type, HashMap<String, AttributeValue> eav){
