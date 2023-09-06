@@ -15,8 +15,8 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    @Bean
+    RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
 	}
 

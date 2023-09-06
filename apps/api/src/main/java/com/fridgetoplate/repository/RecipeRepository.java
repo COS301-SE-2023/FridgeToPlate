@@ -5,20 +5,27 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
+import com.fridgetoplate.service.RecipeService;
 
 import graphql.com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,6 +35,9 @@ public class RecipeRepository {
 
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
+
+    @Autowired
+    RecipeService recipeService;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -401,9 +411,68 @@ public class RecipeRepository {
 
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
-
-
-
        return recipeResponse;
     }
+
+
+    public List<RecipeModel> allRecipeModels(){
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+        return(List<RecipeModel>) scanResult;
+    }
+
+    public List<RecipeModel> filterSearch(Explore explore){
+
+        int numberOfWorkers = 3;
+        String search = explore.getSearch();
+        String type = explore.getType();
+        List<String> tags = explore.getTags();
+        String difficulty = explore.getDifficulty();
+      
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+       
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+          if (search != null && !search.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(search));
+            scanFilter.put("name", condition);
+        }
+
+        if (type != null && !type.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(type));
+            scanFilter.put("meal", condition);
+        }
+
+        if (tags != null && !tags.isEmpty()) {
+            // Add the condition for 'tags'
+            List<AttributeValue> attributeValues = tags.stream()
+                .map(tag -> new AttributeValue().withS(tag))
+                .toList();
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(attributeValues);
+            scanFilter.put("tags", condition);
+        }
+
+        if (difficulty != null && !difficulty.isEmpty()) {    
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(difficulty));
+            scanFilter.put("difficulty", condition);
+        }
+
+        if (!scanFilter.isEmpty()) {
+            scanExpression.setScanFilter(scanFilter);
+        }
+
+        List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
+        return results;
+
+    }
+      
 }

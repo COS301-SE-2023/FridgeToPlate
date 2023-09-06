@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
@@ -123,5 +126,9 @@ public class RecipeService {
 
      public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
        return this.recipeRepository.findIngredientsByRecipeId(recipeId);
+    }
+
+     public List<RecipeModel> filterSearch(Explore searchObject){
+        return this.recipeRepository.filterSearch(searchObject);
     }
 }
