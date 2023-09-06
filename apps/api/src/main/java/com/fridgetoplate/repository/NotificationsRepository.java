@@ -65,12 +65,7 @@ public class NotificationsRepository {
         return "Notification deleted successfully " + notificationId;
     }
 
-    public String clearNotifications(String userId){
-        List<NotificationModel> notifications = new ArrayList<>();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-
+    public String clearNotifications(String userId, HashMap<String, AttributeValue> eav){
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
