@@ -16,7 +16,7 @@ import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
 
 @Service
-public class NotificationsService {
+public class NotificationService {
 
     @Autowired
     private NotificationsRepository notificationsRepository;
