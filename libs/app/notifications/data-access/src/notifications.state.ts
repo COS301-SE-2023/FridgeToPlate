@@ -7,7 +7,7 @@ import {
   StateContext,
   Store,
 } from '@ngxs/store';
-import { INotification } from '../../utils/src/interfaces';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
 import {
@@ -15,7 +15,7 @@ import {
   ClearRecommendationNotifications,
   RefreshNotifications,
   RefreshRecommendationNotifications,
-} from '../../utils/notifications.actions';
+} from '@fridge-to-plate/app/notifications/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
