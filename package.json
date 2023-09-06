@@ -90,7 +90,7 @@
     "dotenv-webpack": "^8.0.1",
     "mocha": "^10.2.0",
     "ng-zorro-antd": "^15.1.0",
-    "ngx-skeleton-loader": "^8.0.1",
+    "ngx-skeleton-loader": "^7.0.0",
     "ngx-swiper-wrapper": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
