@@ -1,21 +1,8 @@
-import {
-  Action,
-  NgxsModule,
-  Select,
-  Selector,
-  State,
-  StateContext,
-  Store,
-} from '@ngxs/store';
+import {  Action,  NgxsModule, Select, Selector, State, StateContext, Store } from '@ngxs/store';
 import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
-import {
-  ClearGeneralNotifications,
-  ClearRecommendationNotifications,
-  RefreshNotifications,
-  RefreshRecommendationNotifications,
-} from '@fridge-to-plate/app/notifications/utils';
+import { ClearRecommendationNotifications, RefreshNotifications, RefreshRecommendationNotifications, ClearGeneralNotifications } from '@fridge-to-plate/app/notifications/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
