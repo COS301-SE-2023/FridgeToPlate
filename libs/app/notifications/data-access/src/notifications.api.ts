@@ -5,7 +5,7 @@ import {
   INotificationResponse,
 } from '@fridge-to-plate/app/notifications/utils';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'libs/app/environments/utils/src/environment';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 @Injectable({
   providedIn: 'root',
