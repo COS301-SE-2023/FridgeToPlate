@@ -91,14 +91,3 @@ export class NotificationsState {
     this.notificationsApi.clearRecommendationNotifications(userId).subscribe();
   }
 }
-
-// let store: Store;
-//
-// beforeEach(() => {
-//   TestBed.configureTestingModule({
-//     imports: [NgxsModule.forRoot([NotificationsState]), NotificationsDataAccessModule],
-//     declarations: []
-//   });
-//
-//   store = TestBed.inject(Store);
-// });
