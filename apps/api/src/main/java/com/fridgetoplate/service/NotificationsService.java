@@ -38,9 +38,10 @@ public class NotificationsService {
         HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
         eav.put(":userId", new AttributeValue().withS(userId));
 
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
-        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+        // Updated Function to simply scan the database
+        PaginatedScanList <NotificationModel> scanResult = notificationsRepository.findAll(userId, eav);
+        
         
         for (NotificationModel notification : scanResult) {
             

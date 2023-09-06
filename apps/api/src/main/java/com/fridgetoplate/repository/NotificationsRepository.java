@@ -25,36 +25,14 @@ public class NotificationsRepository {
         return notification;
     }
 
-    public NotificationsResponseModel findAll(String userId){
+    public PaginatedScanList <NotificationModel> findAll(String userId, HashMap<String, AttributeValue> eav){
         
-        List<NotificationModel> generalNotifications = new ArrayList<>();
-
-        List<NotificationModel> recommendationNotifications = new ArrayList<>();
-
-        NotificationsResponseModel notifications = new NotificationsResponseModel();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+
+        return scanResult;
         
-        for (NotificationModel notification : scanResult) {
-            
-                if(notification != null) {
-                    if(notification.getNotificationType().equals("general"))
-                        generalNotifications.add(notification);
-                    else
-                        recommendationNotifications.add(notification);
-                }
-        }
-
-        notifications.setGeneral(generalNotifications);
-
-        notifications.setRecommendations(recommendationNotifications);
-
-        return notifications;
     }
 
     public String delete(String notificationId){
