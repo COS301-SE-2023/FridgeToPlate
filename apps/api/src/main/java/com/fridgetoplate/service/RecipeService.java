@@ -13,6 +13,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
@@ -289,5 +290,9 @@ public class RecipeService {
 
       return recipes;
   }
+
+  public List<RecipeModel> filterSearch(Explore searchObject){
+        return this.recipeRepository.filterSearch(searchObject);
+    }
 
 }

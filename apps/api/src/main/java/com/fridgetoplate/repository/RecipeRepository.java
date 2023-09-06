@@ -11,6 +11,7 @@ import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
@@ -125,5 +126,60 @@ public class RecipeRepository {
         List<RecipeModel> scanResult = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, 5);
 
         return scanResult;
+    }
+
+     public List<RecipeModel> filterSearch(Explore explore){
+
+        int numberOfWorkers = 3;
+        String search = explore.getSearch();
+        String type = explore.getType();
+        List<String> tags = explore.getTags();
+        String difficulty = explore.getDifficulty();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+          if (search != null && !search.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(search));
+            scanFilter.put("name", condition);
+        }
+
+        if (type != null && !type.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(type));
+            scanFilter.put("meal", condition);
+        }
+
+        if (tags != null && !tags.isEmpty()) {
+            // Add the condition for 'tags'
+            List<AttributeValue> attributeValues = tags.stream()
+                .map(tag -> new AttributeValue().withS(tag))
+                .toList();
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(attributeValues);
+            scanFilter.put("tags", condition);
+        }
+
+        if (difficulty != null && !difficulty.isEmpty()) {
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(difficulty));
+            scanFilter.put("difficulty", condition);
+        }
+
+        if (!scanFilter.isEmpty()) {
+            scanExpression.setScanFilter(scanFilter);
+        }
+
+        List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
+        return results;
+
     }
   }
