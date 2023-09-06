@@ -16,7 +16,7 @@ export class SignupPage {
   email_address = "";
   password = "";
   confirm_password = "";
-  logoImage = "/assets/Fridge Transparent.png";
+  logoImage = "/assets/Fridge Logo Transparent.png";
 
   constructor(private store: Store) {}
 
