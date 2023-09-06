@@ -295,4 +295,8 @@ public class RecipeService {
         return this.recipeRepository.filterSearch(searchObject);
     }
 
+    public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+      return this.recipeRepository.findIngredientsByRecipeId(recipeId);
+   }
+
 }
