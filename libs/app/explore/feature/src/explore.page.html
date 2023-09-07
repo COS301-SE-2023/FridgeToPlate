@@ -5,7 +5,7 @@
 
     <div *ngIf="showCategories === true">
       <h1 class="pb-4 pt-8"><b>Categories</b></h1>
-      <div class="my-2 grid grid-flow-row gap-3 grid-cols-2 [&>*]:mb-1 lg:grid-cols-5 lg:[&>*]:mb-2 lg:pr-1">
+      <div class="my-2 grid grid-flow-row gap-3 grid-cols-2 [&>*]:mb-1 lg:grid-cols-4 lg:[&>*]:mb-2 lg:pr-1">
         <explore-card  (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
       </div>
     </div>
