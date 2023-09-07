@@ -17,7 +17,19 @@ export interface NotificationsStateModel {
   name: 'notifications',
   defaults: {
     generalNotifications: [],
-    recommendationNotification: [],
+    recommendationNotification: [
+    {
+      userName: "John Doe",
+      profilePictureUrl: "",
+      comment: "Any",
+      recipeId: "Any",
+    },
+    {
+      userName: "Bob Builder",
+      profilePictureUrl: "",
+      comment: "Any",
+      recipeId: "Any",
+    }],
   },
 })
 @Injectable()
@@ -42,10 +54,7 @@ export class NotificationsState {
     { userId }: RefreshNotifications
   ) {
     this.profile$.pipe(take(1)).subscribe((loggedInUser) => {
-      this.notificationsApi
-        .getAllNotifications(loggedInUser.username)
-        .pipe(take(1))
-        .subscribe((notificationsResponse) => {
+      this.notificationsApi.getAllNotifications(loggedInUser.username).pipe(take(1)).subscribe((notificationsResponse) => {
           ctx.setState({
             generalNotifications: notificationsResponse.general,
             recommendationNotification: notificationsResponse.recommendations,
