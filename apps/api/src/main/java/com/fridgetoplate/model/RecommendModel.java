@@ -18,7 +18,6 @@ public class RecommendModel extends Recommend{
     }
 
     @DynamoDBAttribute(attributeName = "ingredients")
-    // @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.M)
     public List<Ingredient> getIngredients(){
         return ingredients;
     }

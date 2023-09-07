@@ -34,10 +34,15 @@
       <button
         type="submit"
         (click)="addIngredient()"
-        class=" text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 text-center ml-3">
+        class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 text-center ml-3">
         <ion-icon name="add-circle-outline"></ion-icon>
       </button>
     </form>
+    <button 
+      (click)="openScanner()"
+      class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-xl px-2 py-1 text-center ml-3">
+      Scan Ingredients
+    </button>
   </div>
   
   <div class="mt-8">
@@ -50,3 +55,5 @@
     </ng-template>
   </div>
 </div>
+
+<barcode-modal *ngIf="scannerOpened" (closeFunc)="closeScanner()"></barcode-modal>
