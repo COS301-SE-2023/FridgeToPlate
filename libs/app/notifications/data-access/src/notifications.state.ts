@@ -48,19 +48,16 @@ export class NotificationsState {
     return state.recommendationNotification;
   }
 
-  @Action(RefreshRecommendationNotifications)
-  refreshNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: RefreshNotifications
-  ) {
-    this.profile$.pipe(take(1)).subscribe((loggedInUser) => {
-      this.notificationsApi.getAllNotifications(loggedInUser.username).pipe(take(1)).subscribe((notificationsResponse) => {
-          ctx.setState({
+  @Action(RefreshNotifications)
+  refreshNotifications({ patchState }: StateContext<NotificationsStateModel>, { userId } : RefreshNotifications ) {
+
+      this.notificationsApi.getAllNotifications(userId).pipe(take(1)).subscribe((notificationsResponse) => {
+        patchState({
             generalNotifications: notificationsResponse.general,
             recommendationNotification: notificationsResponse.recommendations,
           });
         });
-    });
+        
   }
 
   @Action(ClearGeneralNotifications)
