@@ -29,13 +29,13 @@ export class ItemEditStep {
   }
 
   addIngredient() {
-    const testIngredient: IIngredient = {
+    const newIngredient: IIngredient = {
       name: this.ingredientName,
       amount: this.ingredientAmount as number,
       unit: this.ingredientScale
     }
     
-    this.store.dispatch(new AddIngredient(testIngredient));
+    this.store.dispatch(new AddIngredient(newIngredient));
   }
 
   closeScanner() {
