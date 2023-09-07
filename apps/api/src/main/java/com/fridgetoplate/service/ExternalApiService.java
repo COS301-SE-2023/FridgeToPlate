@@ -12,7 +12,6 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,8 +20,6 @@ import java.util.Arrays;
 @Service
 public class ExternalApiService {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
 
     @Value("${spoonacular.baseUrl}")
    private String spoonacularbaseUrl;
@@ -64,6 +61,7 @@ public class ExternalApiService {
        );
     
     Set<String> cuisineSet = new HashSet<String>(cuisineList);
+    
     
     
     
