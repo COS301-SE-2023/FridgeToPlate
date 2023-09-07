@@ -28,8 +28,6 @@ export class ProfilePage {
   displayEditProfile = "none";
   displaySort = "none";
   subpage = "saved";
-
-  ingredients : IIngredient[] = [];
   editableProfile !: IProfile;
   mealPlan!: IMealPlan;
 
@@ -53,8 +51,7 @@ export class ProfilePage {
 
   openShoppingList() {
     this.ingredients$.pipe(take(1)).subscribe(
-      ingredients => {
-        this.ingredients = ingredients;
+      () => {
         this.displayShoppinglist = "block";
       }
     );
