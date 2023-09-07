@@ -57,15 +57,12 @@ export class NotificationsState {
             recommendationNotification: notificationsResponse.recommendations,
           });
         });
-        
+
   }
 
   @Action(ClearGeneralNotifications)
-  clearGeneralNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: ClearGeneralNotifications
-  ) {
-    ctx.patchState({
+  clearGeneralNotifications({ patchState }: StateContext<NotificationsStateModel>,{ userId }: ClearGeneralNotifications ) {
+    patchState({
       generalNotifications: [],
     });
 
