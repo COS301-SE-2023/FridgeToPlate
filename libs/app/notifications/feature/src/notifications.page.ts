@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ClearGeneralNotifications, ClearRecommendationNotifications, RefreshRecommendationNotifications,} from '@fridge-to-plate/app/notifications/utils';
+import { ClearGeneralNotifications, ClearRecommendationNotifications, RefreshNotifications } from '@fridge-to-plate/app/notifications/utils';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import { INotification, INotificationResponse } from '@fridge-to-plate/app/notifications/utils';
@@ -34,13 +34,19 @@ export class NotificationsPage {
     { category: 'General', count: 8 },
     { category: 'Recommendations', count: 4 },
   ];
+  userID : string;
 
   constructor(
     private location: Location,
     private router: Router,
     private store: Store
   ) {
-    store.dispatch(new RefreshRecommendationNotifications());
+
+    this.profile$.subscribe( (profile) => {
+      this.userID = profile.username;
+    });
+    
+    store.dispatch(new RefreshNotifications(this.userID));
   }
 
   onNotificationClick(recipeId: string): void {
