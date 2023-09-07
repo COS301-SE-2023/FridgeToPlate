@@ -1,11 +1,11 @@
-<div class="h-full w-full px-5 pt-5 lg:pt-24 overflow-auto bg-background-light">
+<div class="h-full w-full px-5 pt-5 lg:pt-24 overflow-auto bg-background-light md:pb-5 sm:pb-4">
 
-  <div *ngIf="subpage === 'beforeSearchApplied'">
+  <div *ngIf="subpage === 'beforeSearchApplied'" class="md:pl-1">
     <searching-modal (newSearchEvent)="explorer($event)"></searching-modal>
 
     <div *ngIf="showCategories === true">
-      <h1 class="py-5"><b>Categories</b></h1>
-      <div class="my-2 grid grid-flow-row gap-4 grid-cols-2 [&>*]:mb-1 lg:grid-cols-4 lg:[&>*]:mb-1 lg:pr-1">
+      <h1 class="py-5 md:pl-1"><b>Categories</b></h1>
+      <div class="my-2 grid grid-flow-row gap-4 grid-cols-2 [&>*]:mb-1 lg:grid-cols-4 lg:[&>*]:mb-1 lg:pr-1 md:gap-5 md:px-1">
         <explore-card  (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
       </div>
     </div>
