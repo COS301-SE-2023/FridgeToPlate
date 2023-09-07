@@ -20,15 +20,15 @@ export interface NotificationsStateModel {
     recommendationNotification: [
     {
       userName: "John Doe",
-      profilePictureUrl: "",
-      comment: "Any",
-      recipeId: "Any",
+      profilePictureUrl: "/assets/Final Logo.png",
+      comment: "Pure authentic Italian Dish",
+      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
     },
     {
       userName: "Bob Builder",
-      profilePictureUrl: "",
-      comment: "Any",
-      recipeId: "Any",
+      profilePictureUrl: "https://source.unsplash.com/150x150/?portrait",
+      comment: "This dish is good when you have no choice",
+      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
     }],
   },
 })
