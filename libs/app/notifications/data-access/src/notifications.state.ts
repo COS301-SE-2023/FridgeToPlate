@@ -70,11 +70,8 @@ export class NotificationsState {
   }
 
   @Action(ClearRecommendationNotifications)
-  clearRecommendationNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: ClearRecommendationNotifications
-  ) {
-    ctx.patchState({
+  clearRecommendationNotifications({ patchState }: StateContext<NotificationsStateModel>,  { userId }: ClearRecommendationNotifications ) {
+    patchState({
       recommendationNotification: [],
     });
 
