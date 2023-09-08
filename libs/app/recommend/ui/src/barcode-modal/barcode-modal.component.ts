@@ -76,7 +76,6 @@ export class BarcodeModalComponent implements AfterViewInit {
       this.started = false;
     }
 
-    // enumerate devices and do some heuristics to find a suitable first camera
     return Quagga.CameraAccess.enumerateVideoDevices()
       .then(mediaDeviceInfos => {
         const mainCamera = this.getMainBarcodeScanningCamera(mediaDeviceInfos);
@@ -91,14 +90,12 @@ export class BarcodeModalComponent implements AfterViewInit {
       });
   }
 
-  private initializeScannerWithDevice(preferredDeviceId: string | undefined): Promise<void> {
+  private initializeScannerWithDevice(preferredDeviceId: string | undefined) {
 
     const constraints: MediaTrackConstraints = {};
     if (preferredDeviceId) {
-      // if we have a specific device, we select that
       constraints.deviceId = preferredDeviceId;
     } else {
-      // otherwise we tell the browser we want a camera facing backwards (note that browser does not always care about this)
       constraints.facingMode = 'environment';
     }
 
