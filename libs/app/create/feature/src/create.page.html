@@ -373,7 +373,7 @@
 
     <div class="flex flex-col block lg:col-span-2 lg:px-36  w-full mx-auto">
       <label for="instructions" class="block text-gray-700 font-bold mb-2 lg:text-center">Video</label>
-      <input id="videoLink" type="text" [(ngModel)]="videoLink" placeholder="Please Paste Youtube Link Here" class="w-full bg-gray-200 border border-gray-400 p-2 text-gray-900 text-sm rounded-md ">
+      <input id="videoLink" type="text" [(ngModel)]="videoLink" [ngModelOptions]="{standalone: true}" placeholder="Please Paste Youtube Link Here" class="w-full bg-gray-200 border border-gray-400 p-2 text-gray-900 text-sm rounded-md ">
 
       <video id="video-player" controls autoplay class=" flex justify-center rounded-lg" [ngStyle]="{ 'display': displayVideo }"></video>
 

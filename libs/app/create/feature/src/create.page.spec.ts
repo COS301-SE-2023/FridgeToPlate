@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
@@ -36,6 +36,7 @@ describe('CreatePagComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         IonicModule,
         HttpClientModule,
