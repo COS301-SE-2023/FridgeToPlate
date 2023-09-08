@@ -373,6 +373,7 @@
 
     <div class="flex flex-col block lg:col-span-2 lg:px-36  w-full mx-auto">
       <label for="instructions" class="block text-gray-700 font-bold mb-2 lg:text-center">Video</label>
+      <input type="text" [(ngModel)]="videoLink" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
       <input class=" mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" #videoInput type="file" accept="video/*" (change)="onVideoChanged($event) " placeholder="Upload Recipe Video">
 
