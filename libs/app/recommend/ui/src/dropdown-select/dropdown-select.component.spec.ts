@@ -27,12 +27,15 @@ describe('DropdownSelectComponent', () => {
     const searchQuery = 'Test search query';
     component.searchText = searchQuery;
 
+    jest.spyOn(component.newSearchEvent, 'emit');
+
     // Call the filter() method
     component.filterOptions();
     // Subscribe to newSearchEvent EventEmitter
     component.newSearchEvent.subscribe((searchTerm) => {
       // Assert emitted search term
       expect(searchTerm).toBe(searchQuery);
+      expect(component.newSearchEvent.emit).toHaveBeenCalled();
     });
   });
 
