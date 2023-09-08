@@ -6,7 +6,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {
   ClearGeneralNotifications,
   ClearRecommendationNotifications,
-} from "@fridge-to-plate/app/notifications/data-access";
+} from "@fridge-to-plate/app/notifications/utils";
 import {Location} from "@angular/common";
 import {NgxsModule, State, Store} from "@ngxs/store";
 import {Injectable} from "@angular/core";
