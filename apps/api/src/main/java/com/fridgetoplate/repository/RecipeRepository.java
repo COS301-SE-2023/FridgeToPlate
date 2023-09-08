@@ -75,10 +75,12 @@ public class RecipeRepository {
         return recipe;
     }
 
-    public String delete(String id){
-       RecipeModel recipe = dynamoDBMapper.load(RecipeModel.class, id);
+    public void removeIngredients(List<IngredientModel> ingredientModels) {
+        dynamoDBMapper.batchDelete(ingredientModels);
+    }
+
+    public void deleteRecipe(RecipeModel recipe){
         dynamoDBMapper.delete(recipe);
-        return "Recipe deleted successfully:: " + id;
     }
 
     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){

@@ -159,16 +159,11 @@ public class RecipeService {
         recipe.setRecipeId(model.getRecipeId());
 
         List<IngredientModel> currIngredients = this.findIngredientsByRecipeId(recipe.getRecipeId());
+        recipeRepository.removeIngredients(currIngredients);
+        
         for (Ingredient ingredient : recipe.getIngredients()) {
 
           IngredientModel ingredientModel = new IngredientModel();
-          for (IngredientModel currIngredient : currIngredients) {
-            if (currIngredient.getName().equals(ingredient.getName())) {
-              ingredientModel.setIngredientId(currIngredient.getIngredientId());
-              break;
-            }
-          }
-          
           ingredientModel.setRecipeId(recipe.getRecipeId());
           ingredientModel.setName(ingredient.getName());
           ingredientModel.setAmount(ingredient.getAmount());
@@ -176,11 +171,21 @@ public class RecipeService {
 
           recipeRepository.saveIngredient(ingredientModel);
         }
+
         return recipe;
     }
 
-    public String delete(String id){
-      return recipeRepository.delete(id);
+    public String delete(String id) {
+
+      RecipeModel recipe = recipeRepository.findById(id);
+      if (recipe == null) {
+        return "NOT FOUND";
+      }
+
+      recipeRepository.removeIngredients(recipeRepository.findIngredientsByRecipeId(id));
+      // REMOVE REVIEWS
+      recipeRepository.deleteRecipe(recipe);
+      return "SUCCESSFULLY DELETED";
     }
 
     public List<RecipeDesc> getCreatedRecipes(String username) {
@@ -202,7 +207,6 @@ public class RecipeService {
 
 
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
-        // return recipeRepository.getSavedRecipes(ids);
         List<RecipeDesc> recipes = new ArrayList<>();
 
         if(ids == null || ids.isEmpty()) {
@@ -314,13 +318,9 @@ public class RecipeService {
       List<RecipeModel> scanResult = recipeRepository.getRecipesByRecipeName(recipeName);
 
       for (RecipeModel recipe : scanResult) {
-
-          if (recipe.getName().equals(recipeName)) {
-              RecipeFrontendModel response = this.findById(recipe.getRecipeId());
-              if(response != null) {
-                  recipes.add(response);
-              }
-
+          RecipeFrontendModel response = this.findById(recipe.getRecipeId());
+          if(response != null) {
+              recipes.add(response);
           }
       }
 
