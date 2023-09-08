@@ -27,6 +27,7 @@ export class RecipePreferencesStep {
           (this.editableRecipePreferences = Object.create(recipePreferences))
       );
   }
+  
   keywordSelected(selectedKeyword: string) {
     if (this.selectedKeywords.includes(selectedKeyword)) {
       this.selectedKeywords = this.selectedKeywords.filter(

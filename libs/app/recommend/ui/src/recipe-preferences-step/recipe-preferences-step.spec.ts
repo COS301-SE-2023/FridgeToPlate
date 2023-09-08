@@ -57,6 +57,22 @@ describe('RecipePreferencesStep', () => {
     );
   });
 
+  it('should update preferences with removed keyword', () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    component.selectedKeywords = ['test', 'test2'];
+    component.keywordSelected('test');
+
+    expect(component.selectedKeywords).toStrictEqual(['test2']);
+    expect(dispatchSpy).toBeCalledWith(
+      new UpdateRecipePreferences({
+        ...component.editableRecipePreferences,
+        keywords: ['test2'],
+      })
+    );
+  });
+
   it('should filter keywordsList', () => {
     component.filterKeywordsList('Asian');
     expect(component.keywordOptions).toStrictEqual(['Asian']);
