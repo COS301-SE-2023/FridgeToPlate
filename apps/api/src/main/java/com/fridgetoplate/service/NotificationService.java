@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,35 @@ public class NotificationService {
         // Updated Function to simply scan the database
         PaginatedScanList <NotificationModel> scanResult = notificationsRepository.findAll(userId, eav);
         
+
+        String message;
+        // Get the current time
+        LocalTime currentTime = LocalTime.now();
+
+        // Define time ranges for morning, afternoon, and evening
+        LocalTime morningStart = LocalTime.of(6, 0);
+        LocalTime afternoonStart = LocalTime.of(12, 0);
+        LocalTime eveningStart = LocalTime.of(18, 0);
+        String logo = "/assets/Final Logo.png";
+
+        // Compare the current time with the defined time ranges
+        if (currentTime.isAfter(morningStart) && currentTime.isBefore(afternoonStart)) {
+            message = "Wake up and smell the roses! Try out this wonderful breakfast dish.";
+        } else if (currentTime.isAfter(afternoonStart) && currentTime.isBefore(eveningStart)) {
+            message = "Fighting the days battles? Try out this amazing lunch recipe.";
+        } else {
+            message = "Had a long day? Try out this warm diner plate.";
+        }
+
+        NotificationModel timeRecommendNotification = new NotificationModel();
+        timeRecommendNotification.setUserId(userId);
+        timeRecommendNotification.setComment(message);
+        timeRecommendNotification.setUserName(userId);
+        timeRecommendNotification.setProfilePictureUrl(logo);
+        timeRecommendNotification.setNotificationType("recommendation");
+        timeRecommendNotification.setNotificationId("timeRecommendation");
+        
+        recommendationNotifications.add(timeRecommendNotification);
 
         for (NotificationModel notification : scanResult) {
             
