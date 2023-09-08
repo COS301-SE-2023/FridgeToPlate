@@ -7,10 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
@@ -21,8 +17,6 @@ import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.repository.ReviewRepository;
-
-import graphql.com.google.common.collect.ImmutableMap;
 
 @Service
 public class RecipeService {
@@ -109,7 +103,7 @@ public class RecipeService {
         RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
 
         if(recipeModel != null) {
-            return recipe;
+            return this.findById(recipeModel.getRecipeId());
         }
 
         RecipeModel model = new RecipeModel();
@@ -139,6 +133,48 @@ public class RecipeService {
             ingredientModel.setUnit(ingredient.getUnit());
 
             recipeRepository.saveIngredient(ingredientModel);
+        }
+        return recipe;
+    }
+
+    public RecipeFrontendModel update(RecipeFrontendModel recipe){
+
+        RecipeModel model = new RecipeModel();
+        model.setRecipeId(recipe.getRecipeId());
+        model.setDifficulty(recipe.getDifficulty());
+        model.setRecipeImage(recipe.getRecipeImage());
+        model.setName(recipe.getName());
+        model.setTags(recipe.getTags());
+        model.setMeal(recipe.getMeal());
+        model.setDescription(recipe.getDescription());
+        model.setPrepTime(recipe.getPrepTime());
+        model.setSteps(recipe.getSteps());
+        model.setCreator(recipe.getCreator());
+        model.setServings(recipe.getServings());
+        model.setViews(0);
+        model.setRating(recipe.getRating());
+
+        recipeRepository.saveRecipe(model);
+
+        recipe.setRecipeId(model.getRecipeId());
+
+        List<IngredientModel> currIngredients = this.findIngredientsByRecipeId(recipe.getRecipeId());
+        for (Ingredient ingredient : recipe.getIngredients()) {
+
+          IngredientModel ingredientModel = new IngredientModel();
+          for (IngredientModel currIngredient : currIngredients) {
+            if (currIngredient.getName().equals(ingredient.getName())) {
+              ingredientModel.setIngredientId(currIngredient.getIngredientId());
+              break;
+            }
+          }
+          
+          ingredientModel.setRecipeId(recipe.getRecipeId());
+          ingredientModel.setName(ingredient.getName());
+          ingredientModel.setAmount(ingredient.getAmount());
+          ingredientModel.setUnit(ingredient.getUnit());
+
+          recipeRepository.saveIngredient(ingredientModel);
         }
         return recipe;
     }

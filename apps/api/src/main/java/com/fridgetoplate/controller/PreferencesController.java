@@ -29,30 +29,13 @@ public class PreferencesController {
         return preferencesRepository.save(preferences);
     }
 
-
     @GetMapping("/{username}")
     public Preferences findById(@PathVariable(value = "username") String username){
         return preferencesRepository.findByName(username);
     }
 
-    @GetMapping
-    public List<Preferences> findAll(){
-        return preferencesRepository.findAll();
-    }
-
-    @GetMapping("/testing")
-    public String testing() {
-        return "Testing purposes";
-    }
-
     @PutMapping("/{username}")
     public Preferences update(@PathVariable(value = "username") String username, @RequestBody Preferences preferences){
         return preferencesRepository.update(username, preferences);
-    }
-
-
-    @DeleteMapping("/{username}")
-    public String delete(@PathVariable(value = "username") String username){
-        return preferencesRepository.delete(username);
     }
 }
