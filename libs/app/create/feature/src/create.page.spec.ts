@@ -202,6 +202,7 @@ describe('Testing Tags', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -364,6 +365,7 @@ describe('Ingredients storing, deleting and returning', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -469,6 +471,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -515,6 +518,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -561,6 +565,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -624,6 +629,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -907,6 +913,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder, Store],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
