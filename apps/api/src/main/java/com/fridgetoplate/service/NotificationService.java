@@ -14,6 +14,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
 import com.fridgetoplate.model.NotificationModel;
+import com.fridgetoplate.repository.ExploreRepository;
 import com.fridgetoplate.repository.NotificationsRepository;
 
 @Service
@@ -21,7 +22,7 @@ public class NotificationService {
 
     @Autowired
     private NotificationsRepository notificationsRepository;
-    
+    private ExploreRepository exploreRepository;
 
     public NotificationModel save(NotificationModel notification){
         notificationsRepository.save(notification);
