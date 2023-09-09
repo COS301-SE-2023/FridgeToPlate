@@ -36,7 +36,7 @@ describe('DropdownSelectComponent', () => {
     expect(component.isLoading).toBe(false);
     component.filterOptions();
     // Subscribe to newSearchEvent EventEmitter
-    component.newSearchEvent.subscribe((searchTerm) => {
+    component.filterEvent$.subscribe((searchTerm) => {
       // Assert emitted search term
       expect(searchTerm).toBe(searchQuery);
       expect(component.newSearchEvent.emit).toHaveBeenCalledWith(searchTerm);
