@@ -14,7 +14,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/recipes")
 public class RecipeController {
-
+ 
     @Autowired
     private RecipeRepository recipeRepository;
 
@@ -31,7 +31,7 @@ public class RecipeController {
     public RecipeFrontendModel findById(@PathVariable(value = "id") String id){
         return recipeService.findById(id);
     }
-    
+
     @GetMapping("/name/{recipename}")
     public List<RecipeFrontendModel> findRecipesByRecipename(@PathVariable(value = "recipename") String recipename){
         return recipeService.getRecipesByRecipeName(recipename);

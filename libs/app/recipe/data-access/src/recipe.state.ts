@@ -130,9 +130,7 @@ export class RecipeState {
                 }
 
                 updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
-            }
-
-              updatedRecipe.rating += data.rating;
+              }
             }
 
             this.store.dispatch(new UpdateRecipe(updatedRecipe));
@@ -155,6 +153,17 @@ export class RecipeState {
       updatedRecipe.reviews = updatedRecipe?.reviews?.filter(
         (currentReview) => currentReview.reviewId !== reviewId
       );
+
+      if (updatedRecipe.reviews) {
+
+        let sumRatings = 0;
+
+        for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+          sumRatings = updatedRecipe.reviews[i].rating;
+        }
+
+        updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
+      }
 
       this.store.dispatch(new UpdateRecipe(updatedRecipe));
 

@@ -97,11 +97,6 @@ public class RecipeService {
         // Declaring the Reviews object
         List<Review> reviews = reviewRepository.getReviewsById(recipeId);
 
-        float overallRating = 0;
-        for (int i = 0; i < reviews.size(); i++) {
-           reviews.get(i).getRating();
-        }
-
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
 
