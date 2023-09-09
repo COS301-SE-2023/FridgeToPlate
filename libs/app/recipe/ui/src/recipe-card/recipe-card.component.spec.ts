@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
-import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IRecipeDesc, IncreaseViews } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { NgxsModule, State, Store } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { IProfile, SaveRecipe, RemoveSavedRecipe, AddToMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/profile/utils';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -59,11 +59,11 @@ describe('RecipeCardComponent', () => {
     },
   }
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: testProfile
-    } 
+    }
   })
   @Injectable()
   class MockProfileState {}
@@ -135,7 +135,7 @@ describe('RecipeCardComponent', () => {
       expect(component.added).toBe(true);
       expect(store.dispatch).toBeCalledWith(new AddToMealPlan(testRecipe, "Breakfast"));
   });
-  
+
   it('should set added to true if recipe is in meal plan', () => {
     component.ngOnInit();
     expect(component.added).toBe(true);
@@ -230,12 +230,13 @@ describe('RecipeCardComponent', () => {
 
   it('should navigate to recipe page', () => {
     component.navigateToRecipe();
+    expect(store.dispatch).toBeCalledWith(new IncreaseViews(1));
     expect(store.dispatch).toBeCalledWith(new Navigate([`/recipe/${testRecipe.recipeId}`]));
   });
 });
 
 describe('RecipeCardComponent', () => {
-  
+
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
   let store: Store;
@@ -262,11 +263,11 @@ describe('RecipeCardComponent', () => {
     rating: 2
   };
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: null
-    } 
+    }
   })
   @Injectable()
   class MockProfileState {}
@@ -290,4 +291,33 @@ describe('RecipeCardComponent', () => {
     expect(component.editable).toBe(false);
     expect(component.added).toBe(false);
   });
+
+  describe('RecipeCardComponent', () => {
+    let component: RecipeCardComponent;
+    let store: Store;
+    let router: Router;
+    let zone: NgZone;
+
+    beforeEach(() => {
+      component = new RecipeCardComponent(store, router, zone); // Pass null for dependencies since they are not used in this test
+    });
+
+    it('should calculate the correct rating value', () => {
+      component.recipe = { rating: 4 }; // Set the recipe object with a rating of 4
+
+      // Test various index values
+      expect(component.getRatingValue(0)).toEqual(5); // 4 - 0 + 1 = 5
+      expect(component.getRatingValue(1)).toEqual(4); // 4 - 1 + 1 = 4
+      expect(component.getRatingValue(2)).toEqual(3); // 4 - 2 + 1 = 3
+      expect(component.getRatingValue(3)).toEqual(2); // 4 - 3 + 1 = 2
+
+      // Test a negative index
+      expect(component.getRatingValue(-1)).toEqual(6); // 4 - (-1) + 1 = 6
+    });
+
+    // it('should return undefined when recipe is not set', () => {
+    //   expect(component.getRatingValue(0)).toBeUndefined();
+    // });
+  });
 });
+
