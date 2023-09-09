@@ -35,27 +35,8 @@ public class ReviewRepository {
         return dynamoDBMapper.query(Review.class, query);
     }
 
-    public List<Review> getReviewsByUsername(String username) {
-        List<Review> reviews = new ArrayList<>();
-
-        PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
-
-        for (Review review : scanResult) {
-
-            if (review.getUsername().equals(username)) {
-                reviews.add(review);
-            }
-        }
-
-        return reviews;
-    }
-
     public Review getReviewByReviewId(String recipeId, String reviewId) {
         return dynamoDBMapper.load(Review.class, recipeId, reviewId);
-    }
-
-    public List<Review> findAll(){
-        return dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
     }
 
     public String delete(String recipeId, String reviewId){

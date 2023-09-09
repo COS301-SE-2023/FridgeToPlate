@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fridgetoplate.model.Review;
-import com.fridgetoplate.repository.ReviewRepository;
+import com.fridgetoplate.service.ReviewService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -23,15 +23,15 @@ import com.fridgetoplate.repository.ReviewRepository;
 public class ReviewController {
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
     @PostMapping("/create")
     public Review save(@RequestBody Review review){
-        return reviewRepository.save(review);
+        return reviewService.saveReview(review);
     }
 
     @DeleteMapping("/{recipeId}/{reviewId}")
     public String delete(@PathVariable(value = "recipeId") String recipeId, @PathVariable(value = "reviewId") String reviewId) {
-        return reviewRepository.delete(recipeId, reviewId);
+        return reviewService.deleteReview(recipeId, reviewId);
     }
 }

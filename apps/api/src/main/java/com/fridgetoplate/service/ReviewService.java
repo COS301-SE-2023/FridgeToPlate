@@ -15,6 +15,15 @@ public class ReviewService {
     @Autowired 
     private ReviewRepository reviewRepository;
 
+
+    public Review saveReview(Review review) {
+        return  reviewRepository.save(review);
+    }
+
+    public String deleteReview(String recipeId, String reviewId){
+        return reviewRepository.delete(recipeId, reviewId);
+    }
+
      public String removeReviews(List<Review> reviews) {
         reviewRepository.removeReviews(reviews);
         return "REVIEWS SUCCESSFULLY DELETED";
@@ -23,6 +32,8 @@ public class ReviewService {
     public List<Review> getReviewsById(String recipeId) {
         return reviewRepository.getReviewsById(recipeId);   
     }
+
+    
 
 
 }
