@@ -3,10 +3,12 @@ package com.fridgetoplate.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.ReviewRepository;
 
+@Service
 public class ReviewService {
     
 

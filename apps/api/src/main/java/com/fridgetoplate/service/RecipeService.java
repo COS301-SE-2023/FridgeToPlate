@@ -16,7 +16,6 @@ import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
-import com.fridgetoplate.repository.ReviewRepository;
 
 @Service
 public class RecipeService {
