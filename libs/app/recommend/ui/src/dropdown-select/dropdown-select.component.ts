@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
+import {debounceTime, distinctUntilChanged, fromEvent, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'fridge-to-plate-dropdown-select',
@@ -25,6 +25,7 @@ export class DropdownSelectComponent {
 
   searchText = '';
 
+  keyUpEvent$: Observable<any>
   @ViewChild('input') input: ElementRef;
 
   @Output() newSearchEvent = new EventEmitter<string>();
@@ -47,7 +48,7 @@ export class DropdownSelectComponent {
       .pipe(
         debounceTime(1100),
         distinctUntilChanged(),
-        tap((text) => {
+        map((text) => {
           this.newSearchEvent.emit(this.searchText);
           this.isLoading = false;
         })
