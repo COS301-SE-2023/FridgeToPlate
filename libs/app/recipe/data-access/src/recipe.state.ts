@@ -1,4 +1,4 @@
-import { IRecipe, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -123,6 +123,18 @@ export class RecipeState {
         this.store.dispatch(new ShowError(error.message));
       }
     );
+  }
+
+  @Action(IncreaseViews)
+  increaseViews(
+    { getState }: StateContext<RecipeStateModel>,
+    { viewNum }: IncreaseViews
+  ) {
+    const updatedRecipe = getState().recipe;
+
+    if (updatedRecipe) {
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
+    }
   }
 
   @Action(AddReview)

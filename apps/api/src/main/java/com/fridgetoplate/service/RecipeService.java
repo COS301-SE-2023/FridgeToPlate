@@ -304,6 +304,15 @@ public class RecipeService {
    public RecipeFrontendModel updateRatingRatingAndViews(RecipeFrontendModel recipe){
 
         RecipeModel model = new RecipeModel();
+        RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
+
+        if(recipeModel.getRating().equals(recipe.getRating()) == false) {
+           model.setViews(recipeModel.getViews());
+        }
+        if(recipeModel.getRating().equals(recipe.getRating())) {
+            model.setViews(recipeModel.getViews() + 1);
+        }
+
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
         model.setRecipeImage(recipe.getRecipeImage());
@@ -315,7 +324,6 @@ public class RecipeService {
         model.setSteps(recipe.getSteps());
         model.setCreator(recipe.getCreator());
         model.setServings(recipe.getServings());
-        model.setViews(0);
         model.setRating(recipe.getRating());
 
         recipeRepository.saveRecipe(model);

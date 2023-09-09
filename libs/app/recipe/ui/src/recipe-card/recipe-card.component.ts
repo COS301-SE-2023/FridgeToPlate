@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
-import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipeDesc, IncreaseViews } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -113,6 +113,7 @@ export class RecipeCardComponent implements OnInit {
   }
 
   navigateToRecipe() {
+    this.store.dispatch(new IncreaseViews(1));
     this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
   }
 
