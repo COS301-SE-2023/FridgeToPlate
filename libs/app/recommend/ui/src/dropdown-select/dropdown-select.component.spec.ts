@@ -25,17 +25,22 @@ describe('DropdownSelectComponent', () => {
 
   it('should emit newSearchEvent on explorer() call', () => {
     const searchQuery = 'Test search query';
-    component.searchText = searchQuery;
+
+    const instantiatedComponent = new DropdownSelectComponent();
 
     jest.spyOn(component.newSearchEvent, 'emit');
 
+    instantiatedComponent.searchText = searchQuery;
+
     // Call the filter() method
+    expect(component.isLoading).toBe(false);
     component.filterOptions();
     // Subscribe to newSearchEvent EventEmitter
     component.newSearchEvent.subscribe((searchTerm) => {
       // Assert emitted search term
       expect(searchTerm).toBe(searchQuery);
-      expect(component.newSearchEvent.emit).toHaveBeenCalled();
+      expect(component.newSearchEvent.emit).toHaveBeenCalledWith(searchTerm);
+      expect(component.isLoading).toBe(true);
     });
   });
 
