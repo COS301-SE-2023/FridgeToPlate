@@ -6,9 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.model.Review;
+
+import graphql.com.google.common.collect.ImmutableMap;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,19 +27,12 @@ public class ReviewRepository {
         return review;
     }
 
-    public List<Review> getReviewsById(String id) {
-        List<Review> reviews = new ArrayList<>();
-        
-        PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
+    public List<Review> getReviewsById(String recipeId) {
+        DynamoDBQueryExpression<Review> query = new DynamoDBQueryExpression<Review>();
+            query.setKeyConditionExpression("recipeId = :id");
+            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
 
-        for (Review review : scanResult) {
-            
-            if (review.getRecipeId().equals(id)) {
-                reviews.add(review);
-            }
-        }
-
-        return reviews;
+        return dynamoDBMapper.query(Review.class, query);
     }
 
     public List<Review> getReviewsByUsername(String username) {
@@ -63,6 +61,11 @@ public class ReviewRepository {
     public String delete(String recipeId, String reviewId){
        Review review = dynamoDBMapper.load(Review.class, recipeId, reviewId);
         dynamoDBMapper.delete(review);
-        return "Recipe deleted successfully:: " + recipeId + reviewId;
+        return "SUCCESSFULLY DELETED";
+    }
+
+    public String removeReviews(List<Review> reviews) {
+        dynamoDBMapper.batchDelete(reviews);
+        return "SUCCESSFULLY DELETED";
     }
 }

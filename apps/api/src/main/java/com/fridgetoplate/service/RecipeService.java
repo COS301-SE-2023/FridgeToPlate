@@ -24,7 +24,7 @@ public class RecipeService {
     private RecipeRepository recipeRepository;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
     public RecipeFrontendModel findById(String id){
 
@@ -89,7 +89,7 @@ public class RecipeService {
         */
 
         // Declaring the Reviews object
-        List<Review> reviews = reviewRepository.getReviewsById(recipeId);
+        List<Review> reviews = reviewService.getReviewsById(recipeId);
 
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
@@ -175,7 +175,7 @@ public class RecipeService {
         return recipe;
     }
 
-    public String delete(String id) {
+    public String delete(String id) { 
 
       RecipeModel recipe = recipeRepository.findById(id);
       if (recipe == null) {
@@ -183,9 +183,9 @@ public class RecipeService {
       }
 
       recipeRepository.removeIngredients(recipeRepository.findIngredientsByRecipeId(id));
-      // REMOVE REVIEWS
+      reviewService.removeReviews(reviewService.getReviewsById(id));
       recipeRepository.deleteRecipe(recipe);
-      return "SUCCESSFULLY DELETED";
+      return "RECIPE SUCCESSFULLY DELETED";
     }
 
     public List<RecipeDesc> getCreatedRecipes(String username) {

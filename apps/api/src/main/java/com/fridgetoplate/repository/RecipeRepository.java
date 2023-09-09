@@ -34,9 +34,6 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
     public void saveRecipe(RecipeModel recipe){
         dynamoDBMapper.save(recipe);
     }
@@ -91,13 +88,7 @@ public class RecipeRepository {
         return dynamoDBMapper.query(IngredientModel.class, query);
     }
 
-    public List<Review> getReviewsById(String recipeId) {
-        DynamoDBQueryExpression<Review> query = new DynamoDBQueryExpression<Review>();
-            query.setKeyConditionExpression("recipeId = :id");
-            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
-
-        return dynamoDBMapper.query(Review.class, query);
-    }
+   
 
     public List<RecipeModel> getCreatedRecipes(String username) {
 
