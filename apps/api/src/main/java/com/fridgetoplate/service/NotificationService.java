@@ -53,7 +53,7 @@ public class NotificationService {
         LocalTime morningStart = LocalTime.of(6, 0);
         LocalTime afternoonStart = LocalTime.of(12, 0);
         LocalTime eveningStart = LocalTime.of(18, 0);
-        String logo = "/assets/Final Logo.png";
+        String logo = "/assets/Fridge Logo Transparent.png";
 
         // Compare the current time with the defined time ranges
         if (currentTime.isAfter(morningStart) && currentTime.isBefore(afternoonStart)) {
