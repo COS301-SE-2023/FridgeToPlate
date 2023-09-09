@@ -150,7 +150,7 @@ export class RecipeState {
                   sumRatings += updatedRecipe.reviews[i].rating;
                 }
 
-                updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
+                updatedRecipe.rating = Number((sumRatings / updatedRecipe.reviews.length).toFixed(2));
               }
             }
 
