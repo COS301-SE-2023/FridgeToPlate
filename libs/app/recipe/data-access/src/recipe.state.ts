@@ -116,6 +116,25 @@ export class RecipeState {
         next: data => {
             updatedRecipe.reviews?.unshift(data);
 
+            if (updatedRecipe.rating == null) {
+              updatedRecipe.rating = data.rating;
+            }
+            else {
+
+              if (updatedRecipe.reviews) {
+
+                let sumRatings = 0;
+
+                for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+                  sumRatings = updatedRecipe.reviews[i].rating;
+                }
+
+                updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
+            }
+
+              updatedRecipe.rating += data.rating;
+            }
+
             this.store.dispatch(new UpdateRecipe(updatedRecipe));
         },
         error: error => {
