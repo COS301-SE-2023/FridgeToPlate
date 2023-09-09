@@ -14,7 +14,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/recipes")
 public class RecipeController {
- 
+
     @Autowired
     private RecipeRepository recipeRepository;
 
@@ -37,11 +37,10 @@ public class RecipeController {
         return recipeService.getRecipesByRecipeName(recipename);
     }
 
-    // @PutMapping("/{id}")
-    // public RecipeModel update(@PathVariable(value = "id") String id, @RequestBody RecipeModel recipe){
-    //     return recipeService.update(id, recipe);
-    // }
-
+    @PutMapping("/update-ratingAndViews/{id}")
+    public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.updateRatingRatingAndViews(recipe);
+    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable(value = "id") String id){

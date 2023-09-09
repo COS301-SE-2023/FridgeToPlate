@@ -1,4 +1,4 @@
-import { IRecipe, RetrieveMealPlanIngredients } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -81,6 +81,27 @@ export class RecipeState {
       }
     );
   }
+  @Action(UpdateRecipeRatingAndViews)
+  updateRecipeRatingAndViews(
+    { patchState }: StateContext<RecipeStateModel>,
+    { recipe }: UpdateRecipeRatingAndViews
+  ) {
+    patchState({
+      recipe: recipe,
+    });
+
+    this.api.updateRecipeRatingAndViews(recipe).subscribe(
+      () => {
+        patchState({
+          recipe: recipe,
+        });
+      },
+      (error: Error) => {
+        console.error('Failed to update recipe:', error);
+        this.store.dispatch(new ShowError(error.message));
+      }
+    );
+  }
 
   @Action(UpdateRecipe)
   updateRecipe(
@@ -133,7 +154,7 @@ export class RecipeState {
               }
             }
 
-            this.store.dispatch(new UpdateRecipe(updatedRecipe));
+            this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
         },
         error: error => {
             this.store.dispatch(new ShowError(error.message));
@@ -165,7 +186,7 @@ export class RecipeState {
         updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
       }
 
-      this.store.dispatch(new UpdateRecipe(updatedRecipe));
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
       (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
         error: error => {

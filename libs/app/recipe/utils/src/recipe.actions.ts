@@ -21,6 +21,11 @@ export class UpdateRecipe {
   constructor(public readonly recipe: IRecipe) {}
 }
 
+export class UpdateRecipeRatingAndViews {
+  static readonly type = '[Recipe] UpdateRatingAndViews Recipe';
+  constructor(public readonly recipe: IRecipe) {}
+}
+
 export class AddReview {
   static readonly type = '[Recipe] Add Recipe Review';
   constructor(public readonly review: IReview) {}
