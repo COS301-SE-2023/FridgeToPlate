@@ -126,7 +126,7 @@ export class RecipeState {
                 let sumRatings = 0;
 
                 for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
-                  sumRatings = updatedRecipe.reviews[i].rating;
+                  sumRatings += updatedRecipe.reviews[i].rating;
                 }
 
                 updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
@@ -159,7 +159,7 @@ export class RecipeState {
         let sumRatings = 0;
 
         for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
-          sumRatings = updatedRecipe.reviews[i].rating;
+          sumRatings += updatedRecipe.reviews[i].rating;
         }
 
         updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
