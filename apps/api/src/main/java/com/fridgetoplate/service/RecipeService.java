@@ -98,13 +98,6 @@ public class RecipeService {
 
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
 
-        //Checks if record exists, if so return
-        RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
-
-        if(recipeModel != null) {
-            return this.findById(recipeModel.getRecipeId());
-        }
-
         RecipeModel model = new RecipeModel();
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
@@ -341,10 +334,12 @@ public class RecipeService {
         RecipeModel model = new RecipeModel();
         RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
 
-        if(recipeModel.getRating().equals(recipe.getRating()) == false) {
+
+
+        if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating()) == false) {
            model.setViews(recipeModel.getViews());
         }
-        if(recipeModel.getRating().equals(recipe.getRating())) {
+        if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating())) {
             model.setViews(recipeModel.getViews() + 1);
         }
 
