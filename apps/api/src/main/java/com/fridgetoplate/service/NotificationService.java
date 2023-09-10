@@ -13,6 +13,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
+import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.ExploreRepository;
 import com.fridgetoplate.repository.NotificationsRepository;
@@ -46,7 +47,7 @@ public class NotificationService {
         PaginatedScanList <NotificationModel> scanResult = notificationsRepository.findAll(userId, eav);
         
 
-        String message;
+        String message, time;
         // Get the current time
         LocalTime currentTime = LocalTime.now();
 
@@ -59,11 +60,16 @@ public class NotificationService {
         // Compare the current time with the defined time ranges
         if (currentTime.isAfter(morningStart) && currentTime.isBefore(afternoonStart)) {
             message = "Wake up and smell the roses! Try out this wonderful breakfast dish.";
+            time = "Morning";
         } else if (currentTime.isAfter(afternoonStart) && currentTime.isBefore(eveningStart)) {
             message = "Fighting the days battles? Try out this amazing lunch recipe.";
+            time = "Lunch";
         } else {
             message = "Had a long day? Try out this warm diner plate.";
+            time = "Dinner";
         }
+
+        PaginatedScanList <NotificationModel> recipeScanResult = exploreRepository.findByTime(time);
 
         NotificationModel timeRecommendNotification = new NotificationModel();
         timeRecommendNotification.setUserId(userId);
