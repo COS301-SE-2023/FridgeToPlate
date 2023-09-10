@@ -16,9 +16,6 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 public class RecipeController {
 
     @Autowired
-    private RecipeRepository recipeRepository;
-
-    @Autowired
     private RecipeService recipeService;
 
     @PostMapping("/create")
@@ -40,6 +37,10 @@ public class RecipeController {
     @PutMapping("/update-ratingAndViews/{id}")
     public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
         return recipeService.updateRatingRatingAndViews(recipe);
+    }
+    @PutMapping("/{id}")
+    public RecipeFrontendModel update(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.update(recipe);
     }
 
     @DeleteMapping("/{id}")

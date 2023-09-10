@@ -7,10 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
@@ -20,9 +16,6 @@ import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
-import com.fridgetoplate.repository.ReviewRepository;
-
-import graphql.com.google.common.collect.ImmutableMap;
 
 @Service
 public class RecipeService {
@@ -30,7 +23,7 @@ public class RecipeService {
     private RecipeRepository recipeRepository;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewService reviewService;
 
     public RecipeFrontendModel findById(String id){
 
@@ -95,7 +88,7 @@ public class RecipeService {
         */
 
         // Declaring the Reviews object
-        List<Review> reviews = reviewRepository.getReviewsById(recipeId);
+        List<Review> reviews = reviewService.getReviewsById(recipeId);
 
         // Adding the reviews to the recipe response
         recipeResponse.setReviews(reviews);
@@ -109,7 +102,7 @@ public class RecipeService {
         RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
 
         if(recipeModel != null) {
-            return recipe;
+            return this.findById(recipeModel.getRecipeId());
         }
 
         RecipeModel model = new RecipeModel();
@@ -143,8 +136,55 @@ public class RecipeService {
         return recipe;
     }
 
-    public String delete(String id){
-      return recipeRepository.delete(id);
+    public RecipeFrontendModel update(RecipeFrontendModel recipe){
+
+        RecipeModel model = new RecipeModel();
+        model.setRecipeId(recipe.getRecipeId());
+        model.setDifficulty(recipe.getDifficulty());
+        model.setRecipeImage(recipe.getRecipeImage());
+        model.setName(recipe.getName());
+        model.setTags(recipe.getTags());
+        model.setMeal(recipe.getMeal());
+        model.setDescription(recipe.getDescription());
+        model.setPrepTime(recipe.getPrepTime());
+        model.setSteps(recipe.getSteps());
+        model.setCreator(recipe.getCreator());
+        model.setServings(recipe.getServings());
+        model.setViews(0);
+        model.setRating(recipe.getRating());
+
+        recipeRepository.saveRecipe(model);
+
+        recipe.setRecipeId(model.getRecipeId());
+
+        List<IngredientModel> currIngredients = this.findIngredientsByRecipeId(recipe.getRecipeId());
+        recipeRepository.removeIngredients(currIngredients);
+        
+        for (Ingredient ingredient : recipe.getIngredients()) {
+
+          IngredientModel ingredientModel = new IngredientModel();
+          ingredientModel.setRecipeId(recipe.getRecipeId());
+          ingredientModel.setName(ingredient.getName());
+          ingredientModel.setAmount(ingredient.getAmount());
+          ingredientModel.setUnit(ingredient.getUnit());
+
+          recipeRepository.saveIngredient(ingredientModel);
+        }
+
+        return recipe;
+    }
+
+    public String delete(String id) { 
+
+      RecipeModel recipe = recipeRepository.findById(id);
+      if (recipe == null) {
+        return "NOT FOUND";
+      }
+
+      recipeRepository.removeIngredients(recipeRepository.findIngredientsByRecipeId(id));
+      reviewService.removeReviews(reviewService.getReviewsById(id));
+      recipeRepository.deleteRecipe(recipe);
+      return "RECIPE SUCCESSFULLY DELETED";
     }
 
     public List<RecipeDesc> getCreatedRecipes(String username) {
@@ -167,7 +207,6 @@ public class RecipeService {
 
 
     public List<RecipeDesc> getSavedRecipes(List<String> ids) {
-        // return recipeRepository.getSavedRecipes(ids);
         List<RecipeDesc> recipes = new ArrayList<>();
 
         if(ids == null || ids.isEmpty()) {
@@ -280,13 +319,9 @@ public class RecipeService {
       List<RecipeModel> scanResult = recipeRepository.getRecipesByRecipeName(recipeName);
 
       for (RecipeModel recipe : scanResult) {
-
-          if (recipe.getName().equals(recipeName)) {
-              RecipeFrontendModel response = this.findById(recipe.getRecipeId());
-              if(response != null) {
-                  recipes.add(response);
-              }
-
+          RecipeFrontendModel response = this.findById(recipe.getRecipeId());
+          if(response != null) {
+              recipes.add(response);
           }
       }
 

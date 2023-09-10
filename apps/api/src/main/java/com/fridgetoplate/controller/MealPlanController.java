@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fridgetoplate.frontendmodels.MealPlanFrontendModel;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.MealPlanModel;
-import com.fridgetoplate.repository.MealPlanRepository;
 import com.fridgetoplate.service.MealPlanService;
-import com.fridgetoplate.service.RecipeService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })

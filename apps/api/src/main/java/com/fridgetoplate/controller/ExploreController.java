@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
-import com.fridgetoplate.service.ExploreApiService;
+import com.fridgetoplate.service.ExploreService;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 @RequestMapping("/explore")
@@ -25,7 +24,7 @@ import com.fridgetoplate.service.ExploreApiService;
 public class ExploreController {
     
     @Autowired
-    private  ExploreApiService exploreApiService;
+    private  ExploreService exploreApiService;
 
     @PostMapping("/search")
     public List<RecipeFrontendModel> findBySearch(@RequestBody Explore search) {
