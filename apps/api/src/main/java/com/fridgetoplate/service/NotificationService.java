@@ -1,6 +1,5 @@
 package com.fridgetoplate.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
-import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.ExploreRepository;
 import com.fridgetoplate.repository.NotificationsRepository;
