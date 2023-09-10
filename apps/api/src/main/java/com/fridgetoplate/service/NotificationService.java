@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.time.LocalTime;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.ExploreRepository;
@@ -69,9 +71,19 @@ public class NotificationService {
             time = "Dinner";
         }
 
-        PaginatedScanList <NotificationModel> recipeScanResult = exploreRepository.findByTime(time);
+        List <RecipeFrontendModel> recipeScanResult = exploreRepository.findByTime(time);
+
+        int listSize = recipeScanResult.size();
+
+        Random random = new Random();
+
+        int randomIndex = random.nextInt(listSize);
+
+        // Use the randomIndex to access an element from the list
+        RecipeFrontendModel randomRecipe = recipeScanResult.get(randomIndex);
 
         NotificationModel timeRecommendNotification = new NotificationModel();
+        timeRecommendNotification.setRecipeId(randomRecipe.getRecipeId());
         timeRecommendNotification.setUserId(userId);
         timeRecommendNotification.setComment(message);
         timeRecommendNotification.setUserName(userId);
