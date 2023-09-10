@@ -315,9 +315,9 @@ describe('RecipeCardComponent', () => {
       expect(component.getRatingValue(-1)).toEqual(6); // 4 - (-1) + 1 = 6
     });
 
-    // it('should return undefined when recipe is not set', () => {
-    //   expect(component.getRatingValue(0)).toBeUndefined();
-    // });
+    it('should return undefined when recipe is not set', () => {
+      expect(component.getRatingValue(0)).toBeNaN;
+    });
   });
 
   describe('RecipeCardComponent', () => {

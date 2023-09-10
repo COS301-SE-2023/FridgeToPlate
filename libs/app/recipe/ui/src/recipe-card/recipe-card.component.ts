@@ -118,6 +118,7 @@ export class RecipeCardComponent implements OnInit {
   }
 
   getRatingValue(index: number) {
+    this.recipe?.rating ?? 0;
     return this.recipe?.rating - index + 1;
   }
 
