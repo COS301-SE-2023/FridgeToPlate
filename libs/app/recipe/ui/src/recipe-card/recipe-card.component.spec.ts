@@ -319,5 +319,24 @@ describe('RecipeCardComponent', () => {
     //   expect(component.getRatingValue(0)).toBeUndefined();
     // });
   });
+
+  describe('RecipeCardComponent', () => {
+    let component: RecipeCardComponent;
+    let store: Store;
+    let router: Router;
+    let zone: NgZone;
+
+    beforeEach(() => {
+      component = new RecipeCardComponent(store, router, zone); // Replace null with appropriate dependencies
+    });
+
+    describe('getStarName', () => {
+      it('should return "star" when rating is greater than or equal to 1 or less than or equal to 0', () => {
+        expect(component.getStarName(1)).toBe('star');
+        expect(component.getStarName(0)).toBe('star');
+        expect(component.getStarName(0.5)).toBe('star-half');
+      });
+    });
+  });
 });
 
