@@ -127,12 +127,15 @@ public class ExploreRepository {
         PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
 
         for (RecipeModel recipe : scanResult) {
-            
-            RecipeFrontendModel response = findById(recipe.getRecipeId());
 
-            if(response != null) {
-                recipes.add(response);
+            if (recipe.getMeal().equalsIgnoreCase(time)) {
+                RecipeFrontendModel response = findById(recipe.getRecipeId());
+
+                if(response != null) {
+                    recipes.add(response);
+                }
             }
+            
         }
 
         return recipes;
