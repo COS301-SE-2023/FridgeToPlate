@@ -61,17 +61,6 @@ public class RecipeRepository {
         return scanResult;
     }
 
-    public RecipeModel update(String id, RecipeModel recipe){
-
-        dynamoDBMapper.save(recipe,
-                new DynamoDBSaveExpression()
-        .withExpectedEntry("recipeId",
-                new ExpectedAttributeValue(
-                        new AttributeValue().withS(id)
-                )));
-        return recipe;
-    }
-
     public void removeIngredients(List<IngredientModel> ingredientModels) {
         dynamoDBMapper.batchDelete(ingredientModels);
     }
@@ -176,5 +165,5 @@ public class RecipeRepository {
 
     }
 
-   
+
   }

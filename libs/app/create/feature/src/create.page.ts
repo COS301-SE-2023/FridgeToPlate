@@ -30,6 +30,7 @@ export class CreatePagComponent implements OnInit  {
   selectedVideo: File | null = null;
   displayVideo = "none";
   displayImage = "block";
+  videoLink: string;
 
   constructor(private fb: FormBuilder, private store : Store) {}
 
