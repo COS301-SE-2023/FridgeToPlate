@@ -121,6 +121,23 @@ public class ExploreRepository {
         return recipes;
     }
 
+    public List<RecipeFrontendModel> findByTime(String time){
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+            
+            RecipeFrontendModel response = findById(recipe.getRecipeId());
+
+            if(response != null) {
+                recipes.add(response);
+            }
+        }
+
+        return recipes;
+    }
+
     public List<RecipeFrontendModel> findBySearch(Explore searchObject){
         List<RecipeFrontendModel> recipes = new ArrayList<>();
         
