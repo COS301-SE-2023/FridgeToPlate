@@ -158,6 +158,7 @@ public class RecipeService {
           recipeDesc.setRecipeImage(recipeModel.getRecipeImage());
           recipeDesc.setTags(recipeModel.getTags());
           recipeDesc.setDifficulty(recipeModel.getDifficulty());
+          recipeDesc.setRating(recipeModel.getRating());
           recipes.add(recipeDesc);
         }
 
@@ -186,6 +187,7 @@ public class RecipeService {
                 recipeDesc.setRecipeImage(retrievedRecipeFrontendModel.getRecipeImage());
                 recipeDesc.setTags(retrievedRecipeFrontendModel.getTags());
                 recipeDesc.setDifficulty(retrievedRecipeFrontendModel.getDifficulty());
+                recipeDesc.setRating(retrievedRecipeFrontendModel.getRating());
                 recipes.add(recipeDesc);
             }
 
@@ -298,5 +300,37 @@ public class RecipeService {
     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
       return this.recipeRepository.findIngredientsByRecipeId(recipeId);
    }
+
+   public RecipeFrontendModel updateRatingRatingAndViews(RecipeFrontendModel recipe){
+
+        RecipeModel model = new RecipeModel();
+        RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
+
+        if(recipeModel.getRating().equals(recipe.getRating()) == false) {
+           model.setViews(recipeModel.getViews());
+        }
+        if(recipeModel.getRating().equals(recipe.getRating())) {
+            model.setViews(recipeModel.getViews() + 1);
+        }
+
+        model.setRecipeId(recipe.getRecipeId());
+        model.setDifficulty(recipe.getDifficulty());
+        model.setRecipeImage(recipe.getRecipeImage());
+        model.setName(recipe.getName());
+        model.setTags(recipe.getTags());
+        model.setMeal(recipe.getMeal());
+        model.setDescription(recipe.getDescription());
+        model.setPrepTime(recipe.getPrepTime());
+        model.setSteps(recipe.getSteps());
+        model.setCreator(recipe.getCreator());
+        model.setServings(recipe.getServings());
+        model.setRating(recipe.getRating());
+
+        recipeRepository.saveRecipe(model);
+
+        recipe.setRecipeId(model.getRecipeId());
+
+        return recipe;
+    }
 
 }

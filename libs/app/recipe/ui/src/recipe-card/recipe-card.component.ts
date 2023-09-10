@@ -1,14 +1,15 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
-import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipeDesc, IncreaseViews } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
 import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,9 +18,9 @@ import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
   styleUrls: ['./recipe-card.component.scss'],
 })
 export class RecipeCardComponent implements OnInit {
-  
+
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
-  
+
 
   @Input() recipe !: any;
   bookmarked = false;
@@ -29,7 +30,6 @@ export class RecipeCardComponent implements OnInit {
   mealType!: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
-
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
       if (profile !== null && this.recipe !== undefined) {
@@ -71,7 +71,7 @@ export class RecipeCardComponent implements OnInit {
       this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
-    
+
     this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
 
     this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
@@ -113,7 +113,41 @@ export class RecipeCardComponent implements OnInit {
   }
 
   navigateToRecipe() {
+    this.store.dispatch(new IncreaseViews(1));
     this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
+  }
+
+  getRatingValue(index: number) {
+    this.recipe?.rating ?? 0;
+    return this.recipe?.rating - index + 1;
+  }
+
+  getStarName(rating: number): string {
+    if (rating >= 1 || rating <= 0) {
+      return 'star';
+    }
+    else {
+      return 'star-half';
+    }
+  }
+
+  getStarClass(rating: number | undefined): string {
+    if (rating === undefined) {
+      return 'ion-star'; // or any other default class for an empty star
+    }
+
+    if (rating >= 0.75) {
+      return 'star-filled';
+    }
+    else if (rating >= 0.5) {
+      return 'star-half-filled';
+    }
+    else if (rating >= 0.25) {
+      return 'star-quarter-filled';
+    }
+    else {
+      return 'ion-star';
+    }
   }
 
 }
