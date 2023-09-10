@@ -340,3 +340,22 @@ describe('RecipeCardComponent', () => {
   });
 });
 
+describe('RecipeCardComponent', () => {
+  let component: RecipeCardComponent;
+  let store: Store;
+  let router: Router;
+  let zone: NgZone;
+
+  beforeEach(() => {
+    component = new RecipeCardComponent(store, router, zone);;
+  });
+
+  it('should return the correct star class based on the rating', () => {
+    expect(component.getStarClass(undefined)).toBe('ion-star');
+    expect(component.getStarClass(0.8)).toBe('star-filled');
+    expect(component.getStarClass(0.6)).toBe('star-half-filled');
+    expect(component.getStarClass(0.3)).toBe('star-quarter-filled');
+    expect(component.getStarClass(0.1)).toBe('ion-star');
+  });
+});
+
