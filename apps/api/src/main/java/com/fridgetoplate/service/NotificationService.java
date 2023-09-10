@@ -62,7 +62,7 @@ public class NotificationService {
         // Compare the current time with the defined time ranges
         if (currentTime.isAfter(morningStart) && currentTime.isBefore(afternoonStart)) {
             message = "Wake up and smell the roses! Try out this wonderful breakfast dish.";
-            time = "Morning";
+            time = "Breakfast";
         } else if (currentTime.isAfter(afternoonStart) && currentTime.isBefore(eveningStart)) {
             message = "Fighting the days battles? Try out this amazing lunch recipe.";
             time = "Lunch";
