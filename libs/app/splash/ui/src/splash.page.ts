@@ -12,7 +12,7 @@ import {  Store } from "@ngxs/store";
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class SplashPage implements OnInit {
 
-  splashLogoImage = "/assets/Final Logo.png";
+  splashLogoImage = "/assets/Logo Transparent.png";
   splashFooterImage = "/assets/Splash Footer.png";
 
   hidden = false;

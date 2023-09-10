@@ -5,12 +5,10 @@ export class RefreshNotifications {
 
 export class RefreshGeneralNotifications {
   static readonly type = '[Notifications] Refresh General Notifications';
-  constructor() {}
 }
 
 export class RefreshRecommendationNotifications {
   static readonly type = '[Notifications] Refresh Recommendation Notifications';
-  constructor() {}
 }
 
 export class ClearGeneralNotifications {
