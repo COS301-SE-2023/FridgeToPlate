@@ -20,7 +20,7 @@ export interface NotificationsStateModel {
     recommendationNotification: [
     {
       userName: "John Doe",
-      profilePictureUrl: "/assets/Final Logo.png",
+      profilePictureUrl: "/assets/Fridge Logo Transparent.png",
       comment: "Pure authentic Italian Dish",
       recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
     },
