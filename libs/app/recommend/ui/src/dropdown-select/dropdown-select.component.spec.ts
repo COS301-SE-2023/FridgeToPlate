@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownSelectComponent } from './dropdown-select.component';
 import { RecommendUIModule } from '../recommend.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {By} from "@angular/platform-browser";
 
 describe('DropdownSelectComponent', () => {
   let component: DropdownSelectComponent;
@@ -65,4 +66,21 @@ describe('DropdownSelectComponent', () => {
       expect(searchTerm).toBe(selectedKeyword);
     });
   });
+
+  it('should emit searchTerm on keyUp', async () => {
+    const button = fixture.debugElement.query(By.css('input'));
+
+    const keyUpEvent = new Event('keyup');
+
+    button.nativeElement.dispatchEvent(keyUpEvent);
+
+    const emitEvent =  jest.spyOn(component.newSearchEvent, 'emit');
+
+    await new Promise((r) => setTimeout(r, 5000));
+
+    component.filterEvent$.subscribe( () => {
+      expect(emitEvent).toHaveBeenCalled();
+      expect(component.isLoading).toBe(false);
+    })
+  }, 10000);
 });
