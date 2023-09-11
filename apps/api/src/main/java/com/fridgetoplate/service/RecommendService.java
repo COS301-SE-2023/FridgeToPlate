@@ -12,7 +12,6 @@ import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.interfaces.RecipePreferences;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecommendModel;
 import com.fridgetoplate.repository.RecommendRepository;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
@@ -38,9 +37,9 @@ public class RecommendService {
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        List<RecipeDesc> result = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-        if(dbQueryResults.size() < 24) {
+        if(result.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 
             //1. Query External API and convert to Recipe
@@ -51,11 +50,32 @@ public class RecommendService {
                 recipeService.saveBatch( apiQueryResults );
             
             //.3 Query Database by prefrence
-            dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+            List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
+            result = new ArrayList<>(dbQueryResults);
+            for (int i = 0; i < apiQueryResults.length && result.size() < 24; i++) {
+                boolean found = false;
+                for (int j = 0; j < dbQueryResults.size(); j++) {
+                    if (dbQueryResults.get(j).getRecipeId().equals(apiQueryResults[i].getRecipeId())) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    RecipeDesc recipeDesc = new RecipeDesc();
+                    recipeDesc.setRecipeId(apiQueryResults[i].getRecipeId());
+                    recipeDesc.setName(apiQueryResults[i].getName());
+                    recipeDesc.setRecipeImage(apiQueryResults[i].getRecipeImage());
+                    recipeDesc.setTags(apiQueryResults[i].getTags());
+                    recipeDesc.setDifficulty(apiQueryResults[i].getDifficulty());
+                    recipeDesc.setRating(apiQueryResults[i].getRating());
+                    result.add(recipeDesc);
+                }
+            }
         }
 
-        return dbQueryResults;
+        return result;
     }
 
     public RecommendFrontendModel save(RecommendFrontendModel recommendObject){

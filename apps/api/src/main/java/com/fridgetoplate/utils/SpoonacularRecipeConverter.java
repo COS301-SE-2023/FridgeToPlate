@@ -55,7 +55,12 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                     for(int x = 0; x < recipeIngredientList.length; x++){
                         Ingredient newIngredient = new Ingredient();
 
-                        String ingredientName = recipeIngredientList[x].getName();
+                        String ingredientName;
+                        if (recipeIngredientList[x].getNameClean() != null) {
+                            ingredientName = recipeIngredientList[x].getNameClean();
+                        } else {
+                            ingredientName = recipeIngredientList[x].getName();
+                        }
 
                         if(ingredientName.length() > 0) {
 
@@ -118,8 +123,12 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setDescription(currentRecipe.getSummary());
                 
-                newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
-
+                if (currentRecipe.getDishTypes().length > 0) {
+                    newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
+                } else {
+                    newRecipe.setMeal("dinner");
+                }
+ 
                 newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
                 
                 newRecipe.setServings(currentRecipe.getServings());
