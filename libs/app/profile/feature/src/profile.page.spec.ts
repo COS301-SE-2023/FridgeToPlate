@@ -3,7 +3,7 @@ import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
+import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { take } from "rxjs";
 import { Injectable } from "@angular/core";
@@ -89,18 +89,7 @@ describe("ProfilePage", () => {
     expect(page.displayEditProfile).toEqual("none");
   });
 
-  it("should change setting display to block", () => {
-    page.openSettings();
 
-    expect(page.displaySettings).toEqual("block");
-  });
-
-  it("should change setting display to none", () => {
-    page.openSettings();
-    page.closeSettings();
-
-    expect(page.displaySettings).toEqual("none");
-  });
 
   it("should change sort display to block", () => {
     page.openSort();
@@ -115,6 +104,19 @@ describe("ProfilePage", () => {
     expect(page.displaySort).toEqual("none");
   });
 
+  it("should change shopping list display to block", () => {
+    page.openShoppingList();
+
+    expect(page.displayShoppinglist).toEqual("block");
+  });
+
+  it("should change shopping list display to none", () => {
+    page.openShoppingList();
+    page.closeShoppingList();
+
+    expect(page.displayShoppinglist).toEqual("none");
+  });
+
   it("should save profile", () => {
     page.openEditProfile();
     page.editableProfile.name = "JD";
@@ -124,6 +126,23 @@ describe("ProfilePage", () => {
       expect(profile).toEqual(page.editableProfile);
     })
   });
+
+  it("Should dispatch Open Settings", () => {
+    store = TestBed.inject(Store);
+    const openSpy = jest.spyOn(store, 'dispatch');
+
+    page.openSettings();
+    expect(openSpy).toBeCalledWith(new OpenSettings());
+  })
+
+  it("Should dispatch Close Settings", () => {
+    store = TestBed.inject(Store);
+    const closeSpy = jest.spyOn(store, 'dispatch');
+    page.openSettings();
+    page.closeSettings();
+    expect(closeSpy).toBeCalledWith(new CloseSettings());
+
+  })
 
   it("should dispatch sort saved by difficulty", () => {
     store = TestBed.inject(Store);

@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -29,11 +30,13 @@ class MockCreateState {}
 describe('CreatePagComponent', () => {
   let createPage: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
+  global.URL.createObjectURL = jest.fn();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         IonicModule,
         HttpClientModule,
@@ -49,6 +52,39 @@ describe('CreatePagComponent', () => {
     fixture = TestBed.createComponent(CreatePagComponent);
     createPage = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should set selectedVideo and call previewVideo on file change', () => {
+    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
+    const mockEvent = {
+      target: { files: [mockFile] },
+    };
+
+    jest.spyOn(createPage, 'previewVideo');
+
+    createPage.onVideoChanged(mockEvent);
+
+    expect(createPage.selectedVideo).toBe(mockFile);
+    expect(createPage.displayVideo).toBe('block');
+    expect(createPage.displayImage).toBe('none');
+    expect(createPage.previewVideo).toHaveBeenCalled();
+  });
+
+  it('should update the video when a file is selected', () => {
+    // Arrange
+    const file = new File(['sample content'], 'sample.mp4', { type: 'video/mp4' });
+    const event = { target: { files: [file] } };
+
+    const createObjectURLStringSpy = jest.spyOn(URL, 'createObjectURL');
+
+    // Act
+    createPage.onVideoChanged(event);
+
+    // Assert
+    expect(createObjectURLStringSpy).toHaveBeenCalledWith(file);
+
+    
+
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
@@ -149,6 +185,8 @@ describe('CreatePagComponent', () => {
   }
   );
 
+  
+
 });
 
 
@@ -164,6 +202,7 @@ describe('Testing Tags', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -326,6 +365,7 @@ describe('Ingredients storing, deleting and returning', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -431,6 +471,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -465,6 +506,8 @@ describe('Ingredients storing, deleting and returning', () => {
     });
   })
 
+
+
   describe("Testing placeholder texts for Unit", () => {
 
     let component: CreatePagComponent;
@@ -475,6 +518,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -513,12 +557,15 @@ describe('Ingredients storing, deleting and returning', () => {
 
     let component: CreatePagComponent;
     let fixture: ComponentFixture<CreatePagComponent>;
+    let store: Store;
+    let dispatchSpy: jest.SpyInstance;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -528,6 +575,8 @@ describe('Ingredients storing, deleting and returning', () => {
       fixture = TestBed.createComponent(CreatePagComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      store = TestBed.inject(Store);
+      dispatchSpy = jest.spyOn(store, 'dispatch');
     });
 
     it('should update the imageUrl when a file is selected', () => {
@@ -550,6 +599,20 @@ describe('Ingredients storing, deleting and returning', () => {
         expect(component.imageUrl).toBe(file.name);
         expect(component.imageUrl).not.toBe(existingImage);
       });
+
+    });
+
+    it('should show error if file size is larger than 300KB', () => {
+      // Arrange
+      const file = new File(['sample content'], 'sample.jpg', { type: 'image/jpeg' });
+      const fileSizeSpy = jest.spyOn(File.prototype, 'size', 'get').mockReturnValue(400000); // Mock file size exceeding limit
+      const event = { target: { files: [file] } };
+        
+      // Act
+      component.onFileChanged(event);
+    
+      // Assert
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Can Not Upload Image Larger Than 300KB')); // You can refine this assertion if you know the exact ShowError action structure
     });
 
   });
@@ -566,6 +629,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -849,6 +913,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder, Store],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -897,6 +962,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
 
       component.imageUrl = recipe.recipeImage
@@ -952,6 +1018,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: 2
       };
 
       component.imageUrl = recipe.recipeImage

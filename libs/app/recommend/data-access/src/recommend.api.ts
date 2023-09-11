@@ -1,8 +1,17 @@
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  catchError,
+  map
+} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { IRecommend } from '@fridge-to-plate/app/recommend/utils';
+import {
+  IProductInformationAPIResponse,
+  IRecommend,
+  convertProductFromApi,
+} from '@fridge-to-plate/app/recommend/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 
 const baseUrl = environment.API_URL + '/recommend';
@@ -38,5 +47,27 @@ export class RecommendApi {
 
   addPreferences(preferences: IRecommend): Observable<IRecommend> {
     return this.httpClient.post<IRecommend>(`${baseUrl}/create`, preferences);
+  }
+
+  getProductInformation(productBarcode: string) {
+    const upcApiUrl = environment.GOUPC_API_URL;
+    const upcApiKey = environment.GOUPC_APIKEY;
+
+    return this.httpClient
+      .get<IProductInformationAPIResponse>(
+        `${upcApiUrl}/code/${productBarcode}?key=${upcApiKey}`
+      )
+      .pipe(
+        map((productFromApi) => {
+          if (!productFromApi?.product)
+            throw Error('Product does not exist on database');
+          else {
+            return convertProductFromApi(productFromApi.product);
+          }
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
+      );
   }
 }

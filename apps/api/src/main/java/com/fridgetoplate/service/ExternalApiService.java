@@ -12,7 +12,6 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,8 +20,6 @@ import java.util.Arrays;
 @Service
 public class ExternalApiService {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
 
     @Value("${spoonacular.baseUrl}")
    private String spoonacularbaseUrl;
@@ -67,6 +64,7 @@ public class ExternalApiService {
     
     
     
+    
     List<String> mealTypeList = Arrays.asList(
         "main course",
         "side dish",
@@ -107,7 +105,7 @@ public class ExternalApiService {
 
         String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
         
-        if(recipePreferences.getPrepTime() != null)
+        if(recipePreferences.getPrepTime() != null && !recipePreferences.getPrepTime().equals(""))
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
         if(userIngredients != null && userIngredients.size() != 0){
@@ -183,7 +181,7 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
-        recipeSearchEndpoint += "&addRecipeInformation=true&ranking=1";
+        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=1";
 
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       

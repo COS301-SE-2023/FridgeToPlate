@@ -1,4 +1,4 @@
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -11,29 +11,48 @@ import {
   DeleteReview,
 } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { catchError, take, tap } from 'rxjs';
-import { environment } from '@fridge-to-plate/app/environments/utils';
+import { catchError, tap } from 'rxjs';
 import { Navigate } from '@ngxs/router-plugin';
 import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
 }
 
+export interface IngredientsStateMeal {
+  ingredients: IIngredient[] | null;
+}
+
+
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: null,
+    recipe: null
   }
 })
+
+@State<IngredientsStateMeal> ({
+  name: 'ingredients',
+  defaults: {
+    ingredients: null
+    }
+})
+
 @Injectable()
 export class RecipeState {
 
-  constructor(private api: RecipeAPI, private store: Store) {}
+  constructor(private api: RecipeAPI, private mealPlanAPI: MealPlanAPI, private store: Store) {}
 
   @Selector()
   static getRecipe(state: RecipeStateModel) {
     return state.recipe;
+  }
+
+  @Selector()
+  static getIngredients(state: IngredientsStateMeal) {
+    return state.ingredients;
   }
 
   @Action(RetrieveRecipe)
@@ -62,6 +81,27 @@ export class RecipeState {
       }
     );
   }
+  @Action(UpdateRecipeRatingAndViews)
+  updateRecipeRatingAndViews(
+    { patchState }: StateContext<RecipeStateModel>,
+    { recipe }: UpdateRecipeRatingAndViews
+  ) {
+    patchState({
+      recipe: recipe,
+    });
+
+    this.api.updateRecipeRatingAndViews(recipe).subscribe(
+      () => {
+        patchState({
+          recipe: recipe,
+        });
+      },
+      (error: Error) => {
+        console.error('Failed to update recipe:', error);
+        this.store.dispatch(new ShowError(error.message));
+      }
+    );
+  }
 
   @Action(UpdateRecipe)
   updateRecipe(
@@ -85,6 +125,18 @@ export class RecipeState {
     );
   }
 
+  @Action(IncreaseViews)
+  increaseViews(
+    { getState }: StateContext<RecipeStateModel>,
+    { viewNum }: IncreaseViews
+  ) {
+    const updatedRecipe = getState().recipe;
+
+    if (updatedRecipe) {
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
+    }
+  }
+
   @Action(AddReview)
   async addRecipeReview(
     { getState }: StateContext<RecipeStateModel>,
@@ -97,7 +149,24 @@ export class RecipeState {
         next: data => {
             updatedRecipe.reviews?.unshift(data);
 
-            this.store.dispatch(new UpdateRecipe(updatedRecipe));
+            if (updatedRecipe.rating == null) {
+              updatedRecipe.rating = data.rating;
+            }
+            else {
+
+              if (updatedRecipe.reviews) {
+
+                let sumRatings = 0;
+
+                for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+                  sumRatings += updatedRecipe.reviews[i].rating;
+                }
+
+                updatedRecipe.rating = Number((sumRatings / updatedRecipe.reviews.length).toFixed(2));
+              }
+            }
+
+            this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
         },
         error: error => {
             this.store.dispatch(new ShowError(error.message));
@@ -118,7 +187,18 @@ export class RecipeState {
         (currentReview) => currentReview.reviewId !== reviewId
       );
 
-      this.store.dispatch(new UpdateRecipe(updatedRecipe));
+      if (updatedRecipe.reviews) {
+
+        let sumRatings = 0;
+
+        for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+          sumRatings += updatedRecipe.reviews[i].rating;
+        }
+
+        updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
+      }
+
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
       (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
         error: error => {
@@ -166,5 +246,28 @@ export class RecipeState {
       catchError (
         () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
       ))).subscribe();
+  }
+
+  @Action(RetrieveMealPlanIngredients)
+  async retrieveIngredients( { setState }: StateContext<IngredientsStateMeal>, { username }: RetrieveMealPlanIngredients ) {
+    this.mealPlanAPI.getMealPlanShoppingList(username).subscribe(
+      (ingredients) => {
+        if (ingredients) {
+          setState({
+            ingredients: ingredients
+          });
+        } else {
+          this.store.dispatch(
+            new ShowError(
+              'Error: Something is wrong with the ingredients: ' + ingredients
+            )
+          );
+        }
+      },
+      (error: Error) => {
+        console.error('Failed to retrieve ingredients:', error);
+        this.store.dispatch(new ShowError(error.message));
+      }
+    );
   }
 }

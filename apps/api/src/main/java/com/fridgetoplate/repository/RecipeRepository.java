@@ -1,21 +1,29 @@
+// RecipeRepository.java
 package com.fridgetoplate.repository;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
-import com.fridgetoplate.interfaces.Recipe;
+import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.ProfileModel;
+import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
+
+import graphql.com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,317 +34,136 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    @Autowired
-    private ProfileRepository profileRepository;
-
-    public RecipeFrontendModel save(RecipeFrontendModel recipe){
-        RecipeModel model = new RecipeModel(); 
-        model.setRecipeId(recipe.getRecipeId());
-        model.setDifficulty(recipe.getDifficulty());
-        model.setRecipeImage(recipe.getRecipeImage());
-        model.setName(recipe.getName());
-        model.setTags(recipe.getTags());
-        model.setMeal(recipe.getMeal());
-        model.setDescription(recipe.getDescription());
-        model.setIngredients(recipe.getIngredients());
-        model.setPrepTime(recipe.getPrepTime());
-        model.setSteps(recipe.getSteps());
-        model.setCreator(recipe.getCreator());
-        model.setServings(recipe.getServings());
-        model.setViews(0);
-        dynamoDBMapper.save(model);
-
-        recipe.setRecipeId(model.getRecipeId());
-        return recipe;
-    }
-    
-    public RecipeModel[] saveBatch(RecipeModel[] recipeList){
-        if(recipeList.length != 0)
-        {
-            for(int i = 0; i < recipeList.length; i++){
-                dynamoDBMapper.save(recipeList[i]);
-            }
-        }
-        
-        return recipeList;
+    public void saveRecipe(RecipeModel recipe){
+        dynamoDBMapper.save(recipe);
     }
 
-    public RecipeFrontendModel findById(String id){
-
-        /*
-         * Getting the Recipe Response
-         */
-
-         // Declaring the Recipe Response object
-        RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
-
-
-        // Find the Recipe model
-        RecipeModel recipeModel = dynamoDBMapper.load(RecipeModel.class, id);
-
-        if(recipeModel == null) {
-            return null;
-        }
-
-        // Getting recipe attributes
-        String recipeId = recipeModel.getRecipeId();
-        String difficulty = recipeModel.getDifficulty();
-        String recipeImage = recipeModel.getRecipeImage();
-        String name = recipeModel.getName();
-        List<String> tags = recipeModel.getTags();
-        String meal = recipeModel.getMeal();
-        String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
-        Integer prepTime = recipeModel.getPrepTime();
-        List<String> instructions = recipeModel.getSteps();
-        String creator = recipeModel.getCreator();
-        Integer servings = recipeModel.getServings();
-
-        // Creating recipe response
-        recipeResponse.setRecipeId(recipeId);
-        recipeResponse.setDifficulty(difficulty);
-        recipeResponse.setRecipeImage(recipeImage);
-        recipeResponse.setName(name);
-        recipeResponse.setTags(tags);
-        recipeResponse.setMeal(meal);
-        recipeResponse.setDescription(description);
-        recipeResponse.setIngredients(ingredients);
-        recipeResponse.setPrepTime(prepTime);
-        recipeResponse.setSteps(instructions);
-        recipeResponse.setCreator(creator);
-        recipeResponse.setServings(servings);
-
-
-        /*
-        * Getting the Reviews
-        */
-
-        // Declaring the Reviews object 
-        List<Review> reviews = this.getReviewsById(recipeId);
-
-        // Adding the reviews to the recipe response
-        recipeResponse.setReviews(reviews);
-
-
-
-       return recipeResponse;
+    public void saveIngredient(IngredientModel ingredient){
+        dynamoDBMapper.save(ingredient);
     }
 
-    public List<RecipeFrontendModel> findAll(){
-        List<RecipeFrontendModel> recipes = new ArrayList<>();
-        
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (RecipeModel recipe : scanResult) {
-            
-            RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
-        }
-
-        return recipes;
+    public RecipeModel findById(String id){
+        return dynamoDBMapper.load(RecipeModel.class, id);
     }
 
-    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients){
-        
-        //Build Expression
-        List<RecipeFrontendModel> recipes = new ArrayList<>();
-        
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        
-        String querySrting = "";
+    public List<IngredientModel> getIngredientModels(String ingredientName) {
+      DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        Map<String, Condition> scanFilter = new HashMap<>();
 
-        if(recipePreferences.getDifficulty() != null){
-            eav.put(":difficulty", new AttributeValue().withS(recipePreferences.getDifficulty()));
-        
-            querySrting += "difficulty=:difficulty";
-        }
+        scanFilter.put("name", new Condition()
+                                      .withComparisonOperator(ComparisonOperator.EQ)
+                                      .withAttributeValueList(new AttributeValue().withS(ingredientName)));
 
-        if(recipePreferences.getMeal() != null){
-            eav.put(":meal", new AttributeValue().withS(recipePreferences.getMeal()));
+        scanExpression.setScanFilter(scanFilter);
 
-            if(querySrting.length() != 0){
-                querySrting += " AND meal=:meal";
-            } else {
-                querySrting += "meal=:meal";
-            }
-        }
-        
-        if(recipePreferences.getRating() != null){
-            eav.put(":rating", new AttributeValue().withS(recipePreferences.getRating()));
+        List<IngredientModel> scanResult = dynamoDBMapper.parallelScan(IngredientModel.class, scanExpression, 5);
 
-            if(querySrting.length() != 0){
-                querySrting += " AND rating=:rating";
-            } else {
-                querySrting += "rating=:rating";
-            }
-
-        }
-        
-        if(recipePreferences.getServings() != null){
-            eav.put(":servings", new AttributeValue().withS(recipePreferences.getServings()));
-
-            if(querySrting.length() != 0){
-                querySrting += " AND servings=:servings";
-            } else {
-                querySrting += "servings=:servings";
-            }            
-
-        }
-        
-        if(recipePreferences.getPrepTime() != null){
-            eav.put(":prepTime", new AttributeValue().withS(recipePreferences.getPrepTime()));
-
-            if(querySrting.length() != 0){
-                querySrting += " AND prepTime=:prepTime";
-            } else {
-                querySrting += "prepTime=:prepTime";
-            }
-
-        }
-        
-        
-        String keywordQueryString = "";
-
-        if(recipePreferences.getKeywords() != null && recipePreferences.getKeywords().length != 0){
-
-            String [] keywordArray = recipePreferences.getKeywords();
-        
-            for(int i = 0; i < keywordArray.length; i++){
-                String keywordString = keywordArray[i].replace("\s", keywordQueryString).strip();
-
-                eav.put(":val_" + keywordString,new AttributeValue().withS(keywordString));
-                if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(tags, :val_" + keywordString + ")";
-                }
-                else{
-                    keywordQueryString = keywordQueryString + " OR contains(tags, :val_" + keywordString + ")";
-                }
-            }
-        }
-
-        String ingredientQueryString = "";
-
-        if(userIngredients != null && userIngredients.size() != 0){
-            
-            for(int i = 0; i < userIngredients.size(); i++){
-                String ingredientName = userIngredients.get(i).getName().strip().split(",")[0].replace("\s", "");
-
-                eav.put(":val_" + ingredientName , new AttributeValue().withS(ingredientName));
-                if(i == 0){
-                    keywordQueryString = keywordQueryString + "contains(ingredients, :val_" + ingredientName + ")";
-                }
-                else{
-                    keywordQueryString = keywordQueryString + " OR contains(ingredients, :val_" + ingredientName + ")";
-                }
-            }
-        }
-        
-        if(!keywordQueryString.isBlank()){
-            if(querySrting.isEmpty())
-                querySrting += keywordQueryString;
-
-            else{
-                querySrting += " AND " + keywordQueryString;
-            }
-        }
-
-        if(!ingredientQueryString.isBlank()){
-            if(querySrting.isEmpty())
-                querySrting += ingredientQueryString;
-
-            else{
-                querySrting += " AND " + ingredientQueryString;
-            }
-        }
-
-        //Filter Expression
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression(querySrting).withExpressionAttributeValues(eav);
-
-
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, scanExpression);
-
-        for (RecipeModel recipe : scanResult) {
-            
-            RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
-        }
-
-        return recipes;
+        return scanResult;
     }
 
-    public RecipeModel update(String id, RecipeModel recipe){
-
-        dynamoDBMapper.save(recipe,
-                new DynamoDBSaveExpression()
-        .withExpectedEntry("recipeId",
-                new ExpectedAttributeValue(
-                        new AttributeValue().withS(id)
-                )));
-        return recipe;
+    public void removeIngredients(List<IngredientModel> ingredientModels) {
+        dynamoDBMapper.batchDelete(ingredientModels);
     }
 
-    public String delete(String id){
-       RecipeModel recipe = dynamoDBMapper.load(RecipeModel.class, id);
+    public void deleteRecipe(RecipeModel recipe){
         dynamoDBMapper.delete(recipe);
-        return "Recipe deleted successfully:: " + id;
     }
 
-    public List<Review> getReviewsById(String id) {
-        List<Review> reviews = new ArrayList<>();
-        
-        PaginatedScanList<Review> scanResult = dynamoDBMapper.scan(Review.class, new DynamoDBScanExpression());
+    public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+        DynamoDBQueryExpression<IngredientModel> query = new DynamoDBQueryExpression<IngredientModel>();
+            query.setKeyConditionExpression("recipeId = :id");
+            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
 
-        for (Review review : scanResult) {
-            
-            if (review.getRecipeId().equals(id)) {
-                reviews.add(review);
-            }
+        return dynamoDBMapper.query(IngredientModel.class, query);
+    }
+
+   
+
+    public List<RecipeModel> getCreatedRecipes(String username) {
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+        scanFilter.put("creator", new Condition()
+                                      .withComparisonOperator(ComparisonOperator.EQ)
+                                      .withAttributeValueList(new AttributeValue().withS(username)));
+
+        scanExpression.setScanFilter(scanFilter);
+
+        List<RecipeModel> scanResult = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, 5);
+
+        return scanResult;
+    }
+
+    public List<RecipeModel> getRecipesByRecipeName(String recipeName) {
+       DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+        scanFilter.put("name", new Condition()
+                                      .withComparisonOperator(ComparisonOperator.CONTAINS)
+                                      .withAttributeValueList(new AttributeValue().withS(recipeName)));
+
+        scanExpression.setScanFilter(scanFilter);
+
+        List<RecipeModel> scanResult = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, 5);
+
+        return scanResult;
+    }
+
+     public List<RecipeModel> filterSearch(Explore explore){
+
+        int numberOfWorkers = 3;
+        String search = explore.getSearch();
+        String type = explore.getType();
+        List<String> tags = explore.getTags();
+        String difficulty = explore.getDifficulty();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+          if (search != null && !search.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(search));
+            scanFilter.put("name", condition);
         }
 
-        return reviews;
-    }
-
-    public List<RecipeFrontendModel> getRecipesByUsername(String username) {
-        List<RecipeFrontendModel> recipes = new ArrayList<>();
-        
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (RecipeModel recipe : scanResult) {
-            
-            if (recipe.getCreator().equals(username)) {
-                RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
-
-            }
+        if (type != null && !type.isEmpty()) {
+            // Add the condition for 'meal'
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(type));
+            scanFilter.put("meal", condition);
         }
 
-        return recipes;
-    }
-
-    public List<RecipeFrontendModel> getRecipesByRecipename(String recipename) {
-        List<RecipeFrontendModel> recipes = new ArrayList<>();
-        
-        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
-
-        for (RecipeModel recipe : scanResult) {
-            
-            if (recipe.getName().equals(recipename)) {
-                RecipeFrontendModel response = findById(recipe.getRecipeId());
-                if(response != null) {
-                    recipes.add(response);
-                }
-
-            }
+        if (tags != null && !tags.isEmpty()) {
+            // Add the condition for 'tags'
+            List<AttributeValue> attributeValues = tags.stream()
+                .map(tag -> new AttributeValue().withS(tag))
+                .toList();
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(attributeValues);
+            scanFilter.put("tags", condition);
         }
 
-        return recipes;
+        if (difficulty != null && !difficulty.isEmpty()) {
+            Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(difficulty));
+            scanFilter.put("difficulty", condition);
+        }
+
+        if (!scanFilter.isEmpty()) {
+            scanExpression.setScanFilter(scanFilter);
+        }
+
+        List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
+        return results;
+
     }
 
-    
-}
+
+  }

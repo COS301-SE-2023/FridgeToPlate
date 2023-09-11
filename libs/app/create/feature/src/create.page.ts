@@ -22,10 +22,15 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  videoUrl = 'https://img.freepik.com/free-photo/female-food-blogger-streaming-home-while-cooking_23-2148771599.jpg';
+  selectedMeal!: string;
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
+  selectedVideo: File | null = null;
+  displayVideo = "none";
+  displayImage = "block";
+  videoLink: string;
 
   constructor(private fb: FormBuilder, private store : Store) {}
 
@@ -118,6 +123,7 @@ export class CreatePagComponent implements OnInit  {
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
+      rating: null
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
@@ -128,6 +134,12 @@ export class CreatePagComponent implements OnInit  {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
+    const fileSize = event.target.files[0].size;
+
+    if(fileSize > 300000){
+      this.store.dispatch( new ShowError("Can Not Upload Image Larger Than 300KB"));
+      return;
+    }
     const reader = new FileReader();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -138,7 +150,7 @@ export class CreatePagComponent implements OnInit  {
     reader.readAsDataURL(file);
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
@@ -256,6 +268,25 @@ export class CreatePagComponent implements OnInit  {
     return instructions;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onVideoChanged(event: any) {
+    const file = event.target.files;
 
+    if (file) {
+      this.selectedVideo = file[0];
+      this.displayVideo = "block";
+      this.displayImage = "none";
+      this.previewVideo();
+    }
+
+  }
+
+  previewVideo() {
+    const videoPlayer = document.getElementById('video-player') as HTMLVideoElement;
+    
+    if (videoPlayer && this.selectedVideo) {
+      videoPlayer.src = URL.createObjectURL(this.selectedVideo);
+    }
+  }
 
 }

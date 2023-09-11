@@ -7,11 +7,11 @@ import java.util.List;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.interfaces.ExtendedIngredient;
 import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularStep;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], RecipeFrontendModel[]> {
@@ -45,9 +45,40 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setName(currentRecipe.getTitle());
 
+                newRecipe.setRecipeId(String.valueOf(currentRecipe.getId()));
+
                 newRecipe.setTags(utils.generateRecipeTags( currentRecipe.getCuisines(), currentRecipe.getDishTypes(), currentRecipe.getDiets() ) );
                 
-                //Iterate through ingredients and add                
+                //Add recipe ingredients
+                if(currentRecipe.getExtendedIngredients().length != 0){
+                    ExtendedIngredient[] recipeIngredientList = currentRecipe.getExtendedIngredients();
+
+                    for(int x = 0; x < recipeIngredientList.length; x++){
+                        Ingredient newIngredient = new Ingredient();
+
+                        String ingredientName = recipeIngredientList[x].getName();
+
+                        if(ingredientName.length() > 0){
+
+                            newIngredient.setName( ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1) );
+    
+                            newIngredient.setAmount( (double) Math.round(recipeIngredientList[x].getAmount() * 1000d) / 1000d);
+    
+                            if(recipeIngredientList[x].getMeasures().getMetric() != null && recipeIngredientList[x].getMeasures().getMetric().getUnitShort() != null)
+                                newIngredient.setUnit(recipeIngredientList[x].getMeasures().getMetric().getUnitShort());
+                            else
+                            newIngredient.setUnit("unit");
+    
+                            if(!currentIngredients.contains(newIngredient))
+                                currentIngredients.add(newIngredient);                    
+                        }
+                            
+                    }
+                }
+
+                newRecipe.setIngredients(currentIngredients);
+
+                //Add recipe steps                
                 if(currentRecipe.getAnalyzedInstructions().length != 0){
                     SpoonacularStep[] recipeSteps = currentRecipe.getAnalyzedInstructions()[0].getSteps();
 
@@ -56,24 +87,6 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                         SpoonacularStep currentStep = recipeSteps[x];
 
                         currentRecipeSteps.add(currentStep.getStep());
-
-                        if(currentStep.getIngredients() != null){
-                            SpoonacularIngredient[] stepIngredients = currentStep.getIngredients();
-                            
-                            for(int j = 0; j < stepIngredients.length; j++){
-
-                                Ingredient newIngredient = new Ingredient();
-                                
-                                newIngredient.setName(stepIngredients[j].getName());
-                                
-                                newIngredient.setAmount(1);
-                                
-                                newIngredient.setUnit("unit");
-
-                                if(!currentIngredients.contains(newIngredient))
-                                    currentIngredients.add(newIngredient);
-                            }
-                        }
 
                     }
                     
@@ -118,49 +131,5 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
         System.arraycopy(dbResults, 0, resultArray , apiResults.length, dbResults.length );
         
         return resultArray;
-    }
-
-    public RecipeModel[] toRecipeModelArray(RecipeFrontendModel[] apiResults){
-        if(apiResults == null)
-            return null;
-        
-        List<RecipeModel> convertedResults = new ArrayList<RecipeModel>();
-
-        for(int i = 0; i < apiResults.length; i++){
-            RecipeModel newRecipe = new RecipeModel();
-
-            newRecipe.setName(apiResults[i].getName());
-
-            newRecipe.setDescription(apiResults[i].getDescription());
-
-            newRecipe.setDifficulty(apiResults[i].getDifficulty());
-
-            newRecipe.setRecipeImage(apiResults[i].getRecipeImage());
-
-            if(apiResults[i].getMeal().isEmpty()){
-                newRecipe.setMeal("snack");
-            }
-            else{
-                newRecipe.setMeal(apiResults[i].getMeal());
-            }
-
-            newRecipe.setPrepTime(apiResults[i].getPrepTime());
-
-            newRecipe.setServings(apiResults[i].getServings());
-
-            newRecipe.setCreator(apiResults[i].getCreator());
-
-            newRecipe.setViews(0);
-
-            newRecipe.setSteps(apiResults[i].getSteps());
-
-            newRecipe.setIngredients(apiResults[i].getIngredients());
-
-            newRecipe.setTags(apiResults[i].getTags());
-
-            convertedResults.add(newRecipe);
-        }
-
-        return convertedResults.toArray(new RecipeModel[convertedResults.size()]);
     }
 }

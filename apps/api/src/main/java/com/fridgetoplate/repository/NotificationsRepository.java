@@ -25,79 +25,44 @@ public class NotificationsRepository {
         return notification;
     }
 
-    public NotificationsResponseModel findAll(String userId){
+    public PaginatedScanList <NotificationModel> findAll(String userId, HashMap<String, AttributeValue> eav){
         
-        List<NotificationModel> generalNotifications = new ArrayList<>();
-
-        List<NotificationModel> recommendationNotifications = new ArrayList<>();
-
-        NotificationsResponseModel notifications = new NotificationsResponseModel();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
+
+        return scanResult;
         
-        for (NotificationModel notification : scanResult) {
-            
-                if(notification != null) {
-                    if(notification.getNotificationType().equals("general"))
-                        generalNotifications.add(notification);
-                    else
-                        recommendationNotifications.add(notification);
-                }
-        }
-
-        notifications.setGeneral(generalNotifications);
-
-        notifications.setRecommendations(recommendationNotifications);
-
-        return notifications;
     }
 
     public String delete(String notificationId){
+
         NotificationModel notification = dynamoDBMapper.load(NotificationModel.class, notificationId);
         
         dynamoDBMapper.delete(notification);
 
         return "Notification deleted successfully " + notificationId;
+
     }
 
-    public String clearNotifications(String userId){
-        List<NotificationModel> notifications = new ArrayList<>();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
+    public PaginatedScanList <NotificationModel> clearNotifications(String userId, HashMap<String, AttributeValue> eav){
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for(int i = 0; i < scanResult.size(); i++){
-            this.delete( scanResult.get(i).getNotificationId() );
-        }
 
-        return "Notifications for " + userId + " deleted successfully";
+        return scanResult;
+        
     }
 
-    public String clearAllNotificationOfType(String userId, String type){
-        List<NotificationModel> notifications = new ArrayList<>();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-        eav.put(":notificationType", new AttributeValue().withS(type));
+    public PaginatedScanList <NotificationModel> clearAllNotificationOfType(String userId, String type, HashMap<String, AttributeValue> eav){
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId AND notificationType=:notificationType").withExpressionAttributeValues(eav);
 
         PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for(int i = 0; i < scanResult.size(); i++){
-            this.delete( scanResult.get(i).getNotificationId() );
-        }
 
-        return "All "+ type + " Notifications for " + userId + " deleted successfully";
+        return scanResult;
+        
     }
 
 }

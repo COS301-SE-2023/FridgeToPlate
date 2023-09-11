@@ -1,21 +1,8 @@
-import {
-  Action,
-  NgxsModule,
-  Select,
-  Selector,
-  State,
-  StateContext,
-  Store,
-} from '@ngxs/store';
-import { INotification } from '../../utils/src/interfaces';
+import {  Action,  NgxsModule, Select, Selector, State, StateContext, Store } from '@ngxs/store';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
-import {
-  ClearGeneralNotifications,
-  ClearRecommendationNotifications,
-  RefreshNotifications,
-  RefreshRecommendationNotifications,
-} from '../../utils/notifications.actions';
+import { ClearRecommendationNotifications, RefreshNotifications, RefreshRecommendationNotifications, ClearGeneralNotifications } from '@fridge-to-plate/app/notifications/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
@@ -30,7 +17,19 @@ export interface NotificationsStateModel {
   name: 'notifications',
   defaults: {
     generalNotifications: [],
-    recommendationNotification: [],
+    recommendationNotification: [
+    {
+      userName: "John Doe",
+      profilePictureUrl: "/assets/Fridge Logo Transparent.png",
+      comment: "Pure authentic Italian Dish",
+      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
+    },
+    {
+      userName: "Bob Builder",
+      profilePictureUrl: "https://source.unsplash.com/150x150/?portrait",
+      comment: "This dish is good when you have no choice",
+      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
+    }],
   },
 })
 @Injectable()
@@ -49,30 +48,21 @@ export class NotificationsState {
     return state.recommendationNotification;
   }
 
-  @Action(RefreshRecommendationNotifications)
-  refreshNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: RefreshNotifications
-  ) {
-    this.profile$.pipe(take(1)).subscribe((loggedInUser) => {
-      this.notificationsApi
-        .getAllNotifications(loggedInUser.username)
-        .pipe(take(1))
-        .subscribe((notificationsResponse) => {
-          ctx.setState({
+  @Action(RefreshNotifications)
+  refreshNotifications({ patchState }: StateContext<NotificationsStateModel>, { userId } : RefreshNotifications ) {
+
+      this.notificationsApi.getAllNotifications(userId).pipe(take(1)).subscribe((notificationsResponse) => {
+        patchState({
             generalNotifications: notificationsResponse.general,
             recommendationNotification: notificationsResponse.recommendations,
           });
         });
-    });
+
   }
 
   @Action(ClearGeneralNotifications)
-  clearGeneralNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: ClearGeneralNotifications
-  ) {
-    ctx.patchState({
+  clearGeneralNotifications({ patchState }: StateContext<NotificationsStateModel>,{ userId }: ClearGeneralNotifications ) {
+    patchState({
       generalNotifications: [],
     });
 
@@ -80,25 +70,11 @@ export class NotificationsState {
   }
 
   @Action(ClearRecommendationNotifications)
-  clearRecommendationNotifications(
-    ctx: StateContext<NotificationsStateModel>,
-    { userId }: ClearRecommendationNotifications
-  ) {
-    ctx.patchState({
+  clearRecommendationNotifications({ patchState }: StateContext<NotificationsStateModel>,  { userId }: ClearRecommendationNotifications ) {
+    patchState({
       recommendationNotification: [],
     });
 
     this.notificationsApi.clearRecommendationNotifications(userId).subscribe();
   }
 }
-
-// let store: Store;
-//
-// beforeEach(() => {
-//   TestBed.configureTestingModule({
-//     imports: [NgxsModule.forRoot([NotificationsState]), NotificationsDataAccessModule],
-//     declarations: []
-//   });
-//
-//   store = TestBed.inject(Store);
-// });

@@ -1,7 +1,6 @@
 package com.fridgetoplate.interfaces;
 
 import java.util.List;
-import com.fridgetoplate.model.Ingredient;
 
 public class Recipe extends RecipeDesc {
 
@@ -13,8 +12,6 @@ public class Recipe extends RecipeDesc {
 
     protected Integer servings;
 
-    protected List<Ingredient> ingredients;
-
     protected List<String> steps;
 
     protected String creator;
@@ -23,7 +20,7 @@ public class Recipe extends RecipeDesc {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public void setMeal(String meal) {
         this.meal = meal;
     }
@@ -34,10 +31,6 @@ public class Recipe extends RecipeDesc {
 
     public void setServings(Integer servings) {
         this.servings = servings;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
     }
 
     public void setSteps(List<String> steps) {

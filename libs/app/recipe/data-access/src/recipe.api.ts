@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { IReview } from '@fridge-to-plate/app/review/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,8 @@ export class RecipeAPI {
     const url = this.baseUrl + '/create';
     return this.http.post<IRecipe>(url, recipe);
   }
-  UpdateRecipe(recipe: IRecipe): Observable<IRecipe> {
-    const url = this.baseUrl + '/' + recipe.recipeId;
+  updateRecipeRatingAndViews(recipe: IRecipe): Observable<IRecipe> {
+    const url = this.baseUrl + '/update-ratingAndViews/' + recipe.recipeId;
     return this.http.put<IRecipe>(url, recipe);
   }
 
@@ -45,5 +46,10 @@ export class RecipeAPI {
   deleteReview(recipeId: string, reviewId:string): Observable<string> {
     const url = environment.API_URL + '/reviews/' + recipeId + '/' + reviewId;
     return this.http.delete<string>(url);
+  }
+
+  retrieveIngredientsByRecipeId(id: string): Observable<IIngredient[]> {
+    const url = `${this.baseUrl}/${id}/ingredients`;
+    return this.http.get<IIngredient[]>(url);
   }
 }

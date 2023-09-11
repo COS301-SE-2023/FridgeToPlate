@@ -4,11 +4,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, NgxsModule, State } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { ExplorePage } from './explore.page';
-import { ExploreState, } from '@fridge-to-plate/app/explore/data-access';
+import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Injectable } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { ExploreUIModule } from '../../ui/src/explore.module';
+import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 
 // Create a mock of the Ngxs selector
 class MockExploreState {
@@ -44,8 +47,13 @@ describe('ExplorePage', () => {
         { name: 'Milk', amount: 2, unit: 'tbsp' },
         { name: 'Salt', amount: 1 / 4, unit: 'tsp' },
       ],
-      steps: ['Whisk the eggs and milk in a bowl', 'Add salt and mix well', 'Cook in a non-stick pan until fluffy'],
+      steps: [
+        'Whisk the eggs and milk in a bowl',
+        'Add salt and mix well',
+        'Cook in a non-stick pan until fluffy',
+      ],
       creator: 'John Doe',
+      rating: 2
     },
   ];
 
@@ -60,12 +68,16 @@ describe('ExplorePage', () => {
   class MockExploreState {}
 
   beforeEach(async () => {
-
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([MockExploreState])],
+      imports: [
+        NgxsModule.forRoot([MockExploreState]),
+        ExploreUIModule,
+        RecipeUIModule,
+        FormsModule,
+        HttpClientModule,
+      ],
       declarations: [ExplorePage],
     }).compileComponents();
-    
   });
 
   beforeEach(() => {
@@ -81,10 +93,11 @@ describe('ExplorePage', () => {
   });
 
   it('should display recipes when search is applied by category', () => {
-
     component.search(mockExplore);
 
-    expect(store.dispatch).toHaveBeenCalledWith(new CategorySearch(mockExplore));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CategorySearch(mockExplore)
+    );
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
@@ -94,17 +107,17 @@ describe('ExplorePage', () => {
   });
 
   it('should display recipes when explorer search is applied', () => {
-
     component.explorer('searchText');
 
-    expect(store.dispatch).toHaveBeenCalledWith(new CategorySearch(component.searchObject));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CategorySearch(component.searchObject)
+    );
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
       expect(component.loading).toBe(false);
       expect(component.showRecipes).toBe(true);
     });
-    
   });
 
   it('should show categories when explorer search text is empty', () => {

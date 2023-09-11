@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.repository.RecipeRepository;
+import com.fridgetoplate.service.RecipeService;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 
 @RestController
@@ -15,42 +16,35 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 public class RecipeController {
 
     @Autowired
-    private RecipeRepository recipeRepository;
+    private RecipeService recipeService;
 
     @PostMapping("/create")
     public RecipeFrontendModel save(@RequestBody RecipeFrontendModel recipe){
         // Save the recipe
-        return recipeRepository.save(recipe);
+        return recipeService.save(recipe);
     }
 
     @GetMapping("/{id}")
     public RecipeFrontendModel findById(@PathVariable(value = "id") String id){
-        return recipeRepository.findById(id);
-    }
-
-    @GetMapping("/creator/{username}")
-    public List<RecipeFrontendModel> findRecipesByUsername(@PathVariable(value = "username") String username){
-        return recipeRepository.getRecipesByUsername(username);
+        return recipeService.findById(id);
     }
 
     @GetMapping("/name/{recipename}")
     public List<RecipeFrontendModel> findRecipesByRecipename(@PathVariable(value = "recipename") String recipename){
-        return recipeRepository.getRecipesByRecipename(recipename);
+        return recipeService.getRecipesByRecipeName(recipename);
     }
 
-    @GetMapping
-    public List<RecipeFrontendModel> findAll(){
-        return recipeRepository.findAll();
+    @PutMapping("/update-ratingAndViews/{id}")
+    public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.updateRatingRatingAndViews(recipe);
     }
-
     @PutMapping("/{id}")
-    public RecipeModel update(@PathVariable(value = "id") String id, @RequestBody RecipeModel recipe){
-        return recipeRepository.update(id, recipe);
+    public RecipeFrontendModel update(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.update(recipe);
     }
-
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable(value = "id") String id){
-        return recipeRepository.delete(id);
+        return recipeService.delete(id);
     }
 }
