@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreShell } from './core.shell';
 import { CoreRouting } from './core.routing';
@@ -25,6 +25,7 @@ import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing'
 import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,12 @@ import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsActionsExecutingModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

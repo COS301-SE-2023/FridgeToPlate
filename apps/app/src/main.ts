@@ -1,7 +1,7 @@
-import { enableProdMode } from "@angular/core";
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CoreModule } from '../../../libs/app/core/src/core.module';
-import { environment } from "@fridge-to-plate/app/environments/utils";
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 if (environment.TYPE === 'development') {
   console.log(`TYPE: ${environment.TYPE}`);
