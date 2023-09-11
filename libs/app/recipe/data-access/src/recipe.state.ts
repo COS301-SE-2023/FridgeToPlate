@@ -1,4 +1,4 @@
-import { IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -16,9 +16,11 @@ import { Navigate } from '@ngxs/router-plugin';
 import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
+import { ConversionService } from './conversion.service';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
+  measurementType: string;
 }
 
 export interface IngredientsStateMeal {
@@ -29,7 +31,8 @@ export interface IngredientsStateMeal {
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: null
+    recipe: null,
+    measurementType: "metric"
   }
 })
 
@@ -37,13 +40,13 @@ export interface IngredientsStateMeal {
   name: 'ingredients',
   defaults: {
     ingredients: null
-    }
+  }
 })
 
 @Injectable()
 export class RecipeState {
 
-  constructor(private api: RecipeAPI, private mealPlanAPI: MealPlanAPI, private store: Store) {}
+  constructor(private api: RecipeAPI, private mealPlanAPI: MealPlanAPI, private store: Store, private conversionService: ConversionService) {}
 
   @Selector()
   static getRecipe(state: RecipeStateModel) {
@@ -57,14 +60,15 @@ export class RecipeState {
 
   @Action(RetrieveRecipe)
   async retrieveRecipe(
-    { setState }: StateContext<RecipeStateModel>,
+    { patchState, getState }: StateContext<RecipeStateModel>,
     { recipeId }: RetrieveRecipe
   ) {
 
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
         if (recipe) {
-          setState({
+          recipe.ingredients = this.conversionService.convertIngredients(recipe.ingredients, getState().measurementType);
+          patchState({
             recipe: recipe,
           });
         } else {
@@ -269,5 +273,23 @@ export class RecipeState {
         this.store.dispatch(new ShowError(error.message));
       }
     );
+  }
+
+  @Action(ChangeMeasurementType)
+  changeMeasurementType( { setState, getState, patchState }: StateContext<RecipeStateModel>, { measurementType }: ChangeMeasurementType ) {
+    const recipe = getState().recipe;
+    
+    if (recipe) {
+      recipe.ingredients = this.conversionService.convertIngredients(recipe.ingredients, measurementType);
+
+      setState({
+        recipe: recipe,
+        measurementType: measurementType
+      });
+    } else {
+      patchState({
+        measurementType: measurementType
+      })
+    }
   }
 }
