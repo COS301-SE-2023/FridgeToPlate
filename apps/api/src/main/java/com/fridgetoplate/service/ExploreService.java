@@ -10,7 +10,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.model.RecipeModel;
 @Service
-public class ExploreApiService {
+public class ExploreService {
 
     @Autowired
     private RecipeService recipeService;
@@ -27,13 +27,14 @@ public class ExploreApiService {
 
     private List<RecipeFrontendModel> beautify (List<RecipeModel> recipes) {
         List<RecipeFrontendModel> recipeFrontendModels = new ArrayList<RecipeFrontendModel>();
-        for (RecipeModel recipeModel : recipes) {
-            RecipeFrontendModel frontendModel = this.recipeService.findById(recipeModel.getRecipeId());
+        for (int i = 0; i < 25 && i < recipes.size(); i++) {
+            RecipeFrontendModel frontendModel = this.recipeService.findById(recipes.get(i).getRecipeId());
             if(!recipeFrontendModels.contains(frontendModel)){
                 recipeFrontendModels.add(frontendModel);
             }
         }
-      return recipeFrontendModels;
+
+        return recipeFrontendModels;
     }
 
 }

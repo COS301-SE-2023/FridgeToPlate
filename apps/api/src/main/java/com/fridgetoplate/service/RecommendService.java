@@ -67,12 +67,12 @@ public class RecommendService {
         model.setUsername(recommendObject.getUsername());
 
         model.setIngredients(recommendObject.getIngredients());
-
+        
         RecipePreferences preferences = new RecipePreferences();
-
+        
         if(recommendObject.getRecipePreferences().getDifficulty() != null)
-            preferences.setDifficulty(recommendObject.getRecipePreferences().getDifficulty());
-            
+        preferences.setDifficulty(recommendObject.getRecipePreferences().getDifficulty());
+        
         if(recommendObject.getRecipePreferences().getMeal() != null)
             preferences.setMeal(recommendObject.getRecipePreferences().getMeal());
         

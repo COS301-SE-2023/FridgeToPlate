@@ -20,7 +20,7 @@ public class Recipe extends RecipeDesc {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public void setMeal(String meal) {
         this.meal = meal;
     }

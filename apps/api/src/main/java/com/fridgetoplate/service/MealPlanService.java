@@ -89,7 +89,11 @@ public class MealPlanService {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getBreakfastId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
-                    formattedList.add(model.getIngredient());
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setName(model.getName());
+                    ingredient.setAmount(model.getAmount());
+                    ingredient.setUnit(model.getUnit());
+                    formattedList.add(ingredient);
                 }
             }
         }
@@ -98,7 +102,11 @@ public class MealPlanService {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getLunchId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
-                    formattedList.add(model.getIngredient());
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setName(model.getName());
+                    ingredient.setAmount(model.getAmount());
+                    ingredient.setUnit(model.getUnit());
+                    formattedList.add(ingredient);
                 }
             }
         }
@@ -107,7 +115,11 @@ public class MealPlanService {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinnerId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
-                    formattedList.add(model.getIngredient());
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setName(model.getName());
+                    ingredient.setAmount(model.getAmount());
+                    ingredient.setUnit(model.getUnit());
+                    formattedList.add(ingredient);
                 }
             }
         }
@@ -116,7 +128,11 @@ public class MealPlanService {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnackId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
-                    formattedList.add(model.getIngredient());
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setName(model.getName());
+                    ingredient.setAmount(model.getAmount());
+                    ingredient.setUnit(model.getUnit());
+                    formattedList.add(ingredient);
                 }
             }
         }
@@ -141,6 +157,7 @@ public class MealPlanService {
         else {
             plan.setBreakfastId("");
         }
+
         if(mealPlan.getLunch() != null) {
             plan.setLunchId(mealPlan.getLunch().getRecipeId());
         }
@@ -154,6 +171,7 @@ public class MealPlanService {
         else {
             plan.setDinnerId("");
         }
+
         if(mealPlan.getSnack() != null) {
             plan.setSnackId(mealPlan.getSnack().getRecipeId());
         }
@@ -163,6 +181,7 @@ public class MealPlanService {
         
         plan.setUsername(mealPlan.getUsername());
         plan.setDate(mealPlan.getDate());
-        return mealPlanRepository.save(plan);
+        mealPlanRepository.save(plan);
+        return mealPlan;
     }
 }

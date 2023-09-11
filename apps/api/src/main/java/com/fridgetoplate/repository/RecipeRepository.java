@@ -34,15 +34,12 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
     public void saveRecipe(RecipeModel recipe){
         dynamoDBMapper.save(recipe);
     }
 
     public void saveIngredient(IngredientModel ingredient){
-            dynamoDBMapper.save(ingredient);
+        dynamoDBMapper.save(ingredient);
     }
 
     public RecipeModel findById(String id){
@@ -64,21 +61,12 @@ public class RecipeRepository {
         return scanResult;
     }
 
-    // public RecipeModel update(String id, RecipeModel recipe){
+    public void removeIngredients(List<IngredientModel> ingredientModels) {
+        dynamoDBMapper.batchDelete(ingredientModels);
+    }
 
-    //     dynamoDBMapper.save(recipe,
-    //             new DynamoDBSaveExpression()
-    //     .withExpectedEntry("recipeId",
-    //             new ExpectedAttributeValue(
-    //                     new AttributeValue().withS(id)
-    //             )));
-    //     return recipe;
-    // }
-
-    public String delete(String id){
-       RecipeModel recipe = dynamoDBMapper.load(RecipeModel.class, id);
+    public void deleteRecipe(RecipeModel recipe){
         dynamoDBMapper.delete(recipe);
-        return "Recipe deleted successfully:: " + id;
     }
 
     public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
@@ -89,13 +77,7 @@ public class RecipeRepository {
         return dynamoDBMapper.query(IngredientModel.class, query);
     }
 
-    public List<Review> getReviewsById(String recipeId) {
-        DynamoDBQueryExpression<Review> query = new DynamoDBQueryExpression<Review>();
-            query.setKeyConditionExpression("recipeId = :id");
-            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
-
-        return dynamoDBMapper.query(Review.class, query);
-    }
+   
 
     public List<RecipeModel> getCreatedRecipes(String username) {
 
@@ -183,5 +165,5 @@ public class RecipeRepository {
 
     }
 
-   
+
   }

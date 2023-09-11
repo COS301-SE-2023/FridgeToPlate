@@ -1,4 +1,4 @@
-import { IRecipe, RetrieveMealPlanIngredients } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -81,6 +81,27 @@ export class RecipeState {
       }
     );
   }
+  @Action(UpdateRecipeRatingAndViews)
+  updateRecipeRatingAndViews(
+    { patchState }: StateContext<RecipeStateModel>,
+    { recipe }: UpdateRecipeRatingAndViews
+  ) {
+    patchState({
+      recipe: recipe,
+    });
+
+    this.api.updateRecipeRatingAndViews(recipe).subscribe(
+      () => {
+        patchState({
+          recipe: recipe,
+        });
+      },
+      (error: Error) => {
+        console.error('Failed to update recipe:', error);
+        this.store.dispatch(new ShowError(error.message));
+      }
+    );
+  }
 
   @Action(UpdateRecipe)
   updateRecipe(
@@ -104,6 +125,18 @@ export class RecipeState {
     );
   }
 
+  @Action(IncreaseViews)
+  increaseViews(
+    { getState }: StateContext<RecipeStateModel>,
+    { viewNum }: IncreaseViews
+  ) {
+    const updatedRecipe = getState().recipe;
+
+    if (updatedRecipe) {
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
+    }
+  }
+
   @Action(AddReview)
   async addRecipeReview(
     { getState }: StateContext<RecipeStateModel>,
@@ -116,7 +149,24 @@ export class RecipeState {
         next: data => {
             updatedRecipe.reviews?.unshift(data);
 
-            this.store.dispatch(new UpdateRecipe(updatedRecipe));
+            if (updatedRecipe.rating == null) {
+              updatedRecipe.rating = data.rating;
+            }
+            else {
+
+              if (updatedRecipe.reviews) {
+
+                let sumRatings = 0;
+
+                for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+                  sumRatings += updatedRecipe.reviews[i].rating;
+                }
+
+                updatedRecipe.rating = Number((sumRatings / updatedRecipe.reviews.length).toFixed(2));
+              }
+            }
+
+            this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
         },
         error: error => {
             this.store.dispatch(new ShowError(error.message));
@@ -137,7 +187,18 @@ export class RecipeState {
         (currentReview) => currentReview.reviewId !== reviewId
       );
 
-      this.store.dispatch(new UpdateRecipe(updatedRecipe));
+      if (updatedRecipe.reviews) {
+
+        let sumRatings = 0;
+
+        for (let i = 0; i < updatedRecipe.reviews?.length; i++) {
+          sumRatings += updatedRecipe.reviews[i].rating;
+        }
+
+        updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
+      }
+
+      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
       (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
         error: error => {

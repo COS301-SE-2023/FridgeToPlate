@@ -27,7 +27,6 @@ public class RecommendController {
             error.printStackTrace();
             return new ArrayList<>();
         }
-        
     }
     
     @PostMapping("/create")
@@ -41,6 +40,7 @@ public class RecommendController {
         }
         
     }
+    
     @PutMapping("/{id}")
     public RecommendFrontendModel updatePreferences(@RequestBody RecommendFrontendModel userRecommendation) {
         try{

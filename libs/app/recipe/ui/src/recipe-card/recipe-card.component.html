@@ -3,7 +3,11 @@
     <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full">
         <h1 class="text-white font-semibold text-sm"> {{ recipe.name }} </h1>
         <p class="text-gray-200 text-xs mb-1">Difficulty: {{ recipe.difficulty }}</p>
-        <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+        <p class="mt-2 text-orange-700 font-bold">{{ recipe?.rating ?? '...'}}/5 </p>
+        <span *ngFor="let i of [1, 2, 3, 4, 5]">
+          <ion-icon [name]="getStarName(getRatingValue(i))" [ngClass]="getStarClass(getRatingValue(i))"></ion-icon>
+        </span>
+        <!-- <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span> -->
         <button
             *ngIf="!added"
             (click)="toggleMealPlan(); $event.stopPropagation()"
