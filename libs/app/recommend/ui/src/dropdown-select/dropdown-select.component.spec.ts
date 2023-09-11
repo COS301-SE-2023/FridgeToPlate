@@ -35,11 +35,8 @@ describe('DropdownSelectComponent', () => {
     // Call the filter() method
     expect(component.isLoading).toBe(false);
     component.filterOptions();
-    // Subscribe to newSearchEvent EventEmitter
-    component.filterEvent$.subscribe((searchTerm) => {
-      // Assert emitted search term
-      expect(searchTerm).toBe(searchQuery);
-      expect(component.newSearchEvent.emit).toHaveBeenCalledWith(searchTerm);
+    fixture.whenStable().then(() => {
+      expect(component.newSearchEvent.emit).toHaveBeenCalledWith(searchQuery);
       expect(component.isLoading).toBe(true);
     });
   });
