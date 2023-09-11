@@ -15,6 +15,7 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import { ReviewModule } from '@fridge-to-plate/app/review/feature';
 import { Navigate } from '@ngxs/router-plugin';
 import { Injectable } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 describe('RecipeDetailPageComponent', () => {
   
@@ -65,6 +66,7 @@ describe('RecipeDetailPageComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         NavigationBarModule,
+        FormsModule,
         NgxsModule.forRoot([MockRecipeState]),
       ],
       providers: [HttpClientModule],
@@ -186,7 +188,9 @@ describe('RecipeDetailPageComponent', () => {
 
   it('should dispatch ingredients change', () => {
     const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
-    component.changeIngredientUnits("Imperical");
+
+    component.measurementUnit = "Imperical";
+    component.changeIngredientUnits();
     expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("Imperical"));
   });
 });

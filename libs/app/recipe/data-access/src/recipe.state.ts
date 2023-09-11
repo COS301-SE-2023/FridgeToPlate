@@ -16,7 +16,6 @@ import { Navigate } from '@ngxs/router-plugin';
 import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
-import { ConversionService } from './conversion.service';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
@@ -46,7 +45,7 @@ export interface IngredientsStateMeal {
 @Injectable()
 export class RecipeState {
 
-  constructor(private api: RecipeAPI, private mealPlanAPI: MealPlanAPI, private store: Store, private conversionService: ConversionService) {}
+  constructor(private api: RecipeAPI, private mealPlanAPI: MealPlanAPI, private store: Store) {}
 
   @Selector()
   static getRecipe(state: RecipeStateModel) {
@@ -67,7 +66,7 @@ export class RecipeState {
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
         if (recipe) {
-          recipe.ingredients = this.conversionService.convertIngredients(recipe.ingredients, getState().measurementType);
+          recipe.ingredients = this.convertIngredients(recipe.ingredients, getState().measurementType);
           patchState({
             recipe: recipe,
           });
@@ -280,7 +279,7 @@ export class RecipeState {
     const recipe = getState().recipe;
     
     if (recipe) {
-      recipe.ingredients = this.conversionService.convertIngredients(recipe.ingredients, measurementType);
+      recipe.ingredients = this.convertIngredients(recipe.ingredients, measurementType);
 
       setState({
         recipe: recipe,
@@ -292,4 +291,54 @@ export class RecipeState {
       })
     }
   }
+
+  convertIngredients(ingredients: IIngredient[], type: string): IIngredient[] {
+    ingredients.forEach(element => {
+        if (type === "imperial") {
+            switch (element.unit) {
+                case "mL":
+                    if (element.amount < 60) {
+                        element.amount /= 15;
+                        element.unit = "tsp";
+                    } else {
+                        element.amount /= 250;
+                        element.unit = "cup";
+                    }
+                    break;
+                case "L":
+                    element.amount /= 250;
+                    element.unit = "cup";
+                    break;
+                case "g":
+                    if (element.amount < 454) {
+                        element.amount /= 28;
+                        element.unit = "oz";
+                    } else {
+                        element.amount /= 454;
+                        element.unit = "lb";
+                    }
+            }
+        } else {
+            switch (element.unit) {
+                case "tsp":
+                    element.amount *= 15;
+                    element.unit = "ml";
+                    break;
+                case "cup":
+                    element.amount *= 250;
+                    element.unit = "ml";
+                    break;
+                case "lb":
+                    element.amount *= 454;
+                    element.unit = "g";
+                    break;
+                case "oz": 
+                    element.amount *= 28;
+                    element.unit = "g";
+            }
+        }
+    });
+
+    return ingredients;
+}
 }

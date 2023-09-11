@@ -26,6 +26,7 @@ export class RecipePage implements OnInit {
   recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
   forceLoading = true;
+  measurementUnit = "metric";
   safeUrl: SafeResourceUrl;
 
   constructor(
@@ -80,7 +81,7 @@ export class RecipePage implements OnInit {
     this.store.dispatch(new Navigate(['/home']));
   }
 
-  changeIngredientUnits(value: string) {
-    this.store.dispatch(new ChangeMeasurementType(value));
+  changeIngredientUnits() {
+    this.store.dispatch(new ChangeMeasurementType(this.measurementUnit));
   }
 }
