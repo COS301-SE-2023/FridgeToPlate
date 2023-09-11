@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownSelectComponent } from './dropdown-select.component';
 import { RecommendUIModule } from '../recommend.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {By} from "@angular/platform-browser";
+import { By } from '@angular/platform-browser';
 
 describe('DropdownSelectComponent', () => {
   let component: DropdownSelectComponent;
@@ -65,19 +65,46 @@ describe('DropdownSelectComponent', () => {
   });
 
   it('should emit searchTerm on keyUp', async () => {
+    const searchTextTest = 'Test Search';
+
     const button = fixture.debugElement.query(By.css('input'));
 
     const keyUpEvent = new Event('keyup');
 
+    component.searchText = searchTextTest;
+
     button.nativeElement.dispatchEvent(keyUpEvent);
 
-    const emitEvent =  jest.spyOn(component.newSearchEvent, 'emit');
+    const callSpy = jest.spyOn(component, 'filterKeywordsList');
 
     await new Promise((r) => setTimeout(r, 5000));
 
-    component.filterEvent$.subscribe( () => {
-      expect(emitEvent).toHaveBeenCalled();
+    component.filterEvent$.subscribe(() => {
+      expect(callSpy).toBeCalled();
       expect(component.isLoading).toBe(false);
-    })
+    });
   }, 10000);
+
+  it('should set loading to false and update searchText', () => {
+    const searchText = 'Test text';
+    const emitEvent = jest.spyOn(component.newSearchEvent, 'emit');
+
+    const callSpy = jest.spyOn(component, 'filterKeywordsList');
+    expect(component.searchText).toBe('');
+    expect(component.isLoading).toBe(false);
+
+    component.searchText = searchText;
+
+    component.filterOptions();
+
+    expect(component.isLoading).toBe(true);
+
+    component.filterKeywordsList();
+
+    expect(component.isLoading).toBe(false);
+
+    expect(callSpy).toBeCalled();
+
+    expect(emitEvent).toBeCalledWith(searchText);
+  });
 });

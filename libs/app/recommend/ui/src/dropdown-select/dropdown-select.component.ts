@@ -3,11 +3,19 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input, OnDestroy, OnInit,
+  Input,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import {debounceTime, distinctUntilChanged, EMPTY, fromEvent, map, Observable, Subject, takeUntil} from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'fridge-to-plate-dropdown-select',
@@ -49,21 +57,23 @@ export class DropdownSelectComponent implements AfterViewInit, OnDestroy {
     this.isLoading = true;
   }
 
-  ngAfterViewInit(){
-    this.filterEvent$ = fromEvent(this.input.nativeElement, 'keyup')
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged(),
-        debounceTime(1100),
-      );
+  filterKeywordsList() {
+    this.newSearchEvent.emit(this.searchText);
+    this.isLoading = false;
+  }
 
+  ngAfterViewInit() {
+    this.filterEvent$ = fromEvent(this.input.nativeElement, 'keyup').pipe(
+      takeUntil(this.destroy$),
+      distinctUntilChanged(),
+      debounceTime(1100)
+    );
 
-    this.filterEvent$.subscribe( () => {
-      if(this.searchText){
-        this.newSearchEvent.emit(this.searchText);
-        this.isLoading = false;
+    this.filterEvent$.subscribe(() => {
+      if (this.searchText) {
+        this.filterKeywordsList();
       }
-  })
+    });
   }
 
   ngOnDestroy() {
