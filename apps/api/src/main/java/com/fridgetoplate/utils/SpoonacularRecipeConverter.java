@@ -8,7 +8,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.ExtendedIngredient;
-import com.fridgetoplate.interfaces.SpoonacularIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularStep;
 import com.fridgetoplate.model.Ingredient;
@@ -58,19 +57,31 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                         String ingredientName = recipeIngredientList[x].getName();
 
-                        if(ingredientName.length() > 0){
+                        if(ingredientName.length() > 0) {
 
                             newIngredient.setName( ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1) );
     
-                            newIngredient.setAmount( (double) Math.round(recipeIngredientList[x].getAmount() * 1000d) / 1000d);
+                            newIngredient.setAmount( (double) recipeIngredientList[x].getMeasures().getMetric().getAmount() );
     
-                            if(recipeIngredientList[x].getMeasures().getMetric() != null && recipeIngredientList[x].getMeasures().getMetric().getUnitShort() != null)
-                                newIngredient.setUnit(recipeIngredientList[x].getMeasures().getMetric().getUnitShort());
-                            else
-                            newIngredient.setUnit("unit");
+                            if(recipeIngredientList[x].getMeasures().getMetric() != null && recipeIngredientList[x].getMeasures().getMetric().getUnitShort() != null && !recipeIngredientList[x].getMeasures().getMetric().getUnitShort().isEmpty()) {
+                                String ingredientUnit = recipeIngredientList[x].getMeasures().getMetric().getUnitShort();
+                                if (ingredientUnit.equals("Tbsp")) {
+                                    ingredientUnit = "tbsp";
+                                } else if (ingredientUnit.equals("Tbsps")) {
+                                    ingredientUnit = "tbsp";
+                                } else if (ingredientUnit.equals("tsps")) {
+                                    ingredientUnit = "tsp";
+                                } else if (ingredientUnit.equals("servings")) {
+                                    ingredientUnit = "pinch";
+                                }
+
+                                newIngredient.setUnit(ingredientUnit);
+                            } else {
+                                newIngredient.setUnit("");
+                            }
     
                             if(!currentIngredients.contains(newIngredient))
-                                currentIngredients.add(newIngredient);                    
+                                currentIngredients.add(newIngredient);               
                         }
                             
                     }

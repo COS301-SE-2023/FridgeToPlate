@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.interfaces.RecipePreferences;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecommendModel;
@@ -28,16 +29,16 @@ public class RecommendService {
     @Autowired
     private RecipeService recipeService;
     
-    public List<RecipeFrontendModel> getRecipeRecommendations(RecommendFrontendModel userRecommendation) {
+    public List<RecipeDesc> getRecipeRecommendations(RecommendFrontendModel userRecommendation) {
         if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
-            return new ArrayList<RecipeFrontendModel>();
+            return new ArrayList<RecipeDesc>();
     
         //0. Store User recommendation object
         this.save(userRecommendation);
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        List<RecipeFrontendModel> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
         if(dbQueryResults.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
@@ -51,9 +52,6 @@ public class RecommendService {
             
             //.3 Query Database by prefrence
             dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
-
-            //Pad results - DEMO.
-            dbQueryResults.addAll( Arrays.asList(apiQueryResults) ); 
 
         }
 

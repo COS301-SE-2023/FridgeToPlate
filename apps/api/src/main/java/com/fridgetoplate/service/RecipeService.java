@@ -49,7 +49,12 @@ public class RecipeService {
             Ingredient ingredient = new Ingredient();
             ingredient.setName(ingredientModel.getName());
             ingredient.setAmount(ingredientModel.getAmount());
-            ingredient.setUnit(ingredientModel.getUnit());
+
+            if (ingredientModel.getUnit() !=  null) {
+              ingredient.setUnit(ingredientModel.getUnit());
+            } else {
+              ingredient.setUnit("");
+            }
 
             ingredients.add(ingredient);
         }
@@ -236,7 +241,7 @@ public class RecipeService {
         return recipes;
     }
 
-    public List<RecipeFrontendModel> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
+    public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
 
       List<IngredientModel> ingredientModels;
       RecipeFrontendModel recipe;
@@ -256,7 +261,7 @@ public class RecipeService {
       }
 
       // Getting recipes from the specificied preferences
-      List<RecipeFrontendModel> recipesSortByPreferences = new ArrayList<>();
+      List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
       // Extracting the rating from the preferences
       String preferredRatingStr = recipePreferences.getRating().trim();
@@ -294,16 +299,28 @@ public class RecipeService {
 
       for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if ( (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) || (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
-             (selectedRecipe.getRating().compareTo(preferredRating) >= 0) || (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) || (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
-             (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) || (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)) {
+        if ((selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) || 
+            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
+            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) || 
+            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) || 
+            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) || 
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
+          ) {
 
-          if (recipesSortByPreferences.size() <= 25) {
-            recipesSortByPreferences.add(selectedRecipe);
-            recipes.remove(selectedRecipe);
-          }
-          else
-            break;
+            if (recipesSortByPreferences.size() <= 24) {
+              RecipeDesc recipeDesc = new RecipeDesc();
+              recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
+              recipeDesc.setName(selectedRecipe.getName());
+              recipeDesc.setRecipeImage(selectedRecipe.getRecipeImage());
+              recipeDesc.setTags(selectedRecipe.getTags());
+              recipeDesc.setDifficulty(selectedRecipe.getDifficulty());
+              recipeDesc.setRating(selectedRecipe.getRating());
+              recipesSortByPreferences.add(recipeDesc);
+            }
+            else {
+              break;
+            }
         }
       }
 
