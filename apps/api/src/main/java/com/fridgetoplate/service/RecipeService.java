@@ -98,6 +98,14 @@ public class RecipeService {
 
     public RecipeFrontendModel save(RecipeFrontendModel recipe){
 
+      if(recipe.getRecipeId() != null){
+        RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
+
+        if(recipeModel != null) {
+            return this.findById(recipeModel.getRecipeId());
+        }
+      }
+
         RecipeModel model = new RecipeModel();
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
