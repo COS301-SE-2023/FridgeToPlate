@@ -39,12 +39,12 @@ public class RecommendService {
 
         List<RecipeFrontendModel> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-        if(dbQueryResults.size() < 25){
+        if(dbQueryResults.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
-    
+
             //1. Query External API and convert to Recipe
             RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()).getResults());
-            
+
             //2. Add External API recipes to DB
             if(apiQueryResults.length != 0)
                 recipeService.saveBatch( apiQueryResults );

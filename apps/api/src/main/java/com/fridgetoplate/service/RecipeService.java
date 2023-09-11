@@ -260,7 +260,11 @@ public class RecipeService {
 
       // Extracting the rating from the preferences
       String preferredRatingStr = recipePreferences.getRating().trim();
-      Double preferredRating = (double) Character.getNumericValue(preferredRatingStr.charAt(0));
+
+      Double preferredRating = 0.0;
+      if (!preferredRatingStr.isEmpty()) {  
+        preferredRating = (double) Character.getNumericValue(preferredRatingStr.charAt(0));
+      }
 
       // Extracting the servings from the preferences
       String preferredServingsStr;
@@ -270,8 +274,7 @@ public class RecipeService {
         preferredServingsStr = recipePreferences.getServings().trim();
         int index = preferredServingsStr.indexOf("-");
         preferredServingUpper = Character.getNumericValue(preferredServingsStr.charAt(index+1));
-      }
-      else if (recipePreferences.getServings().contains("+")) {
+      } else if (recipePreferences.getServings().contains("+")) {
         preferredServingsStr = recipePreferences.getServings().trim();
         preferredServingLower = Character.getNumericValue(preferredServingsStr.charAt(0));
       }

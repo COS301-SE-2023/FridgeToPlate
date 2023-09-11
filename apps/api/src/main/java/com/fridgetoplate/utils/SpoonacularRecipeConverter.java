@@ -50,7 +50,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                 newRecipe.setTags(utils.generateRecipeTags( currentRecipe.getCuisines(), currentRecipe.getDishTypes(), currentRecipe.getDiets() ) );
                 
                 //Add recipe ingredients
-                if(currentRecipe.getExtendedIngredients().length != 0){
+                if(currentRecipe.getExtendedIngredients() != null && currentRecipe.getExtendedIngredients().length != 0){
                     ExtendedIngredient[] recipeIngredientList = currentRecipe.getExtendedIngredients();
 
                     for(int x = 0; x < recipeIngredientList.length; x++){
@@ -74,12 +74,15 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                         }
                             
                     }
+                } else {
+                    System.out.println("Skip cause no ingredients");
+                    continue;
                 }
 
                 newRecipe.setIngredients(currentIngredients);
 
                 //Add recipe steps                
-                if(currentRecipe.getAnalyzedInstructions().length != 0){
+                if(currentRecipe.getAnalyzedInstructions() != null && currentRecipe.getAnalyzedInstructions().length != 0){
                     SpoonacularStep[] recipeSteps = currentRecipe.getAnalyzedInstructions()[0].getSteps();
 
         
@@ -94,6 +97,9 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                     newRecipe.setSteps(currentRecipeSteps);
 
                     newRecipe.setIngredients(currentIngredients);
+                } else {
+                    System.out.println("Skip cause no steps");
+                    continue;
                 }
 
                 //Create difficulty evaluation function
@@ -106,7 +112,6 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                 newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
                 
                 newRecipe.setServings(currentRecipe.getServings());
-
 
                 newRecipe.setCreator("Spoonacular");
 
