@@ -202,7 +202,7 @@ export class EditRecipeComponent implements OnInit {
     this.location.back()
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
