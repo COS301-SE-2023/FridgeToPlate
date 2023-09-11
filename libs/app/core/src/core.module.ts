@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreShell } from './core.shell';
 import { CoreRouting } from './core.routing';
@@ -31,6 +31,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -75,6 +76,12 @@ import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsActionsExecutingModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [CoreShell],

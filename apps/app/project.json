@@ -8,12 +8,16 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/app",
         "index": "apps/app/src/index.html",
         "main": "apps/app/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/app/tsconfig.app.json",
         "assets": [
           "apps/app/src/favicon.ico",
@@ -37,7 +41,9 @@
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/app/webpack.config.js"
-        }
+        },
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/app/ngsw-config.json"
       },
       "configurations": {
         "production": {
@@ -86,14 +92,21 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/app/**/*.ts", "apps/app/**/*.html"]
+        "lintFilePatterns": [
+          "apps/app/**/*.ts",
+          "apps/app/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/app/jest.config.ts",
         "passWithNoTests": true
