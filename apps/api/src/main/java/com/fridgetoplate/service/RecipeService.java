@@ -11,7 +11,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.interfaces.SpoonacularVideo;
+import com.fridgetoplate.interfaces.YoubuteItem;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
@@ -144,9 +144,9 @@ public class RecipeService {
 
           model.setYoutubeId(recipe.getYoutubeId());
         } else {
-          SpoonacularVideo[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getVideos();
+          YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
           if (videos.length > 0) {
-            model.setYoutubeId(externalApiService.spoonacularVideoSearch(recipe.getName()).getVideos()[0].youTubeId);
+            model.setYoutubeId(videos[0].getId().videoId);
           }
         }
 

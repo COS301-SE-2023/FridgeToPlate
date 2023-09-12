@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
-import com.fridgetoplate.interfaces.SpoonacularVideoResponse;
+import com.fridgetoplate.interfaces.YoutubeVideosResponse;
 import com.fridgetoplate.model.Ingredient;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +26,12 @@ public class ExternalApiService {
 
    @Value("${spoonacular.apiKey}")
    private String spoonacularPrivateKey;
+
+   @Value("${youtubeApi.baseUrl}")
+   private String youtubeApiBaseUrl;
+
+   @Value("${youtubeApi.apiKey}")
+   private String youtubeApiKey;
    
    @Autowired
    private RestTemplate template = new RestTemplate();
@@ -189,9 +194,10 @@ public class ExternalApiService {
       
     }
 
-    public SpoonacularVideoResponse spoonacularVideoSearch(String recipeName) {
-        String endpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey + "&query=" + recipeName + "&number=1";
+    public YoutubeVideosResponse spoonacularVideoSearch(String recipeName) {
+        String endpoint = youtubeApiBaseUrl + "?key=" + youtubeApiKey + "&part=snippet&q=" + recipeName;
 
-        return template.getForObject( endpoint, SpoonacularVideoResponse.class);
+        System.out.println(endpoint);
+        return template.getForObject( endpoint, YoutubeVideosResponse.class);
     }
 }
