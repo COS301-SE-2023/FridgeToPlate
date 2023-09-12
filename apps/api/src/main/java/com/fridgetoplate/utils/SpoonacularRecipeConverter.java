@@ -74,8 +74,6 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                                     ingredientUnit = "tbsp";
                                 } else if (ingredientUnit.equals("tsps")) {
                                     ingredientUnit = "tsp";
-                                } else if (ingredientUnit.equals("servings")) {
-                                    ingredientUnit = "pinch";
                                 } else if (ingredientUnit.equals("kgs")) {
                                     ingredientUnit = "kg";
                                 }
