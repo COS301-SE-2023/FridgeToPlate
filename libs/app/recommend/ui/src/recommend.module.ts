@@ -13,6 +13,10 @@ import { FormsModule } from '@angular/forms';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { BarcodeModalComponent } from './barcode-modal/barcode-modal.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { DropdownSelectComponent } from './dropdown-select/dropdown-select.component';
+import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,8 @@ import { BarcodeModalComponent } from './barcode-modal/barcode-modal.component';
     RecipeListStep,
     RecipePreferencesStep,
     StepperForm,
-    BarcodeModalComponent
+    BarcodeModalComponent,
+    DropdownSelectComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +37,17 @@ import { BarcodeModalComponent } from './barcode-modal/barcode-modal.component';
     FormsModule,
     IngredientUIModule,
     ProfileDataAccessModule,
+    NgxSkeletonLoaderModule,
+    NzSelectModule,
+    ProfileModule,
   ],
-  exports: [ItemEditStep, RecipeListStep, RecipePreferencesStep, StepperForm, BarcodeModalComponent],
+  exports: [
+    ItemEditStep,
+    RecipeListStep,
+    RecipePreferencesStep,
+    StepperForm,
+    DropdownSelectComponent,
+    BarcodeModalComponent
+  ],
 })
 export class RecommendUIModule {}

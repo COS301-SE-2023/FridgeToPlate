@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     NzListModule,
     FormsModule,
   ],
-  declarations: [ProfilePage, ClickedOutsideDirective]
+  declarations: [ProfilePage, ClickedOutsideDirective],
+  exports: [ClickedOutsideDirective],
 })
 export class ProfileModule {}
