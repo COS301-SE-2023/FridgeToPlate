@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.interfaces.RecipePreferences;
-import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.RecommendModel;
 import com.fridgetoplate.repository.RecommendRepository;
 import com.fridgetoplate.utils.SpoonacularRecipeConverter;
@@ -28,36 +28,54 @@ public class RecommendService {
     @Autowired
     private RecipeService recipeService;
     
-    public List<RecipeFrontendModel> getRecipeRecommendations(RecommendFrontendModel userRecommendation) {
+    public List<RecipeDesc> getRecipeRecommendations(RecommendFrontendModel userRecommendation) {
         if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
-            return new ArrayList<RecipeFrontendModel>();
+            return new ArrayList<RecipeDesc>();
     
         //0. Store User recommendation object
         this.save(userRecommendation);
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        List<RecipeFrontendModel> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        List<RecipeDesc> result = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-        if(dbQueryResults.size() < 25){
+        if(result.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
-    
+
             //1. Query External API and convert to Recipe
             RecipeFrontendModel[] apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()).getResults());
-            
+
             //2. Add External API recipes to DB
             if(apiQueryResults.length != 0)
                 recipeService.saveBatch( apiQueryResults );
             
             //.3 Query Database by prefrence
-            dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+            List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-            //Pad results - DEMO.
-            dbQueryResults.addAll( Arrays.asList(apiQueryResults) ); 
+            result = new ArrayList<>(dbQueryResults);
+            for (int i = 0; i < apiQueryResults.length && result.size() < 24; i++) {
+                boolean found = false;
+                for (int j = 0; j < dbQueryResults.size(); j++) {
+                    if (dbQueryResults.get(j).getRecipeId().equals(apiQueryResults[i].getRecipeId())) {
+                        found = true;
+                        break;
+                    }
+                }
 
+                if (!found) {
+                    RecipeDesc recipeDesc = new RecipeDesc();
+                    recipeDesc.setRecipeId(apiQueryResults[i].getRecipeId());
+                    recipeDesc.setName(apiQueryResults[i].getName());
+                    recipeDesc.setRecipeImage(apiQueryResults[i].getRecipeImage());
+                    recipeDesc.setTags(apiQueryResults[i].getTags());
+                    recipeDesc.setDifficulty(apiQueryResults[i].getDifficulty());
+                    recipeDesc.setRating(apiQueryResults[i].getRating());
+                    result.add(recipeDesc);
+                }
+            }
         }
 
-        return dbQueryResults;
+        return result;
     }
 
     public RecommendFrontendModel save(RecommendFrontendModel recommendObject){

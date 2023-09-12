@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecommendFrontendModel;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.service.RecommendService;
 
 @RestController
@@ -19,7 +20,7 @@ public class RecommendController {
     private RecommendService recommendService;
 
     @PostMapping
-    public List<RecipeFrontendModel> getRecipeRecommendations(@RequestBody RecommendFrontendModel userRecommendation) {
+    public List<RecipeDesc> getRecipeRecommendations(@RequestBody RecommendFrontendModel userRecommendation) {
         try{
             return recommendService.getRecipeRecommendations(userRecommendation);
         }

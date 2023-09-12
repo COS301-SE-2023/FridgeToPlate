@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -1039,6 +1040,15 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
+
+      const review: IReview = {
+        reviewId : "reviewId",
+        recipeId: "recipeId",
+        username: "",
+        rating: 2, 
+        description: "It was fun while it lasted"
+
+      }
       
       // Mock the recipe data
       const recipe: IRecipe = {
@@ -1058,7 +1068,8 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
-        rating: null
+        rating: null,
+        reviews: [review]
       };
     
       component.imageUrl = recipe.recipeImage
@@ -1079,7 +1090,8 @@ describe('Ingredients storing, deleting and returning', () => {
       
       component.recipe = {
         recipeId: "123",
-        rating: null
+        rating: null,
+        reviews: [review]
       } as IRecipe;
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
