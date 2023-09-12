@@ -110,7 +110,7 @@ public class ExternalApiService {
 
         if(userIngredients != null && userIngredients.size() != 0){
             
-            String ingredientsListString = "&ingredients=";
+            String ingredientsListString = "&includeIngredients=";
              for(int i = 0; i < userIngredients.size(); i++){
                 
                 ingredientsListString += userIngredients.get(i).getName().toLowerCase();

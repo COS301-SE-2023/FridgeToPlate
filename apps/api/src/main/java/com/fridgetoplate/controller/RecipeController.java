@@ -38,6 +38,7 @@ public class RecipeController {
     public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
         return recipeService.updateRatingRatingAndViews(recipe);
     }
+    
     @PutMapping("/{id}")
     public RecipeFrontendModel update(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
         return recipeService.update(recipe);

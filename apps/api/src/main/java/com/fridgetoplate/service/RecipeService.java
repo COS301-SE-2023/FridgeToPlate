@@ -365,6 +365,7 @@ public class RecipeService {
       if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating()) == false) {
           model.setViews(recipeModel.getViews());
       }
+      
       if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating())) {
           model.setViews(recipeModel.getViews() + 1);
       }
