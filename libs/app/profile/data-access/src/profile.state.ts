@@ -332,7 +332,7 @@ export class ProfileState {
             });
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
-            this.store.dispatch( new RetrieveMealPlanIngredients(updatedProfile.username) );
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
         }
     }
 
@@ -359,7 +359,7 @@ export class ProfileState {
                 mealPlan.snack = null;
             }
             this.store.dispatch(new UpdateMealPlan(mealPlan))
-            this.store.dispatch( new RetrieveMealPlanIngredients(profile.username) )
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) )
         }
     }
 

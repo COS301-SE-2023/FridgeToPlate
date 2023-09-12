@@ -44,7 +44,7 @@ export class ProfilePage {
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) );
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.currMealPlan) );
     this.dateSelected = new Date().toISOString().slice(0, 10);
   }
 

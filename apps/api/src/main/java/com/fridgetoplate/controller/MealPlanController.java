@@ -42,9 +42,9 @@ public class MealPlanController {
         return this.mealPlanService.findMealPlan(username, date);
     }
 
-    @GetMapping("/{username}/ingredients")
-    public List<Ingredient> getIngredients(@PathVariable(value = "username") String username){
-        return this.mealPlanService.findMealPlanIngredients(username);
+    @PostMapping("/ingredients")
+    public List<Ingredient> getIngredients(@RequestBody MealPlanFrontendModel mealPlan){
+        return this.mealPlanService.findMealPlanIngredients(mealPlan);
     }
 
 }

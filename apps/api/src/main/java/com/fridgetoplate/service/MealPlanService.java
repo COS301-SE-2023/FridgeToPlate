@@ -77,16 +77,15 @@ public class MealPlanService {
         }
     }
 
-     public List<Ingredient> findMealPlanIngredients(String username) {
-        MealPlanModel mealPlan = this.mealPlanRepository.findByUsername(username);
+     public List<Ingredient> findMealPlanIngredients(MealPlanFrontendModel mealPlan) {
         List<Ingredient> formattedList = new ArrayList<>();
 
         if(mealPlan == null){
             return formattedList;
         }
         
-        if(mealPlan.getBreakfastId() != null && !mealPlan.getBreakfastId().isEmpty()) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getBreakfastId());
+        if(mealPlan.getBreakfast() != null) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getBreakfast().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -98,8 +97,8 @@ public class MealPlanService {
             }
         }
 
-        if(mealPlan.getLunchId() != null && !mealPlan.getLunchId().isEmpty()) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getLunchId());
+        if(mealPlan.getLunch() != null) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getLunch().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -111,8 +110,8 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getDinnerId() != null && !mealPlan.getDinnerId().isEmpty()) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinnerId());
+         if(mealPlan.getDinner() != null)) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinner().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -124,8 +123,8 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getSnackId() != null && !mealPlan.getSnackId().isEmpty()) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnackId());
+         if(mealPlan.getSnack() != null)) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnack().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();

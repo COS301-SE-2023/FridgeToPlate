@@ -249,8 +249,8 @@ export class RecipeState {
   }
 
   @Action(RetrieveMealPlanIngredients)
-  async retrieveIngredients( { setState }: StateContext<IngredientsStateMeal>, { username }: RetrieveMealPlanIngredients ) {
-    this.mealPlanAPI.getMealPlanShoppingList(username).subscribe(
+  async retrieveIngredients( { setState }: StateContext<IngredientsStateMeal>, { mealPlan }: RetrieveMealPlanIngredients ) {
+    this.mealPlanAPI.getMealPlanShoppingList(mealPlan).subscribe(
       (ingredients) => {
         if (ingredients) {
           setState({
