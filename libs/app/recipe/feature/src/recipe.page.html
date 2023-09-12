@@ -110,7 +110,7 @@
               <ion-label class="text-lg font-bold">Instructions</ion-label>
             </ion-list-header>
             <ion-item *ngFor="let instruction of recipe?.steps; let i = index;">
-              <div>{{i+1}}. {{ instruction }}</div>
+              <div><span class="font-bold">{{i+1}}. </span> <span>{{ instruction }}</span></div>
             </ion-item>
           </ion-list>
         </div>
