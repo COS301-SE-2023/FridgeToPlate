@@ -110,7 +110,7 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getDinner() != null)) {
+         if(mealPlan.getDinner() != null) {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinner().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
@@ -123,7 +123,7 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getSnack() != null)) {
+         if(mealPlan.getSnack() != null) {
             List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnack().getRecipeId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
