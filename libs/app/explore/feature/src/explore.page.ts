@@ -1,12 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { Select, Store, NgxsModule } from '@ngxs/store';
+import { Component } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Observable, take } from "rxjs";
-import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
-import { Navigate } from "@ngxs/router-plugin";
+import { Observable } from "rxjs";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
-import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

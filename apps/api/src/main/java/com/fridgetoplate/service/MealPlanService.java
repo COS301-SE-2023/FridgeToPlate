@@ -31,13 +31,14 @@ public class MealPlanService {
         // Find Meal       
         MealPlanModel mealPlanModel = mealPlanRepository.find(username, date);
 
+        // Declare the response object
+        MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
+
+        // creating response
+        mealPlanResponse.setUsername(username);
+        mealPlanResponse.setDate(date);
+
         if(mealPlanModel != null) {
-
-            // Declare the response object
-            MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
-
-            // creating response
-            mealPlanResponse.setUsername(username);
 
             String breakFastId = mealPlanModel.getBreakfastId();
 
@@ -65,16 +66,13 @@ public class MealPlanService {
             } 
 
             // Creating the mealPlanResponse
-            mealPlanResponse.setDate(date);
             mealPlanResponse.setBreakfast(breakfast);
             mealPlanResponse.setLunch(lunch);
             mealPlanResponse.setDinner(dinner);
             mealPlanResponse.setSnack(snack);
-
-            return mealPlanResponse;
-        } else {
-            return null;
-        }
+        } 
+        
+        return mealPlanResponse;
     }
 
      public List<Ingredient> findMealPlanIngredients(MealPlanFrontendModel mealPlan) {

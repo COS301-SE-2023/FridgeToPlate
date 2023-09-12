@@ -145,4 +145,4 @@
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
 <settings-modal *ngIf="settings$ | async as displaySettings" [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
-<shopping-list-modal *ngIf="ingredients$ | async as ingredients" [ingredients]="ingredients"  [ngStyle]="{ 'display': displayShoppinglist }" (closeFunc)="closeShoppingList()" ></shopping-list-modal>
+<shopping-list-modal *ngIf="ingredients$ | async as ingredients" [ingredients]="ingredients" [ngStyle]="{ 'display': displayShoppinglist }" (closeFunc)="closeShoppingList()" ></shopping-list-modal>

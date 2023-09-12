@@ -256,12 +256,6 @@ export class RecipeState {
           setState({
             ingredients: ingredients
           });
-        } else {
-          this.store.dispatch(
-            new ShowError(
-              'Error: Something is wrong with the ingredients: ' + ingredients
-            )
-          );
         }
       },
       (error: Error) => {
