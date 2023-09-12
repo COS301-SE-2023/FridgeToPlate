@@ -11,6 +11,7 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
+import com.fridgetoplate.interfaces.SpoonacularVideo;
 import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.RecipeModel;
@@ -24,6 +25,9 @@ public class RecipeService {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ExternalApiService externalApiService;
 
     public RecipeFrontendModel findById(String id){
 
@@ -72,6 +76,7 @@ public class RecipeService {
         String creator = recipeModel.getCreator();
         Integer servings = recipeModel.getServings();
         Double rating = recipeModel.getRating();
+        String youtubeId = recipeModel.getYoutubeId();
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -87,6 +92,7 @@ public class RecipeService {
         recipeResponse.setCreator(creator);
         recipeResponse.setServings(servings);
         recipeResponse.setRating(rating);
+        recipeResponse.setYoutubeId(youtubeId);
 
         /*
         * Getting the Reviews
@@ -126,6 +132,24 @@ public class RecipeService {
         model.setViews(0);
         model.setRating(recipe.getRating());
 
+        if (recipe.getYoutubeId() != null && !recipe.getYoutubeId().isEmpty()) {
+          String ytId = recipe.getYoutubeId();
+          
+          int i = ytId.indexOf("v=");
+          if (i > 0) {
+            int j = ytId.indexOf("&");
+
+            ytId = ytId.substring(i + 2, j);
+          }
+
+          model.setYoutubeId(recipe.getYoutubeId());
+        } else {
+          SpoonacularVideo[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getVideos();
+          if (videos.length > 0) {
+            model.setYoutubeId(externalApiService.spoonacularVideoSearch(recipe.getName()).getVideos()[0].youTubeId);
+          }
+        }
+
         recipeRepository.saveRecipe(model);
 
         recipe.setRecipeId(model.getRecipeId());
@@ -158,6 +182,7 @@ public class RecipeService {
         model.setServings(recipe.getServings());
         model.setViews(0);
         model.setRating(recipe.getRating());
+        model.setYoutubeId(recipe.getYoutubeId());
 
         recipeRepository.saveRecipe(model);
 

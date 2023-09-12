@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
+import com.fridgetoplate.interfaces.SpoonacularVideoResponse;
 import com.fridgetoplate.model.Ingredient;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -186,5 +187,11 @@ public class ExternalApiService {
         System.out.println(recipeSearchEndpoint);
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
+    }
+
+    public SpoonacularVideoResponse spoonacularVideoSearch(String recipeName) {
+        String endpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey + "&query=" + recipeName + "&number=1";
+
+        return template.getForObject( endpoint, SpoonacularVideoResponse.class);
     }
 }
