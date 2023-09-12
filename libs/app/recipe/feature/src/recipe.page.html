@@ -95,11 +95,15 @@
             <ion-list-header>
               <ion-label class="text-lg font-bold">Ingredients</ion-label>
             </ion-list-header>
+            <ion-item class="font-bold">
+              <ion-label>Quantity</ion-label>
+              <ion-label>Ingredient</ion-label>
+            </ion-item>
             <ion-item *ngFor="let ingredient of recipe?.ingredients">
-              <div>
-                {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
-                {{ingredient?.name ?? 'Unknown ingredient'}}
-              </div>
+
+                <ion-label> {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}} </ion-label>
+                  <ion-label> {{ingredient?.name ?? 'Unknown ingredient'}} </ion-label>
+
             </ion-item>
           </ion-list>
         </div>
