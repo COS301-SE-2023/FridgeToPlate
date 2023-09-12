@@ -68,6 +68,12 @@
             </div>
           </div>
 
+          <!-- <div *ngIf="hasTags === true" class="px-4 pb-8">
+            <h1 class="text-lg font-bold">Tags</h1>
+
+            <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+          </div> -->
+
           <div class="px-4 pb-8">
             <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
             <p>{{ recipe?.creator }}</p>
@@ -75,7 +81,7 @@
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
             <h1 class="text-lg font-bold">Description</h1>
-            <p [ngClass]="{'line-clamp-4': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
+            <p [ngClass]="{'line-clamp-5': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
           </div>
 
         </div>
