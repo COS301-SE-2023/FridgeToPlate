@@ -329,43 +329,43 @@ public class RecipeService {
   }
 
   public List<RecipeModel> filterSearch(Explore searchObject){
-        return this.recipeRepository.filterSearch(searchObject);
-    }
+      return this.recipeRepository.filterSearch(searchObject);
+  }
 
-    public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
-      return this.recipeRepository.findIngredientsByRecipeId(recipeId);
-   }
+  public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+    return this.recipeRepository.findIngredientsByRecipeId(recipeId);
+  }
 
-   public RecipeFrontendModel updateRatingRatingAndViews(RecipeFrontendModel recipe){
+  public RecipeFrontendModel updateRatingRatingAndViews(RecipeFrontendModel recipe){
 
-        RecipeModel model = new RecipeModel();
-        RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
+      RecipeModel model = new RecipeModel();
+      RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
 
-        if(recipeModel.getRating().equals(recipe.getRating()) == false) {
-           model.setViews(recipeModel.getViews());
-        }
-        if(recipeModel.getRating().equals(recipe.getRating())) {
-            model.setViews(recipeModel.getViews() + 1);
-        }
+      if(recipeModel.getRating().equals(recipe.getRating()) == false) {
+          model.setViews(recipeModel.getViews());
+      }
+      if(recipeModel.getRating().equals(recipe.getRating())) {
+          model.setViews(recipeModel.getViews() + 1);
+      }
 
-        model.setRecipeId(recipe.getRecipeId());
-        model.setDifficulty(recipe.getDifficulty());
-        model.setRecipeImage(recipe.getRecipeImage());
-        model.setName(recipe.getName());
-        model.setTags(recipe.getTags());
-        model.setMeal(recipe.getMeal());
-        model.setDescription(recipe.getDescription());
-        model.setPrepTime(recipe.getPrepTime());
-        model.setSteps(recipe.getSteps());
-        model.setCreator(recipe.getCreator());
-        model.setServings(recipe.getServings());
-        model.setRating(recipe.getRating());
+      model.setRecipeId(recipe.getRecipeId());
+      model.setDifficulty(recipe.getDifficulty());
+      model.setRecipeImage(recipe.getRecipeImage());
+      model.setName(recipe.getName());
+      model.setTags(recipe.getTags());
+      model.setMeal(recipe.getMeal());
+      model.setDescription(recipe.getDescription());
+      model.setPrepTime(recipe.getPrepTime());
+      model.setSteps(recipe.getSteps());
+      model.setCreator(recipe.getCreator());
+      model.setServings(recipe.getServings());
+      model.setRating(recipe.getRating());
 
-        recipeRepository.saveRecipe(model);
+      recipeRepository.saveRecipe(model);
 
-        recipe.setRecipeId(model.getRecipeId());
+      recipe.setRecipeId(model.getRecipeId());
 
-        return recipe;
-    }
+      return recipe;
+  }
 
 }
