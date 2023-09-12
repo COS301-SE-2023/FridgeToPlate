@@ -9,7 +9,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { IProfile, SaveRecipe, RemoveSavedRecipe, AddToMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/profile/utils';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
 import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
@@ -129,25 +128,22 @@ describe('RecipeCardComponent', () => {
 });
 
     // Tests that a recipe can be added to the meal plan successfully
-    it('test add to meal plan successfully', () => {
-      component.mealType = 'Breakfast';
-      component.addToMealPlan("Breakfast");
-      expect(component.added).toBe(true);
-      expect(store.dispatch).toBeCalledWith(new AddToMealPlan(testRecipe, "Breakfast"));
-  });
-
-  it('should set added to true if recipe is in meal plan', () => {
-    component.ngOnInit();
-    expect(component.added).toBe(true);
-  });
-
-  it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
+  it('test add to meal plan successfully', () => {
     component.recipe = testRecipe;
     const tempMeal = "Breakfast";
     const tempDate = '2022-03-11';
 
     component.addToMealPlan({meal: tempMeal, date: tempDate});
     expect(store.dispatch).toHaveBeenCalledWith(new AddToMealPlan(testRecipe, tempMeal, tempDate));
+  });
+
+  it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
+    component.recipe = null;
+    const tempMeal = "Breakfast";
+    const tempDate = '2022-03-11';
+
+    component.addToMealPlan({meal: tempMeal, date: tempDate});
+    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'))
   });
 
   it('should dispatch add to meal plan', () => {
