@@ -202,7 +202,7 @@
               min="0"
               pattern="[0-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-              
+
             </div>
 
             <div class="w-1/5 relative">
@@ -222,7 +222,7 @@
                 <option value="lb" class="text-black hover:bg-primary-highlight">Pound (lb)</option>
               </select>
             </div>
-            
+
 
             <div>
               <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
@@ -345,19 +345,22 @@
     </div>
 
     <div>
-      <label for="tag" class="block text-gray-700 font-bold lg:mt-5 mb-2">Tag<span class="text-red-500">*</span></label>
 
+      <div class="flex justify-between">
+        <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
+        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-2">
+          Add
+        </button>
+      </div>
       <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
-          placeholder="e.g. Asian, Vegan"
+          placeholder="e.g. Asian"
           formControlName="tag"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
+          class="w-full bg-gray-200 border border-gray-400 mt- p-2 rounded-md"
         >
-        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight mt-2 font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">
-          Add
-        </button>
+
       </div>
       <div class="py-2">
         <ul class="flex">
