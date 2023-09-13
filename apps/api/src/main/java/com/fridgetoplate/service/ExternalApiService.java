@@ -195,7 +195,7 @@ public class ExternalApiService {
     }
 
     public YoutubeVideosResponse spoonacularVideoSearch(String recipeName) {
-        String endpoint = youtubeApiBaseUrl + "?key=" + youtubeApiKey + "&part=snippet&q=" + recipeName;
+        String endpoint = youtubeApiBaseUrl + "?key=" + youtubeApiKey + "&part=snippet&q=" + recipeName + "&maxResults=1";
 
         System.out.println(endpoint);
         return template.getForObject( endpoint, YoutubeVideosResponse.class);
