@@ -735,6 +735,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian']
 
         component.recipeForm = formGroup;
+        component.selectedMeal = ""
         component.isFormValid();
         expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
 

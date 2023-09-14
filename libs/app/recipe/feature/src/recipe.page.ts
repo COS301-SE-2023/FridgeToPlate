@@ -37,6 +37,7 @@ export class RecipePage implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
+  // hasTags = false;
   isDescriptionExpanded = false;
   toggleDescriptionExpanded() {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;

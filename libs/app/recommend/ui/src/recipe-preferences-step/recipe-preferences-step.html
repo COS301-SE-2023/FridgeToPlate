@@ -1,9 +1,16 @@
-<div class="w-full h-full [&>*]:mx-5" *ngIf="recipePreferences$ | async as recipePreferences">
+<div
+  class="w-full h-full [&>*]:mx-5"
+  *ngIf="recipePreferences$ | async as recipePreferences"
+>
   <div>
     <h3 class="text-xl font-bold my-2">Recipe Filters</h3>
     <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-8 text-black">Difficulty</label>
-      <select [(ngModel)]="editableRecipePreferences.difficulty" (change)="updateRecipePreferences()" class="w-full rounded-md p-1">
+      <select
+        [(ngModel)]="editableRecipePreferences.difficulty"
+        (change)="updateRecipePreferences()"
+        class="w-full rounded-md p-1"
+      >
         <option></option>
         <option>Easy</option>
         <option>Medium</option>
@@ -12,7 +19,11 @@
     </div>
     <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-10 text-black">Meal Type</label>
-      <select [(ngModel)]="editableRecipePreferences.meal" (change)="updateRecipePreferences()" class="w-full rounded-md p-1">
+      <select
+        [(ngModel)]="editableRecipePreferences.meal"
+        (change)="updateRecipePreferences()"
+        class="w-full rounded-md p-1"
+      >
         <option></option>
         <option>Breakfast</option>
         <option>Lunch</option>
@@ -23,7 +34,11 @@
     </div>
     <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-10 text-black">Servings</label>
-      <select [(ngModel)]="editableRecipePreferences.servings" (change)="updateRecipePreferences()" class="w-full rounded-md p-1">
+      <select
+        [(ngModel)]="editableRecipePreferences.servings"
+        (change)="updateRecipePreferences()"
+        class="w-full rounded-md p-1"
+      >
         <option></option>
         <option>1 - 2</option>
         <option>2 - 4</option>
@@ -32,7 +47,11 @@
     </div>
     <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-10 text-black">Prep Time</label>
-      <select [(ngModel)]="editableRecipePreferences.prepTime" (change)="updateRecipePreferences()" class="w-full rounded-md p-1">
+      <select
+        [(ngModel)]="editableRecipePreferences.prepTime"
+        (change)="updateRecipePreferences()"
+        class="w-full rounded-md p-1"
+      >
         <option></option>
         <option>&lt;30 Minutes</option>
         <option>30 - 60 Minutes</option>
@@ -41,7 +60,11 @@
     </div>
     <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
       <label class="font-semibold mr-14 text-black">Rating</label>
-      <select [(ngModel)]="editableRecipePreferences.rating" (change)="updateRecipePreferences()" class="w-full rounded-md p-1">
+      <select
+        [(ngModel)]="editableRecipePreferences.rating"
+        (change)="updateRecipePreferences()"
+        class="w-full rounded-md p-1"
+      >
         <option></option>
         <option>1+</option>
         <option>2+</option>
@@ -53,10 +76,12 @@
   </div>
   <div class="mt-8">
     <h3 class="text-xl font-bold my-2">Keywords</h3>
-    <input
-      placeholder="Search by keyword"
-      type="text"
-      class="w-full py-2 rounded-md outline outline-input-outline pl-4 mt-2 text-black"
+    <fridge-to-plate-dropdown-select
+      [selectOptions]="keywordOptions"
+      [selectedOptions]="selectedKeywords"
+      placeholderText="Search Keywords"
+      (selectedOption)="keywordSelected($event)"
+      (newSearchEvent)="filterKeywordsList($event)"
     />
   </div>
 </div>

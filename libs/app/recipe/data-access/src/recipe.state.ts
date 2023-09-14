@@ -203,11 +203,7 @@ export class RecipeState {
 
       this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
-      (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe({
-        error: error => {
-            this.store.dispatch(new ShowError(error.message));
-        }
-      });
+      (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe();
     }
   }
 

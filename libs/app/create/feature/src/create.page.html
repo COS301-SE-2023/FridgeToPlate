@@ -202,7 +202,7 @@
               min="0"
               pattern="[0-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-              
+
             </div>
 
             <div class="w-1/5 relative">
@@ -220,7 +220,7 @@
                 <option value="lb" class="text-black hover:bg-primary-highlight">Pound (lb)</option>
               </select>
             </div>
-            
+
 
             <div>
               <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
@@ -266,17 +266,17 @@
       <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2">
         <button
           type="button"
-          [ngClass]="getMealPlan('Breakfast')"
+          [ngClass]="getMealPlan('breakfast')"
           value="Breakfast"
-          (click)="toggleMeal('Breakfast')"
+          (click)="toggleMeal('breakfast')"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        BreakFast
+        Breakfast
         </button>
         <button
           type="button"
-          [ngClass]="getMealPlan('Lunch')"
-          (click)="toggleMeal('Lunch')"
+          [ngClass]="getMealPlan('lunch')"
+          (click)="toggleMeal('lunch')"
           value="Lunch"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -284,8 +284,8 @@
         </button>
         <button
           type="button"
-          [ngClass]="getMealPlan('Dinner')"
-          (click)="toggleMeal('Dinner')"
+          [ngClass]="getMealPlan('dinner')"
+          (click)="toggleMeal('dinner')"
           value="Dinner"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -293,8 +293,8 @@
         </button>
         <button
           type="button"
-          [ngClass]="getMealPlan('Snack')"
-          (click)="toggleMeal('Snack')"
+          [ngClass]="getMealPlan('snack')"
+          (click)="toggleMeal('snack')"
           value="Snack"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
           >
@@ -302,8 +302,8 @@
         </button>
         <button
         type="button"
-        [ngClass]="getMealPlan('Dessert')"
-        (click)="toggleMeal('Dessert')"
+        [ngClass]="getMealPlan('dessert')"
+        (click)="toggleMeal('dessert')"
         value="Snack"
         class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -312,8 +312,8 @@
 
         <button
         type="button"
-        [ngClass]="getMealPlan('Drink')"
-        (click)="toggleMeal('Drink')"
+        [ngClass]="getMealPlan('drink')"
+        (click)="toggleMeal('drink')"
         value="Drink"
         class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -322,8 +322,8 @@
 
       <button
         type="button"
-        [ngClass]="getMealPlan('Salad')"
-        (click)="toggleMeal('Salad')"
+        [ngClass]="getMealPlan('salad')"
+        (click)="toggleMeal('salad')"
         value="Salad"
         class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -332,8 +332,8 @@
 
       <button
         type="button"
-        [ngClass]="getMealPlan('Soup')"
-        (click)="toggleMeal('Soup')"
+        [ngClass]="getMealPlan('soup')"
+        (click)="toggleMeal('soup')"
         value="Soup"
         class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
@@ -343,19 +343,22 @@
     </div>
 
     <div>
-      <label for="tag" class="block text-gray-700 font-bold lg:mt-5 mb-2">Tag<span class="text-red-500">*</span></label>
 
+      <div class="flex justify-between">
+        <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
+        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-2">
+          Add
+        </button>
+      </div>
       <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
-          placeholder="e.g. Asian, Vegan"
+          placeholder="e.g. Asian"
           formControlName="tag"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
+          class="w-full bg-gray-200 border border-gray-400 mt- p-2 rounded-md"
         >
-        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight mt-2 font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">
-          Add
-        </button>
+
       </div>
       <div class="py-2">
         <ul class="flex">
