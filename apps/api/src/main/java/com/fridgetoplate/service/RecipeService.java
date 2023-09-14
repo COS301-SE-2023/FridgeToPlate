@@ -4,6 +4,7 @@ package com.fridgetoplate.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fridgetoplate.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,6 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
-import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.IngredientModel;
-import com.fridgetoplate.model.RecipeModel;
-import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
 
 @Service
@@ -159,7 +156,7 @@ public class RecipeService {
 
         List<IngredientModel> currIngredients = this.findIngredientsByRecipeId(recipe.getRecipeId());
         recipeRepository.removeIngredients(currIngredients);
-        
+
         for (Ingredient ingredient : recipe.getIngredients()) {
 
           IngredientModel ingredientModel = new IngredientModel();
@@ -174,17 +171,25 @@ public class RecipeService {
         return recipe;
     }
 
-    public String delete(String id) { 
+    public RecipeDeleteResponseModel delete(String id) {
+        RecipeDeleteResponseModel response = new RecipeDeleteResponseModel();
+      try{
+        RecipeModel recipe = recipeRepository.findById(id);
 
-      RecipeModel recipe = recipeRepository.findById(id);
-      if (recipe == null) {
-        return "NOT FOUND";
+        if (recipe == null) {
+          response.setResponse("NOT FOUND");
+        }
+
+        recipeRepository.removeIngredients(recipeRepository.findIngredientsByRecipeId(id));
+        reviewService.removeReviews(reviewService.getReviewsById(id));
+        recipeRepository.deleteRecipe(recipe);
+        response.setResponse("RECIPE SUCCESSFULLY DELETED");
       }
-
-      recipeRepository.removeIngredients(recipeRepository.findIngredientsByRecipeId(id));
-      reviewService.removeReviews(reviewService.getReviewsById(id));
-      recipeRepository.deleteRecipe(recipe);
-      return "RECIPE SUCCESSFULLY DELETED";
+      catch (Exception exception){
+        response.setResponse(exception.getMessage());
+        return response;
+      }
+      return response;
     }
 
     public List<RecipeDesc> getCreatedRecipes(String username) {
@@ -259,7 +264,11 @@ public class RecipeService {
 
       // Extracting the rating from the preferences
       String preferredRatingStr = recipePreferences.getRating().trim();
-      Double preferredRating = (double) Character.getNumericValue(preferredRatingStr.charAt(0));
+
+      Double preferredRating = 0.0;
+      if (!preferredRatingStr.isEmpty()) {
+        preferredRating = (double) Character.getNumericValue(preferredRatingStr.charAt(0));
+      }
 
       // Extracting the servings from the preferences
       String preferredServingsStr;
@@ -290,9 +299,14 @@ public class RecipeService {
 
       for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if ( (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) || (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
-             (selectedRecipe.getRating().compareTo(preferredRating) >= 0) || (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) || (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
-             (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) || (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)) {
+        if ((selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) ||
+            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
+            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) ||
+            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) ||
+            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) ||
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
+          ) {
 
           if (recipesSortByPreferences.size() <= 25) {
             recipesSortByPreferences.add(selectedRecipe);
