@@ -110,7 +110,7 @@ public class ExternalApiService {
 
         if(userIngredients != null && userIngredients.size() != 0){
             
-            String ingredientsListString = "&includeIngredients=";
+            String ingredientsListString = "&ingredients=";
              for(int i = 0; i < userIngredients.size(); i++){
                 
                 ingredientsListString += userIngredients.get(i).getName().toLowerCase();
@@ -181,8 +181,9 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
-        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=1";
+        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=2&number=24&sort=min-missing-ingredients";
 
+        System.out.println(recipeSearchEndpoint);
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
     }

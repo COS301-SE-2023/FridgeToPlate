@@ -158,7 +158,8 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.value.preparationTime as number,
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
-      rating: this.recipe?.rating as number | null
+      rating: this.recipe?.rating as number | null,
+      reviews: this.recipe?.reviews ?? []
     };
 
     const index = this.profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
@@ -201,7 +202,7 @@ export class EditRecipeComponent implements OnInit {
     this.location.back()
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
