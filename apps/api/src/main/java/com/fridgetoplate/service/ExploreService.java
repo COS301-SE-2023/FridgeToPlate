@@ -27,7 +27,7 @@ public class ExploreService {
 
     private List<RecipeDesc> beautify (List<RecipeModel> recipes) {
         List<RecipeDesc> recipeFrontendModels = new ArrayList<RecipeDesc>();
-        for (int i = 0; i < 25 && i < recipes.size(); i++) {
+        for (int i = 0; i < 24 && i < recipes.size(); i++) {
             RecipeFrontendModel frontendModel = this.recipeService.findById(recipes.get(i).getRecipeId());
             if(!recipeFrontendModels.contains(frontendModel)){
                 RecipeDesc recipeDesc = new RecipeDesc();
