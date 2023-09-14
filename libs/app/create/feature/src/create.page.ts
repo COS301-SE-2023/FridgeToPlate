@@ -23,7 +23,7 @@ export class CreatePagComponent implements OnInit  {
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   videoUrl = 'https://img.freepik.com/free-photo/female-food-blogger-streaming-home-while-cooking_23-2148771599.jpg';
-  selectedMeal!: string;
+  selectedMeal = 'breakfast';
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
