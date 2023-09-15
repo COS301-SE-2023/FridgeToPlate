@@ -46,6 +46,8 @@
             placeholder="e.g 10"
             formControlName="servings"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+            min="1"
+            pattern="[1-9]+"
           >
         </div>
 
@@ -56,6 +58,8 @@
             id="preparation-time"
             placeholder="e.g 10"
             formControlName="preparationTime"
+            min="1"
+            pattern="[1-9]+"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
           >
@@ -184,7 +188,7 @@
       </div>
       <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
         <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
-          <div [formGroupName]="i" class=" flex mb-2 ">
+          <div [formGroupName]="i" class="flex mb-2 ">
 
             <div class="w-3/5">
               <input formControlName="name"
@@ -199,8 +203,8 @@
               type="number"
               [placeholder]="getAmountPlaceholderText()"
               required
-              min="0"
-              pattern="[0-9]+"
+              min="1"
+              pattern="[1-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
 
             </div>
@@ -222,8 +226,8 @@
             </div>
 
 
-            <div>
-              <button type="button" (click)="removeIngredient(i)" class="lg:hover:text-reject focus:text-reject text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+            <div class="mt-1">
+              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>
@@ -252,7 +256,7 @@
                    required>
             <button type="button"
                     (click)="removeInstruction(i)"
-                    class="lg:hover:text-reject focus:text-reject text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+                    class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>

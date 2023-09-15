@@ -216,15 +216,15 @@ export class RecipeState {
       recipe: null,
     });
 
-    this.api.deleteRecipe(recipeId).subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (error: Error) => {
-        console.error('Failed to delete recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
-      }
-    );
+    this.api.deleteRecipe(recipeId).pipe(
+      tap(
+        (response: string) => {
+          console.log(response)
+        },
+        catchError(
+          () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not deleted successfully'))
+        )
+      )).subscribe()
   }
 
   @Action(CreateRecipe)
