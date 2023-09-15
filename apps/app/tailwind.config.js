@@ -15,6 +15,9 @@ module.exports = {
       'xl': '1280px',
       '2xl': '1536px',
     },
+    fontFamily: 
+       ["Poppins", "Inter", "Quicksand", "Noto Sans KR"]
+    ,
     extend: {
       colors: {
         'background-light': '#F8F8F8',
@@ -47,9 +50,8 @@ module.exports = {
         13: "13",
       },
       fontFamily: {
-        sans: [
-          "Poppins", "Inter", "Quicksand", "Noto Sans KR"
-        ],
+        'sans': ["Noto Sans KR"]
+        
       },
       spacing: {
         '18': '5rem',
