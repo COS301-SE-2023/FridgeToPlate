@@ -15,7 +15,6 @@ import { RecipeState } from '../../data-access/src/recipe.state';
     CommonModule, 
     IonicModule,
     ProfileDataAccessModule,
-
     FormsModule,
     NgxsModule.forFeature([RecipeState])
   ],
