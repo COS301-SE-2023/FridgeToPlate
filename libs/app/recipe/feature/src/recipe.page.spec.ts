@@ -5,20 +5,35 @@ import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule, State, Store } from '@ngxs/store';
 import { ReviewModule } from '@fridge-to-plate/app/review/feature';
 import { Navigate } from '@ngxs/router-plugin';
+import { Injectable } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 describe('RecipeDetailPageComponent', () => {
+  
+  @State({
+    name: 'recipe',
+    defaults: {
+      recipe: null,
+      measurementType: "Metric"
+    }
+  })
+  
+  @Injectable()
+  class MockRecipeState {}
+
   let location: Location;
   let component: RecipePage;
   let fixture: ComponentFixture<RecipePage>;
+
   const testRecipe: IRecipe = {
     recipeId: 'test-id',
     name: 'Test Recipe',
@@ -50,9 +65,9 @@ describe('RecipeDetailPageComponent', () => {
         IonicModule,
         HttpClientModule,
         RouterTestingModule,
-        RecipeUIModule,
         NavigationBarModule,
-        NgxsModule.forRoot(),
+        FormsModule,
+        NgxsModule.forRoot([MockRecipeState]),
       ],
       providers: [HttpClientModule],
     }).compileComponents();
@@ -169,5 +184,13 @@ describe('RecipeDetailPageComponent', () => {
     component.isDescriptionExpanded = true;
     component.toggleDescriptionExpanded();
     expect(component.isDescriptionExpanded).toBe(false);
+  });
+
+  it('should dispatch ingredients change', () => {
+    const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
+
+    component.measurementUnit = "Imperical";
+    component.changeIngredientUnits();
+    expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("Imperical"));
   });
 });

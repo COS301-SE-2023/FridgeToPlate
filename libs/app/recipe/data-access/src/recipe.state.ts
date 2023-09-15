@@ -1,4 +1,4 @@
-import { IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -19,6 +19,7 @@ import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
+  measurementType: string;
 }
 
 export interface IngredientsStateMeal {
@@ -29,7 +30,8 @@ export interface IngredientsStateMeal {
 @State<RecipeStateModel>({
   name: 'recipe',
   defaults: {
-    recipe: null
+    recipe: null,
+    measurementType: "metric"
   }
 })
 
@@ -37,7 +39,7 @@ export interface IngredientsStateMeal {
   name: 'ingredients',
   defaults: {
     ingredients: null
-    }
+  }
 })
 
 @Injectable()
@@ -57,14 +59,15 @@ export class RecipeState {
 
   @Action(RetrieveRecipe)
   async retrieveRecipe(
-    { setState }: StateContext<RecipeStateModel>,
+    { patchState, getState }: StateContext<RecipeStateModel>,
     { recipeId }: RetrieveRecipe
   ) {
 
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
         if (recipe) {
-          setState({
+          recipe.ingredients = this.convertIngredients(recipe.ingredients, getState().measurementType);
+          patchState({
             recipe: recipe,
           });
         } else {
@@ -266,4 +269,72 @@ export class RecipeState {
       }
     );
   }
+
+  @Action(ChangeMeasurementType)
+  changeMeasurementType( { setState, getState, patchState }: StateContext<RecipeStateModel>, { measurementType }: ChangeMeasurementType ) {
+    const recipe = getState().recipe;
+    
+    if (recipe) {
+      recipe.ingredients = this.convertIngredients(recipe.ingredients, measurementType);
+
+      setState({
+        recipe: recipe,
+        measurementType: measurementType
+      });
+    } else {
+      patchState({
+        measurementType: measurementType
+      })
+    }
+  }
+
+  convertIngredients(ingredients: IIngredient[], type: string): IIngredient[] {
+    ingredients.forEach(element => {
+        if (type === "imperial") {
+            switch (element.unit) {
+                case "mL":
+                    if (element.amount < 60) {
+                        element.amount /= 15;
+                        element.unit = "tsp";
+                    } else {
+                        element.amount /= 250;
+                        element.unit = "cup";
+                    }
+                    break;
+                case "L":
+                    element.amount /= 250;
+                    element.unit = "cup";
+                    break;
+                case "g":
+                    if (element.amount < 454) {
+                        element.amount /= 28;
+                        element.unit = "oz";
+                    } else {
+                        element.amount /= 454;
+                        element.unit = "lb";
+                    }
+            }
+        } else {
+            switch (element.unit) {
+                case "tsp":
+                    element.amount *= 15;
+                    element.unit = "ml";
+                    break;
+                case "cup":
+                    element.amount *= 250;
+                    element.unit = "ml";
+                    break;
+                case "lb":
+                    element.amount *= 454;
+                    element.unit = "g";
+                    break;
+                case "oz": 
+                    element.amount *= 28;
+                    element.unit = "g";
+            }
+        }
+    });
+
+    return ingredients;
+}
 }
