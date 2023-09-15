@@ -1,5 +1,6 @@
 import { IReview } from "@fridge-to-plate/app/review/utils";
 import { IRecipe } from "./interfaces";
+import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export class DeleteRecipe {
     static readonly type = "[EditRecipe] DeleteRecipe";
@@ -42,8 +43,8 @@ export class DeleteReview {
 }
 
 export class RetrieveMealPlanIngredients {
-  static readonly type = '[Meal Plan] RetrieveMealPlanIngredients';
-  constructor(public readonly username: string) {}
+  static readonly type = '[Recipe] RetrieveMealPlanIngredients';
+  constructor(public readonly mealPlan: IMealPlan | null) {}
 }
 
 export class ChangeMeasurementType {

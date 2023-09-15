@@ -20,6 +20,7 @@ const baseUrl = environment.API_URL + '/recommend';
   providedIn: 'root',
 })
 export class RecommendApi {
+  
   constructor(private httpClient: HttpClient) {}
 
   getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
@@ -56,18 +57,6 @@ export class RecommendApi {
     return this.httpClient
       .get<IProductInformationAPIResponse>(
         `${upcApiUrl}/code/${productBarcode}?key=${upcApiKey}`
-      )
-      .pipe(
-        map((productFromApi) => {
-          if (!productFromApi?.product)
-            throw Error('Product does not exist on database');
-          else {
-            return convertProductFromApi(productFromApi.product);
-          }
-        }),
-        catchError((error) => {
-          return EMPTY;
-        })
       );
   }
 }

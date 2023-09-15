@@ -1,14 +1,23 @@
-import { Component, DoCheck, OnInit } from "@angular/core";
-import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
-import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
+import { Component } from "@angular/core";
+import { IProfile, 
+  RetrieveMealPlan, 
+  SortCreatedByDifficulty, 
+  SortCreatedByNameAsc, 
+  SortCreatedByNameDesc, 
+  SortSavedByDifficulty, 
+  SortSavedByNameAsc, 
+  SortSavedByNameDesc, 
+  UpdateProfile,
+  OpenSettings,
+  CloseSettings
+} from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
-import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
-import { IRecipe, RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 
 @Component({
@@ -28,15 +37,22 @@ export class ProfilePage {
   displayEditProfile = "none";
   displaySort = "none";
   subpage = "saved";
+  dateSelected !: string;
+
   editableProfile !: IProfile;
   mealPlan!: IMealPlan;
 
   constructor(private store: Store) {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.username) )
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.currMealPlan) );
+    this.dateSelected = new Date().toISOString().slice(0, 10);
   }
 
   displaySubpage(subpageName : string) {
+    if (subpageName == 'meal plan') {
+      this.getMealPlan();
+    }
+
     this.subpage = subpageName;
   }
 
@@ -55,6 +71,7 @@ export class ProfilePage {
         this.displayShoppinglist = "block";
       }
     );
+
   }
   
   closeShoppingList() {
@@ -110,4 +127,7 @@ export class ProfilePage {
     this.closeSort();
   }
 
+  getMealPlan() {
+    this.store.dispatch(new RetrieveMealPlan(this.dateSelected));
+  }
 }
