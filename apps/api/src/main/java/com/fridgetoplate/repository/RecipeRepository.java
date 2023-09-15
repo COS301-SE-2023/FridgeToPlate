@@ -51,7 +51,7 @@ public class RecipeRepository {
         Map<String, Condition> scanFilter = new HashMap<>();
 
         scanFilter.put("name", new Condition()
-                                      .withComparisonOperator(ComparisonOperator.EQ)
+                                      .withComparisonOperator(ComparisonOperator.CONTAINS)
                                       .withAttributeValueList(new AttributeValue().withS(ingredientName)));
 
         scanExpression.setScanFilter(scanFilter);
