@@ -210,7 +210,7 @@ export class CreatePagComponent implements OnInit  {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
+      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
       return false;
     }
 

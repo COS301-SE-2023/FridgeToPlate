@@ -46,6 +46,8 @@
             placeholder="e.g 10"
             formControlName="servings"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+            min="1"
+            pattern="[1-9]+"
           >
         </div>
 
@@ -56,6 +58,8 @@
             id="preparation-time"
             placeholder="e.g 10"
             formControlName="preparationTime"
+            min="1"
+            pattern="[1-9]+"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
           >
@@ -199,8 +203,8 @@
               type="number"
               [placeholder]="getAmountPlaceholderText()"
               required
-              min="0"
-              pattern="[0-9]+"
+              min="1"
+              pattern="[1-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
 
             </div>
