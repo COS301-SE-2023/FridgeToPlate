@@ -23,7 +23,7 @@ export class UpdateRecipe {
 }
 
 export class UpdateRecipeRatingAndViews {
-  static readonly type = '[Recipe] UpdateRatingAndViews Recipe';
+  static readonly type = '[Recipe] UpdateRecipeRatingAndViews';
   constructor(public readonly recipe: IRecipe) {}
 }
 
@@ -45,4 +45,9 @@ export class DeleteReview {
 export class RetrieveMealPlanIngredients {
   static readonly type = '[Recipe] RetrieveMealPlanIngredients';
   constructor(public readonly mealPlan: IMealPlan | null) {}
+}
+
+export class ChangeMeasurementType {
+  static readonly type = '[Recipe] ChangeMeasurementType';
+  constructor(public readonly measurementType: string) {}
 }

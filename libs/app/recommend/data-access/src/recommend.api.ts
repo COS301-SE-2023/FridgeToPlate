@@ -1,18 +1,12 @@
-import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import {
-  BehaviorSubject,
   EMPTY,
   Observable,
   catchError,
-  map,
-  switchMap,
-  throwError,
+  map
 } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import {
   IProductInformationAPIResponse,
   IRecommend,
@@ -26,7 +20,7 @@ const baseUrl = environment.API_URL + '/recommend';
   providedIn: 'root',
 })
 export class RecommendApi {
-
+  
   constructor(private httpClient: HttpClient) {}
 
   getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {

@@ -1,4 +1,4 @@
-<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6 lg:mt-16">
+<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16">
 
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-7 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
     <div class="flex justify-center my-auto">
@@ -202,7 +202,7 @@
               min="0"
               pattern="[0-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-              
+
             </div>
 
             <div class="w-1/5 relative">
@@ -211,21 +211,19 @@
                       class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none">
                 <option value="" disabled selected class="text-gray-500">Units</option>
                 <option value="tsp" class="text-black hover:bg-primary-highlight">Teaspoon (tsp)</option>
-                <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (tbsp)</option>
-                <option value="c" class="text-black hover:bg-primary-highlight">Cup (c)</option>
-                <option value="fl oz" class="text-black hover:bg-primary-highlight">Fluid Ounce (fl oz)</option>
+                <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (Tbsp)</option>
+                <option value="cup" class="text-black hover:bg-primary-highlight">Cup (cup)</option>
                 <option value="mL" class="text-black hover:bg-primary-highlight">Milliliter (mL)</option>
                 <option value="L" class="text-black hover:bg-primary-highlight">Liter (L)</option>
                 <option value="g" class="text-black hover:bg-primary-highlight">Gram (g)</option>
-                <option value="kg" class="text-black hover:bg-primary-highlight">Kilogram (kg)</option>
                 <option value="oz" class="text-black hover:bg-primary-highlight">Ounce (oz)</option>
                 <option value="lb" class="text-black hover:bg-primary-highlight">Pound (lb)</option>
               </select>
             </div>
-            
+
 
             <div>
-              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+              <button type="button" (click)="removeIngredient(i)" class="lg:hover:text-reject focus:text-reject text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>
@@ -254,7 +252,7 @@
                    required>
             <button type="button"
                     (click)="removeInstruction(i)"
-                    class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+                    class="lg:hover:text-reject focus:text-reject text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
@@ -345,19 +343,22 @@
     </div>
 
     <div>
-      <label for="tag" class="block text-gray-700 font-bold lg:mt-5 mb-2">Tag<span class="text-red-500">*</span></label>
 
+      <div class="flex justify-between">
+        <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
+        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-2">
+          Add
+        </button>
+      </div>
       <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
-          placeholder="e.g. Asian, Vegan"
+          placeholder="e.g. Asian"
           formControlName="tag"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
+          class="w-full bg-gray-200 border border-gray-400 mt- p-2 rounded-md"
         >
-        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight mt-2 font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">
-          Add
-        </button>
+
       </div>
       <div class="py-2">
         <ul class="flex">

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
+import { Select, Store, Actions } from '@ngxs/store';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Observable } from 'rxjs';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -26,6 +26,7 @@ export class RecipePage implements OnInit {
   recipe: IRecipe | undefined = undefined;
   errorMessage: string | undefined;
   forceLoading = true;
+  measurementUnit = "metric";
   safeUrl: SafeResourceUrl;
 
   constructor(
@@ -36,6 +37,7 @@ export class RecipePage implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
+  // hasTags = false;
   isDescriptionExpanded = false;
   toggleDescriptionExpanded() {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
@@ -78,5 +80,9 @@ export class RecipePage implements OnInit {
 
   goHome() {
     this.store.dispatch(new Navigate(['/home']));
+  }
+
+  changeIngredientUnits() {
+    this.store.dispatch(new ChangeMeasurementType(this.measurementUnit));
   }
 }
