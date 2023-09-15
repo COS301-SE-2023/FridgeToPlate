@@ -184,7 +184,7 @@
       </div>
       <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
         <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
-          <div [formGroupName]="i" class=" flex mb-2 ">
+          <div [formGroupName]="i" class="flex mb-2 ">
 
             <div class="w-3/5">
               <input formControlName="name"
@@ -224,8 +224,8 @@
             </div>
 
 
-            <div>
-              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+            <div class="mt-1">
+              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>
@@ -254,7 +254,7 @@
                    required>
             <button type="button"
                     (click)="removeInstruction(i)"
-                    class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
+                    class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
