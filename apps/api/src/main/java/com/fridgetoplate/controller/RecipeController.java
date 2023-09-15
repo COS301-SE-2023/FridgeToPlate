@@ -1,6 +1,8 @@
 package com.fridgetoplate.controller;
 
 import java.util.List;
+
+import com.fridgetoplate.model.RecipeDeleteResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +46,7 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id){
+    public RecipeDeleteResponseModel delete(@PathVariable(value = "id") String id){
         return recipeService.delete(id);
     }
 }
