@@ -12,6 +12,7 @@ import {
   ActionsExecuting,
 } from '@ngxs-labs/actions-executing';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
