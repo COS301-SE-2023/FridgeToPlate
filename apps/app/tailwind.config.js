@@ -1,5 +1,6 @@
 const { createGlobPatternsForDependencies } = require('@nx/angular/tailwind');
 const { join } = require('path');
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
       '2xl': '1536px',
     },
     fontFamily: 
-       ["Poppins", "Inter", "Quicksand", "Noto Sans KR"]
+       ["Poppins", "Inter", "Quicksand", "Noto Sans KR", ...defaultTheme.fontFamily.sans]
     ,
     extend: {
       colors: {
