@@ -47,8 +47,9 @@ module.exports = {
         13: "13",
       },
       fontFamily: {
-        'inter': ['Inter', 'sans-serif'],
-        'wix-display': ['Wix Madefor Display', 'sans-serif']
+        sans: [
+          "Poppins", "Inter", "Quicksand", "Noto Sans KR"
+        ],
       },
       spacing: {
         '18': '5rem',
