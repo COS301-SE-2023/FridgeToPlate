@@ -2,11 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Select, Store, NgxsModule } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Observable, take } from "rxjs";
-import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
-import { Navigate } from "@ngxs/router-plugin";
+import {map, Observable, take} from "rxjs";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
-import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -22,7 +19,7 @@ export class ExplorePage {
   @Select(ExploreState.getRecipes) recipes$ !: Observable<IRecipe[]>;
 
   page = "searching";
-  retunedRecipes: any;
+  retunedRecipes: IRecipe[];
   subpage = "beforeSearchApplied";
   loading = false;
   showRecipes = false;
@@ -30,7 +27,7 @@ export class ExplorePage {
   currSearch = false;
   editExplore !: IExplore;
   searchObject !: IExplore;
-
+  searchTerm = "";
 
   allCategories : IExplore[] = [
     {
@@ -116,6 +113,7 @@ export class ExplorePage {
   explorer(searchText: string) {
 
     if (searchText.length > 0) {
+      this.searchTerm = searchText;
       this.showCategories = false;
       this.loading = true;
       this.showRecipes = false;
@@ -141,7 +139,8 @@ export class ExplorePage {
 
     this.store.dispatch(new CategorySearch(this.searchObject));
 
-    this.recipes$.subscribe( (recipes) => {
+    this.recipes$.pipe(take(1)).subscribe( (recipes) => {
+
       if(recipes && recipes.length > 0 && this.currSearch){
         this.retunedRecipes = recipes;
         this.loading = false;
