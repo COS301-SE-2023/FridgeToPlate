@@ -68,10 +68,6 @@ public class RecipeFrontendModel extends Recipe {
         return this.reviews;
     }
 
-    public String getYoutubeId() {
-        return youtubeId;
-    }
-
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, Input } from '@angular/core';
+import { Select, Store, NgxsModule } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { Observable } from "rxjs";
+import { Observable, take } from "rxjs";
+import { NavigationBar } from "@fridge-to-plate/app/navigation/feature";
+import { Navigate } from "@ngxs/router-plugin";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
+import { RecipeUIModule } from "@fridge-to-plate/app/recipe/ui";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -34,49 +37,49 @@ export class ExplorePage {
       type: "breakfast",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "snack",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "lunch",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "dessert",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "dinner",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "soup",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
-      type: "beverage",
+      type: "drink",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
     {
       type: "salad",
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     },
 
   ];
@@ -133,7 +136,7 @@ export class ExplorePage {
         type: "",
         search: searchText,
         tags: [],
-        difficulty: "",
+        difficulty: "Any",
       };
 
     this.store.dispatch(new CategorySearch(this.searchObject));

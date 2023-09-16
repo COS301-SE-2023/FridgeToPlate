@@ -34,7 +34,7 @@ export class HomeState {
       type: meal,
       search: "",
       tags: [],
-      difficulty: "",
+      difficulty: "Any",
     };
 
     (await this.api.searchCategory(explore)).subscribe({

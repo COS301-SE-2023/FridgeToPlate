@@ -18,7 +18,7 @@
   <div *ngIf="explore.type === 'soup'">
     <img src="https://source.unsplash.com/500x500/?soup" class="w-full aspect-square" />
   </div>
-  <div *ngIf="explore.type === 'beverage'">
+  <div *ngIf="explore.type === 'drink'">
     <img src="https://source.unsplash.com/500x500/?drink" class="w-full aspect-square" />
   </div>
   <div *ngIf="explore.type === 'salad'">
@@ -88,7 +88,7 @@
         <h1 class="text-white font-semibold text-sm mb-1 text-center justify-center">Soup</h1>
       </div>
 
-      <div *ngIf="explore.type === 'beverage'">
+      <div *ngIf="explore.type === 'drink'">
         <div class="flex text-center justify-center">
           <svg class="w-3/6 h-3/6 md:w-2/5 md:h-2/5" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M63.5849 31.7924C63.5849 49.3509 49.3509 63.5849 31.7924 63.5849C14.234 63.5849 0 49.3509 0 31.7924C0 14.234 14.234 0 31.7924 0C49.3509 0 63.5849 14.234 63.5849 31.7924Z" fill="#0B0B0B" fill-opacity="0.9"/>
@@ -97,7 +97,7 @@
             <path d="M22.375 32.0624C21.9274 32.0624 21.4982 31.8847 21.1818 31.5682C20.8653 31.2517 20.6875 30.8225 20.6875 30.3749C20.6875 29.9274 20.8653 29.4982 21.1818 29.1817C21.4982 28.8652 21.9274 28.6874 22.375 28.6874H42.625C43.0726 28.6874 43.5018 28.8652 43.8182 29.1817C44.1347 29.4982 44.3125 29.9274 44.3125 30.3749C44.3125 30.8225 44.1347 31.2517 43.8182 31.5682C43.5018 31.8847 43.0726 32.0624 42.625 32.0624H22.375ZM37.7155 14.0129C37.2811 13.9043 36.9076 13.6276 36.6772 13.2436C36.4468 12.8596 36.3784 12.3999 36.487 11.9654C36.5956 11.531 36.8723 11.1575 37.2563 10.9271C37.6403 10.6968 38.1001 10.6283 38.5345 10.7369L47.5345 12.9869C47.7496 13.0407 47.952 13.1363 48.1302 13.2683C48.3083 13.4003 48.4587 13.5661 48.5728 13.7563C48.6869 13.9464 48.7624 14.1571 48.795 14.3764C48.8277 14.5957 48.8168 14.8193 48.763 15.0344C48.7092 15.2495 48.6136 15.452 48.4816 15.6301C48.3496 15.8083 48.1838 15.9587 47.9937 16.0727C47.8036 16.1868 47.5928 16.2623 47.3735 16.295C47.1542 16.3276 46.9306 16.3167 46.7155 16.2629L37.7155 14.0129Z" fill="white"/>
           </svg>
         </div>
-        <h1 class="text-white font-semibold text-sm mb-1 text-center justify-center">Beverage</h1>
+        <h1 class="text-white font-semibold text-sm mb-1 text-center justify-center">Drink</h1>
       </div>
 
       <div *ngIf="explore.type === 'salad'">

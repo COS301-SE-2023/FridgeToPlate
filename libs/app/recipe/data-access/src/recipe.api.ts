@@ -48,4 +48,9 @@ export class RecipeAPI {
     const url = environment.API_URL + '/reviews/' + recipeId + '/' + reviewId;
     return this.http.delete<string>(url);
   }
+
+  retrieveIngredientsByRecipeId(id: string): Observable<IIngredient[]> {
+    const url = `${this.baseUrl}/${id}/ingredients`;
+    return this.http.get<IIngredient[]>(url);
+  }
 }

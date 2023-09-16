@@ -42,4 +42,5 @@ public class ProfileModel extends Profile {
         this.savedRecipeIds = savedRecipeIds;
     }
 
+    
 }

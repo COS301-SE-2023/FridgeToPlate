@@ -21,7 +21,7 @@ export interface ExploreStateModel {
             type: "",
             search : "",
             tags : [],
-            difficulty : "",
+            difficulty : "Any",
         },
         recipes: [],
     }

@@ -4,6 +4,7 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { Router } from '@angular/router';
 import { HomeState } from '../../data-access/src/home.state';
 import { RetrieveFeaturedRecipes } from '../../utils/src/home.actions';
@@ -15,7 +16,7 @@ import { RetrieveFeaturedRecipes } from '../../utils/src/home.actions';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class HomePage {
-  mealType = 'breakfast'
+  mealType :'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' = 'Breakfast'
   messageHeader = '';
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
   @Select(HomeState.getFeaturedRecipes) featuredRecipes$ !: Observable<IRecipe[]>;
@@ -24,23 +25,23 @@ export class HomePage {
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
     if (currentHour >= 5 && currentHour < 12) {
-      this.mealType = 'breakfast';
+      this.mealType = 'Breakfast';
       this.messageHeader = `Good morning! What's on the menu for breakfast?`;
     }
     else if (currentHour >= 12 && currentHour < 17) {
-      this.mealType = 'lunch';
+      this.mealType = 'Lunch';
       this.messageHeader = `Hungry for a delicious lunch? Let's get cooking!`;
     }
     else if (currentHour >= 17 && currentHour < 21) {
-      this.mealType = 'dinner';
+      this.mealType = 'Dinner';
       this.messageHeader = `It's dinner time! Enjoy a tasty meal tonight.`;
     }
     else {
-      this.mealType = 'snack';
+      this.mealType = 'Snack';
       this.messageHeader = `Time for a snack! What do you feel like making?`;
     }
 
-    this.store.dispatch(new RetrieveFeaturedRecipes(this.mealType));
+    this.store.dispatch(new RetrieveFeaturedRecipes("lunch"));
   }
 
   goToRecommend(): void {

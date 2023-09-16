@@ -1,4 +1,4 @@
-<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16">
+<div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6 lg:mt-16">
 
   <form [formGroup]="recipeForm" (ngSubmit)="createRecipe()" class="[&>*]:mb-7 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
     <div class="flex justify-center my-auto">
@@ -46,8 +46,6 @@
             placeholder="e.g 10"
             formControlName="servings"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-            min="1"
-            pattern="[1-9]+"
           >
         </div>
 
@@ -58,8 +56,6 @@
             id="preparation-time"
             placeholder="e.g 10"
             formControlName="preparationTime"
-            min="1"
-            pattern="[1-9]+"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
           >
@@ -188,7 +184,7 @@
       </div>
       <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
         <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
-          <div [formGroupName]="i" class="flex mb-2 ">
+          <div [formGroupName]="i" class=" flex mb-2 ">
 
             <div class="w-3/5">
               <input formControlName="name"
@@ -203,8 +199,8 @@
               type="number"
               [placeholder]="getAmountPlaceholderText()"
               required
-              min="1"
-              pattern="[1-9]+"
+              min="0"
+              pattern="[0-9]+"
               class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
 
             </div>
@@ -215,19 +211,21 @@
                       class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none">
                 <option value="" disabled selected class="text-gray-500">Units</option>
                 <option value="tsp" class="text-black hover:bg-primary-highlight">Teaspoon (tsp)</option>
-                <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (Tbsp)</option>
-                <option value="cup" class="text-black hover:bg-primary-highlight">Cup (cup)</option>
+                <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (tbsp)</option>
+                <option value="c" class="text-black hover:bg-primary-highlight">Cup (c)</option>
+                <option value="fl oz" class="text-black hover:bg-primary-highlight">Fluid Ounce (fl oz)</option>
                 <option value="mL" class="text-black hover:bg-primary-highlight">Milliliter (mL)</option>
                 <option value="L" class="text-black hover:bg-primary-highlight">Liter (L)</option>
                 <option value="g" class="text-black hover:bg-primary-highlight">Gram (g)</option>
+                <option value="kg" class="text-black hover:bg-primary-highlight">Kilogram (kg)</option>
                 <option value="oz" class="text-black hover:bg-primary-highlight">Ounce (oz)</option>
                 <option value="lb" class="text-black hover:bg-primary-highlight">Pound (lb)</option>
               </select>
             </div>
 
 
-            <div class="mt-1">
-              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center">
+            <div>
+              <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>
@@ -256,7 +254,7 @@
                    required>
             <button type="button"
                     (click)="removeInstruction(i)"
-                    class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center">
+                    class="text-black text-3xl mx-4 font-medium rounded-lg text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>

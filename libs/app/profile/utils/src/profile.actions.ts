@@ -67,37 +67,32 @@ export class SortCreatedByNameDesc {
 }
 
 export class UpdateMealPlan {
-  static readonly type = '[Profile] UpdateMealPlan';
+  static readonly type = '[Profile] Update the Meal Plan';
   constructor(public readonly mealPlan: IMealPlan) {}
 }
 
 export class RemoveFromMealPlan {
-  static readonly type = '[Profile] RemoveFromMealPlan';
+  static readonly type = '[Profile] Remove from Meal Plan';
   constructor(public readonly recipeId: string) {}
 }
 
 export class AddToMealPlan {
-  static readonly type = '[Profile] AddToMealPlan';
+  static readonly type = '[Profile] Add to Meal Plan';
   constructor(
     public readonly recipe: IRecipeDesc,
-    public readonly mealType: string,
-    public readonly date: string
+    public readonly mealType: string
   ) {}
 }
 
 export class UpdateUserIngredients {
-  static readonly type = '[Profile] UpdateUserIngredients';
+  static readonly type = '[Profile] Update User Ingredients';
   constructor(public readonly updatedIngredientsList: IIngredient[]) {}
 }
 
-export class RetrieveMealPlan {
-  static readonly type = '[Profile] RetrieveMealPlan';
-  constructor(public readonly date: string) {}
-}
 export class OpenSettings {
-  static readonly type = '[Profile] OpenSettings';
+  static readonly type = '[Profile] Open Settings';
 }
 
 export class CloseSettings {
-  static readonly type = '[Profile] CloseSettings';
+  static readonly type = '[Profile] Close Settings';
 }

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
-import com.fridgetoplate.interfaces.YoutubeVideosResponse;
 import com.fridgetoplate.model.Ingredient;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -26,12 +26,6 @@ public class ExternalApiService {
 
    @Value("${spoonacular.apiKey}")
    private String spoonacularPrivateKey;
-
-   @Value("${youtubeApi.baseUrl}")
-   private String youtubeApiBaseUrl;
-
-   @Value("${youtubeApi.apiKey}")
-   private String youtubeApiKey;
    
    @Autowired
    private RestTemplate template = new RestTemplate();
@@ -116,7 +110,7 @@ public class ExternalApiService {
 
         if(userIngredients != null && userIngredients.size() != 0){
             
-            String ingredientsListString = "&includeIngredients=";
+            String ingredientsListString = "&ingredients=";
              for(int i = 0; i < userIngredients.size(); i++){
                 
                 ingredientsListString += userIngredients.get(i).getName().toLowerCase();
@@ -192,12 +186,5 @@ public class ExternalApiService {
         System.out.println(recipeSearchEndpoint);
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
-    }
-
-    public YoutubeVideosResponse spoonacularVideoSearch(String recipeName) {
-        String endpoint = youtubeApiBaseUrl + "?key=" + youtubeApiKey + "&part=snippet&q=" + recipeName + "&maxResults=1";
-
-        System.out.println(endpoint);
-        return template.getForObject( endpoint, YoutubeVideosResponse.class);
     }
 }

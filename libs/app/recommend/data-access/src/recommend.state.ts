@@ -34,7 +34,7 @@ import {
 } from '@fridge-to-plate/app/profile/utils';
 
 export interface RecommendStateModel {
-  recommendRequest: IRecommend | null;
+  recommendRequest: IRecommend;
   recipes: IRecipe[];
 }
 @State<RecommendStateModel>({
@@ -42,7 +42,18 @@ export interface RecommendStateModel {
   defaults: {
     recommendRequest:
       environment.TYPE === 'production'
-        ? null
+        ? {
+            username: 'joe',
+            ingredients: [],
+            recipePreferences: {
+              keywords: [],
+              difficulty: '',
+              rating: '',
+              meal: '',
+              servings: '',
+              prepTime: '',
+            },
+          }
         : {
             username: 'joe',
             ingredients: [
@@ -146,33 +157,13 @@ export class RecommendState {
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
 
   @Selector()
-  static getRecommendRequest(state: RecommendStateModel): IRecommend | null {
-    return state.recommendRequest;
-  }
-
-  @Selector()
   static getIngredients(state: RecommendStateModel): IIngredient[] {
-    if (state.recommendRequest) {
-      return state.recommendRequest.ingredients;
-    } else {
-      return [];
-    }
+    return state.recommendRequest.ingredients;
   }
 
   @Selector()
   static getRecipePreferences(state: RecommendStateModel): IRecipePreferences {
-    if (state.recommendRequest) {
-      return state.recommendRequest.recipePreferences;
-    } else {
-      return {
-        keywords: [],
-        difficulty: 'Easy',
-        rating: '',
-        meal: '',
-        servings: '',
-        prepTime: '30 - 60 Minutes',
-      };
-    }
+    return state.recommendRequest.recipePreferences;
   }
 
   @Selector()
@@ -256,19 +247,16 @@ export class RecommendState {
     getState,
   }: StateContext<RecommendStateModel>) {
     const recommendRequest = getState().recommendRequest;
-
-    if (recommendRequest) {
-      this.recommendApi.getRecommendations(recommendRequest).subscribe({
-        next: (data) => {
-          patchState({
-            recipes: data,
-          });
-        },
-        error: (error) => {
-          this.store.dispatch(new ShowError(error));
-        },
-      });
-    }
+    this.recommendApi.getRecommendations(recommendRequest).subscribe({
+      next: (data) => {
+        patchState({
+          recipes: data,
+        });
+      },
+      error: (error) => {
+        this.store.dispatch(new ShowError(error));
+      },
+    });
   }
 
   @Action(GetUpdatedRecommendation)
@@ -289,22 +277,19 @@ export class RecommendState {
   }
 
   @Action(AddRecommendation)
-  addRecipePreferences({ setState }: StateContext<RecommendStateModel>, { recipePreference } : AddRecommendation) {
+  addRecipePreferences({ getState }: StateContext<RecommendStateModel>) {
     this.profile$.subscribe((currentUserProfile) => {
+      const currentState = getState();
 
+      if (currentState) {
         const newPreferences: IRecommend = {
-          ingredients: [],
+          ingredients: currentState.recommendRequest.ingredients,
           username: currentUserProfile.username,
-          recipePreferences: recipePreference,
+          recipePreferences: currentState.recommendRequest.recipePreferences,
         };
 
-        this.recommendApi
-          .addPreferences(newPreferences)
-          .subscribe({
-            error: error => {
-              this.store.dispatch(new ShowError("Unable to add recommend"))
-            }
-          });
+        this.recommendApi.addPreferences(newPreferences).subscribe((res) => {});
+      }
     });
   }
 
@@ -314,7 +299,7 @@ export class RecommendState {
 
     if (currentState) {
       this.recommendApi
-        .updateRecommendations(currentState.recommendRequest as IRecommend)
+        .updateRecommendations(currentState.recommendRequest)
         .subscribe({
           error: error => {
             this.store.dispatch(new ShowError("Unable to retrieve recommend"))

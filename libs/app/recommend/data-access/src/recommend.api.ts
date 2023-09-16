@@ -1,12 +1,18 @@
+import { ingredientsArray } from './ingredients.mock';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { HttpClient } from '@angular/common/http';
 import {
+  BehaviorSubject,
   EMPTY,
   Observable,
   catchError,
-  map
+  map,
+  switchMap,
+  throwError,
 } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import {
   IProductInformationAPIResponse,
   IRecommend,
@@ -20,9 +26,40 @@ const baseUrl = environment.API_URL + '/recommend';
   providedIn: 'root',
 })
 export class RecommendApi {
-  
   constructor(private httpClient: HttpClient) {}
+  //Step 1
+  getUserIngredientsList(): Observable<IIngredient[]> {
+    const req: Observable<IIngredient[]> = this.httpClient
+      .get<IProfile>(`${baseUrl}profiles/9be7b531-4980-4d3b-beff-a35d08f2637e`)
+      .pipe(
+        switchMap((res: IProfile) => {
+          return new BehaviorSubject<IIngredient[]>(res.ingredients);
+        }),
+        catchError(async (error) => {
+          console.log('An error has occured: ', error);
+          return error;
+        })
+      );
 
+    return req;
+  }
+
+  removeIngredient(ingredient: IIngredient) {
+    return ingredientsArray.filter(
+      (ingredientItem) => ingredientItem.name !== ingredient.name
+    );
+  }
+
+  //Step 2
+  getDietList(): Observable<string[]> {
+    const dietList = ['Vegan', 'Vegetarian', 'Paleo-tonic', 'Ketogenic'];
+
+    const req = new BehaviorSubject<string[]>(dietList);
+
+    return req;
+  }
+
+  //Step 3
   getRecommendations(recomendationParams: IRecommend): Observable<IRecipe[]> {
     const req: Observable<IRecipe[]> = this.httpClient.post<IRecipe[]>(
       baseUrl,
@@ -57,6 +94,18 @@ export class RecommendApi {
     return this.httpClient
       .get<IProductInformationAPIResponse>(
         `${upcApiUrl}/code/${productBarcode}?key=${upcApiKey}`
+      )
+      .pipe(
+        map((productFromApi) => {
+          if (!productFromApi?.product)
+            throw Error('Product does not exist on database');
+          else {
+            return convertProductFromApi(productFromApi.product);
+          }
+        }),
+        catchError((error) => {
+          return EMPTY;
+        })
       );
   }
 }

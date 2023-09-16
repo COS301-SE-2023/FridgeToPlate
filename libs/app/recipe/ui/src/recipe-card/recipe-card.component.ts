@@ -25,16 +25,17 @@ export class RecipeCardComponent implements OnInit {
   @Input() recipe !: any;
   bookmarked = false;
   editable = true;
-  @Input() added = false;
+  added = false;
   showMenu = false;
+  mealType!: "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
-  
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
       if (profile !== null && this.recipe !== undefined) {
         this.bookmarked = profile.savedRecipes.some((object) => object.recipeId === this.recipe.recipeId);
         this.editable = profile.createdRecipes.some((object) => object.recipeId === this.recipe.recipeId);
+        this.added = this.checkMealPlan(profile.currMealPlan);
       } else {
         this.bookmarked = false;
         this.editable = false;
@@ -65,13 +66,16 @@ export class RecipeCardComponent implements OnInit {
     this.showMenu = !this.showMenu;
   }
 
-  addToMealPlan(data: any) {
+  addToMealPlan(meal: string) {
     if(!this.recipe) {
       this.store.dispatch(new ShowError('ERROR: No recipe available to add to meal plan.'))
       return;
     }
 
-    this.store.dispatch(new AddToMealPlan(this.recipe, data.meal, data.date));
+    this.mealType = meal as "Breakfast" | "Lunch" | "Dinner" | "Snack"
+
+    this.store.dispatch(new AddToMealPlan(this.recipe, this.mealType));
+    this.added = true;
   }
 
   removeFromMealPlan() {
@@ -81,6 +85,31 @@ export class RecipeCardComponent implements OnInit {
     }
 
     this.store.dispatch(new RemoveFromMealPlan(this.recipe.recipeId));
+    this.added = false;
+  }
+
+  checkMealPlan(mealPlan : IMealPlan | null): boolean {
+    if (mealPlan === null) {
+      return false;
+    }
+
+    if(mealPlan.breakfast?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.lunch?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.dinner?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    if(mealPlan.snack?.recipeId === this.recipe.recipeId) {
+      return true;
+    }
+
+    return false;
   }
 
   navigateToRecipe() {

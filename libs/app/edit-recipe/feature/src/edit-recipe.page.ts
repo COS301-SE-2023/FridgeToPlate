@@ -263,7 +263,7 @@ export class EditRecipeComponent implements OnInit {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
+      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
       return false;
     }
 
@@ -274,6 +274,11 @@ export class EditRecipeComponent implements OnInit {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
+      return false;
+    }
+
+    if(this.tags.length < 1) {
+      this.store.dispatch( new ShowError("No Tags"))
       return false;
     }
 

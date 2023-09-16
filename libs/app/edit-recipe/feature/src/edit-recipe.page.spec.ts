@@ -796,6 +796,32 @@ describe('Ingredients storing, deleting and returning', () => {
 
     })
 
+    it('Tags if empty', () => {
+      const formBuilder: FormBuilder = new FormBuilder();
+      const ingredientsFormArray = new FormArray([
+        new FormControl({
+          name: 'Mango',
+          amount: 100,
+          unit: 'g'
+        })])
+      const instructionsFormArray = new FormArray([
+        new FormControl('Step 1')
+      ]);
+
+      const formGroup: FormGroup = formBuilder.group({
+        name: ['Name', Validators.required],
+        description: ['Description', Validators.required],
+        servings: [1, Validators.required],
+        preparationTime: [1, Validators.required],
+        ingredients: ingredientsFormArray,
+        instructions: instructionsFormArray
+      })
+
+      component.recipeForm = formGroup;
+      component.isFormValid();
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
+      });
+
 
       it('Meal Selection', () => {
         const formBuilder: FormBuilder = new FormBuilder();
@@ -890,7 +916,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
       })
       
 

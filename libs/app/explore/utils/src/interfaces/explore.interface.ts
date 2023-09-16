@@ -2,5 +2,5 @@ export interface IExplore {
     type: string;
     search: string;
     tags: string[];
-    difficulty: '' | 'Easy' | 'Medium' | 'Hard';
+    difficulty: 'Any' | 'Easy' | 'Medium' | 'Hard';
 }

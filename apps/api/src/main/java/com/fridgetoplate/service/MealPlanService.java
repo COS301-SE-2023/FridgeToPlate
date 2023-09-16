@@ -31,14 +31,13 @@ public class MealPlanService {
         // Find Meal       
         MealPlanModel mealPlanModel = mealPlanRepository.find(username, date);
 
-        // Declare the response object
-        MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
-
-        // creating response
-        mealPlanResponse.setUsername(username);
-        mealPlanResponse.setDate(date);
-
         if(mealPlanModel != null) {
+
+            // Declare the response object
+            MealPlanFrontendModel mealPlanResponse = new MealPlanFrontendModel();
+
+            // creating response
+            mealPlanResponse.setUsername(username);
 
             String breakFastId = mealPlanModel.getBreakfastId();
 
@@ -66,24 +65,28 @@ public class MealPlanService {
             } 
 
             // Creating the mealPlanResponse
+            mealPlanResponse.setDate(date);
             mealPlanResponse.setBreakfast(breakfast);
             mealPlanResponse.setLunch(lunch);
             mealPlanResponse.setDinner(dinner);
             mealPlanResponse.setSnack(snack);
-        } 
-        
-        return mealPlanResponse;
+
+            return mealPlanResponse;
+        } else {
+            return null;
+        }
     }
 
-     public List<Ingredient> findMealPlanIngredients(MealPlanFrontendModel mealPlan) {
+     public List<Ingredient> findMealPlanIngredients(String username) {
+        MealPlanModel mealPlan = this.mealPlanRepository.findByUsername(username);
         List<Ingredient> formattedList = new ArrayList<>();
 
         if(mealPlan == null){
             return formattedList;
         }
         
-        if(mealPlan.getBreakfast() != null) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getBreakfast().getRecipeId());
+        if(mealPlan.getBreakfastId() != null && !mealPlan.getBreakfastId().isEmpty()) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getBreakfastId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -95,8 +98,8 @@ public class MealPlanService {
             }
         }
 
-        if(mealPlan.getLunch() != null) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getLunch().getRecipeId());
+        if(mealPlan.getLunchId() != null && !mealPlan.getLunchId().isEmpty()) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getLunchId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -108,8 +111,8 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getDinner() != null) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinner().getRecipeId());
+         if(mealPlan.getDinnerId() != null && !mealPlan.getDinnerId().isEmpty()) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getDinnerId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
@@ -121,8 +124,8 @@ public class MealPlanService {
             }
         }
 
-         if(mealPlan.getSnack() != null) {
-            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnack().getRecipeId());
+         if(mealPlan.getSnackId() != null && !mealPlan.getSnackId().isEmpty()) {
+            List<IngredientModel> unformattedList = this.recipeService.findIngredientsByRecipeId(mealPlan.getSnackId());
             for(IngredientModel model : unformattedList) {
                 if(!formattedList.contains(model)) {
                     Ingredient ingredient = new Ingredient();
