@@ -78,6 +78,14 @@ public class RecipeService {
         Integer servings = recipeModel.getServings();
         Double rating = recipeModel.getRating();
         String youtubeId = recipeModel.getYoutubeId();
+        if (youtubeId == null) {
+          YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
+          if (videos.length > 0) {
+            youtubeId = videos[0].getId().videoId;
+            recipeModel.setYoutubeId(youtubeId);
+            recipeRepository.saveRecipe(recipeModel);
+          }
+        }
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
