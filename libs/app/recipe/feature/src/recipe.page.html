@@ -98,10 +98,12 @@
             <ion-list-header>
               <ion-label class="text-lg font-bold">Ingredients</ion-label>
             </ion-list-header>
-            <select [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
+            <div class="flex">
+            <select class="ml-auto mr-2 border-solid border-2 " [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
               <option value="imperial">Imperial Units</option>
               <option value="metric">Metric Units</option>
             </select>
+            </div>
             <ion-item *ngFor="let ingredient of recipe?.ingredients">
               <div>
                 {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
