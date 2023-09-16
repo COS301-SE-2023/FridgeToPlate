@@ -1,5 +1,5 @@
 export class ShowInfo {
-    static readonly type = '[Errors] ShowInfo';
-    constructor(public readonly error: string) {}
+    static readonly type = '[Infos] ShowInfo';
+    constructor(public readonly info: string) {}
   }
   
