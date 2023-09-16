@@ -13,6 +13,7 @@ import {
 } from '@ngxs-labs/actions-executing';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
@@ -22,6 +23,7 @@ import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
+  @Select(RecommendState.getIngredients) ingredients$!: Observable<IIngredient[]>;
   @Select(actionsExecuting([RetrieveRecipe]))
   busy$!: Observable<ActionsExecuting>;
   recipe: IRecipe | undefined = undefined;
@@ -39,6 +41,16 @@ export class RecipePage implements OnInit {
 
   // hasTags = false;
   isDescriptionExpanded = false;
+  ingredients: IIngredient[];
+  iconColor = 'text-red-500';
+
+  changeIconColor() {
+    this.iconColor = 'text-green-600';
+  }
+
+  changeIconColorBack() {
+    this.iconColor = 'text-red-500';
+  }
   toggleDescriptionExpanded() {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
   }
@@ -55,6 +67,9 @@ export class RecipePage implements OnInit {
       } else {
         this.store.dispatch(new ShowError('Invalid Recipe Id'));
       }
+    });
+    this.ingredients$.subscribe((ingredients) => {
+      this.ingredients = ingredients;
     });
   }
 

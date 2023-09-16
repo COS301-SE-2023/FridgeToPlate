@@ -80,6 +80,9 @@
           </div>
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
+          <div class="flex">
+            <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
+          </div>
             <h1 class="text-lg font-bold">Description</h1>
             <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
           </div>
@@ -96,14 +99,20 @@
               <ion-label class="text-lg font-bold">Ingredients</ion-label>
             </ion-list-header>
             <ion-item class="font-bold">
-              <ion-label>Quantity</ion-label>
-              <ion-label>Ingredient</ion-label>
+              <ion-label class="w-full pr-8">Ingredient</ion-label>
+              <ion-label class="pl-15 lg:ml-40">Quantity</ion-label>
+              <ion-label>Units</ion-label>
             </ion-item>
-            <ion-item *ngFor="let ingredient of recipe?.ingredients">
-
-                <ion-label> {{ingredient?.amount ?? ''}} {{ingredient?.unit ?? ''}} </ion-label>
-                  <ion-label> {{ingredient?.name ?? 'Unknown ingredient'}} </ion-label>
-
+            <ion-item *ngFor="let recipeIngredient of recipe?.ingredients">
+              <li *ngFor="let ingredient of ingredients">
+                <ng-template [ngIf]="recipeIngredient?.name === ingredient.name">
+                  {{ changeIconColor() }}
+                </ng-template>
+              </li>
+                <ion-icon [class]="iconColor" class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
+                <ion-label class="w-full pr-8"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </ion-label>
+                <ion-label class="pl-15 lg:ml-36"> {{recipeIngredient?.amount ?? ''}}  </ion-label>
+                <ion-label> {{recipeIngredient?.unit ?? ''}} </ion-label>
             </ion-item>
           </ion-list>
         </div>
