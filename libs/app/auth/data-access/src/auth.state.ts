@@ -115,7 +115,14 @@ export class AuthState {
         ingredients: [],
         savedRecipes: [],
         createdRecipes: [],
-        currMealPlan: null,
+        currMealPlan: {
+          username: username,
+          date: new Date().toISOString().slice(0, 10),
+          breakfast: null,
+          lunch: null,
+          dinner: null,
+          snack: null,
+        },
       };
 
       const preference: IPreferences = {

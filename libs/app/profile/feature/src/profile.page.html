@@ -79,34 +79,35 @@
     </div>
     <!-- Meal Plan Tab -->
     <div *ngIf="subpage === 'meal plan'" class="mt-5 ml-4 mb-5 lg:mb-0">
-        <div class="flex justify-center" >
+        <div class="flex justify-center">
+            <input type="date" [(ngModel)]="dateSelected" (ngModelChange)="getMealPlan()">
             <button  data-te-toggle="tooltip"  title="Get your Meal Plan collective ingredients" (click)="openShoppingList()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex  mb-3">Shopping List</button>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Breakfast</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe" [recipe]="profile.currMealPlan?.breakfast"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe" [recipe]="profile.currMealPlan?.breakfast" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Lunch</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe" [recipe]="profile.currMealPlan?.lunch"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe" [recipe]="profile.currMealPlan?.lunch" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Dinner</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe" [recipe]="profile.currMealPlan?.dinner"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe" [recipe]="profile.currMealPlan?.dinner" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
             </div>
             <div class="pb-4">
                 <h3 class="text-center mb-3 text-xl">Snack</h3>
-                <recipe-card *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe" [recipe]="profile.currMealPlan?.snack"></recipe-card>
+                <recipe-card *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe" [recipe]="profile.currMealPlan?.snack" [added]="true"></recipe-card>
                 <ng-template #tempRecipe>
                     <temp-recipe-card #tempRecipe></temp-recipe-card>
                 </ng-template>
@@ -144,4 +145,4 @@
 
 <edit-modal [ngStyle]="{ 'display': displayEditProfile }" (closeFunc)="closeEditProfile()" (saveFunc)="saveProfile()" [editableProfile]="editableProfile"></edit-modal>
 <settings-modal *ngIf="settings$ | async as displaySettings" [ngStyle]="{ 'display': displaySettings }" (closeFunc)="closeSettings()"></settings-modal>
-<shopping-list-modal *ngIf="ingredients$ | async as ingredients" [ingredients]="ingredients"  [ngStyle]="{ 'display': displayShoppinglist }" (closeFunc)="closeShoppingList()" ></shopping-list-modal>
+<shopping-list-modal *ngIf="ingredients$ | async as ingredients" [ingredients]="ingredients" [ngStyle]="{ 'display': displayShoppinglist }" (closeFunc)="closeShoppingList()" ></shopping-list-modal>

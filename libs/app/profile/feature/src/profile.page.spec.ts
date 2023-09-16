@@ -3,7 +3,7 @@ import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
-import { CloseSettings, IProfile, OpenSettings, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
+import { CloseSettings, IProfile, OpenSettings, RetrieveMealPlan, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { take } from "rxjs";
 import { Injectable } from "@angular/core";
@@ -71,6 +71,13 @@ describe("ProfilePage", () => {
     expect(page.subpage).toEqual("saved");
   });
 
+  it("should change call function when moving to meal plan", () => {
+    const getMealPlanSpy = jest.spyOn(page, 'getMealPlan');
+    page.displaySubpage("meal plan");
+    expect(getMealPlanSpy).toBeCalled();
+    expect(page.subpage).toEqual("meal plan");
+  });
+
   it("should change subpage to ingredients", () => {
     page.displaySubpage("ingredients");
     expect(page.subpage).toEqual("ingredients");
@@ -88,8 +95,6 @@ describe("ProfilePage", () => {
 
     expect(page.displayEditProfile).toEqual("none");
   });
-
-
 
   it("should change sort display to block", () => {
     page.openSort();
@@ -199,5 +204,14 @@ describe("ProfilePage", () => {
     expect(openNotificationsSpy).toHaveBeenCalled();
   });
 
+  it("should dispatch retrieve meal plan", () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    const tempDate = '2022-09-12';
+    page.dateSelected = tempDate;
+    page.getMealPlan();
+    expect(dispatchSpy).toBeCalledWith(new RetrieveMealPlan(tempDate));
+  });
 });
 

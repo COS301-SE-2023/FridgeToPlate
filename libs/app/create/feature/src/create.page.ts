@@ -6,8 +6,8 @@ import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable, take } from 'rxjs';
-import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { Observable } from 'rxjs';
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 
 @Component({
@@ -210,7 +210,7 @@ export class CreatePagComponent implements OnInit  {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
+      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
       return false;
     }
 
@@ -221,11 +221,6 @@ export class CreatePagComponent implements OnInit  {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
-      return false;
-    }
-
-    if(this.tags.length < 1) {
-      this.store.dispatch( new ShowError("No Tags"))
       return false;
     }
 

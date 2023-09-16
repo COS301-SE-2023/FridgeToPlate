@@ -8,29 +8,36 @@ import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.RecipeModel;
 @Service
 public class ExploreService {
 
     @Autowired
     private RecipeService recipeService;
-
     
     public RecipeFrontendModel findById(String id){
        return this.recipeService.findById(id);
     }
 
-    public List<RecipeFrontendModel> findBySearch(Explore searchObject){
+    public List<RecipeDesc> findBySearch(Explore searchObject){
         List<RecipeModel> recipes = this.recipeService.filterSearch(searchObject);
         return beautify(recipes);
     }
 
-    private List<RecipeFrontendModel> beautify (List<RecipeModel> recipes) {
-        List<RecipeFrontendModel> recipeFrontendModels = new ArrayList<RecipeFrontendModel>();
-        for (int i = 0; i < 25 && i < recipes.size(); i++) {
+    private List<RecipeDesc> beautify (List<RecipeModel> recipes) {
+        List<RecipeDesc> recipeFrontendModels = new ArrayList<RecipeDesc>();
+        for (int i = 0; i < 24 && i < recipes.size(); i++) {
             RecipeFrontendModel frontendModel = this.recipeService.findById(recipes.get(i).getRecipeId());
             if(!recipeFrontendModels.contains(frontendModel)){
-                recipeFrontendModels.add(frontendModel);
+                RecipeDesc recipeDesc = new RecipeDesc();
+                recipeDesc.setRecipeId(frontendModel.getRecipeId());
+                recipeDesc.setName(frontendModel.getName());
+                recipeDesc.setRecipeImage(frontendModel.getRecipeImage());
+                recipeDesc.setTags(frontendModel.getTags());
+                recipeDesc.setDifficulty(frontendModel.getDifficulty());
+                recipeDesc.setRating(frontendModel.getRating());
+                recipeFrontendModels.add(recipeDesc);
             }
         }
 

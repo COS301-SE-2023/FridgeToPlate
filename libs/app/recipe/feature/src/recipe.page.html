@@ -53,18 +53,18 @@
             <div>
               <p class="text-xs font-semibold">Preparation Time</p>
               <p class="text-center text-3xl mt-2 font-bold">
-                {{recipe?.prepTime ?? '10'}}m
+                {{ recipe.prepTime }}m
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Ingredients</p>
               <p class="text-center text-3xl mt-2 font-bold">
-                {{recipe?.ingredients?.length ?? '4'}}
+                {{ recipe.ingredients?.length ?? 4 }}
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Servings</p>
-              <p class="text-center text-3xl mt-2 font-bold">{{recipe?.servings ?? '1'}}</p>
+              <p class="text-center text-3xl mt-2 font-bold">{{ recipe.servings }}</p>
             </div>
           </div>
 
@@ -80,6 +80,9 @@
           </div>
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
+          <div class="flex">
+            <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
+          </div>
             <h1 class="text-lg font-bold">Description</h1>
             <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
           </div>
@@ -95,15 +98,14 @@
             <ion-list-header>
               <ion-label class="text-lg font-bold">Ingredients</ion-label>
             </ion-list-header>
-            <ion-item class="font-bold">
-              <ion-label>Quantity</ion-label>
-              <ion-label>Ingredient</ion-label>
-            </ion-item>
+            <select [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
+              <option value="imperial">Imperial Units</option>
+              <option value="metric">Metric Units</option>
+            </select>
             <ion-item *ngFor="let ingredient of recipe?.ingredients">
-
-                <ion-label> {{ingredient?.amount ?? ''}} {{ingredient?.unit ?? ''}} </ion-label>
-                  <ion-label> {{ingredient?.name ?? 'Unknown ingredient'}} </ion-label>
-
+              <div>
+                {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
+              </div>
             </ion-item>
           </ion-list>
         </div>

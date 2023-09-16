@@ -66,18 +66,16 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                             newIngredient.setName( ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1) );
     
-                            newIngredient.setAmount( (double) recipeIngredientList[x].getMeasures().getMetric().getAmount() );
+                            newIngredient.setAmount( (double) Math.round(recipeIngredientList[x].getMeasures().getMetric().getAmount() * 100) / 100 );
     
                             if(recipeIngredientList[x].getMeasures().getMetric() != null && recipeIngredientList[x].getMeasures().getMetric().getUnitShort() != null && !recipeIngredientList[x].getMeasures().getMetric().getUnitShort().isEmpty()) {
                                 String ingredientUnit = recipeIngredientList[x].getMeasures().getMetric().getUnitShort();
-                                if (ingredientUnit.equals("Tbsp")) {
-                                    ingredientUnit = "tbsp";
-                                } else if (ingredientUnit.equals("Tbsps")) {
+                                if (ingredientUnit.equals("Tbsp") || ingredientUnit.equals("Tbsps") || ingredientUnit.equals("Tbs")) {
                                     ingredientUnit = "tbsp";
                                 } else if (ingredientUnit.equals("tsps")) {
                                     ingredientUnit = "tsp";
-                                } else if (ingredientUnit.equals("servings")) {
-                                    ingredientUnit = "pinch";
+                                } else if (ingredientUnit.equals("kgs")) {
+                                    ingredientUnit = "kg";
                                 }
 
                                 newIngredient.setUnit(ingredientUnit);
@@ -121,10 +119,26 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                 //Create difficulty evaluation function
                 newRecipe.setDifficulty(utils.estimateRecipeDifficulty(currentRecipe.getCookingMinutes(), currentIngredients));
 
-                newRecipe.setDescription(currentRecipe.getSummary());
+                newRecipe.setDescription(this.cleanSummary(currentRecipe.getSummary()));
                 
                 if (currentRecipe.getDishTypes().length > 0) {
-                    newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
+                    String meal = currentRecipe.getDishTypes()[0];
+
+                    if (meal.equals("morning meal")) {
+                        meal = "breakfast";
+                    } else if (!meal.equals("breakfast") && 
+                                !meal.equals("snack") && 
+                                !meal.equals("lunch") &&
+                                !meal.equals("dinner") &&
+                                !meal.equals("dessert") &&
+                                !meal.equals("soup") &&
+                                !meal.equals("beverage") &&
+                                !meal.equals("salad")
+                            ) {
+                                meal = "snack";
+                    }
+
+                    newRecipe.setMeal(meal);
                 } else {
                     newRecipe.setMeal("dinner");
                 }
@@ -156,5 +170,19 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
         System.arraycopy(dbResults, 0, resultArray , apiResults.length, dbResults.length );
         
         return resultArray;
+    }
+
+    private String cleanSummary(String summary) {
+        int i = summary.indexOf("<");
+        while (i >= 0) {
+            int j = summary.indexOf(">");
+            if (j >= 0) {
+                summary = summary.substring(0, i) + summary.substring(j + 1);
+            }
+
+            i = summary.indexOf("<");
+        }
+
+        return summary;
     }
 }
