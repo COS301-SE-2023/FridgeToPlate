@@ -95,19 +95,31 @@
       >
         <div class="mt-8 lg:mt-4">
           <ion-list class="bg-background-lights h-full rounded-2xl">
-            <ion-list-header>
-              <ion-label class="text-lg font-bold">Ingredients</ion-label>
-            </ion-list-header>
+
             <div class="flex">
-            <select class="ml-auto mr-2 border-solid border-2 " [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
-              <option value="imperial">Imperial Units</option>
-              <option value="metric">Metric Units</option>
-            </select>
+              <ion-list-header>
+                <ion-label class="text-lg font-bold">Ingredients</ion-label>
+              </ion-list-header>
+              <select class="ml-auto mr-2 mt-1 border-solid border-2 text-sm h-4/5 rounded-md sm:mt-2" [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
+                <option value="imperial">Imperial Units</option>
+                <option value="metric">Metric Units</option>
+              </select>
             </div>
-            <ion-item *ngFor="let ingredient of recipe?.ingredients">
-              <div>
-                {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
-              </div>
+            <ion-item class="font-bold">
+              <span class="w-1/2">Ingredient</span>
+              <span class="w-1/4 ml-4">Quantity</span>
+              <span class="1/4 ml-2 pl-1">Units</span>
+            </ion-item>
+            <ion-item *ngFor="let recipeIngredient of recipe?.ingredients">
+              <li *ngFor="let ingredient of ingredients">
+                <ng-template [ngIf]="recipeIngredient?.name === ingredient.name">
+                  {{ changeIconColor() }}
+                </ng-template>
+              </li>
+                <ion-icon [class]="iconColor" class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
+                <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
+                <span class="w-1/4"> {{recipeIngredient?.amount ?? ''}}  </span>
+                <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
             </ion-item>
           </ion-list>
         </div>
