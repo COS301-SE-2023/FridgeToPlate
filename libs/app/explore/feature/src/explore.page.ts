@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { Select, Store, NgxsModule } from '@ngxs/store';
+import { Component } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import {map, Observable, take} from "rxjs";
+import {Observable, take} from "rxjs";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
 
 @Component({
@@ -18,6 +18,8 @@ export class ExplorePage {
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
   @Select(ExploreState.getRecipes) recipes$ !: Observable<IRecipe[]>;
 
+  searchHistoryArray: string[] = [];
+
   page = "searching";
   retunedRecipes: IRecipe[];
   subpage = "beforeSearchApplied";
@@ -28,6 +30,8 @@ export class ExplorePage {
   editExplore !: IExplore;
   searchObject !: IExplore;
   searchTerm = "";
+  isSearchOverlayVisible = false;
+  selectedFilters: string[];
 
   allCategories : IExplore[] = [
     {
@@ -83,7 +87,6 @@ export class ExplorePage {
 
 
   constructor(private store: Store) {
-
   }
 
   displaySearch = "block";
@@ -137,10 +140,13 @@ export class ExplorePage {
         difficulty: "Any",
       };
 
+    if(!this.searchHistoryArray.includes(searchText)){
+      this.searchHistoryArray.push(searchText);
+    }
+
     this.store.dispatch(new CategorySearch(this.searchObject));
 
     this.recipes$.pipe(take(1)).subscribe( (recipes) => {
-
       if(recipes && recipes.length > 0 && this.currSearch){
         this.retunedRecipes = recipes;
         this.loading = false;
@@ -158,4 +164,38 @@ export class ExplorePage {
     this.loading = false;
   }
 
+  showSearchOverlay(){
+    if(!this.isSearchOverlayVisible){
+      this.isSearchOverlayVisible = true;
+    }
+  }
+
+  searchFromHistory(pastTerm: string){
+    if(pastTerm.length !== 0 ){
+      this.searchTerm = pastTerm;
+      this.showCategories = false;
+      this.loading = true;
+      this.showRecipes = false;
+      this.currSearch = true;
+
+      this.searchObject =
+        {
+          type: "",
+          search: pastTerm,
+          tags: [],
+          difficulty: "Any",
+        };
+
+      this.store.dispatch(new CategorySearch(this.searchObject));
+
+      this.recipes$.pipe(take(1)).subscribe( (recipes) => {
+        if(recipes && recipes.length > 0 && this.currSearch){
+          this.retunedRecipes = recipes;
+          this.loading = false;
+          this.showRecipes = true;
+          this.currSearch = false;
+        }
+      });
+    }
+  }
 }

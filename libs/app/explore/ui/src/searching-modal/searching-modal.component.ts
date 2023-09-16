@@ -16,16 +16,21 @@ import { CategorySearch, IExplore, RetrieveRecipe } from '@fridge-to-plate/app/e
 })
 export class SearchingModalComponent {
 
+  @Input() searchTermFromParent : string;
+
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
   searchText = "";
+
   result = "";
 
-
   @Output() newSearchEvent = new EventEmitter<string>();
+
+  @Output() toggleSearchOverlayEvent = new EventEmitter<boolean>();
 
   @ViewChild('input') input: ElementRef;
 
   constructor(private store: Store) {
+    this.searchText = this.searchTermFromParent ?? '';
   }
 
   explorer() {
@@ -40,4 +45,7 @@ export class SearchingModalComponent {
     ).subscribe()
   }
 
+  showSearchOverlay(){
+    this.toggleSearchOverlayEvent.emit(true);
+  }
 }
