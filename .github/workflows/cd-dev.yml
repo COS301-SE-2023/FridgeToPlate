@@ -41,6 +41,9 @@ jobs:
         printf "${{ secrets.ENV_FILE }}" > .env
       shell: bash
 
+    - name: Setup NX
+      run: npm install nx@latest
+
     - name: Install Dependencies
       run: npm install
       
