@@ -1,1 +1,2 @@
-export * from './lib/app-info-utils.module';
+export * from './info.module';
+export * from './info.actions';
