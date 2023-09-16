@@ -76,6 +76,10 @@ public class RecipeModel extends Recipe {
         return creator;
     }
 
+    @DynamoDBAttribute(attributeName = "youtubeId")
+    public String getYoutubeId() {
+        return youtubeId;
+    }
 
     @DynamoDBAttribute(attributeName = "views")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.N)

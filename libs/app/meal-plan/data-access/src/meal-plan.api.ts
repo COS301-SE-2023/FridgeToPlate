@@ -24,8 +24,14 @@ export class MealPlanAPI {
             }
         });
     }
-    getMealPlanShoppingList(username: string): Observable<IIngredient[]> {
-        const url = `${this.baseUrl}/${username}/ingredients`;
-        return this.http.get<IIngredient[]>(url);
+
+    getMealPlanShoppingList(mealPlan: IMealPlan | null): Observable<IIngredient[]> {
+        const url = `${this.baseUrl}/ingredients`;
+        return this.http.post<IIngredient[]>(url, mealPlan);
     }    
+
+    getMealPlan(date: string, username: string) {
+        const url = `${this.baseUrl}/${username}/${date}`;
+        return this.http.get<IMealPlan>(url);
+    }
 }
