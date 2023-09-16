@@ -109,8 +109,7 @@ export class AuthState {
       const profile: IProfile = {
         displayName: username,
         username: username,
-        profilePic:
-          'https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png',
+        profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
         email: email,
         ingredients: [],
         savedRecipes: [],
