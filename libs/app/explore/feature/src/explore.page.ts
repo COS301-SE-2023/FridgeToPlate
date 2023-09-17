@@ -4,6 +4,7 @@ import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import {Observable, take} from "rxjs";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
+import {keywordsArray} from "@fridge-to-plate/app/recommend/utils";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -31,8 +32,8 @@ export class ExplorePage {
   searchObject !: IExplore;
   searchTerm = "";
   isSearchOverlayVisible = false;
-  selectedFilters: string[];
-
+  selectedFilters: string[] = [];
+  showAllFilters = true;
   allCategories : IExplore[] = [
     {
       type: "breakfast",
@@ -85,6 +86,7 @@ export class ExplorePage {
 
   ];
 
+  protected readonly keywordsArray = keywordsArray;
 
   constructor(private store: Store) {
   }
@@ -182,7 +184,7 @@ export class ExplorePage {
         {
           type: "",
           search: pastTerm,
-          tags: [],
+          tags: this.selectedFilters,
           difficulty: "Any",
         };
 
@@ -197,5 +199,56 @@ export class ExplorePage {
         }
       });
     }
+  }
+
+  showSearchFilters(){
+    if(!this.showAllFilters){
+      this.showAllFilters = true;
+      return;
+    }
+  }
+
+  hideSearchFilters() {
+    if(this.showAllFilters){
+      this.showAllFilters = false;
+      return;
+    }
+  }
+
+
+  removeFromFilters(filterToRemove: string){
+    if(!filterToRemove || (this.selectedFilters.length <= 0 || !this.selectedFilters.includes(filterToRemove)))
+    {
+      return;
+    }
+
+    else{
+      this.selectedFilters = this.selectedFilters.filter((filter) => filter !== filterToRemove);
+    }
+  }
+
+  addToFilters(filter: string){
+    if(!filter || this.selectedFilters.length >= 3)
+    {
+      return;
+    }
+
+    else if(this.selectedFilters.includes(filter)){
+      this.removeFromFilters(filter);
+    }
+    else{
+      this.selectedFilters.push(filter);
+    }
+  }
+  clearFilters(){
+    this.selectedFilters = [];
+  }
+
+  applyFilters(){
+    if(this.selectedFilters.length > 0){
+      this.searchFromHistory(this.searchTerm);
+    }
+
+  this.hideSearchFilters();
   }
 }

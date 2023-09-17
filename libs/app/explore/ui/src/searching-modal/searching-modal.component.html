@@ -9,6 +9,9 @@
       </button>
       <input #input type="search" name="" id="" placeholder="What are you looking for?" [(ngModel)]="searchText"
         class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent" (input)="explorer()" (focus)="showSearchOverlay()"/>
+      <div class="flex flex-row justify-center items-center mr-2 h-fit w-16 ml-2" *ngIf="filterCount > 0">
+        <p class="text-xs text-gray-500 w-full">+ filters</p>
+      </div>
     </div>
 
 </div>

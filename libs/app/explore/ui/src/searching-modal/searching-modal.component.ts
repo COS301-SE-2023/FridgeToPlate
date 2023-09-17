@@ -18,6 +18,8 @@ export class SearchingModalComponent {
 
   @Input() searchTermFromParent : string;
 
+  @Input() filterCount: number
+
   @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
   searchText = "";
 
