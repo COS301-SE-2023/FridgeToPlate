@@ -223,8 +223,10 @@ export class AuthState {
       cognito.changePassword(params, (err, data) => {
         if (err) {
           console.error('Password change error:', err);
+          this.store.dispatch(new ShowInfo("An Error Occurred When Chanaging Password"));
         } else {
           console.log('Password changed successfully.');
+          this.store.dispatch(new ShowSuccess("Password Changed Successfully"));
         }
       });
     }
