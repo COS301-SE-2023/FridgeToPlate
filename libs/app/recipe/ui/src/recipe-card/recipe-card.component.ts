@@ -21,12 +21,12 @@ export class RecipeCardComponent implements OnInit {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
 
-
   @Input() recipe !: any;
   bookmarked = false;
   editable = true;
   @Input() added = false;
   showMenu = false;
+  @Input() mealPlanType = "";
 
   constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
   
@@ -80,11 +80,10 @@ export class RecipeCardComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new RemoveFromMealPlan(this.recipe.recipeId));
+    this.store.dispatch(new RemoveFromMealPlan(this.mealPlanType));
   }
 
   navigateToRecipe() {
-    this.store.dispatch(new IncreaseViews());
     this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
   }
 

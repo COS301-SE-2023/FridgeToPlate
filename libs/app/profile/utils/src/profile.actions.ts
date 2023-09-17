@@ -73,7 +73,7 @@ export class UpdateMealPlan {
 
 export class RemoveFromMealPlan {
   static readonly type = '[Profile] RemoveFromMealPlan';
-  constructor(public readonly recipeId: string) {}
+  constructor(public readonly meal: string) {}
 }
 
 export class AddToMealPlan {
