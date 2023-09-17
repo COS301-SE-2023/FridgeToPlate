@@ -100,13 +100,13 @@
               <ion-list-header>
                 <ion-label class="text-lg font-bold">Ingredients</ion-label>
               </ion-list-header>
-              <select class="ml-auto mr-2 mt-1 border-solid border-2 text-sm h-4/5 rounded-md sm:mt-2" [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
+              <select class="ml-auto mr-2 mt-1 border-solid border-2 text-sm h-4/5 rounded-md sm:mt-2" [(ngModel)]="measurementUnit" (change)="changeIngredientUnits()">
                 <option value="imperial">Imperial Units</option>
                 <option value="metric">Metric Units</option>
               </select>
             </div>
             <ion-item class="font-bold">
-              <span class="w-1/2">Ingredient</span>
+              <span class="w-1/2">Ingredient Name</span>
               <span class="w-1/4 ml-4">Quantity</span>
               <span class="1/4 ml-2 pl-1">Units</span>
             </ion-item>
@@ -118,7 +118,7 @@
               </li>
                 <ion-icon [class]="iconColor" class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
                 <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
-                <span class="w-1/4"> {{recipeIngredient?.amount ?? ''}}  </span>
+                <span class="w-1/4"> {{recipeIngredient?.amount?.toFixed(1) ?? ''}}  </span>
                 <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
             </ion-item>
           </ion-list>
