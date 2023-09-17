@@ -7,6 +7,8 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
+import { FormsModule } from '@angular/forms';
+import { RecommendUIModule } from '../recommend.module';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -15,7 +17,7 @@ describe('ItemEditStep', () => {
 
   @State({
     name: 'recommend',
-    defaults: {}
+    defaults: {},
   })
   @Injectable()
   class MockRecommendState {}
@@ -23,7 +25,13 @@ describe('ItemEditStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ItemEditStep],
-      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot([MockRecommendState])],
+      imports: [
+        RecommendUIModule,
+        IonicModule,
+        HttpClientModule,
+        FormsModule,
+        NgxsModule.forRoot([MockRecommendState]),
+      ],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(ItemEditStep);
@@ -49,13 +57,13 @@ describe('ItemEditStep', () => {
     store = TestBed.inject(Store);
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    const testIngredient : IIngredient = {
-      name: "Carrot",
+    const testIngredient: IIngredient = {
+      name: 'Carrot',
       amount: 2,
-      unit: "g"
+      unit: 'g',
     };
 
-    component.removeItem(testIngredient)
+    component.removeItem(testIngredient);
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
   });
 
@@ -63,17 +71,17 @@ describe('ItemEditStep', () => {
     store = TestBed.inject(Store);
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    const testIngredient : IIngredient = {
-      name: "Carrot",
+    const testIngredient: IIngredient = {
+      name: 'Carrot',
       amount: 2,
-      unit: "g"
+      unit: 'g',
     };
 
     component.ingredientName = testIngredient.name;
     component.ingredientAmount = testIngredient.amount;
     component.ingredientScale = testIngredient.unit;
 
-    component.addIngredient()
+    component.addIngredient();
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
   });
 });

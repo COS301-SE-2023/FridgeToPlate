@@ -32,6 +32,7 @@ describe('StepperForm', () => {
         StepperForm,
       ],
       imports: [
+        FormsModule,
         NzListModule,
         IonicModule,
         NzStepsModule,

@@ -3,6 +3,7 @@ import { DropdownSelectComponent } from './dropdown-select.component';
 import { RecommendUIModule } from '../recommend.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 describe('DropdownSelectComponent', () => {
   let component: DropdownSelectComponent;
@@ -10,7 +11,7 @@ describe('DropdownSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RecommendUIModule, HttpClientTestingModule],
+      imports: [RecommendUIModule, HttpClientTestingModule, FormsModule],
       declarations: [DropdownSelectComponent],
       // providers: [HttpClientTestingModule]
     }).compileComponents();
