@@ -1,3 +1,6 @@
+package com.fridgetoplate.config;
+
+import com.fridgetoplate.config.EnableWebSocketBroker;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -7,20 +10,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
-@EnableWebSocketBroker
+@EnableWebSocketMessageBroker
 
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/all", "/specific");
-        config.setApplicationDestinationPrefixes("/application-push");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws");
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/push-notifications").setAllowedOrigins("*");
+        registry.addEndpoint("/push-notifications").setAllowedOrigins("*").withSockJS();
     }
 
 }

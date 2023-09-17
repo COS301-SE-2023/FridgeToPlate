@@ -14,16 +14,22 @@ import org.jose4j.lang.JoseException;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import jakarta.annotation.PostConstruct;
-import lombok.Value;
 import nl.martijndwars.webpush.Notification;
 import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
+import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
+import org.apache.logging.log4j.message.Message;
 
 public class MessageService {
- @Value("{VAPIDPublicKey}")
+  @Value("${Vapid.VAPIDPublicKey}")
  private String vapidPublicKey;
 
- @Value("{VAPIDPrivateKey}")
+ @Value("${Vapid.VAPIDPrivateKey}")
  private String vapidPrivateKey;
 
  private PushService pushService;

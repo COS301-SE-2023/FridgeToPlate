@@ -2,11 +2,8 @@ package com.fridgetoplate.controller;
 
 import java.util.List;
 
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +23,6 @@ public class NotificationController {
 
     @Autowired
     private NotificationsRepository notificationsRepository;
-
-    @Autowired
-    private SimpMessagingTemplate simpmessagingTemplate;
 
     @GetMapping("/{userId}")
     public NotificationsResponseModel findAll(@PathVariable(value = "userId") String userId){
