@@ -36,7 +36,7 @@ describe('HomePage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(component.mealType).toBe('Breakfast');
+    expect(component.mealType).toBe('breakfast');
     expect(component.messageHeader).toBe(`Good morning! What's on the menu for breakfast?`);
   });
 
@@ -48,7 +48,7 @@ describe('HomePage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(component.mealType).toBe('Lunch');
+    expect(component.mealType).toBe('lunch');
     expect(component.messageHeader).toBe(`Hungry for a delicious lunch? Let's get cooking!`);
   });
 
@@ -60,7 +60,7 @@ describe('HomePage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(component.mealType).toBe('Dinner');
+    expect(component.mealType).toBe('dinner');
     expect(component.messageHeader).toBe(`It's dinner time! Enjoy a tasty meal tonight.`);
   });
 
@@ -72,7 +72,7 @@ describe('HomePage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    expect(component.mealType).toBe('Snack');
+    expect(component.mealType).toBe('snack');
     expect(component.messageHeader).toBe(`Time for a snack! What do you feel like making?`);
   });
 });

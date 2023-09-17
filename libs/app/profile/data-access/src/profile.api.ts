@@ -41,13 +41,4 @@ export class ProfileAPI {
 
     return this.http.get<IProfile | null>(url);
   }
-
-  updateMealPlan(mealPlan : IMealPlan) {
-    const url = this.baseUrl + '/meal-plans/save';
-    this.http.post<IMealPlan>(url, mealPlan).subscribe({
-      error: error => {
-        this.store.dispatch(new ShowError(error.message));
-      }
-    });
-  }
 }

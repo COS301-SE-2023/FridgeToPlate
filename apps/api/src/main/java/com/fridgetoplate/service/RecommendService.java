@@ -37,9 +37,9 @@ public class RecommendService {
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        List<RecipeDesc> result = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        List<RecipeDesc> results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-        if(result.size() < 24) {
+        if(results.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 
             //1. Query External API and convert to Recipe
@@ -52,8 +52,8 @@ public class RecommendService {
             //.3 Query Database by prefrence
             List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-            result = new ArrayList<>(dbQueryResults);
-            for (int i = 0; i < apiQueryResults.length && result.size() < 24; i++) {
+            results = new ArrayList<>(dbQueryResults);
+            for (int i = 0; i < apiQueryResults.length && results.size() < 24; i++) {
                 boolean found = false;
                 for (int j = 0; j < dbQueryResults.size(); j++) {
                     if (dbQueryResults.get(j).getRecipeId().equals(apiQueryResults[i].getRecipeId())) {
@@ -70,12 +70,17 @@ public class RecommendService {
                     recipeDesc.setTags(apiQueryResults[i].getTags());
                     recipeDesc.setDifficulty(apiQueryResults[i].getDifficulty());
                     recipeDesc.setRating(apiQueryResults[i].getRating());
-                    result.add(recipeDesc);
+                    results.add(recipeDesc);
                 }
+            } 
+        } else {
+
+            while (results.size() > 24) {
+                results.remove(results.size() - 1);
             }
         }
 
-        return result;
+        return results;
     }
 
     public RecommendFrontendModel save(RecommendFrontendModel recommendObject){

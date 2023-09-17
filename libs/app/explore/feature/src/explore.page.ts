@@ -41,49 +41,49 @@ export class ExplorePage {
       type: "breakfast",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "snack",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "lunch",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "dessert",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "dinner",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "soup",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
-      type: "drink",
+      type: "beverage",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
     {
       type: "salad",
       search: "",
       tags: [],
-      difficulty: "Any",
+      difficulty: "",
     },
 
   ];
@@ -141,7 +141,7 @@ export class ExplorePage {
         type: "",
         search: searchText,
         tags: this.selectedFilters,
-        difficulty: "Any",
+        difficulty: "",
       };
 
     if(!this.searchHistoryArray.includes(searchText)){
@@ -196,7 +196,7 @@ export class ExplorePage {
           type: "",
           search: pastTerm,
           tags: this.selectedFilters,
-          difficulty: "Any",
+          difficulty: "",
         };
 
       this.store.dispatch(new CategorySearch(this.searchObject));
