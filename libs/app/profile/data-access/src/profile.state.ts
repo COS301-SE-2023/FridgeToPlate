@@ -17,6 +17,7 @@ import {
     RemoveFromMealPlan,
     AddToMealPlan,
     AddCreatedRecipe,
+    RetrieveMealPlan,
     OpenSettings,
     CloseSettings
 } from "@fridge-to-plate/app/profile/utils";
@@ -331,7 +332,7 @@ export class ProfileState {
             });
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
-            this.store.dispatch( new RetrieveMealPlanIngredients(updatedProfile.username) );
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
         }
     }
 
@@ -358,49 +359,75 @@ export class ProfileState {
                 mealPlan.snack = null;
             }
             this.store.dispatch(new UpdateMealPlan(mealPlan))
-            this.store.dispatch( new RetrieveMealPlanIngredients(profile.username) )
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) )
         }
     }
 
     @Action(AddToMealPlan)
-    addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType } : AddToMealPlan) {
+    async addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType, date } : AddToMealPlan) {
         const profile = getState().profile;
         if(!profile){
             this.store.dispatch(new ShowError("No profile: Not signed in."));
             return;
         }
-        const mealPlan = profile?.currMealPlan;
-        if (mealPlan) {
 
-            if(mealType === "Breakfast") {
-                mealPlan.breakfast = recipe;
+        (await this.mealPlanAPI.getMealPlan(date, profile.username)).subscribe({
+            next: data => {
+                let mealPlan = data;
+                if (mealPlan) {
+                    if(mealType === "Breakfast") {
+                        mealPlan.breakfast = recipe;
+                    }
+                    if(mealType === "Lunch") {
+                        mealPlan.lunch = recipe;
+                    }
+                    if(mealType === "Dinner") {
+                        mealPlan.dinner = recipe;
+                    }
+                    if(mealType === "Snack") {
+                        mealPlan.snack = recipe;
+                    }
+                } else {
+                    mealPlan = {
+                        username: profile.username,
+                        date: date,
+                        breakfast: mealType === "Breakfast" ? recipe : null,
+                        lunch: mealType === "Lunch" ? recipe : null,
+                        dinner: mealType === "Dinner" ? recipe : null,
+                        snack: mealType === "Snack" ? recipe : null
+                    }
+                }
+                this.store.dispatch(new UpdateMealPlan(mealPlan));
+            },
+            error: error => {
+                this.store.dispatch(new ShowError(error.message));
             }
-            if(mealType === "Lunch") {
-                mealPlan.lunch = recipe;
-            }
-            if(mealType === "Dinner") {
-                mealPlan.dinner = recipe;
-            }
-            if(mealType === "Snack") {
-                mealPlan.snack = recipe;
-            }
-            this.store.dispatch(new UpdateMealPlan(mealPlan));
+        });
 
-        } else {
-
-            const newMealPlan: IMealPlan = {
-                username: profile.username,
-                date: new Date().toISOString().slice(0, 10),
-                breakfast: mealType === "Breakfast" ? recipe : null,
-                lunch: mealType === "Lunch" ? recipe : null,
-                dinner: mealType === "Dinner" ? recipe : null,
-                snack: mealType === "Snack" ? recipe : null
-            }
-            this.store.dispatch(new UpdateMealPlan(newMealPlan));
-            
-        }
+        
     }
 
+    @Action(RetrieveMealPlan) 
+    async retrieveMealPlan({ getState, patchState } : StateContext<ProfileStateModel>, { date } : RetrieveMealPlan) {
+        const newProfile = getState().profile;
+        if(!newProfile){
+            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            return;
+        }
+
+        (await this.mealPlanAPI.getMealPlan(date , newProfile.username)).subscribe({
+            next: data => {
+                newProfile.currMealPlan = data;
+
+                patchState({
+                    profile: newProfile
+                });
+            },
+            error: error => {
+                this.store.dispatch(new ShowError(error.message));
+            }
+        });
+    }
 
     @Action(OpenSettings)
     openSettings({ patchState } : StateContext<SettingsStateModel>) {

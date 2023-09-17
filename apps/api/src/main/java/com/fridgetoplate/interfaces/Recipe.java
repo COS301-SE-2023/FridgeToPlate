@@ -16,6 +16,8 @@ public class Recipe extends RecipeDesc {
 
     protected String creator;
 
+    protected String youtubeId;
+
     // Setters
     public void setDescription(String description) {
         this.description = description;
@@ -41,4 +43,7 @@ public class Recipe extends RecipeDesc {
         this.creator = creator;
     }
 
+    public void setYoutubeId(String youtubeId) {
+        this.youtubeId = youtubeId;
+    }
 }

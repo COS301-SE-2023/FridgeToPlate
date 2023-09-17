@@ -24,7 +24,7 @@ describe('EditModalComponent', () => {
     jest.spyOn(component.closeFunc, 'emit');
     component.save("Breakfast")
     expect(component.saveFunc.emit).toBeCalled();
-    expect(component.saveFunc.emit).toBeCalledWith("Breakfast");
+    expect(component.saveFunc.emit).toBeCalledWith({meal: "Breakfast", date: new Date().toISOString().slice(0, 10)});
     expect(component.closeFunc.emit).toBeCalled();
   }); 
 

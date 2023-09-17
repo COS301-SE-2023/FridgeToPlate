@@ -133,7 +133,7 @@ public class RecipeRepository {
         if (type != null && !type.isEmpty()) {
             // Add the condition for 'meal'
             Condition condition = new Condition()
-                .withComparisonOperator(ComparisonOperator.EQ)
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
                 .withAttributeValueList(new AttributeValue().withS(type));
             scanFilter.put("meal", condition);
         }

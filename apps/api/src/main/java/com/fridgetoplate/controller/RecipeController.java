@@ -1,6 +1,8 @@
 package com.fridgetoplate.controller;
 
 import java.util.List;
+
+import com.fridgetoplate.model.RecipeDeleteResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,13 +40,14 @@ public class RecipeController {
     public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
         return recipeService.updateRatingRatingAndViews(recipe);
     }
+    
     @PutMapping("/{id}")
     public RecipeFrontendModel update(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
         return recipeService.update(recipe);
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id){
+    public RecipeDeleteResponseModel delete(@PathVariable(value = "id") String id){
         return recipeService.delete(id);
     }
 }

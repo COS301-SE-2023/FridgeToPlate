@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable, of, switchMap} from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { IReview } from '@fridge-to-plate/app/review/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
+import {IDeleteRecipeResponse} from "../../utils/src/interfaces/delete.recipe.response";
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class RecipeAPI {
 
   deleteRecipe(id: string): Observable<string> {
     const url = this.baseUrl + '/' + id;
-    return this.http.delete<string>(url);
+    return this.http.delete<IDeleteRecipeResponse>(url).pipe( switchMap( x => of(x.response)));
   }
 
   getRecipeById(id: string): Observable<IRecipe> {
@@ -46,10 +47,5 @@ export class RecipeAPI {
   deleteReview(recipeId: string, reviewId:string): Observable<string> {
     const url = environment.API_URL + '/reviews/' + recipeId + '/' + reviewId;
     return this.http.delete<string>(url);
-  }
-
-  retrieveIngredientsByRecipeId(id: string): Observable<IIngredient[]> {
-    const url = `${this.baseUrl}/${id}/ingredients`;
-    return this.http.get<IIngredient[]>(url);
   }
 }
