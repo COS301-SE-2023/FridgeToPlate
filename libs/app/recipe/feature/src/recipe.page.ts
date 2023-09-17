@@ -89,7 +89,7 @@ export class RecipePage implements OnInit {
       
             } else {
               if (this.recipe) {
-                this.presentIngredients = this.recipe?.ingredients;
+                this.missingIngredients = this.recipe?.ingredients;
               }
             }
 
