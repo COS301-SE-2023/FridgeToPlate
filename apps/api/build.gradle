@@ -19,6 +19,8 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 	implementation 'org.springframework.boot:spring-boot-starter-graphql'
+  implementation 'nl.martijndwars:web-push:5.1.1'
+  implementation 'name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.3.0'
 }
 
 tasks.named('test') {
