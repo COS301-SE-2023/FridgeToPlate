@@ -45,7 +45,7 @@ export class HomeState {
             });
         },
         error: error => {
-            this.store.dispatch(new ShowInfo('Failed to retrieved featured recipes'));
+            this.store.dispatch(new ShowError('Failed to retrieved featured recipes'));
         }
     });
     
