@@ -16,7 +16,7 @@ describe('ItemEditStep', () => {
   let store: Store;
 
   @State({
-    name: 'recommend',
+    name: 'recommendMock',
     defaults: {},
   })
   @Injectable()
@@ -30,7 +30,7 @@ describe('ItemEditStep', () => {
         IonicModule,
         HttpClientModule,
         FormsModule,
-        NgxsModule.forRoot([MockRecommendState]),
+        NgxsModule.forRoot([]),
       ],
       providers: [HttpClientModule],
     });
