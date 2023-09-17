@@ -77,11 +77,20 @@ public class RecipeService {
         Double rating = recipeModel.getRating();
         String youtubeId = recipeModel.getYoutubeId();
         if (youtubeId == null) {
-          YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
-          if (videos.length > 0) {
-            youtubeId = videos[0].getId().videoId;
-            recipeModel.setYoutubeId(youtubeId);
-            recipeRepository.saveRecipe(recipeModel);
+          try {
+              
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
+              
+              if (videos.length > 0) {
+                youtubeId = videos[0].getId().videoId;
+                recipeModel.setYoutubeId(youtubeId);
+                recipeRepository.saveRecipe(recipeModel);
+              } else {
+                recipeModel.setYoutubeId("");
+              }
+
+          } catch (Exception e) {
+              recipeModel.setYoutubeId("");
           }
         }
 
