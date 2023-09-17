@@ -1,6 +1,7 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ExploreService {
 
     private List<RecipeDesc> beautify (List<RecipeModel> recipes) {
         List<RecipeDesc> recipeFrontendModels = new ArrayList<RecipeDesc>();
+        Collections.shuffle(recipes);
         for (int i = 0; i < 24 && i < recipes.size(); i++) {
             RecipeFrontendModel frontendModel = this.recipeService.findById(recipes.get(i).getRecipeId());
             if(!recipeFrontendModels.contains(frontendModel)){

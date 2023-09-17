@@ -2,6 +2,7 @@ package com.fridgetoplate.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,11 +76,13 @@ public class RecommendService {
             } 
         } else {
 
+            Collections.shuffle(results);
             while (results.size() > 24) {
                 results.remove(results.size() - 1);
             }
         }
 
+        Collections.shuffle(results);
         return results;
     }
 
