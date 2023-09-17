@@ -177,7 +177,6 @@ export class AuthState {
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new GetUpdatedRecommendation(username));
-        this.store.dispatch(new ShowSuccess("Logged In Successfully"));
         this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
@@ -223,7 +222,7 @@ export class AuthState {
       cognito.changePassword(params, (err, data) => {
         if (err) {
           console.error('Password change error:', err);
-          this.store.dispatch(new ShowInfo("An Error Occurred When Chanaging Password"));
+          this.store.dispatch(new ShowError("An Error Occurred When Chanaging Password"));
         } else {
           console.log('Password changed successfully.');
           this.store.dispatch(new ShowSuccess("Password Changed Successfully"));

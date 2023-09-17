@@ -29,7 +29,7 @@ export class PasswordModalComponent {
   save() {
 
     if(this.newPassword != this.confirmPassword)
-      this.store.dispatch( new ShowInfo("Please enter matching passwords"));
+    this.store.dispatch( new ShowInfo("Passwords Entered Do Not Match"));
     else{
       this.store.dispatch(new ChangePassword(this.oldPassword, this.newPassword));
       this.saveFunc.emit();

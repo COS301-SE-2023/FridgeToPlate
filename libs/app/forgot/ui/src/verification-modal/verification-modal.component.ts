@@ -25,7 +25,7 @@ export class VerificationModalComponent {
 
     if (this.verification_code != "" && this.new_password != "" && this.confirm_password != "") {
       if (this.new_password != this.confirm_password) 
-        this.store.dispatch(new ShowInfo("Please Enter Matching Passwords"));
+        this.store.dispatch(new ShowError("Please Enter Matching Passwords"));
       
       else
         this.store.dispatch(new NewPassword(this.verification_code, this.new_password));
