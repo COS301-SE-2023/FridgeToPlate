@@ -22,6 +22,7 @@ dependencies {
   implementation 'nl.martijndwars:web-push:5.1.1'
   implementation 'name.neuhalfen.projects.crypto.bouncycastle.openpgp:bouncy-gpg:2.3.0'
   implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  testImplementation 'org.awaitility:awaitility:3.1.2'
 }
 
 tasks.named('test') {
