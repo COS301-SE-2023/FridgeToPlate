@@ -7,6 +7,7 @@ import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { ShowInfo } from "@fridge-to-plate/app/info/utils";
 
 export interface ExploreStateModel {
     explore: IExplore | null;
@@ -58,6 +59,8 @@ export class ExploreState {
                     explore: search,
                     recipes: data
                 });
+
+                this.store.dispatch(new ShowInfo('Results Found'));
             },
             error: error => {
                 this.store.dispatch(new ShowError(error));
