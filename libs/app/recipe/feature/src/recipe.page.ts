@@ -36,13 +36,11 @@ export class RecipePage implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private store: Store,
-    private actions$: Actions,
     private _sanitizer: DomSanitizer
   ) {}
 
   hasTags = false;
   isDescriptionExpanded = false;
-  ingredients: IIngredient[];
   presentIngredients: IIngredient[] = [];
   missingIngredients: IIngredient[] = [];
   toggleDescriptionExpanded() {
@@ -58,18 +56,6 @@ export class RecipePage implements OnInit {
       const recipeId = params.get('id');
       if (recipeId) {
         this.setRecipe(recipeId);
-        this.ingredients$.subscribe((ingredients) => {
-          this.ingredients = ingredients;
-        });
-
-        if (this.recipe?.ingredients) {
-          this.presentIngredients = this.recipe?.ingredients.filter(element => this.ingredients.some(ele => ele.name == element.name));
-          this.missingIngredients = this.recipe?.ingredients.filter(element => !this.ingredients.some(ele => ele.name == element.name));
-        }
-
-        if (this.recipe?.tags) {
-          this.hasTags = true;
-        }
       } else {
         this.store.dispatch(new ShowError('Invalid Recipe Id'));
       }
@@ -86,10 +72,33 @@ export class RecipePage implements OnInit {
       this.store.dispatch(new RetrieveRecipe(id));
       this.recipe$.subscribe((stateRecipe) => {
         this.recipe = stateRecipe;
-        if (stateRecipe.youtubeId)
-          this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
-            `https://www.youtube.com/embed/${this.recipe.youtubeId}`
-          );
+        if (this.recipe)  {
+          if (stateRecipe.youtubeId) {
+            this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
+              `https://www.youtube.com/embed/${this.recipe.youtubeId}`
+            );
+          }
+          
+          this.ingredients$.subscribe((ingredients) => {
+
+            if (ingredients.length > 0) {
+              if (this.recipe?.ingredients) {
+                this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => ele.name == element.name));
+                this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => ele.name == element.name));
+              }
+      
+            } else {
+              if (this.recipe) {
+                this.missingIngredients = this.recipe?.ingredients;
+              }
+            }
+
+          });
+
+          if (this.recipe?.tags) {
+            this.hasTags = true;
+          }
+        }
       });
     } else {
       this.store.dispatch(new ShowError('Invalid Recipe Id'));

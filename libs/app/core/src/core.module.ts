@@ -56,7 +56,7 @@ import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.TYPE == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, UndoState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState, ProfileState, RecommendState, PreferencesState]),
     NgxsStoragePluginModule.forRoot({
       key: [
         {
