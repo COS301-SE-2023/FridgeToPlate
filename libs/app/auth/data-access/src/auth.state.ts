@@ -9,6 +9,7 @@ import {
   NewPassword,
 } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
 import {
   AuthenticationDetails,
   CognitoUserAttribute,
@@ -148,6 +149,8 @@ export class AuthState {
 
       this.store.dispatch(new AddRecommendation(defaultRecommend));
 
+      this.store.dispatch(new ShowSuccess("Successfully Created An Account"));
+
       this.store.dispatch(new Navigate(['/home']));
     });
   }
@@ -174,6 +177,7 @@ export class AuthState {
         this.store.dispatch(new RetrieveProfile(username));
         this.store.dispatch(new RetrievePreferences(username));
         this.store.dispatch(new GetUpdatedRecommendation(username));
+        this.store.dispatch(new ShowSuccess("Logged In Successfully"));
         this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
@@ -195,6 +199,7 @@ export class AuthState {
     this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new ClearRecommend());
     localStorage.clear();
+    this.store.dispatch(new ShowInfo("Account Has Logged Out"));
     this.store.dispatch(new Navigate(['/login']));
   }
 
