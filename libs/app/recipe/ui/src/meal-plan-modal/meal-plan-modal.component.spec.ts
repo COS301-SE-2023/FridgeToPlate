@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MealPlanModalComponent } from './meal-plan-modal.component';
+import { FormsModule } from '@angular/forms';
 
 describe('EditModalComponent', () => {
   let component: MealPlanModalComponent;
@@ -7,6 +8,7 @@ describe('EditModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [FormsModule],
       declarations: [MealPlanModalComponent],
     }).compileComponents();
 
@@ -22,15 +24,18 @@ describe('EditModalComponent', () => {
   it('save should call save and close func', () => {
     jest.spyOn(component.saveFunc, 'emit');
     jest.spyOn(component.closeFunc, 'emit');
-    component.save("Breakfast")
+    component.save('Breakfast');
     expect(component.saveFunc.emit).toBeCalled();
-    expect(component.saveFunc.emit).toBeCalledWith({meal: "Breakfast", date: new Date().toISOString().slice(0, 10)});
+    expect(component.saveFunc.emit).toBeCalledWith({
+      meal: 'Breakfast',
+      date: new Date().toISOString().slice(0, 10),
+    });
     expect(component.closeFunc.emit).toBeCalled();
-  }); 
+  });
 
   it('save should call close func', () => {
     jest.spyOn(component.closeFunc, 'emit');
-    component.close()
+    component.close();
     expect(component.closeFunc.emit).toBeCalled();
-  }); 
+  });
 });
