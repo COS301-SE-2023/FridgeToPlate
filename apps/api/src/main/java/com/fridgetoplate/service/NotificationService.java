@@ -23,7 +23,7 @@ public class NotificationService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    private NotificationsUtils utils;
+    private NotificationsUtils utils = new NotificationsUtils();
 
     Random random = new Random();
 
@@ -36,15 +36,21 @@ public class NotificationService {
 
         NotificationsResponseModel response = new NotificationsResponseModel();
         List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
+        List<NotificationModel> generalNotifications = new ArrayList<>();
+        List<NotificationModel> recommendNotifications = new ArrayList<>();
+        
 
         for (NotificationModel notificationModel : notifications) {
             if (notificationModel.getType().equals("recommend")) {
-                response.getRecommendations().add(notificationModel);
+                recommendNotifications.add(notificationModel);
             } else {
-                response.getGeneral().add(notificationModel);
+                generalNotifications.add(notificationModel);
             }
         }
 
+        response.setRecommendations(recommendNotifications);
+        response.setGeneral(generalNotifications);
+        
         return response;
     }
 

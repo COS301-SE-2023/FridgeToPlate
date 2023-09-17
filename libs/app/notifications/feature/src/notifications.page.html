@@ -48,18 +48,18 @@
             >
               <img
                 class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
-                [src]="notification.profilePictureUrl"
+                [src]="notification.notificationPic"
               />
             </div>
             <div
-              (click)="onNotificationClick(notification.recipeId)"
+              (click)="onNotificationClick(notification?.metadata ?? '')"
               class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
             >
               <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                <p>{{ notification.userName }}</p>
+                <p>{{ notification.userId }}</p>
               </div>
               <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                <p class="line-clamp-1">{{ notification.comment }}</p>
+                <p class="line-clamp-1">{{ notification.body }}</p>
               </div>
             </div>
           </div>
@@ -89,18 +89,18 @@
             >
               <img
                 class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
-                [src]="notification.profilePictureUrl"
+                [src]="notification.notificationPic"
               />
             </div>
             <div
-              (click)="onNotificationClick(notification.recipeId)"
+              (click)="onNotificationClick(notification?.metadata ?? '')"
               class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
             >
               <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                {{ notification.userName }}
+                {{ notification.title }}
               </div>
               <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                <p class="line-clamp-1">{{ notification.comment }}</p>
+                <p class="line-clamp-1">{{ notification.body }}</p>
               </div>
             </div>
           </div>

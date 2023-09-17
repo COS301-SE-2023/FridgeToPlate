@@ -1,8 +1,21 @@
-import {  Action,  NgxsModule, Select, Selector, State, StateContext, Store } from '@ngxs/store';
+import {
+  Action,
+  NgxsModule,
+  Select,
+  Selector,
+  State,
+  StateContext,
+  Store,
+} from '@ngxs/store';
 import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
-import { ClearRecommendationNotifications, RefreshNotifications, RefreshRecommendationNotifications, ClearGeneralNotifications } from '@fridge-to-plate/app/notifications/utils';
+import {
+  ClearRecommendationNotifications,
+  RefreshNotifications,
+  RefreshRecommendationNotifications,
+  ClearGeneralNotifications,
+} from '@fridge-to-plate/app/notifications/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
@@ -18,18 +31,24 @@ export interface NotificationsStateModel {
   defaults: {
     generalNotifications: [],
     recommendationNotification: [
-    {
-      userName: "John Doe",
-      profilePictureUrl: "/assets/Fridge Logo Transparent.png",
-      comment: "Pure authentic Italian Dish",
-      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f",
-    },
-    {
-      userName: "Bob Builder",
-      profilePictureUrl: "https://source.unsplash.com/150x150/?portrait",
-      comment: "This dish is good when you have no choice",
-      recipeId: "b6df9e16-4916-4869-a7d9-eb0293142f1f22",
-    }],
+      {
+        userId: 'JohnDoe',
+        notificationPic: '/assets/Fridge Logo Transparent.png',
+        title: 'Pure authentic Italian Dish',
+        metadata: 'b6df9e16-4916-4869-a7d9-eb0293142f1f',
+        type: 'recommendation',
+        notificationId: '280e3937-0447-40d6-ac43-d089495932ba',
+      },
+      {
+        userId: 'BobtheBuilder',
+        notificationPic: '/assets/Fridge Logo Transparent.png',
+        title: 'Pure authentic Italian Dish',
+        body: 'The dish is good if you have no choice',
+        metadata: 'b6df9e16-4916-4869-a7d9-eb0293142f1f',
+        type: 'recommendation',
+        notificationId: '280e3937-0447-40d6-ac43-d089495932ba',
+      },
+    ],
   },
 })
 @Injectable()
@@ -49,19 +68,26 @@ export class NotificationsState {
   }
 
   @Action(RefreshNotifications)
-  refreshNotifications({ patchState }: StateContext<NotificationsStateModel>, { userId } : RefreshNotifications ) {
-
-      this.notificationsApi.getAllNotifications(userId).pipe(take(1)).subscribe((notificationsResponse) => {
+  refreshNotifications(
+    { patchState }: StateContext<NotificationsStateModel>,
+    { userId }: RefreshNotifications
+  ) {
+    this.notificationsApi
+      .getAllNotifications(userId)
+      .pipe(take(1))
+      .subscribe((notificationsResponse) => {
         patchState({
-            generalNotifications: notificationsResponse.general,
-            recommendationNotification: notificationsResponse.recommendations,
-          });
+          generalNotifications: notificationsResponse.general,
+          recommendationNotification: notificationsResponse.recommendations,
         });
-
+      });
   }
 
   @Action(ClearGeneralNotifications)
-  clearGeneralNotifications({ patchState }: StateContext<NotificationsStateModel>,{ userId }: ClearGeneralNotifications ) {
+  clearGeneralNotifications(
+    { patchState }: StateContext<NotificationsStateModel>,
+    { userId }: ClearGeneralNotifications
+  ) {
     patchState({
       generalNotifications: [],
     });
@@ -70,7 +96,10 @@ export class NotificationsState {
   }
 
   @Action(ClearRecommendationNotifications)
-  clearRecommendationNotifications({ patchState }: StateContext<NotificationsStateModel>,  { userId }: ClearRecommendationNotifications ) {
+  clearRecommendationNotifications(
+    { patchState }: StateContext<NotificationsStateModel>,
+    { userId }: ClearRecommendationNotifications
+  ) {
     patchState({
       recommendationNotification: [],
     });
