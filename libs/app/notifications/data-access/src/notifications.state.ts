@@ -8,6 +8,7 @@ import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { NotificationsDataAccessModule } from './notifications.module';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
@@ -34,7 +35,7 @@ export interface NotificationsStateModel {
 })
 @Injectable()
 export class NotificationsState {
-  constructor(private notificationsApi: NotificationsApi) {}
+  constructor(private notificationsApi: NotificationsApi, private store: Store ) {}
 
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
 
@@ -67,6 +68,7 @@ export class NotificationsState {
     });
 
     this.notificationsApi.clearGeneralNotifications(userId).subscribe();
+    this.store.dispatch(new ShowInfo('General Notifications Cleared'));
   }
 
   @Action(ClearRecommendationNotifications)
@@ -76,5 +78,6 @@ export class NotificationsState {
     });
 
     this.notificationsApi.clearRecommendationNotifications(userId).subscribe();
+    this.store.dispatch(new ShowInfo('Recommendation Notifications Cleared'));
   }
 }
