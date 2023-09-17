@@ -257,4 +257,54 @@ describe('ExplorePage', () => {
     // Assert
     expect(explorePage.selectedFilters).toStrictEqual([]);
   });
+
+  it('should set isSearchOverlayVisible to true', () => {
+    expect(component.isSearchOverlayVisible).toBe(false);
+    component.showSearchOverlay();
+    expect(component.isSearchOverlayVisible).toBe(true);
+  });
+
+  it('should not set isSearchOverlayVisible to true', () => {
+    component.isSearchOverlayVisible = true;
+    component.showSearchOverlay();
+    expect(component.isSearchOverlayVisible).toBe(true);
+  });
+  it('should set isSearchOverlayVisible to false', () => {
+    component.isSearchOverlayVisible = true;
+    component.isDirectiveActive = true;
+    component.hideSearchOverlay();
+    expect(component.isSearchOverlayVisible).toBe(false);
+  });
+
+  it('should not set isSearchOverlayVisible to false', () => {
+    component.isSearchOverlayVisible = true;
+    component.isDirectiveActive = false;
+    component.showSearchOverlay();
+    expect(component.isSearchOverlayVisible).toBe(true);
+  });
+
+  it('should set showAllFilters to true', () => {
+    expect(component.isDirectiveActive).toBe(true);
+    component.showSearchFilters();
+    expect(component.isDirectiveActive).toBe(false);
+    expect(component.showAllFilters).toBe(true);
+  });
+
+  it('should not set isSearchOverlayVisible to true', () => {
+    component.showAllFilters = true;
+    expect(component.isDirectiveActive).toBe(true);
+    component.showSearchFilters();
+    expect(component.isDirectiveActive).toBe(false);
+  });
+
+  it('should set showAllFilters to false', () => {
+    component.showAllFilters = true;
+    component.hideSearchFilters();
+    expect(component.showAllFilters).toBe(false);
+  });
+
+  it('should not set isSearchOverlayVisible to false', () => {
+    component.hideSearchFilters();
+    expect(component.showAllFilters).toBe(false);
+  });
 });
