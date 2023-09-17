@@ -23,7 +23,7 @@ public class ExploreService {
 
     public List<RecipeDesc> findBySearch(Explore searchObject){
         List<RecipeModel> recipes = this.recipeService.filterSearch(searchObject);
-        return beautify(recipes);
+        return beautify(new ArrayList<>(recipes));
     }
 
     private List<RecipeDesc> beautify (List<RecipeModel> recipes) {

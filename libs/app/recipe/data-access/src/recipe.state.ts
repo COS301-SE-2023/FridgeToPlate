@@ -130,8 +130,7 @@ export class RecipeState {
 
   @Action(IncreaseViews)
   increaseViews(
-    { getState }: StateContext<RecipeStateModel>,
-    { viewNum }: IncreaseViews
+    { getState }: StateContext<RecipeStateModel>
   ) {
     const updatedRecipe = getState().recipe;
 
