@@ -160,10 +160,17 @@ public class RecipeService {
 
           model.setYoutubeId(recipe.getYoutubeId());
         } else {
-          YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
-          if (videos.length > 0) {
-            model.setYoutubeId(videos[0].getId().videoId);
-          }
+
+          try {
+              
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
+              if (videos.length > 0) {
+                  model.setYoutubeId(videos[0].getId().videoId);
+              } else {
+                  model.setYoutubeId("");
+              }
+
+          } catch (Exception e) {}
         }
 
         recipeRepository.saveRecipe(model);
