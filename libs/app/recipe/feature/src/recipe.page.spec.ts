@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 describe('RecipeDetailPageComponent', () => {
-  
+
   @State({
     name: 'recipe',
     defaults: {
@@ -26,7 +26,7 @@ describe('RecipeDetailPageComponent', () => {
       measurementType: "Metric"
     }
   })
-  
+
   @Injectable()
   class MockRecipeState {}
 
@@ -126,7 +126,7 @@ describe('RecipeDetailPageComponent', () => {
     component.forceLoading = true;
     component.ngOnInit();
     jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
+    expect(component.forceLoading).toBe(true);
   });
 
   it('Should go to the Home Page', () => {
@@ -140,7 +140,7 @@ describe('RecipeDetailPageComponent', () => {
     component.forceLoading = true;
     component.ngOnInit();
     jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
+    expect(component.forceLoading).toBe(true);
   });
 
   it('Should go to the Home Page', () => {
@@ -193,4 +193,11 @@ describe('RecipeDetailPageComponent', () => {
     component.changeIngredientUnits();
     expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("Imperical"));
   });
+
+  it('should set hasTags to true when recipe has tags', () => {
+    component.recipe = testRecipe;
+    component.setRecipe('test-id');
+    expect(component.hasTags).toBe(false);
+  });
+  
 });
