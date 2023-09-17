@@ -1,6 +1,6 @@
 import { Action, State, StateContext } from "@ngxs/store";
 import { Injectable } from '@angular/core';
-import { ShowInfo, ShowError } from "@fridge-to-plate/app/info/utils";
+import { ShowInfo, ShowError, ShowSuccess } from "@fridge-to-plate/app/info/utils";
 import { ToastController } from "@ionic/angular";
 
 export interface InfoStateModel {
@@ -43,7 +43,23 @@ export class InfoState {
 
         const toast = await this.toastController.create({
             message: error,
-            color: 'danger',
+            color: 'danger-tint',
+            duration: 2500,
+            position: 'bottom',
+        });
+
+        await toast.present();
+    }
+
+    @Action(ShowSuccess)
+    async showSuccess({ patchState } : StateContext<InfoStateModel>, { success }: ShowSuccess) {
+        patchState({
+            info: success
+        });
+
+        const toast = await this.toastController.create({
+            message: success,
+            color: 'success-tint',
             duration: 2500,
             position: 'bottom',
         });
