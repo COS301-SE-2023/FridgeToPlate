@@ -337,7 +337,7 @@ export class ProfileState {
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
         }
 
-        this.store.dispatch(new ShowInfo('Meal Plan Has Been Updated'));
+        this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
     }
 
     @Action(RemoveFromMealPlan)
