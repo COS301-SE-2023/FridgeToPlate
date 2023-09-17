@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
+import com.fridgetoplate.interfaces.YoutubeVideosResponse;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.repository.RecipeRepository;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -21,14 +20,18 @@ import java.util.Arrays;
 @Service
 public class ExternalApiService {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
 
     @Value("${spoonacular.baseUrl}")
    private String spoonacularbaseUrl;
 
    @Value("${spoonacular.apiKey}")
    private String spoonacularPrivateKey;
+
+   @Value("${youtubeApi.baseUrl}")
+   private String youtubeApiBaseUrl;
+
+   @Value("${youtubeApi.apiKey}")
+   private String youtubeApiKey;
    
    @Autowired
    private RestTemplate template = new RestTemplate();
@@ -64,6 +67,7 @@ public class ExternalApiService {
        );
     
     Set<String> cuisineSet = new HashSet<String>(cuisineList);
+    
     
     
     
@@ -183,9 +187,17 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
-        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=1";
+        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=2&number=24&sort=min-missing-ingredients";
 
+        System.out.println(recipeSearchEndpoint);
         return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
       
+    }
+
+    public YoutubeVideosResponse spoonacularVideoSearch(String recipeName) {
+        String endpoint = youtubeApiBaseUrl + "?key=" + youtubeApiKey + "&part=snippet&q=" + recipeName + "&maxResults=1";
+
+        System.out.println(endpoint);
+        return template.getForObject( endpoint, YoutubeVideosResponse.class);
     }
 }

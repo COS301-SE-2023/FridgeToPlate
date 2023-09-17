@@ -9,6 +9,7 @@ import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ReviewModule } from '@fridge-to-plate/app/review/feature';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { RecipeDataAccessModule } from '@fridge-to-plate/app/recipe/data-access'
     NavigationBarModule,
     ReviewModule,
     RecipeDataAccessModule,
+    FormsModule
   ],
   declarations: [RecipePage],
 })

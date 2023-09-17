@@ -1,6 +1,8 @@
 package com.fridgetoplate.controller;
 
 import java.util.List;
+
+import com.fridgetoplate.model.RecipeDeleteResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +18,12 @@ import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 public class RecipeController {
 
     @Autowired
-    private RecipeRepository recipeRepository;
-
-    @Autowired
     private RecipeService recipeService;
 
     @PostMapping("/create")
     public RecipeFrontendModel save(@RequestBody RecipeFrontendModel recipe){
         // Save the recipe
-        return recipeRepository.save(recipe);
+        return recipeService.save(recipe);
     }
 
     @GetMapping("/{id}")
@@ -32,24 +31,23 @@ public class RecipeController {
         return recipeService.findById(id);
     }
 
-    @GetMapping("/creator/{username}")
-    public List<RecipeFrontendModel> findRecipesByUsername(@PathVariable(value = "username") String username){
-        return recipeRepository.getRecipesByUsername(username);
-    }
-
     @GetMapping("/name/{recipename}")
     public List<RecipeFrontendModel> findRecipesByRecipename(@PathVariable(value = "recipename") String recipename){
-        return recipeRepository.getRecipesByRecipename(recipename);
+        return recipeService.getRecipesByRecipeName(recipename);
     }
 
+    @PutMapping("/update-ratingAndViews/{id}")
+    public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.updateRatingRatingAndViews(recipe);
+    }
+    
     @PutMapping("/{id}")
-    public RecipeModel update(@PathVariable(value = "id") String id, @RequestBody RecipeModel recipe){
-        return recipeRepository.update(id, recipe);
+    public RecipeFrontendModel update(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.update(recipe);
     }
-
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id){
-        return recipeRepository.delete(id);
+    public RecipeDeleteResponseModel delete(@PathVariable(value = "id") String id){
+        return recipeService.delete(id);
     }
 }

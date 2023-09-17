@@ -53,29 +53,35 @@
             <div>
               <p class="text-xs font-semibold">Preparation Time</p>
               <p class="text-center text-3xl mt-2 font-bold">
-                {{recipe?.prepTime ?? '10'}}m
+                {{ recipe.prepTime }}m
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Ingredients</p>
               <p class="text-center text-3xl mt-2 font-bold">
-                {{recipe?.ingredients?.length ?? '4'}}
+                {{ recipe.ingredients?.length ?? 4 }}
               </p>
             </div>
             <div>
               <p class="text-xs font-semibold">Servings</p>
-              <p class="text-center text-3xl mt-2 font-bold">{{recipe?.servings ?? '1'}}</p>
+              <p class="text-center text-3xl mt-2 font-bold">{{ recipe.servings }}</p>
             </div>
           </div>
 
+          <!-- <div *ngIf="hasTags === true" class="px-4 pb-8">
+            <h1 class="text-lg font-bold">Tags</h1>
+
+            <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+          </div> -->
+
           <div class="px-4 pb-8">
             <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
-            <p>{{ recipe?.creator }}</p>
+            <p>{{ recipe.creator }}</p>
           </div>
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
             <h1 class="text-lg font-bold">Description</h1>
-            <p [ngClass]="{'line-clamp-4': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
+            <p [ngClass]="{'line-clamp-5': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
           </div>
 
         </div>
@@ -89,10 +95,13 @@
             <ion-list-header>
               <ion-label class="text-lg font-bold">Ingredients</ion-label>
             </ion-list-header>
+            <select [(ngModel)]="measurementUnit" (onChange)="changeIngredientUnits()">
+              <option value="imperial">Imperial Units</option>
+              <option value="metric">Metric Units</option>
+            </select>
             <ion-item *ngFor="let ingredient of recipe?.ingredients">
               <div>
-                {{ingredient?.amount ?? ''}}{{ingredient?.unit ?? ''}}
-                {{ingredient?.name ?? 'Unknown ingredient'}}
+                {{ingredient.amount}} {{ingredient.unit}} {{ingredient.name}}
               </div>
             </ion-item>
           </ion-list>

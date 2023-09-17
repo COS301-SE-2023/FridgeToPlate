@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -795,32 +796,6 @@ describe('Ingredients storing, deleting and returning', () => {
 
     })
 
-    it('Tags if empty', () => {
-      const formBuilder: FormBuilder = new FormBuilder();
-      const ingredientsFormArray = new FormArray([
-        new FormControl({
-          name: 'Mango',
-          amount: 100,
-          unit: 'g'
-        })])
-      const instructionsFormArray = new FormArray([
-        new FormControl('Step 1')
-      ]);
-
-      const formGroup: FormGroup = formBuilder.group({
-        name: ['Name', Validators.required],
-        description: ['Description', Validators.required],
-        servings: [1, Validators.required],
-        preparationTime: [1, Validators.required],
-        ingredients: ingredientsFormArray,
-        instructions: instructionsFormArray
-      })
-
-      component.recipeForm = formGroup;
-      component.isFormValid();
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
-      });
-
 
       it('Meal Selection', () => {
         const formBuilder: FormBuilder = new FormBuilder();
@@ -915,7 +890,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
       })
       
 
@@ -1039,6 +1014,15 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
+
+      const review: IReview = {
+        reviewId : "reviewId",
+        recipeId: "recipeId",
+        username: "",
+        rating: 2, 
+        description: "It was fun while it lasted"
+
+      }
       
       // Mock the recipe data
       const recipe: IRecipe = {
@@ -1058,7 +1042,8 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
-        rating: null
+        rating: null,
+        reviews: [review]
       };
     
       component.imageUrl = recipe.recipeImage
@@ -1079,7 +1064,8 @@ describe('Ingredients storing, deleting and returning', () => {
       
       component.recipe = {
         recipeId: "123",
-        rating: null
+        rating: null,
+        reviews: [review]
       } as IRecipe;
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;

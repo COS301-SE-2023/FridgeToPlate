@@ -8,7 +8,7 @@
     "description": "A classic Italian pasta dish with bacon, eggs, and cheese.",
     "servings": 4,
     "prepTime": 20,
-    "meal": "Dinner",
+    "meal": "dinner",
     "ingredients": [
       { "name": "spaghetti", "amount": 1, "unit": "pound" },
       { "name": "bacon", "amount": 8, "unit": "slices" },

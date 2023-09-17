@@ -158,7 +158,8 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.value.preparationTime as number,
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
-      rating: this.recipe?.rating as number | null
+      rating: this.recipe?.rating as number | null,
+      reviews: this.recipe?.reviews ?? []
     };
 
     const index = this.profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
@@ -201,7 +202,7 @@ export class EditRecipeComponent implements OnInit {
     this.location.back()
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert" | "Salad" | "Soup" | "Drink") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
@@ -262,7 +263,7 @@ export class EditRecipeComponent implements OnInit {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
+      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
       return false;
     }
 
@@ -273,11 +274,6 @@ export class EditRecipeComponent implements OnInit {
 
     if(this.instructionControls.length < 1) {
       this.store.dispatch( new ShowError("No Instructions"))
-      return false;
-    }
-
-    if(this.tags.length < 1) {
-      this.store.dispatch( new ShowError("No Tags"))
       return false;
     }
 

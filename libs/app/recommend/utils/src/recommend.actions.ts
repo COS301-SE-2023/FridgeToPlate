@@ -16,17 +16,17 @@ export class UpdateRecipePreferences {
 }
 
 export class AddRecommendation {
-  static readonly type = '[Recommend] Add RecipeRecommendation';
+  static readonly type = '[Recommend] AddRecipeRecommendation';
   constructor(public recipePreference: IRecipePreferences) {}
 }
 
 export class GetUpdatedRecommendation {
-  static readonly type = '[Recommend] Get Updated RecipeRecommendation';
+  static readonly type = '[Recommend] GetUpdatedRecommendation';
   constructor(public readonly username: string){}
 }
 
 export class UpdateRecipeRecommendations {
-  static readonly type = '[Recommend] Update RecipeRecommendations';
+  static readonly type = '[Recommend] UpdateRecipeRecommendations';
   constructor(public recipePreference: IRecommend) {}
 }
 

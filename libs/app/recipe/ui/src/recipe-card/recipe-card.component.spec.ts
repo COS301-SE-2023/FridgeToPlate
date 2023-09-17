@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecipeCardComponent } from './recipe-card.component';
 import { IonicModule } from '@ionic/angular';
-import { IRecipe, IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipe, IRecipeDesc, IncreaseViews } from '@fridge-to-plate/app/recipe/utils';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { NgxsModule, State, Store } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { IProfile, SaveRecipe, RemoveSavedRecipe, AddToMealPlan, RemoveFromMealPlan } from '@fridge-to-plate/app/profile/utils';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
 import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
 
@@ -59,11 +58,11 @@ describe('RecipeCardComponent', () => {
     },
   }
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: testProfile
-    } 
+    }
   })
   @Injectable()
   class MockProfileState {}
@@ -129,97 +128,33 @@ describe('RecipeCardComponent', () => {
 });
 
     // Tests that a recipe can be added to the meal plan successfully
-    it('test add to meal plan successfully', () => {
-      component.mealType = 'Breakfast';
-      component.addToMealPlan("Breakfast");
-      expect(component.added).toBe(true);
-      expect(store.dispatch).toBeCalledWith(new AddToMealPlan(testRecipe, "Breakfast"));
-  });
-  
-  it('should set added to true if recipe is in meal plan', () => {
-    component.ngOnInit();
-    expect(component.added).toBe(true);
+  it('test add to meal plan successfully', () => {
+    component.recipe = testRecipe;
+    const tempMeal = "Breakfast";
+    const tempDate = '2022-03-11';
+
+    component.addToMealPlan({meal: tempMeal, date: tempDate});
+    expect(store.dispatch).toHaveBeenCalledWith(new AddToMealPlan(testRecipe, tempMeal, tempDate));
   });
 
   it('should dispatch ShowError action if recipe is not available to add to meal plan', () => {
     component.recipe = null;
+    const tempMeal = "Breakfast";
+    const tempDate = '2022-03-11';
+
+    component.addToMealPlan({meal: tempMeal, date: tempDate});
+    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'))
+  });
+
+  it('should dispatch add to meal plan', () => {
+    component.recipe = null;
     component.addToMealPlan("Breakfast");
-    expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to add to meal plan.'));
   });
 
   it('should dispatch ShowError action if recipe is not available to remove from meal plan', () => {
     component.recipe = null;
     component.removeFromMealPlan();
     expect(store.dispatch).toHaveBeenCalledWith(new ShowError('ERROR: No recipe available to remove from meal plan.'));
-  });
-
-  it('should return true if mealPlan has breakfast', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: testRecipe,
-      lunch: null,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has lunch', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: testRecipe,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has dinner', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: testRecipe,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return true if mealPlan has snack', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: testRecipe
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(true);
-  });
-
-  it('should return false if mealPlan no meals', () => {
-    const testMealPlan: IMealPlan = {
-      username: "jdoe",
-      date: "",
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      snack: null
-    }
-
-    expect(component.checkMealPlan(testMealPlan)).toBe(false);
-  });
-
-  it('should return false if mealPlan is null', () => {
-    expect(component.checkMealPlan(null)).toBe(false);
   });
 
   it('should dispatch RemoveFromMealPlan when removeFromMealPlan is called', () => {
@@ -230,12 +165,13 @@ describe('RecipeCardComponent', () => {
 
   it('should navigate to recipe page', () => {
     component.navigateToRecipe();
+    expect(store.dispatch).toBeCalledWith(new IncreaseViews(1));
     expect(store.dispatch).toBeCalledWith(new Navigate([`/recipe/${testRecipe.recipeId}`]));
   });
 });
 
 describe('RecipeCardComponent', () => {
-  
+
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
   let store: Store;
@@ -262,11 +198,11 @@ describe('RecipeCardComponent', () => {
     rating: 2
   };
 
-  @State({ 
-    name: 'profile', 
+  @State({
+    name: 'profile',
     defaults: {
       profile: null
-    } 
+    }
   })
   @Injectable()
   class MockProfileState {}
@@ -290,4 +226,71 @@ describe('RecipeCardComponent', () => {
     expect(component.editable).toBe(false);
     expect(component.added).toBe(false);
   });
+
+  describe('RecipeCardComponent', () => {
+    let component: RecipeCardComponent;
+    let store: Store;
+    let router: Router;
+    let zone: NgZone;
+
+    beforeEach(() => {
+      component = new RecipeCardComponent(store, router, zone); // Pass null for dependencies since they are not used in this test
+    });
+
+    it('should calculate the correct rating value', () => {
+      component.recipe = { rating: 4 }; // Set the recipe object with a rating of 4
+
+      // Test various index values
+      expect(component.getRatingValue(0)).toEqual(5); // 4 - 0 + 1 = 5
+      expect(component.getRatingValue(1)).toEqual(4); // 4 - 1 + 1 = 4
+      expect(component.getRatingValue(2)).toEqual(3); // 4 - 2 + 1 = 3
+      expect(component.getRatingValue(3)).toEqual(2); // 4 - 3 + 1 = 2
+
+      // Test a negative index
+      expect(component.getRatingValue(-1)).toEqual(6); // 4 - (-1) + 1 = 6
+    });
+
+    it('should return undefined when recipe is not set', () => {
+      expect(component.getRatingValue(0)).toBeNaN;
+    });
+  });
+
+  describe('RecipeCardComponent', () => {
+    let component: RecipeCardComponent;
+    let store: Store;
+    let router: Router;
+    let zone: NgZone;
+
+    beforeEach(() => {
+      component = new RecipeCardComponent(store, router, zone); // Replace null with appropriate dependencies
+    });
+
+    describe('getStarName', () => {
+      it('should return "star" when rating is greater than or equal to 1 or less than or equal to 0', () => {
+        expect(component.getStarName(1)).toBe('star');
+        expect(component.getStarName(0)).toBe('star');
+        expect(component.getStarName(0.5)).toBe('star-half');
+      });
+    });
+  });
 });
+
+describe('RecipeCardComponent', () => {
+  let component: RecipeCardComponent;
+  let store: Store;
+  let router: Router;
+  let zone: NgZone;
+
+  beforeEach(() => {
+    component = new RecipeCardComponent(store, router, zone);;
+  });
+
+  it('should return the correct star class based on the rating', () => {
+    expect(component.getStarClass(undefined)).toBe('ion-star');
+    expect(component.getStarClass(0.8)).toBe('star-filled');
+    expect(component.getStarClass(0.6)).toBe('star-half-filled');
+    expect(component.getStarClass(0.3)).toBe('star-quarter-filled');
+    expect(component.getStarClass(0.1)).toBe('ion-star');
+  });
+});
+

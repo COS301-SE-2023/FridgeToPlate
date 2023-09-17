@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
@@ -36,6 +36,7 @@ describe('CreatePagComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         IonicModule,
         HttpClientModule,
@@ -201,6 +202,7 @@ describe('Testing Tags', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -363,6 +365,7 @@ describe('Ingredients storing, deleting and returning', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -468,6 +471,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -514,6 +518,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -560,6 +565,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -623,6 +629,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -681,31 +688,6 @@ describe('Ingredients storing, deleting and returning', () => {
 
     })
 
-    it('Tags if empty', () => {
-      const formBuilder: FormBuilder = new FormBuilder();
-      const ingredientsFormArray = new FormArray([
-        new FormControl({
-          name: 'Mango',
-          amount: 100,
-          unit: 'g'
-        })])
-      const instructionsFormArray = new FormArray([
-        new FormControl('Step 1')
-      ]);
-
-      const formGroup: FormGroup = formBuilder.group({
-        name: ['Name', Validators.required],
-        description: ['Description', Validators.required],
-        servings: [1, Validators.required],
-        preparationTime: [1, Validators.required],
-        ingredients: ingredientsFormArray,
-        instructions: instructionsFormArray
-      })
-
-      component.recipeForm = formGroup;
-      component.isFormValid();
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
-      });
 
 
       it('Meal Selection', () => {
@@ -728,6 +710,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian']
 
         component.recipeForm = formGroup;
+        component.selectedMeal = ""
         component.isFormValid();
         expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
 
@@ -801,7 +784,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
       })
 
 
@@ -906,6 +889,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder, Store],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,

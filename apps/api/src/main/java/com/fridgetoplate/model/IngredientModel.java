@@ -46,12 +46,4 @@ public class IngredientModel extends Ingredient {
     public void setIngredientId(String ingredientId) {
         this.ingredientId = ingredientId;
     }
-
-    public Ingredient getIngredient(){
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName(name);
-        ingredient.setAmount(amount);
-        ingredient.setUnit(unit);
-        return ingredient;
-    }
 }
