@@ -40,7 +40,7 @@ export class RecipePage implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
-  // hasTags = false;
+  hasTags = false;
   isDescriptionExpanded = false;
   ingredients: IIngredient[];
   iconColor = 'text-red-500';
@@ -72,6 +72,10 @@ export class RecipePage implements OnInit {
     this.ingredients$.subscribe((ingredients) => {
       this.ingredients = ingredients;
     });
+
+    if (this.recipe?.tags) {
+      this.hasTags = true;
+    }
   }
 
   goBack() {
