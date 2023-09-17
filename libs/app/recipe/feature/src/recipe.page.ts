@@ -43,15 +43,8 @@ export class RecipePage implements OnInit {
   hasTags = false;
   isDescriptionExpanded = false;
   ingredients: IIngredient[];
-  iconColor = 'text-red-500';
-
-  changeIconColor() {
-    this.iconColor = 'text-green-600';
-  }
-
-  changeIconColorBack() {
-    this.iconColor = 'text-red-500';
-  }
+  presentIngredients: IIngredient[] = [];
+  missingIngredients: IIngredient[] = [];
   toggleDescriptionExpanded() {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
   }
@@ -60,22 +53,28 @@ export class RecipePage implements OnInit {
     this.forceLoading = true;
     setTimeout(() => {
       this.forceLoading = false;
-    }, 1000);
+    }, 1100);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
         this.setRecipe(recipeId);
+        this.ingredients$.subscribe((ingredients) => {
+          this.ingredients = ingredients;
+        });
+
+        if (this.recipe?.ingredients) {
+          this.presentIngredients = this.recipe?.ingredients.filter(element => this.ingredients.some(ele => ele.name == element.name));
+          this.missingIngredients = this.recipe?.ingredients.filter(element => !this.ingredients.some(ele => ele.name == element.name));
+        }
+
+        if (this.recipe?.tags) {
+          this.hasTags = true;
+        }
       } else {
         this.store.dispatch(new ShowError('Invalid Recipe Id'));
       }
     });
-    this.ingredients$.subscribe((ingredients) => {
-      this.ingredients = ingredients;
-    });
 
-    if (this.recipe?.tags) {
-      this.hasTags = true;
-    }
   }
 
   goBack() {

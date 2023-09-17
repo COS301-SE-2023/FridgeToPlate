@@ -109,13 +109,14 @@
               <span class="w-1/4 ml-4">Quantity</span>
               <span class="1/4 ml-2 pl-1">Units</span>
             </ion-item>
-            <ion-item *ngFor="let recipeIngredient of recipe?.ingredients">
-              <li *ngFor="let ingredient of ingredients">
-                <ng-template [ngIf]="recipeIngredient?.name === ingredient.name">
-                  {{ changeIconColor() }}
-                </ng-template>
-              </li>
-                <ion-icon [class]="iconColor" class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
+            <ion-item *ngFor="let recipeIngredient of presentIngredients">
+                <ion-icon class="pr-2 text-green-600 text-lg" name="ellipse"></ion-icon>
+                <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
+                <span class="w-1/4"> {{recipeIngredient?.amount?.toFixed(1) ?? ''}}  </span>
+                <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
+            </ion-item>
+            <ion-item *ngFor="let recipeIngredient of missingIngredients">
+                <ion-icon class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
                 <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
                 <span class="w-1/4"> {{recipeIngredient?.amount?.toFixed(1) ?? ''}}  </span>
                 <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
