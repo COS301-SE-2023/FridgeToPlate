@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
-import com.fridgetoplate.repository.NotificationsRepository;
+import com.fridgetoplate.service.NotificationService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = { RequestMethod.GET, RequestMethod.DELETE })
@@ -22,26 +22,21 @@ import com.fridgetoplate.repository.NotificationsRepository;
 public class NotificationController {
 
     @Autowired
-    private NotificationsRepository notificationsRepository;
+    private NotificationService notificationService;
 
     @GetMapping("/{userId}")
     public NotificationsResponseModel findAll(@PathVariable(value = "userId") String userId){
-        return notificationsRepository.findAll(userId);
-    }
-
-    @DeleteMapping("/{notificationId}")
-    public String delete(@PathVariable(value = "notificationId") String notificationId){
-        return notificationsRepository.delete(notificationId);
+        return notificationService.findAllNotifications(userId);
     }
 
     @DeleteMapping("/clear/{userId}")
     public String clearNotifications(@PathVariable(value = "userId") String userId){
-        return notificationsRepository.clearNotifications(userId);
+        return notificationService.clearNotifications(userId);
     }
 
     @DeleteMapping("/clear/{userId}/{notificationType}")
     public String clearAllNotificationsOfType(@PathVariable(value = "userId") String userId, @PathVariable(value = "notificationType") String type){
-        return notificationsRepository.clearAllNotificationOfType(userId, type);
+        return notificationService.clearAllNotificationOfType(userId, type);
     }
 
 }
