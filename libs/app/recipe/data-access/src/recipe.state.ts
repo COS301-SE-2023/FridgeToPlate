@@ -71,7 +71,6 @@ export class RecipeState {
           patchState({
             recipe: recipe,
           });
-          this.store.dispatch(new ShowSuccess('Found Recipe'));
         } else {
           this.store.dispatch(
             new ShowError(
@@ -82,7 +81,7 @@ export class RecipeState {
       },
       (error: Error) => {
         console.error('Failed to retrieve recipe: ', error);
-        this.store.dispatch(new ShowError(error.message));
+        this.store.dispatch(new ShowInfo("Could Not Retrieve Recipe"));
       }
     );
   }
