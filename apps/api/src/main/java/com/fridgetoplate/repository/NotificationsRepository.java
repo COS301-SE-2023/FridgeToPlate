@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
+import com.fridgetoplate.model.IngredientModel;
 import com.fridgetoplate.model.NotificationModel;
+
+import graphql.com.google.common.collect.ImmutableMap;
 
 @Repository
 public class NotificationsRepository {
@@ -25,79 +29,16 @@ public class NotificationsRepository {
         return notification;
     }
 
-    public NotificationsResponseModel findAll(String userId){
-        
-        List<NotificationModel> generalNotifications = new ArrayList<>();
+    public List<NotificationModel> findAllByUser(String userId){
+        DynamoDBQueryExpression<NotificationModel> query = new DynamoDBQueryExpression<NotificationModel>();
+            query.setKeyConditionExpression("userId = :id");
+            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(userId)));
 
-        List<NotificationModel> recommendationNotifications = new ArrayList<>();
-
-        NotificationsResponseModel notifications = new NotificationsResponseModel();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
-
-        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for (NotificationModel notification : scanResult) {
-            
-                if(notification != null) {
-                    if(notification.getNotificationType().equals("general"))
-                        generalNotifications.add(notification);
-                    else
-                        recommendationNotifications.add(notification);
-                }
-        }
-
-        notifications.setGeneral(generalNotifications);
-
-        notifications.setRecommendations(recommendationNotifications);
-
-        return notifications;
+        return dynamoDBMapper.query(NotificationModel.class, query);
     }
 
-    public String delete(String notificationId){
-        NotificationModel notification = dynamoDBMapper.load(NotificationModel.class, notificationId);
-        
-        dynamoDBMapper.delete(notification);
-
-        return "Notification deleted successfully " + notificationId;
-    }
-
-    public String clearNotifications(String userId){
-        List<NotificationModel> notifications = new ArrayList<>();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId").withExpressionAttributeValues(eav);
-
-        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for(int i = 0; i < scanResult.size(); i++){
-            this.delete( scanResult.get(i).getNotificationId() );
-        }
-
-        return "Notifications for " + userId + " deleted successfully";
-    }
-
-    public String clearAllNotificationOfType(String userId, String type){
-        List<NotificationModel> notifications = new ArrayList<>();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-        eav.put(":userId", new AttributeValue().withS(userId));
-        eav.put(":notificationType", new AttributeValue().withS(type));
-
-        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression().withFilterExpression("userId=:userId AND notificationType=:notificationType").withExpressionAttributeValues(eav);
-
-        PaginatedScanList <NotificationModel> scanResult = dynamoDBMapper.scan(NotificationModel.class, scanExpression);
-        
-        for(int i = 0; i < scanResult.size(); i++){
-            this.delete( scanResult.get(i).getNotificationId() );
-        }
-
-        return "All "+ type + " Notifications for " + userId + " deleted successfully";
+    public void deleteAll(List<NotificationModel> notifications){
+        dynamoDBMapper.batchDelete(notifications);
     }
 
 }

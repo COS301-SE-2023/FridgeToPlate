@@ -35,19 +35,14 @@ public class MealPlanController {
        return this.mealPlanService.save(mealPlan);
     }
 
-    @GetMapping
-    public List<MealPlanModel> findAll() {
-        return mealPlanService.findAll();
+    @GetMapping("/{username}/{date}")
+    public MealPlanFrontendModel findByUsernameAndDate(@PathVariable(value = "username") String username, @PathVariable(value = "date") String date) {
+        return this.mealPlanService.findMealPlan(username, date);
     }
 
-    @GetMapping("/{username}")
-    public MealPlanModel findByUsername(@PathVariable(value = "username") String username) {
-        return this.mealPlanService.findByUsername(username);
-    }
-
-    @GetMapping("/{username}/ingredients")
-    public List<Ingredient> getIngredients(@PathVariable(value = "username") String username){
-        return this.mealPlanService.findMealPlanIngredients(username);
+    @PostMapping("/ingredients")
+    public List<Ingredient> getIngredients(@RequestBody MealPlanFrontendModel mealPlan){
+        return this.mealPlanService.findMealPlanIngredients(mealPlan);
     }
 
 }
