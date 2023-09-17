@@ -9,7 +9,16 @@ export function convertProductFromApi(product: IAPIProduct) {
   };
 
   if (product) {
-    convertedIngredient.name = product.name;
+    const values = product.name.split(" ");
+
+    if (/^\d+$/.test(values[values.length - 1][0])) {
+      convertedIngredient.name = values[values.length - 2];
+      convertedIngredient.amount = parseInt(values[values.length - 1]);
+      convertedIngredient.unit = values[values.length - 1].replace(convertedIngredient.amount.toString(), '');
+    } else {
+      convertedIngredient.name = values[values.length - 1];
+    }
+
   }
 
   return convertedIngredient;
