@@ -199,5 +199,53 @@ describe('RecipeDetailPageComponent', () => {
     component.setRecipe('test-id');
     expect(component.hasTags).toBe(false);
   });
-  
+
+  test('should filter present and missing ingredients correctly', () => {
+    // Create test data
+    const ingredients = [
+      {
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+      },
+    ];
+
+    component.setRecipe('test-id');
+    component.recipe = testRecipe;
+    component.presentIngredients = [
+      {
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+      },
+    ];
+
+    expect(component.presentIngredients).toEqual(ingredients);
+    expect(component.missingIngredients).toEqual([]);
+  });
+
+  test('should assign missingIngredients correctly when recipe is present', () => {
+    // Create test data
+    const recipe = {
+      ingredients: [
+        {
+          name: 'Pecan',
+          unit: 'ml',
+          amount: 10,
+        },
+      ],
+    };
+
+    component.setRecipe('test-id');
+    component.recipe = testRecipe;
+    component.missingIngredients = [
+      {
+        name: 'Pecan',
+        unit: 'ml',
+        amount: 10,
+      },
+    ]
+
+    expect(component.missingIngredients).toEqual(recipe.ingredients);
+  });
 });
