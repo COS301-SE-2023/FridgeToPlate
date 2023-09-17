@@ -26,8 +26,8 @@ export class InfoState {
         });
 
         const toast = await this.toastController.create({
-            message: "INFO: " + info,
-            color: 'danger',
+            message: info,
+            color: 'medium-tint',
             duration: 2000,
             position: 'bottom',
         });
