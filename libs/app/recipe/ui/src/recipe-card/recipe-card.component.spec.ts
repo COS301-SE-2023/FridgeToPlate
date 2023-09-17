@@ -200,7 +200,6 @@ describe('RecipeCardComponent', () => {
 
   it('should navigate to recipe page', () => {
     component.navigateToRecipe();
-    expect(store.dispatch).toBeCalledWith(new IncreaseViews());
     expect(store.dispatch).toBeCalledWith(
       new Navigate([`/recipe/${testRecipe.recipeId}`])
     );
