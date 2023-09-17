@@ -34,6 +34,8 @@ export class ExplorePage {
   isSearchOverlayVisible = false;
   selectedFilters: string[] = [];
   showAllFilters = false;
+  isDirectiveActive = true;
+
   allCategories : IExplore[] = [
     {
       type: "breakfast",
@@ -138,7 +140,7 @@ export class ExplorePage {
       {
         type: "",
         search: searchText,
-        tags: [],
+        tags: this.selectedFilters,
         difficulty: "Any",
       };
 
@@ -172,6 +174,15 @@ export class ExplorePage {
     }
   }
 
+  hideSearchOverlay(){
+    if(this.isSearchOverlayVisible && this.isDirectiveActive){
+      this.isSearchOverlayVisible = false;
+    }
+    if(!this.isDirectiveActive) {
+      this.isDirectiveActive = true;
+    }
+  }
+
   searchFromHistory(pastTerm: string){
     if(pastTerm.length !== 0 ){
       this.searchTerm = pastTerm;
@@ -202,6 +213,7 @@ export class ExplorePage {
   }
 
   showSearchFilters(){
+    this.isDirectiveActive = false;
     if(!this.showAllFilters){
       this.showAllFilters = true;
       return;
@@ -209,6 +221,7 @@ export class ExplorePage {
   }
 
   hideSearchFilters() {
+    this.isDirectiveActive = false;
     if(this.showAllFilters){
       this.showAllFilters = false;
       return;
@@ -246,7 +259,7 @@ export class ExplorePage {
 
   applyFilters(){
     if(this.selectedFilters.length > 0){
-      this.searchFromHistory(this.searchTerm);
+      this.searchFromHistory(this.searchTerm ?? '');
     }
 
   this.hideSearchFilters();
