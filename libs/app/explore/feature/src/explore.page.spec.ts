@@ -52,7 +52,7 @@ describe('ExplorePage', () => {
         'Cook in a non-stick pan until fluffy',
       ],
       creator: 'John Doe',
-      rating: 2
+      rating: 2,
     },
   ];
 
@@ -140,10 +140,10 @@ describe('ExplorePage', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
     const searchObject: IExplore = {
-      type: "",
-      search: "valid search text",
+      type: '',
+      search: 'valid search text',
       tags: [],
-      difficulty: "Any",
+      difficulty: '',
     };
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
@@ -157,14 +157,21 @@ describe('ExplorePage', () => {
   it('should call searchFromHistory function with correct search term when valid search term is provided', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    const searchTerm = "valid search term";
+    const searchTerm = 'valid search term';
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
     // Act
     explorePage.searchFromHistory(searchTerm);
 
     // Assert
-    expect(dispatchSpy).toHaveBeenCalledWith(new CategorySearch({ type: "", search: searchTerm, tags: [], difficulty: "Any" }));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      new CategorySearch({
+        type: '',
+        search: searchTerm,
+        tags: [],
+        difficulty: '',
+      })
+    );
   });
 
   it('should not call searchFromHistory function when empty search term is provided', () => {
@@ -173,7 +180,7 @@ describe('ExplorePage', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
     // Act
-    explorePage.searchFromHistory("");
+    explorePage.searchFromHistory('');
 
     // Assert
     expect(dispatchSpy).not.toHaveBeenCalled();
@@ -182,60 +189,67 @@ describe('ExplorePage', () => {
   it('should remove filter from selected filters if it already exists', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    explorePage.selectedFilters = ["filter1", "filter2"];
+    explorePage.selectedFilters = ['filter1', 'filter2'];
 
     // Act
-    explorePage.addToFilters("filter2");
+    explorePage.addToFilters('filter2');
 
     // Assert
-    expect(explorePage.selectedFilters).toEqual(["filter1"]);
+    expect(explorePage.selectedFilters).toEqual(['filter1']);
   });
 
   it('should add filter to selected filters if it does not already exist', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    explorePage.selectedFilters = ["filter1", "filter2"];
+    explorePage.selectedFilters = ['filter1', 'filter2'];
 
     // Act
-    explorePage.addToFilters("filter3");
+    explorePage.addToFilters('filter3');
 
     // Assert
-    expect(explorePage.selectedFilters).toEqual(["filter1", "filter2", "filter3"]);
+    expect(explorePage.selectedFilters).toEqual([
+      'filter1',
+      'filter2',
+      'filter3',
+    ]);
   });
 
   it('should not add filter to selected filters if it has three already', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    explorePage.selectedFilters = ["filter1", "filter2", "filter3"];
+    explorePage.selectedFilters = ['filter1', 'filter2', 'filter3'];
 
     // Act
-    explorePage.addToFilters("filter4");
+    explorePage.addToFilters('filter4');
 
     // Assert
-    expect(explorePage.selectedFilters).toEqual(["filter1", "filter2", "filter3"]);
+    expect(explorePage.selectedFilters).toEqual([
+      'filter1',
+      'filter2',
+      'filter3',
+    ]);
   });
 
   it('should call applyFilters correctly', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    explorePage.selectedFilters = ["filter1", "filter2", "filter3"];
+    explorePage.selectedFilters = ['filter1', 'filter2', 'filter3'];
     explorePage.searchTerm = 'term';
     const callSpy = jest.spyOn(explorePage, 'searchFromHistory');
     const hideSpy = jest.spyOn(explorePage, 'searchFromHistory');
 
     // Act
-    explorePage.applyFilters()
+    explorePage.applyFilters();
 
     // Assert
     expect(callSpy).toHaveBeenCalled();
     expect(hideSpy).toHaveBeenCalled();
   });
 
-
   it('should call applyFilters correctly', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
-    explorePage.selectedFilters = ["filter1", "filter2", "filter3"];
+    explorePage.selectedFilters = ['filter1', 'filter2', 'filter3'];
 
     // Act
     explorePage.clearFilters();
@@ -244,5 +258,3 @@ describe('ExplorePage', () => {
     expect(explorePage.selectedFilters).toStrictEqual([]);
   });
 });
-
-
