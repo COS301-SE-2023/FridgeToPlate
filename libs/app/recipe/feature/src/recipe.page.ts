@@ -12,6 +12,8 @@ import {
   ActionsExecuting,
 } from '@ngxs-labs/actions-executing';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-page',
@@ -21,6 +23,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePage implements OnInit {
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
+  @Select(RecommendState.getIngredients) ingredients$!: Observable<IIngredient[]>;
   @Select(actionsExecuting([RetrieveRecipe]))
   busy$!: Observable<ActionsExecuting>;
   recipe: IRecipe | undefined = undefined;
@@ -37,8 +40,11 @@ export class RecipePage implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
-  // hasTags = false;
+  hasTags = false;
   isDescriptionExpanded = false;
+  ingredients: IIngredient[];
+  presentIngredients: IIngredient[] = [];
+  missingIngredients: IIngredient[] = [];
   toggleDescriptionExpanded() {
     this.isDescriptionExpanded = !this.isDescriptionExpanded;
   }
@@ -47,15 +53,28 @@ export class RecipePage implements OnInit {
     this.forceLoading = true;
     setTimeout(() => {
       this.forceLoading = false;
-    }, 1000);
+    }, 1100);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
         this.setRecipe(recipeId);
+        this.ingredients$.subscribe((ingredients) => {
+          this.ingredients = ingredients;
+        });
+
+        if (this.recipe?.ingredients) {
+          this.presentIngredients = this.recipe?.ingredients.filter(element => this.ingredients.some(ele => ele.name == element.name));
+          this.missingIngredients = this.recipe?.ingredients.filter(element => !this.ingredients.some(ele => ele.name == element.name));
+        }
+
+        if (this.recipe?.tags) {
+          this.hasTags = true;
+        }
       } else {
         this.store.dispatch(new ShowError('Invalid Recipe Id'));
       }
     });
+
   }
 
   goBack() {

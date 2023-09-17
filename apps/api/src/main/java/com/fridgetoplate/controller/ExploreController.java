@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.service.ExploreService;
@@ -25,11 +24,11 @@ import com.fridgetoplate.service.ExploreService;
 public class ExploreController {
     
     @Autowired
-    private  ExploreService exploreApiService;
+    private  ExploreService exploreService;
 
     @PostMapping("/search")
     public List<RecipeDesc> findBySearch(@RequestBody Explore search) {
-        return exploreApiService.findBySearch(search);
+        return exploreService.findBySearch(search);
     }
 
 }

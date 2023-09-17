@@ -29,7 +29,6 @@ export class UpdateRecipeRatingAndViews {
 
 export class IncreaseViews {
   static readonly type = '[Recipe] IncreaseViews';
-  constructor(public readonly viewNum: number) {}
 }
 
 export class AddReview {

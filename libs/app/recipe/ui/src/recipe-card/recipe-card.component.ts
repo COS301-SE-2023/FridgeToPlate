@@ -84,7 +84,7 @@ export class RecipeCardComponent implements OnInit {
   }
 
   navigateToRecipe() {
-    this.store.dispatch(new IncreaseViews(1));
+    this.store.dispatch(new IncreaseViews());
     this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]))
   }
 

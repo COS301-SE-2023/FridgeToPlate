@@ -130,8 +130,7 @@ export class RecipeState {
 
   @Action(IncreaseViews)
   increaseViews(
-    { getState }: StateContext<RecipeStateModel>,
-    { viewNum }: IncreaseViews
+    { getState }: StateContext<RecipeStateModel>
   ) {
     const updatedRecipe = getState().recipe;
 
@@ -286,7 +285,7 @@ export class RecipeState {
     ingredients.forEach(element => {
         if (type === "imperial") {
             switch (element.unit) {
-                case "mL":
+                case "ml":
                     if (element.amount < 60) {
                         element.amount /= 15;
                         element.unit = "tsp";
@@ -295,7 +294,7 @@ export class RecipeState {
                         element.unit = "cup";
                     }
                     break;
-                case "L":
+                case "l":
                     element.amount /= 250;
                     element.unit = "cup";
                     break;
