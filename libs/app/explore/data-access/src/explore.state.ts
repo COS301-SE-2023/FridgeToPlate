@@ -60,7 +60,6 @@ export class ExploreState {
                     recipes: data
                 });
 
-                this.store.dispatch(new ShowInfo('Results Found'));
             },
             error: error => {
                 this.store.dispatch(new ShowError(error));
