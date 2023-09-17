@@ -33,7 +33,7 @@ export class ExplorePage {
   searchTerm = "";
   isSearchOverlayVisible = false;
   selectedFilters: string[] = [];
-  showAllFilters = true;
+  showAllFilters = false;
   allCategories : IExplore[] = [
     {
       type: "breakfast",
