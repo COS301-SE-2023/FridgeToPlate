@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     ProfileDataAccessModule,
     NotificationsFeatureModule,
     NzListModule,
-    FormsModule,
+    FormsModule
   ],
   declarations: [ProfilePage, ClickedOutsideDirective],
   exports: [ClickedOutsideDirective],
