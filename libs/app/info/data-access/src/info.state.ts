@@ -44,7 +44,7 @@ export class InfoState {
         const toast = await this.toastController.create({
             message: error,
             color: 'danger-tint',
-            duration: 2500,
+            duration: 2000,
             position: 'bottom',
         });
 
@@ -60,7 +60,7 @@ export class InfoState {
         const toast = await this.toastController.create({
             message: success,
             color: 'success-tint',
-            duration: 2500,
+            duration: 2000,
             position: 'bottom',
         });
 
