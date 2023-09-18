@@ -1,148 +1,221 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.time.LocalTime;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
-import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
+import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.NotificationModel;
-import com.fridgetoplate.repository.ExploreRepository;
 import com.fridgetoplate.repository.NotificationsRepository;
-
+import com.fridgetoplate.repository.ProfileRepository;
+import com.fridgetoplate.model.ProfileModel;
+import com.fridgetoplate.utils.NotificationsUtils;
 @Service
 public class NotificationService {
 
     @Autowired
     private NotificationsRepository notificationsRepository;
-    private ExploreRepository exploreRepository;
+
+    @Autowired
+    private ProfileService profileService;
+
+    @Autowired
+    private ExploreService exploreService;
+
+    private NotificationsUtils utils = new NotificationsUtils();
+
+    Random random = new Random();
 
     public NotificationModel save(NotificationModel notification){
         notificationsRepository.save(notification);
         return notification;
     }
 
-    public NotificationsResponseModel findAll(String userId){
-        
+    public NotificationsResponseModel findAllNotifications(String userId){
+
+        NotificationsResponseModel response = new NotificationsResponseModel();
+        List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
         List<NotificationModel> generalNotifications = new ArrayList<>();
-
-        List<NotificationModel> recommendationNotifications = new ArrayList<>();
-
-        NotificationsResponseModel notifications = new NotificationsResponseModel();
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-
-        eav.put(":userId", new AttributeValue().withS(userId));
-
-
-        // Updated Function to simply scan the database
-        PaginatedScanList <NotificationModel> scanResult = notificationsRepository.findAll(userId, eav);
+        List<NotificationModel> recommendNotifications = new ArrayList<>();
         
 
-        String message, time;
-        // Get the current time
-        LocalTime currentTime = LocalTime.now();
-
-        // Define time ranges for morning, afternoon, and evening
-        LocalTime morningStart = LocalTime.of(6, 0);
-        LocalTime afternoonStart = LocalTime.of(12, 0);
-        LocalTime eveningStart = LocalTime.of(18, 0);
-        String logo = "/assets/Fridge Logo Transparent.png";
-
-        // Compare the current time with the defined time ranges
-        if (currentTime.isAfter(morningStart) && currentTime.isBefore(afternoonStart)) {
-            message = "Wake up and smell the roses! Try out this wonderful breakfast dish.";
-            time = "Breakfast";
-        } else if (currentTime.isAfter(afternoonStart) && currentTime.isBefore(eveningStart)) {
-            message = "Fighting the days battles? Try out this amazing lunch recipe.";
-            time = "Lunch";
-        } else {
-            message = "Had a long day? Try out this warm diner plate.";
-            time = "Dinner";
+        for (NotificationModel notificationModel : notifications) {
+            if (notificationModel.getType().equals("recommendation")) {
+                recommendNotifications.add(notificationModel);
+            } else {
+                generalNotifications.add(notificationModel);
+            }
         }
 
-        List <RecipeFrontendModel> recipeScanResult = exploreRepository.findByTime(time);
-
-        int listSize = recipeScanResult.size();
-
-        Random random = new Random();
-
-        int randomIndex = random.nextInt(listSize);
-
-        // Use the randomIndex to access an element from the list
-        RecipeFrontendModel randomRecipe = recipeScanResult.get(randomIndex);
-
-        NotificationModel timeRecommendNotification = new NotificationModel();
-        timeRecommendNotification.setRecipeId(randomRecipe.getRecipeId());
-        timeRecommendNotification.setUserId(userId);
-        timeRecommendNotification.setComment(message);
-        timeRecommendNotification.setUserName(userId);
-        timeRecommendNotification.setProfilePictureUrl(logo);
-        timeRecommendNotification.setNotificationType("recommendation");
-        timeRecommendNotification.setNotificationId("timeRecommendation");
+        response.setRecommendations(recommendNotifications);
+        response.setGeneral(generalNotifications);
         
-        recommendationNotifications.add(timeRecommendNotification);
-
-        for (NotificationModel notification : scanResult) {
-            
-                if(notification != null) {
-                    if(notification.getNotificationType().equals("general"))
-                        generalNotifications.add(notification);
-                    else
-                        recommendationNotifications.add(notification);
-                }
-        }
-
-        notifications.setGeneral(generalNotifications);
-
-        notifications.setRecommendations(recommendationNotifications);
-
-        return notifications;
+        return response;
     }
 
-    public String delete(String notificationId){
-
-        return notificationsRepository.delete(notificationId);
-
-    }
-
-    public String clearNotifications(String userId){
-
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-
-        eav.put(":userId", new AttributeValue().withS(userId));
-
-        PaginatedScanList <NotificationModel> scanResult = notificationsRepository.clearNotifications(userId, eav);
-
-        for(int i = 0; i < scanResult.size(); i++){
-            notificationsRepository.delete( scanResult.get(i).getNotificationId() );
-        }
-
-        return "Notifications for " + userId + " deleted successfully";
+    public String clearNotifications(String userId) {
+        
+        List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
+        notificationsRepository.deleteAll(notifications);
+        return "Successfully cleared notifications";
 
     }
 
     public String clearAllNotificationOfType(String userId, String type){
 
-        HashMap<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
+        List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
 
-        eav.put(":userId", new AttributeValue().withS(userId));
-        eav.put(":notificationType", new AttributeValue().withS(type));
-
-        PaginatedScanList <NotificationModel> scanResult = notificationsRepository.clearAllNotificationOfType(userId, type, eav);
-
-        for(int i = 0; i < scanResult.size(); i++){
-            notificationsRepository.delete( scanResult.get(i).getNotificationId() );
+        List<NotificationModel> deletableNotifications = new ArrayList<>();
+        for (NotificationModel notificationModel : notifications) {
+            if (notificationModel.getType().equals(type)) {
+                deletableNotifications.add(notificationModel);
+            }
         }
-
-        return "All "+ type + " Notifications for " + userId + " deleted successfully";
+        
+        notificationsRepository.deleteAll(deletableNotifications);
+        return "Successfully cleared all " + type + " notifications";
 
     }
+
+    @Scheduled(cron = "0 0 8 * * ?")
+    public void breakfastNotificationsPush(){
+        random.setSeed(System.currentTimeMillis());
+        
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
+        List<ProfileModel> selectedUsers = new ArrayList();
+        
+        //1. Get random users
+        for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
+            int index = random.nextInt(0, allUsers.size());
+            ProfileModel currentProfile = allUsers.get(index);
+            
+            if(!selectedUsers.contains(currentProfile)){
+                selectedUsers.add(currentProfile);
+            }
+        }
+
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("breakfast");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
+        for(int i = 0; i < selectedUsers.size(); i++){
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
+
+            ProfileModel currentUser = selectedUsers.get(i);
+
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("We recommend " + currRecipeDesc.getRecipeImage() + " for breakfast today");
+            newNotification.setBody("Good time to try a new breakfast recipe! Explore our collection and find something delicious to kickstart your day.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
+        }        
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?")
+    public void lunchtimeNotificationsPush() {
+        random.setSeed(System.currentTimeMillis());
+        
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
+        List<ProfileModel> selectedUsers = new ArrayList();
+        
+        //1. Get random users
+        for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
+            int index = random.nextInt(0, allUsers.size());
+            ProfileModel currentProfile = allUsers.get(index);
+            
+            if(!selectedUsers.contains(currentProfile)){
+                selectedUsers.add(currentProfile);
+            }
+        }
+
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("lunch");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
+        for(int i = 0; i < selectedUsers.size(); i++){
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
+
+            ProfileModel currentUser = selectedUsers.get(i);
+
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("Have a delicious " + currRecipeDesc.getRecipeImage() + " for lunch today");
+            newNotification.setBody("Lunch hour is approaching! Discover a tasty lunch recipe from our selection and enjoy a flavorful midday meal.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
+        }        
+    }
+
+    @Scheduled(cron = "0 16 * * * ?")
+    public void dinnertimeNotificationsPush() {
+        random.setSeed(System.currentTimeMillis());
+        
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
+        List<ProfileModel> selectedUsers = new ArrayList();
+        
+        //1. Get random users
+        for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
+            int index = random.nextInt(0, allUsers.size());
+            ProfileModel currentProfile = allUsers.get(index);
+            
+            if(!selectedUsers.contains(currentProfile)){
+                selectedUsers.add(currentProfile);
+            }
+        }
+
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("dinner");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
+        for(int i = 0; i < selectedUsers.size(); i++){
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
+
+            ProfileModel currentUser = selectedUsers.get(i);
+
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("Why not try " + currRecipeDesc.getRecipeImage() + " for dinner today");
+            newNotification.setBody("Dinnertime is here! Explore our variety of dinner recipes and cook up something special for your evening.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
+        }        
+    }
+
 }

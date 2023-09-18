@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
@@ -101,6 +102,10 @@ public class ProfileService {
         profileRepository.update(username, profileData);
 
         return profile;
+    }
+
+    public List<ProfileModel> findAllUsers() {
+        return profileRepository.findAllUsers();
     }
 
     private List<String> getSavedRecipeIds(List<RecipeDesc> ids) {

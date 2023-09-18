@@ -1,8 +1,11 @@
 export interface INotification {
-  userName: string;
-  profilePictureUrl: string;
-  comment: string;
-  recipeId: string;
+  notificationId: string;
+  userId: string;
+  notificationPic: string;
+  title: string;
+  body?: string;
+  type: string;
+  metadata?: string;
 }
 
 export interface INotificationResponse {
