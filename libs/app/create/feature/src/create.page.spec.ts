@@ -13,6 +13,7 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 
 @State({
@@ -291,7 +292,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(size);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please enter valid tag'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please enter valid tag"));
   });
 
   it('should not add a duplicate tags', () => {
@@ -306,7 +307,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(size);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No duplicates: Tag already selected'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No duplicates: Tag already selected"));
     expect(component.tags).toEqual(testTags);
 
   });
@@ -322,7 +323,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(3);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Only a maximum of three tags'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Only a maximum of three tags"));
     expect(component.tags).toEqual(testTags);
   })
 
@@ -612,7 +613,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.onFileChanged(event);
     
       // Assert
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Can Not Upload Image Larger Than 300KB')); // You can refine this assertion if you know the exact ShowError action structure
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Can Not Upload Image Larger Than 300KB")); // You can refine this assertion if you know the exact ShowError action structure
     });
 
   });
@@ -658,7 +659,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Ingredients'));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Ingredients"));
 
     })
 
@@ -684,7 +685,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Instructions'));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Instructions"));
 
     })
 
@@ -712,7 +713,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.recipeForm = formGroup;
         component.selectedMeal = ""
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please select a meal"));
 
       })
 
@@ -742,7 +743,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.selectedMeal = 'Breakfast';
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please login to create a recipe'));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please login to create a recipe"));
       })
 
 

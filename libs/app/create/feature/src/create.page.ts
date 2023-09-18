@@ -9,6 +9,7 @@ import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -137,7 +138,7 @@ export class CreatePagComponent implements OnInit  {
     const fileSize = event.target.files[0].size;
 
     if(fileSize > 300000){
-      this.store.dispatch( new ShowError("Can Not Upload Image Larger Than 300KB"));
+      this.store.dispatch( new ShowInfo("Can Not Upload Image Larger Than 300KB"));
       return;
     }
     const reader = new FileReader();
@@ -187,17 +188,17 @@ export class CreatePagComponent implements OnInit  {
   addTag() {
     const tagValue = this.recipeForm.get('tag')?.value as string;
     if(!tagValue) {
-      this.store.dispatch( new ShowError("Please enter valid tag"))
+      this.store.dispatch( new ShowInfo("Please enter valid tag"))
     }
     else if (this.tags.length < 3) {
       if(this.tags.includes(tagValue)){
-        this.store.dispatch( new ShowError("No duplicates: Tag already selected"))
+        this.store.dispatch( new ShowInfo("No duplicates: Tag already selected"))
         return;
       }
       this.tags.push(tagValue);
     }
     else {
-      this.store.dispatch( new ShowError("Only a maximum of three tags"))
+      this.store.dispatch( new ShowInfo("Only a maximum of three tags"))
     }
     // reset the form value after adding it to array
     this.recipeForm.get('tag')?.reset();
@@ -215,22 +216,22 @@ export class CreatePagComponent implements OnInit  {
     }
 
     if(this.ingredientControls.length < 1) {
-      this.store.dispatch( new ShowError("No Ingredients"))
+      this.store.dispatch( new ShowInfo("No Ingredients"))
       return false;
     }
 
     if(this.instructionControls.length < 1) {
-      this.store.dispatch( new ShowError("No Instructions"))
+      this.store.dispatch( new ShowInfo("No Instructions"))
       return false;
     }
 
     if(!this.selectedMeal){
-      this.store.dispatch( new ShowError("Please select a meal"))
+      this.store.dispatch( new ShowInfo("Please select a meal"))
       return false;
     }
 
     if(!this.profile){
-      this.store.dispatch( new ShowError("Please login to create a recipe"))
+      this.store.dispatch( new ShowInfo("Please login to create a recipe"))
       return false;
     }
 

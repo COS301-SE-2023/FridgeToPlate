@@ -4,6 +4,7 @@ import { PasswordModalComponent } from './password-modal.component';
 import { ChangePassword } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import {FormsModule} from "@angular/forms";
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 describe('PasswordModalComponent', () => {
   let component: PasswordModalComponent;
@@ -51,7 +52,7 @@ describe('PasswordModalComponent', () => {
     expect(closeFuncEmitterSpy).toHaveBeenCalled();
   });
 
-  it('should dispatch ShowError action when save() is called with non-matching passwords', () => {
+  it('should dispatch ShowInfo action when save() is called with non-matching passwords', () => {
     component.oldPassword = 'oldPassword';
     component.newPassword = 'newPassword';
     component.confirmPassword = 'differentPassword'; // Non-matching with newPassword
@@ -61,7 +62,7 @@ describe('PasswordModalComponent', () => {
 
     component.save();
 
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowError('Please enter matching passwords'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowInfo("Passwords Entered Do Not Match"));
     expect(saveFuncEmitterSpy).not.toHaveBeenCalled();
     expect(closeFuncEmitterSpy).not.toHaveBeenCalled();
   });
@@ -93,7 +94,7 @@ describe('PasswordModalComponent', () => {
     const saveFuncEmitterSpy = jest.spyOn(component.saveFunc, 'emit');
     const saveButton = fixture.nativeElement.querySelector('#save-button');
     saveButton.click();
-    expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowError('Please enter matching passwords'));
+    expect(mockStore.dispatch).toHaveBeenCalledWith(new ShowInfo("Passwords Entered Do Not Match"));
     expect(saveFuncEmitterSpy).not.toHaveBeenCalled();
   });
 });
