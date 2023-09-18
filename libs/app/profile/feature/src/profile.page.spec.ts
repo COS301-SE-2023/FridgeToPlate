@@ -10,6 +10,7 @@ import { Injectable } from "@angular/core";
 import { ProfileUiModule } from "@fridge-to-plate/app/profile/ui";
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeCardComponent } from "libs/app/recipe/ui/src/recipe-card/recipe-card.component";
+import { NgChartsModule } from 'ng2-charts';
 
 describe("ProfilePage", () => {
 
@@ -40,7 +41,7 @@ describe("ProfilePage", () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState]), ProfileUiModule],
+      imports: [IonicModule, HttpClientModule, NavigationBarModule, NgxsModule.forRoot([MockProfileState]), ProfileUiModule, NgChartsModule],
       declarations: [ProfilePage, RecipeCardComponent],
     }).compileComponents();
 
