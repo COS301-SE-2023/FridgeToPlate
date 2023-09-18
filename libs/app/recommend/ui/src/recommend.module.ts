@@ -25,7 +25,7 @@ import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
     RecipePreferencesStep,
     StepperForm,
     BarcodeModalComponent,
-    DropdownSelectComponent
+    DropdownSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,7 @@ import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
     RecipePreferencesStep,
     StepperForm,
     DropdownSelectComponent,
-    BarcodeModalComponent
+    BarcodeModalComponent,
   ],
 })
 export class RecommendUIModule {}

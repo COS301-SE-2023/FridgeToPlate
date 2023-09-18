@@ -38,7 +38,6 @@ export class NotificationsPage {
 
   constructor(
     private location: Location,
-    private router: Router,
     private store: Store
   ) {
 
@@ -49,8 +48,8 @@ export class NotificationsPage {
     store.dispatch(new RefreshNotifications(this.userID));
   }
 
-  onNotificationClick(recipeId: string): void {
-    this.store.dispatch(new Navigate([`recipe/${recipeId}`]));
+  onNotificationClick(path: string): void {
+    this.store.dispatch(new Navigate([path]));
   }
 
   goBack() {

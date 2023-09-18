@@ -8,7 +8,8 @@ import lombok.Data;
 
 @Data
 public class NotificationsResponseModel {
-    private List<NotificationModel> general;
 
-    private List<NotificationModel> recommendations;
+    List<NotificationModel> general;
+    List<NotificationModel> recommendations;
+
 }

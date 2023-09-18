@@ -137,14 +137,6 @@ public class MealPlanService {
         return formattedList;
     }
 
-     public MealPlanModel findByUsername(@PathVariable(value = "username") String username) {
-        return this.mealPlanRepository.findByUsername(username);
-    }
-
-    public List<MealPlanModel> findAll() {
-        return this.mealPlanRepository.findAll();
-    }
-
     public MealPlanFrontendModel save(MealPlanFrontendModel mealPlan){
         MealPlanModel plan = new MealPlanModel();
 

@@ -37,8 +37,8 @@ public class RecipeController {
     }
 
     @PutMapping("/update-ratingAndViews/{id}")
-    public RecipeFrontendModel updateRatingRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
-        return recipeService.updateRatingRatingAndViews(recipe);
+    public RecipeFrontendModel updateRatingAndViews(@PathVariable(value = "id") String id, @RequestBody RecipeFrontendModel recipe){
+        return recipeService.updateRatingAndViews(recipe);
     }
     
     @PutMapping("/{id}")

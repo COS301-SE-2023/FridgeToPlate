@@ -107,10 +107,10 @@ describe('NotificationsPage tests', () => {
     })
   });
 
-  it('test on notification click navigates to recipe_page', () => {
+  it('test on notification click navigates to specified page', () => {
     const storeSpy = jest.spyOn(store, 'dispatch');
     component.onNotificationClick('testRecipeId');
-    expect(storeSpy).toHaveBeenCalledWith(new Navigate([`recipe/testRecipeId`]));
+    expect(storeSpy).toHaveBeenCalledWith(new Navigate([`testRecipeId`]));
   });
 
 });

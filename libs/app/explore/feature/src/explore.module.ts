@@ -14,6 +14,7 @@ import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { ExploreDataAccessModule } from '@fridge-to-plate/app/explore/data-access';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { RecipeModule } from "@fridge-to-plate/app/recipe/feature";
+import {ProfileModule} from "@fridge-to-plate/app/profile/feature";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { RecipeModule } from "@fridge-to-plate/app/recipe/feature";
     ExploreDataAccessModule,
     NavigationBarModule,
     RecipeModule,
-    RecipeUIModule
+    RecipeUIModule,
+    ProfileModule
   ],
   declarations: [ExplorePage],
   exports: [ExplorePage],
