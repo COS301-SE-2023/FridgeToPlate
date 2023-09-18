@@ -16,6 +16,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { Injectable } from '@angular/core';
+import { BarcodeModalComponent } from '../barcode-modal/barcode-modal.component';
+import { DropdownSelectComponent } from '../dropdown-select/dropdown-select.component';
 describe('StepperForm', () => {
   let component: StepperForm;
   let fixture: ComponentFixture<StepperForm>;
@@ -30,8 +32,11 @@ describe('StepperForm', () => {
         RecipeListStep,
         RecipePreferencesStep,
         StepperForm,
+        BarcodeModalComponent,
+        DropdownSelectComponent,
       ],
       imports: [
+        FormsModule,
         NzListModule,
         IonicModule,
         NzStepsModule,
