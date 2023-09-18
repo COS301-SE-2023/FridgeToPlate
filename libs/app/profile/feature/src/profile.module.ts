@@ -11,6 +11,7 @@ import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-ou
 import { NotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { FormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
   
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     NotificationsFeatureModule,
     NzListModule,
     FormsModule,
+    NgChartsModule
   ],
   declarations: [ProfilePage, ClickedOutsideDirective],
   exports: [ClickedOutsideDirective],

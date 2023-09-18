@@ -90,6 +90,7 @@ export class RecipeState {
     { patchState }: StateContext<RecipeStateModel>,
     { recipe }: UpdateRecipeRatingAndViews
   ) {
+
     patchState({
       recipe: recipe,
     });
@@ -106,6 +107,7 @@ export class RecipeState {
         this.store.dispatch(new ShowError(error.message));
       }
     );
+
   }
 
   @Action(UpdateRecipe)
@@ -135,10 +137,10 @@ export class RecipeState {
   increaseViews(
     { getState }: StateContext<RecipeStateModel>
   ) {
-    const updatedRecipe = getState().recipe;
+    const recipe = getState().recipe;
 
-    if (updatedRecipe) {
-      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
+    if (recipe) {
+      this.store.dispatch(new UpdateRecipeRatingAndViews(recipe));
     }
   }
 
@@ -295,9 +297,12 @@ export class RecipeState {
         if (type === "imperial") {
             switch (element.unit) {
                 case "ml":
-                    if (element.amount < 60) {
-                        element.amount /= 15;
+                    if (element.amount < 15) {
+                        element.amount /= 5;
                         element.unit = "tsp";
+                    } else if (element.amount < 60) {
+                      element.amount /= 15;
+                      element.unit = "tbsp";
                     } else {
                         element.amount /= 250;
                         element.unit = "cup";
@@ -318,10 +323,6 @@ export class RecipeState {
             }
         } else {
             switch (element.unit) {
-                case "tsp":
-                    element.amount *= 15;
-                    element.unit = "ml";
-                    break;
                 case "cup":
                     element.amount *= 250;
                     element.unit = "ml";

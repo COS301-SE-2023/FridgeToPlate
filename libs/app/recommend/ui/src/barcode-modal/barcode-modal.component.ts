@@ -15,6 +15,8 @@ import { Store } from '@ngxs/store';
 export class BarcodeModalComponent implements AfterViewInit {
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
 
+  canRequest= true;
+
   environmentFacingCameraLabelStrings: string[] = [
     'rear',
     'back',
@@ -135,19 +137,27 @@ export class BarcodeModalComponent implements AfterViewInit {
   }
 
   onBarcodeScanned(code: string) {
-    this.recommendAPI.getProductInformation(code).subscribe({
-      next: (productFromApi) => {
-        if (!productFromApi?.product)
-            throw Error('Product does not exist on database');
-          else {
-            return convertProductFromApi(productFromApi.product);
-          }
-      },
-      error: error => {
-        this.store.dispatch(new ShowError("Error retrieving product info"));
-        console.log(error);
-      }
-    });
+    if (this.canRequest) {
+      
+      this.canRequest = false;
+      setTimeout(() => { 
+        this.canRequest = true;
+      }, 5000);
+
+      this.recommendAPI.getProductInformation(code).subscribe({
+        next: (productFromApi) => {
+          if (!productFromApi?.product)
+              throw Error('Product does not exist on database');
+            else {
+              this.ingredient = convertProductFromApi(productFromApi.product);
+            }
+        },
+        error: error => {
+          this.store.dispatch(new ShowError("Error retrieving product info"));
+          console.log(error);
+        }
+      }); 
+    }
   }
   
   isKnownBackCameraLabel(label: string): boolean {

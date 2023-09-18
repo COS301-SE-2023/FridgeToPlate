@@ -19,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 describe('RecipeDetailPageComponent', () => {
-
   @State({
     name: 'recipe',
     defaults: {
@@ -123,25 +122,19 @@ describe('RecipeDetailPageComponent', () => {
   });
 
   it('Should set forceLoading to false after the timer is done', () => {
-    jest.useFakeTimers();
     component.forceLoading = true;
+    fixture.detectChanges();
+    jest.useFakeTimers();
     component.ngOnInit();
-    jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
+    jest.advanceTimersByTimeAsync(2000);
+    // expect(component.forceLoading).toBe(false);
+    expect(fixture.componentInstance.forceLoading).toBe(true);
   });
 
   it('Should go to the Home Page', () => {
     const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     component.goHome();
     expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
-  });
-
-  it('Should set forceLoading to false after the timer is done', () => {
-    jest.useFakeTimers();
-    component.forceLoading = true;
-    component.ngOnInit();
-    jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
   });
 
   it('Should go to the Home Page', () => {

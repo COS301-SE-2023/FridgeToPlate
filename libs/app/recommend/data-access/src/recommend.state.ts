@@ -213,7 +213,7 @@ export class RecommendState {
     if (updatedRecommendRequest) {
       for (let i = 0; i < updatedRecommendRequest.ingredients.length; i++) {
         if (updatedRecommendRequest.ingredients[i].name === ingredient.name) {
-          this.store.dispatch(new ShowError('Ingredient Already Added'));
+          updatedRecommendRequest.ingredients[i].amount += ingredient.amount;
           return;
         }
       }
