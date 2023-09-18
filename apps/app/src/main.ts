@@ -1,6 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { CoreModule } from '../../../libs/app/core/src/core.module';
+import { CoreModule } from '@fridge-to-plate/app/core';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 
 if (environment.TYPE === 'development') {
