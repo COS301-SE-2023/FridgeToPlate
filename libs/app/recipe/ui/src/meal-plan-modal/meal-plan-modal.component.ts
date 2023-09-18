@@ -11,7 +11,7 @@ export class MealPlanModalComponent {
   @Output() saveFunc: EventEmitter<any> = new EventEmitter();
 
   dateSelected !: string;
-  mealtypeSelected !: string;
+  mealtypeSelected = "breakfast";
 
   constructor() {
     this.dateSelected = new Date().toISOString().slice(0, 10);
@@ -22,10 +22,6 @@ export class MealPlanModalComponent {
   }
 
   save() {
-
-    if(!this.mealtypeSelected){
-      return;
-    }
     this.saveFunc.emit({ meal: this.mealtypeSelected, date: this.dateSelected });
     this.closeFunc.emit();
   }
