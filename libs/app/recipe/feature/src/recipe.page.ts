@@ -81,21 +81,18 @@ export class RecipePage implements OnInit {
 
           this.ingredients$.subscribe((ingredients) => {
 
-            if (ingredients.length > 0) {
-              if (this.recipe?.ingredients) {
+            if (this.recipe) {
+              if (ingredients.length > 0) {
                 this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => ele.name == element.name));
                 this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => ele.name == element.name));
-              }
-
-            } else {
-              if (this.recipe) {
-                this.missingIngredients = this.recipe?.ingredients;
+              } else {
+                  this.missingIngredients = this.recipe?.ingredients;
               }
             }
 
           });
 
-          if (this.recipe?.tags) {
+          if (this.recipe.tags.length > 0) {
             this.hasTags = true;
           }
         }

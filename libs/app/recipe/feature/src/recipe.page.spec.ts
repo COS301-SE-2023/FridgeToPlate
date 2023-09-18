@@ -24,7 +24,7 @@ describe('RecipeDetailPageComponent', () => {
     name: 'recipe',
     defaults: {
       recipe: null,
-      measurementType: "Metric"
+      measurementType: "metric"
     }
   })
 
@@ -43,7 +43,7 @@ describe('RecipeDetailPageComponent', () => {
     ingredients: [
       {
         name: 'Carrot',
-        unit: 'ml',
+        unit: 'g',
         amount: 10,
       },
     ],
@@ -190,107 +190,240 @@ describe('RecipeDetailPageComponent', () => {
   it('should dispatch ingredients change', () => {
     const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
 
-    component.measurementUnit = "Imperical";
+    component.measurementUnit = "imperical";
     component.changeIngredientUnits();
-    expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("Imperical"));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("imperical"));
+  });
+});
+
+describe('RecipeDetailPageComponent', () => {
+
+  const testRecipe: IRecipe = {
+    recipeId: 'test-id',
+    name: 'Test Recipe',
+    difficulty: 'Easy',
+    recipeImage: 'url.com/image',
+    ingredients: [
+      {
+        name: 'Carrot',
+        unit: 'g',
+        amount: 10,
+      },
+      {
+        name: 'Pecan',
+        unit: 'g',
+        amount: 10,
+      },
+    ],
+    description: 'Heading',
+    tags: ['Paleo'],
+    servings: 2,
+    prepTime: 30,
+    meal: 'Snack',
+    steps: ['Chop onions'],
+    creator: 'Kristap P',
+    youtubeId: 'testId',
+    rating: 2,
+  };
+
+  let component: RecipePage;
+  let fixture: ComponentFixture<RecipePage>;
+
+  it('should set tags to true', async () => {
+    @State({
+      name: 'recipe',
+      defaults: {
+        recipe: testRecipe,
+        measurementType: "metric"
+      }
+    })
+    @Injectable()
+    class MockRecipeState {}
+
+    await TestBed.configureTestingModule({
+      declarations: [RecipePage],
+      imports: [
+        ReviewModule,
+        IonicModule,
+        HttpClientModule,
+        RouterTestingModule,
+        NavigationBarModule,
+        FormsModule,
+        NgxsModule.forRoot([MockRecipeState]),
+      ],
+      providers: [HttpClientModule],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(RecipePage);
+    component = fixture.componentInstance;
+    component.recipe = testRecipe;
+    fixture.detectChanges();
+
+    component.setRecipe('test-id');
+    expect(component.hasTags).toBe(true);
   });
 
-  it('should set hasTags to true when recipe has tags', () => {
+  it('should set tags to false', async () => {
+    @State({
+      name: 'recipe',
+      defaults: {
+        recipe: {...testRecipe, tags: []},
+        measurementType: "metric"
+      }
+    })
+    @Injectable()
+    class MockRecipeState {}
+
+    await TestBed.configureTestingModule({
+      declarations: [RecipePage],
+      imports: [
+        ReviewModule,
+        IonicModule,
+        HttpClientModule,
+        RouterTestingModule,
+        NavigationBarModule,
+        FormsModule,
+        NgxsModule.forRoot([MockRecipeState]),
+      ],
+      providers: [HttpClientModule],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(RecipePage);
+    component = fixture.componentInstance;
     component.recipe = testRecipe;
+    fixture.detectChanges();
+
     component.setRecipe('test-id');
     expect(component.hasTags).toBe(false);
   });
 
-  test('should filter present and missing ingredients correctly', () => {
-    // Create test data
+  it('should set all ingredients to missing ingredients', async () => {
+    @State({
+      name: 'recipe',
+      defaults: {
+        recipe: testRecipe,
+        measurementType: "metric"
+      }
+    })
+    @Injectable()
+    class MockRecipeState {}
 
-    const ingredients = [
+    @State({
+      name: 'recommend',
+      defaults: {
+        recommendRequest: {
+                username: 'joe',
+                ingredients: [],
+                recipePreferences: {
+                  keywords: [],
+                  difficulty: 'Easy',
+                  rating: '',
+                  meal: '',
+                  servings: '',
+                  prepTime: '30 - 60 Minutes',
+                },
+              },
+        recipes: [],
+      },
+    })
+    @Injectable()
+    class MockRecommendState {}
+
+    await TestBed.configureTestingModule({
+      declarations: [RecipePage],
+      imports: [
+        ReviewModule,
+        IonicModule,
+        HttpClientModule,
+        RouterTestingModule,
+        NavigationBarModule,
+        FormsModule,
+        NgxsModule.forRoot([MockRecipeState, MockRecommendState]),
+      ],
+      providers: [HttpClientModule],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(RecipePage);
+    component = fixture.componentInstance;
+    component.recipe = testRecipe;
+    fixture.detectChanges();
+
+    component.setRecipe('test-id');
+    expect(component.missingIngredients).toBe(testRecipe.ingredients);
+  });
+
+  it('should set all ingredients to missing and present ingredients accordingly', async () => {
+    @State({
+      name: 'recipe',
+      defaults: {
+        recipe: testRecipe,
+        measurementType: "metric"
+      }
+    })
+    @Injectable()
+    class MockRecipeState {}
+
+    @State({
+      name: 'recommend',
+      defaults: {
+        recommendRequest: {
+                username: 'joe',
+                ingredients: [
+                  {
+                    name: 'Carrot',
+                    unit: 'g',
+                    amount: 10,
+                  },
+                ],
+                recipePreferences: {
+                  keywords: [],
+                  difficulty: 'Easy',
+                  rating: '',
+                  meal: '',
+                  servings: '',
+                  prepTime: '30 - 60 Minutes',
+                },
+              },
+        recipes: [],
+      },
+    })
+    @Injectable()
+    class MockRecommendState {}
+
+    await TestBed.configureTestingModule({
+      declarations: [RecipePage],
+      imports: [
+        ReviewModule,
+        IonicModule,
+        HttpClientModule,
+        RouterTestingModule,
+        NavigationBarModule,
+        FormsModule,
+        NgxsModule.forRoot([MockRecipeState, MockRecommendState]),
+      ],
+      providers: [HttpClientModule],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(RecipePage);
+    component = fixture.componentInstance;
+    component.recipe = testRecipe;
+    fixture.detectChanges();
+
+    component.setRecipe('test-id');
+    expect(component.missingIngredients).toStrictEqual([
+      {
+        name: 'Pecan',
+        unit: 'g',
+        amount: 10,
+      }
+    ]);
+    expect(component.presentIngredients).toStrictEqual([
       {
         name: 'Carrot',
-        unit: 'ml',
+        unit: 'g',
         amount: 10,
-      },
-    ];
-
-     jest.spyOn(component, 'recipe$', 'get').mockReturnValue(of(testRecipe));
-
-    jest.spyOn(component, 'ingredients$', 'get').mockReturnValue(of(ingredients));
-
-    component.recipe = testRecipe;
-
-    component.setRecipe('test-id');
-    fixture.detectChanges();
-   
-    expect(component.presentIngredients.length).toBeGreaterThan(0);
-    expect(component.missingIngredients).toEqual([]);
-  
+      }
+    ]);
   });
 
-  test('should assign missingIngredients correctly when recipe is present', () => {
-    // Create test data
-    const recipe = {
-      name: 'Test Recipe',
-      ingredients: [
-        {
-          name: 'Pecan',
-          unit: 'ml',
-          amount: 10,
-        },
-         {
-        name: 'Carrot',
-        unit: 'ml',
-        amount: 10,
-         }
-      ],
-    } as IRecipe;
-
-    jest.spyOn(component, 'recipe$', 'get').mockReturnValue(of(recipe));
-
-    jest.spyOn(component, 'ingredients$', 'get').mockReturnValue(of(testRecipe.ingredients));
-
-    component.recipe = recipe
-
-    component.setRecipe('test-id');
-    fixture.detectChanges();
-
-    expect(component.missingIngredients.length).toBeGreaterThan(0)
-    expect(component.missingIngredients).toEqual([recipe.ingredients[0]]);
-  });
-
-  it('should set presentIngredients and missingIngredients when ingredients are present', () => {
-    // Arrange
-    component.recipe = testRecipe;
-
-    // Set up a mock for the ingredients$ observable
-    const mockIngredients = [{
-      name: 'Carrot',
-      unit: 'ml',
-      amount: 10,
-    },
-    ];
-
-    const mockRecommendState = {
-      getIngredients: jest.fn(() => of([{
-        name: 'Carrot',
-        unit: 'ml',
-        amount: 10,
-      }, {
-        name: 'Pecan',
-        unit: 'ml',
-        amount: 10,
-      },])),
-    };
-
-    jest.spyOn(mockRecommendState, 'getIngredients').mockReturnValue(of(mockIngredients));
-
-    // Act
-    component.setRecipe('test-id');
-    component.ngOnInit();
-
-    // Assert
-    expect(component.presentIngredients).toEqual([]);
-    expect(component.missingIngredients).toEqual([]);
-  });
-
-  });
-
+});
