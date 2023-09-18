@@ -6,6 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecommendUIModule } from '../recommend.module';
 import { NgxsModule } from '@ngxs/store';
 import { UpdateRecipePreferences } from '@fridge-to-plate/app/recommend/utils';
+import { FormsModule } from '@angular/forms';
+import { DropdownSelectComponent } from '../dropdown-select/dropdown-select.component';
+import { StepperForm } from '../stepper-form/stepper-form';
+import { BarcodeModalComponent } from '../barcode-modal/barcode-modal.component';
+import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
 
 describe('RecipePreferencesStep', () => {
   let component: RecipePreferencesStep;
@@ -15,14 +20,22 @@ describe('RecipePreferencesStep', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecipePreferencesStep],
+      declarations: [
+        RecipePreferencesStep,
+        RecipePreferencesStep,
+        StepperForm,
+        BarcodeModalComponent,
+        DropdownSelectComponent,
+      ],
       imports: [
+        ProfileModule,
+        FormsModule,
         IonicModule,
         HttpClientModule,
         RecommendUIModule,
         NgxsModule.forRoot(),
       ],
-      providers: [HttpClientModule],
+      providers: [HttpClientModule, RecommendUIModule],
     });
     fixture = TestBed.createComponent(RecipePreferencesStep);
     component = fixture.componentInstance;

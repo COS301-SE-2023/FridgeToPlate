@@ -36,6 +36,7 @@ describe('StepperForm', () => {
         DropdownSelectComponent,
       ],
       imports: [
+        FormsModule,
         NzListModule,
         IonicModule,
         NzStepsModule,

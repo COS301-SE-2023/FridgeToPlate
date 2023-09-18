@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MealPlanModalComponent } from './meal-plan-modal.component';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
 describe('EditModalComponent', () => {
@@ -8,7 +11,12 @@ describe('EditModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [
+        IonicModule,
+        FormsModule,
+        HttpClientModule,
+        RouterTestingModule,
+      ],
       declarations: [MealPlanModalComponent],
     }).compileComponents();
 
@@ -27,6 +35,10 @@ describe('EditModalComponent', () => {
     component.mealtypeSelected = "Breakfast"
     component.save();
     expect(component.saveFunc.emit).toBeCalled();
+    expect(component.saveFunc.emit).toBeCalledWith({
+      meal: 'Breakfast',
+      date: new Date().toISOString().slice(0, 10),
+    });
     expect(component.saveFunc.emit).toBeCalledWith({
       meal: 'Breakfast',
       date: new Date().toISOString().slice(0, 10),

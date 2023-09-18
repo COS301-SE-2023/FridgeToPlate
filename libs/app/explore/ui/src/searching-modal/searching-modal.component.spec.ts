@@ -46,4 +46,12 @@ describe('SearchingModalComponent', () => {
     const inputElement = fixture.debugElement.query(By.css('input'));
     expect(inputElement).toBeTruthy();
   });
+
+  it('should emit toggleOverlay Event', () => {
+    jest.spyOn(component.toggleSearchOverlayEvent, 'emit');
+
+    component.showSearchOverlay();
+
+    expect(component.toggleSearchOverlayEvent.emit).toHaveBeenCalled();
+  });
 });
