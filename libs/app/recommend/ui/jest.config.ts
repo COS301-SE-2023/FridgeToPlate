@@ -19,4 +19,9 @@ export default {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  moduleNameMapper: {
+    "^lodash-es$": "lodash",
+    "/chart.js/": "node_modules/chart.js/dist/chart.mjs"
+  },
+  resolver: '@nrwl/jest/plugins/resolver',
 };
