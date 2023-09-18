@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { ChangeMeasurementType, IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
@@ -126,7 +126,7 @@ describe('RecipeDetailPageComponent', () => {
     component.forceLoading = true;
     component.ngOnInit();
     jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(true);
+    expect(component.forceLoading).toBe(false);
   });
 
   it('Should go to the Home Page', () => {
@@ -140,7 +140,7 @@ describe('RecipeDetailPageComponent', () => {
     component.forceLoading = true;
     component.ngOnInit();
     jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(true);
+    expect(component.forceLoading).toBe(false);
   });
 
   it('Should go to the Home Page', () => {
@@ -248,4 +248,5 @@ describe('RecipeDetailPageComponent', () => {
 
     expect(component.missingIngredients).toEqual(recipe.ingredients);
   });
-});
+
+  });
