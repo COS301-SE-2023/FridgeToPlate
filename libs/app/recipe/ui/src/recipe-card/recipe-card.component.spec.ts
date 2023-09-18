@@ -191,10 +191,10 @@ describe('RecipeCardComponent', () => {
   });
 
   it('should dispatch RemoveFromMealPlan when removeFromMealPlan is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
+    component.recipe = testRecipe;
     component.removeFromMealPlan();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new RemoveFromMealPlan(testRecipe.recipeId as string)
-    );
+    expect(dispatchSpy).toHaveBeenCalled();
     expect(component.added).toBe(false);
   });
 

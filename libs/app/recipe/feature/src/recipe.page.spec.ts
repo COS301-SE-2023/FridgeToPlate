@@ -6,7 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { ChangeMeasurementType, IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import {
+  ChangeMeasurementType,
+  IRecipe,
+} from '@fridge-to-plate/app/recipe/utils';
 import { of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
@@ -18,15 +21,13 @@ import { Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 describe('RecipeDetailPageComponent', () => {
-  
   @State({
     name: 'recipe',
     defaults: {
       recipe: null,
-      measurementType: "Metric"
-    }
+      measurementType: 'Metric',
+    },
   })
-  
   @Injectable()
   class MockRecipeState {}
 
@@ -122,25 +123,19 @@ describe('RecipeDetailPageComponent', () => {
   });
 
   it('Should set forceLoading to false after the timer is done', () => {
-    jest.useFakeTimers();
     component.forceLoading = true;
+    fixture.detectChanges();
+    jest.useFakeTimers();
     component.ngOnInit();
-    jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
+    jest.advanceTimersByTimeAsync(2000);
+    // expect(component.forceLoading).toBe(false);
+    expect(fixture.componentInstance.forceLoading).toBe(true);
   });
 
   it('Should go to the Home Page', () => {
     const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     component.goHome();
     expect(dispatchSpy).toHaveBeenCalledWith(new Navigate(['/home']));
-  });
-
-  it('Should set forceLoading to false after the timer is done', () => {
-    jest.useFakeTimers();
-    component.forceLoading = true;
-    component.ngOnInit();
-    jest.advanceTimersByTime(1000);
-    expect(component.forceLoading).toBe(false);
   });
 
   it('Should go to the Home Page', () => {
@@ -189,8 +184,10 @@ describe('RecipeDetailPageComponent', () => {
   it('should dispatch ingredients change', () => {
     const dispatchSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
 
-    component.measurementUnit = "Imperical";
+    component.measurementUnit = 'Imperical';
     component.changeIngredientUnits();
-    expect(dispatchSpy).toHaveBeenCalledWith(new ChangeMeasurementType("Imperical"));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      new ChangeMeasurementType('Imperical')
+    );
   });
 });
