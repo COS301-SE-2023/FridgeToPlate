@@ -27,8 +27,8 @@ import { ShowError } from "@fridge-to-plate/app/error/utils";
 import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
 import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
-import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { UpdateMealPlanData } from "@fridge-to-plate/app/meal-plan/utils";
 import { ShowInfo, ShowSuccess } from "@fridge-to-plate/app/info/utils";
 
 export interface ProfileStateModel {
@@ -78,7 +78,6 @@ export interface SettingsStateModel {
         settings: 'none'
     }
 })
-
 
 @Injectable()
 export class ProfileState {
@@ -329,9 +328,34 @@ export class ProfileState {
         
         if (updatedProfile && mealPlan) {
             updatedProfile.currMealPlan = mealPlan;
+
             patchState({
                 profile: updatedProfile
             });
+
+            const values = [0, 0, 0, 0];
+            if (mealPlan) {
+
+                if (mealPlan.breakfast) {
+                    values[0] = Math.floor(Math.random() * 100) + 350;
+                }
+        
+                if (mealPlan.lunch) {
+                    values[1] = Math.floor(Math.random() * 200) + 450;
+                } 
+        
+                if (mealPlan.dinner) {
+                    values[2] = Math.floor(Math.random() * 300) + 450;
+                } 
+
+                if (mealPlan.snack) {
+                    values[3] = Math.floor(Math.random() * 150) + 100;
+                } 
+
+            } 
+
+            this.store.dispatch(new UpdateMealPlanData(values));
+
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
@@ -341,7 +365,7 @@ export class ProfileState {
     }
 
     @Action(RemoveFromMealPlan)
-    removeFromMealPlan({ getState } : StateContext<ProfileStateModel>, { recipeId } : RemoveFromMealPlan) {
+    removeFromMealPlan({ getState } : StateContext<ProfileStateModel>, { meal } : RemoveFromMealPlan) {
         const profile = getState().profile;
         if(!profile){
             this.store.dispatch(new ShowError("No profile: Not signed in"));
@@ -350,16 +374,16 @@ export class ProfileState {
         const mealPlan = profile?.currMealPlan;
         if (mealPlan) {
 
-            if(mealPlan.breakfast && mealPlan.breakfast.recipeId === recipeId) {
+            if(mealPlan.breakfast && meal == "breakfast") {
                 mealPlan.breakfast = null;
             }
-            if(mealPlan.lunch && mealPlan.lunch.recipeId === recipeId) {
+            if(mealPlan.lunch && meal == "lunch") {
                 mealPlan.lunch = null;
             }
-            if(mealPlan.dinner && mealPlan.dinner.recipeId === recipeId) {
+            if(mealPlan.dinner && meal == "dinner") {
                 mealPlan.dinner = null;
             }
-            if(mealPlan.snack && mealPlan.snack.recipeId === recipeId) {
+            if(mealPlan.snack && meal == "snack") {
                 mealPlan.snack = null;
             }
             this.store.dispatch(new UpdateMealPlan(mealPlan))
@@ -380,26 +404,26 @@ export class ProfileState {
             next: data => {
                 let mealPlan = data;
                 if (mealPlan) {
-                    if(mealType === "Breakfast") {
+                    if(mealType === "breakfast") {
                         mealPlan.breakfast = recipe;
                     }
-                    if(mealType === "Lunch") {
+                    if(mealType === "lunch") {
                         mealPlan.lunch = recipe;
                     }
-                    if(mealType === "Dinner") {
+                    if(mealType === "dinner") {
                         mealPlan.dinner = recipe;
                     }
-                    if(mealType === "Snack") {
+                    if(mealType === "snack") {
                         mealPlan.snack = recipe;
                     }
                 } else {
                     mealPlan = {
                         username: profile.username,
                         date: date,
-                        breakfast: mealType === "Breakfast" ? recipe : null,
-                        lunch: mealType === "Lunch" ? recipe : null,
-                        dinner: mealType === "Dinner" ? recipe : null,
-                        snack: mealType === "Snack" ? recipe : null
+                        breakfast: mealType === "breakfast" ? recipe : null,
+                        lunch: mealType === "lunch" ? recipe : null,
+                        dinner: mealType === "dinner" ? recipe : null,
+                        snack: mealType === "snack" ? recipe : null
                     }
                 }
                 this.store.dispatch(new UpdateMealPlan(mealPlan));
@@ -428,6 +452,29 @@ export class ProfileState {
                 patchState({
                     profile: newProfile
                 });
+
+                const values = [0, 0, 0, 0];
+                if (data) {
+
+                    if (data.breakfast) {
+                        values[0] = Math.floor(Math.random() * 100) + 350;
+                    }
+            
+                    if (data.lunch) {
+                        values[1] = Math.floor(Math.random() * 200) + 450;
+                    } 
+            
+                    if (data.dinner) {
+                        values[2] = Math.floor(Math.random() * 300) + 450;
+                    } 
+
+                    if (data.snack) {
+                        values[3] = Math.floor(Math.random() * 150) + 100;
+                    } 
+
+                } 
+
+                this.store.dispatch(new UpdateMealPlanData(values));
             },
             error: error => {
                 this.store.dispatch(new ShowError(error.message));

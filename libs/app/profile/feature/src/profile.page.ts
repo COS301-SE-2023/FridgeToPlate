@@ -15,10 +15,11 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { Navigate } from "@ngxs/router-plugin";
-import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
+import { ChartData } from "chart.js";
+import { MealPlanState } from "@fridge-to-plate/app/meal-plan/data-access";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -30,6 +31,7 @@ import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(MealPlanState.getMealPlanChartData) mealPlanChartData$ !: Observable<ChartData>;
   @Select(ProfileState.getSettings) settings$ !: Observable<string>;
   @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
@@ -40,10 +42,14 @@ export class ProfilePage {
   dateSelected !: string;
 
   editableProfile !: IProfile;
-  mealPlan!: IMealPlan;
 
   constructor(private store: Store) {
-    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.profile$.pipe(take(1)).subscribe(profile => {
+      this.editableProfile = Object.create(profile);
+    });
+    this.mealPlanChartData$.pipe(take(1)).subscribe(mealPlanChartData => {
+      console.log(mealPlanChartData);
+    });
     this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.currMealPlan) );
     this.dateSelected = new Date().toISOString().slice(0, 10);
   }

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgxsOnInit, Select, StateContext, Store } from '@ngxs/store';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IReview } from '../../utils/src/interfaces';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
@@ -19,16 +19,22 @@ import { AddReview, DeleteReview, IRecipe } from '@fridge-to-plate/app/recipe/ut
   templateUrl: './review.html',
   styleUrls: ['./review.scss'],
 })
-export class Review {
+export class Review implements OnInit {
   rating = 0;
   description = '';
   stateUsername = '';
 
-  constructor (private store: Store) {}
-
   @Input() reviews!: IReview[];
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
   @Select(RecipeState.getRecipe) recipe$!: Observable<IRecipe>;
+
+  constructor (private store: Store) {}
+
+  ngOnInit() {
+    this.profile$.subscribe( (stateProfile) => {
+      this.stateUsername = stateProfile.displayName;
+    });
+  }
 
   setRating(num: number) {
     this.rating = num;
@@ -44,10 +50,6 @@ export class Review {
       this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }
-
-    this.profile$.subscribe( (stateProfile) => {
-      this.stateUsername = stateProfile.displayName;
-    });
 
     let stateRecipeId = '';
     this.recipe$.subscribe( (stateRecipe) => {

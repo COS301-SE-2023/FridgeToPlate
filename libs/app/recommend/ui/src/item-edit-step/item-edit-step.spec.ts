@@ -16,7 +16,7 @@ describe('ItemEditStep', () => {
   let store: Store;
 
   @State({
-    name: 'recommendMock',
+    name: 'recommend',
     defaults: {},
   })
   @Injectable()
@@ -26,11 +26,10 @@ describe('ItemEditStep', () => {
     TestBed.configureTestingModule({
       declarations: [ItemEditStep],
       imports: [
-        RecommendUIModule,
+        FormsModule,
         IonicModule,
         HttpClientModule,
-        FormsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockRecommendState]),
       ],
       providers: [HttpClientModule],
     });
@@ -57,12 +56,14 @@ describe('ItemEditStep', () => {
     store = TestBed.inject(Store);
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
+   
     const testIngredient: IIngredient = {
       name: 'Carrot',
       amount: 2,
       unit: 'g',
     };
 
+    component.removeItem(testIngredient);
     component.removeItem(testIngredient);
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
   });
@@ -81,6 +82,7 @@ describe('ItemEditStep', () => {
     component.ingredientAmount = testIngredient.amount;
     component.ingredientScale = testIngredient.unit;
 
+    component.addIngredient();
     component.addIngredient();
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
   });

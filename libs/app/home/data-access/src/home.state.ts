@@ -8,12 +8,14 @@ import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface HomeStateModel {
+  meal: string
   featuredRecipes: IRecipe[] | null;
 }
 
 @State<HomeStateModel>({
   name: 'home',
   defaults: {
+    meal: '',
     featuredRecipes: []
   }
 })
@@ -29,25 +31,28 @@ export class HomeState {
 
 
   @Action(RetrieveFeaturedRecipes)
-  async getRecipe({ setState }: StateContext<HomeStateModel>, { meal }: RetrieveFeaturedRecipes) {
+  async getRecipe({ setState, getState }: StateContext<HomeStateModel>, { meal }: RetrieveFeaturedRecipes) {
     
-    const explore : IExplore = {
-      type: meal,
-      search: "",
-      tags: [],
-      difficulty: "",
-    };
-
-    (await this.api.searchCategory(explore)).subscribe({
-        next: data => {
-            setState({
-                featuredRecipes: data
-            });
-        },
-        error: error => {
-            this.store.dispatch(new ShowError('Failed to retrieved featured recipes'));
-        }
-    });
+    if (getState().meal !== meal) {
+      const explore : IExplore = {
+        type: meal,
+        search: "",
+        tags: [],
+        difficulty: "",
+      };
+  
+      (await this.api.searchCategory(explore)).subscribe({
+          next: data => {
+              setState({
+                  meal: meal,
+                  featuredRecipes: data
+              });
+          },
+          error: error => {
+              this.store.dispatch(new ShowError('Failed to retrieved featured recipes'));
+          }
+      });
+    }
     
   }
 }

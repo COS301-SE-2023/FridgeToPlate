@@ -2,6 +2,8 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.fridgetoplate.model.*;
@@ -13,10 +15,6 @@ import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.interfaces.YoubuteItem;
-import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.IngredientModel;
-import com.fridgetoplate.model.RecipeModel;
-import com.fridgetoplate.model.Review;
 import com.fridgetoplate.repository.RecipeRepository;
 
 @Service
@@ -81,6 +79,23 @@ public class RecipeService {
         Integer servings = recipeModel.getServings();
         Double rating = recipeModel.getRating();
         String youtubeId = recipeModel.getYoutubeId();
+        if (youtubeId == null) {
+          try {
+              
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
+              
+              if (videos.length > 0) {
+                youtubeId = videos[0].getId().videoId;
+                recipeModel.setYoutubeId(youtubeId);
+                recipeRepository.saveRecipe(recipeModel);
+              } else {
+                recipeModel.setYoutubeId("");
+              }
+
+          } catch (Exception e) {
+              recipeModel.setYoutubeId("");
+          }
+        }
 
         // Creating recipe response
         recipeResponse.setRecipeId(recipeId);
@@ -148,10 +163,17 @@ public class RecipeService {
 
           model.setYoutubeId(recipe.getYoutubeId());
         } else {
-          YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
-          if (videos.length > 0) {
-            model.setYoutubeId(videos[0].getId().videoId);
-          }
+
+          try {
+              
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
+              if (videos.length > 0) {
+                  model.setYoutubeId(videos[0].getId().videoId);
+              } else {
+                  model.setYoutubeId("");
+              }
+
+          } catch (Exception e) {}
         }
 
         recipeRepository.saveRecipe(model);
@@ -297,6 +319,12 @@ public class RecipeService {
         }
       }
 
+      Collections.sort(recipes, new Comparator<RecipeFrontendModel>() {
+        public int compare(RecipeFrontendModel obj1, RecipeFrontendModel obj2) {
+            return numberIngredients(obj1, userIngredients).compareTo(numberIngredients(obj1, userIngredients));
+        }
+      });
+
       // Getting recipes from the specificied preferences
       List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
@@ -359,6 +387,17 @@ public class RecipeService {
               break;
             }
         }
+      }
+
+      if (
+        recipesSortByPreferences.size() > 1 && 
+        numberIngredients(this.findById(recipesSortByPreferences.get(0).getRecipeId()), userIngredients) > userIngredients.size() + 1
+      ) {
+
+        while (recipesSortByPreferences.size() > 18) {
+          recipesSortByPreferences.remove(recipesSortByPreferences.size() - 1);
+        }
+
       }
 
       return recipesSortByPreferences;
@@ -469,6 +508,25 @@ public class RecipeService {
       }
 
       return recipe;
+  }
+
+  private Double numberIngredients(RecipeFrontendModel recipe, List<Ingredient> ingredients) {
+    
+    Double num = 1.0;
+    for (Ingredient ingredient : ingredients) {
+      
+      for (Ingredient recipeIngredient : recipe.getIngredients()) {
+        
+        if (recipeIngredient.getName().contains(ingredient.getName())) {
+          num++;
+          break;
+        }
+        
+      }
+    }
+
+    return num;
+
   }
 
 }
