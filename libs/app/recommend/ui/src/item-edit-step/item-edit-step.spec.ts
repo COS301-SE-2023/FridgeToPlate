@@ -56,12 +56,10 @@ describe('ItemEditStep', () => {
     store = TestBed.inject(Store);
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    const testIngredient: IIngredient = {
-      name: 'Carrot',
+   
     const testIngredient: IIngredient = {
       name: 'Carrot',
       amount: 2,
-      unit: 'g',
       unit: 'g',
     };
 
@@ -77,7 +75,6 @@ describe('ItemEditStep', () => {
     const testIngredient: IIngredient = {
       name: 'Carrot',
       amount: 2,
-      unit: 'g',
       unit: 'g',
     };
 
