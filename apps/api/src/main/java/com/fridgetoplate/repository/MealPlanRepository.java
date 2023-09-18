@@ -65,4 +65,8 @@ public class MealPlanRepository {
     public MealPlanModel find(String username, String date) {
         return dynamoDBMapper.load(MealPlanModel.class, username, date);
     }
+
+    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper) {
+        this.dynamoDBMapper = dynamoDBMapper;
+    }
 }
