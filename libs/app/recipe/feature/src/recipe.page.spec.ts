@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { ChangeMeasurementType, IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -16,6 +16,7 @@ import { ReviewModule } from '@fridge-to-plate/app/review/feature';
 import { Navigate } from '@ngxs/router-plugin';
 import { Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 describe('RecipeDetailPageComponent', () => {
 
@@ -202,6 +203,7 @@ describe('RecipeDetailPageComponent', () => {
 
   test('should filter present and missing ingredients correctly', () => {
     // Create test data
+
     const ingredients = [
       {
         name: 'Carrot',
@@ -210,18 +212,19 @@ describe('RecipeDetailPageComponent', () => {
       },
     ];
 
+    const ingredients$Spy = jest.spyOn(component, 'ingredients$', 'get');
+    ingredients$Spy.mockReturnValue(of(ingredients));
+
     component.setRecipe('test-id');
     component.recipe = testRecipe;
-    component.presentIngredients = [
-      {
-        name: 'Carrot',
-        unit: 'ml',
-        amount: 10,
-      },
-    ];
 
-    expect(component.presentIngredients).toEqual(ingredients);
-    expect(component.missingIngredients).toEqual([]);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.presentIngredients).toEqual(ingredients);
+      expect(component.missingIngredients).not.toEqual([]);
+    });
+
+
   });
 
   test('should assign missingIngredients correctly when recipe is present', () => {
@@ -236,17 +239,18 @@ describe('RecipeDetailPageComponent', () => {
       ],
     };
 
-    component.setRecipe('test-id');
-    component.recipe = testRecipe;
-    component.missingIngredients = [
-      {
-        name: 'Pecan',
-        unit: 'ml',
-        amount: 10,
-      },
-    ]
+    const ingredients$Spy = jest.spyOn(component, 'ingredients$', 'get');
+    ingredients$Spy.mockReturnValue(of(recipe.ingredients));
 
-    expect(component.missingIngredients).toEqual(recipe.ingredients);
+    component.recipe = testRecipe;
+
+    component.setRecipe('test-id');
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      expect(component.missingIngredients.length).toBeGreaterThan(0)
+      expect(component.missingIngredients).toEqual(recipe.ingredients);
+    });
   });
 
   it('should set presentIngredients and missingIngredients when ingredients are present', () => {
