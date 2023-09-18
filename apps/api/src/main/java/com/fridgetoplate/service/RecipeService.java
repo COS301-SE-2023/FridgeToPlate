@@ -393,17 +393,36 @@ public class RecipeService {
 
   public RecipeFrontendModel updateRatingAndViews(RecipeFrontendModel recipe){
 
+      RecipeModel model = new RecipeModel();
       RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
 
       if(recipeModel.getRating() != null && !recipeModel.getRating().equals(recipe.getRating())) {
-          recipeModel.setViews(recipeModel.getViews());
+          model.setViews(recipeModel.getViews());
       }
       
       if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating())) {
-          recipeModel.setViews(recipeModel.getViews() + 1);
+          model.setViews(recipeModel.getViews() + 1);
       }
 
-      recipeRepository.saveRecipe(recipeModel);
+      model.setRecipeId(recipe.getRecipeId());
+      model.setDifficulty(recipe.getDifficulty());
+      model.setRecipeImage(recipe.getRecipeImage());
+      model.setName(recipe.getName());
+      model.setTags(recipe.getTags());
+      model.setMeal(recipe.getMeal());
+      model.setDescription(recipe.getDescription());
+      model.setPrepTime(recipe.getPrepTime());
+      model.setSteps(recipe.getSteps());
+      model.setCreator(recipe.getCreator());
+      model.setServings(recipe.getServings());
+      model.setRating(recipe.getRating());
+
+      recipeRepository.saveRecipe(model);
+      
+      switch (recipeModel.getViews()) {
+        case 10: 
+          break;
+      }
 
       return recipe;
   }
