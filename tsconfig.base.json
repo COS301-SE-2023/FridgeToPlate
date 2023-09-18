@@ -68,6 +68,10 @@
         "libs/app/home/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/home/utils": ["libs/app/home/utils/src/index.ts"],
+      "@fridge-to-plate/app/info/data-access": [
+        "libs/app/info/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/info/utils": ["libs/app/info/utils/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],

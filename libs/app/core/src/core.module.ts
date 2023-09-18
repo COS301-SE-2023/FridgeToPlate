@@ -17,6 +17,7 @@ import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
+import { InfoState } from '@fridge-to-plate/app/info/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import {
@@ -56,7 +57,7 @@ import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.TYPE == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, UndoState, ProfileState, RecommendState, PreferencesState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState, InfoState, ProfileState, RecommendState, PreferencesState]),
     NgxsStoragePluginModule.forRoot({
       key: [
         {

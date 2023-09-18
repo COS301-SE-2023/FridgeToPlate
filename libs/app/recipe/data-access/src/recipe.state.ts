@@ -16,6 +16,7 @@ import { Navigate } from '@ngxs/router-plugin';
 import { AddCreatedRecipe } from '@fridge-to-plate/app/profile/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
+import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
 
 export interface RecipeStateModel {
   recipe: IRecipe | null;
@@ -79,8 +80,8 @@ export class RecipeState {
         }
       },
       (error: Error) => {
-        console.error('Failed to retrieve recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
+        console.error('Failed to retrieve recipe: ', error);
+        this.store.dispatch(new ShowInfo("Could Not Retrieve Recipe"));
       }
     );
   }
@@ -99,6 +100,7 @@ export class RecipeState {
         patchState({
           recipe: recipe,
         });
+        this.store.dispatch(new ShowSuccess('Recipe Rating Updated Successfully'));
       },
       (error: Error) => {
         console.error('Failed to update recipe:', error);
@@ -122,6 +124,7 @@ export class RecipeState {
         patchState({
           recipe: recipe,
         });
+        this.store.dispatch(new ShowSuccess('Successfully Updated Recipe'));
       },
       (error: Error) => {
         console.error('Failed to update recipe:', error);
@@ -171,6 +174,7 @@ export class RecipeState {
             }
 
             this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
+            this.store.dispatch(new ShowSuccess('Successfully Added Review'));
         },
         error: error => {
             this.store.dispatch(new ShowError(error.message));
@@ -205,6 +209,7 @@ export class RecipeState {
       this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
       (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe();
+      this.store.dispatch(new ShowInfo('Review Deleted'));
     }
   }
 
@@ -221,6 +226,7 @@ export class RecipeState {
       tap(
         (response: string) => {
           console.log(response)
+          this.store.dispatch(new ShowInfo('Recipe Deleted'));
         },
         catchError(
           () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not deleted successfully'))
@@ -241,7 +247,8 @@ export class RecipeState {
           })
 
           this.store.dispatch(new Navigate([`/recipe/${recipe.recipeId}`]));
-          this.store.dispatch (new AddCreatedRecipe(recipe));
+          this.store.dispatch(new AddCreatedRecipe(recipe));
+          this.store.dispatch(new ShowSuccess('Recipe Created Successfully'));
         },
       catchError (
         () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not created successfully'))
@@ -281,6 +288,8 @@ export class RecipeState {
         measurementType: measurementType
       })
     }
+
+    this.store.dispatch(new ShowSuccess('Measurements Changed Successfully'));
   }
 
   convertIngredients(ingredients: IIngredient[], type: string): IIngredient[] {

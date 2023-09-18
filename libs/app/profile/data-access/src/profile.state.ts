@@ -29,6 +29,7 @@ import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
 import { environment } from "@fridge-to-plate/app/environments/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { UpdateMealPlanData } from "@fridge-to-plate/app/meal-plan/utils";
+import { ShowInfo, ShowSuccess } from "@fridge-to-plate/app/info/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -163,6 +164,7 @@ export class ProfileState {
 
             this.profileAPI.updateProfile(updatedProfile);
         }
+        this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
     }
 
     @Action(RemoveSavedRecipe)
@@ -358,6 +360,8 @@ export class ProfileState {
             this.mealPlanAPI.saveMealPlan(mealPlan);
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
         }
+
+        this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
     }
 
     @Action(RemoveFromMealPlan)
@@ -385,6 +389,7 @@ export class ProfileState {
             this.store.dispatch(new UpdateMealPlan(mealPlan))
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) )
         }
+        this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
     }
 
     @Action(AddToMealPlan)
@@ -422,6 +427,7 @@ export class ProfileState {
                     }
                 }
                 this.store.dispatch(new UpdateMealPlan(mealPlan));
+                this.store.dispatch(new ShowSuccess('Successfully Added To Meal Plan'));
             },
             error: error => {
                 this.store.dispatch(new ShowError(error.message));
