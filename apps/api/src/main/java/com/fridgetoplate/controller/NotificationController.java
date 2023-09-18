@@ -2,6 +2,7 @@ package com.fridgetoplate.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,18 +19,13 @@ import com.fridgetoplate.service.NotificationService;
 @RequestMapping("/notifications")
 
 public class NotificationController {
-    
+
     @Autowired
     private NotificationService notificationService;
 
     @GetMapping("/{userId}")
     public NotificationsResponseModel findAll(@PathVariable(value = "userId") String userId){
-        return notificationService.findAll(userId);
-    }
-
-    @DeleteMapping("/{notificationId}")
-    public String delete(@PathVariable(value = "notificationId") String notificationId){
-        return notificationService.delete(notificationId);
+        return notificationService.findAllNotifications(userId);
     }
 
     @DeleteMapping("/clear/{userId}")
@@ -41,6 +37,5 @@ public class NotificationController {
     public String clearAllNotificationsOfType(@PathVariable(value = "userId") String userId, @PathVariable(value = "notificationType") String type){
         return notificationService.clearAllNotificationOfType(userId, type);
     }
-
 
 }

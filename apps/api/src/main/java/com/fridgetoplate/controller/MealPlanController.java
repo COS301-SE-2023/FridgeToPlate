@@ -32,11 +32,6 @@ public class MealPlanController {
        return this.mealPlanService.save(mealPlan);
     }
 
-    @GetMapping
-    public List<MealPlanModel> findAll() {
-        return this.mealPlanService.findAll();
-    }
-
     @GetMapping("/{username}/{date}")
     public MealPlanFrontendModel findByUsernameAndDate(@PathVariable(value = "username") String username, @PathVariable(value = "date") String date) {
         return this.mealPlanService.findMealPlan(username, date);

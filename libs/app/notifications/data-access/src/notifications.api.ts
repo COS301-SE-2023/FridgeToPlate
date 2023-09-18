@@ -18,18 +18,6 @@ export class NotificationsApi {
     return this.http.get<INotificationResponse>(url);
   }
 
-  deleteNotification(notificationId: string): Observable<string> {
-    const url = `${this.baseUrl}/${notificationId}`;
-
-    return this.http.delete<string>(url);
-  }
-
-  clearAllNotifications(userId: string): Observable<string> {
-    const url = `${this.baseUrl}/clear/${userId}`;
-
-    return this.http.delete<string>(url);
-  }
-
   clearGeneralNotifications(userId: string): Observable<string> {
     const url = `${this.baseUrl}/clear/${userId}/general`;
 

@@ -31,6 +31,10 @@ public class ProfileRepository {
         return dynamoDBMapper.load(ProfileModel.class, username);
     }
 
+    public List<ProfileModel> findAllUsers(){
+        return dynamoDBMapper.scan(ProfileModel.class, new DynamoDBScanExpression());
+    }
+
     public void update(String username, ProfileModel profile){
         dynamoDBMapper.save(profile,
                 new DynamoDBSaveExpression()
@@ -54,4 +58,5 @@ public class ProfileRepository {
 
         return reviews;
     }
+
 }

@@ -5,4 +5,8 @@ export const environment = {
   COGNITO_APP_CLIENT_ID: process.env['COGNITO_APP_CLIENT_ID'] || 'none',
   GOUPC_APIKEY: process.env['GOUPC_APIKEY'] || 'none',
   GOUPC_API_URL: process.env['GOUPC_API_URL'] || 'none',
+  VAPIDPublicKey: process.env['VAPIDPublicKey'] || 'none',
+  VAPIDPrivateKey: process.env['VAPIDPrivateKey'] || 'none',
+  API_WS_URL_DEV: process.env[''] || 'none',
+  API_WS_URL_PROD: process.env[''] || 'none',
 };
