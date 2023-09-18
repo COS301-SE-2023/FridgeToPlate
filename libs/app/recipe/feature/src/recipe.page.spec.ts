@@ -249,4 +249,39 @@ describe('RecipeDetailPageComponent', () => {
     expect(component.missingIngredients).toEqual(recipe.ingredients);
   });
 
+  it('should set presentIngredients and missingIngredients when ingredients are present', () => {
+    // Arrange
+    component.recipe = testRecipe;
+
+    // Set up a mock for the ingredients$ observable
+    const mockIngredients = [{
+      name: 'Carrot',
+      unit: 'ml',
+      amount: 10,
+    },
+    ];
+
+    const mockRecommendState = {
+      getIngredients: jest.fn(() => of([{
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+      }, {
+        name: 'Pecan',
+        unit: 'ml',
+        amount: 10,
+      },])),
+    };
+
+    jest.spyOn(mockRecommendState, 'getIngredients').mockReturnValue(of(mockIngredients));
+
+    // Act
+    component.setRecipe('test-id');
+    component.ngOnInit();
+
+    // Assert
+    expect(component.presentIngredients).toEqual([]);
+    expect(component.missingIngredients).toEqual([]);
+  });
+
   });
