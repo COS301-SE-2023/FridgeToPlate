@@ -28,6 +28,9 @@ public class RecipeService {
     private ReviewService reviewService;
 
     @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
     private ExternalApiService externalApiService;
 
     public RecipeFrontendModel findById(String id){
@@ -419,9 +422,50 @@ public class RecipeService {
 
       recipeRepository.saveRecipe(model);
       
-      switch (recipeModel.getViews()) {
-        case 10: 
-          break;
+      if (!model.getCreator().equals("Spoonacular")) {
+        NotificationModel notif = new NotificationModel();
+        switch (recipeModel.getViews()) {
+          case 25: 
+
+            notif.setUserId(model.getCreator());
+            notif.setMetadata("/recipe/" + model.getRecipeId());
+            notif.setNotificationPic(model.getRecipeImage());
+            notif.setTitle(model.getName() + " just receached 25 views");
+            notif.setTitle("Well done on reaching 25 recipe views, your culinary journey has just began!");
+
+            notificationService.save(notif);
+            break;
+          case 100: 
+
+            notif.setUserId(model.getCreator());
+            notif.setMetadata("/recipe/" + model.getRecipeId());
+            notif.setNotificationPic(model.getRecipeImage());
+            notif.setTitle("Your recipe just receached 100 views");
+            notif.setTitle("You've inspired so many people with your recipe. Keep on cooking excellence.");
+
+            notificationService.save(notif);
+            break;
+          case 500: 
+
+            notif.setUserId(model.getCreator());
+            notif.setMetadata("/recipe/" + model.getRecipeId());
+            notif.setNotificationPic(model.getRecipeImage());
+            notif.setTitle(model.getName() + " just receached 500 views");
+            notif.setTitle("500 views for your is absolutely extrodinary. ");
+
+            notificationService.save(notif);
+            break;
+          case 1000: 
+
+            notif.setUserId(model.getCreator());
+            notif.setMetadata("/recipe/" + model.getRecipeId());
+            notif.setNotificationPic(model.getRecipeImage());
+            notif.setTitle(model.getName() + " just receached 1000 views");
+            notif.setTitle("Well done on reaching 1000 recipe, your culinary journey has just began");
+
+            notificationService.save(notif);
+            break;
+        }
       }
 
       return recipe;
