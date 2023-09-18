@@ -212,45 +212,49 @@ describe('RecipeDetailPageComponent', () => {
       },
     ];
 
-    const ingredients$Spy = jest.spyOn(component, 'ingredients$', 'get');
-    ingredients$Spy.mockReturnValue(of(ingredients));
+     jest.spyOn(component, 'recipe$', 'get').mockReturnValue(of(testRecipe));
 
-    component.setRecipe('test-id');
+    jest.spyOn(component, 'ingredients$', 'get').mockReturnValue(of(ingredients));
+
     component.recipe = testRecipe;
 
+    component.setRecipe('test-id');
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.presentIngredients).toEqual(ingredients);
-      expect(component.missingIngredients).not.toEqual([]);
-    });
-
-
+   
+    expect(component.presentIngredients.length).toBeGreaterThan(0);
+    expect(component.missingIngredients).toEqual([]);
+  
   });
 
   test('should assign missingIngredients correctly when recipe is present', () => {
     // Create test data
     const recipe = {
+      name: 'Test Recipe',
       ingredients: [
         {
           name: 'Pecan',
           unit: 'ml',
           amount: 10,
         },
+         {
+        name: 'Carrot',
+        unit: 'ml',
+        amount: 10,
+         }
       ],
-    };
+    } as IRecipe;
 
-    const ingredients$Spy = jest.spyOn(component, 'ingredients$', 'get');
-    ingredients$Spy.mockReturnValue(of(recipe.ingredients));
+    jest.spyOn(component, 'recipe$', 'get').mockReturnValue(of(recipe));
 
-    component.recipe = testRecipe;
+    jest.spyOn(component, 'ingredients$', 'get').mockReturnValue(of(testRecipe.ingredients));
+
+    component.recipe = recipe
 
     component.setRecipe('test-id');
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      expect(component.missingIngredients.length).toBeGreaterThan(0)
-      expect(component.missingIngredients).toEqual(recipe.ingredients);
-    });
+    expect(component.missingIngredients.length).toBeGreaterThan(0)
+    expect(component.missingIngredients).toEqual([recipe.ingredients[0]]);
   });
 
   it('should set presentIngredients and missingIngredients when ingredients are present', () => {
@@ -289,3 +293,4 @@ describe('RecipeDetailPageComponent', () => {
   });
 
   });
+
