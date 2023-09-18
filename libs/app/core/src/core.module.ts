@@ -58,7 +58,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.TYPE == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, UndoState, InfoState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState, InfoState, ProfileState, PreferencesState, RecommendState]),
     NgxsStoragePluginModule.forRoot({
       key: [
         {

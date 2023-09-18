@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fridgetoplate.frontendmodels.NotificationsResponseModel;
+import com.fridgetoplate.interfaces.Explore;
+import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
 import com.fridgetoplate.repository.ProfileRepository;
@@ -21,7 +23,10 @@ public class NotificationService {
     private NotificationsRepository notificationsRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileService profileService;
+
+    @Autowired
+    private ExploreService exploreService;
 
     private NotificationsUtils utils = new NotificationsUtils();
 
@@ -41,7 +46,7 @@ public class NotificationService {
         
 
         for (NotificationModel notificationModel : notifications) {
-            if (notificationModel.getType().equals("recommend")) {
+            if (notificationModel.getType().equals("recommendation")) {
                 recommendNotifications.add(notificationModel);
             } else {
                 generalNotifications.add(notificationModel);
@@ -82,7 +87,7 @@ public class NotificationService {
     public void breakfastNotificationsPush(){
         random.setSeed(System.currentTimeMillis());
         
-        List<ProfileModel> allUsers =  profileRepository.findAllUsers();
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
         List<ProfileModel> selectedUsers = new ArrayList();
         
         //1. Get random users
@@ -95,30 +100,39 @@ public class NotificationService {
             }
         }
 
-        // 2. Create notifications
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("breakfast");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
-        
-        ProfileModel currentUser = selectedUsers.get(i);
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
 
-        NotificationModel newNotification = new NotificationModel();
-         
-        newNotification.setUserId(currentUser.getUsername());
-        newNotification.setNotificationPic("https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png");
-        newNotification.setType("recommendation");
-        newNotification.setTitle(utils.breakfastTitleList[random.nextInt(0, utils.breakfastTitleList.length - 1)]);
-        newNotification.setBody("Rise and shine!, a quick meal on the go or a full english breakfast - we have the recipe just for you.");
+            ProfileModel currentUser = selectedUsers.get(i);
 
-        System.out.println(newNotification.toString());
-        this.save(newNotification);
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("We recommend " + currRecipeDesc.getRecipeImage() + " for breakfast today");
+            newNotification.setBody("Good time to try a new breakfast recipe! Explore our collection and find something delicious to kickstart your day.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
         }        
     }
 
     @Scheduled(cron = "0 0 12 * * ?")
     public void lunchtimeNotificationsPush() {
-        
         random.setSeed(System.currentTimeMillis());
         
-        List<ProfileModel> allUsers =  profileRepository.findAllUsers();
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
         List<ProfileModel> selectedUsers = new ArrayList();
         
         //1. Get random users
@@ -131,29 +145,39 @@ public class NotificationService {
             }
         }
 
-        // 2. Create notifications
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("lunch");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
-        
-        ProfileModel currentUser = selectedUsers.get(i);
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
 
-        NotificationModel newNotification = new NotificationModel();
-         
-        newNotification.setUserId(currentUser.getUsername());
-        newNotification.setNotificationPic("https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png");
-        newNotification.setType("recommendation");
-        newNotification.setTitle(utils.lunchtimeTitleList[random.nextInt(0, utils.lunchtimeTitleList.length - 1)]);
-        newNotification.setBody("Take a look at what we have cooking in our Recommendations");
+            ProfileModel currentUser = selectedUsers.get(i);
 
-        this.save(newNotification);
-        }
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("Have a delicious " + currRecipeDesc.getRecipeImage() + " for lunch today");
+            newNotification.setBody("Lunch hour is approaching! Discover a tasty lunch recipe from our selection and enjoy a flavorful midday meal.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
+        }        
     }
 
     @Scheduled(cron = "0 16 * * * ?")
     public void dinnertimeNotificationsPush() {
-        
         random.setSeed(System.currentTimeMillis());
         
-        List<ProfileModel> allUsers =  profileRepository.findAllUsers();
+        List<ProfileModel> allUsers =  profileService.findAllUsers();
         List<ProfileModel> selectedUsers = new ArrayList();
         
         //1. Get random users
@@ -166,21 +190,32 @@ public class NotificationService {
             }
         }
 
-        // 2. Create notifications
+        // 2. Get Recipes
+        Explore explore = new Explore();
+        explore.setType("dinner");
+        explore.setSearch("");
+        explore.setDifficulty("");
+        List<RecipeDesc> recipes = exploreService.findBySearch(explore);
+
+        // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
-        
-        ProfileModel currentUser = selectedUsers.get(i);
+            
+            int index = random.nextInt(0, allUsers.size());
+            RecipeDesc currRecipeDesc = recipes.get(index);
 
-        NotificationModel newNotification = new NotificationModel();
-         
-        newNotification.setUserId(currentUser.getUsername());
-        newNotification.setNotificationPic("https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png");
-        newNotification.setType("recommendation");
-        newNotification.setTitle(utils.dinnertimeTitleList[random.nextInt(0, utils.dinnertimeTitleList.length - 1)]);
-        newNotification.setBody("We get it, it's been a long day. Take a look at some of our quick to prepare dinner recipes for your next meal!");
+            ProfileModel currentUser = selectedUsers.get(i);
 
-        this.save(newNotification);
-        }
+            NotificationModel newNotification = new NotificationModel();
+            
+            newNotification.setUserId(currentUser.getUsername());
+            newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
+            newNotification.setType("recommendation");
+            newNotification.setTitle("Why not try " + currRecipeDesc.getRecipeImage() + " for dinner today");
+            newNotification.setBody("Dinnertime is here! Explore our variety of dinner recipes and cook up something special for your evening.");
+
+            System.out.println(newNotification.toString());
+            this.save(newNotification);
+        }        
     }
 
 }

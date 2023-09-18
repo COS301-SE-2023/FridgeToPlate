@@ -431,7 +431,7 @@ public class RecipeService {
             notif.setMetadata("/recipe/" + model.getRecipeId());
             notif.setNotificationPic(model.getRecipeImage());
             notif.setTitle(model.getName() + " just receached 25 views");
-            notif.setTitle("Well done on reaching 25 recipe views, your culinary journey has just began!");
+            notif.setTitle("Congratulations! Your recipe just hit 25 views. Keep cooking and sharing!");
 
             notificationService.save(notif);
             break;
@@ -440,8 +440,8 @@ public class RecipeService {
             notif.setUserId(model.getCreator());
             notif.setMetadata("/recipe/" + model.getRecipeId());
             notif.setNotificationPic(model.getRecipeImage());
-            notif.setTitle("Your recipe just receached 100 views");
-            notif.setTitle("You've inspired so many people with your recipe. Keep on cooking excellence.");
+            notif.setTitle(model.getName() + " just receached 100 views");
+            notif.setTitle("Wow, your recipe has reached 100 views! You're cooking up a storm!");
 
             notificationService.save(notif);
             break;
@@ -451,7 +451,7 @@ public class RecipeService {
             notif.setMetadata("/recipe/" + model.getRecipeId());
             notif.setNotificationPic(model.getRecipeImage());
             notif.setTitle(model.getName() + " just receached 500 views");
-            notif.setTitle("500 views for your is absolutely extrodinary. ");
+            notif.setTitle("500 views on your recipe! You're a culinary sensation!");
 
             notificationService.save(notif);
             break;
@@ -461,7 +461,7 @@ public class RecipeService {
             notif.setMetadata("/recipe/" + model.getRecipeId());
             notif.setNotificationPic(model.getRecipeImage());
             notif.setTitle(model.getName() + " just receached 1000 views");
-            notif.setTitle("Well done on reaching 1000 recipe, your culinary journey has just began");
+            notif.setTitle("Incredible! Your recipe has been viewed 1000 times. You're a recipe rockstar!");
 
             notificationService.save(notif);
             break;
