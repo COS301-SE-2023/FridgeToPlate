@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NewPassword } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 import { Store } from '@ngxs/store';
 
 @Component({
