@@ -207,7 +207,6 @@ describe('RecipeCardComponent', () => {
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
   let fixture: ComponentFixture<RecipeCardComponent>;
-  let store: Store;
 
   const testRecipe: IRecipe = {
     recipeId: 'test-id',
@@ -254,7 +253,6 @@ describe('RecipeCardComponent', () => {
     fixture = TestBed.createComponent(RecipeCardComponent);
     component = fixture.componentInstance;
     component.recipe = testRecipe;
-    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 
