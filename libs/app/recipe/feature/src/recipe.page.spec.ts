@@ -189,7 +189,7 @@ describe('RecipeDetailPageComponent', () => {
   });
 });
 
-describe('RecipeDetailPageComponent', () => {
+describe('RecipeDetailPageComponent Ingredient Check', () => {
 
   const testRecipe: IRecipe = {
     recipeId: 'test-id',
