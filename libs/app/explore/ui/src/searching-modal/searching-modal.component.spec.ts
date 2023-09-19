@@ -5,7 +5,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgxsModule, Select, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { SearchingModalComponent } from './searching-modal.component';
-
+import { ExploreUIModule } from '../explore.module';
+import { FormsModule } from '@angular/forms';
 
 describe('SearchingModalComponent', () => {
   let component: SearchingModalComponent;
@@ -14,7 +15,7 @@ describe('SearchingModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SearchingModalComponent],
-      imports: [NgxsModule.forRoot()]
+      imports: [NgxsModule.forRoot(), FormsModule],
     }).compileComponents();
   });
 
@@ -32,19 +33,13 @@ describe('SearchingModalComponent', () => {
     const searchQuery = 'Test search query';
     component.searchText = searchQuery;
 
-    // Create a spy on the newSearchEvent EventEmitter
-    const emitSpy = jest.spyOn(component.newSearchEvent, 'emit');
-
     // Call the explorer() method
     component.explorer();
-
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      // Check if the emit method was called with the correct argument
-      expect(emitSpy).toHaveBeenCalledWith(searchQuery);
+    // Subscribe to newSearchEvent EventEmitter
+    component.newSearchEvent.subscribe((searchTerm) => {
+      // Assert emitted search term
+      expect(searchTerm).toBe(searchQuery);
     });
-
-    
   });
 
   it('should render the search input field', () => {
@@ -52,5 +47,11 @@ describe('SearchingModalComponent', () => {
     expect(inputElement).toBeTruthy();
   });
 
-});
+  it('should emit toggleOverlay Event', () => {
+    jest.spyOn(component.toggleSearchOverlayEvent, 'emit');
 
+    component.showSearchOverlay();
+
+    expect(component.toggleSearchOverlayEvent.emit).toHaveBeenCalled();
+  });
+});

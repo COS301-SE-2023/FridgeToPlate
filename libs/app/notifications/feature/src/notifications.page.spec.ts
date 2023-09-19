@@ -6,7 +6,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {
   ClearGeneralNotifications,
   ClearRecommendationNotifications,
-} from "@fridge-to-plate/app/notifications/data-access";
+} from "@fridge-to-plate/app/notifications/utils";
 import {Location} from "@angular/common";
 import {NgxsModule, State, Store} from "@ngxs/store";
 import {Injectable} from "@angular/core";
@@ -107,10 +107,10 @@ describe('NotificationsPage tests', () => {
     })
   });
 
-  it('test on notification click navigates to recipe_page', () => {
+  it('test on notification click navigates to specified page', () => {
     const storeSpy = jest.spyOn(store, 'dispatch');
     component.onNotificationClick('testRecipeId');
-    expect(storeSpy).toHaveBeenCalledWith(new Navigate([`recipe/testRecipeId`]));
+    expect(storeSpy).toHaveBeenCalledWith(new Navigate([`testRecipeId`]));
   });
 
 });

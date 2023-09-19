@@ -7,20 +7,21 @@ import {
   StateContext,
   Store,
 } from '@ngxs/store';
-import { INotification } from '../../utils/src/interfaces';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Injectable } from '@angular/core';
 import { NotificationsApi } from './notifications.api';
 import {
-  ClearGeneralNotifications,
   ClearRecommendationNotifications,
   RefreshNotifications,
   RefreshRecommendationNotifications,
-} from '../../utils/notifications.actions';
+  ClearGeneralNotifications,
+} from '@fridge-to-plate/app/notifications/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Observable, take } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { NotificationsDataAccessModule } from './notifications.module';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface NotificationsStateModel {
   generalNotifications: INotification[] | null;
@@ -30,12 +31,30 @@ export interface NotificationsStateModel {
   name: 'notifications',
   defaults: {
     generalNotifications: [],
-    recommendationNotification: [],
+    recommendationNotification: [
+      {
+        userId: 'JohnDoe',
+        notificationPic: '/assets/Fridge Logo Transparent.png',
+        title: 'Pure authentic Italian Dish',
+        metadata: 'b6df9e16-4916-4869-a7d9-eb0293142f1f',
+        type: 'recommendation',
+        notificationId: '280e3937-0447-40d6-ac43-d089495932ba',
+      },
+      {
+        userId: 'BobtheBuilder',
+        notificationPic: '/assets/Fridge Logo Transparent.png',
+        title: 'Pure authentic Italian Dish',
+        body: 'The dish is good if you have no choice',
+        metadata: 'b6df9e16-4916-4869-a7d9-eb0293142f1f',
+        type: 'recommendation',
+        notificationId: '280e3937-0447-40d6-ac43-d089495932ba',
+      },
+    ],
   },
 })
 @Injectable()
 export class NotificationsState {
-  constructor(private notificationsApi: NotificationsApi) {}
+  constructor(private notificationsApi: NotificationsApi, private store: Store ) {}
 
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
 
@@ -49,56 +68,45 @@ export class NotificationsState {
     return state.recommendationNotification;
   }
 
-  @Action(RefreshRecommendationNotifications)
+  @Action(RefreshNotifications)
   refreshNotifications(
-    ctx: StateContext<NotificationsStateModel>,
+    { patchState }: StateContext<NotificationsStateModel>,
     { userId }: RefreshNotifications
   ) {
-    this.profile$.pipe(take(1)).subscribe((loggedInUser) => {
-      this.notificationsApi
-        .getAllNotifications(loggedInUser.username)
-        .pipe(take(1))
-        .subscribe((notificationsResponse) => {
-          ctx.setState({
-            generalNotifications: notificationsResponse.general,
-            recommendationNotification: notificationsResponse.recommendations,
-          });
+    this.notificationsApi
+      .getAllNotifications(userId)
+      .pipe(take(1))
+      .subscribe((notificationsResponse) => {
+        patchState({
+          generalNotifications: notificationsResponse.general,
+          recommendationNotification: notificationsResponse.recommendations,
         });
-    });
+      });
   }
 
   @Action(ClearGeneralNotifications)
   clearGeneralNotifications(
-    ctx: StateContext<NotificationsStateModel>,
+    { patchState }: StateContext<NotificationsStateModel>,
     { userId }: ClearGeneralNotifications
   ) {
-    ctx.patchState({
+    patchState({
       generalNotifications: [],
     });
 
     this.notificationsApi.clearGeneralNotifications(userId).subscribe();
+    this.store.dispatch(new ShowInfo('General Notifications Cleared'));
   }
 
   @Action(ClearRecommendationNotifications)
   clearRecommendationNotifications(
-    ctx: StateContext<NotificationsStateModel>,
+    { patchState }: StateContext<NotificationsStateModel>,
     { userId }: ClearRecommendationNotifications
   ) {
-    ctx.patchState({
+    patchState({
       recommendationNotification: [],
     });
 
     this.notificationsApi.clearRecommendationNotifications(userId).subscribe();
+    this.store.dispatch(new ShowInfo('Recommendation Notifications Cleared'));
   }
 }
-
-// let store: Store;
-//
-// beforeEach(() => {
-//   TestBed.configureTestingModule({
-//     imports: [NgxsModule.forRoot([NotificationsState]), NotificationsDataAccessModule],
-//     declarations: []
-//   });
-//
-//   store = TestBed.inject(Store);
-// });

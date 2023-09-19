@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditRecipeComponent } from './edit-recipe.page';
 import { NgxsModule, State, Store } from '@ngxs/store';
-import { DeleteRecipe, IRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { DeleteRecipe, IRecipe, IRecipeDesc, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { IonicModule } from '@ionic/angular';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,6 +16,7 @@ import { Location } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Navigate } from '@ngxs/router-plugin';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -97,7 +99,6 @@ describe('EditRecipeComponent', () => {
   it('test show error message if recipe id is not available', () => {
     const showErrorSpy = jest.spyOn(TestBed.inject(Store), 'dispatch');
     const component = fixture.componentInstance;
-    component.recipe = null;
     fixture.detectChanges();
     component.deleteRecipe();
 
@@ -144,7 +145,8 @@ it('test populateForm with recipe', () => {
       difficulty: 'Easy',
       prepTime: 10,
       servings: 2,
-      tags: ['Test Tag']
+      tags: ['Test Tag'],
+      rating: 2
   };
 
   component.populateForm();
@@ -794,32 +796,6 @@ describe('Ingredients storing, deleting and returning', () => {
 
     })
 
-    it('Tags if empty', () => {
-      const formBuilder: FormBuilder = new FormBuilder();
-      const ingredientsFormArray = new FormArray([
-        new FormControl({
-          name: 'Mango',
-          amount: 100,
-          unit: 'g'
-        })])
-      const instructionsFormArray = new FormArray([
-        new FormControl('Step 1')
-      ]);
-
-      const formGroup: FormGroup = formBuilder.group({
-        name: ['Name', Validators.required],
-        description: ['Description', Validators.required],
-        servings: [1, Validators.required],
-        preparationTime: [1, Validators.required],
-        ingredients: ingredientsFormArray,
-        instructions: instructionsFormArray
-      })
-
-      component.recipeForm = formGroup;
-      component.isFormValid();
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
-      });
-
 
       it('Meal Selection', () => {
         const formBuilder: FormBuilder = new FormBuilder();
@@ -914,7 +890,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
       })
       
 
@@ -1038,9 +1014,19 @@ describe('Ingredients storing, deleting and returning', () => {
     it('Should dispatch Update Recipe Action', async () => {
 
       jest.spyOn(component, 'isFormValid');
+
+      const review: IReview = {
+        reviewId : "reviewId",
+        recipeId: "recipeId",
+        username: "",
+        rating: 2, 
+        description: "It was fun while it lasted"
+
+      }
       
       // Mock the recipe data
       const recipe: IRecipe = {
+        recipeId: "123",
         name: "Mock Recipe",
         recipeImage: "https://example.com/image.jpg",
         description: "Amazing meal for a family",
@@ -1056,6 +1042,8 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null,
+        reviews: [review]
       };
     
       component.imageUrl = recipe.recipeImage
@@ -1071,19 +1059,27 @@ describe('Ingredients storing, deleting and returning', () => {
         dietaryPlans: fb.array((recipe.tags || []).map(tag => fb.control(tag))),
       });
 
+
+
+      
+      component.recipe = {
+        recipeId: "123",
+        rating: null,
+        reviews: [review]
+      } as IRecipe;
       component.tags = recipe.tags;
       component.selectedMeal = recipe.meal;
       component.profile = testProfile;
       component.profile.createdRecipes = [recipe];
-    
+      component.recipeId = '123';
       // Call the createRecipe method
       component.updateRecipe();
+      expect(component.isFormValid).toHaveBeenCalled();
+      expect(component.recipeForm.valid).toBe(true);
+      expect(component.isFormValid()).toBe(true)
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateRecipe(recipe));
       expect(dispatchSpy).toHaveBeenCalledWith(new UpdateProfile(testProfile));
       expect(dispatchSpy).toHaveBeenCalledWith(new Navigate([`/recipe/${recipe.recipeId}`]));
-      expect(component.recipeForm.valid).toBe(true);
-      expect(component.isFormValid()).toBe(true)
-      expect(component.isFormValid).toHaveBeenCalled();
 
     });
 
@@ -1109,6 +1105,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
     
       component.imageUrl = recipe.recipeImage
@@ -1153,6 +1150,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
       
       component.imageUrl = recipe.recipeImage

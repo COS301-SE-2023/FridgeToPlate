@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CreatePagComponent } from './create.page';
 import { IonicModule } from '@ionic/angular';
 import {HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature'
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
@@ -12,6 +13,7 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 
 @State({
@@ -29,11 +31,13 @@ class MockCreateState {}
 describe('CreatePagComponent', () => {
   let createPage: CreatePagComponent;
   let fixture: ComponentFixture<CreatePagComponent>;
+  global.URL.createObjectURL = jest.fn();
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CreatePagComponent ],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         IonicModule,
         HttpClientModule,
@@ -49,6 +53,39 @@ describe('CreatePagComponent', () => {
     fixture = TestBed.createComponent(CreatePagComponent);
     createPage = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should set selectedVideo and call previewVideo on file change', () => {
+    const mockFile = new File(['dummyVideo'], 'test.mp4', { type: 'video/mp4' });
+    const mockEvent = {
+      target: { files: [mockFile] },
+    };
+
+    jest.spyOn(createPage, 'previewVideo');
+
+    createPage.onVideoChanged(mockEvent);
+
+    expect(createPage.selectedVideo).toBe(mockFile);
+    expect(createPage.displayVideo).toBe('block');
+    expect(createPage.displayImage).toBe('none');
+    expect(createPage.previewVideo).toHaveBeenCalled();
+  });
+
+  it('should update the video when a file is selected', () => {
+    // Arrange
+    const file = new File(['sample content'], 'sample.mp4', { type: 'video/mp4' });
+    const event = { target: { files: [file] } };
+
+    const createObjectURLStringSpy = jest.spyOn(URL, 'createObjectURL');
+
+    // Act
+    createPage.onVideoChanged(event);
+
+    // Assert
+    expect(createObjectURLStringSpy).toHaveBeenCalledWith(file);
+
+    
+
   });
 
   it('should set the name, description, servings, and preparationTime fields as required', () => {
@@ -149,6 +186,8 @@ describe('CreatePagComponent', () => {
   }
   );
 
+  
+
 });
 
 
@@ -164,6 +203,7 @@ describe('Testing Tags', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -252,7 +292,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(size);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please enter valid tag'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please enter valid tag"));
   });
 
   it('should not add a duplicate tags', () => {
@@ -267,7 +307,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(size);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No duplicates: Tag already selected'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No duplicates: Tag already selected"));
     expect(component.tags).toEqual(testTags);
 
   });
@@ -283,7 +323,7 @@ describe('Testing Tags', () => {
 
     // Assert
     expect(component.tags.length).toBe(3);
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Only a maximum of three tags'));
+    expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Only a maximum of three tags"));
     expect(component.tags).toEqual(testTags);
   })
 
@@ -326,6 +366,7 @@ describe('Ingredients storing, deleting and returning', () => {
       declarations: [ CreatePagComponent ],
       providers: [FormBuilder],
       imports: [
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         NavigationBarModule,
@@ -431,6 +472,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -465,6 +507,8 @@ describe('Ingredients storing, deleting and returning', () => {
     });
   })
 
+
+
   describe("Testing placeholder texts for Unit", () => {
 
     let component: CreatePagComponent;
@@ -475,6 +519,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -513,12 +558,15 @@ describe('Ingredients storing, deleting and returning', () => {
 
     let component: CreatePagComponent;
     let fixture: ComponentFixture<CreatePagComponent>;
+    let store: Store;
+    let dispatchSpy: jest.SpyInstance;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -528,6 +576,8 @@ describe('Ingredients storing, deleting and returning', () => {
       fixture = TestBed.createComponent(CreatePagComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      store = TestBed.inject(Store);
+      dispatchSpy = jest.spyOn(store, 'dispatch');
     });
 
     it('should update the imageUrl when a file is selected', () => {
@@ -550,6 +600,20 @@ describe('Ingredients storing, deleting and returning', () => {
         expect(component.imageUrl).toBe(file.name);
         expect(component.imageUrl).not.toBe(existingImage);
       });
+
+    });
+
+    it('should show error if file size is larger than 300KB', () => {
+      // Arrange
+      const file = new File(['sample content'], 'sample.jpg', { type: 'image/jpeg' });
+      const fileSizeSpy = jest.spyOn(File.prototype, 'size', 'get').mockReturnValue(400000); // Mock file size exceeding limit
+      const event = { target: { files: [file] } };
+        
+      // Act
+      component.onFileChanged(event);
+    
+      // Assert
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Can Not Upload Image Larger Than 300KB")); // You can refine this assertion if you know the exact ShowError action structure
     });
 
   });
@@ -566,6 +630,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -594,7 +659,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Ingredients'));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Ingredients"));
 
     })
 
@@ -620,35 +685,10 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Instructions'));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Instructions"));
 
     })
 
-    it('Tags if empty', () => {
-      const formBuilder: FormBuilder = new FormBuilder();
-      const ingredientsFormArray = new FormArray([
-        new FormControl({
-          name: 'Mango',
-          amount: 100,
-          unit: 'g'
-        })])
-      const instructionsFormArray = new FormArray([
-        new FormControl('Step 1')
-      ]);
-
-      const formGroup: FormGroup = formBuilder.group({
-        name: ['Name', Validators.required],
-        description: ['Description', Validators.required],
-        servings: [1, Validators.required],
-        preparationTime: [1, Validators.required],
-        ingredients: ingredientsFormArray,
-        instructions: instructionsFormArray
-      })
-
-      component.recipeForm = formGroup;
-      component.isFormValid();
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('No Tags'));
-      });
 
 
       it('Meal Selection', () => {
@@ -671,8 +711,9 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian']
 
         component.recipeForm = formGroup;
+        component.selectedMeal = ""
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please select a meal'));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please select a meal"));
 
       })
 
@@ -702,7 +743,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.selectedMeal = 'Breakfast';
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Please login to create a recipe'));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please login to create a recipe"));
       })
 
 
@@ -744,7 +785,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Incomplete Form. Please fill out every field.'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
       })
 
 
@@ -849,6 +890,7 @@ describe('Ingredients storing, deleting and returning', () => {
         declarations: [ CreatePagComponent ],
         providers: [FormBuilder, Store],
         imports: [
+          FormsModule,
           ReactiveFormsModule,
           HttpClientModule,
           NavigationBarModule,
@@ -897,6 +939,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: null
       };
 
       component.imageUrl = recipe.recipeImage
@@ -952,6 +995,7 @@ describe('Ingredients storing, deleting and returning', () => {
         prepTime: 30,
         servings: 4,
         tags: ["mock", "recipe"],
+        rating: 2
       };
 
       component.imageUrl = recipe.recipeImage

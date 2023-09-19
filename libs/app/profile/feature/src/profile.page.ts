@@ -1,11 +1,25 @@
 import { Component } from "@angular/core";
-import { IProfile, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
-import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
+import { IProfile, 
+  RetrieveMealPlan, 
+  SortCreatedByDifficulty, 
+  SortCreatedByNameAsc, 
+  SortCreatedByNameDesc, 
+  SortSavedByDifficulty, 
+  SortSavedByNameAsc, 
+  SortSavedByNameDesc, 
+  UpdateProfile,
+  OpenSettings,
+  CloseSettings
+} from '@fridge-to-plate/app/profile/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable, take } from "rxjs";
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
-import { PreferencesState } from "@fridge-to-plate/app/preferences/data-access";
 import { Navigate } from "@ngxs/router-plugin";
+import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
+import { ChartData } from "chart.js";
+import { MealPlanState } from "@fridge-to-plate/app/meal-plan/data-access";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,19 +31,34 @@ import { Navigate } from "@ngxs/router-plugin";
 export class ProfilePage {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(MealPlanState.getMealPlanChartData) mealPlanChartData$ !: Observable<ChartData>;
+  @Select(ProfileState.getSettings) settings$ !: Observable<string>;
+  @Select(RecipeState.getIngredients) ingredients$ !: Observable<IIngredient[]>;
 
+  displayShoppinglist = "none"
   displayEditProfile = "none";
-  displaySettings = "none";
   displaySort = "none";
   subpage = "saved";
+  dateSelected !: string;
 
   editableProfile !: IProfile;
 
   constructor(private store: Store) {
-    this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
+    this.profile$.pipe(take(1)).subscribe(profile => {
+      this.editableProfile = Object.create(profile);
+    });
+    this.mealPlanChartData$.pipe(take(1)).subscribe(mealPlanChartData => {
+      console.log(mealPlanChartData);
+    });
+    this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.currMealPlan) );
+    this.dateSelected = new Date().toISOString().slice(0, 10);
   }
 
   displaySubpage(subpageName : string) {
+    if (subpageName == 'meal plan') {
+      this.getMealPlan();
+    }
+
     this.subpage = subpageName;
   }
 
@@ -42,13 +71,26 @@ export class ProfilePage {
     this.displayEditProfile = "none";
   }
 
+  openShoppingList() {
+    this.ingredients$.pipe(take(1)).subscribe(
+      () => {
+        this.displayShoppinglist = "block";
+      }
+    );
+
+  }
+  
+  closeShoppingList() {
+    this.displayShoppinglist = "none";
+  }
+
   openSettings() {
     this.profile$.pipe(take(1)).subscribe(profile => this.editableProfile = Object.create(profile));
-    this.displaySettings = "block";
+    this.store.dispatch(new OpenSettings());
   }
 
   closeSettings() {
-    this.displaySettings = "none";
+    this.store.dispatch(new CloseSettings());
   }
 
   saveProfile() {
@@ -91,4 +133,7 @@ export class ProfilePage {
     this.closeSort();
   }
 
+  getMealPlan() {
+    this.store.dispatch(new RetrieveMealPlan(this.dateSelected));
+  }
 }

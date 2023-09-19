@@ -10,7 +10,9 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
 import { ClickedOutsideDirective } from 'libs/app/core/src/directives/clicked-outside.directive';
 import { NotificationsFeatureModule } from '@fridge-to-plate/app/notifications/feature';
 import { NzListModule } from 'ng-zorro-antd/list';
-
+import { FormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
+  
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +23,10 @@ import { NzListModule } from 'ng-zorro-antd/list';
     ProfileDataAccessModule,
     NotificationsFeatureModule,
     NzListModule,
+    FormsModule,
+    NgChartsModule
   ],
   declarations: [ProfilePage, ClickedOutsideDirective],
+  exports: [ClickedOutsideDirective],
 })
 export class ProfileModule {}

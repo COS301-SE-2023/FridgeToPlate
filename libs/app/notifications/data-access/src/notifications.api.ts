@@ -1,11 +1,8 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import {
-  INotification,
-  INotificationResponse,
-} from '@fridge-to-plate/app/notifications/utils';
+import {  INotification,  INotificationResponse } from '@fridge-to-plate/app/notifications/utils';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'libs/app/environments/utils/src/environment';
+import { environment } from '@fridge-to-plate/app/environments/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +18,6 @@ export class NotificationsApi {
     return this.http.get<INotificationResponse>(url);
   }
 
-  clearAllNotifications(userId: string): Observable<string> {
-    const url = `${this.baseUrl}/clear/${userId}`;
-
-    return this.http.delete<string>(url);
-  }
-
   clearGeneralNotifications(userId: string): Observable<string> {
     const url = `${this.baseUrl}/clear/${userId}/general`;
 
@@ -39,9 +30,4 @@ export class NotificationsApi {
     return this.http.delete<string>(url);
   }
 
-  deleteNotification(notificationId: string): Observable<string> {
-    const url = `${this.baseUrl}/${notificationId}`;
-
-    return this.http.delete<string>(url);
-  }
 }

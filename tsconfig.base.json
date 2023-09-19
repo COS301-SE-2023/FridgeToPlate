@@ -47,6 +47,16 @@
         "libs/app/error/data-access/src/index.ts"
       ],
       "@fridge-to-plate/app/error/utils": ["libs/app/error/utils/src/index.ts"],
+      "@fridge-to-plate/app/explore/data-access": [
+        "libs/app/explore/data-access/src/index.ts"
+      ],
+      "@fridge-to-plate/app/explore/feature": [
+        "libs/app/explore/feature/src/index.ts"
+      ],
+      "@fridge-to-plate/app/explore/ui": ["libs/app/explore/ui/src/index.ts"],
+      "@fridge-to-plate/app/explore/utils": [
+        "libs/app/explore/utils/src/index.ts"
+      ],
       "@fridge-to-plate/app/forgot/feature": [
         "libs/app/forgot/feature/src/index.ts"
       ],
@@ -58,16 +68,10 @@
         "libs/app/home/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/home/utils": ["libs/app/home/utils/src/index.ts"],
-      "@fridge-to-plate/app/explore/data-access": [
-        "libs/app/explore/data-access/src/index.ts"
+      "@fridge-to-plate/app/info/data-access": [
+        "libs/app/info/data-access/src/index.ts"
       ],
-      "@fridge-to-plate/app/explore/feature": [
-        "libs/app/explore/feature/src/index.ts"
-      ],
-      "@fridge-to-plate/app/explore/ui": ["libs/app/explore/ui/src/index.ts"],
-      "@fridge-to-plate/app/explore/utils": [
-        "libs/app/explore/utils/src/index.ts"
-      ],
+      "@fridge-to-plate/app/info/utils": ["libs/app/info/utils/src/index.ts"],
       "@fridge-to-plate/app/ingredient/ui": [
         "libs/app/ingredient/ui/src/index.ts"
       ],
@@ -150,6 +154,7 @@
       "@fridge-to-plate/app/signup/feature": [
         "libs/app/signup/feature/src/index.ts"
       ],
+      "@fridge-to-plate/app/splash/ui": ["libs/app/splash/ui/src/index.ts"],
       "@fridge-to-plate/app/unauthorised/feature": [
         "libs/app/unauthorised/feature/src/index.ts"
       ],

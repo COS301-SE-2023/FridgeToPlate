@@ -9,6 +9,7 @@ import {
   NewPassword,
 } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
 import {
   AuthenticationDetails,
   CognitoUserAttribute,
@@ -109,13 +110,19 @@ export class AuthState {
       const profile: IProfile = {
         displayName: username,
         username: username,
-        profilePic:
-          'https://www.pngitem.com/pimgs/m/24-248366_profile-clipart-generic-user-generic-profile-picture-gender.png',
+        profilePic: 'https://ionicframework.com/docs/img/demos/avatar.svg',
         email: email,
         ingredients: [],
         savedRecipes: [],
         createdRecipes: [],
-        currMealPlan: null,
+        currMealPlan: {
+          username: username,
+          date: new Date().toISOString().slice(0, 10),
+          breakfast: null,
+          lunch: null,
+          dinner: null,
+          snack: null,
+        },
       };
 
       const preference: IPreferences = {
@@ -140,6 +147,8 @@ export class AuthState {
       this.store.dispatch(new CreateNewPreferences(preference));
 
       this.store.dispatch(new AddRecommendation(defaultRecommend));
+
+      this.store.dispatch(new ShowSuccess("Successfully Created An Account"));
 
       this.store.dispatch(new Navigate(['/home']));
     });
@@ -188,6 +197,7 @@ export class AuthState {
     this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new ClearRecommend());
     localStorage.clear();
+    this.store.dispatch(new ShowInfo("Account Has Logged Out"));
     this.store.dispatch(new Navigate(['/login']));
   }
 
@@ -211,8 +221,10 @@ export class AuthState {
       cognito.changePassword(params, (err, data) => {
         if (err) {
           console.error('Password change error:', err);
+          this.store.dispatch(new ShowError("An Error Occurred When Chanaging Password"));
         } else {
           console.log('Password changed successfully.');
+          this.store.dispatch(new ShowSuccess("Password Changed Successfully"));
         }
       });
     }

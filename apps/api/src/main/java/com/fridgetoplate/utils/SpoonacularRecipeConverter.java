@@ -7,11 +7,10 @@ import java.util.List;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
-import com.fridgetoplate.interfaces.SpoonacularIngredient;
+import com.fridgetoplate.interfaces.ExtendedIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularStep;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.RecipeModel;
 import com.fridgetoplate.model.Review;
 
 public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], RecipeFrontendModel[]> {
@@ -45,10 +44,59 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 newRecipe.setName(currentRecipe.getTitle());
 
+                newRecipe.setRecipeId(String.valueOf(currentRecipe.getId()));
+
                 newRecipe.setTags(utils.generateRecipeTags( currentRecipe.getCuisines(), currentRecipe.getDishTypes(), currentRecipe.getDiets() ) );
                 
-                //Iterate through ingredients and add                
-                if(currentRecipe.getAnalyzedInstructions().length != 0){
+                //Add recipe ingredients
+                if(currentRecipe.getExtendedIngredients() != null && currentRecipe.getExtendedIngredients().length != 0){
+                    ExtendedIngredient[] recipeIngredientList = currentRecipe.getExtendedIngredients();
+
+                    for(int x = 0; x < recipeIngredientList.length; x++){
+                        Ingredient newIngredient = new Ingredient();
+
+                        String ingredientName;
+                        if (recipeIngredientList[x].getNameClean() != null) {
+                            ingredientName = recipeIngredientList[x].getNameClean();
+                        } else {
+                            ingredientName = recipeIngredientList[x].getName();
+                        }
+
+                        if(ingredientName.length() > 0) {
+
+                            newIngredient.setName( ingredientName.substring(0, 1).toUpperCase() + ingredientName.substring(1) );
+    
+                            newIngredient.setAmount( (double) Math.round(recipeIngredientList[x].getMeasures().getMetric().getAmount() * 100) / 100 );
+    
+                            if(recipeIngredientList[x].getMeasures().getMetric() != null && recipeIngredientList[x].getMeasures().getMetric().getUnitShort() != null && !recipeIngredientList[x].getMeasures().getMetric().getUnitShort().isEmpty()) {
+                                String ingredientUnit = recipeIngredientList[x].getMeasures().getMetric().getUnitShort();
+                                if (ingredientUnit.equals("Tbsp") || ingredientUnit.equals("Tbsps") || ingredientUnit.equals("Tbs")) {
+                                    ingredientUnit = "tbsp";
+                                } else if (ingredientUnit.equals("tsps")) {
+                                    ingredientUnit = "tsp";
+                                } else if (ingredientUnit.equals("kgs")) {
+                                    ingredientUnit = "kg";
+                                }
+
+                                newIngredient.setUnit(ingredientUnit);
+                            } else {
+                                newIngredient.setUnit("");
+                            }
+    
+                            if(!currentIngredients.contains(newIngredient))
+                                currentIngredients.add(newIngredient);               
+                        }
+                            
+                    }
+                } else {
+                    System.out.println("Skip cause no ingredients");
+                    continue;
+                }
+
+                newRecipe.setIngredients(currentIngredients);
+
+                //Add recipe steps                
+                if(currentRecipe.getAnalyzedInstructions() != null && currentRecipe.getAnalyzedInstructions().length != 0){
                     SpoonacularStep[] recipeSteps = currentRecipe.getAnalyzedInstructions()[0].getSteps();
 
         
@@ -57,43 +105,47 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                         currentRecipeSteps.add(currentStep.getStep());
 
-                        if(currentStep.getIngredients() != null){
-                            SpoonacularIngredient[] stepIngredients = currentStep.getIngredients();
-                            
-                            for(int j = 0; j < stepIngredients.length; j++){
-
-                                Ingredient newIngredient = new Ingredient();
-                                
-                                newIngredient.setName(stepIngredients[j].getName());
-                                
-                                newIngredient.setAmount(1);
-                                
-                                newIngredient.setUnit("unit");
-
-                                if(!currentIngredients.contains(newIngredient))
-                                    currentIngredients.add(newIngredient);
-                            }
-                        }
-
                     }
                     
                     //Iterate through steps and add
                     newRecipe.setSteps(currentRecipeSteps);
 
                     newRecipe.setIngredients(currentIngredients);
+                } else {
+                    System.out.println("Skip cause no steps");
+                    continue;
                 }
 
                 //Create difficulty evaluation function
                 newRecipe.setDifficulty(utils.estimateRecipeDifficulty(currentRecipe.getCookingMinutes(), currentIngredients));
 
-                newRecipe.setDescription(currentRecipe.getSummary());
+                newRecipe.setDescription(this.cleanSummary(currentRecipe.getSummary()));
                 
-                newRecipe.setMeal(currentRecipe.getDishTypes()[0]);
+                if (currentRecipe.getDishTypes().length > 0) {
+                    String meal = currentRecipe.getDishTypes()[0];
 
+                    if (meal.equals("morning meal")) {
+                        meal = "breakfast";
+                    } else if (!meal.equals("breakfast") && 
+                                !meal.equals("snack") && 
+                                !meal.equals("lunch") &&
+                                !meal.equals("dinner") &&
+                                !meal.equals("dessert") &&
+                                !meal.equals("soup") &&
+                                !meal.equals("beverage") &&
+                                !meal.equals("salad")
+                            ) {
+                                meal = "snack";
+                    }
+
+                    newRecipe.setMeal(meal);
+                } else {
+                    newRecipe.setMeal("dinner");
+                }
+ 
                 newRecipe.setPrepTime(currentRecipe.getReadyInMinutes());
                 
                 newRecipe.setServings(currentRecipe.getServings());
-
 
                 newRecipe.setCreator("Spoonacular");
 
@@ -120,47 +172,17 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
         return resultArray;
     }
 
-    public RecipeModel[] toRecipeModelArray(RecipeFrontendModel[] apiResults){
-        if(apiResults == null)
-            return null;
-        
-        List<RecipeModel> convertedResults = new ArrayList<RecipeModel>();
-
-        for(int i = 0; i < apiResults.length; i++){
-            RecipeModel newRecipe = new RecipeModel();
-
-            newRecipe.setName(apiResults[i].getName());
-
-            newRecipe.setDescription(apiResults[i].getDescription());
-
-            newRecipe.setDifficulty(apiResults[i].getDifficulty());
-
-            newRecipe.setRecipeImage(apiResults[i].getRecipeImage());
-
-            if(apiResults[i].getMeal().isEmpty()){
-                newRecipe.setMeal("snack");
-            }
-            else{
-                newRecipe.setMeal(apiResults[i].getMeal());
+    private String cleanSummary(String summary) {
+        int i = summary.indexOf("<");
+        while (i >= 0) {
+            int j = summary.indexOf(">");
+            if (j >= 0) {
+                summary = summary.substring(0, i) + summary.substring(j + 1);
             }
 
-            newRecipe.setPrepTime(apiResults[i].getPrepTime());
-
-            newRecipe.setServings(apiResults[i].getServings());
-
-            newRecipe.setCreator(apiResults[i].getCreator());
-
-            newRecipe.setViews(0);
-
-            newRecipe.setSteps(apiResults[i].getSteps());
-
-            newRecipe.setIngredients(apiResults[i].getIngredients());
-
-            newRecipe.setTags(apiResults[i].getTags());
-
-            convertedResults.add(newRecipe);
+            i = summary.indexOf("<");
         }
 
-        return convertedResults.toArray(new RecipeModel[convertedResults.size()]);
+        return summary;
     }
 }

@@ -1,12 +1,9 @@
 package com.fridgetoplate.repository;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.fridgetoplate.frontendmodels.MealPlanFrontendModel;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.MealPlanModel;
@@ -65,23 +62,11 @@ public class MealPlanRepository {
         return model;
     }
 
-    public List<MealPlanModel> findAll() {
-        return dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
+    public MealPlanModel find(String username, String date) {
+        return dynamoDBMapper.load(MealPlanModel.class, username, date);
     }
 
-    public MealPlanModel findByUsername(String username) {
-        PaginatedScanList<MealPlanModel> scanResult = dynamoDBMapper.scan(MealPlanModel.class, new DynamoDBScanExpression());
-        MealPlanModel modelData = null;
-        for (MealPlanModel model : scanResult) {
-            if(model.getUsername().equals(username)){
-                modelData = model;
-                break;
-            }
-        }
-        return modelData;
-    }
-
-    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper){
+    public void setDynamoDBMapper(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;
     }
 }

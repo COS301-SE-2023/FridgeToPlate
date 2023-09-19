@@ -13,10 +13,15 @@ export default {
       },
     ],
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)', '/barcode-modal/(?!.*\\.(ts|mjs|js|html)$)'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  moduleNameMapper: {
+    "^lodash-es$": "lodash",
+    "/chart.js/": "node_modules/chart.js/dist/chart.mjs"
+  },
+  resolver: '@nrwl/jest/plugins/resolver',
 };

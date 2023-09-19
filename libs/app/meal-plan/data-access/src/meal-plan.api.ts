@@ -4,6 +4,8 @@ import { environment } from "@fridge-to-plate/app/environments/utils";
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 import { Store } from "@ngxs/store";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { Observable } from "rxjs";
+import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 
 @Injectable({
     providedIn: 'root'
@@ -21,5 +23,15 @@ export class MealPlanAPI {
                 this.store.dispatch(new ShowError('Error occured when updating meal plan'));
             }
         });
+    }
+
+    getMealPlanShoppingList(mealPlan: IMealPlan | null): Observable<IIngredient[]> {
+        const url = `${this.baseUrl}/ingredients`;
+        return this.http.post<IIngredient[]>(url, mealPlan);
+    }    
+
+    getMealPlan(date: string, username: string) {
+        const url = `${this.baseUrl}/${username}/${date}`;
+        return this.http.get<IMealPlan>(url);
     }
 }

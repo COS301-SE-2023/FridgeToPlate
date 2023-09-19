@@ -4,6 +4,8 @@ import { RecipeListStep } from './recipe-list-step';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
+import { FormsModule } from '@angular/forms';
+import { RecommendUIModule } from '../recommend.module';
 
 describe('RecipeListStep', () => {
   let component: RecipeListStep;
@@ -12,7 +14,13 @@ describe('RecipeListStep', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RecipeListStep],
-      imports: [IonicModule, HttpClientModule, NgxsModule.forRoot()],
+      imports: [
+        RecommendUIModule,
+        FormsModule,
+        IonicModule,
+        HttpClientModule,
+        NgxsModule.forRoot(),
+      ],
       providers: [HttpClientModule],
     });
     fixture = TestBed.createComponent(RecipeListStep);

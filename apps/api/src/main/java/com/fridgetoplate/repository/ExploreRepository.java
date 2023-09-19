@@ -52,7 +52,7 @@ public class ExploreRepository {
         List<String> tags = recipeModel.getTags();
         String meal = recipeModel.getMeal();
         String description = recipeModel.getDescription();
-        List<Ingredient> ingredients = recipeModel.getIngredients();
+        // List<Ingredient> ingredients = recipe;
         Integer prepTime = recipeModel.getPrepTime();
         List<String> instructions = recipeModel.getSteps();
         String creator = recipeModel.getCreator();
@@ -66,7 +66,7 @@ public class ExploreRepository {
         recipeResponse.setTags(tags);
         recipeResponse.setMeal(meal);
         recipeResponse.setDescription(description);
-        recipeResponse.setIngredients(ingredients);
+        // recipeResponse.setIngredients(ingredients);
         recipeResponse.setPrepTime(prepTime);
         recipeResponse.setSteps(instructions);
         recipeResponse.setCreator(creator);
@@ -116,6 +116,26 @@ public class ExploreRepository {
             if(response != null) {
                 recipes.add(response);
             }
+        }
+
+        return recipes;
+    }
+
+    public List<RecipeFrontendModel> findByTime(String time){
+        List<RecipeFrontendModel> recipes = new ArrayList<>();
+        
+        PaginatedScanList<RecipeModel> scanResult = dynamoDBMapper.scan(RecipeModel.class, new DynamoDBScanExpression());
+
+        for (RecipeModel recipe : scanResult) {
+
+            if (recipe.getMeal().equalsIgnoreCase(time)) {
+                RecipeFrontendModel response = findById(recipe.getRecipeId());
+
+                if(response != null) {
+                    recipes.add(response);
+                }
+            }
+            
         }
 
         return recipes;

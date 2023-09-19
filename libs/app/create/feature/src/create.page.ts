@@ -6,9 +6,10 @@ import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { CreateRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable, take } from 'rxjs';
-import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
+import { Observable } from 'rxjs';
+import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 @Component({
   selector: 'fridge-to-plate-app-create',
@@ -22,10 +23,15 @@ export class CreatePagComponent implements OnInit  {
 
   recipeForm!: FormGroup;
   imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
-  selectedMeal!: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert";
+  videoUrl = 'https://img.freepik.com/free-photo/female-food-blogger-streaming-home-while-cooking_23-2148771599.jpg';
+  selectedMeal = 'breakfast';
   difficulty: "Easy" | "Medium" | "Hard" = "Easy";
   tags: string[] = [];
   profile !: IProfile;
+  selectedVideo: File | null = null;
+  displayVideo = "none";
+  displayImage = "block";
+  videoLink: string;
 
   constructor(private fb: FormBuilder, private store : Store) {}
 
@@ -118,6 +124,7 @@ export class CreatePagComponent implements OnInit  {
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
+      rating: null
     };
 
     this.store.dispatch( new CreateRecipe(recipe) )
@@ -128,6 +135,12 @@ export class CreatePagComponent implements OnInit  {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileChanged(event: any) {
     const file = event.target.files[0];
+    const fileSize = event.target.files[0].size;
+
+    if(fileSize > 300000){
+      this.store.dispatch( new ShowInfo("Can Not Upload Image Larger Than 300KB"));
+      return;
+    }
     const reader = new FileReader();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -138,7 +151,7 @@ export class CreatePagComponent implements OnInit  {
     reader.readAsDataURL(file);
   }
 
-  toggleMeal(option: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Dessert") {
+  toggleMeal(option: string) {
     this.selectedMeal = option;
   }
 
@@ -175,17 +188,17 @@ export class CreatePagComponent implements OnInit  {
   addTag() {
     const tagValue = this.recipeForm.get('tag')?.value as string;
     if(!tagValue) {
-      this.store.dispatch( new ShowError("Please enter valid tag"))
+      this.store.dispatch( new ShowInfo("Please enter valid tag"))
     }
     else if (this.tags.length < 3) {
       if(this.tags.includes(tagValue)){
-        this.store.dispatch( new ShowError("No duplicates: Tag already selected"))
+        this.store.dispatch( new ShowInfo("No duplicates: Tag already selected"))
         return;
       }
       this.tags.push(tagValue);
     }
     else {
-      this.store.dispatch( new ShowError("Only a maximum of three tags"))
+      this.store.dispatch( new ShowInfo("Only a maximum of three tags"))
     }
     // reset the form value after adding it to array
     this.recipeForm.get('tag')?.reset();
@@ -198,32 +211,27 @@ export class CreatePagComponent implements OnInit  {
   isFormValid(): boolean {
 
     if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Incomplete Form. Please fill out every field."))
+      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
       return false;
     }
 
     if(this.ingredientControls.length < 1) {
-      this.store.dispatch( new ShowError("No Ingredients"))
+      this.store.dispatch( new ShowInfo("No Ingredients"))
       return false;
     }
 
     if(this.instructionControls.length < 1) {
-      this.store.dispatch( new ShowError("No Instructions"))
-      return false;
-    }
-
-    if(this.tags.length < 1) {
-      this.store.dispatch( new ShowError("No Tags"))
+      this.store.dispatch( new ShowInfo("No Instructions"))
       return false;
     }
 
     if(!this.selectedMeal){
-      this.store.dispatch( new ShowError("Please select a meal"))
+      this.store.dispatch( new ShowInfo("Please select a meal"))
       return false;
     }
 
     if(!this.profile){
-      this.store.dispatch( new ShowError("Please login to create a recipe"))
+      this.store.dispatch( new ShowInfo("Please login to create a recipe"))
       return false;
     }
 
@@ -256,6 +264,25 @@ export class CreatePagComponent implements OnInit  {
     return instructions;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onVideoChanged(event: any) {
+    const file = event.target.files;
 
+    if (file) {
+      this.selectedVideo = file[0];
+      this.displayVideo = "block";
+      this.displayImage = "none";
+      this.previewVideo();
+    }
+
+  }
+
+  previewVideo() {
+    const videoPlayer = document.getElementById('video-player') as HTMLVideoElement;
+    
+    if (videoPlayer && this.selectedVideo) {
+      videoPlayer.src = URL.createObjectURL(this.selectedVideo);
+    }
+  }
 
 }

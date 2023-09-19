@@ -1,11 +1,9 @@
 package com.fridgetoplate.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.fridgetoplate.repository.ProfileRepository;
+import com.fridgetoplate.service.ProfileService;
 import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 
 @RestController
@@ -14,30 +12,20 @@ import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
 
 public class ProfileController {
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileService profileService;
 
     @PostMapping("/create")
     public ProfileFrontendModel save(@RequestBody ProfileFrontendModel profile) {
-        return profileRepository.save(profile);
+        return profileService.save(profile);
     }
 
     @GetMapping("/{username}")
     public ProfileFrontendModel findByName(@PathVariable(value = "username") String username) {
-        return profileRepository.findByName(username);
-    }
-
-    @GetMapping
-    public List<ProfileFrontendModel> findAll() {
-        return profileRepository.findAll();
+        return profileService.findByName(username);
     }
 
     @PutMapping("/{username}")
     public ProfileFrontendModel update(@PathVariable(value = "username") String username, @RequestBody ProfileFrontendModel profile) {
-        return profileRepository.update(username, profile);
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable(value = "id") String id) {
-        return profileRepository.delete(id);
+        return profileService.update(username, profile);
     }
 }

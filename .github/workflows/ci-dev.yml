@@ -38,12 +38,6 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Setup Enviroment Files
-      run: |
-        printf "${{ secrets.API_APPLICATION_PROPERTIES }}" > apps/api/src/main/resources/application.properties
-        cat apps/api/src/main/resources/application.properties
-      shell: bash
-
     - name: Lint App
       run: npx nx run app:lint
 
@@ -57,11 +51,11 @@ jobs:
       with:
         files: coverage/lcov.info  
       
-    - name: e2e Test App
-      run: npm run e2e:app:test
-      
     - name: Build App
       run: npm run build:app:dev
+
+    - name: e2e Test App
+      run: npm run e2e:app:test
       
     - name: Build API
       run: npm run build:api

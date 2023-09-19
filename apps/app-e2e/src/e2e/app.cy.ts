@@ -111,60 +111,19 @@ describe('Profile Tests', () => {
   });
 });
 
-  describe('create tests', () => {
-    beforeEach(() => {cy.visit('http://localhost:4200/create');});
+describe('create tests', () => {
+  beforeEach(() => {cy.visit('http://localhost:4200/create');});
 
-    it('enters recipe details', () => {
-      cy.get('#name').type('Egg Salad');
-      cy.get('#description').type('A delicious egg salad recipe');
-      cy.get('#servings').type('4');
-      cy.get('#preparation-time').type('10');
-      cy.get('div').contains('Ingredients').get('button').contains('Add').click();
-      // cy.get('label').contains('Ingredients').type('Crack eggs');
-      cy.get('div').contains('Instructions').get('button').contains('Add').click();
-      // cy.get('#instruction-0').type('Crack eggs');
-      cy.get('#tag').type('Vegan');
-      cy.get('button').contains('Add Tag').click();
-    });
+  it('enters recipe details', () => {
+    cy.get('#name').type('Egg Salad');
+    cy.get('#description').type('A delicious egg salad recipe');
+    cy.get('#servings').type('4');
+    cy.get('#preparation-time').type('10');
+    cy.get('div').contains('Ingredients').get('button').contains('Add').click();
+    // cy.get('label').contains('Ingredients').type('Crack eggs');
+    cy.get('div').contains('Instructions').get('button').contains('Add').click();
+    // cy.get('#instruction-0').type('Crack eggs');
+    cy.get('#tag').type('Vegan');
+    cy.get('button').contains('Add').click();
   });
-
-  // describe('recipe details tests', () => {
-  //   beforeEach(() => cy.visit('http://localhost:4200/recipe/by0r-0Bo5t-D3se00'));
-
-  //   it('goes to previous page', () => {
-  //     cy.get('#back-button').click();
-  //   });
-
-  //   it('displays the recipe details', () => {
-  //     cy.get('p').contains('Prep Time');
-  //     cy.get('p').contains('Ingredients');
-  //     cy.get('p').contains('Servings');
-  //     cy.get('ion-label').contains('Ingredients');
-  //     cy.get('ion-label').contains('Instructions');
-  //     cy.get('h1').contains('Reviews');
-  //   });
-
-  //   it('adds a review', () => {
-  //     cy.get('ion-textarea').click();
-  //     cy.get('ion-textarea').type('NOT SO GOOD STUFF!!!');
-  //     cy.get('ion-icon[name="star"]:nth-child(2)').click();
-  //     cy.get('ion-button.review-button').click();
-  //   });
-
-  //  });
-
-  // describe('home tests', () => {
-  //   beforeEach(() => cy.visit('/'));
-
-  // });
-
-  // describe('search tests', () => {
-  //   beforeEach(() => cy.visit('/'));
-
-  // });
-
-  // describe('notifications tests', () => {
-  //   beforeEach(() => cy.visit('/'));
-
-  // });
-// });
+});

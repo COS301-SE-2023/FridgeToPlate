@@ -8,14 +8,21 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class MealPlanModalComponent {
   @Output() closeFunc: EventEmitter<any> = new EventEmitter();
-  @Output() saveFunc: EventEmitter<string> = new EventEmitter();
+  @Output() saveFunc: EventEmitter<any> = new EventEmitter();
+
+  dateSelected !: string;
+  mealtypeSelected = "breakfast";
+
+  constructor() {
+    this.dateSelected = new Date().toISOString().slice(0, 10);
+  }
 
   close() {
     this.closeFunc.emit();
   }
 
-  save(meal: string) {
-    this.saveFunc.emit(meal);
+  save() {
+    this.saveFunc.emit({ meal: this.mealtypeSelected, date: this.dateSelected });
     this.closeFunc.emit();
   }
 }

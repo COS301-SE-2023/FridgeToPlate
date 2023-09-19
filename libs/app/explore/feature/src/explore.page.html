@@ -1,34 +1,128 @@
-<div class="h-full w-full px-5 relative mt-8 lg:mt-28 overflow-auto">
+<div class="h-full w-full px-5 pt-5 lg:pt-24 overflow-auto bg-background-light md:pb-5 sm:pb-4">
 
-  <div *ngIf="subpage === 'beforeSearchApplied'">
-    <searching-modal (newSearchEvent)="explorer($event)"></searching-modal>
+  <div *ngIf="subpage === 'beforeSearchApplied'" class="md:pl-1">
+    <div appClickedOutside (clickedOutsideFunc)="hideSearchOverlay()">
+    <searching-modal (newSearchEvent)="explorer($event)" (toggleSearchOverlayEvent)="showSearchOverlay()" [searchTermFromParent]="searchTerm" [filterCount]="selectedFilters.length" ></searching-modal>
+
+    <div *ngIf="isSearchOverlayVisible" class="bg-red-500 md:w-[95] h-full w-full mt-2 md:mt-8 md:mx-1 relative bg-blue-500 rounded-md">
+    <ng-container *ngTemplateOutlet="showAllFilters ? filtersContent : dropdownContent"></ng-container>
+      <ng-template #dropdownContent>
+        <div class="absolute w-full h-64 bg-background-light z-50 w-full rounded-md shadow-md">
+          <div class="h-2/3 pt-3">
+            <p class="ml-5 mt-2 font-semibold mb-3">Recent searches</p>
+            <div *ngFor="let pastSearch of searchHistoryArray.slice(searchHistoryArray.length < 3 ? 0 : searchHistoryArray.length - 3, searchHistoryArray.length)"
+                 class="hover:bg-gray-100 py-2 cursor-pointer flex flex-row items-center" (click)="searchFromHistory(pastSearch)">
+              <svg class="ml-5" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z">
+                </path>
+                <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z">
+                </path>
+              </svg>
+              <p class="ml-3 font-light">
+                {{pastSearch}}
+              </p>
+            </div>
+          </div>
+          <div class="h-1/3 flex flex-row justify-between items-center">
+            <button class="px-5 bg-primary bottom-0 text-white ml-4 rounded-full cursor-pointer transition duration-150 ease-in-out focus:bg-primary-highlight" (click)="showSearchFilters()">Filters</button>
+            <p class="mr-4 text-reject cursor-pointer active:bg-red-300 p-1.5 rounded-full transition duration-150 ease-in-out">Clear filters</p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #filtersContent>
+        <div class="absolute w-full h-64 bg-background-light z-50 w-full rounded-md shadow-md">
+          <div class="h-2/5 pt-3 flex-row">
+            <div class="flex flex-row justify-between items-center">
+              <p class="ml-5 mt-2 font-semibold mb-3">Filters</p>
+              <p class="px-4 py-2 text-primary mr-4 rounded-full font-semibold cursor-pointer transition duration-150 ease-in-out focus:text-primary-highlight focus:bg-gray-200" (click)="applyFilters()">Apply filters</p>
+            </div>
+            <div class="flex flex-row justify-start items-center" (click)="clearFilters()">
+              <p class="ml-3 text-reject cursor-pointer active:bg-red-300 p-1.5 rounded-full transition duration-150 ease-in-out pb-2">Clear filters</p>
+            </div>
+          </div>
+          <div class="h-3/5 overflow-y-scroll flex flex-wrap pl-4">
+            <div *ngFor="let keyword of keywordsArray"
+                 class="bg-primary py-2 rounded-full text-white px-4 my-2 w-fit mr-2"
+                 (click)="addToFilters(keyword)"
+                 [ngClass]="{ 'bg-primary-highlight': selectedFilters.includes(keyword)}"
+            >
+              <p>{{keyword}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    </div>
 
     <div *ngIf="showCategories === true">
-      <h1 class="pb-4 pt-8"><b>Categories</b></h1>
-      <div class="my-2 grid grid-flow-row gap-3 grid-cols-2 [&>*]:mb-1 lg:grid-cols-5 lg:[&>*]:mb-2 lg:pr-1">
+      <h1 class="text-lg py-5 md:pl-1 md:text-2xl lg:text-lg"><b>Categories</b></h1>
+      <div class="my-2 grid grid-flow-row gap-4 grid-cols-2 lg:grid-cols-4 lg:pr-1 md:gap-5 md:px-1">
         <explore-card  (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
       </div>
     </div>
   </div>
 
   <div *ngIf="subpage === 'searchAppliedByCaterogry'">
-    <div class="pl-2 pb-2 lg:pt-4">
+
+    <div class="pl-2">
       <button (click)="clearSearch()" class="bg-primary rounded-sm text-white pl-2 pr-2 pb-1">Clear Search</button>
     </div>
   </div>
 
   <div *ngIf="showRecipes === true">
-    <div class="pt-8 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-      <recipe-card *ngFor="let recipe of retunedRecipes" [recipe]="recipe"></recipe-card>
-    </div>
-</div>
-
-  <div *ngIf="loading === true" class="text-center justify-center pt-44">
-    <div class="text-primary inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
-      <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-        Loading...
-      </span>
+    <div
+      class="pt-8 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
+    >
+      <p class="font-bold"> {{retunedRecipes.length}} Result(s) for {{searchTerm}}</p>
+      <recipe-card
+        *ngFor="let recipe of retunedRecipes"
+        [recipe]="recipe"
+      ></recipe-card>
     </div>
   </div>
 
+  <div
+    *ngIf="loading === true"
+    class="text-center justify-center pt-44 sm:pt-12"
+  >
+    <div
+      class="w-full h-full sm:grid sm:grid-cols-1 sm:grid-rows-6 sm:gap-1 sm:px-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-4 md:px-8 md:pr-1 md:ml-2"
+    >
+      <div
+        *ngFor="let item of [].constructor(6); let i = index"
+        class="bg-gray-200 sm:mb-4 lg:my-12 p-8 m-2 rounded-lg overflow-hidden shadow-sm relative lg:h-4/6"
+      >
+        <div class="md:h-4/6 w-full bg-gray-300 sm:h-2/3 sm:w-full lg:h-2/5">
+          <div class="hidden sm:block sm:w-full h-full py-24 mb-8"></div>
+        </div>
+        <div class="sm:w-2/3 md:h-fit md:w-2/5 md:pt-8 sm:pt-6">
+          <ngx-skeleton-loader
+            appearance="line"
+            animation="pulse"
+            ngClass="h-16"
+          />
+        </div>
+        <div class="sm:w-2/5 md:h-fit md:w-4/5">
+          <ngx-skeleton-loader
+            appearance="line"
+            animation="pulse"
+            ngClass="h-16"
+          />
+        </div>
+        <div class="sm:hidden md:h-fit md:w-full md:flex md:flex-row">
+          <div
+            *ngFor="let item of [].constructor(6); let i = index"
+            class="md:w-16 mr-3"
+          >
+            <ngx-skeleton-loader
+              appearance="line"
+              animation="pulse"
+              ngClass="h-16"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
