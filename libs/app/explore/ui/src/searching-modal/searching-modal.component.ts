@@ -37,9 +37,10 @@ export class SearchingModalComponent {
 
   explorer() {
 
-    fromEvent(this.input.nativeElement, 'keyup')
+    fromEvent<KeyboardEvent>(this.input.nativeElement, 'keyup')
     .pipe(
-      debounceTime(1100),
+      filter( (e: KeyboardEvent) => e.key === 'Enter'),
+      debounceTime(500),
       distinctUntilChanged(),
         tap( (text) => {
           this.newSearchEvent.emit(this.searchText)
