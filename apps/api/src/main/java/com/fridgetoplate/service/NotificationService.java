@@ -15,7 +15,6 @@ import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
 import com.fridgetoplate.repository.ProfileRepository;
 import com.fridgetoplate.model.ProfileModel;
-import com.fridgetoplate.utils.NotificationsUtils;
 @Service
 public class NotificationService {
 
@@ -27,8 +26,6 @@ public class NotificationService {
 
     @Autowired
     private ExploreService exploreService;
-
-    private NotificationsUtils utils = new NotificationsUtils();
 
     Random random = new Random();
 
