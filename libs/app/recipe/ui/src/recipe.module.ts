@@ -9,23 +9,24 @@ import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.compon
 import { NgxsModule } from '@ngxs/store';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '../../data-access/src/recipe.state';
+import { CustomSkeletonLoaderComponent } from './custom-skeleton-loader/custom-skeleton-loader.component';
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @NgModule({
   imports: [
-    CommonModule, 
+    CommonModule,
     IonicModule,
     ProfileDataAccessModule,
     FormsModule,
-    NgxsModule.forFeature([RecipeState])
+    NgxsModule.forFeature([RecipeState]),
+    NgxSkeletonLoaderModule,
   ],
   declarations: [
-    RecipeCardComponent, 
-    TempRecipeCardComponent,
-    MealPlanModalComponent
-  ],
-  exports: [
     RecipeCardComponent,
     TempRecipeCardComponent,
+    MealPlanModalComponent,
+    CustomSkeletonLoaderComponent,
   ],
+  exports: [RecipeCardComponent, TempRecipeCardComponent, CustomSkeletonLoaderComponent],
 })
 export class RecipeUIModule {}
