@@ -32,6 +32,7 @@ import { Observable } from 'rxjs';
 import {
   IProfile,
 } from '@fridge-to-plate/app/profile/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend | null;
@@ -214,6 +215,7 @@ export class RecommendState {
       for (let i = 0; i < updatedRecommendRequest.ingredients.length; i++) {
         if (updatedRecommendRequest.ingredients[i].name === ingredient.name) {
           updatedRecommendRequest.ingredients[i].amount += ingredient.amount;
+          this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
           return;
         }
       }
@@ -227,6 +229,7 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
+      this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
     }
   }
 
