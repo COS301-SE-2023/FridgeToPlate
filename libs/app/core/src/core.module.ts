@@ -16,6 +16,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
+import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { InfoState } from '@fridge-to-plate/app/info/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
@@ -58,7 +59,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.TYPE == 'production',
     }),
-    NgxsModule.forRoot([AuthState, ErrorState, UndoState, InfoState, ProfileState, PreferencesState, RecommendState]),
+    NgxsModule.forRoot([AuthState, ErrorState, UndoState, InfoState, ProfileState, PreferencesState, RecommendState, ExploreState]),
     NgxsStoragePluginModule.forRoot({
       key: [
         {
