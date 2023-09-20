@@ -7,7 +7,7 @@
             </button>
             <div class="px-6 py-6 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900">Shopping List</h3>
-                <ul *ngIf="ingredients.length > 0; else empty"> 
+                <ul *ngIf="ingredient && ingredients.length > 0; else empty"> 
                     <li *ngFor="let ingredient of ingredients">
                         {{ ingredient.name }} 
                     </li>
