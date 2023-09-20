@@ -92,7 +92,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -110,7 +110,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
@@ -137,7 +137,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -155,7 +155,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
@@ -182,7 +182,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -200,7 +200,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
