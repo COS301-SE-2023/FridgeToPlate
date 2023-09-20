@@ -475,6 +475,7 @@ export class ProfileState {
                 } 
 
                 this.store.dispatch(new UpdateMealPlanData(values));
+                this.store.dispatch( new RetrieveMealPlanIngredients(data) );
             },
             error: error => {
                 this.store.dispatch(new ShowError(error.message));
