@@ -80,8 +80,7 @@ export class RecipeState {
         }
       },
       (error: Error) => {
-        console.error('Failed to retrieve recipe: ', error);
-        this.store.dispatch(new ShowInfo("Could Not Retrieve Recipe"));
+        this.store.dispatch(new ShowError("Could Not Retrieve Recipe"));
       }
     );
   }
@@ -100,11 +99,9 @@ export class RecipeState {
         patchState({
           recipe: recipe,
         });
-        this.store.dispatch(new ShowSuccess('Recipe Rating Updated Successfully'));
       },
       (error: Error) => {
         console.error('Failed to update recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
       }
     );
 
