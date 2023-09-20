@@ -82,18 +82,16 @@ public class RecipeService {
         if (youtubeId == null) {
           try {
               
-              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name + " Recipe").getItems();
               
               if (videos.length > 0) {
                 youtubeId = videos[0].getId().videoId;
                 recipeModel.setYoutubeId(youtubeId);
                 recipeRepository.saveRecipe(recipeModel);
-              } else {
-                recipeModel.setYoutubeId("");
-              }
+              } 
 
           } catch (Exception e) {
-              recipeModel.setYoutubeId("");
+              e.printStackTrace();
           }
         }
 
@@ -166,14 +164,16 @@ public class RecipeService {
 
           try {
               
-              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName() + " Recipe").getItems();
               if (videos.length > 0) {
                   model.setYoutubeId(videos[0].getId().videoId);
               } else {
                   model.setYoutubeId("");
               }
 
-          } catch (Exception e) {}
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
         }
 
         recipeRepository.saveRecipe(model);

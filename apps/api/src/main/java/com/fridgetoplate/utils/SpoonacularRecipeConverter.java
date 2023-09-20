@@ -40,7 +40,7 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 List<String> currentRecipeSteps = new ArrayList<String>();
 
-                newRecipe.setRecipeImage(currentRecipe.getImage());
+                newRecipe.setRecipeImage(convertImageUrl(currentRecipe.getImage()));
 
                 newRecipe.setName(currentRecipe.getTitle());
 
@@ -184,5 +184,14 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
         }
 
         return summary;
+    }
+
+    private String convertImageUrl(String url) {
+        int i = url.indexOf("-");
+        if (i >= 0) {
+            url = url.substring(0, i + 1);
+        }
+
+        return url + "636x393";
     }
 }
