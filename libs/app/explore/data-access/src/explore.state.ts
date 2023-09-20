@@ -50,8 +50,6 @@ export class ExploreState {
             recipes: null
         });
 
-        alert("SEEARCHING");
-
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
 
