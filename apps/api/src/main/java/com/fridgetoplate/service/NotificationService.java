@@ -13,7 +13,6 @@ import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
-import com.fridgetoplate.repository.ProfileRepository;
 import com.fridgetoplate.model.ProfileModel;
 @Service
 public class NotificationService {
@@ -68,19 +67,18 @@ public class NotificationService {
 
         List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
 
-        List<NotificationModel> deletableNotifications = new ArrayList<>();
         for (NotificationModel notificationModel : notifications) {
             if (notificationModel.getType().equals(type)) {
-                deletableNotifications.add(notificationModel);
+                System.out.println(notificationModel.toString());
+                notificationsRepository.delete(notificationModel);
             }
         }
         
-        notificationsRepository.deleteAll(deletableNotifications);
         return "Successfully cleared all " + type + " notifications";
 
     }
 
-    @Scheduled(cron = "0 0 8 * * ?")
+    @Scheduled(cron = "0 30 6 * * *")
     public void breakfastNotificationsPush(){
         random.setSeed(System.currentTimeMillis());
         
@@ -121,12 +119,11 @@ public class NotificationService {
             newNotification.setBody("Good time to try a new breakfast recipe! Explore our collection and find something delicious to kickstart your day.");
             newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }
 
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 12 * * *")
     public void lunchtimeNotificationsPush() {
         random.setSeed(System.currentTimeMillis());
         
@@ -167,12 +164,11 @@ public class NotificationService {
             newNotification.setBody("Lunch hour is approaching! Discover a tasty lunch recipe from our selection and enjoy a flavorful midday meal.");
             newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }
 
-    @Scheduled(cron = "0 16 * * * ?")
+    @Scheduled(cron = "0 0 17 * * *")
     public void dinnertimeNotificationsPush() {
         random.setSeed(System.currentTimeMillis());
         
@@ -213,7 +209,6 @@ public class NotificationService {
             newNotification.setBody("Dinnertime is here! Explore our variety of dinner recipes and cook up something special for your evening.");
             newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }
