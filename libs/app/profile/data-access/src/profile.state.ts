@@ -152,7 +152,7 @@ export class ProfileState {
         if (updatedProfile) {
             for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
                 if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
-                    this.store.dispatch(new ShowError("Recipe Already Stored"));
+                    this.store.dispatch(new ShowInfo("Recipe Already Stored"));
                     return;
                 }
             }
@@ -163,8 +163,10 @@ export class ProfileState {
             });
 
             this.profileAPI.updateProfile(updatedProfile);
+            this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
+        } else {
+            this.store.dispatch(new ShowInfo('You Must Be Logged In to Save Recipes'));
         }
-        this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
     }
 
     @Action(RemoveSavedRecipe)
@@ -194,6 +196,8 @@ export class ProfileState {
             patchState({
                 profile: updatedProfile
             });
+
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
@@ -359,9 +363,9 @@ export class ProfileState {
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
-        }
 
-        this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
+            this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
+        }
     }
 
     @Action(RemoveFromMealPlan)
@@ -386,17 +390,17 @@ export class ProfileState {
             if(mealPlan.snack && meal == "snack") {
                 mealPlan.snack = null;
             }
-            this.store.dispatch(new UpdateMealPlan(mealPlan))
-            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) )
+            this.store.dispatch(new UpdateMealPlan(mealPlan));
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
+            this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
         }
-        this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
     }
 
     @Action(AddToMealPlan)
     async addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType, date } : AddToMealPlan) {
         const profile = getState().profile;
         if(!profile){
-            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            this.store.dispatch(new ShowInfo('You Must Be Logged In to Save Recipes'));
             return;
         }
 
@@ -430,7 +434,7 @@ export class ProfileState {
                 this.store.dispatch(new ShowSuccess('Successfully Added To Meal Plan'));
             },
             error: error => {
-                this.store.dispatch(new ShowError(error.message));
+                this.store.dispatch(new ShowError("Couldn't Retrive Meal Plan"));
             }
         });
 
@@ -477,7 +481,7 @@ export class ProfileState {
                 this.store.dispatch(new UpdateMealPlanData(values));
             },
             error: error => {
-                this.store.dispatch(new ShowError(error.message));
+                this.store.dispatch(new ShowError("Couldn't Retrive Meal Plan"));
             }
         });
     }

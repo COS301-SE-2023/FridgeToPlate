@@ -1,15 +1,12 @@
 import { Component, Input, OnInit, NgZone  } from '@angular/core';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { AddToMealPlan, IProfile, RemoveFromMealPlan, RemoveSavedRecipe, SaveRecipe } from '@fridge-to-plate/app/profile/utils';
-import { IRecipeDesc, IncreaseViews } from '@fridge-to-plate/app/recipe/utils';
+import { IRecipeDesc } from '@fridge-to-plate/app/recipe/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { IMealPlan } from '@fridge-to-plate/app/meal-plan/utils';
 import { Navigate } from '@ngxs/router-plugin';
 import { LoadRecipe } from '@fridge-to-plate/app/edit-recipe/utils';
-import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -28,7 +25,7 @@ export class RecipeCardComponent implements OnInit {
   showMenu = false;
   @Input() mealPlanType = "";
 
-  constructor(private store: Store, private router: Router, private ngZone: NgZone ) {}
+  constructor(private store: Store) {}
   
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
