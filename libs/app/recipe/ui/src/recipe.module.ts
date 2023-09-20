@@ -10,6 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '../../data-access/src/recipe.state';
 import { CustomSkeletonLoaderComponent } from './custom-skeleton-loader/custom-skeleton-loader.component';
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CustomSkeletonLoaderComponent } from './custom-skeleton-loader/custom-s
     ProfileDataAccessModule,
     FormsModule,
     NgxsModule.forFeature([RecipeState]),
+    NgxSkeletonLoaderModule,
   ],
   declarations: [
     RecipeCardComponent,
@@ -25,6 +27,6 @@ import { CustomSkeletonLoaderComponent } from './custom-skeleton-loader/custom-s
     MealPlanModalComponent,
     CustomSkeletonLoaderComponent,
   ],
-  exports: [RecipeCardComponent, TempRecipeCardComponent],
+  exports: [RecipeCardComponent, TempRecipeCardComponent, CustomSkeletonLoaderComponent],
 })
 export class RecipeUIModule {}
