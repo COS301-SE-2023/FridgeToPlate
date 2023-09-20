@@ -114,7 +114,8 @@ export class ExplorePage {
         this.currSearch = false;
       }
 
-      this.searchTerm = search.type;
+      this.searchTerm = search.type.charAt(0).toUpperCase() + search.type.slice(1);
+
     })
 
   }
