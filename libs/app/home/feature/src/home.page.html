@@ -14,7 +14,7 @@
     </div>
 
     <div *ngIf="featuredRecipes$ | async as recipes">
-        <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl">Featured Recipes</h2>
+        <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl">Featured Recipes</h2> 
         <div class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <div *ngFor="let recipe of recipes">
                   <recipe-card [recipe]="recipe"></recipe-card>
