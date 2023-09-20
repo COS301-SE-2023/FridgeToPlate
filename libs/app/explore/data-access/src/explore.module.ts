@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ExploreAPI } from './explore.api';
+import { NgxsModule } from '@ngxs/store';
+import { ExploreState } from './explore.state';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([ExploreState])
+  ],
+  
 })
 export class ExploreDataAccessModule {}
