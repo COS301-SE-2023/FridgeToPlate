@@ -70,13 +70,13 @@ export class RecipePage implements OnInit {
       this.recipe$.subscribe((stateRecipe) => {
         this.recipe = stateRecipe;
         if (this.recipe)  {
+          this.store.dispatch(new IncreaseViews(`${this.recipe.recipeId}`));
+          
           if (stateRecipe.youtubeId) {
             this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
               `https://www.youtube.com/embed/${this.recipe.youtubeId}`
             );
           }
-          
-          this.store.dispatch(new IncreaseViews());
 
           this.ingredients$.subscribe((ingredients) => {
 

@@ -266,11 +266,9 @@ describe('RecipeCardComponent', () => {
   describe('RecipeCardComponent', () => {
     let component: RecipeCardComponent;
     let store: Store;
-    let router: Router;
-    let zone: NgZone;
 
     beforeEach(() => {
-      component = new RecipeCardComponent(store, router, zone); // Pass null for dependencies since they are not used in this test
+      component = new RecipeCardComponent(store); // Pass null for dependencies since they are not used in this test
     });
 
     it('should calculate the correct rating value', () => {
@@ -294,11 +292,9 @@ describe('RecipeCardComponent', () => {
   describe('RecipeCardComponent', () => {
     let component: RecipeCardComponent;
     let store: Store;
-    let router: Router;
-    let zone: NgZone;
 
     beforeEach(() => {
-      component = new RecipeCardComponent(store, router, zone); // Replace null with appropriate dependencies
+      component = new RecipeCardComponent(store); // Replace null with appropriate dependencies
     });
 
     describe('getStarName', () => {
@@ -314,11 +310,9 @@ describe('RecipeCardComponent', () => {
 describe('RecipeCardComponent', () => {
   let component: RecipeCardComponent;
   let store: Store;
-  let router: Router;
-  let zone: NgZone;
 
   beforeEach(() => {
-    component = new RecipeCardComponent(store, router, zone);
+    component = new RecipeCardComponent(store);
   });
 
   it('should return the correct star class based on the rating', () => {

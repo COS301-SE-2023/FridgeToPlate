@@ -1,4 +1,4 @@
-import { ChangeMeasurementType, IRecipe, IncreaseViews, RetrieveMealPlanIngredients, UpdateRecipeRatingAndViews } from '@fridge-to-plate/app/recipe/utils';
+import { ChangeMeasurementType, IRecipe, IncreaseViews, RetrieveMealPlanIngredients } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { RecipeAPI } from './recipe.api';
@@ -64,6 +64,10 @@ export class RecipeState {
     { recipeId }: RetrieveRecipe
   ) {
 
+    patchState({
+      recipe: null
+    });
+
     this.api.getRecipeById(recipeId).subscribe(
       (recipe) => {
         if (recipe) {
@@ -71,40 +75,12 @@ export class RecipeState {
           patchState({
             recipe: recipe,
           });
-        } else {
-          this.store.dispatch(
-            new ShowError(
-              'Error: Something is wrong with the recipe: ' + recipe
-            )
-          );
-        }
+        } 
       },
       (error: Error) => {
         this.store.dispatch(new ShowError("Could Not Retrieve Recipe"));
       }
     );
-  }
-  @Action(UpdateRecipeRatingAndViews)
-  updateRecipeRatingAndViews(
-    { patchState }: StateContext<RecipeStateModel>,
-    { recipe }: UpdateRecipeRatingAndViews
-  ) {
-
-    patchState({
-      recipe: recipe,
-    });
-
-    this.api.updateRecipeRatingAndViews(recipe).subscribe(
-      () => {
-        patchState({
-          recipe: recipe,
-        });
-      },
-      (error: Error) => {
-        console.error('Failed to update recipe:', error);
-      }
-    );
-
   }
 
   @Action(UpdateRecipe)
@@ -124,21 +100,16 @@ export class RecipeState {
         this.store.dispatch(new ShowSuccess('Successfully Updated Recipe'));
       },
       (error: Error) => {
-        console.error('Failed to update recipe:', error);
-        this.store.dispatch(new ShowError(error.message));
+        this.store.dispatch(new ShowError("Failed to Update Recipe"));
       }
     );
   }
 
   @Action(IncreaseViews)
   increaseViews(
-    { getState }: StateContext<RecipeStateModel>
+    { recipeId }: IncreaseViews
   ) {
-    const recipe = getState().recipe;
-
-    if (recipe) {
-      this.store.dispatch(new UpdateRecipeRatingAndViews(recipe));
-    }
+    this.api.increaseViews(recipeId).subscribe();
   }
 
   @Action(AddReview)
@@ -170,7 +141,6 @@ export class RecipeState {
               }
             }
 
-            this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
             this.store.dispatch(new ShowSuccess('Successfully Added Review'));
         },
         error: error => {
@@ -202,8 +172,6 @@ export class RecipeState {
 
         updatedRecipe.rating = sumRatings / updatedRecipe.reviews.length;
       }
-
-      this.store.dispatch(new UpdateRecipeRatingAndViews(updatedRecipe));
 
       (await this.api.deleteReview(updatedRecipe.recipeId as string, reviewId)).subscribe();
       this.store.dispatch(new ShowInfo('Review Deleted'));
