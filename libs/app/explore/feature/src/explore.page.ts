@@ -113,6 +113,8 @@ export class ExplorePage {
         this.showRecipes = true;
         this.currSearch = false;
       }
+
+      this.searchTerm = search.type;
     })
 
   }
