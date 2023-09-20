@@ -70,4 +70,24 @@ describe('SearchingModalComponent', () => {
       expect(callSpy).toBeCalled();
     });
   }, 10000);
+
+  it('should emit searchTerm on viewInit', async () => {
+    const searchTextTest = 'Test Search';
+
+    const button = fixture.debugElement.query(By.css('input'));
+
+    const mockEvent = new KeyboardEvent('keyup', { key: 'Enter' });
+
+    component.searchText = searchTextTest;
+
+    button.nativeElement.dispatchEvent(mockEvent);
+
+    const callSpy = jest.spyOn(component, 'ngAfterViewInit');
+
+    await new Promise((r) => setTimeout(r, 5000));
+
+    component.explore$.subscribe(() => {
+      expect(callSpy).toBeCalled();
+    });
+  }, 10000);
 });
