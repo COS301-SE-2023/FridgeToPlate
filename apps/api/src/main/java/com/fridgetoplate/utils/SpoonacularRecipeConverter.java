@@ -122,23 +122,30 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                 newRecipe.setDescription(this.cleanSummary(currentRecipe.getSummary()));
                 
                 if (currentRecipe.getDishTypes().length > 0) {
-                    String meal = currentRecipe.getDishTypes()[0];
 
-                    if (meal.equals("morning meal")) {
-                        meal = "breakfast";
-                    } else if (!meal.equals("breakfast") && 
-                                !meal.equals("snack") && 
-                                !meal.equals("lunch") &&
-                                !meal.equals("dinner") &&
-                                !meal.equals("dessert") &&
-                                !meal.equals("soup") &&
-                                !meal.equals("beverage") &&
-                                !meal.equals("salad")
-                            ) {
-                                meal = "snack";
+                    for (String dishType : currentRecipe.getDishTypes()) {
+                        if (dishType.equals("morning meal")) {
+                            newRecipe.setMeal("breakfast");
+                            break;
+                        } else if (dishType.equals("breakfast") || 
+                                    dishType.equals("snack") || 
+                                    dishType.equals("lunch") ||
+                                    dishType.equals("dinner") ||
+                                    dishType.equals("dessert") ||
+                                    dishType.equals("soup") ||
+                                    dishType.equals("beverage") ||
+                                    dishType.equals("salad")
+                                ) 
+                        {
+                                    newRecipe.setMeal(dishType);
+                                    break;
+                        }
                     }
 
-                    newRecipe.setMeal(meal);
+                    if (newRecipe.getMeal() == null) {
+                        newRecipe.setMeal("snack");
+                    }
+                    
                 } else {
                     newRecipe.setMeal("dinner");
                 }

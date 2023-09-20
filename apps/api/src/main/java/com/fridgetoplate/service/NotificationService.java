@@ -117,8 +117,9 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("We recommend " + currRecipeDesc.getRecipeImage() + " for breakfast today");
+            newNotification.setTitle("We recommend " + currRecipeDesc.getName() + " for breakfast today");
             newNotification.setBody("Good time to try a new breakfast recipe! Explore our collection and find something delicious to kickstart your day.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
             System.out.println(newNotification.toString());
             this.save(newNotification);
@@ -162,8 +163,9 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("Have a delicious " + currRecipeDesc.getRecipeImage() + " for lunch today");
+            newNotification.setTitle("Have a delicious " + currRecipeDesc.getName() + " for lunch today");
             newNotification.setBody("Lunch hour is approaching! Discover a tasty lunch recipe from our selection and enjoy a flavorful midday meal.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
             System.out.println(newNotification.toString());
             this.save(newNotification);
@@ -207,8 +209,9 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("Why not try " + currRecipeDesc.getRecipeImage() + " for dinner today");
+            newNotification.setTitle("Why not try " + currRecipeDesc.getName() + " for dinner today");
             newNotification.setBody("Dinnertime is here! Explore our variety of dinner recipes and cook up something special for your evening.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
             System.out.println(newNotification.toString());
             this.save(newNotification);
