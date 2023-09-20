@@ -1,12 +1,35 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Logout } from '@fridge-to-plate/app/auth/utils';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
-import { IPreferences, UpdatePreferences } from '@fridge-to-plate/app/preferences/utils';
+import {
+  IPreferences,
+  UpdatePreferences,
+} from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
-import { Observable, debounceTime, distinctUntilChanged, filter, fromEvent, take, tap } from 'rxjs';
-import { Navigate } from "@ngxs/router-plugin";
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  fromEvent,
+  take,
+  tap,
+} from 'rxjs';
+import { Navigate } from '@ngxs/router-plugin';
 import { RetrieveProfile } from '@fridge-to-plate/app/profile/utils';
-import { CategorySearch, IExplore, RetrieveRecipe } from '@fridge-to-plate/app/explore/utils';
+import {
+  CategorySearch,
+  IExplore,
+  RetrieveRecipe,
+} from '@fridge-to-plate/app/explore/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -14,16 +37,15 @@ import { CategorySearch, IExplore, RetrieveRecipe } from '@fridge-to-plate/app/e
   templateUrl: './searching-modal.component.html',
   styleUrls: ['./searching-modal.component.scss'],
 })
-export class SearchingModalComponent {
+export class SearchingModalComponent implements AfterViewInit {
+  @Input() searchTermFromParent: string;
 
-  @Input() searchTermFromParent : string;
+  @Input() filterCount: number;
 
-  @Input() filterCount: number
+  @Select(ExploreState.getExplore) explore$!: Observable<IExplore>;
+  searchText = '';
 
-  @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
-  searchText = "";
-
-  result = "";
+  result = '';
 
   @Output() newSearchEvent = new EventEmitter<string>();
 
@@ -31,24 +53,30 @@ export class SearchingModalComponent {
 
   @ViewChild('input') input: ElementRef;
 
+  emitSearchTermEvent$: Observable<unknown>;
+
   constructor(private store: Store) {
     this.searchText = this.searchTermFromParent ?? '';
   }
 
-  explorer() {
-
-    fromEvent<KeyboardEvent>(this.input.nativeElement, 'keyup')
-    .pipe(
-      filter( (e: KeyboardEvent) => e.key === 'Enter'),
+  ngAfterViewInit(): void {
+    this.emitSearchTermEvent$ = fromEvent<KeyboardEvent>(
+      this.input.nativeElement,
+      'keyup'
+    ).pipe(
+      filter((e: KeyboardEvent) => e.key === 'Enter'),
       debounceTime(500),
       distinctUntilChanged(),
-        tap( (text) => {
-          this.newSearchEvent.emit(this.searchText)
-        })
-    ).subscribe()
+      tap(() => {
+        this.newSearchEvent.emit(this.searchText);
+      })
+    );
+  }
+  explorer() {
+    this.emitSearchTermEvent$.subscribe();
   }
 
-  showSearchOverlay(){
+  showSearchOverlay() {
     this.toggleSearchOverlayEvent.emit(true);
   }
 }

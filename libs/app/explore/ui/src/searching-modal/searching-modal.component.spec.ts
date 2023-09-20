@@ -1,11 +1,8 @@
 // Import the required dependencies for testing
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgxsModule, Select, Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { NgxsModule } from '@ngxs/store';
 import { SearchingModalComponent } from './searching-modal.component';
-import { ExploreUIModule } from '../explore.module';
 import { FormsModule } from '@angular/forms';
 
 describe('SearchingModalComponent', () => {
@@ -54,4 +51,23 @@ describe('SearchingModalComponent', () => {
 
     expect(component.toggleSearchOverlayEvent.emit).toHaveBeenCalled();
   });
+  it('should emit searchTerm on keyUp', async () => {
+    const searchTextTest = 'Test Search';
+
+    const button = fixture.debugElement.query(By.css('input'));
+
+    const mockEvent = new KeyboardEvent('keyup', { key: 'Enter' });
+
+    component.searchText = searchTextTest;
+
+    button.nativeElement.dispatchEvent(mockEvent);
+
+    const callSpy = jest.spyOn(component, 'explorer');
+
+    await new Promise((r) => setTimeout(r, 5000));
+
+    component.explore$.subscribe(() => {
+      expect(callSpy).toBeCalled();
+    });
+  }, 10000);
 });
