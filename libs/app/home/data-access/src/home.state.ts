@@ -1,7 +1,7 @@
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { RetrieveFeaturedRecipes } from '../../utils/src/home.actions';
+import {ClearFeaturedRecipes, RetrieveFeaturedRecipes} from '../../utils/src/home.actions';
 import { ExploreAPI } from '@fridge-to-plate/app/explore/data-access';
 import { IExplore } from '@fridge-to-plate/app/explore/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -32,7 +32,7 @@ export class HomeState {
 
   @Action(RetrieveFeaturedRecipes)
   async getRecipe({ setState, getState }: StateContext<HomeStateModel>, { meal }: RetrieveFeaturedRecipes) {
-    
+
     if (getState().meal !== meal) {
       const explore : IExplore = {
         type: meal,
@@ -40,7 +40,7 @@ export class HomeState {
         tags: [],
         difficulty: "",
       };
-  
+
       (await this.api.searchCategory(explore)).subscribe({
           next: data => {
               setState({
@@ -53,6 +53,14 @@ export class HomeState {
           }
       });
     }
-    
+
+  }
+
+  @Action(ClearFeaturedRecipes)
+  async  clearAllRecipes({ setState }: StateContext<HomeStateModel>){
+    setState({
+      meal: '',
+      featuredRecipes: null
+    })
   }
 }
