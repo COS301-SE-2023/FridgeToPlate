@@ -36,6 +36,10 @@ export class ItemEditStep {
     }
     
     this.store.dispatch(new AddIngredient(newIngredient));
+
+    this.ingredientName = '';
+    this.ingredientAmount = 1;
+    this.ingredientScale = '';
   }
 
   closeScanner() {
