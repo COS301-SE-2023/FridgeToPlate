@@ -9,7 +9,12 @@
       <ng-template #dropdownContent>
         <div class="absolute w-full h-64 bg-background-light z-50 w-full rounded-md shadow-md">
           <div class="h-2/3 pt-3">
-            <p class="ml-5 mt-2 font-semibold mb-3">Recent searches</p>
+            <span class="flex">
+              <p class="ml-5 font-semibold mb-3">Recent searches</p>
+              <button class="ml-auto mr-2" (click)="hideSearchOverlay()"><ion-icon name="close-outline" class="text-red-500 text-2xl"></ion-icon></button>
+
+            </span>
+
             <div *ngFor="let pastSearch of searchHistoryArray.slice(searchHistoryArray.length < 3 ? 0 : searchHistoryArray.length - 3, searchHistoryArray.length)"
                  class="hover:bg-gray-100 py-2 cursor-pointer flex flex-row items-center" (click)="searchFromHistory(pastSearch)">
               <svg class="ml-5" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
