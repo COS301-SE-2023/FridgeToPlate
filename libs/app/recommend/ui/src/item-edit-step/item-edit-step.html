@@ -1,15 +1,18 @@
 <div
-  class="w-full h-full [&>*]:mx-5"
+  class="w-full h-full [&>*]:mx-6 font-inter"
   *ngIf="ingredients$ | async as ingredients;"
 >
   <div>
-    <h3 class="text-xl font-bold my-2">Add New Ingredients</h3>
+    <h3 class="text-xl font-bold my-4">Add New Ingredients</h3>
     <form class="flex mb-2">
       <div class="w-3/5">
         <input
+          (focus)="checkIsFormValid()"
+          (blur)="checkIsFormValid()"
           [(ngModel)]="ingredientName"
           placeholder="Ingredient Name"
           required
+          min="0"
           type="text"
           name="name"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
@@ -18,17 +21,22 @@
 
       <div class="w-1/5 mx-2">
         <input
+          (focus)="checkIsFormValid()"
+          (blur)="checkIsFormValid()"
           [(ngModel)]="ingredientAmount"
           type="number"
           placeholder="Amount"
           required
           name="amount"
+          min="1"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
         />
       </div>
 
       <div class="w-1/5">
         <select
+          (focus)="checkIsFormValid()"
+          (blur)="checkIsFormValid()"
           [(ngModel)]="ingredientScale"
           placeholder="Scale"
           required
@@ -42,17 +50,19 @@
         </select>
       </div>
       <button
+        [disabled]="isAddIngredientDisabled"
         type="submit"
         (click)="addIngredient()"
-        class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 flex justify-center items-center ml-3"
+        class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 flex justify-center items-center ml-3 disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
         <ion-icon name="add-circle-outline"></ion-icon>
       </button>
     </form>
-    <button 
+    <button
       (click)="openScanner()"
-      class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-xl px-2 py-1 text-center ml-3">
-      Scan Ingredients
+      class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md py-1 text-center ml-0.5 mt-6 lg:mt-8 my-2 px-5"
+    >
+      <p class="text-md">Scan Ingredients</p>
     </button>
   </div>
 
@@ -66,9 +76,15 @@
       ></ingredient-card>
     </div>
     <ng-template #emptyList>
-      <h3 class="text-base my-2">Your Ingredients List is Empty. Add Ingredients to Get Ingredient Based Recommendations.</h3>
+      <h3 class="text-base my-2">
+        Your Ingredients List is Empty. Add Ingredients to Get Ingredient Based
+        Recommendations.
+      </h3>
     </ng-template>
   </div>
 </div>
 
-<barcode-modal *ngIf="scannerOpened" (closeFunc)="closeScanner()"></barcode-modal>
+<barcode-modal
+  *ngIf="scannerOpened"
+  (closeFunc)="closeScanner()"
+></barcode-modal>
