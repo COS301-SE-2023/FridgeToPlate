@@ -12,16 +12,29 @@
             <button class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md" (click)="goToRecommend()">Try Something New</button>
         </div>
     </div>
-
-    <div *ngIf="featuredRecipes$ | async as recipes">
-        <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl">Featured Recipes</h2>
-        <div class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
-            <div *ngFor="let recipe of recipes">
-                  <recipe-card [recipe]="recipe"></recipe-card>
+    <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl">Featured Recipes</h2>
+        <ng-container *ngIf="(featuredRecipesDelayed$ | async)?.length else loadingFeaturedRecipes">
+          <div *ngIf="(featuredRecipes$ | async) as recipes">
+              <div class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
+                  <div *ngFor="let recipe of recipes">
+                        <recipe-card [recipe]="recipe"></recipe-card>
+                    </div>
               </div>
-        </div>
-    </div>
-   
+          </div>
+        </ng-container>
+  <ng-template #loadingFeaturedRecipes>
+    <ng-container *ngIf="(featuredRecipesDelayed$ | async)?.length === 0 else loadingSkeleton">
+      <div class="w-full h-1/2 flex flex-col justify-center items-center">
+        <p class="text-lg font-semibold mb-4">Oops, we had an issue on our side.</p>
+        <p>Try refreshing the page to get some recipes</p>
+      </div>
+
+    </ng-container>
+    <ng-template #loadingSkeleton>
+    <fridge-to-plate-custom-skeleton-loader/>
+    </ng-template>
+  </ng-template>
+
 </div>
 
 
