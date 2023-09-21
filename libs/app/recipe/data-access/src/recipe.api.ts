@@ -19,9 +19,11 @@ export class RecipeAPI {
     const url = this.baseUrl + '/create';
     return this.http.post<IRecipe>(url, recipe);
   }
-  updateRecipeRatingAndViews(recipe: IRecipe): Observable<IRecipe> {
-    const url = this.baseUrl + '/update-ratingAndViews/' + recipe.recipeId;
-    return this.http.put<IRecipe>(url, recipe);
+  
+  increaseViews(recipeId: string): Observable<IRecipe> {
+    const url = this.baseUrl + '/increaseViews/' + recipeId;
+    console.log(recipeId);
+    return this.http.put<IRecipe>(url, null);
   }
 
   deleteRecipe(id: string): Observable<string> {

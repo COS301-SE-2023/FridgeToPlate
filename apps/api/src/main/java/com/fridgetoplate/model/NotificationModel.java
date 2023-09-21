@@ -7,8 +7,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import lombok.Data;
 
-@Data
 @DynamoDBTable(tableName = "notifications")
+@Data
 public class NotificationModel {
     
     String notificationId;
@@ -51,7 +51,7 @@ public class NotificationModel {
     }
 
     @DynamoDBAttribute(attributeName = "metadata")
-    public String getMetaData(){
+    public String getMetadata(){
         return metadata;
     }
 }

@@ -30,7 +30,6 @@
         <ng-container *ngIf="currentStep < 2; else recommendButton">
           <button
             (click)="nextStep()"
-            *ngIf="currentStep < 3"
             class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12"
           >
             <span class="text-white">Next</span>
@@ -38,8 +37,16 @@
         </ng-container>
         <ng-template #recommendButton>
           <button
+            *ngIf="currentStep == 2"
             (click)="attemptRecommendation()"
-            class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12"
+            class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12 xl:hidden"
+          >
+            <span class="text-white">Done</span>
+          </button>
+          <button
+            *ngIf="currentStep == 1"
+            (click)="attemptRecommendation()"
+            class="hiddne bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12 xl:block"
           >
             <span class="text-white">Done</span>
           </button>

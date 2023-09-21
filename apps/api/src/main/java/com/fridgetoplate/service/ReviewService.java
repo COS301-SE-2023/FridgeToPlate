@@ -25,9 +25,23 @@ public class ReviewService {
 
     public Review saveReview(Review review) {
 
+        reviewRepository.save(review);
+
         NotificationModel notif = new NotificationModel();
 
         RecipeFrontendModel recipe = recipService.findById(review.getRecipeId());
+
+        //Update Rating
+        List<Review> reviews = reviewRepository.getReviewsById(recipe.getRecipeId());
+        Double totalRating = 0.0;
+        for (Review recipeReview : reviews) {
+            totalRating += recipeReview.getRating();
+        }
+
+        recipe.setRating(totalRating / reviews.size());
+        recipService.update(recipe);
+
+        // Create Notification
         notif.setUserId(recipe.getCreator());
         notif.setMetadata("/recipe/" + recipe.getRecipeId());
         notif.setNotificationPic(recipe.getRecipeImage());
@@ -36,23 +50,33 @@ public class ReviewService {
 
         notificationService.save(notif);
 
-        return  reviewRepository.save(review);
+        return review;
     }
 
     public String deleteReview(String recipeId, String reviewId){
-        return reviewRepository.delete(recipeId, reviewId);
+        reviewRepository.delete(recipeId, reviewId);
+
+        //Update Rating
+        RecipeFrontendModel recipe = recipService.findById(recipeId);
+        List<Review> reviews = reviewRepository.getReviewsById(recipe.getRecipeId());
+        Double totalRating = 0.0;
+        for (Review recipeReview : reviews) {
+            totalRating += recipeReview.getRating();
+        }
+
+        recipe.setRating(totalRating / reviews.size());
+        recipService.update(recipe);
+
+        return "Deleted Review Successfully";
     }
 
      public String removeReviews(List<Review> reviews) {
         reviewRepository.removeReviews(reviews);
-        return "REVIEWS SUCCESSFULLY DELETED";
+        return "Deleted All Reviews Successfully";
     }
 
     public List<Review> getReviewsById(String recipeId) {
         return reviewRepository.getReviewsById(recipeId);   
     }
-
-    
-
 
 }

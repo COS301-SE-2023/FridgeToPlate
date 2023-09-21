@@ -75,7 +75,7 @@
 
           <div class="px-4 pb-8">
             <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="person-outline"></ion-icon><ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
-            <p>{{ recipe?.creator }}</p>
+            <p>{{ recipe.creator }}</p>
           </div>
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
@@ -83,7 +83,7 @@
             <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
           </div>
             <h1 class="text-lg font-bold">Description</h1>
-            <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
+            <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionUnexpanded}" (click)="toggleDescriptionExpanded()">{{ recipe.description }}</p>
           </div>
 
         </div>
