@@ -1,6 +1,6 @@
 <ion-content>
 
-  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col h-full justify-center items-center overflow-hidden">
+  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col h-full justify-center items-center overflow-hidden lg:mt-12">
 
     <div class="flex flex-col justify-center px-10 text-left main-cont md:text-center md:px-36 mx-auto">
 
@@ -25,9 +25,9 @@
           <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg " [disabled]="busy$ | async">
             Login
           </button>
-          
+
           <ion-spinner *ngIf="busy$ | async" color="warning" name="circular"></ion-spinner>
-        </div> 
+        </div>
         </form>
 
 
