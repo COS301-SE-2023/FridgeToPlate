@@ -1,32 +1,107 @@
-
 <div class="z-20 relative">
   <!-- Bottom navbar (small and medium display) -->
-  <nav class="fixed bottom-0 left-0 right-0 z-50 bg-gray-300 p-3 pb-5 lg:hidden">
+  <nav
+    class="fixed bottom-0 left-0 right-0 z-50 bg-gray-300 p-3 pb-5 lg:hidden"
+  >
     <div class="flex items-center justify-evenly">
-      <button (click)="openHome()" class="mt-4 text-black-300 mr-4 {{isActive('home')}}"><ion-icon class="text-2xl" name="home-outline"></ion-icon></button>
-      <button (click)="openSearch()" class="mt-4 text-black mr-4 {{isActive('search')}}"><ion-icon class="text-2xl" name="search-outline"></ion-icon></button>
-      <button (click)="openCreate()" class="mt-4 text-black-300 mr-4 {{isActive('create')}}"><ion-icon class="text-2xl" name="add-circle-outline"></ion-icon></button>
-      <button (click)="openProfile()" class="mt-4 text-black-300 {{isActive('profile')}}"><ion-icon class="text-2xl" name="person-circle-outline"></ion-icon></button>
+      <button
+        (click)="openHome()"
+        class="mt-4 text-black-300 mr-4 {{ isActive('home') }}"
+      >
+        <ion-icon class="text-2xl" name="home-outline"></ion-icon>
+      </button>
+      <button
+        (click)="openSearch()"
+        class="mt-4 text-black mr-4 {{ isActive('search') }}"
+      >
+        <ion-icon class="text-2xl" name="search-outline"></ion-icon>
+      </button>
+      <button
+        (click)="openCreate()"
+        class="mt-4 text-black-300 mr-4 {{ isActive('create') }}"
+      >
+        <ion-icon class="text-2xl" name="add-circle-outline"></ion-icon>
+      </button>
+      <button
+        (click)="openProfile()"
+        class="mt-4 text-black-300 {{ isActive('profile') }}"
+      >
+        <ion-icon class="text-2xl" name="person-circle-outline"></ion-icon>
+      </button>
     </div>
   </nav>
 
-
   <!-- Top navbar (large display) -->
-  <nav class="lg:fixed top-0 left-0 right-0 z-20 bg-gray-300 p-1 hidden lg:block">
-    <div class="flex items-center">
-      <button (click)="openHome()" class="ml-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('home') }"> <b class="tab-size mx-1">HOME</b> </button>
-      <button (click)="openRecommend()" class="m-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('recommend') }"> <b class="tab-size mx-1">RECOMMEND</b> </button>
-      <button (click)="openSearch()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('search') }"> <b class="tab-size mx-1">SEARCH</b> </button>
-      <button (click)="openCreate()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('create') }"> <b class="tab-size mx-1">CREATE</b> </button>
+  <nav
+    class="lg:fixed top-0 left-0 right-0 z-20 bg-gray-300 p-1 hidden lg:block"
+  >
+    <div class="flex items-center lg:ml-2">
+      <button
+        (click)="openHome()"
+        class="ml-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+        [ngClass]="{ active: isActive('home') }"
+      >
+        <b class="tab-size mx-1">HOME</b>
+      </button>
+      <button
+        (click)="openRecommend()"
+        class="m-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+        [ngClass]="{ active: isActive('recommend') }"
+      >
+        <b class="tab-size mx-1">RECOMMEND</b>
+      </button>
+      <button
+        (click)="openSearch()"
+        class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+        [ngClass]="{ active: isActive('search') }"
+      >
+        <b class="tab-size mx-1">SEARCH</b>
+      </button>
+      <button
+        (click)="openCreate()"
+        class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+        [ngClass]="{ active: isActive('create') }"
+      >
+        <b class="tab-size mx-1">CREATE</b>
+      </button>
       <div class="ml-auto" *ngIf="profile$ | async; else loggedout">
-        <button (click)="openProfile()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('profile') }"> <b class="tab-size mx-1">PROFILE</b> </button>
-        <button (click)="openNotifications()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('profile/notifications') }"> <ion-icon name="notifications-outline"></ion-icon> </button>
-        <button (click)="openSettings()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white"> <ion-icon name="settings-outline"></ion-icon> </button>
+        <button
+          (click)="openProfile()"
+          class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+          [ngClass]="{ active: isActive('profile') }"
+        >
+          <b class="tab-size mx-1">PROFILE</b>
+        </button>
+        <button
+          (click)="openNotifications()"
+          class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+          [ngClass]="{ active: isActive('profile/notifications') }"
+        >
+          <ion-icon name="notifications-outline"></ion-icon>
+        </button>
+        <button
+          (click)="openSettings()"
+          class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+        >
+          <ion-icon name="settings-outline"></ion-icon>
+        </button>
       </div>
       <ng-template #loggedout>
         <div class="ml-auto">
-          <button (click)="openLogin()" class="m-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('login') }"> <b class="tab-size mx-1">LOGIN</b> </button>
-          <button (click)="openSignUp()" class="mr-4 mt-4 mb-4 text-black-300 hover:text-white" [ngClass]="{ 'active': isActive('signup') }"> <b class="tab-size mx-1">SIGN UP</b> </button>
+          <button
+            (click)="openLogin()"
+            class="m-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+            [ngClass]="{ active: isActive('login') }"
+          >
+            <b class="tab-size mx-1">LOGIN</b>
+          </button>
+          <button
+            (click)="openSignUp()"
+            class="mr-4 mt-4 mb-4 text-black-300 hover:text-white transition ease-in-out duration-200"
+            [ngClass]="{ active: isActive('signup') }"
+          >
+            <b class="tab-size mx-1">SIGN UP</b>
+          </button>
         </div>
       </ng-template>
     </div>
