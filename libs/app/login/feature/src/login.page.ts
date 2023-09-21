@@ -27,7 +27,7 @@ export class LoginPage {
   constructor(private store: Store) { }
 
   onSignIn(form: NgForm){
- 
+
     if (form.valid) {
       this.store.dispatch(new Login(this.username, this.password));
     }
