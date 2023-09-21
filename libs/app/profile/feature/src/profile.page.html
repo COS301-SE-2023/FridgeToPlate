@@ -79,7 +79,7 @@
         </div>
         <div *ngIf="profile.savedRecipes.length === 0" class="space-y-4  w-auto text-black flex flex-col flex-grow justify-center py-10">
             <p class="text-center mix-blend-multiply ">Looks like you have no recipes saved</p>
-            <p class="text-center ">Try clicking the save icon on a recipe card to add it here</p>
+            <p class="text-center mix-blend-multiply">Try clicking the save icon on a recipe card to add it here</p>
         </div>
     </div>
     <!-- Meal Plan Tab -->
@@ -141,7 +141,7 @@
         </div>
     </div>
     <!-- Created Tab -->
-    <div *ngIf="subpage === 'created'" class="mt-5 ml-4 relative mb-5 lg:mb-0">
+    <div *ngIf="subpage === 'created'" class="mt-5 mx-4 relative mb-5 lg:mb-0">
         <div appClickedOutside (clickedOutsideFunc)="closeSort()">
             <button
                 (click)="openSort()"
@@ -163,9 +163,9 @@
                 </ul>
             </div>
         </div>
-        <div *ngIf="profile.createdRecipes.length === 0" class="space-y-4 justify-items-center w-auto h-auto">
-            <p class="text-center">Looks like you have no recipes created</p>
-            <p class="text-center">Try creating your own recipe on the Create tab</p>
+        <div *ngIf="profile.createdRecipes.length === 0" class="space-y-4  w-auto text-black flex flex-col flex-grow justify-center py-10">
+            <p class="text-center mix-blend-multiply">Looks like you have no recipes created</p>
+            <p class="text-center mix-blend-multiply">Try creating your own recipe on the Create tab</p>
         </div>
         <div class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
             <recipe-card *ngFor="let recipe of profile.createdRecipes" [recipe]="recipe" class="py-1"></recipe-card>
