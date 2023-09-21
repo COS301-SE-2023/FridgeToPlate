@@ -90,4 +90,53 @@ describe('SearchingModalComponent', () => {
       expect(callSpy).toBeCalled();
     });
   }, 10000);
+
+  it('should not emit searchTerm on viewInit', async () => {
+    const searchTextTest = 'Test Search';
+
+    const button = fixture.debugElement.query(By.css('input'));
+
+    component.searchText = searchTextTest;
+
+    const mockEvent = new KeyboardEvent('keyup', { key: 'ArrowDown' });
+
+    component.ngAfterViewInit();
+
+    button.nativeElement.dispatchEvent(mockEvent);
+
+    const callSpy = jest.spyOn(component.newSearchEvent, 'emit');
+
+    await new Promise((r) => setTimeout(r, 5000));
+
+    component.explore$.subscribe(() => {
+      expect(callSpy).not.toBeCalled();
+    });
+  }, 10000);
+
+  it('should only emit searchTerm enter key event', async () => {
+    const searchTextTest = 'Test Search';
+
+    const button = fixture.debugElement.query(By.css('input'));
+
+    component.searchText = searchTextTest;
+
+    const mockEvent = new KeyboardEvent('keyup', { key: 'ArrowDown' });
+    const mockEvent2 = new KeyboardEvent('keyup', { key: 'ArrowUp' });
+    const mockEvent3 = new KeyboardEvent('keyup', { key: 'Enter' });
+
+    component.ngAfterViewInit();
+
+    button.nativeElement.dispatchEvent(mockEvent);
+    button.nativeElement.dispatchEvent(mockEvent2);
+    button.nativeElement.dispatchEvent(mockEvent3);
+
+    const callSpy = jest.spyOn(component.newSearchEvent, 'emit');
+
+    await new Promise((r) => setTimeout(r, 5000));
+
+    component.explore$.subscribe(() => {
+      expect(callSpy).not.toBeCalledTimes(1);
+      expect(callSpy).toHaveBeenNthCalledWith(1, searchTextTest);
+    });
+  }, 10000);
 });
