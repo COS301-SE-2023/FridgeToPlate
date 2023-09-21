@@ -316,12 +316,6 @@ public class RecipeService {
         }
       }
 
-      Collections.sort(recipes, new Comparator<RecipeFrontendModel>() {
-        public int compare(RecipeFrontendModel obj1, RecipeFrontendModel obj2) {
-            return numberIngredients(obj1, userIngredients).compareTo(numberIngredients(obj1, userIngredients));
-        }
-      });
-
       // Getting recipes from the specificied preferences
       List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
@@ -361,16 +355,17 @@ public class RecipeService {
 
       for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if ((selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) || 
-            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
-            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) || 
-            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) || 
-            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
-            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) || 
+        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 2 &&
+            (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
+            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
+            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) &&
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) && 
             (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
           ) {
 
-            if (recipesSortByPreferences.size() <= 24) {
+            if (recipesSortByPreferences.size() < 24) {
               RecipeDesc recipeDesc = new RecipeDesc();
               recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
               recipeDesc.setName(selectedRecipe.getName());
@@ -384,17 +379,6 @@ public class RecipeService {
               break;
             }
         }
-      }
-
-      if (
-        recipesSortByPreferences.size() > 1 && 
-        numberIngredients(this.findById(recipesSortByPreferences.get(0).getRecipeId()), userIngredients) > userIngredients.size() + 1
-      ) {
-
-        while (recipesSortByPreferences.size() > 18) {
-          recipesSortByPreferences.remove(recipesSortByPreferences.size() - 1);
-        }
-
       }
 
       return recipesSortByPreferences;
