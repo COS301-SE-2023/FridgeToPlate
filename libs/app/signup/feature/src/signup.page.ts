@@ -25,7 +25,7 @@ export class SignupPage {
   }
 
   guest() {
-    this.store.dispatch(new Navigate(['/recommend']));
+    this.store.dispatch(new Navigate(['/home']));
   }
 
   onSignup(form: NgForm){
