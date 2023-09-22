@@ -41,25 +41,25 @@
           <div
             (click)="{onNotificationClick}"
             *ngFor="let notification of (generalNotifications$ | async)"
-            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
+            class="w-full h-31 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
           >
             <div
               class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
             >
               <img
-                class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
+                class="rounded-full h-1/3 lg:h-1/2 md:w-24 md:-ml-10 lg:-ml-48"
                 [src]="notification.notificationPic"
               />
             </div>
             <div
               (click)="onNotificationClick(notification?.metadata ?? '')"
-              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
+              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
             >
               <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                <p>{{ notification.title }}</p>
+                <p class="line-clamp-4">{{ notification.title }}</p>
               </div>
-              <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                <p class="line-clamp-1">{{ notification.body }}</p>
+              <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg mt-4">
+                <p class="line-clamp-4">{{ notification.body }}</p>
               </div>
             </div>
           </div>
@@ -82,25 +82,25 @@
           <div
             (click)="{onNotificationClick}"
             *ngFor="let notification of (recommendationNotifications$ | async)"
-            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
+            class="w-full h-31 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
           >
             <div
               class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
             >
               <img
-                class="rounded-full md:w-24 md:-ml-10 lg:-ml-48"
+                class="rounded-full h-1/3 lg:h-1/2 md:w-24 md:-ml-10 lg:-ml-48"
                 [src]="notification.notificationPic"
               />
             </div>
             <div
               (click)="onNotificationClick(notification?.metadata ?? '')"
-              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-52"
+              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
             >
               <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                {{ notification.title }}
+                <p class="line-clamp-4">{{ notification.title }}</p>
               </div>
-              <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg">
-                <p class="line-clamp-1">{{ notification.body }}</p>
+              <div class="w-full h-1/2 font-semibold text-gray-600 lg:text-lg mt-4">
+                <p class="line-clamp-4">{{ notification.body }}</p>
               </div>
             </div>
           </div>
