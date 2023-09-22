@@ -127,6 +127,9 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                         if (dishType.equals("morning meal")) {
                             newRecipe.setMeal("breakfast");
                             break;
+                        } else if (dishType.equals("main course")) {
+                            newRecipe.setMeal("dinner");
+                            break;
                         } else if (dishType.equals("breakfast") || 
                                     dishType.equals("snack") || 
                                     dishType.equals("lunch") ||
@@ -137,8 +140,8 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                                     dishType.equals("salad")
                                 ) 
                         {
-                                    newRecipe.setMeal(dishType);
-                                    break;
+                            newRecipe.setMeal(dishType);
+                            break;
                         }
                     }
 
