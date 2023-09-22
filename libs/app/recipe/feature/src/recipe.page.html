@@ -71,8 +71,8 @@
           <div *ngIf="hasTags === true" class="px-4 pb-8">
             <h1 class="text-lg font-bold">Tags</h1>
 
-            <div class="gap-2 grid grid-cols-3 grid-rows-2">
-              <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded  "> {{ tag }} </span>            </div>
+            <div class="gap-2 grid grid-cols-3 grid-rows-2 pt-1">
+              <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-center text-white text-xs font-normal mx-1 px-2 py-0.5 md:py-1 rounded  "> {{ tag }} </span>            </div>
           </div>
 
           <div class="px-4 pb-8">
