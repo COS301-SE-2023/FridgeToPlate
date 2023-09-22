@@ -65,7 +65,6 @@ export class SearchingModalComponent implements AfterViewInit {
       'keyup'
     ).pipe(
       filter((e: KeyboardEvent) => e.key === 'Enter'),
-      debounceTime(500),
       distinctUntilChanged(),
       tap(() => {
         this.newSearchEvent.emit(this.searchText);

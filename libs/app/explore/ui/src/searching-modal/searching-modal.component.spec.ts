@@ -101,7 +101,7 @@ describe('SearchingModalComponent', () => {
     const mockEvent = new KeyboardEvent('keyup', { key: 'ArrowDown' });
 
     component.ngAfterViewInit();
-
+    component.explorer();
     button.nativeElement.dispatchEvent(mockEvent);
 
     const callSpy = jest.spyOn(component.newSearchEvent, 'emit');
@@ -125,9 +125,15 @@ describe('SearchingModalComponent', () => {
     const mockEvent3 = new KeyboardEvent('keyup', { key: 'Enter' });
 
     component.ngAfterViewInit();
-
+    component.explorer();
     button.nativeElement.dispatchEvent(mockEvent);
+
+    component.ngAfterViewInit();
+    component.explorer();
     button.nativeElement.dispatchEvent(mockEvent2);
+
+    component.ngAfterViewInit();
+    component.explorer();
     button.nativeElement.dispatchEvent(mockEvent3);
 
     const callSpy = jest.spyOn(component.newSearchEvent, 'emit');
