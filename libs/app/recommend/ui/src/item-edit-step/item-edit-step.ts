@@ -15,7 +15,7 @@ import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
   styleUrls: ['item-edit-step.scss'],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class ItemEditStep {
+export class  ItemEditStep {
   order = '';
   ingredientName = '';
   ingredientAmount = 1;
@@ -60,7 +60,6 @@ export class ItemEditStep {
   }
   //Function to simulate Reactive forms.
   checkIsFormValid() {
-    console.log('focused');
     if (
       this.ingredientName.length !== 0 &&
       this.ingredientAmount >= 1 &&
