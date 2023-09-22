@@ -7,11 +7,22 @@
             </button>
             <div class="px-6 py-6 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900">Shopping List</h3>
-                <ul *ngIf="ingredients"> 
+                <ul *ngIf="ingredients && ingredients.length > 0; else empty">
                     <li *ngFor="let ingredient of ingredients">
-                        {{ ingredient.name }} 
+                        <div class="flex justify-between">
+                            <div>
+                                    {{ ingredient.name }}
+                            </div>
+                            <div class="text-base">
+                                {{ingredient.amount}}{{ingredient.unit}}
+                            </div>
+                        </div>
+                         
                     </li>
                 </ul>
+                <ng-template #empty>
+                    <h3 class="text-base my-2">No Recipes in Meal Plan</h3>
+                </ng-template>
             </div>
         </div>
     </div>

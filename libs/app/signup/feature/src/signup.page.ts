@@ -29,7 +29,7 @@ export class SignupPage {
   }
 
   onSignup(form: NgForm){
-    if (form.valid) {
+    if (form.valid && this.password == this.confirm_password) {
       this.store.dispatch(new SignUp(this.username, this.password, this.email_address));
     }
  }
