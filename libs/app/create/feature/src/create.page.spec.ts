@@ -785,7 +785,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing instructions or Ingredient details.'))
       })
 
 
