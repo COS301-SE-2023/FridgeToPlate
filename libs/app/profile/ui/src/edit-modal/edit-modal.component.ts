@@ -20,4 +20,11 @@ export class EditModalComponent {
     this.saveFunc.emit();
     this.closeFunc.emit();
   }
+
+  onProfileChanged(event: any){
+    const file = event.target.files[0];
+    const fileSize = event.target.files[0].size;
+
+    return;
+  }
 }
