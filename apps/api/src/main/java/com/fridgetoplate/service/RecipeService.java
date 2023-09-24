@@ -2,8 +2,6 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import com.fridgetoplate.model.*;
@@ -138,7 +136,7 @@ public class RecipeService {
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
         model.setRecipeImage(recipe.getRecipeImage());
-        model.setName(recipe.getName());
+        model.setName(recipe.getName().toLowerCase());
         model.setTags(recipe.getTags());
         model.setMeal(recipe.getMeal());
         model.setDescription(recipe.getDescription());
@@ -183,7 +181,7 @@ public class RecipeService {
         for (Ingredient ingredient : recipe.getIngredients()) {
             IngredientModel ingredientModel = new IngredientModel();
             ingredientModel.setRecipeId(recipe.getRecipeId());
-            ingredientModel.setName(ingredient.getName());
+            ingredientModel.setName(ingredient.getName().toLowerCase());
             ingredientModel.setAmount(ingredient.getAmount());
             ingredientModel.setUnit(ingredient.getUnit());
 
@@ -218,7 +216,7 @@ public class RecipeService {
 
           IngredientModel ingredientModel = new IngredientModel();
           ingredientModel.setRecipeId(recipe.getRecipeId());
-          ingredientModel.setName(ingredient.getName());
+          ingredientModel.setName(ingredient.getName().toLowerCase());
           ingredientModel.setAmount(ingredient.getAmount());
           ingredientModel.setUnit(ingredient.getUnit());
 
@@ -305,7 +303,7 @@ public class RecipeService {
 
       // Getting recipes from the specificied ingredients
       for (Ingredient ingredient : userIngredients) {
-        ingredientModels = recipeRepository.getIngredientModels(ingredient.getName());
+        ingredientModels = recipeRepository.getIngredientModels(ingredient.getName().toLowerCase());
 
         for (IngredientModel ingredientModel : ingredientModels) {
           recipe = findById(ingredientModel.getRecipeId());
