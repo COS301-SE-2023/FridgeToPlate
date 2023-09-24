@@ -2,8 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditModalComponent } from './edit-modal.component';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import {FormsModule} from "@angular/forms";
-import { Store } from '@ngxs/store';
+import { NgxsModule, State, Store } from '@ngxs/store';
 import { ShowSuccess } from '@fridge-to-plate/app/info/utils';
+import { Injectable } from '@angular/core';
+
+@State({
+  name: 'editableProfile',
+  defaults: {
+    profile: null,
+  }
+})
+
+@Injectable()
+class MockEditState {}
 
 describe('EditModalComponent', () => {
   let component: EditModalComponent;
@@ -24,7 +35,9 @@ describe('EditModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
+      imports: [FormsModule,
+        NgxsModule.forRoot([MockEditState])
+      ],
       declarations: [EditModalComponent],
     }).compileComponents();
 
@@ -66,7 +79,7 @@ describe('EditModalComponent', () => {
     const event = { target: { files: [file] } };
 
     const readAsDataURLStringSpy = jest.spyOn(FileReader.prototype, 'readAsDataURL');
-    
+
     // Trigger the method
     component.onProfileChanged(event);
 
