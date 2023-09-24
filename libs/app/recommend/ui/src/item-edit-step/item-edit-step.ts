@@ -13,10 +13,7 @@ import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ItemEditStep {
-  order = '';
-  ingredientName = '';
-  ingredientAmount = 1;
-  ingredientScale = '';
+  ingredientName = "";
   scannerOpened = false;
 
   unitsList = measurementUnits;
@@ -30,18 +27,16 @@ export class ItemEditStep {
   }
 
   addIngredient() {
-    if (this.ingredientName.trim() !== "" && this.ingredientAmount > 0) {
+    if (this.ingredientName != "") {
       const newIngredient: IIngredient = {
         name: this.ingredientName,
-        amount: this.ingredientAmount as number,
-        unit: this.ingredientScale
+        amount: 0,
+        unit: ''
       }
       
       this.store.dispatch(new AddIngredient(newIngredient));
   
       this.ingredientName = '';
-      this.ingredientAmount = 1;
-      this.ingredientScale = '';
     }
   }
 

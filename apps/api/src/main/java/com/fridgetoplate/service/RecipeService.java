@@ -353,7 +353,7 @@ public class RecipeService {
 
       for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 2 &&
+        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 1 &&
             (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
             (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
             (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 
