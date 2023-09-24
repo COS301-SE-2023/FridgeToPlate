@@ -4,32 +4,23 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Logout } from '@fridge-to-plate/app/auth/utils';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
-import {
-  IPreferences,
-  UpdatePreferences,
-} from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import {
+  pipe,
   Observable,
-  debounceTime,
+  Subject,
   distinctUntilChanged,
   filter,
   fromEvent,
-  take,
+  takeUntil,
   tap,
 } from 'rxjs';
-import { Navigate } from '@ngxs/router-plugin';
-import { RetrieveProfile } from '@fridge-to-plate/app/profile/utils';
-import {
-  CategorySearch,
-  IExplore,
-  RetrieveRecipe,
-} from '@fridge-to-plate/app/explore/utils';
+import { IExplore } from '@fridge-to-plate/app/explore/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -37,10 +28,12 @@ import {
   templateUrl: './searching-modal.component.html',
   styleUrls: ['./searching-modal.component.scss'],
 })
-export class SearchingModalComponent implements AfterViewInit {
+export class SearchingModalComponent implements AfterViewInit, OnDestroy {
   @Input() searchTermFromParent: string;
 
   @Input() filterCount: number;
+
+  @Input() clearSearchTermObservable$: Observable<boolean>;
 
   @Select(ExploreState.getExplore) explore$!: Observable<IExplore>;
   searchText = '';
@@ -54,6 +47,10 @@ export class SearchingModalComponent implements AfterViewInit {
   @ViewChild('input') input: ElementRef;
 
   emitSearchTermEvent$: Observable<unknown>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  clearSearchTermEventObservable$: Observable<boolean>;
 
   constructor(private store: Store) {
     this.searchText = this.searchTermFromParent ?? '';
@@ -70,6 +67,15 @@ export class SearchingModalComponent implements AfterViewInit {
         this.newSearchEvent.emit(this.searchText);
       })
     );
+
+    this.clearSearchTermEventObservable$ = this.clearSearchTermObservable$.pipe(
+      takeUntil(this.destroy$),
+      filter((signal) => signal === true)
+    );
+
+    this.clearSearchTermObservable$.subscribe(() => {
+      this.searchText = '';
+    });
   }
   explorer() {
     this.emitSearchTermEvent$.subscribe();
@@ -82,5 +88,10 @@ export class SearchingModalComponent implements AfterViewInit {
   }
   showSearchOverlay() {
     this.toggleSearchOverlayEvent.emit(true);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 }

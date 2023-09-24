@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
 import { SearchingModalComponent } from './searching-modal.component';
 import { FormsModule } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 describe('SearchingModalComponent', () => {
   let component: SearchingModalComponent;
@@ -18,7 +19,13 @@ describe('SearchingModalComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchingModalComponent);
+
+    const testInputObservable = new BehaviorSubject(false);
+
     component = fixture.componentInstance;
+
+    component.clearSearchTermObservable$ = testInputObservable;
+
     fixture.detectChanges();
   });
 
@@ -164,5 +171,19 @@ describe('SearchingModalComponent', () => {
     component.searchClick();
 
     expect(emitSearchSpy).not.toBeCalled();
+  });
+
+  it('should clear search term', () => {
+    component.ngAfterViewInit();
+
+    const testObservable = new BehaviorSubject<boolean>(false);
+
+    component.clearSearchTermObservable$ = testObservable;
+
+    testObservable.next(false);
+
+    component.clearSearchTermEventObservable$.subscribe((next) => {
+      expect(next).toBe(true);
+    });
   });
 });
