@@ -211,7 +211,6 @@ export class CreatePagComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    console.log(this.recipeForm.status);
     if (!this.recipeForm.valid) {
       this.store.dispatch(
         new ShowError(
