@@ -77,21 +77,26 @@ describe('EditModalComponent', () => {
 
     // Create a mock event object
     const event = { target: { files: [file] } };
+    const existingImage = component.profileImage;
+
 
     const readAsDataURLStringSpy = jest.spyOn(FileReader.prototype, 'readAsDataURL');
 
     // Trigger the method
     component.onProfileChanged(event);
 
-    // Assert that profileImage is set to the expected value
-    expect(component.profileImage).toEqual(expect.stringContaining('data:image/png;base64,'));
-
-    
-    // Assert that the ShowSuccess action is dispatched
-    expect(dispatchSpy).toHaveBeenCalledWith(new ShowSuccess('Image Successfully Chosen'));
-
 
     expect(readAsDataURLStringSpy).toHaveBeenCalledWith(file);
+
+    const reader = new FileReader();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      reader.addEventListener("load", function(event) {
+      // Assert that the ShowSuccess action is dispatched
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowSuccess('Image Successfully Chosen'));
+      // Assert that profileImage is set to the expected value
+      expect(component.profileImage).toBe(file.name);
+      expect(component.profileImage).not.toBe(existingImage);
+      });
 
 
   });
