@@ -13,9 +13,7 @@ import com.fridgetoplate.interfaces.Explore;
 import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.NotificationModel;
 import com.fridgetoplate.repository.NotificationsRepository;
-import com.fridgetoplate.repository.ProfileRepository;
 import com.fridgetoplate.model.ProfileModel;
-import com.fridgetoplate.utils.NotificationsUtils;
 @Service
 public class NotificationService {
 
@@ -27,8 +25,6 @@ public class NotificationService {
 
     @Autowired
     private ExploreService exploreService;
-
-    private NotificationsUtils utils = new NotificationsUtils();
 
     Random random = new Random();
 
@@ -71,19 +67,18 @@ public class NotificationService {
 
         List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
 
-        List<NotificationModel> deletableNotifications = new ArrayList<>();
         for (NotificationModel notificationModel : notifications) {
             if (notificationModel.getType().equals(type)) {
-                deletableNotifications.add(notificationModel);
+                System.out.println(notificationModel.toString());
+                notificationsRepository.delete(notificationModel);
             }
         }
         
-        notificationsRepository.deleteAll(deletableNotifications);
         return "Successfully cleared all " + type + " notifications";
 
     }
 
-    @Scheduled(cron = "0 0 8 * * ?")
+    @Scheduled(cron = "0 30 6 * * *")
     public void breakfastNotificationsPush(){
         random.setSeed(System.currentTimeMillis());
         
@@ -92,7 +87,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -110,7 +105,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
@@ -120,15 +115,15 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("We recommend " + currRecipeDesc.getRecipeImage() + " for breakfast today");
+            newNotification.setTitle("We recommend " + currRecipeDesc.getName() + " for breakfast today");
             newNotification.setBody("Good time to try a new breakfast recipe! Explore our collection and find something delicious to kickstart your day.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }
 
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 12 * * *")
     public void lunchtimeNotificationsPush() {
         random.setSeed(System.currentTimeMillis());
         
@@ -137,7 +132,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -155,7 +150,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
@@ -165,15 +160,15 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("Have a delicious " + currRecipeDesc.getRecipeImage() + " for lunch today");
+            newNotification.setTitle("Have a delicious " + currRecipeDesc.getName() + " for lunch today");
             newNotification.setBody("Lunch hour is approaching! Discover a tasty lunch recipe from our selection and enjoy a flavorful midday meal.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }
 
-    @Scheduled(cron = "0 16 * * * ?")
+    @Scheduled(cron = "0 0 17 * * *")
     public void dinnertimeNotificationsPush() {
         random.setSeed(System.currentTimeMillis());
         
@@ -182,7 +177,7 @@ public class NotificationService {
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             ProfileModel currentProfile = allUsers.get(index);
             
             if(!selectedUsers.contains(currentProfile)){
@@ -200,7 +195,7 @@ public class NotificationService {
         // 3. Create notifications
         for(int i = 0; i < selectedUsers.size(); i++){
             
-            int index = random.nextInt(0, allUsers.size());
+            int index = random.nextInt(allUsers.size());
             RecipeDesc currRecipeDesc = recipes.get(index);
 
             ProfileModel currentUser = selectedUsers.get(i);
@@ -210,10 +205,10 @@ public class NotificationService {
             newNotification.setUserId(currentUser.getUsername());
             newNotification.setNotificationPic(currRecipeDesc.getRecipeImage());
             newNotification.setType("recommendation");
-            newNotification.setTitle("Why not try " + currRecipeDesc.getRecipeImage() + " for dinner today");
+            newNotification.setTitle("Why not try " + currRecipeDesc.getName() + " for dinner today");
             newNotification.setBody("Dinnertime is here! Explore our variety of dinner recipes and cook up something special for your evening.");
+            newNotification.setMetadata("/recipe/" + currRecipeDesc.getRecipeId());
 
-            System.out.println(newNotification.toString());
             this.save(newNotification);
         }        
     }

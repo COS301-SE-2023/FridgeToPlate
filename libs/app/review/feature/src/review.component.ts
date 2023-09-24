@@ -51,6 +51,11 @@ export class Review implements OnInit {
       return;
     }
 
+    if (this.description.length >= 100) {
+      this.store.dispatch(new ShowError('Description must not be more than 100 characters'));
+      return;
+    }
+
     let stateRecipeId = '';
     this.recipe$.subscribe( (stateRecipe) => {
       stateRecipeId = stateRecipe.recipeId ?? '';

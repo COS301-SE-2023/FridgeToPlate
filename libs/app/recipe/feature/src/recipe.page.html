@@ -70,12 +70,14 @@
 
           <div *ngIf="hasTags === true" class="px-4 pb-8">
             <h1 class="text-lg font-bold">Tags</h1>
-            <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+
+            <div class="gap-2 grid grid-cols-3 grid-rows-2 pt-1">
+              <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary flex items-center justify-center text-center text-white text-xs font-normal mx-1 px-2 py-0.5 md:py-1 rounded  "> {{ tag }} </span>            </div>
           </div>
 
           <div class="px-4 pb-8">
             <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="person-outline"></ion-icon><ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
-            <p>{{ recipe?.creator }}</p>
+            <p>{{ recipe.creator }}</p>
           </div>
 
           <div class="rounded-2xl bg-white h-auto py-4 px-4">
@@ -83,7 +85,7 @@
             <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
           </div>
             <h1 class="text-lg font-bold">Description</h1>
-            <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionExpanded}" (click)="toggleDescriptionExpanded()">{{ recipe?.description }}</p>
+            <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionUnexpanded}" (click)="toggleDescriptionExpanded()">{{ recipe.description }}</p>
           </div>
 
         </div>

@@ -168,16 +168,16 @@ describe('RecipeDetailPageComponent', () => {
     expect(component.safeUrl).toBe(undefined);
   });
 
-  it('should toggle isDescriptionExpanded from false to true', () => {
-    component.isDescriptionExpanded = false;
+  it('should toggle isDescriptionUnexpanded from false to true', () => {
+    component.isDescriptionUnexpanded = false;
     component.toggleDescriptionExpanded();
-    expect(component.isDescriptionExpanded).toBe(true);
+    expect(component.isDescriptionUnexpanded).toBe(true);
   });
 
   it('should toggle isDescriptionExpanded from true to false', () => {
-    component.isDescriptionExpanded = true;
+    component.isDescriptionUnexpanded = true;
     component.toggleDescriptionExpanded();
-    expect(component.isDescriptionExpanded).toBe(false);
+    expect(component.isDescriptionUnexpanded).toBe(false);
   });
 
   it('should dispatch ingredients change', () => {

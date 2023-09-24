@@ -82,18 +82,16 @@ public class RecipeService {
         if (youtubeId == null) {
           try {
               
-              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name).getItems();
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name + " Recipe").getItems();
               
               if (videos.length > 0) {
                 youtubeId = videos[0].getId().videoId;
                 recipeModel.setYoutubeId(youtubeId);
                 recipeRepository.saveRecipe(recipeModel);
-              } else {
-                recipeModel.setYoutubeId("");
-              }
+              } 
 
           } catch (Exception e) {
-              recipeModel.setYoutubeId("");
+              e.printStackTrace();
           }
         }
 
@@ -166,14 +164,16 @@ public class RecipeService {
 
           try {
               
-              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName()).getItems();
+              YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName() + " Recipe").getItems();
               if (videos.length > 0) {
                   model.setYoutubeId(videos[0].getId().videoId);
               } else {
                   model.setYoutubeId("");
               }
 
-          } catch (Exception e) {}
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
         }
 
         recipeRepository.saveRecipe(model);
@@ -194,7 +194,7 @@ public class RecipeService {
 
     public RecipeFrontendModel update(RecipeFrontendModel recipe){
 
-        RecipeModel model = new RecipeModel();
+        RecipeModel model = recipeRepository.findById(recipe.getRecipeId());
         model.setRecipeId(recipe.getRecipeId());
         model.setDifficulty(recipe.getDifficulty());
         model.setRecipeImage(recipe.getRecipeImage());
@@ -206,13 +206,10 @@ public class RecipeService {
         model.setSteps(recipe.getSteps());
         model.setCreator(recipe.getCreator());
         model.setServings(recipe.getServings());
-        model.setViews(0);
         model.setRating(recipe.getRating());
         model.setYoutubeId(recipe.getYoutubeId());
 
         recipeRepository.saveRecipe(model);
-
-        recipe.setRecipeId(model.getRecipeId());
 
         List<IngredientModel> currIngredients = this.findIngredientsByRecipeId(recipe.getRecipeId());
         recipeRepository.removeIngredients(currIngredients);
@@ -319,12 +316,6 @@ public class RecipeService {
         }
       }
 
-      Collections.sort(recipes, new Comparator<RecipeFrontendModel>() {
-        public int compare(RecipeFrontendModel obj1, RecipeFrontendModel obj2) {
-            return numberIngredients(obj1, userIngredients).compareTo(numberIngredients(obj1, userIngredients));
-        }
-      });
-
       // Getting recipes from the specificied preferences
       List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
@@ -364,16 +355,17 @@ public class RecipeService {
 
       for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if ((selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) || 
-            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) ||
-            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) || 
-            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) || 
-            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) ||
-            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) || 
+        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 2 &&
+            (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
+            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
+            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) &&
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) && 
             (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
           ) {
 
-            if (recipesSortByPreferences.size() <= 24) {
+            if (recipesSortByPreferences.size() < 24) {
               RecipeDesc recipeDesc = new RecipeDesc();
               recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
               recipeDesc.setName(selectedRecipe.getName());
@@ -387,17 +379,6 @@ public class RecipeService {
               break;
             }
         }
-      }
-
-      if (
-        recipesSortByPreferences.size() > 1 && 
-        numberIngredients(this.findById(recipesSortByPreferences.get(0).getRecipeId()), userIngredients) > userIngredients.size() + 1
-      ) {
-
-        while (recipesSortByPreferences.size() > 18) {
-          recipesSortByPreferences.remove(recipesSortByPreferences.size() - 1);
-        }
-
       }
 
       return recipesSortByPreferences;
@@ -433,81 +414,63 @@ public class RecipeService {
     return this.recipeRepository.findIngredientsByRecipeId(recipeId);
   }
 
-  public RecipeFrontendModel updateRatingAndViews(RecipeFrontendModel recipe){
+  public RecipeFrontendModel increaseViews(String recipeId) {
 
-      RecipeModel model = new RecipeModel();
-      RecipeModel recipeModel = recipeRepository.findById(recipe.getRecipeId());
+    RecipeModel recipeModel = recipeRepository.findById(recipeId);
+    if (recipeModel != null) {
+    
+      recipeModel.setViews(recipeModel.getViews() + 1);
+      recipeRepository.saveRecipe(recipeModel);
 
-      if(recipeModel.getRating() != null && !recipeModel.getRating().equals(recipe.getRating())) {
-          model.setViews(recipeModel.getViews());
-      }
-      
-      if(recipeModel.getRating() != null && recipeModel.getRating().equals(recipe.getRating())) {
-          model.setViews(recipeModel.getViews() + 1);
-      }
+      if(!recipeModel.getCreator().equals("Spoonacular")) {
 
-      model.setRecipeId(recipe.getRecipeId());
-      model.setDifficulty(recipe.getDifficulty());
-      model.setRecipeImage(recipe.getRecipeImage());
-      model.setName(recipe.getName());
-      model.setTags(recipe.getTags());
-      model.setMeal(recipe.getMeal());
-      model.setDescription(recipe.getDescription());
-      model.setPrepTime(recipe.getPrepTime());
-      model.setSteps(recipe.getSteps());
-      model.setCreator(recipe.getCreator());
-      model.setServings(recipe.getServings());
-      model.setRating(recipe.getRating());
-
-      recipeRepository.saveRecipe(model);
-      
-      if (!model.getCreator().equals("Spoonacular")) {
         NotificationModel notif = new NotificationModel();
         switch (recipeModel.getViews()) {
           case 25: 
 
-            notif.setUserId(model.getCreator());
-            notif.setMetadata("/recipe/" + model.getRecipeId());
-            notif.setNotificationPic(model.getRecipeImage());
-            notif.setTitle(model.getName() + " just receached 25 views");
+            notif.setUserId(recipeModel.getCreator());
+            notif.setMetadata("/recipe/" + recipeModel.getRecipeId());
+            notif.setNotificationPic(recipeModel.getRecipeImage());
+            notif.setTitle(recipeModel.getName() + " just receached 25 views");
             notif.setTitle("Congratulations! Your recipe just hit 25 views. Keep cooking and sharing!");
 
             notificationService.save(notif);
             break;
           case 100: 
 
-            notif.setUserId(model.getCreator());
-            notif.setMetadata("/recipe/" + model.getRecipeId());
-            notif.setNotificationPic(model.getRecipeImage());
-            notif.setTitle(model.getName() + " just receached 100 views");
+            notif.setUserId(recipeModel.getCreator());
+            notif.setMetadata("/recipe/" + recipeModel.getRecipeId());
+            notif.setNotificationPic(recipeModel.getRecipeImage());
+            notif.setTitle(recipeModel.getName() + " just receached 100 views");
             notif.setTitle("Wow, your recipe has reached 100 views! You're cooking up a storm!");
 
             notificationService.save(notif);
             break;
           case 500: 
 
-            notif.setUserId(model.getCreator());
-            notif.setMetadata("/recipe/" + model.getRecipeId());
-            notif.setNotificationPic(model.getRecipeImage());
-            notif.setTitle(model.getName() + " just receached 500 views");
+            notif.setUserId(recipeModel.getCreator());
+            notif.setMetadata("/recipe/" + recipeModel.getRecipeId());
+            notif.setNotificationPic(recipeModel.getRecipeImage());
+            notif.setTitle(recipeModel.getName() + " just receached 500 views");
             notif.setTitle("500 views on your recipe! You're a culinary sensation!");
 
             notificationService.save(notif);
             break;
           case 1000: 
 
-            notif.setUserId(model.getCreator());
-            notif.setMetadata("/recipe/" + model.getRecipeId());
-            notif.setNotificationPic(model.getRecipeImage());
-            notif.setTitle(model.getName() + " just receached 1000 views");
+            notif.setUserId(recipeModel.getCreator());
+            notif.setMetadata("/recipe/" + recipeModel.getRecipeId());
+            notif.setNotificationPic(recipeModel.getRecipeImage());
+            notif.setTitle(recipeModel.getName() + " just receached 1000 views");
             notif.setTitle("Incredible! Your recipe has been viewed 1000 times. You're a recipe rockstar!");
 
             notificationService.save(notif);
             break;
         }
       }
+    }
 
-      return recipe;
+    return this.findById(recipeId);
   }
 
   private Double numberIngredients(RecipeFrontendModel recipe, List<Ingredient> ingredients) {

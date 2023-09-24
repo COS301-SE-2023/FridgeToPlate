@@ -32,10 +32,11 @@ import { Observable } from 'rxjs';
 import {
   IProfile,
 } from '@fridge-to-plate/app/profile/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend | null;
-  recipes: IRecipe[];
+  recipes: IRecipe[] | null;
 }
 @State<RecommendStateModel>({
   name: 'recommend',
@@ -136,7 +137,7 @@ export interface RecommendStateModel {
               prepTime: '30 - 60 Minutes',
             },
           },
-    recipes: [],
+    recipes: null,
   },
 })
 @Injectable()
@@ -176,7 +177,7 @@ export class RecommendState {
   }
 
   @Selector()
-  static getRecipes(state: RecommendStateModel): IRecipe[] {
+  static getRecipes(state: RecommendStateModel): IRecipe[] | null {
     return state.recipes;
   }
 
@@ -214,6 +215,7 @@ export class RecommendState {
       for (let i = 0; i < updatedRecommendRequest.ingredients.length; i++) {
         if (updatedRecommendRequest.ingredients[i].name === ingredient.name) {
           updatedRecommendRequest.ingredients[i].amount += ingredient.amount;
+          this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
           return;
         }
       }
@@ -227,6 +229,7 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
+      this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
     }
   }
 
@@ -256,6 +259,10 @@ export class RecommendState {
     getState,
   }: StateContext<RecommendStateModel>) {
     const recommendRequest = getState().recommendRequest;
+
+    patchState({
+      recipes: null
+    })
 
     if (recommendRequest) {
       this.recommendApi.getRecommendations(recommendRequest).subscribe({

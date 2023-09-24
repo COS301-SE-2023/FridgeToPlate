@@ -6,6 +6,7 @@ import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { Observable } from 'rxjs';
 import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'item-edit-step',
   templateUrl: './item-edit-step.html',
   styleUrls: ['item-edit-step.scss'],
@@ -29,13 +30,19 @@ export class ItemEditStep {
   }
 
   addIngredient() {
-    const newIngredient: IIngredient = {
-      name: this.ingredientName,
-      amount: this.ingredientAmount as number,
-      unit: this.ingredientScale
+    if (this.ingredientName.trim() !== "" && this.ingredientAmount > 0) {
+      const newIngredient: IIngredient = {
+        name: this.ingredientName,
+        amount: this.ingredientAmount as number,
+        unit: this.ingredientScale
+      }
+      
+      this.store.dispatch(new AddIngredient(newIngredient));
+  
+      this.ingredientName = '';
+      this.ingredientAmount = 1;
+      this.ingredientScale = '';
     }
-    
-    this.store.dispatch(new AddIngredient(newIngredient));
   }
 
   closeScanner() {
