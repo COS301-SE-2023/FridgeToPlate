@@ -409,7 +409,7 @@ public class RecipeService {
     Map<String, List<Object>> models = this.recipeRepository.filterSearch(searchObject);
     List<RecipeDesc> result = new ArrayList<>();
     for (Map.Entry<String, List<Object>> entry : models.entrySet()) {
-
+      Collections.shuffle(entry.getValue());
       for (int i = 0; i < entry.getValue().size() && i < 24; ++i) {
         RecipeModel recipe = (RecipeModel) entry.getValue().get(i);
         RecipeDesc recipeDesc = new RecipeDesc();
