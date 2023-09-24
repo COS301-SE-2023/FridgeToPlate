@@ -1,8 +1,10 @@
 // RecipeRepository.java
 package com.fridgetoplate.repository;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.KeyPair;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
@@ -12,6 +14,7 @@ import com.fridgetoplate.model.RecipeModel;
 
 import graphql.com.google.common.collect.ImmutableMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,25 +28,25 @@ public class RecipeRepository {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public void saveRecipe(RecipeModel recipe){
+    public void saveRecipe(RecipeModel recipe) {
         dynamoDBMapper.save(recipe);
     }
 
-    public void saveIngredient(IngredientModel ingredient){
+    public void saveIngredient(IngredientModel ingredient) {
         dynamoDBMapper.save(ingredient);
     }
 
-    public RecipeModel findById(String id){
+    public RecipeModel findById(String id) {
         return dynamoDBMapper.load(RecipeModel.class, id);
     }
 
     public List<IngredientModel> getIngredientModels(String ingredientName) {
-      DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         Map<String, Condition> scanFilter = new HashMap<>();
 
         scanFilter.put("name", new Condition()
-                                      .withComparisonOperator(ComparisonOperator.CONTAINS)
-                                      .withAttributeValueList(new AttributeValue().withS(ingredientName)));
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(ingredientName)));
 
         scanExpression.setScanFilter(scanFilter);
 
@@ -56,19 +59,17 @@ public class RecipeRepository {
         dynamoDBMapper.batchDelete(ingredientModels);
     }
 
-    public void deleteRecipe(RecipeModel recipe){
+    public void deleteRecipe(RecipeModel recipe) {
         dynamoDBMapper.delete(recipe);
     }
 
-    public List<IngredientModel> findIngredientsByRecipeId(String recipeId){
+    public List<IngredientModel> findIngredientsByRecipeId(String recipeId) {
         DynamoDBQueryExpression<IngredientModel> query = new DynamoDBQueryExpression<IngredientModel>();
-            query.setKeyConditionExpression("recipeId = :id");
-            query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
+        query.setKeyConditionExpression("recipeId = :id");
+        query.withExpressionAttributeValues(ImmutableMap.of(":id", new AttributeValue().withS(recipeId)));
 
         return dynamoDBMapper.query(IngredientModel.class, query);
     }
-
-   
 
     public List<RecipeModel> getCreatedRecipes(String username) {
 
@@ -76,8 +77,8 @@ public class RecipeRepository {
         Map<String, Condition> scanFilter = new HashMap<>();
 
         scanFilter.put("creator", new Condition()
-                                      .withComparisonOperator(ComparisonOperator.EQ)
-                                      .withAttributeValueList(new AttributeValue().withS(username)));
+                .withComparisonOperator(ComparisonOperator.EQ)
+                .withAttributeValueList(new AttributeValue().withS(username)));
 
         scanExpression.setScanFilter(scanFilter);
 
@@ -87,12 +88,12 @@ public class RecipeRepository {
     }
 
     public List<RecipeModel> getRecipesByRecipeName(String recipeName) {
-       DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         Map<String, Condition> scanFilter = new HashMap<>();
 
         scanFilter.put("name", new Condition()
-                                      .withComparisonOperator(ComparisonOperator.CONTAINS)
-                                      .withAttributeValueList(new AttributeValue().withS(recipeName)));
+                .withComparisonOperator(ComparisonOperator.CONTAINS)
+                .withAttributeValueList(new AttributeValue().withS(recipeName)));
 
         scanExpression.setScanFilter(scanFilter);
 
@@ -101,7 +102,7 @@ public class RecipeRepository {
         return scanResult;
     }
 
-     public List<RecipeModel> filterSearch(Explore explore){
+    public Map<String, List<Object>> filterSearch(Explore explore) {
 
         int numberOfWorkers = 3;
         String search = explore.getSearch();
@@ -113,37 +114,37 @@ public class RecipeRepository {
 
         Map<String, Condition> scanFilter = new HashMap<>();
 
-          if (search != null && !search.isEmpty()) {
+        if (search != null && !search.isEmpty()) {
             // Add the condition for 'meal'
             Condition condition = new Condition()
-                .withComparisonOperator(ComparisonOperator.CONTAINS)
-                .withAttributeValueList(new AttributeValue().withS(search));
+                    .withComparisonOperator(ComparisonOperator.CONTAINS)
+                    .withAttributeValueList(new AttributeValue().withS(search));
             scanFilter.put("name", condition);
         }
 
         if (type != null && !type.isEmpty()) {
             // Add the condition for 'meal'
             Condition condition = new Condition()
-                .withComparisonOperator(ComparisonOperator.CONTAINS)
-                .withAttributeValueList(new AttributeValue().withS(type));
+                    .withComparisonOperator(ComparisonOperator.CONTAINS)
+                    .withAttributeValueList(new AttributeValue().withS(type));
             scanFilter.put("meal", condition);
         }
 
         if (tags != null && !tags.isEmpty()) {
             // Add the condition for 'tags'
             List<AttributeValue> attributeValues = tags.stream()
-                .map(tag -> new AttributeValue().withS(tag))
-                .toList();
+                    .map(tag -> new AttributeValue().withS(tag))
+                    .toList();
             Condition condition = new Condition()
-                .withComparisonOperator(ComparisonOperator.CONTAINS)
-                .withAttributeValueList(attributeValues);
+                    .withComparisonOperator(ComparisonOperator.CONTAINS)
+                    .withAttributeValueList(attributeValues);
             scanFilter.put("tags", condition);
         }
 
         if (difficulty != null && !difficulty.isEmpty()) {
             Condition condition = new Condition()
-                .withComparisonOperator(ComparisonOperator.EQ)
-                .withAttributeValueList(new AttributeValue().withS(difficulty));
+                    .withComparisonOperator(ComparisonOperator.EQ)
+                    .withAttributeValueList(new AttributeValue().withS(difficulty));
             scanFilter.put("difficulty", condition);
         }
 
@@ -152,8 +153,23 @@ public class RecipeRepository {
         }
 
         List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
-        return results;
+        return this.loadBatch(results);
 
     }
 
-  }
+    private Map<String, List<Object>> loadBatch(List<RecipeModel> recipes) {
+        List<KeyPair> keyPairList = new ArrayList<>();
+
+        for (RecipeModel recipe : recipes) {
+            keyPairList.add(new KeyPair().withHashKey(recipe.getRecipeId()));
+        }
+
+        Map<Class<?>, List<KeyPair>> keyPairForTable = new HashMap<>();
+        keyPairForTable.put(RecipeModel.class, keyPairList);
+
+        Map<String, List<Object>> models = dynamoDBMapper.batchLoad(keyPairForTable);
+
+        return models;
+    }
+
+}
