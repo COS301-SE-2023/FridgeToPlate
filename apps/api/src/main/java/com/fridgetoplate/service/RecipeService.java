@@ -406,24 +406,22 @@ public class RecipeService {
   }
 
   public List<RecipeDesc> filterSearch(Explore searchObject) {
-    Map<String, List<Object>> models = this.recipeRepository.filterSearch(searchObject);
-    List<RecipeDesc> result = new ArrayList<>();
-    for (Map.Entry<String, List<Object>> entry : models.entrySet()) {
-      Collections.shuffle(entry.getValue());
-      for (int i = 0; i < entry.getValue().size() && i < 24; ++i) {
-        RecipeModel recipe = (RecipeModel) entry.getValue().get(i);
-        RecipeDesc recipeDesc = new RecipeDesc();
-        recipeDesc.setRecipeId(recipe.getRecipeId());
-        recipeDesc.setName(recipe.getName());
-        recipeDesc.setRecipeImage(recipe.getRecipeImage());
-        recipeDesc.setTags(recipe.getTags());
-        recipeDesc.setDifficulty(recipe.getDifficulty());
-        recipeDesc.setRating(recipeDesc.getRating());
-        result.add(recipeDesc);
-      }
 
+    List<Object> recipeObjects = this.recipeRepository.filterSearch(searchObject);
+    List<RecipeDesc> recipes = new ArrayList<>();
+    for (Object recipeObject : recipeObjects) {
+      RecipeModel recipeModel = (RecipeModel) recipeObject;
+      RecipeDesc recipeDesc = new RecipeDesc();
+      recipeDesc.setRecipeId(recipeModel.getRecipeId());
+      recipeDesc.setName(recipeModel.getName());
+      recipeDesc.setRecipeImage(recipeModel.getRecipeImage());
+      recipeDesc.setTags(recipeModel.getTags());
+      recipeDesc.setDifficulty(recipeModel.getDifficulty());
+      recipeDesc.setRating(recipeModel.getRating());
+      recipes.add(recipeDesc);
     }
-    return result;
+
+    return recipes;
   }
 
   public List<IngredientModel> findIngredientsByRecipeId(String recipeId) {

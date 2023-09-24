@@ -15,6 +15,7 @@ import com.fridgetoplate.model.RecipeModel;
 import graphql.com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +103,7 @@ public class RecipeRepository {
         return scanResult;
     }
 
-    public Map<String, List<Object>> filterSearch(Explore explore) {
+    public List<Object> filterSearch(Explore explore) {
 
         int numberOfWorkers = 3;
         String search = explore.getSearch();
@@ -153,11 +154,12 @@ public class RecipeRepository {
         }
 
         List<RecipeModel> results = dynamoDBMapper.parallelScan(RecipeModel.class, scanExpression, numberOfWorkers);
-        return this.loadBatch(results);
+
+        return loadBatch(results);
 
     }
 
-    private Map<String, List<Object>> loadBatch(List<RecipeModel> recipes) {
+    private List<Object> loadBatch(List<RecipeModel> recipes) {
         List<KeyPair> keyPairList = new ArrayList<>();
 
         for (RecipeModel recipe : recipes) {
@@ -168,8 +170,17 @@ public class RecipeRepository {
         keyPairForTable.put(RecipeModel.class, keyPairList);
 
         Map<String, List<Object>> models = dynamoDBMapper.batchLoad(keyPairForTable);
+        if (models.size() == 0 || models.get("recipes") == null) {
+            return new ArrayList<>();
+        }
 
-        return models;
+        List<Object> recipeModels = models.get("recipes");
+        if (recipeModels.size() > 24) {
+            Collections.shuffle(recipeModels);
+            return recipeModels.subList(0, 24);
+        } else {
+            return recipeModels;
+        }
     }
 
 }
