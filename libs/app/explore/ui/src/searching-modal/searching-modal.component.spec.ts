@@ -145,4 +145,24 @@ describe('SearchingModalComponent', () => {
       expect(callSpy).toHaveBeenNthCalledWith(1, searchTextTest);
     });
   }, 10000);
+
+  it('should emit search text on searchIcon click', () => {
+    const testTerm = 'searchTest';
+
+    component.searchText = testTerm;
+
+    const emitSearchSpy = jest.spyOn(component.newSearchEvent, 'emit');
+
+    component.searchClick();
+
+    expect(emitSearchSpy).toBeCalledWith(testTerm);
+  });
+
+  it('should not emit search text on searchIcon click', () => {
+    const emitSearchSpy = jest.spyOn(component.newSearchEvent, 'emit');
+
+    component.searchClick();
+
+    expect(emitSearchSpy).not.toBeCalled();
+  });
 });

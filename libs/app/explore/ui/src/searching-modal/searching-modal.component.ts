@@ -75,6 +75,11 @@ export class SearchingModalComponent implements AfterViewInit {
     this.emitSearchTermEvent$.subscribe();
   }
 
+  searchClick() {
+    if (this.searchText !== '') {
+      this.newSearchEvent.emit(this.searchText);
+    }
+  }
   showSearchOverlay() {
     this.toggleSearchOverlayEvent.emit(true);
   }
