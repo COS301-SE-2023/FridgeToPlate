@@ -26,13 +26,16 @@ export class EditModalComponent {
   onProfileChanged(event: any){
     const file = event.target.files[0];
 
-    const reader = new FileReader();
+    if (file) {
+      const reader = new FileReader();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    reader.onload = (e: any) => {
-      this.profileImage = e.target.result;
-    };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      reader.onload = (e: any) => {
+        this.profileImage = e.target.result;
+      };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+    }
+    
   }
 }
