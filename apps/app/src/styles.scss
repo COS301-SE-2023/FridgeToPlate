@@ -22,3 +22,11 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 /* You can add global styles to this file, and also import other style files */
+
+@layer base {
+    :root {
+      --color-primary: 255 115 179;
+      --color-secondary: 111 114 185;
+      /* ... */
+    }
+  }
