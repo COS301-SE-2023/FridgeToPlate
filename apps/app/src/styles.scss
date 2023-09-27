@@ -36,6 +36,7 @@
       --color-reject: #d70b0b;
       --color-delete: #B9261C;
       --color-delete-highlight: #DC2626;
+      transition-duration: 1s;
 
     }
 
@@ -52,7 +53,8 @@
             --color-reject: #d70b0b;
             --color-delete: #B9261C;
             --color-delete-highlight: #DC2626;
-      
+            transition-duration: 1s;
+
           }
     }
 
@@ -68,7 +70,8 @@
             --color-reject: #d70b0b;
             --color-delete: #B9261C;
             --color-delete-highlight: #DC2626;
-      
+            transition-duration: 1s;
+
         }
 
         :root[data-theme="light"] {
@@ -83,6 +86,7 @@
             --color-reject: #d70b0b;
             --color-delete: #B9261C;
             --color-delete-highlight: #DC2626;
+            transition-duration: 1s;
       
         }
   }
