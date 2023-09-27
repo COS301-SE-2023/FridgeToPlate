@@ -1,10 +1,10 @@
 <div class="bg-background-light w-full h-full overflow-y-auto lg:mt-3 px-5 sm:pt-8 md:pt-10 lg:pt-9">
 
-    <div class="text-2xl font-serif font-bold text-center lg:mt-16">
+    <div class="text-2xl font-serif font-bold text-center lg:mt-16 text-content-dark">
         <h2> {{messageHeader}}</h2>
     </div>
 
-    <div class="text-2xl font-serif mt-6 text-center">
+    <div class="text-2xl font-serif mt-6 text-center text-content-dark">
         <h2>
             Looking for some culinary inspiration based on the ingredients you currently have?
         </h2>
@@ -12,7 +12,7 @@
             <button class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md" (click)="goToRecommend()">Try Something New</button>
         </div>
     </div>
-    <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl">Featured Recipes</h2>
+    <h2 class="text-3xl mt-6 mb-3 text-center font-bold md:text-2xl text-content-dark">Featured Recipes</h2>
         <ng-container *ngIf="(featuredRecipesDelayed$ | async)?.length else loadingFeaturedRecipes">
           <div *ngIf="(featuredRecipes$ | async) as recipes">
               <div class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2">
@@ -25,8 +25,8 @@
   <ng-template #loadingFeaturedRecipes>
     <ng-container *ngIf="(featuredRecipesDelayed$ | async)?.length === 0 else loadingSkeleton">
       <div class="w-full h-1/2 flex flex-col justify-center items-center">
-        <p class="text-lg font-semibold mb-4">Oops, we had an issue on our side.</p>
-        <p>Try refreshing the page to get some recipes</p>
+        <p class="text-lg font-semibold mb-4 text-content-dark">Oops, we had an issue on our side.</p>
+        <p class="text-content-dark">Try refreshing the page to get some recipes</p>
       </div>
 
     </ng-container>
