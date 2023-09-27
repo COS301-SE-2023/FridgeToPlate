@@ -41,7 +41,7 @@ export class SettingsModalComponent {
 
   changeMode(){
 
-    const body = document.querySelector("body")
+    const body = document.querySelector("html");
 		
     if (body) {
 
