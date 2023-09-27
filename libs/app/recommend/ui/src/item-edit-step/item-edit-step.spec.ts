@@ -74,13 +74,11 @@ describe('ItemEditStep', () => {
 
     const testIngredient: IIngredient = {
       name: 'Carrot',
-      amount: 2,
-      unit: 'g',
+      amount: 0,
+      unit: '',
     };
 
     component.ingredientName = testIngredient.name;
-    component.ingredientAmount = testIngredient.amount;
-    component.ingredientScale = testIngredient.unit;
 
     component.addIngredient();
     component.addIngredient();

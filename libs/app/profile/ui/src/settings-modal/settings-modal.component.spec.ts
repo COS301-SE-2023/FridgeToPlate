@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsModalComponent } from './settings-modal.component';
-import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
+import { ChangePreference, IPreferences } from '@fridge-to-plate/app/preferences/utils';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
 import { Logout } from '@fridge-to-plate/app/auth/utils';
 
 describe('EditModalComponent', () => {
@@ -44,22 +43,12 @@ describe('EditModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('save should call save func', () => {
-    
-    const updateTestPreferences: IPreferences = {
-      username: "testuser",
-      darkMode: false,
-      recommendNotif: true,
-      reviewNotif: false,
-      viewsNotif: false,
-    };
+  it('save should call save func for dark mode', () => {
+    store = TestBed.inject(Store);
+    dispatchSpy = jest.spyOn(store, 'dispatch');
 
-    component.editablePreferences = updateTestPreferences;
-    component.save();
-
-    component.preferences$.pipe(take(1)).subscribe((preferences: IPreferences) => {
-      expect(preferences).toEqual(component.editablePreferences);
-    })
+    component.save('darkMode');
+    expect(dispatchSpy).toBeCalledWith(new ChangePreference('darkMode'));
   }); 
 
   it('save should call close func', () => {
