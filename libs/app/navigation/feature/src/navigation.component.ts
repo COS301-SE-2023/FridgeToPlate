@@ -88,10 +88,14 @@ export class NavigationBar {
 		
     if (body) {
 
-      if(this.preferences.darkMode == true)
+      if(this.preferences.darkMode == true){
         body.setAttribute('data-theme', "dark"); 
-      else
+        body.classList.add("dark");
+      }
+      else {
         body.setAttribute('data-theme', "light");
+        body.classList.remove("dark");
+      }
     }
     
   }
