@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Navigate } from "@ngxs/router-plugin";
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { CloseSettings, IProfile, OpenSettings } from '@fridge-to-plate/app/profile/utils';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
@@ -17,9 +17,14 @@ import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 export class NavigationBar {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
+
   @Select(PreferencesState.getPreference) preferences$ !: Observable<IPreferences>;
 
-  constructor(public router: Router, private store: Store) {}
+  preferences !: IPreferences;
+
+  constructor(public router: Router, private store: Store) {
+    this.preferences$.pipe(take(1)).subscribe(preferences => this.preferences = Object.create(preferences));
+  }
 
   isActive(pageName: string) {
     const currentUrl = this.router.url;
