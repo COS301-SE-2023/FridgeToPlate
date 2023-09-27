@@ -153,7 +153,7 @@ export class BarcodeModalComponent implements AfterViewInit {
             }
         },
         error: error => {
-          this.store.dispatch(new ShowError("Error retrieving product info"));
+          this.store.dispatch(new ShowError("Unable to retrieve product info. Please try scanning again."));
           console.log(error);
         }
       }); 
