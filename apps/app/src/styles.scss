@@ -25,8 +25,16 @@
 
 @layer base {
     :root {
-      --color-primary: 255 115 179;
-      --color-secondary: 111 114 185;
-      /* ... */
+
+      --background-light: #F8F8F8;
+      --background-dark: #010127;
+      --primary: #C35214;
+      --recipe-card-overlay: 52 52 52;
+      --primary-highlight: #E26310;
+      --accept: #2bc917;
+      --reject: #d70b0b;
+      --delete: #B9261C;
+      --delete-highlight: #DC2626;
+      
     }
   }
