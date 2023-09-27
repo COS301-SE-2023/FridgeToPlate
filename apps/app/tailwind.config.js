@@ -23,8 +23,8 @@ module.exports = {
     extend: {
       colors: {
         'background-light': 'var(--color-background-light)',
-        'background-dark': 'var(--color-background-light)',
-        'primary': 'var(--color-background-light)',
+        'background-dark': 'var(--color-background-dark)',
+        'primary': 'var(--color-primary)',
         'recipe-card-overlay': 'rgba(var(--color-recipe-card-overlay) / 0.64)',
         'primary-highlight': 'var(--color-primary-highlight)',
         'accept': 'var(--color-accept)',
