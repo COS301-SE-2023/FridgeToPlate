@@ -45,7 +45,7 @@ export class SettingsModalComponent {
 		
     if (body) {
 
-      if(this.editablePreferences.darkMode === true)
+      if(this.editablePreferences.darkMode == false)
         body.setAttribute('data-theme', "dark"); 
       else
         body.setAttribute('data-theme', "light");
