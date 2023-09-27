@@ -34,8 +34,23 @@ export class SettingsModalComponent {
     this.closeFunc.emit();
   }
 
-  save() {      
+  save() {     
+    this.changeMode(); 
     this.store.dispatch(new UpdatePreferences(this.editablePreferences));
+  }
+
+  changeMode(){
+
+    const body = document.querySelector("body")
+		
+    if (body) {
+
+      if(this.editablePreferences.darkMode === true)
+        body.setAttribute('data-theme', "dark"); 
+      else
+        body.setAttribute('data-theme', "light");
+    }
+    
   }
 
   logout() {
