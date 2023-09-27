@@ -5,6 +5,8 @@ import { Navigate } from "@ngxs/router-plugin";
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
 import { CloseSettings, IProfile, OpenSettings } from '@fridge-to-plate/app/profile/utils';
+import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
+import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 // import { ShowError } from '@fridge-to-plate/app/error/utils';
 
 @Component({
@@ -15,6 +17,7 @@ import { CloseSettings, IProfile, OpenSettings } from '@fridge-to-plate/app/prof
 export class NavigationBar {
 
   @Select(ProfileState.getProfile) profile$ !: Observable<IProfile | null>;
+  @Select(PreferencesState.getPreference) preferences$ !: Observable<IPreferences>;
 
   constructor(public router: Router, private store: Store) {}
 
@@ -72,4 +75,6 @@ export class NavigationBar {
       this.store.dispatch(new Navigate(['/profile']));
     }
   }
+
+  
 }
