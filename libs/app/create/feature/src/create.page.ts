@@ -216,22 +216,22 @@ export class CreatePagComponent implements OnInit  {
     }
 
     if(this.ingredientControls.length < 1) {
-      this.store.dispatch( new ShowInfo("No Ingredients"))
+      this.store.dispatch( new ShowError("No Ingredients"))
       return false;
     }
 
     if(this.instructionControls.length < 1) {
-      this.store.dispatch( new ShowInfo("No Instructions"))
+      this.store.dispatch( new ShowError("No Instructions"))
       return false;
     }
 
     if(!this.selectedMeal){
-      this.store.dispatch( new ShowInfo("Please select a meal"))
+      this.store.dispatch( new ShowError("Please select a meal"))
       return false;
     }
 
     if(!this.profile){
-      this.store.dispatch( new ShowInfo("Please login to create a recipe"))
+      this.store.dispatch( new ShowError("Please login to create a recipe"))
       return false;
     }
 
@@ -279,7 +279,7 @@ export class CreatePagComponent implements OnInit  {
 
   previewVideo() {
     const videoPlayer = document.getElementById('video-player') as HTMLVideoElement;
-    
+
     if (videoPlayer && this.selectedVideo) {
       videoPlayer.src = URL.createObjectURL(this.selectedVideo);
     }
