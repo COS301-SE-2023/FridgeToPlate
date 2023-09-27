@@ -26,15 +26,15 @@
 @layer base {
     :root {
 
-      --background-light: #F8F8F8;
-      --background-dark: #010127;
-      --primary: #C35214;
-      --recipe-card-overlay: 52 52 52;
-      --primary-highlight: #E26310;
-      --accept: #2bc917;
-      --reject: #d70b0b;
-      --delete: #B9261C;
-      --delete-highlight: #DC2626;
-      
+      --color-background-light: #F8F8F8;
+      --color-background-dark: #010127;
+      --color-primary: #C35214;
+      --color-recipe-card-overlay: 52 52 52;
+      --color-primary-highlight: #E26310;
+      --color-accept: #2bc917;
+      --color-reject: #d70b0b;
+      --color-delete: #B9261C;
+      --color-delete-highlight: #DC2626;
+
     }
   }
