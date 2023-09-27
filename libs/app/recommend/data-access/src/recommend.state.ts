@@ -272,7 +272,7 @@ export class RecommendState {
           });
         },
         error: (error) => {
-          this.store.dispatch(new ShowError(error));
+          this.store.dispatch(new ShowError("An error occurred"));
         },
       });
     }

@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
-import { 
-    IProfile, 
-    UpdateProfile, 
-    CreateNewProfile, 
-    RetrieveProfile, 
-    SaveRecipe, 
-    RemoveSavedRecipe, 
-    SortSavedByDifficulty, 
-    SortSavedByNameAsc, 
-    SortSavedByNameDesc, 
-    SortCreatedByDifficulty, 
-    SortCreatedByNameAsc, 
-    ResetProfile, 
+import {
+    IProfile,
+    UpdateProfile,
+    CreateNewProfile,
+    RetrieveProfile,
+    SaveRecipe,
+    RemoveSavedRecipe,
+    SortSavedByDifficulty,
+    SortSavedByNameAsc,
+    SortSavedByNameDesc,
+    SortCreatedByDifficulty,
+    SortCreatedByNameAsc,
+    ResetProfile,
     UndoRemoveSavedRecipe,
     UpdateMealPlan,
     RemoveFromMealPlan,
@@ -83,7 +83,7 @@ export interface SettingsStateModel {
 export class ProfileState {
 
     constructor(private profileAPI: ProfileAPI, private store: Store, private readonly mealPlanAPI: MealPlanAPI) {}
-    
+
     @Selector()
     static getProfile(state: ProfileStateModel) {
         return state.profile;
@@ -126,7 +126,7 @@ export class ProfileState {
                 });
             },
             error: error => {
-                this.store.dispatch(new ShowError(error));
+                this.store.dispatch(new ShowError("Unsuccessful"));
             }
         });
     }
@@ -329,7 +329,7 @@ export class ProfileState {
     @Action(UpdateMealPlan)
     updateMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile && mealPlan) {
             updatedProfile.currMealPlan = mealPlan;
 
@@ -343,20 +343,20 @@ export class ProfileState {
                 if (mealPlan.breakfast) {
                     values[0] = Math.floor(Math.random() * 100) + 350;
                 }
-        
+
                 if (mealPlan.lunch) {
                     values[1] = Math.floor(Math.random() * 200) + 450;
-                } 
-        
+                }
+
                 if (mealPlan.dinner) {
                     values[2] = Math.floor(Math.random() * 300) + 450;
-                } 
+                }
 
                 if (mealPlan.snack) {
                     values[3] = Math.floor(Math.random() * 150) + 100;
-                } 
+                }
 
-            } 
+            }
 
             this.store.dispatch(new UpdateMealPlanData(values));
 
@@ -364,7 +364,7 @@ export class ProfileState {
             this.mealPlanAPI.saveMealPlan(mealPlan);
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
 
-            this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
+            this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
         }
     }
 
@@ -438,10 +438,10 @@ export class ProfileState {
             }
         });
 
-        
+
     }
 
-    @Action(RetrieveMealPlan) 
+    @Action(RetrieveMealPlan)
     async retrieveMealPlan({ getState, patchState } : StateContext<ProfileStateModel>, { date } : RetrieveMealPlan) {
         const newProfile = getState().profile;
         if(!newProfile){
@@ -463,20 +463,20 @@ export class ProfileState {
                     if (data.breakfast) {
                         values[0] = Math.floor(Math.random() * 100) + 350;
                     }
-            
+
                     if (data.lunch) {
                         values[1] = Math.floor(Math.random() * 200) + 450;
-                    } 
-            
+                    }
+
                     if (data.dinner) {
                         values[2] = Math.floor(Math.random() * 300) + 450;
-                    } 
+                    }
 
                     if (data.snack) {
                         values[3] = Math.floor(Math.random() * 150) + 100;
-                    } 
+                    }
 
-                } 
+                }
 
                 this.store.dispatch(new UpdateMealPlanData(values));
                 this.store.dispatch( new RetrieveMealPlanIngredients(data) );
@@ -497,7 +497,7 @@ export class ProfileState {
 
     @Action(CloseSettings)
     closeSettings({ patchState } : StateContext<SettingsStateModel>) {
-            
+
             patchState({
                 settings: 'none'
             });
