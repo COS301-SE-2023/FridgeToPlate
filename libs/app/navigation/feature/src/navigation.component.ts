@@ -24,6 +24,7 @@ export class NavigationBar {
 
   constructor(public router: Router, private store: Store) {
     this.preferences$.pipe(take(1)).subscribe(preferences => this.preferences = Object.create(preferences));
+    this.changeMode();
   }
 
   isActive(pageName: string) {
@@ -81,5 +82,17 @@ export class NavigationBar {
     }
   }
 
-  
+  changeMode(){
+
+    const body = document.querySelector("html");
+		
+    if (body) {
+
+      if(this.preferences.darkMode == true)
+        body.setAttribute('data-theme', "dark"); 
+      else
+        body.setAttribute('data-theme', "light");
+    }
+    
+  }
 }
