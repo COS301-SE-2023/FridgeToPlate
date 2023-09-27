@@ -23,7 +23,7 @@
                 <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z">
                 </path>
               </svg>
-              <p class="ml-3 font-light">
+              <p class="ml-3 font-light text-content-dark">
                 {{pastSearch}}
               </p>
             </div>
@@ -39,8 +39,8 @@
         <div class="absolute w-full h-64 bg-background-light z-50 w-full rounded-md shadow-md">
           <div class="h-2/5 pt-3 flex-row">
             <div class="flex flex-row justify-between items-center">
-              <p class="ml-5 mt-2 font-semibold mb-3">Filters</p>
-              <p class="px-4 py-2 text-primary mr-4 rounded-full font-semibold cursor-pointer transition duration-150 ease-in-out focus:text-primary-highlight focus:bg-gray-200" (click)="applyFilters()">Apply filters</p>
+              <p class="ml-5 mt-2 font-semibold mb-3 text-content-dark">Filters</p>
+              <p class="px-4 py-2 text-primary mr-4 rounded-full font-semibold cursor-pointer transition duration-150 ease-in-out focus:text-primary-highlight focus:bg-gray-200 text-content-dark" (click)="applyFilters()">Apply filters</p>
             </div>
             <div class="flex flex-row justify-start items-center" (click)="clearFilters()">
               <p class="ml-3 text-reject cursor-pointer active:bg-red-300 p-1.5 rounded-full transition duration-150 ease-in-out pb-2">Clear filters</p>
@@ -52,7 +52,7 @@
                  (click)="addToFilters(keyword)"
                  [ngClass]="{ 'bg-primary-highlight': selectedFilters.includes(keyword)}"
             >
-              <p>{{keyword}}</p>
+              <p class="text-content-dark">{{keyword}}</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
     </div>
 
     <div *ngIf="showCategories === true">
-      <h1 class="text-lg py-5 md:pl-1 md:text-2xl lg:text-lg"><b>Categories</b></h1>
+      <h1 class="text-lg py-5 md:pl-1 md:text-2xl lg:text-lg text-content-dark"><b>Categories</b></h1>
       <div class="my-2 grid grid-flow-row gap-4 grid-cols-2 lg:grid-cols-4 lg:pr-1 md:gap-5 md:px-1">
         <explore-card  (click)="search(explore)" *ngFor="let explore of allCategories" [explore]="explore"></explore-card>
       </div>
@@ -76,7 +76,7 @@
   </div>
 
   <div *ngIf="showRecipes === true">
-    <p class="font-bold pt-6 my-2"> {{retunedRecipes.length}} Result(s) for {{searchTerm}}</p>
+    <p class="font-bold pt-6 my-2 text-content-dark"> {{retunedRecipes.length}} Result(s) for {{searchTerm}}</p>
     <div
       class="pt-6 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
     >
