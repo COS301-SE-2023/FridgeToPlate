@@ -56,7 +56,7 @@
           }
     }
 
-      :root[app-theme="dark"] {
+      :root[data-theme="dark"] {
 
             --color-background-light: #010127;
             --color-background-dark: #010127;
@@ -71,7 +71,7 @@
       
         }
 
-        :root[app-theme="light"] {
+        :root[data-theme="light"] {
 
             --color-background-light: #F8F8F8;
             --color-background-dark: #010127;
