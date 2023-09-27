@@ -25,6 +25,7 @@ module.exports = {
         'background-light': 'var(--color-background-light)',
         'background-dark': 'var(--color-background-dark)',
         'primary': 'var(--color-primary)',
+        'content' : 'var(--color-content)',
         'recipe-card-overlay': 'rgba(var(--color-recipe-card-overlay) / 0.64)',
         'primary-highlight': 'var(--color-primary-highlight)',
         'accept': 'var(--color-accept)',
