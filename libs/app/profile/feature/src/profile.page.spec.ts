@@ -22,7 +22,14 @@ describe("ProfilePage", () => {
     ingredients: [],
     profilePic: "image-url",
     createdRecipes: [],
-    currMealPlan: null,
+    currMealPlan: {
+      username: "jdoe",
+      date: "2022-01-01",
+      breakfast: null,
+      lunch: null,
+      dinner: null,
+      snack: null,
+    },
   };
 
   @State({
@@ -77,6 +84,17 @@ describe("ProfilePage", () => {
     page.displaySubpage("meal plan");
     expect(getMealPlanSpy).toBeCalled();
     expect(page.subpage).toEqual("meal plan");
+  });
+
+  it('should display meal plan subpage when subpageName is "meal plan" and currMealPlan is present in profile', () => {
+
+    page.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      expect(profile.currMealPlan?.date).toBe(page.dateSelected);
+      // expect(page.currMealPlan.date).toEqual("2022-01-01");
+    })
+    // page.displaySubpage('meal plan');
+    // expect(page.subpage).toBe('meal plan');
+    // expect(page.dateSelected).toBe(mockProfile.currMealPlan.date);
   });
 
   it("should change subpage to ingredients", () => {
