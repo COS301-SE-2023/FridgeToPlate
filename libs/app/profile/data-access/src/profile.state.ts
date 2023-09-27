@@ -165,7 +165,7 @@ export class ProfileState {
             this.profileAPI.updateProfile(updatedProfile);
             this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
         } else {
-            this.store.dispatch(new ShowInfo('You Must Be Logged In to Save Recipes'));
+            this.store.dispatch(new ShowError('You Must Be Logged In To Save Recipes'));
         }
     }
 
@@ -400,7 +400,7 @@ export class ProfileState {
     async addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType, date } : AddToMealPlan) {
         const profile = getState().profile;
         if(!profile){
-            this.store.dispatch(new ShowInfo('You Must Be Logged In to Save Recipes'));
+            this.store.dispatch(new ShowError('You Must Be Logged In To Add To Meal Plan'));
             return;
         }
 
