@@ -8,6 +8,7 @@ module.exports = {
     join(__dirname, '../src/**/!(*.stories|*.spec).{ts,html}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
+  darkMode: 'class',
   theme: {
     screens: {
       'sm': '320px',
