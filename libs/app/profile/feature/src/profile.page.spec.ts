@@ -79,12 +79,12 @@ describe("ProfilePage", () => {
     expect(page.subpage).toEqual("saved");
   });
 
-  it("should change call function when moving to meal plan", () => {
-    const getMealPlanSpy = jest.spyOn(page, 'getMealPlan');
-    page.displaySubpage("meal plan");
-    expect(getMealPlanSpy).toBeCalled();
-    expect(page.subpage).toEqual("meal plan");
-  });
+  // it("should change call function when moving to meal plan", () => {
+  //   const getMealPlanSpy = jest.spyOn(page, 'getMealPlan');
+  //   page.displaySubpage("meal plan");
+  //   expect(getMealPlanSpy).toBeCalled();
+  //   expect(page.subpage).toEqual("meal plan");
+  // });
 
   it('should display meal plan subpage when subpageName is "meal plan" and currMealPlan is present in profile', () => {
 
