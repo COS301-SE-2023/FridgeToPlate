@@ -92,8 +92,21 @@ describe('EditModalComponent', () => {
     const body = document.createElement('html');
     document.querySelector = jest.fn().mockReturnValue(body);
 
+    const updateTestPreferences: IPreferences = {
+      username: "testuser",
+      darkMode: false,
+      recommendNotif: true,
+      reviewNotif: false,
+      viewsNotif: false,
+    };
+
+    component.editablePreferences = updateTestPreferences;
+
     // Act
-    component.editablePreferences.darkMode = false;
+    if(component.editablePreferences != null)
+      if(component.editablePreferences.darkMode != null)
+        component.editablePreferences.darkMode = false;
+    
     component.changeMode();
 
     // Assert
@@ -108,8 +121,21 @@ describe('EditModalComponent', () => {
     body.classList.add('dark');
     document.querySelector = jest.fn().mockReturnValue(body);
 
+    const updateTestPreferences: IPreferences = {
+      username: "testuser",
+      darkMode: true,
+      recommendNotif: true,
+      reviewNotif: false,
+      viewsNotif: false,
+    };
+
+    component.editablePreferences = updateTestPreferences;
+
     // Act
-    component.editablePreferences.darkMode = true;
+    if(component.editablePreferences != null)
+      if(component.editablePreferences.darkMode != null)
+        component.editablePreferences.darkMode = true;
+
     component.changeMode();
 
     // Assert
