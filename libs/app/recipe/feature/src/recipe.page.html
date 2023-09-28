@@ -12,7 +12,7 @@
 <ng-template #recipe>
   <div
     *ngIf="recipe$ | async as recipe; else ErrorMessage"
-    class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16"
+    class="overflow-scroll bg-background-light  w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16"
   >
     <div
       class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50"
@@ -39,7 +39,7 @@
       </button>
     </div>
     <div
-      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+      class="w-full h-full flex flex-col items-center bg-background-light  lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
     >
       <div
         class="w-5/6 mb-4 h-auto lg:h-full pt-4 lg:row-start-2 lg:row-end-auto lg:col-start-1 lg:col-end-6 lg:ml-8 lg:mt-16"
@@ -95,7 +95,7 @@
         class="w-5/6 h-full lg:row-start-2 lg:row-end-auto lg:col-start-6 lg:col-end-13"
       >
         <div class="mt-8 lg:mt-4">
-          <ion-list class="bg-background-lights h-full rounded-2xl">
+          <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
 
             <div class="flex">
               <ion-list-header>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="mt-8">
-          <ion-list class="bg-background-lights h-full rounded-2xl">
+          <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
             <ion-list-header>
               <ion-label class="text-lg font-bold text-content-dark">Instructions</ion-label>
             </ion-list-header>
@@ -165,7 +165,7 @@
 </ng-template>
 
 <ng-template #ErrorMessage>
-  <div class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
+  <div class="bg-background-light dark:bg-gray-200 lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
     <div
       class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10"
     >
