@@ -1,29 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecommendPage } from './recommend.page';
-import { IonicModule } from '@ionic/angular';
-import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { RecommendUIModule } from '@fridge-to-plate/app/recommend/ui';
-import { HttpClientModule } from '@angular/common/http';
+import { HelpPage } from './help.page';
+
 import { NgxsModule } from '@ngxs/store';
 
-describe('RecipeRecommendationPage', () => {
-  let component: RecommendPage;
-  let fixture: ComponentFixture<RecommendPage>;
+describe('helpPage', () => {
+  let component: HelpPage;
+  let fixture: ComponentFixture<HelpPage>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RecommendPage],
+      declarations: [HelpPage],
       imports: [
-        IonicModule, 
-        NavigationBarModule, 
-        RecommendUIModule,
-        HttpClientModule,
         NgxsModule.forRoot(),
       ],
     });
-    fixture = TestBed.createComponent(RecommendPage);
+
+    fixture = TestBed.createComponent(HelpPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
