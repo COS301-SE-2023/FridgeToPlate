@@ -80,8 +80,8 @@
             <p class="text-content-dark">{{ recipe.creator }}</p>
           </div>
 
-          <div class="rounded-2xl bg-white dark:bg-gray-200 h-auto py-4 px-4">
-          <div class="flex">
+          <div class="rounded-2xl bg-white  h-auto py-4 px-4">
+          <div class="flex ">
             <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
           </div>
             <h1 class="text-lg font-bold ">Description</h1>
@@ -94,10 +94,10 @@
       <div
         class="w-5/6 h-full lg:row-start-2 lg:row-end-auto lg:col-start-6 lg:col-end-13"
       >
-        <div class="mt-8 lg:mt-4">
+        <div class="mt-8 lg:mt-4 ">
           <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
 
-            <div class="flex">
+            <div class="flex ">
               <ion-list-header>
                 <ion-label class="text-lg font-bold ">Ingredients</ion-label>
               </ion-list-header>
@@ -106,7 +106,7 @@
                 <option value="metric">Metric Units</option>
               </select>
             </div>
-            <ion-item class="font-bold">
+            <ion-item class="font-bold dark:bg-gray-200">
               <span class="w-1/2">Ingredient Name</span>
               <span class="w-1/4 ml-4">Quantity</span>
               <span class="1/4 ml-2 pl-1">Units</span>
@@ -126,10 +126,10 @@
           </ion-list>
         </div>
 
-        <div class="mt-8">
+        <div class="mt-8 ">
           <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
             <ion-list-header>
-              <ion-label class="text-lg font-bold text-content-dark">Instructions</ion-label>
+              <ion-label class="text-lg font-bold ">Instructions</ion-label>
             </ion-list-header>
             <ion-item *ngFor="let instruction of recipe?.steps; let i = index;">
               <div><span class="font-bold">{{i+1}}. </span> <span>{{ instruction }}</span></div>
