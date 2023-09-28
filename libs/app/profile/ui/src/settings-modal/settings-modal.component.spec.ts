@@ -87,4 +87,34 @@ describe('EditModalComponent', () => {
     expect(component.displayChangePassword).toBe("none");
   });
 
+  it('should toggle dark mode to true', () => {
+    // Arrange
+    const body = document.createElement('html');
+    document.querySelector = jest.fn().mockReturnValue(body);
+
+    // Act
+    component.editablePreferences.darkMode = false;
+    component.changeMode();
+
+    // Assert
+    expect(body.getAttribute('data-theme')).toBe('dark');
+    expect(body.classList.contains('dark')).toBe(true);
+  });
+
+  it('should toggle dark mode to false', () => {
+    // Arrange
+    const body = document.createElement('html');
+    body.setAttribute('data-theme', 'dark');
+    body.classList.add('dark');
+    document.querySelector = jest.fn().mockReturnValue(body);
+
+    // Act
+    component.editablePreferences.darkMode = true;
+    component.changeMode();
+
+    // Assert
+    expect(body.getAttribute('data-theme')).toBe('light');
+    expect(body.classList.contains('dark')).toBe(false);
+  });
+
 });
