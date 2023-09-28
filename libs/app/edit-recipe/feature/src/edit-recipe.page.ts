@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DeleteRecipe, IRecipe, RetrieveRecipe, UpdateRecipe } from '@fridge-to-plate/app/recipe/utils';
+import {
+  DeleteRecipe,
+  IRecipe,
+  RetrieveRecipe,
+  UpdateRecipe,
+} from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Select, Store, ofActionSuccessful, Actions } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
@@ -18,25 +23,32 @@ import { Navigate } from '@ngxs/router-plugin';
   styleUrls: ['./edit-recipe.page.css'],
 })
 export class EditRecipeComponent implements OnInit {
-
   recipeForm!: FormGroup;
-  imageUrl = 'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
+  imageUrl =
+    'https://img.freepik.com/free-photo/frying-pan-empty-with-various-spices-black-table_1220-561.jpg';
   selectedMeal!: string;
-  difficulty: "Easy" | "Medium" | "Hard" = "Easy";
+  difficulty: 'Easy' | 'Medium' | 'Hard' = 'Easy';
   tags: string[] = [];
-  profile !: IProfile;
-  recipeId !: string;
-  recipe !: IRecipe;
+  profile!: IProfile;
+  recipeId!: string;
+  recipe!: IRecipe;
 
-  @Select(RecipeState.getEditRecipe) recipe$ !: Observable<IRecipe>;
-  @Select(ProfileState.getProfile) profile$ !: Observable<IProfile>;
+  @Select(RecipeState.getEditRecipe) recipe$!: Observable<IRecipe>;
+  @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
 
-  constructor(private fb: FormBuilder, private store : Store, private location: Location, public route: ActivatedRoute, private actions$: Actions) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private location: Location,
+    public route: ActivatedRoute,
+    private actions$: Actions
+  ) {}
 
   ngOnInit() {
     this.createForm();
-    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {this.profile = profile})
-
+    this.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      this.profile = profile;
+    });
   }
 
   createForm(): void {
@@ -54,35 +66,31 @@ export class EditRecipeComponent implements OnInit {
   }
 
   initialize(): void {
-    this.recipe$.pipe(take(1)).subscribe(recipe =>
-      {
-        this.recipe = recipe;
-        if(recipe.recipeId) {
-          this.recipeId = recipe.recipeId;
-        }
-      });
+    this.recipe$.pipe(take(1)).subscribe((recipe) => {
+      this.recipe = recipe;
+      if (recipe.recipeId) {
+        this.recipeId = recipe.recipeId;
+      }
+    });
   }
 
   populateForm(): void {
-
     this.recipe?.ingredients.forEach((ingredient) => {
       const ingredientGroup = this.fb.group({
         name: [ingredient.name, Validators.required],
         amount: [ingredient.amount, Validators.required],
-        unit: [ingredient.unit, Validators.required]
+        unit: [ingredient.unit, Validators.required],
       });
 
       (this.recipeForm.get('ingredients') as FormArray).push(ingredientGroup);
-    }
-    );
+    });
 
     this.recipe?.steps.forEach((step) => {
       this.instructionControls.push(this.fb.control(step, Validators.required));
-    }
-    );
+    });
     this.tags = this.recipe?.tags ?? this.tags;
     this.selectedMeal = this.recipe?.meal ?? this.selectedMeal;
-    this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl
+    this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl;
     this.difficulty = this.recipe?.difficulty ?? this.difficulty;
   }
 
@@ -94,7 +102,7 @@ export class EditRecipeComponent implements OnInit {
     const ingredientGroup = this.fb.group({
       name: ['', Validators.required],
       amount: ['', Validators.required],
-      unit: ['', Validators.required]
+      unit: ['', Validators.required],
     });
 
     // Add the new ingredient group to the FormArray
@@ -113,30 +121,29 @@ export class EditRecipeComponent implements OnInit {
     this.ingredientControls.splice(index, 1);
   }
 
-  removeInstruction(index: number) : void{
+  removeInstruction(index: number): void {
     this.instructionControls.splice(index, 1);
   }
 
   getAmountPlaceholderText() {
     if (window.innerWidth < 1024) {
-      return "e.g 10";
+      return 'e.g 10';
     } else {
-      return "Amount";
+      return 'Amount';
     }
   }
 
   getUnitPlaceholderText() {
     if (window.innerWidth < 1024) {
-      return "e.g L";
+      return 'e.g L';
     } else {
-      return "Unit";
+      return 'Unit';
     }
   }
 
-  updateRecipe() : void {
+  updateRecipe(): void {
     // Check first if the form is completely valid
-    if(!this.isFormValid())
-        return;
+    if (!this.isFormValid()) return;
 
     // Ingredients array
     const ingredients = this.getIngredients();
@@ -159,20 +166,21 @@ export class EditRecipeComponent implements OnInit {
       servings: this.recipeForm.value.servings as number,
       tags: this.tags,
       rating: this.recipe?.rating as number | null,
-      reviews: this.recipe?.reviews ?? []
+      reviews: this.recipe?.reviews ?? [],
     };
 
-    const index = this.profile.createdRecipes.findIndex( recipe => this.recipeId === recipe.recipeId);
-    if(index === -1) {
-      this.store.dispatch( new ShowError('Could not update recipe'));
+    const index = this.profile.createdRecipes.findIndex(
+      (recipe) => this.recipeId === recipe.recipeId
+    );
+    if (index === -1) {
+      this.store.dispatch(new ShowError('Could not update recipe'));
       return;
     }
-    
-    this.store.dispatch( new UpdateRecipe(recipe) );
-    this.profile.createdRecipes[index] = recipe;
-    this.store.dispatch( new UpdateProfile(this.profile))
-    this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]))
 
+    this.store.dispatch(new UpdateRecipe(recipe));
+    this.profile.createdRecipes[index] = recipe;
+    this.store.dispatch(new UpdateProfile(this.profile));
+    this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -189,17 +197,18 @@ export class EditRecipeComponent implements OnInit {
   }
 
   deleteRecipe() {
-
-    if(!this.recipe?.recipeId) {
-      this.store.dispatch( new ShowError('Could not delete recipe'));
+    if (!this.recipe?.recipeId) {
+      this.store.dispatch(new ShowError('Could not delete recipe'));
     }
 
-    this.store.dispatch( new DeleteRecipe( this.recipe?.recipeId as string ))
-    this.profile$.pipe(take(1)).subscribe( (profile: IProfile) => {
-    profile.createdRecipes = profile.createdRecipes.filter( recipe => this.recipeId !== recipe.recipeId);
-    this.store.dispatch( new UpdateProfile(profile))
-  })
-    this.location.back()
+    this.store.dispatch(new DeleteRecipe(this.recipe?.recipeId as string));
+    this.profile$.pipe(take(1)).subscribe((profile: IProfile) => {
+      profile.createdRecipes = profile.createdRecipes.filter(
+        (recipe) => this.recipeId !== recipe.recipeId
+      );
+      this.store.dispatch(new UpdateProfile(profile));
+    });
+    this.location.back();
   }
 
   toggleMeal(option: string) {
@@ -215,11 +224,11 @@ export class EditRecipeComponent implements OnInit {
       'py-2': true,
       'px-4': true,
       'rounded-md': true,
-      'mr-2': true
+      'mr-2': true,
     };
   }
 
-  toggleDifficulty(option: "Easy" | "Medium" | "Hard") {
+  toggleDifficulty(option: 'Easy' | 'Medium' | 'Hard') {
     this.difficulty = option;
   }
 
@@ -232,25 +241,24 @@ export class EditRecipeComponent implements OnInit {
       'py-2': true,
       'px-4': true,
       'rounded-md': true,
-      'mr-2': true
+      'mr-2': true,
     };
   }
 
-
   addTag() {
     const tagValue = this.recipeForm.get('tags')?.value as string;
-    if(!tagValue) {
-      this.store.dispatch( new ShowError("Please enter valid tag"))
-    }
-    else if (this.tags.length < 3) {
-      if(this.tags.includes(tagValue)){
-        this.store.dispatch( new ShowError("No duplicates: Tag already selected"))
+    if (!tagValue) {
+      this.store.dispatch(new ShowError('Please enter valid tag'));
+    } else if (this.tags.length < 3) {
+      if (this.tags.includes(tagValue)) {
+        this.store.dispatch(
+          new ShowError('No duplicates: Tag already selected')
+        );
         return;
       }
       this.tags.push(tagValue);
-    }
-    else {
-      this.store.dispatch( new ShowError("Only a maximum of three tags"))
+    } else {
+      this.store.dispatch(new ShowError('Only a maximum of three tags'));
     }
     // reset the form value after adding it to array
     this.recipeForm.get('tags')?.reset();
@@ -261,29 +269,32 @@ export class EditRecipeComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-
-    if(!this.recipeForm.valid){
-      this.store.dispatch( new ShowError("Invalid Form. Missing fields or invalid ingredient amount was entered"))
+    if (!this.recipeForm.valid) {
+      this.store.dispatch(
+        new ShowError(
+          'Invalid Form. Missing instructions or Ingredient details.'
+        )
+      );
       return false;
     }
 
-    if(this.ingredientControls.length < 1) {
-      this.store.dispatch( new ShowError("No Ingredients"))
+    if (this.ingredientControls.length < 1) {
+      this.store.dispatch(new ShowError('No Ingredients'));
       return false;
     }
 
-    if(this.instructionControls.length < 1) {
-      this.store.dispatch( new ShowError("No Instructions"))
+    if (this.instructionControls.length < 1) {
+      this.store.dispatch(new ShowError('No Instructions'));
       return false;
     }
 
-    if(!this.selectedMeal){
-      this.store.dispatch( new ShowError("Please select a meal"))
+    if (!this.selectedMeal) {
+      this.store.dispatch(new ShowError('Please select a meal'));
       return false;
     }
 
-    if(!this.profile){
-      this.store.dispatch( new ShowError("Please login to create a recipe"))
+    if (!this.profile) {
+      this.store.dispatch(new ShowError('Please login to create a recipe'));
       return false;
     }
 
@@ -297,15 +308,15 @@ export class EditRecipeComponent implements OnInit {
         ingredients.push({
           name: ingredient.value.name,
           amount: ingredient.value.amount,
-          unit: ingredient.value.unit
-      })
-    }
+          unit: ingredient.value.unit,
+        });
+      }
     });
 
     return ingredients;
   }
 
-  getInstructions() : string[] {
+  getInstructions(): string[] {
     const instructions: string[] = [];
     this.instructionControls.forEach((element) => {
       if (element.value) {
@@ -323,5 +334,4 @@ export class EditRecipeComponent implements OnInit {
   goHome(): void {
     this.store.dispatch(new Navigate(['/home']));
   }
-
 }

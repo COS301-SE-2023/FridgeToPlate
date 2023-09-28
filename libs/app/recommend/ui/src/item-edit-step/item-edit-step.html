@@ -1,14 +1,15 @@
 <div
-  class="w-full h-full [&>*]:mx-5"
+  class="w-full h-full [&>*]:mx-6 font-inter"
   *ngIf="ingredients$ | async as ingredients;"
 >
   <div>
-    <h3 class="text-xl font-bold my-2">Add New Ingredients</h3>
+    <h3 class="text-xl font-bold my-4">Add New Ingredients</h3>
     <form class="flex mb-2">
       <div class="w-full">
         <select
           [(ngModel)]="ingredientName"
           required
+          min="0"
           type="text"
           name="name"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
@@ -137,9 +138,10 @@
       </div>
 
       <button
+        [disabled]="isAddIngredientDisabled"
         type="submit"
         (click)="addIngredient()"
-        class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 flex justify-center items-center ml-3"
+        class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 flex justify-center items-center ml-3 disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
         <ion-icon name="add-circle-outline"></ion-icon>
       </button>
@@ -162,9 +164,15 @@
       ></ingredient-card>
     </div>
     <ng-template #emptyList>
-      <h3 class="text-base my-2">Your Ingredients List is Empty. Add Ingredients to Get Ingredient Based Recommendations.</h3>
+      <h3 class="text-base my-2">
+        Your Ingredients List is Empty. Add Ingredients to Get Ingredient Based
+        Recommendations.
+      </h3>
     </ng-template>
   </div>
 </div>
 
-<barcode-modal *ngIf="scannerOpened" (closeFunc)="closeScanner()"></barcode-modal>
+<barcode-modal
+  *ngIf="scannerOpened"
+  (closeFunc)="closeScanner()"
+></barcode-modal>

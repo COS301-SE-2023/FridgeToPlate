@@ -131,7 +131,7 @@ export class ExplorePage {
       this.showCategories = true;
       this.subpage = 'beforeSearchApplied';
       this.currSearch = false;
-
+      this.searchTerm = '';
       return;
     }
 
@@ -148,7 +148,7 @@ export class ExplorePage {
 
     this.store.dispatch(new CategorySearch(this.searchObject));
 
-    this.recipes$.pipe(take(1)).subscribe((recipes) => {
+    this.recipes$.pipe().subscribe((recipes) => {
       if (recipes && recipes.length > 0 && this.currSearch) {
         this.retunedRecipes = recipes;
         this.loading = false;
@@ -156,6 +156,7 @@ export class ExplorePage {
         this.currSearch = false;
       }
     });
+    this.searchTerm = searchText;
   }
 
   clearSearch() {
@@ -164,6 +165,7 @@ export class ExplorePage {
     this.showCategories = true;
     this.showRecipes = false;
     this.loading = false;
+    this.searchTerm = '';
   }
 
   showSearchOverlay() {

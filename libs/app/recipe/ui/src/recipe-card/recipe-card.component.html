@@ -1,43 +1,57 @@
-<div (click)="navigateToRecipe()" class="w-full rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300">
-    <img [src]="recipe.recipeImage" class="object-cover w-full aspect-square" />
-    <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full">
-        <h1 class="ion-text-capitalize text-white font-semibold text-sm"> {{ recipe.name }} </h1>
-        <p class="text-gray-200 text-xs mb-1">Difficulty: {{ recipe.difficulty }}</p>
-        <p class="mt-2 text-orange-700 font-bold">{{ recipe?.rating ?? '...'}}/5 </p>
-        <span *ngFor="let i of [1, 2, 3, 4, 5]">
-          <ion-icon [name]="getStarName(getRatingValue(i))" [ngClass]="getStarClass(getRatingValue(i))"></ion-icon>
-        </span>
-        <!-- <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span> -->
-        <button
-            *ngIf="!added"
-            (click)="toggleMealPlan(); $event.stopPropagation()"
-            class=" inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
-            px-2 py-2 text-center m-3">
-                <ion-icon name="add-outline"></ion-icon>
-        </button>
-        <button
-            *ngIf="added"
-            (click)="removeFromMealPlan(); $event.stopPropagation()"
-            class=" inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
-            px-2 py-2 text-center m-3">
-                <ion-icon name="remove-outline"></ion-icon>
-        </button>
-        <button
-            *ngIf="editable"
-            (click)="edit(); $event.stopPropagation()"
-            class=" inline-flex absolute top-1/2 right-1 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
-            px-2 py-2 text-center m-3">
-                <ion-icon name="pencil-outline"></ion-icon>
-        </button>
-        <button
-            *ngIf="!editable"
-            (click)="changeSaved(); $event.stopPropagation()"
-            class=" inline-flex absolute top-1/2 right-1 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl
-            px-2 py-2 text-center m-3">
-                <ion-icon *ngIf="bookmarked" name="bookmark"></ion-icon>
-                <ion-icon *ngIf="!bookmarked" name="bookmark-outline"></ion-icon>
-        </button>
-    </div>
+<div
+  (click)="navigateToRecipe()"
+  class="w-full font-inter rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300"
+>
+  <img [src]="recipe.recipeImage" class="object-cover w-full aspect-square" />
+  <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full">
+    <h1 class="text-white font-semibold text-sm">{{ recipe.name }}</h1>
+    <p class="text-gray-200 text-xs mb-1">
+      Difficulty: {{ recipe.difficulty }}
+    </p>
+    <p class="mt-2 text-orange-700 font-bold">
+      {{ recipe?.rating ?? '...' }}/5
+    </p>
+    <span *ngFor="let i of [1, 2, 3, 4, 5]">
+      <ion-icon
+        [name]="getStarName(getRatingValue(i))"
+        [ngClass]="getStarClass(getRatingValue(i))"
+      ></ion-icon>
+    </span>
+    <!-- <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span> -->
+    <button
+      *ngIf="!added"
+      (click)="toggleMealPlan(); $event.stopPropagation()"
+      class="inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-2 text-center m-3"
+    >
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+    <button
+      *ngIf="added"
+      (click)="removeFromMealPlan(); $event.stopPropagation()"
+      class="inline-flex absolute top-1/2 right-14 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-2 text-center m-3"
+    >
+      <ion-icon name="remove-outline"></ion-icon>
+    </button>
+    <button
+      *ngIf="editable"
+      (click)="edit(); $event.stopPropagation()"
+      class="inline-flex absolute top-1/2 right-1 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-2 text-center m-3"
+    >
+      <ion-icon name="pencil-outline"></ion-icon>
+    </button>
+    <button
+      *ngIf="!editable"
+      (click)="changeSaved(); $event.stopPropagation()"
+      class="inline-flex absolute top-1/2 right-1 transform -translate-y-3/4 text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-2 text-center m-3"
+    >
+      <ion-icon *ngIf="bookmarked" name="bookmark"></ion-icon>
+      <ion-icon *ngIf="!bookmarked" name="bookmark-outline"></ion-icon>
+    </button>
+  </div>
 </div>
 
-<meal-plan-modal *ngIf="showMenu" (closeFunc)="toggleMealPlan()" (saveFunc)="addToMealPlan($event)"></meal-plan-modal>
+<meal-plan-modal
+  *ngIf="showMenu"
+  (closeFunc)="toggleMealPlan()"
+  (saveFunc)="addToMealPlan($event)"
+></meal-plan-modal>

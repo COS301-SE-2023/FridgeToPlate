@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { AddIngredient, RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
+import {
+  AddIngredient,
+  RemoveIngredient,
+} from '@fridge-to-plate/app/recommend/utils';
 import { Select, Store } from '@ngxs/store';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { Observable } from 'rxjs';
@@ -15,10 +18,12 @@ import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
 export class ItemEditStep {
   ingredientName = "";
   scannerOpened = false;
-
+  isAddIngredientDisabled = true;
   unitsList = measurementUnits;
 
-  @Select(RecommendState.getIngredients) ingredients$!: Observable<IIngredient[]>;
+  @Select(RecommendState.getIngredients) ingredients$!: Observable<
+    IIngredient[]
+  >;
 
   constructor(private store: Store) {}
 
@@ -35,7 +40,7 @@ export class ItemEditStep {
       }
       
       this.store.dispatch(new AddIngredient(newIngredient));
-  
+
       this.ingredientName = '';
     }
   }
@@ -46,5 +51,13 @@ export class ItemEditStep {
 
   openScanner() {
     this.scannerOpened = true;
+  }
+  //Function to simulate Reactive forms.
+  checkIsFormValid() {
+    if (
+      this.ingredientName !== "" 
+    ) {
+      this.isAddIngredientDisabled = false;
+    }
   }
 }

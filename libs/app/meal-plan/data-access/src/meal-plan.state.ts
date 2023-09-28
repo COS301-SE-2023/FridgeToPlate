@@ -5,31 +5,13 @@ import { ChartData } from "chart.js";
 
 
 export interface MealPlanChartStateModel {
-    mealPlanChartData: ChartData;
+    mealPlanChartData: ChartData | null;
 }
 
 @State<MealPlanChartStateModel>({
     name: 'mealplandata',
     defaults: {
-        mealPlanChartData: {
-            labels: [
-              'Breakfast',
-              'Lunch',
-              'Dinner',
-              'Snack'
-            ],
-            datasets: [{
-              label: 'Number of Calories',
-              data: [0, 0, 0, 0],
-              backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)',
-                'rgb(155, 205, 204)'
-              ],
-              hoverOffset: 4
-            }]
-        }
+        mealPlanChartData: null
     }
 })
 @Injectable()
@@ -41,7 +23,31 @@ export class MealPlanState {
     }
 
     @Action(UpdateMealPlanData)
-    updateMealPlanData({ getState } : StateContext<MealPlanChartStateModel>, { values }: UpdateMealPlanData) {
-        getState().mealPlanChartData.datasets[0].data = values;
+    updateMealPlanData({ getState, patchState } : StateContext<MealPlanChartStateModel>, { values }: UpdateMealPlanData) {
+      patchState({
+        mealPlanChartData: null
+      });
+
+      patchState({
+        mealPlanChartData: {
+          labels: [
+            'Breakfast',
+            'Lunch',
+            'Dinner',
+            'Snack'
+          ],
+          datasets: [{
+            label: 'Number of Calories',
+            data: values,
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 205, 86)',
+              'rgb(155, 205, 204)'
+            ],
+            hoverOffset: 4
+          }]
+      }
+      });
     }
 }
