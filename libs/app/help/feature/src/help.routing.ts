@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecommendPage } from "./help.page";
+import { HelpPage } from "./help.page";
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: RecommendPage
+    component: HelpPage
   },
 ]
 
@@ -16,4 +16,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RecommendRouting {}
+export class HelpRouting {}
