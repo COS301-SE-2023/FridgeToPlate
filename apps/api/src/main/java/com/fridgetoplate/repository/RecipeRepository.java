@@ -106,7 +106,7 @@ public class RecipeRepository {
     public List<Object> filterSearch(Explore explore) {
 
         int numberOfWorkers = 3;
-        String search = explore.getSearch();
+        String search = explore.getSearch().toLowerCase();
         String type = explore.getType();
         List<String> tags = explore.getTags();
         String difficulty = explore.getDifficulty();

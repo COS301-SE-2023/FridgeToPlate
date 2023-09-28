@@ -128,9 +128,9 @@ export class AuthState {
       const preference: IPreferences = {
         username: username,
         darkMode: false,
-        recommendNotif: false,
-        viewsNotif: false,
-        reviewNotif: false,
+        recommendNotif: true,
+        viewsNotif: true,
+        reviewNotif: true,
       };
 
       const defaultRecommend: IRecipePreferences = {

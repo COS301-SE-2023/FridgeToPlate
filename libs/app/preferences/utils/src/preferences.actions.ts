@@ -1,8 +1,8 @@
 import { IPreferences } from "./interfaces";
 
-export class UpdatePreferences {
-    static readonly type = '[Preferences] UpdatePreference';
-    constructor(public readonly preferences: IPreferences) {}
+export class ChangePreference {
+    static readonly type = '[Preferences] ChangePreference';
+    constructor(public readonly preferenceName: string) {}
 }
 
 export class CreateNewPreferences {

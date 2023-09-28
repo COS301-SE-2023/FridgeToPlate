@@ -189,8 +189,6 @@ public class ExternalApiService {
 
         recipeSearchEndpoint += "&ignorePantry=true&ranking=2&number=24&sort=min-missing-ingredients";
 
-        System.out.println(recipeSearchEndpoint);
-
         SpoonacularIngredientItem[] recipesByIngredients = template.getForObject(recipeSearchEndpoint, SpoonacularIngredientItem[].class);
 
         String recipeInfoSearchEndpoint = spoonacularbaseUrl + "/recipes/informationBulk?apiKey=" + spoonacularPrivateKey + "&ids=";
