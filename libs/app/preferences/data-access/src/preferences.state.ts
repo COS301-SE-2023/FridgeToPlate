@@ -73,7 +73,7 @@ export class PreferencesState {
             preferences: null
         })
     }
-    
+
     @Action(CreateNewPreferences)
     createNewPreferences({ setState } : StateContext<PreferencesStateModel>, { preferences } : CreateNewPreferences) {
         setState({
@@ -91,7 +91,7 @@ export class PreferencesState {
                 });
             },
             error: error => {
-                this.store.dispatch(new ShowError(error));
+                this.store.dispatch(new ShowError("An error occurred"));
             }
         });
     }
