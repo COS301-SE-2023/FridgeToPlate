@@ -1,1 +1,1 @@
-export * from './recommend.module';
+export * from './help.module';

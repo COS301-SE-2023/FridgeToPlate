@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RecommendPage } from "./recommend.page";
+import { RecommendPage } from "./help.page";
 
 const routes: Routes = [
   {
