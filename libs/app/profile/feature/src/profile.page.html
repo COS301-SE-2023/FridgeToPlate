@@ -307,15 +307,29 @@
         </ul>
       </div>
     </div>
-    <div
-      class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
-    >
-      <recipe-card
-        *ngFor="let recipe of profile.createdRecipes"
-        [recipe]="recipe"
-        class="py-1"
-      ></recipe-card>
-    </div>
+    <ng-container *ngIf="profile.createdRecipes.length > 0; else noCreatedRecipes">
+        <div
+          class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
+        >
+          <recipe-card
+            *ngFor="let recipe of profile.createdRecipes"
+            [recipe]="recipe"
+            class="py-1"
+          ></recipe-card>
+        </div>
+    </ng-container>
+    <ng-template #noCreatedRecipes>
+        <div class="w-[95%] sm:h-80 flex justify-center items-center">
+          <div
+            class="flex flex-col justify-center items-center py-14 px-8 text-center"
+          >
+            <h2 class="font-bold text-2xl mb-4 text-content-dark">No Created recipes</h2>
+            <p class="text-md text-zinc-500">
+              Use the create page to add a recipe here
+            </p>
+          </div>
+        </div>
+      </ng-template>
   </div>
 </div>
 
