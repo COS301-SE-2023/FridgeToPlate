@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ExploreState } from "@fridge-to-plate/app/explore/data-access";
+import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import {Observable, take} from "rxjs";
-import { IRecipe } from "@fridge-to-plate/app/recipe/utils"
-import {keywordsArray} from "@fridge-to-plate/app/recommend/utils";
+import { BehaviorSubject, Observable, take } from 'rxjs';
+import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -15,197 +15,191 @@ import {keywordsArray} from "@fridge-to-plate/app/recommend/utils";
 
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ExplorePage {
+  @Select(ExploreState.getExplore) explore$!: Observable<IExplore>;
+  @Select(ExploreState.getRecipes) recipes$!: Observable<IRecipe[]>;
 
-  @Select(ExploreState.getExplore) explore$ !: Observable<IExplore>;
-  @Select(ExploreState.getRecipes) recipes$ !: Observable<IRecipe[]>;
+  clearSearchTermObservable$: BehaviorSubject<boolean> = new BehaviorSubject(
+    false
+  );
 
   searchHistoryArray: string[] = [];
 
-  page = "searching";
+  page = 'searching';
   retunedRecipes: IRecipe[];
-  subpage = "beforeSearchApplied";
+  subpage = 'beforeSearchApplied';
   loading = false;
   showRecipes = false;
   showCategories = true;
   currSearch = false;
-  editExplore !: IExplore;
-  searchObject !: IExplore;
-  searchTerm = "";
+  editExplore!: IExplore;
+  searchObject!: IExplore;
+  searchTerm = '';
   isSearchOverlayVisible = false;
   selectedFilters: string[] = [];
   showAllFilters = false;
   isDirectiveActive = true;
 
-  allCategories : IExplore[] = [
+  allCategories: IExplore[] = [
     {
-      type: "breakfast",
-      search: "",
+      type: 'breakfast',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "snack",
-      search: "",
+      type: 'snack',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "lunch",
-      search: "",
+      type: 'lunch',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "dessert",
-      search: "",
+      type: 'dessert',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "dinner",
-      search: "",
+      type: 'dinner',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "soup",
-      search: "",
+      type: 'soup',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "beverage",
-      search: "",
+      type: 'beverage',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
     {
-      type: "salad",
-      search: "",
+      type: 'salad',
+      search: '',
       tags: [],
-      difficulty: "",
+      difficulty: '',
     },
-
   ];
 
   protected readonly keywordsArray = keywordsArray;
 
-  constructor(private store: Store) {
-  }
+  constructor(private store: Store) {}
 
-  displaySearch = "block";
-
+  displaySearch = 'block';
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  search(search : IExplore) {
-
-    this.subpage = "searchAppliedByCaterogry"
+  search(search: IExplore) {
+    this.subpage = 'searchAppliedByCaterogry';
     this.showRecipes = false;
     this.loading = true;
     this.currSearch = true;
 
     this.store.dispatch(new CategorySearch(search));
 
-    this.recipes$.subscribe( (recipes) => {
-      if(recipes && recipes.length > 0 && this.currSearch){
+    this.recipes$.subscribe((recipes) => {
+      if (recipes && recipes.length > 0 && this.currSearch) {
         this.retunedRecipes = recipes;
         this.loading = false;
         this.showRecipes = true;
         this.currSearch = false;
       }
 
-      this.searchTerm = search.type.charAt(0).toUpperCase() + search.type.slice(1);
-
-    })
-
+      this.searchTerm =
+        search.type.charAt(0).toUpperCase() + search.type.slice(1);
+    });
   }
 
   explorer(searchText: string) {
-
     if (searchText.length > 0) {
       this.searchTerm = searchText;
       this.showCategories = false;
       this.loading = true;
       this.showRecipes = false;
       this.currSearch = true;
-    }
-    else {
+    } else {
       this.loading = false;
       this.showRecipes = false;
       this.showCategories = true;
-      this.subpage = "beforeSearchApplied";
+      this.subpage = 'beforeSearchApplied';
       this.currSearch = false;
 
       return;
     }
 
-    this.searchObject =
-      {
-        type: "",
-        search: searchText,
-        tags: this.selectedFilters,
-        difficulty: "",
-      };
+    this.searchObject = {
+      type: '',
+      search: searchText,
+      tags: this.selectedFilters,
+      difficulty: '',
+    };
 
-    if(!this.searchHistoryArray.includes(searchText)){
+    if (!this.searchHistoryArray.includes(searchText)) {
       this.searchHistoryArray.push(searchText);
     }
 
     this.store.dispatch(new CategorySearch(this.searchObject));
 
-    this.recipes$.pipe(take(1)).subscribe( (recipes) => {
-      if(recipes && recipes.length > 0 && this.currSearch){
+    this.recipes$.pipe(take(1)).subscribe((recipes) => {
+      if (recipes && recipes.length > 0 && this.currSearch) {
         this.retunedRecipes = recipes;
         this.loading = false;
         this.showRecipes = true;
         this.currSearch = false;
       }
     });
-
   }
 
-  clearSearch(){
-    this.subpage = "beforeSearchApplied";
+  clearSearch() {
+    this.clearSearchTermObservable$.next(true);
+    this.subpage = 'beforeSearchApplied';
     this.showCategories = true;
     this.showRecipes = false;
     this.loading = false;
   }
 
-  showSearchOverlay(){
-    if(!this.isSearchOverlayVisible){
+  showSearchOverlay() {
+    if (!this.isSearchOverlayVisible) {
       this.isSearchOverlayVisible = true;
     }
   }
 
-  hideSearchOverlay(){
-    if(this.isSearchOverlayVisible && this.isDirectiveActive){
+  hideSearchOverlay() {
+    if (this.isSearchOverlayVisible && this.isDirectiveActive) {
       this.isSearchOverlayVisible = false;
     }
-    if(!this.isDirectiveActive) {
+    if (!this.isDirectiveActive) {
       this.isDirectiveActive = true;
     }
   }
 
-  searchFromHistory(pastTerm: string){
-    if(pastTerm.length !== 0 ){
+  searchFromHistory(pastTerm: string) {
+    if (pastTerm.length !== 0) {
       this.searchTerm = pastTerm;
       this.showCategories = false;
       this.loading = true;
       this.showRecipes = false;
       this.currSearch = true;
 
-      this.searchObject =
-        {
-          type: "",
-          search: pastTerm,
-          tags: this.selectedFilters,
-          difficulty: "",
-        };
+      this.searchObject = {
+        type: '',
+        search: pastTerm,
+        tags: this.selectedFilters,
+        difficulty: '',
+      };
 
       this.store.dispatch(new CategorySearch(this.searchObject));
 
-      this.recipes$.pipe(take(1)).subscribe( (recipes) => {
-        if(recipes && recipes.length > 0 && this.currSearch){
+      this.recipes$.pipe(take(1)).subscribe((recipes) => {
+        if (recipes && recipes.length > 0 && this.currSearch) {
           this.retunedRecipes = recipes;
           this.loading = false;
           this.showRecipes = true;
@@ -215,9 +209,9 @@ export class ExplorePage {
     }
   }
 
-  showSearchFilters(){
+  showSearchFilters() {
     this.isDirectiveActive = false;
-    if(!this.showAllFilters){
+    if (!this.showAllFilters) {
       this.showAllFilters = true;
       return;
     }
@@ -225,46 +219,44 @@ export class ExplorePage {
 
   hideSearchFilters() {
     this.isDirectiveActive = false;
-    if(this.showAllFilters){
+    if (this.showAllFilters) {
       this.showAllFilters = false;
       return;
     }
   }
 
-
-  removeFromFilters(filterToRemove: string){
-    if(!filterToRemove || (this.selectedFilters.length <= 0 || !this.selectedFilters.includes(filterToRemove)))
-    {
+  removeFromFilters(filterToRemove: string) {
+    if (
+      !filterToRemove ||
+      this.selectedFilters.length <= 0 ||
+      !this.selectedFilters.includes(filterToRemove)
+    ) {
       return;
-    }
-
-    else{
-      this.selectedFilters = this.selectedFilters.filter((filter) => filter !== filterToRemove);
+    } else {
+      this.selectedFilters = this.selectedFilters.filter(
+        (filter) => filter !== filterToRemove
+      );
     }
   }
 
-  addToFilters(filter: string){
-    if(!filter || this.selectedFilters.length >= 3)
-    {
+  addToFilters(filter: string) {
+    if (!filter || this.selectedFilters.length >= 3) {
       return;
-    }
-
-    else if(this.selectedFilters.includes(filter)){
+    } else if (this.selectedFilters.includes(filter)) {
       this.removeFromFilters(filter);
-    }
-    else{
+    } else {
       this.selectedFilters.push(filter);
     }
   }
-  clearFilters(){
+  clearFilters() {
     this.selectedFilters = [];
   }
 
-  applyFilters(){
-    if(this.selectedFilters.length > 0){
+  applyFilters() {
+    if (this.selectedFilters.length > 0) {
       this.searchFromHistory(this.searchTerm ?? '');
     }
 
-  this.hideSearchFilters();
+    this.hideSearchFilters();
   }
 }
