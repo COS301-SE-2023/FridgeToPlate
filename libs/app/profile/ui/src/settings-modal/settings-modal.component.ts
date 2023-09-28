@@ -45,14 +45,18 @@ export class SettingsModalComponent {
 		
     if (body) {
 
-      if(this.editablePreferences.darkMode == false){
-        body.setAttribute('data-theme', "dark"); 
-        body.classList.add("dark");
+      if (this.editablePreferences) {
+        if(this.editablePreferences.darkMode == false){
+          body.setAttribute('data-theme', "dark"); 
+          body.classList.add("dark");
+        }
+        else {
+          body.setAttribute('data-theme', "light");
+          body.classList.remove("dark");
+        }
       }
-      else {
-        body.setAttribute('data-theme', "light");
-        body.classList.remove("dark");
-      }
+
+      
     }
     
   }
