@@ -47,6 +47,10 @@ export class SettingsModalComponent {
     this.displayChangePassword = "block";
   }
 
+  openHelp(){
+    return;
+  }
+
   closeChangePassword() {
     this.displayChangePassword = "none";
   }
