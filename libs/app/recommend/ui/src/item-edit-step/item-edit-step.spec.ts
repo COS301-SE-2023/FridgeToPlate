@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
 import { FormsModule } from '@angular/forms';
-import { RecommendUIModule } from '../recommend.module';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -83,48 +82,6 @@ describe('ItemEditStep', () => {
     component.addIngredient();
     component.addIngredient();
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
-  });
-
-  it('should not mutate AddIngredient', () => {
-    expect(component.isAddIngredientDisabled).toBe(true);
-    component.checkIsFormValid();
-    expect(component.isAddIngredientDisabled).toBe(true);
-  });
-
-  it('should mutate AddIngredient', () => {
-    const ingredientName = "Test";
-    const ingredientAmount = 5;
-    const ingredientScale = "mg";
-
-    component.ingredientName = ingredientName;
-    component.ingredientAmount = ingredientAmount;
-    component.ingredientScale = ingredientScale;
-
-    expect(component.isAddIngredientDisabled).toBe(true);
-    component.checkIsFormValid();
-    expect(component.isAddIngredientDisabled).toBe(false);
-  });
-
-  it('should not mutate AddIngredient initally but eventually', () => {
-    const ingredientName = "Test";
-    const ingredientAmount = 5;
-    const ingredientScale = "mg";
-
-    component.ingredientName = ingredientName;
-    expect(component.isAddIngredientDisabled).toBe(true);
-    component.checkIsFormValid();
-    expect(component.isAddIngredientDisabled).toBe(true);
-
-    component.ingredientAmount = ingredientAmount;
-    expect(component.isAddIngredientDisabled).toBe(true);
-    component.checkIsFormValid();
-    expect(component.isAddIngredientDisabled).toBe(true);
-
-    component.ingredientScale = ingredientScale;
-    expect(component.isAddIngredientDisabled).toBe(true);
-    component.checkIsFormValid();
-    expect(component.isAddIngredientDisabled).toBe(false);
-
   });
 
 });

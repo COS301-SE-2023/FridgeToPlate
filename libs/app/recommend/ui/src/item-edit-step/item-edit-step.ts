@@ -52,12 +52,4 @@ export class ItemEditStep {
   openScanner() {
     this.scannerOpened = true;
   }
-  //Function to simulate Reactive forms.
-  checkIsFormValid() {
-    if (
-      this.ingredientName !== "" 
-    ) {
-      this.isAddIngredientDisabled = false;
-    }
-  }
 }
