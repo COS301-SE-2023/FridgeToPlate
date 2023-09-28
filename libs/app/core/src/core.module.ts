@@ -34,6 +34,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -72,8 +73,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         },
         {
           key: RecommendState,
-          engine: LOCAL_STORAGE_ENGINE,
+          engine: LOCAL_STORAGE_ENGINE, 
         },
+        {
+          key: MealPlanState,
+          engine: LOCAL_STORAGE_ENGINE,
+        }
       ],
     }),
     NgxsRouterPluginModule.forRoot(),
