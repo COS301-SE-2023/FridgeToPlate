@@ -1,6 +1,6 @@
   <div class="flex justify-between bg-primary sm:py-3 md:py-2 md:mt-16" *ngIf="recipe$ | async as recipe">
     <div>
-      <h2 class="text-2xl font-bold ml-3"> {{ recipe.name }}</h2>
+      <h2 class="text-2xl font-bold ml-3 text-content-dark"> {{ recipe.name }}</h2>
     </div>
     <div class="mr-5">
       <button type="button" (click)="deleteRecipe()">
@@ -23,7 +23,7 @@
     
         <div>
           <div class="mb-8">
-            <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name</label>
+            <label for="name" class="block  font-bold mb-2 text-content-gray">Recipe Name</label>
             <input
               type="text"
               id="name"
@@ -36,7 +36,7 @@
           
         
           <div class="mb-7">
-            <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description</label>
+            <label for="description" class="block  font-bold mb-2 text-content-gray">Recipe Description</label>
             <textarea
               id="description"
               placeholder="Description"
@@ -48,7 +48,7 @@
     
           <div class="mb-8 lg:flex lg:space-x-4">
         <div class="lg:w-2/5">
-          <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
+          <label for="servings" class="block  font-bold mb-2 text-content-gray">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="servings"
@@ -61,7 +61,7 @@
         </div>
         
         <div class="lg:w-3/5">
-          <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+          <label for="preparation-time" class="block  font-bold mb-2 text-content-gray">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="preparation-time"
@@ -76,7 +76,7 @@
       </div>
       
           <div class="mt-8">
-            <label class="block text-gray-700 font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
+            <label class="block text-content-gray font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
             <div class="grid grid-flow-row grid-cols-3 gap-1">
               <button
                 type="button"
@@ -112,7 +112,7 @@
         
     
         <div class="lg:hidden">
-          <label class="block text-gray-700 font-bold mb-2">Meal</label>
+          <label class="block text-content-gray font-bold mb-2">Meal</label>
           <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
             <button
               type="button"
@@ -194,7 +194,7 @@
       
         <div>
           <div class="flex justify-between">
-            <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
+            <label for="ingredients" class="block text-content-gray font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
             <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
           </div>
           <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
@@ -224,7 +224,7 @@
                   <select formControlName="unit"
                           required
                           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none">
-                    <option value="" disabled selected class="text-gray-500">Units</option>
+                    <option value="" disabled selected class="text-content-gray">Units</option>
                     <option value="tsp" class="text-black hover:bg-primary-highlight">Teaspoon (tsp)</option>
                     <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (tbsp)</option>
                     <option value="c" class="text-black hover:bg-primary-highlight">Cup (c)</option>
@@ -240,7 +240,7 @@
     
     
                 <div class="mt-1">
-                  <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center">
+                  <button type="button" (click)="removeIngredient(i)" class="text-content-dark text-3xl mx-4 font-medium rounded-lg text-center">
                     <ion-icon name="trash-outline"></ion-icon>
                   </button>
                 </div>
@@ -254,7 +254,7 @@
     
         <div>
           <div class="flex justify-between">
-            <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
+            <label for="instructions" class="block text-content-gray font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
             <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
           </div>
           <div formArrayName="instructions" class="flex-shrink-0 max-h-40 overflow-y-auto">
@@ -279,7 +279,7 @@
         </div>
     
         <div class="hidden lg:block">
-          <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
+          <label class="block text-content-gray font-bold mb-2">Meal<span class="text-red-500">*</span></label>
       <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2">
         <button
           type="button"
@@ -360,7 +360,7 @@
         </div>
     
         <div>
-          <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
+          <label for="tag" class="block text-content-gray font-bold mb-2">Tag</label>
     
           <div class="flex items-center space-x-4"> 
             <input
