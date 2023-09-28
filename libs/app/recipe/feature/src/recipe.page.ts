@@ -48,7 +48,7 @@ export class RecipePage implements OnInit {
     this.forceLoading = true;
     setTimeout(() => {
       this.forceLoading = false;
-    }, 1000);
+    }, 2000);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {

@@ -1,6 +1,6 @@
 const { createGlobPatternsForDependencies } = require('@nx/angular/tailwind');
 const { join } = require('path');
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,15 +11,19 @@ module.exports = {
   darkMode: 'class',
   theme: {
     screens: {
-      'sm': '320px',
-      'md': '700px',
-      'lg': '1024px',
-      'xl': '1280px',
+      sm: '320px',
+      md: '700px',
+      lg: '1024px',
+      xl: '1280px',
       '2xl': '1536px',
     },
-    fontFamily: 
-       ["Poppins", "Inter", "Quicksand", "Noto Sans KR", ...defaultTheme.fontFamily.sans]
-    ,
+    fontFamily: [
+      'Poppins',
+      'Inter',
+      'Quicksand',
+      'Noto Sans KR',
+      ...defaultTheme.fontFamily.sans,
+    ],
     extend: {
       colors: {
         'background-light': 'var(--color-background-light)',
@@ -38,31 +42,30 @@ module.exports = {
         'input-outline': '#E6E6E6',
       },
       gridTemplateRows: {
-        10: "repeat(10, minmax(0,1fr))",
-        12: "repeat(12, minmax(0,1fr))",
+        10: 'repeat(10, minmax(0,1fr))',
+        12: 'repeat(12, minmax(0,1fr))',
       },
       gridRowStart: {
-        8: "8",
-        9: "9",
-        10: "10",
+        8: '8',
+        9: '9',
+        10: '10',
       },
       gridRowEnd: {
-        8: "8",
+        8: '8',
         9: '9',
-        10: "10",
-        11: "11",
-        12: "12",
-        13: "13",
+        10: '10',
+        11: '11',
+        12: '12',
+        13: '13',
       },
       fontFamily: {
-        'sans': ["Noto Sans KR"]
-        
+        sans: ['Noto Sans KR'],
+        inter: ['Inter'],
       },
       spacing: {
-        '18': '5rem',
-
-      }
-    }
+        18: '5rem',
+      },
+    },
   },
   plugins: [],
 };

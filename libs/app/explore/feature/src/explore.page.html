@@ -1,5 +1,5 @@
 <div
-  class="h-full w-full px-5 pt-5 lg:pt-24 overflow-auto bg-background-light md:pb-5 sm:pb-4"
+  class="h-full w-full px-8 sm:pt-12 md:pt-10 lg:pt-9 overflow-auto bg-background-light md:pb-5 sm:pb-4 font-inter"
 >
   <div *ngIf="subpage === 'beforeSearchApplied'" class="md:pl-1">
     <div appClickedOutside (clickedOutsideFunc)="hideSearchOverlay()">
@@ -103,7 +103,9 @@
     </div>
 
     <div *ngIf="showCategories === true">
-      <h1 class="text-lg py-5 md:pl-1 md:text-2xl lg:text-lg">
+      <h1
+        class="text-xl py-5 md:pl-1 md:text-2xl lg:text-3xl sm:pt-10 font-bold"
+      >
         <b class="text-content-dark">Categories</b>
       </h1>
       <div
@@ -119,10 +121,10 @@
   </div>
 
   <div *ngIf="subpage === 'searchAppliedByCaterogry'">
-    <div class="pl-2">
+    <div class="pl-2 mt-">
       <button
         (click)="clearSearch()"
-        class="bg-primary rounded-sm text-white pl-2 pr-2 pb-1"
+        class="bg-primary text-white hover:bg-primary-highlight hover:scale-105 active:scale-105 transition duration-200 ease-in-out font-medium py-2 px-4 rounded-md flex justify-center items-center"
       >
         Clear Search
       </button>
@@ -150,6 +152,7 @@
     *ngIf="loading === true"
     class="text-center justify-center pt-44 sm:pt-12"
   >
+    <fridge-to-plate-custom-skeleton-loader />
     <fridge-to-plate-custom-skeleton-loader />
   </div>
 </div>

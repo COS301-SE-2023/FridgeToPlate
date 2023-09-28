@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { AddIngredient, RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
+import {
+  AddIngredient,
+  RemoveIngredient,
+} from '@fridge-to-plate/app/recommend/utils';
 import { Select, Store } from '@ngxs/store';
 import { RecommendState } from '@fridge-to-plate/app/recommend/data-access';
 import { Observable } from 'rxjs';
@@ -12,16 +15,18 @@ import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
   styleUrls: ['item-edit-step.scss'],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class ItemEditStep {
+export class  ItemEditStep {
   order = '';
   ingredientName = '';
   ingredientAmount = 1;
   ingredientScale = '';
   scannerOpened = false;
-
+  isAddIngredientDisabled = true;
   unitsList = measurementUnits;
 
-  @Select(RecommendState.getIngredients) ingredients$!: Observable<IIngredient[]>;
+  @Select(RecommendState.getIngredients) ingredients$!: Observable<
+    IIngredient[]
+  >;
 
   constructor(private store: Store) {}
 
@@ -30,18 +35,19 @@ export class ItemEditStep {
   }
 
   addIngredient() {
-    if (this.ingredientName.trim() !== "" && this.ingredientAmount > 0) {
+    if (this.ingredientName.trim() !== '' && this.ingredientAmount > 0) {
       const newIngredient: IIngredient = {
         name: this.ingredientName,
         amount: this.ingredientAmount as number,
-        unit: this.ingredientScale
-      }
-      
+        unit: this.ingredientScale,
+      };
+
       this.store.dispatch(new AddIngredient(newIngredient));
-  
+
       this.ingredientName = '';
       this.ingredientAmount = 1;
       this.ingredientScale = '';
+      this.isAddIngredientDisabled = true;
     }
   }
 
@@ -51,5 +57,15 @@ export class ItemEditStep {
 
   openScanner() {
     this.scannerOpened = true;
+  }
+  //Function to simulate Reactive forms.
+  checkIsFormValid() {
+    if (
+      this.ingredientName.length !== 0 &&
+      this.ingredientAmount >= 1 &&
+      this.ingredientScale !== ''
+    ) {
+      this.isAddIngredientDisabled = false;
+    }
   }
 }

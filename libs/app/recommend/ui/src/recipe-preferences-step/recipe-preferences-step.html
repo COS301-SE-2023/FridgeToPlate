@@ -4,12 +4,12 @@
 >
   <div>
     <h3 class="text-xl font-bold my-2 text-content-dark">Recipe Filters</h3>
-    <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3">
+    <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
       <label class="font-semibold mr-8 text-content-dark">Difficulty</label>
       <select
         [(ngModel)]="editableRecipePreferences.difficulty"
         (change)="updateRecipePreferences()"
-        class="w-full rounded-md p-1"
+        class="w-full rounded-md p-1 flex"
       >
         <option></option>
         <option>Easy</option>
@@ -17,7 +17,7 @@
         <option>Hard</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
       <label class="font-semibold mr-10 text-content-dark">Meal Type</label>
       <select
         [(ngModel)]="editableRecipePreferences.meal"
@@ -32,7 +32,7 @@
         <option>Dessert</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
       <label class="font-semibold mr-10 text-content-dark">Servings</label>
       <select
         [(ngModel)]="editableRecipePreferences.servings"
@@ -45,7 +45,7 @@
         <option>4+</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
       <label class="font-semibold mr-10 text-content-dark">Prep Time</label>
       <select
         [(ngModel)]="editableRecipePreferences.prepTime"
@@ -58,7 +58,7 @@
         <option>60+ Minutes</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
       <label class="font-semibold mr-14 text-content-dark">Rating</label>
       <select
         [(ngModel)]="editableRecipePreferences.rating"
