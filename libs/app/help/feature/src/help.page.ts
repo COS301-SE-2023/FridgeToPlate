@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationBar } from '@fridge-to-plate/app/navigation/feature';
+import { Component } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { GetUpdatedRecommendation } from '@fridge-to-plate/app/recommend/utils';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-recipe-recommendation',
-  templateUrl: './recommend.page.html',
-  styleUrls: ['./recommend.page.scss'],
+  selector: 'help-page',
+  templateUrl: './help.page.html',
+  styleUrls: ['./help.page.scss'],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class RecommendPage {
+export class HelpPage {
   constructor(private store: Store) {}
 }
