@@ -32,7 +32,7 @@ export class Review implements OnInit {
 
   ngOnInit() {
     this.profile$.subscribe( (stateProfile) => {
-      this.stateUsername = stateProfile.displayName;
+      this.stateUsername = stateProfile.username;
     });
   }
 
