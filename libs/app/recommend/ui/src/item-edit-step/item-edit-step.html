@@ -5,52 +5,139 @@
   <div>
     <h3 class="text-xl font-bold my-4">Add New Ingredients</h3>
     <form class="flex mb-2">
-      <div class="w-3/5">
-        <input
-          (focus)="checkIsFormValid()"
-          (blur)="checkIsFormValid()"
+      <div class="w-full">
+        <select
           [(ngModel)]="ingredientName"
-          placeholder="Ingredient Name"
           required
           min="0"
           type="text"
           name="name"
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-        />
-      </div>
-
-      <div class="w-1/5 mx-2">
-        <input
-          (focus)="checkIsFormValid()"
-          (blur)="checkIsFormValid()"
-          [(ngModel)]="ingredientAmount"
-          type="number"
-          placeholder="Amount"
-          required
-          name="amount"
-          min="1"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-        />
-      </div>
-
-      <div class="w-1/5">
-        <select
-          (focus)="checkIsFormValid()"
-          (blur)="checkIsFormValid()"
-          [(ngModel)]="ingredientScale"
-          placeholder="Scale"
-          required
-          type="text"
-          name="scale"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md cursor-pointer"
         >
-          <option *ngFor="let unit of unitsList" value="{{unit}}">
-            {{unit}}
-          </option>
+          <option value="" disabled selected>Choose Ingredient to Add</option>
+          <optgroup label="Dairy">
+            <option value="butter">Butter</option>
+            <option value="buttermilk">Buttermilk</option>
+            <option value="cheddar cheese">Cheddar Cheese</option>
+            <option value="cheese">Cheese</option>
+            <option value="condensed milk">Condensed Milk</option>
+            <option value="cream cheese">Cream Cheese</option>
+            <option value="cottage cheese">Cottage Cheese</option>
+            <option value="feta cheese">Feta Cheese</option>
+            <option value="gouda cheese">Gouda Cheese</option>
+            <option value="goat cheese">Goat Cheese</option>
+            <option value="blue cheese">Blue Cheese</option>
+            <option value="half and half">Half and Half</option>
+            <option value="milk">Milk</option>
+            <option value="mozzarella cheese">Mozzarella Cheese</option>
+            <option value="parmesan cheese">Parmesan Cheese</option>
+            <option value="ricotta cheese">Ricotta Cheese</option>
+            <option value="sour cream">Sour Cream</option>
+            <option value="whipped cream">Whipped Cream</option>
+            <option value="yogurt">Yogurt</option>
+          </optgroup>
+          <optgroup label="Fruits">
+            <option value="apricot">Apricot</option>
+            <option value="banana">Banana</option>
+            <option value="blackberries">Blackberries</option>
+            <option value="blueberries">Blueberries</option>
+            <option value="cherry">Cherry</option>
+            <option value="cranberries">Cranberries</option>
+            <option value="dragon fruit">Dragon Fruit</option>
+            <option value="fig">Fig</option>
+            <option value="grapefruit">Grapefruit</option>
+            <option value="grapes">Grapes</option>
+            <option value="guava">Guava</option>
+            <option value="kiwi">Kiwi</option>
+            <option value="lemon">Lemon</option>
+            <option value="lime">Lime</option>
+            <option value="mango">Mango</option>
+            <option value="orange">Orange</option>
+            <option value="papaya">Papaya</option>
+            <option value="passion fruit">Passion Fruit</option>
+            <option value="peach">Peach</option>
+            <option value="pear">Pear</option>
+            <option value="pineapple">Pineapple</option>
+            <option value="plum">Plum</option>
+            <option value="pomegranate">Pomegranate</option>
+            <option value="raspberries">Raspberries</option>
+            <option value="strawberries">Strawberries</option>
+            <option value="watermelon">Watermelon</option>
+          </optgroup>
+          <optgroup label="Vegetables">
+            <option value="artichokes">Artichokes</option>
+            <option value="asparagus">Asparagus</option>
+            <option value="avocado">Avocado</option>
+            <option value="beets">Beets</option>
+            <option value="bell peppers">Bell Peppers</option>
+            <option value="broccoli">Broccoli</option>
+            <option value="cabbage">Cabbage</option>
+            <option value="carrots">Carrots</option>
+            <option value="cauliflower">Cauliflower</option>
+            <option value="celery">Celery</option>
+            <option value="corn">Corn</option>
+            <option value="cucumbers">Cucumbers</option>
+            <option value="eggplant">Eggplant</option>
+            <option value="green beans">Green Beans</option>
+            <option value="kale">Kale</option>
+            <option value="leeks">Leeks</option>
+            <option value="lettuce">Lettuce</option>
+            <option value="mushrooms">Mushrooms</option>
+            <option value="onions">Onions</option>
+            <option value="peas">Peas</option>
+            <option value="potatoes">Potatoes</option>
+            <option value="radishes">Radishes</option>
+            <option value="spinach">Spinach</option>
+            <option value="sweet potatoes">Sweet Potatoes</option>
+            <option value="tomatoes">Tomatoes</option>
+            <option value="zucchini">Zucchini</option>
+          </optgroup>
+          <optgroup label="Proteins">
+            <option value="bacon">Bacon</option>
+            <option value="beef mince">Beef Mince</option>
+            <option value="beef ribs">Beef Ribs</option>
+            <option value="chicken leg">Chicken</option>
+            <option value="clams">Clams</option>
+            <option value="crab">Crab</option>
+            <option value="duck">Duck</option>
+            <option value="fish">Fish</option>
+            <option value="ham">Ham</option>
+            <option value="lamb">Lamb</option>
+            <option value="lobster">Lobster</option>
+            <option value="mussels">Mussels</option>
+            <option value="pork">Pork Chop</option>
+            <option value="pork ribs">Pork Ribs</option>
+            <option value="salmon">Salmon</option>
+            <option value="shrimp">Shrimp</option>
+            <option value="steak">Steak</option>
+            <option value="tilapia">Tilapia</option>
+            <option value="turkey">Turkey</option>
+          </optgroup>
+          <optgroup label="Grains">
+            <option value="barley">Barley</option>
+            <option value="bread">Bread</option>
+            <option value="bulgur">Bulgur</option>
+            <option value="cereal">Cereal</option>
+            <option value="corn flakes">Corn Flakes</option>
+            <option value="cornmeal">Cornmeal</option>
+            <option value="couscous">Couscous</option>
+            <option value="oats">Oats</option>
+            <option value="pasta">Pasta</option>
+            <option value="polenta">Polenta</option>
+            <option value="quinoa">Quinoa</option>
+            <option value="rice">Rice</option>
+            <option value="rye">Rye</option>
+            <option value="rye flour">Rye Flour</option>
+            <option value="spelt">Spelt</option>
+            <option value="wheat bran">Wheat Bran</option>
+            <option value="wheat germ">Wheat Germ</option>
+            <option value="white flour">White Flour</option>
+            <option value="wild rice">Wild Rice</option>
+          </optgroup>
         </select>
       </div>
+
       <button
-        [disabled]="isAddIngredientDisabled"
         type="submit"
         (click)="addIngredient()"
         class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-2xl px-2 py-1 flex justify-center items-center ml-3 disabled:bg-gray-400 disabled:cursor-not-allowed"
@@ -58,11 +145,11 @@
         <ion-icon name="add-circle-outline"></ion-icon>
       </button>
     </form>
-    <button
+    <h5 class="text-center mb-2 text-xl">Or</h5>
+    <button 
       (click)="openScanner()"
-      class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md py-1 text-center ml-0.5 mt-6 lg:mt-8 my-2 px-5"
-    >
-      <p class="text-md">Scan Ingredients</p>
+      class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-xl px-2 py-1 text-center w-full">
+      Scan Ingredient Barcode
     </button>
   </div>
 

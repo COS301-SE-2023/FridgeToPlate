@@ -7,9 +7,10 @@ import { NgxsModule } from '@ngxs/store';
 import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { PasswordModalComponent } from './password-modal/password-modal.component';
 import { ShoppinglistComponent } from './shopping-list-modal/shoppinglist.component';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, NgxsModule.forRoot([PreferencesState])],
+  imports: [CommonModule, FormsModule, IonicModule, NgxsModule.forRoot([PreferencesState])],
   declarations: [
     EditModalComponent,
     SettingsModalComponent,

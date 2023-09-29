@@ -20,9 +20,9 @@ export interface EditRecipeStateModel {
 
   @Injectable()
   export class RecipeState {
-  
+
     constructor(private api: RecipeAPI, private store: Store) {}
-  
+
     @Selector()
     static getEditRecipe(state: EditRecipeStateModel) {
       return state.editRecipe;
@@ -30,7 +30,7 @@ export interface EditRecipeStateModel {
 
     @Action(LoadRecipe)
     loadRecipe({setState}: StateContext<EditRecipeStateModel>, {recipeId}: LoadRecipe) {
-     
+
          this.api.getRecipeById(recipeId).subscribe((recipe) => {
             setState({
               editRecipe: recipe,
@@ -39,10 +39,9 @@ export interface EditRecipeStateModel {
           },
           (error: Error) => {
             console.error('Failed to load recipe:', error);
-            this.store.dispatch(new ShowError(error.message));
+            this.store.dispatch(new ShowError("An error occurred"));
           }
         );
     }
-  
-  }  
-  
+
+  }

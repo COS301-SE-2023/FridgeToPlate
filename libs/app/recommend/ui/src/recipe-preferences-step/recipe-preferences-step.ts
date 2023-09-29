@@ -13,8 +13,7 @@ import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
   styleUrls: ['recipe-preferences-step.scss'],
 })
 export class RecipePreferencesStep {
-  @Select(RecommendState.getRecipePreferences)
-  recipePreferences$!: Observable<IRecipePreferences>;
+  @Select(RecommendState.getRecipePreferences) recipePreferences$!: Observable<IRecipePreferences>;
   keywordOptions = keywordsArray;
   selectedKeywords: string[] = [];
   editableRecipePreferences!: IRecipePreferences;

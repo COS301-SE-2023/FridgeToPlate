@@ -15,11 +15,8 @@ import { measurementUnits } from '@fridge-to-plate/app/recommend/utils';
   styleUrls: ['item-edit-step.scss'],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class  ItemEditStep {
-  order = '';
-  ingredientName = '';
-  ingredientAmount = 1;
-  ingredientScale = '';
+export class ItemEditStep {
+  ingredientName = "";
   scannerOpened = false;
   isAddIngredientDisabled = true;
   unitsList = measurementUnits;
@@ -35,19 +32,16 @@ export class  ItemEditStep {
   }
 
   addIngredient() {
-    if (this.ingredientName.trim() !== '' && this.ingredientAmount > 0) {
+    if (this.ingredientName != "") {
       const newIngredient: IIngredient = {
         name: this.ingredientName,
-        amount: this.ingredientAmount as number,
-        unit: this.ingredientScale,
-      };
-
+        amount: 0,
+        unit: ''
+      }
+      
       this.store.dispatch(new AddIngredient(newIngredient));
 
       this.ingredientName = '';
-      this.ingredientAmount = 1;
-      this.ingredientScale = '';
-      this.isAddIngredientDisabled = true;
     }
   }
 
@@ -57,15 +51,5 @@ export class  ItemEditStep {
 
   openScanner() {
     this.scannerOpened = true;
-  }
-  //Function to simulate Reactive forms.
-  checkIsFormValid() {
-    if (
-      this.ingredientName.length !== 0 &&
-      this.ingredientAmount >= 1 &&
-      this.ingredientScale !== ''
-    ) {
-      this.isAddIngredientDisabled = false;
-    }
   }
 }

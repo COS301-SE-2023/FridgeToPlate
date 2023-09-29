@@ -56,6 +56,11 @@ export class Review implements OnInit {
       return;
     }
 
+    if (!this.stateUsername || this.stateUsername === '') {
+      this.store.dispatch(new ShowError('You Must Be Logged In To Add A Review'));
+      return;
+    }
+
     let stateRecipeId = '';
     this.recipe$.subscribe( (stateRecipe) => {
       stateRecipeId = stateRecipe.recipeId ?? '';

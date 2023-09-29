@@ -17,7 +17,7 @@
 
 <br>
 
-FridgeToPlate is a user-friendly app that utilizes preferences AI and relational database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
+FridgeToPlate is a user-friendly app that utilizes data management and document database models to gather recipes based on the ingredients found in the user's fridge. By providing access to delicious and wholesome meal ideas, this product aims to elevate the user's cooking experience.
 
 COS301 Capstone Project for [Amazon Web Services](https://aws.amazon.com/).
 
