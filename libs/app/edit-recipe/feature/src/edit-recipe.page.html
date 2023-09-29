@@ -3,7 +3,7 @@
   *ngIf="recipe$ | async as recipe"
 >
   <div>
-    <h2 class="text-2xl font-bold ml-3">{{ recipe.name }}</h2>
+    <h2 class="text-2xl font-bold ml-3 text-content-dark">{{ recipe.name }}</h2>
   </div>
   <div class="mr-5">
     <button type="button" (click)="deleteRecipe()">
@@ -39,7 +39,7 @@
 
     <div>
       <div class="mb-8">
-        <label for="name" class="block text-gray-700 font-bold mb-2 font-inter"
+        <label for="name" class="block  font-bold mb-2 text-content-gray font-inter"
           >Recipe Name</label
         >
         <input
@@ -59,7 +59,7 @@
       </div>
 
       <div class="mb-7">
-        <label for="description" class="block text-gray-700 font-bold mb-2"
+        <label for="description" class="block  font-bold mb-2 text-content-gray"
           >Recipe Description</label
         >
         <textarea
@@ -79,9 +79,7 @@
 
       <div class="mb-8 lg:flex lg:space-x-4">
         <div class="lg:w-2/5">
-          <label for="servings" class="block text-gray-700 font-bold mb-2"
-            >Number of Servings<span class="text-red-500">*</span></label
-          >
+          <label for="servings" class="block  font-bold mb-2 text-content-gray">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="servings"
@@ -100,13 +98,7 @@
         </div>
 
         <div class="lg:w-3/5">
-          <label
-            for="preparation-time"
-            class="block text-gray-700 font-bold mb-2"
-            >Preparation Time (in minutes)<span class="text-red-500"
-              >*</span
-            ></label
-          >
+          <label for="preparation-time" class="block  font-bold mb-2 text-content-gray">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="preparation-time"
@@ -127,7 +119,7 @@
       </div>
 
       <div class="mt-8">
-        <label class="block text-gray-700 font-bold mb-2"
+        <label class="block text-content-gray font-bold mb-2"
           >Difficulty<span class="text-red-500">*</span></label
         >
         <div class="grid grid-flow-row grid-cols-3 gap-1">
@@ -163,7 +155,7 @@
     </div>
 
     <div class="lg:hidden font-inter">
-      <label class="block text-gray-700 font-bold mb-2">Meal</label>
+      <label class="block text-content-gray font-bold mb-2">Meal</label>
       <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
         <button
           type="button"
@@ -247,7 +239,7 @@
       <div class="flex justify-between">
         <label
           for="ingredients"
-          class="block text-gray-700 font-bold mr-2 font-inter"
+          class="block text-content-gray font-bold mr-2 font-inter"
           >Ingredients<span class="text-red-500">*</span></label
         >
         <button
@@ -294,7 +286,7 @@
                 required
                 class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none"
               >
-                <option value="" disabled selected class="text-gray-500">
+                <option value="" disabled selected class="text-content-gray">
                   Units
                 </option>
                 <option
@@ -355,7 +347,7 @@
               <button
                 type="button"
                 (click)="removeIngredient(i)"
-                class="text-black text-3xl mx-4 font-medium rounded-lg text-center"
+                class="text-content-dark text-3xl mx-4 font-medium rounded-lg text-center"
               >
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
@@ -367,7 +359,7 @@
 
     <div>
       <div class="flex justify-between">
-        <label for="instructions" class="block text-gray-700 font-bold mr-2"
+        <label for="instructions" class="block text-content-gray font-bold mr-2"
           >Instructions<span class="text-red-500">*</span></label
         >
         <button
@@ -409,7 +401,7 @@
     </div>
 
     <div class="hidden lg:block font-inter">
-      <label class="block text-gray-700 font-bold mb-2"
+      <label class="block text-content-gray font-bold mb-2"
         >Meal<span class="text-red-500">*</span></label
       >
       <div
@@ -494,7 +486,7 @@
     </div>
 
     <div>
-      <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
+      <label for="tag" class="block text-content-gray font-bold mb-2">Tag</label>
 
       <div class="flex items-center space-x-4">
         <input
@@ -545,11 +537,11 @@
 </div>
 
 <ng-template #ErrorMessage>
-  <div class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
+  <div class="bg-background-lights dark:bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
     <div
-      class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10"
+      class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10 "
     >
-      <p class="text-center">Unfortunately, No recipe available to be edited</p>
+      <p class="text-center text-content-dark">Unfortunately, No recipe available to be edited</p>
       <div class="grid grid-flow-col columns-2 gap-3">
         <button
           (click)="goHome()"
