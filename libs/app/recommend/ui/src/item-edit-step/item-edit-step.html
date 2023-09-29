@@ -3,7 +3,7 @@
   *ngIf="ingredients$ | async as ingredients;"
 >
   <div>
-    <h3 class="text-xl font-bold my-4">Add New Ingredients</h3>
+    <h3 class="text-xl font-bold my-4 text-content-dark">Add New Ingredients</h3>
     <form class="flex mb-2">
       <div class="w-full">
         <select
@@ -12,7 +12,7 @@
           min="0"
           type="text"
           name="name"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md text-black"
         >
           <option value="" disabled selected>Choose Ingredient to Add</option>
           <optgroup label="Dairy">
@@ -96,7 +96,7 @@
             <option value="bacon">Bacon</option>
             <option value="beef mince">Beef Mince</option>
             <option value="beef ribs">Beef Ribs</option>
-            <option value="chicken leg">Chicken</option>
+            <option value="chicken">Chicken</option>
             <option value="clams">Clams</option>
             <option value="crab">Crab</option>
             <option value="duck">Duck</option>
@@ -154,7 +154,7 @@
   </div>
 
   <div class="mt-8">
-    <h3 class="text-xl font-bold my-2">Your Ingredients List</h3>
+    <h3 class="text-xl font-bold my-2 text-content-dark">Your Ingredients List</h3>
     <div *ngIf="ingredients.length > 0; else emptyList">
       <ingredient-card
         *ngFor="let item of ingredients"

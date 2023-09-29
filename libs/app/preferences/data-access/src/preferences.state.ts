@@ -47,6 +47,21 @@ export class PreferencesState {
             switch (preferenceName) {
                 case "darkMode":
                     preferences.darkMode = !preferences.darkMode;
+                    // eslint-disable-next-line no-case-declarations
+                    const body = document.querySelector("html");
+		
+                    if (body) {
+
+                        if(preferences.darkMode == true){
+                            body.setAttribute('data-theme', "dark"); 
+                            body.classList.add("dark");
+                        } else {
+                            body.setAttribute('data-theme', "light");
+                            body.classList.remove("dark");
+                        }
+
+                    }
+
                     break;
                 case "recommendNotif":
                     preferences.recommendNotif = !preferences.recommendNotif;
