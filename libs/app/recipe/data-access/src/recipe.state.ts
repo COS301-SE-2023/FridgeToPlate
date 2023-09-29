@@ -75,7 +75,7 @@ export class RecipeState {
           patchState({
             recipe: recipe,
           });
-        } 
+        }
       },
       (error: Error) => {
         this.store.dispatch(new ShowError("Could Not Retrieve Recipe"));
@@ -144,7 +144,7 @@ export class RecipeState {
             this.store.dispatch(new ShowSuccess('Successfully Added Review'));
         },
         error: error => {
-            this.store.dispatch(new ShowError(error.message));
+            this.store.dispatch(new ShowError("Unable to add review"));
         }
       });
     }
@@ -232,7 +232,7 @@ export class RecipeState {
       },
       (error: Error) => {
         console.error('Failed to retrieve ingredients:', error);
-        this.store.dispatch(new ShowError(error.message));
+        this.store.dispatch(new ShowError("An error occurred"));
       }
     );
   }
@@ -240,7 +240,7 @@ export class RecipeState {
   @Action(ChangeMeasurementType)
   changeMeasurementType( { setState, getState, patchState }: StateContext<RecipeStateModel>, { measurementType }: ChangeMeasurementType ) {
     const recipe = getState().recipe;
-    
+
     if (recipe) {
       recipe.ingredients = this.convertIngredients(recipe.ingredients, measurementType);
 
@@ -296,7 +296,7 @@ export class RecipeState {
                     element.amount *= 454;
                     element.unit = "g";
                     break;
-                case "oz": 
+                case "oz":
                     element.amount *= 28;
                     element.unit = "g";
             }

@@ -40,7 +40,10 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 List<String> currentRecipeSteps = new ArrayList<String>();
 
-                newRecipe.setRecipeImage(convertImageUrl(currentRecipe.getImage()));
+                if (currentRecipe.getImage() != null)
+                    newRecipe.setRecipeImage(convertImageUrl(currentRecipe.getImage()));
+                else 
+                    newRecipe.setRecipeImage("none");
 
                 newRecipe.setName(currentRecipe.getTitle());
 

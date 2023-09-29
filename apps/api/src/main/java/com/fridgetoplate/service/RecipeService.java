@@ -2,17 +2,12 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fridgetoplate.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.KeyPair;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.Explore;
@@ -141,7 +136,7 @@ public class RecipeService {
     model.setRecipeId(recipe.getRecipeId());
     model.setDifficulty(recipe.getDifficulty());
     model.setRecipeImage(recipe.getRecipeImage());
-    model.setName(recipe.getName());
+    model.setName(recipe.getName().toLowerCase());
     model.setTags(recipe.getTags());
     model.setMeal(recipe.getMeal());
     model.setDescription(recipe.getDescription());
@@ -163,32 +158,18 @@ public class RecipeService {
       }
 
       model.setYoutubeId(recipe.getYoutubeId());
-    } else {
-
-      try {
-
-        YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName() + " Recipe").getItems();
-        if (videos.length > 0) {
-          model.setYoutubeId(videos[0].getId().videoId);
-        } else {
-          model.setYoutubeId("");
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
     }
 
     recipeRepository.saveRecipe(model);
 
     recipe.setRecipeId(model.getRecipeId());
 
-    for (Ingredient ingredient : recipe.getIngredients()) {
-      IngredientModel ingredientModel = new IngredientModel();
-      ingredientModel.setRecipeId(recipe.getRecipeId());
-      ingredientModel.setName(ingredient.getName());
-      ingredientModel.setAmount(ingredient.getAmount());
-      ingredientModel.setUnit(ingredient.getUnit());
+        for (Ingredient ingredient : recipe.getIngredients()) {
+            IngredientModel ingredientModel = new IngredientModel();
+            ingredientModel.setRecipeId(recipe.getRecipeId());
+            ingredientModel.setName(ingredient.getName().toLowerCase());
+            ingredientModel.setAmount(ingredient.getAmount());
+            ingredientModel.setUnit(ingredient.getUnit());
 
       recipeRepository.saveIngredient(ingredientModel);
     }
@@ -219,11 +200,11 @@ public class RecipeService {
 
     for (Ingredient ingredient : recipe.getIngredients()) {
 
-      IngredientModel ingredientModel = new IngredientModel();
-      ingredientModel.setRecipeId(recipe.getRecipeId());
-      ingredientModel.setName(ingredient.getName());
-      ingredientModel.setAmount(ingredient.getAmount());
-      ingredientModel.setUnit(ingredient.getUnit());
+          IngredientModel ingredientModel = new IngredientModel();
+          ingredientModel.setRecipeId(recipe.getRecipeId());
+          ingredientModel.setName(ingredient.getName().toLowerCase());
+          ingredientModel.setAmount(ingredient.getAmount());
+          ingredientModel.setUnit(ingredient.getUnit());
 
       recipeRepository.saveIngredient(ingredientModel);
     }
@@ -298,31 +279,35 @@ public class RecipeService {
     return recipes;
   }
 
-  public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences,
-      List<Ingredient> userIngredients) {
+  public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
 
     List<IngredientModel> ingredientModels;
     RecipeFrontendModel recipe;
     List<RecipeFrontendModel> recipes = new ArrayList<>();
 
-    // Getting recipes from the specificied ingredients
-    for (Ingredient ingredient : userIngredients) {
-      ingredientModels = recipeRepository.getIngredientModels(ingredient.getName());
+      // Getting recipes from the specificied ingredients
+      for (Ingredient ingredient : userIngredients) {
+        ingredientModels = recipeRepository.getIngredientModels(ingredient.getName().toLowerCase());
 
-      for (IngredientModel ingredientModel : ingredientModels) {
-        recipe = findById(ingredientModel.getRecipeId());
+        for (IngredientModel ingredientModel : ingredientModels) {
+          recipe = findById(ingredientModel.getRecipeId());
 
-        if (recipes.contains(recipe) == false) {
-          recipes.add(recipe);
+          if (recipes.contains(recipe) == false) {
+            recipes.add(recipe);
+          }
         }
       }
-    }
 
     // Getting recipes from the specificied preferences
     List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
     // Extracting the rating from the preferences
-    String preferredRatingStr = recipePreferences.getRating().trim();
+    String preferredRatingStr;
+    if (recipePreferences.getRating() != null) {
+      preferredRatingStr = recipePreferences.getRating().trim();
+    } else {
+      preferredRatingStr = "";
+    }
 
     Double preferredRating = 0.0;
     if (!preferredRatingStr.isEmpty()) {
@@ -333,37 +318,41 @@ public class RecipeService {
     String preferredServingsStr;
     Integer preferredServingUpper = 0, preferredServingLower = 0;
 
-    if (recipePreferences.getServings().contains("-")) {
-      preferredServingsStr = recipePreferences.getServings().trim();
-      int index = preferredServingsStr.indexOf("-");
-      preferredServingUpper = Character.getNumericValue(preferredServingsStr.charAt(index + 1));
-    } else if (recipePreferences.getServings().contains("+")) {
-      preferredServingsStr = recipePreferences.getServings().trim();
-      preferredServingLower = Character.getNumericValue(preferredServingsStr.charAt(0));
+    if (recipePreferences.getServings() != null) {
+      if (recipePreferences.getServings().contains("-")) {
+        preferredServingsStr = recipePreferences.getServings().trim();
+        int index = preferredServingsStr.indexOf("-");
+        preferredServingUpper = Character.getNumericValue(preferredServingsStr.charAt(index + 1));
+      } else if (recipePreferences.getServings().contains("+")) {
+        preferredServingsStr = recipePreferences.getServings().trim();
+        preferredServingLower = Character.getNumericValue(preferredServingsStr.charAt(0));
+      }
     }
 
     // Extracting the prep time from the preferences
     Integer preferredPrepTimeUpper = 0, preferredPrepTimeLower = 0;
 
-    if (recipePreferences.getPrepTime().contains("<")) {
-      preferredPrepTimeUpper = 30;
-    } else if (recipePreferences.getPrepTime().contains("-")) {
-      preferredPrepTimeUpper = 60;
-    } else if (recipePreferences.getPrepTime().contains("+")) {
-      preferredPrepTimeLower = 60;
+    if (recipePreferences.getPrepTime() != null) {
+      if (recipePreferences.getPrepTime().contains("<")) {
+        preferredPrepTimeUpper = 30;
+      } else if (recipePreferences.getPrepTime().contains("-")) {
+        preferredPrepTimeUpper = 60;
+      } else if (recipePreferences.getPrepTime().contains("+")) {
+        preferredPrepTimeLower = 60;
+      }
     }
 
     for (RecipeFrontendModel selectedRecipe : recipes) {
 
-      if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 2
-          &&
-          (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) &&
-          (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
-          (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) &&
-          (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) &&
-          (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) &&
-          (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) &&
-          (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)) {
+        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 1 &&
+            (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
+            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
+            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) && 
+            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) &&
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) && 
+            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
+          ) {
 
         if (recipesSortByPreferences.size() < 24) {
           RecipeDesc recipeDesc = new RecipeDesc();

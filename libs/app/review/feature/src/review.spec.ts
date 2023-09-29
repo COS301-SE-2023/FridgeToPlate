@@ -80,6 +80,18 @@ describe('Review Component', () => {
       new ShowError('Description must not be more than 100 characters')
     );
   });
+
+  it('should dispatch an error message if the user not loggin in', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
+
+    component.setRating(3);
+    component.description = "Chilled";
+    component.stateUsername = "";
+    component.submitReview();
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      new ShowError('You Must Be Logged In To Add A Review')
+    );
+  });
 });
 
 describe('Review Component', () => {

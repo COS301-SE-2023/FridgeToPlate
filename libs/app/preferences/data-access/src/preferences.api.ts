@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
+import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
 import { IPreferences } from '@fridge-to-plate/app/preferences/utils';
 import { Store } from '@ngxs/store';
 
@@ -23,7 +24,7 @@ export class PreferencesAPI {
 
     this.http.put<IPreferences>(url, preferences).subscribe({
       error: error => {
-        this.store.dispatch(new ShowError(error));
+        this.store.dispatch(new ShowInfo("Successfully Updated"));
       }
     })
   }
@@ -34,7 +35,7 @@ export class PreferencesAPI {
 
     this.http.post<IPreferences>(url, preferences).subscribe({
       error: error => {
-        this.store.dispatch(new ShowError(error));
+        this.store.dispatch(new ShowError("An error occurred"));
       }
     });
   }
