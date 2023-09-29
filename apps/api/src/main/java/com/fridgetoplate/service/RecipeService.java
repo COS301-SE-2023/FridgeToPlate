@@ -132,20 +132,20 @@ public class RecipeService {
       }
     }
 
-        RecipeModel model = new RecipeModel();
-        model.setRecipeId(recipe.getRecipeId());
-        model.setDifficulty(recipe.getDifficulty());
-        model.setRecipeImage(recipe.getRecipeImage());
-        model.setName(recipe.getName().toLowerCase());
-        model.setTags(recipe.getTags());
-        model.setMeal(recipe.getMeal());
-        model.setDescription(recipe.getDescription());
-        model.setPrepTime(recipe.getPrepTime());
-        model.setSteps(recipe.getSteps());
-        model.setCreator(recipe.getCreator());
-        model.setServings(recipe.getServings());
-        model.setViews(0);
-        model.setRating(recipe.getRating());
+    RecipeModel model = new RecipeModel();
+    model.setRecipeId(recipe.getRecipeId());
+    model.setDifficulty(recipe.getDifficulty());
+    model.setRecipeImage(recipe.getRecipeImage());
+    model.setName(recipe.getName().toLowerCase());
+    model.setTags(recipe.getTags());
+    model.setMeal(recipe.getMeal());
+    model.setDescription(recipe.getDescription());
+    model.setPrepTime(recipe.getPrepTime());
+    model.setSteps(recipe.getSteps());
+    model.setCreator(recipe.getCreator());
+    model.setServings(recipe.getServings());
+    model.setViews(0);
+    model.setRating(recipe.getRating());
 
     if (recipe.getYoutubeId() != null && !recipe.getYoutubeId().isEmpty()) {
       String ytId = recipe.getYoutubeId();
@@ -158,20 +158,6 @@ public class RecipeService {
       }
 
       model.setYoutubeId(recipe.getYoutubeId());
-    } else {
-
-      try {
-
-        YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipe.getName() + " Recipe").getItems();
-        if (videos.length > 0) {
-          model.setYoutubeId(videos[0].getId().videoId);
-        } else {
-          model.setYoutubeId("");
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
     }
 
     recipeRepository.saveRecipe(model);
@@ -293,8 +279,7 @@ public class RecipeService {
     return recipes;
   }
 
-  public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences,
-      List<Ingredient> userIngredients) {
+  public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
 
     List<IngredientModel> ingredientModels;
     RecipeFrontendModel recipe;
@@ -304,20 +289,25 @@ public class RecipeService {
       for (Ingredient ingredient : userIngredients) {
         ingredientModels = recipeRepository.getIngredientModels(ingredient.getName().toLowerCase());
 
-      for (IngredientModel ingredientModel : ingredientModels) {
-        recipe = findById(ingredientModel.getRecipeId());
+        for (IngredientModel ingredientModel : ingredientModels) {
+          recipe = findById(ingredientModel.getRecipeId());
 
-        if (recipes.contains(recipe) == false) {
-          recipes.add(recipe);
+          if (recipes.contains(recipe) == false) {
+            recipes.add(recipe);
+          }
         }
       }
-    }
 
     // Getting recipes from the specificied preferences
     List<RecipeDesc> recipesSortByPreferences = new ArrayList<>();
 
     // Extracting the rating from the preferences
-    String preferredRatingStr = recipePreferences.getRating().trim();
+    String preferredRatingStr;
+    if (recipePreferences.getRating() != null) {
+      preferredRatingStr = recipePreferences.getRating().trim();
+    } else {
+      preferredRatingStr = "";
+    }
 
     Double preferredRating = 0.0;
     if (!preferredRatingStr.isEmpty()) {
@@ -328,24 +318,28 @@ public class RecipeService {
     String preferredServingsStr;
     Integer preferredServingUpper = 0, preferredServingLower = 0;
 
-    if (recipePreferences.getServings().contains("-")) {
-      preferredServingsStr = recipePreferences.getServings().trim();
-      int index = preferredServingsStr.indexOf("-");
-      preferredServingUpper = Character.getNumericValue(preferredServingsStr.charAt(index + 1));
-    } else if (recipePreferences.getServings().contains("+")) {
-      preferredServingsStr = recipePreferences.getServings().trim();
-      preferredServingLower = Character.getNumericValue(preferredServingsStr.charAt(0));
+    if (recipePreferences.getServings() != null) {
+      if (recipePreferences.getServings().contains("-")) {
+        preferredServingsStr = recipePreferences.getServings().trim();
+        int index = preferredServingsStr.indexOf("-");
+        preferredServingUpper = Character.getNumericValue(preferredServingsStr.charAt(index + 1));
+      } else if (recipePreferences.getServings().contains("+")) {
+        preferredServingsStr = recipePreferences.getServings().trim();
+        preferredServingLower = Character.getNumericValue(preferredServingsStr.charAt(0));
+      }
     }
 
     // Extracting the prep time from the preferences
     Integer preferredPrepTimeUpper = 0, preferredPrepTimeLower = 0;
 
-    if (recipePreferences.getPrepTime().contains("<")) {
-      preferredPrepTimeUpper = 30;
-    } else if (recipePreferences.getPrepTime().contains("-")) {
-      preferredPrepTimeUpper = 60;
-    } else if (recipePreferences.getPrepTime().contains("+")) {
-      preferredPrepTimeLower = 60;
+    if (recipePreferences.getPrepTime() != null) {
+      if (recipePreferences.getPrepTime().contains("<")) {
+        preferredPrepTimeUpper = 30;
+      } else if (recipePreferences.getPrepTime().contains("-")) {
+        preferredPrepTimeUpper = 60;
+      } else if (recipePreferences.getPrepTime().contains("+")) {
+        preferredPrepTimeLower = 60;
+      }
     }
 
     for (RecipeFrontendModel selectedRecipe : recipes) {
