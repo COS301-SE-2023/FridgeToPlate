@@ -4,6 +4,8 @@ import { PreferencesState } from '@fridge-to-plate/app/preferences/data-access';
 import { IPreferences, ChangePreference } from '@fridge-to-plate/app/preferences/utils';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Navigate } from '@ngxs/router-plugin';
+
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -35,6 +37,10 @@ export class SettingsModalComponent {
 
   openPassword(){
     this.displayChangePassword = "block";
+  }
+
+  openHelp(){
+      this.store.dispatch(new Navigate(['/help']));
   }
 
   closeChangePassword() {

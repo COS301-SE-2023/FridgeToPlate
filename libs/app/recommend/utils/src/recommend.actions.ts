@@ -5,18 +5,8 @@ export class RefreshIngredientsList {
   static readonly type = '[Recommend] RefreshIngredientsList';
 }
 
-export class UpdateIngredients {
-  static readonly type = '[Recommend] UpdateIngredients';
-  constructor(public newIngredientsList: IIngredient[]) {}
-}
-
 export class UpdateRecipePreferences {
   static readonly type = '[Recommend] UpdateRecipePreferences';
-  constructor(public recipePreference: IRecipePreferences) {}
-}
-
-export class AddRecommendation {
-  static readonly type = '[Recommend] AddRecipeRecommendation';
   constructor(public recipePreference: IRecipePreferences) {}
 }
 
@@ -45,5 +35,10 @@ export class AddIngredient {
 }
 
 export class ClearRecommend {
-  static readonly type = '[Recommend] Clear Recommend State';
+  static readonly type = '[Recommend] ClearRecommend';
+}
+
+export class SetRecommend {
+  static readonly type = '[Recommend] SetRecommend';
+  constructor(public readonly recommend: IRecommend) {}
 }

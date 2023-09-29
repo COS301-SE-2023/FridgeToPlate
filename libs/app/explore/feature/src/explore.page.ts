@@ -105,6 +105,8 @@ export class ExplorePage {
 
     this.store.dispatch(new CategorySearch(search));
 
+    this.searchTerm = search.type.charAt(0).toUpperCase() + search.type.slice(1);
+    
     this.recipes$.subscribe((recipes) => {
       if (recipes && recipes.length > 0 && this.currSearch) {
         this.retunedRecipes = recipes;
@@ -112,9 +114,6 @@ export class ExplorePage {
         this.showRecipes = true;
         this.currSearch = false;
       }
-
-      this.searchTerm =
-        search.type.charAt(0).toUpperCase() + search.type.slice(1);
     });
   }
 
