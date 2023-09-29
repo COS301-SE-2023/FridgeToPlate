@@ -2,15 +2,15 @@
   class="bg-background-light h-full overflow-y-scroll font-inter px-4"
   *ngIf="profile$ | async as profile;"
 >
-  <div
-    class="relative lg:bg-blue-950 text-center lg:mt-14 lg:mb-0 sm:mb-20 md:mb-20"
+    <div
+    class="relative lg:bg-blue-950 text-center lg:mt-14 lg:mb-0 sm:mb-20 md:mb-20 dark:lg:bg-slate-900"
   >
-    <div class="relative inline-block lg:bottom-3">
-      <img
-        src="{{ profile.profilePic }}"
-        alt="Profile Pic"
-        class="self-center w-40 border border-black rounded-full mx-auto mt-14 aspect-square"
-      />
+      <div class="relative inline-block lg:bottom-3">
+        <img
+          src="{{ profile.profilePic }}"
+          alt="Profile Pic"
+          class="self-center w-40 border border-black rounded-full mx-auto mt-14 aspect-square"
+        />
       <button
         (click)="openEditProfile()"
         id="edit-profile-button"
@@ -18,16 +18,16 @@
       >
         <ion-icon name="pencil-outline"></ion-icon>
       </button>
-    </div>
+      </div>
 
     <div
       class="my-8 space-y-1 text-center lg:relative lg:inline-block lg:bottom-14 lg:-right-5 lg:my-6"
     >
-      <h2 class="text-2xl font-semibold lg:text-4xl lg:text-background-light">
+      <h2 class="text-2xl font-semibold text-content-dark lg:text-4xl lg:text-white">
         {{ profile.displayName }}
       </h2>
       <p
-        class="px-5 text-xs sm:text-base text-gray-400 lg:text-base lg:text-background-light"
+        class="px-5 text-xs sm:text-base text-gray-400 lg:text-base "
       >
         {{ profile.username }}
       </p>
@@ -42,7 +42,7 @@
     <button
       (click)="openNotifications()"
       id="notifications-button"
-      class="absolute top-0.5 left-0.5 text-gray-500 font-medium rounded-full text-2xl px-4 py-4 text-center inline-flex items-center mb-3 lg:hidden"
+      class="absolute top-0.5 left-0.5 text-content-gray font-medium rounded-full text-2xl px-4 py-4 text-center inline-flex items-center mb-3 lg:hidden"
     >
       <ion-icon name="notifications-outline"></ion-icon>
     </button>
@@ -114,14 +114,14 @@
           <li>
             <a
               (click)="sortSavedBy('difficulty')"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
               >Difficulty</a
             >
           </li>
           <li>
             <a
               (click)="sortSavedBy('nameAsc')"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
               >Name Ascending</a
             >
           </li>
@@ -151,7 +151,7 @@
         <div
           class="flex flex-col justify-center items-center py-14 px-8 text-center"
         >
-          <h2 class="font-bold text-2xl mb-4">No Saved recipes</h2>
+          <h2 class="font-bold text-2xl mb-4 text-content-dark">No Saved recipes</h2>
           <p class="text-md text-zinc-500">
             Click the bookmark icon on a recipe to add it here
           </p>
@@ -213,7 +213,7 @@
       class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
     >
       <div class="pb-4">
-        <h3 class="text-center mb-3 text-xl">Breakfast</h3>
+        <h3 class="text-center mb-3 text-xl text-content-dark">Breakfast</h3>
         <recipe-card
           *ngIf="profile.currMealPlan?.breakfast !== null; else tempRecipe"
           [recipe]="profile.currMealPlan?.breakfast"
@@ -225,7 +225,7 @@
         </ng-template>
       </div>
       <div class="pb-4">
-        <h3 class="text-center mb-3 text-xl">Lunch</h3>
+        <h3 class="text-center mb-3 text-xl text-content-dark">Lunch</h3>
         <recipe-card
           *ngIf="profile.currMealPlan?.lunch !== null; else tempRecipe"
           [recipe]="profile.currMealPlan?.lunch"
@@ -237,7 +237,7 @@
         </ng-template>
       </div>
       <div class="pb-4">
-        <h3 class="text-center mb-3 text-xl">Dinner</h3>
+        <h3 class="text-center mb-3 text-xl text-content-dark">Dinner</h3>
         <recipe-card
           *ngIf="profile.currMealPlan?.dinner !== null; else tempRecipe"
           [recipe]="profile.currMealPlan?.dinner"
@@ -249,7 +249,7 @@
         </ng-template>
       </div>
       <div class="pb-4">
-        <h3 class="text-center mb-3 text-xl">Snack</h3>
+        <h3 class="text-center mb-3 text-xl text-content-dark">Snack</h3>
         <recipe-card
           *ngIf="profile.currMealPlan?.snack !== null; else tempRecipe"
           [recipe]="profile.currMealPlan?.snack"
@@ -281,41 +281,55 @@
         class="absolute bg-white divide-y rounded-lg shadow w-36 top-10 z-10"
       >
         <ul
-          class="py-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer"
+          class="py-2 text-sm text-content-gray cursor-pointer"
         >
           <li>
             <a
               (click)="sortCreatedBy('difficulty')"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
               >Difficulty</a
             >
           </li>
           <li>
             <a
               (click)="sortCreatedBy('nameAsc')"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
               >Name Ascending</a
             >
           </li>
           <li>
             <a
               (click)="sortCreatedBy('nameDesc')"
-              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
               >Name Decending</a
             >
           </li>
         </ul>
       </div>
     </div>
-    <div
-      class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
-    >
-      <recipe-card
-        *ngFor="let recipe of profile.createdRecipes"
-        [recipe]="recipe"
-        class="py-1"
-      ></recipe-card>
-    </div>
+    <ng-container *ngIf="profile.createdRecipes.length > 0; else noCreatedRecipes">
+        <div
+          class="mr-5 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
+        >
+          <recipe-card
+            *ngFor="let recipe of profile.createdRecipes"
+            [recipe]="recipe"
+            class="py-1"
+          ></recipe-card>
+        </div>
+    </ng-container>
+    <ng-template #noCreatedRecipes>
+        <div class="w-[95%] sm:h-80 flex justify-center items-center">
+          <div
+            class="flex flex-col justify-center items-center py-14 px-8 text-center"
+          >
+            <h2 class="font-bold text-2xl mb-4 text-content-dark">No Created recipes</h2>
+            <p class="text-md text-zinc-500">
+              Use the create page to add a recipe here
+            </p>
+          </div>
+        </div>
+      </ng-template>
   </div>
 </div>
 

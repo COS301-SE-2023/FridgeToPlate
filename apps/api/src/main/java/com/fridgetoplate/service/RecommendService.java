@@ -37,8 +37,9 @@ public class RecommendService {
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        List<RecipeDesc> results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
-
+        // List<RecipeDesc> results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        List<RecipeDesc> results = new ArrayList<>();
+        
         if(results.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 

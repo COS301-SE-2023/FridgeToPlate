@@ -22,3 +22,79 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 /* You can add global styles to this file, and also import other style files */
+
+@layer base {
+    :root {
+
+      --color-background-light: #F8F8F8;
+      --color-background-dark: #010127;
+      --color-content-light: #ffffff;
+      --color-content-gray: #374151;
+      --color-content-dark: #000000;
+      --color-primary: #C35214;
+      --color-recipe-card-overlay: 52 52 52;
+      --color-primary-highlight: #E26310;
+      --color-accept: #2bc917;
+      --color-reject: #d70b0b;
+      --color-delete: #B9261C;
+      --color-delete-highlight: #DC2626;
+      transition-duration: 1s;
+
+    }
+
+    @media (prefers-color-scheme:dark) {
+        :root {
+
+            --color-background-light: #010127;
+            --color-background-dark: #010127;
+            --color-content-light: #000000;
+            --color-content-gray: #e5e7eb;
+            --color-content-dark: #ffffff;
+            --color-primary: #C35214;
+            --color-recipe-card-overlay: 52 52 52;
+            --color-primary-highlight: #E26310;
+            --color-accept: #2bc917;
+            --color-reject: #d70b0b;
+            --color-delete: #B9261C;
+            --color-delete-highlight: #DC2626;
+            transition-duration: 1s;
+
+          }
+    }
+
+      :root[data-theme="dark"] {
+
+            --color-background-light: #010127;
+            --color-background-dark: #010127;
+            --color-content-light: #000000;
+            --color-content-gray: #e5e7eb;
+            --color-content-dark: #ffffff;
+            --color-primary: #C35214;
+            --color-recipe-card-overlay: 52 52 52;
+            --color-primary-highlight: #E26310;
+            --color-accept: #2bc917;
+            --color-reject: #d70b0b;
+            --color-delete: #B9261C;
+            --color-delete-highlight: #DC2626;
+            transition-duration: 1s;
+
+        }
+
+        :root[data-theme="light"] {
+
+            --color-background-light: #F8F8F8;
+            --color-background-dark: #010127;
+            --color-content-light: #ffffff;
+            --color-content-gray: #374151;
+            --color-content-dark: #000000;
+            --color-primary: #C35214;
+            --color-recipe-card-overlay: 52 52 52;
+            --color-primary-highlight: #E26310;
+            --color-accept: #2bc917;
+            --color-reject: #d70b0b;
+            --color-delete: #B9261C;
+            --color-delete-highlight: #DC2626;
+            transition-duration: 1s;
+      
+        }
+  }

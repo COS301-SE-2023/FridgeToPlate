@@ -11,6 +11,10 @@ nav a.active {
   // font-weight: bold;
 }
 
+.box {
+  box-shadow: rgba(65, 65, 65, 0.3) 0px -6px 6px -6px;
+}
+
 @media (min-width: 700px) {
   nav a ion-icon {
     font-size: 32px; /* increase font size on screens wider than 640px */

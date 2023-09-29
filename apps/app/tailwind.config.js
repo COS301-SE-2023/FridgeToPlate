@@ -8,6 +8,7 @@ module.exports = {
     join(__dirname, '../src/**/!(*.stories|*.spec).{ts,html}'),
     ...createGlobPatternsForDependencies(__dirname),
   ],
+  darkMode: 'class',
   theme: {
     screens: {
       sm: '320px',
@@ -25,16 +26,19 @@ module.exports = {
     ],
     extend: {
       colors: {
-        'background-light': '#F5F5F5',
-        'background-dark': '#010127',
-        primary: '#C35214',
-        'recipe-card-overlay': 'rgba(52,52,52,0.64)',
-        'primary-highlight': '#E26310',
-        accept: '#2bc917',
-        reject: '#d70b0b',
-        delete: '#B9261C',
-        'delete-highlight': '#DC2626',
-        subtitle: '#9D9D9D',
+        'background-light': 'var(--color-background-light)',
+        'background-dark': 'var(--color-background-dark)',
+        'primary': 'var(--color-primary)',
+        'content-light' : 'var(--color-content-light)',
+        'content-gray' : 'var(--color-content-gray)',
+        'content-dark' : 'var(--color-content-dark)',
+        'recipe-card-overlay': 'rgba(var(--color-recipe-card-overlay) / 0.64)',
+        'primary-highlight': 'var(--color-primary-highlight)',
+        'accept': 'var(--color-accept)',
+        'reject': 'var(--color-reject)',
+        'delete': 'var(--color-delete)',
+        'delete-highlight': 'var(--color-delete-highlight)',
+        'subtitle': '#9D9D9D',
         'input-outline': '#E6E6E6',
       },
       gridTemplateRows: {
