@@ -12,7 +12,7 @@
 <ng-template #recipe>
   <div
     *ngIf="recipe$ | async as recipe; else ErrorMessage"
-    class="overflow-scroll bg-background-light w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16"
+    class="overflow-scroll bg-background-light  w-full h-full flex flex-col md:grid md:grid-cols-12 md:grid-rows-12 lg:mt-16"
   >
     <div
       class="py-8 flex flex-ro md:row-start-1 md:row-end-2 col-start-1 col-end-13 z-50"
@@ -39,7 +39,7 @@
       </button>
     </div>
     <div
-      class="w-full h-full flex flex-col items-center bg-background-light lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
+      class="w-full h-full flex flex-col items-center bg-background-light  lg:grid lg:grid-rows-15 lg:grid-cols-12 md:row-start-2 md:row-end-13 md:col-start-1 md:col-end-13"
     >
       <div
         class="w-5/6 mb-4 h-auto lg:h-full pt-4 lg:row-start-2 lg:row-end-auto lg:col-start-1 lg:col-end-6 lg:ml-8 lg:mt-16"
@@ -51,38 +51,40 @@
 
           <div class="flex justify-between text-primary pt-4 py-8">
             <div>
-              <p class="text-xs font-semibold">Preparation Time</p>
-              <p class="text-center text-3xl mt-2 font-bold">
+              <p class="text-xs font-semibold text-content-dark">Preparation Time</p>
+              <p class="text-center text-3xl mt-2 font-bold text-content-dark">
                 {{ recipe.prepTime }}m
               </p>
             </div>
             <div>
-              <p class="text-xs font-semibold">Ingredients</p>
-              <p class="text-center text-3xl mt-2 font-bold">
+              <p class="text-xs font-semibold text-content-dark">Ingredients</p>
+              <p class="text-center text-3xl mt-2 font-bold text-content-dark">
                 {{ recipe.ingredients.length }}
               </p>
             </div>
             <div>
-              <p class="text-xs font-semibold">Servings</p>
-              <p class="text-center text-3xl mt-2 font-bold">{{ recipe.servings }}</p>
+              <p class="text-xs font-semibold text-content-dark">Servings</p>
+              <p class="text-center text-3xl mt-2 font-bold text-content-dark">{{ recipe.servings }}</p>
             </div>
           </div>
 
           <div *ngIf="hasTags === true" class="px-4 pb-8">
-            <h1 class="text-lg font-bold">Tags</h1>
-            <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span>
+            <h1 class="text-lg font-bold text-content-dark">Tags</h1>
+
+            <div class="gap-2 grid grid-cols-3 grid-rows-2 pt-1">
+              <span *ngFor="let tag of recipe.tags | slice:0:4" class="bg-primary flex items-center justify-center text-center text-white text-xs font-normal mx-1 px-2 py-0.5 md:py-1 rounded  "> {{ tag }} </span>            </div>
           </div>
 
           <div class="px-4 pb-8">
-            <h1 class="text-lg font-bold">Creator <ion-icon class="text-xs" name="person-outline"></ion-icon><ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
-            <p>{{ recipe.creator }}</p>
+            <h1 class="text-lg font-bold text-content-dark">Creator <ion-icon class="text-xs" name="person-outline"></ion-icon><ion-icon class="text-xs" name="restaurant-outline"></ion-icon> </h1>
+            <p class="text-content-dark">{{ recipe.creator }}</p>
           </div>
 
-          <div class="rounded-2xl bg-white h-auto py-4 px-4">
-          <div class="flex">
+          <div class="rounded-2xl bg-white  h-auto py-4 px-4">
+          <div class="flex ">
             <ion-icon class="ml-auto lg:hidden" name="expand-outline"></ion-icon>
           </div>
-            <h1 class="text-lg font-bold">Description</h1>
+            <h1 class="text-lg font-bold ">Description</h1>
             <p [ngClass]="{'sm:line-clamp-5 lg:line-clamp-none': isDescriptionUnexpanded}" (click)="toggleDescriptionExpanded()">{{ recipe.description }}</p>
           </div>
 
@@ -92,42 +94,42 @@
       <div
         class="w-5/6 h-full lg:row-start-2 lg:row-end-auto lg:col-start-6 lg:col-end-13"
       >
-        <div class="mt-8 lg:mt-4">
-          <ion-list class="bg-background-lights h-full rounded-2xl">
+        <div class="mt-8 lg:mt-4 ">
+          <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
 
-            <div class="flex">
+            <div class="flex ">
               <ion-list-header>
-                <ion-label class="text-lg font-bold">Ingredients</ion-label>
+                <ion-label class="text-lg font-bold ">Ingredients</ion-label>
               </ion-list-header>
               <select class="ml-auto mr-2 mt-1 border-solid border-2 text-sm h-4/5 rounded-md sm:mt-2" [(ngModel)]="measurementUnit" (change)="changeIngredientUnits()">
                 <option value="imperial">Imperial Units</option>
                 <option value="metric">Metric Units</option>
               </select>
             </div>
-            <ion-item class="font-bold">
+            <ion-item class="font-bold dark:bg-gray-200">
               <span class="w-1/2">Ingredient Name</span>
               <span class="w-1/4 ml-4">Quantity</span>
               <span class="1/4 ml-2 pl-1">Units</span>
             </ion-item>
             <ion-item *ngFor="let recipeIngredient of presentIngredients">
                 <ion-icon class="pr-2 text-green-600 text-lg" name="ellipse"></ion-icon>
-                <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
+                <span class="ion-text-capitalize w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
                 <span class="w-1/4"> {{recipeIngredient?.amount?.toFixed(1) ?? ''}}  </span>
                 <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
             </ion-item>
             <ion-item *ngFor="let recipeIngredient of missingIngredients">
                 <ion-icon class="pr-2 text-red-500 text-lg" name="ellipse"></ion-icon>
-                <span class="w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
+                <span class="ion-text-capitalize w-1/2"> {{recipeIngredient?.name ?? 'Unknown ingredient'}} </span>
                 <span class="w-1/4"> {{recipeIngredient?.amount?.toFixed(1) ?? ''}}  </span>
                 <span class="1/4 ml-2 pl-1"> {{recipeIngredient?.unit ?? ''}} </span>
             </ion-item>
           </ion-list>
         </div>
 
-        <div class="mt-8">
-          <ion-list class="bg-background-lights h-full rounded-2xl">
+        <div class="mt-8 ">
+          <ion-list class="bg-background-lights dark:bg-gray-200 h-full rounded-2xl">
             <ion-list-header>
-              <ion-label class="text-lg font-bold">Instructions</ion-label>
+              <ion-label class="text-lg font-bold ">Instructions</ion-label>
             </ion-list-header>
             <ion-item *ngFor="let instruction of recipe?.steps; let i = index;">
               <div><span class="font-bold">{{i+1}}. </span> <span>{{ instruction }}</span></div>
@@ -163,11 +165,11 @@
 </ng-template>
 
 <ng-template #ErrorMessage>
-  <div class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
+  <div class="bg-background-light dark:bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
     <div
       class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10"
     >
-      <p class="text-center">
+      <p class="text-center text-content-dark">
         Unfortunately, No recipe available to be displayed
       </p>
       <div class="grid grid-flow-col columns-2 gap-3">

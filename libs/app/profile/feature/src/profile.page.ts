@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
-import { IProfile, 
-  RetrieveMealPlan, 
-  SortCreatedByDifficulty, 
-  SortCreatedByNameAsc, 
-  SortCreatedByNameDesc, 
-  SortSavedByDifficulty, 
-  SortSavedByNameAsc, 
-  SortSavedByNameDesc, 
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { IProfile,
+  RetrieveMealPlan,
+  SortCreatedByDifficulty,
+  SortCreatedByNameAsc,
+  SortCreatedByNameDesc,
+  SortSavedByDifficulty,
+  SortSavedByNameAsc,
+  SortSavedByNameDesc,
   UpdateProfile,
   OpenSettings,
   CloseSettings
@@ -18,7 +18,7 @@ import { Navigate } from "@ngxs/router-plugin";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
-import { ChartData } from "chart.js";
+import { Chart, ChartData } from "chart.js";
 import { MealPlanState } from "@fridge-to-plate/app/meal-plan/data-access";
 
 @Component({
@@ -47,16 +47,17 @@ export class ProfilePage {
     this.profile$.pipe(take(1)).subscribe(profile => {
       this.editableProfile = Object.create(profile);
     });
-    this.mealPlanChartData$.pipe(take(1)).subscribe(mealPlanChartData => {
-      console.log(mealPlanChartData);
-    });
     this.store.dispatch( new RetrieveMealPlanIngredients(this.editableProfile.currMealPlan) );
     this.dateSelected = new Date().toISOString().slice(0, 10);
   }
 
   displaySubpage(subpageName : string) {
     if (subpageName == 'meal plan') {
-      this.getMealPlan();
+      this.profile$.pipe(take(1)).subscribe(profile => {
+        if (profile.currMealPlan) {
+          this.dateSelected = profile.currMealPlan.date;
+        }
+      });
     }
 
     this.subpage = subpageName;
@@ -79,7 +80,7 @@ export class ProfilePage {
     );
 
   }
-  
+
   closeShoppingList() {
     this.displayShoppinglist = "none";
   }

@@ -56,6 +56,10 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('@fridge-to-plate/app/home/feature').then((m) => m.HomeModule),
     },
+    {
+        path: 'help',
+        loadChildren: () => import('@fridge-to-plate/app/help/feature').then((m) => m.HelpModule),
+    },
     {   
         path: '**', 
         redirectTo: 'home'

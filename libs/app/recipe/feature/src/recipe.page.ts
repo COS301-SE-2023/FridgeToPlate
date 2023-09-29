@@ -48,7 +48,7 @@ export class RecipePage implements OnInit {
     this.forceLoading = true;
     setTimeout(() => {
       this.forceLoading = false;
-    }, 1000);
+    }, 2000);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
@@ -82,8 +82,8 @@ export class RecipePage implements OnInit {
 
             if (this.recipe) {
               if (ingredients.length > 0) {
-                this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => ele.name == element.name));
-                this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => ele.name == element.name));
+                this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => element.name.includes(ele.name)));
+                this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => element.name.includes(ele.name)));
               } else {
                   this.missingIngredients = this.recipe?.ingredients;
               }

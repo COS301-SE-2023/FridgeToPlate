@@ -40,7 +40,10 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
 
                 List<String> currentRecipeSteps = new ArrayList<String>();
 
-                newRecipe.setRecipeImage(convertImageUrl(currentRecipe.getImage()));
+                if (currentRecipe.getImage() != null)
+                    newRecipe.setRecipeImage(convertImageUrl(currentRecipe.getImage()));
+                else 
+                    newRecipe.setRecipeImage("none");
 
                 newRecipe.setName(currentRecipe.getTitle());
 
@@ -127,6 +130,9 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                         if (dishType.equals("morning meal")) {
                             newRecipe.setMeal("breakfast");
                             break;
+                        } else if (dishType.equals("main course")) {
+                            newRecipe.setMeal("dinner");
+                            break;
                         } else if (dishType.equals("breakfast") || 
                                     dishType.equals("snack") || 
                                     dishType.equals("lunch") ||
@@ -137,8 +143,8 @@ public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<Spoonac
                                     dishType.equals("salad")
                                 ) 
                         {
-                                    newRecipe.setMeal(dishType);
-                                    break;
+                            newRecipe.setMeal(dishType);
+                            break;
                         }
                     }
 

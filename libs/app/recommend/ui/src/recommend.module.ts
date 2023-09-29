@@ -9,7 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-access';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
 import { BarcodeModalComponent } from './barcode-modal/barcode-modal.component';
@@ -40,6 +40,7 @@ import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
     NgxSkeletonLoaderModule,
     NzSelectModule,
     ProfileModule,
+    ReactiveFormsModule,
   ],
   exports: [
     ItemEditStep,

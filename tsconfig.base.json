@@ -61,6 +61,9 @@
         "libs/app/forgot/feature/src/index.ts"
       ],
       "@fridge-to-plate/app/forgot/ui": ["libs/app/forgot/ui/src/index.ts"],
+      "@fridge-to-plate/app/help/feature": [
+        "libs/app/help/feature/src/index.ts"
+      ],
       "@fridge-to-plate/app/home/data-access": [
         "libs/app/home/data-access/src/index.ts"
       ],
