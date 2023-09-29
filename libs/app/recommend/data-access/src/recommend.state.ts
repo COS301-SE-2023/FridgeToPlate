@@ -9,12 +9,11 @@ import {
 } from '@ngxs/store';
 import {
   AddIngredient,
-  AddRecommendation,
   ClearRecommend,
   GetRecipeRecommendations,
   GetUpdatedRecommendation,
   RemoveIngredient,
-  UpdateIngredients,
+  SetRecommend,
   UpdateRecipePreferences,
   UpdateRecipeRecommendations,
 } from '@fridge-to-plate/app/recommend/utils';
@@ -285,34 +284,27 @@ export class RecommendState {
     this.recommendApi
         .getUpdatedPreferences(username)
         .subscribe((updatedPreferences) => {
-          this.store.dispatch(
-            new UpdateIngredients(updatedPreferences.ingredients)
-          );
-
           patchState({
             recommendRequest: updatedPreferences,
           });
         });
   }
 
-  @Action(AddRecommendation)
-  addRecipePreferences({ setState }: StateContext<RecommendStateModel>, { recipePreference } : AddRecommendation) {
-    this.profile$.subscribe((currentUserProfile) => {
-
-        const newPreferences: IRecommend = {
-          ingredients: [],
-          username: currentUserProfile.username,
-          recipePreferences: recipePreference,
-        };
-
-        this.recommendApi
-          .addPreferences(newPreferences)
-          .subscribe({
-            error: error => {
-              this.store.dispatch(new ShowError("Unable to add recommend"))
-            }
-          });
+  @Action(SetRecommend) 
+  setRecommend({ patchState }: StateContext<RecommendStateModel>, { recommend }: SetRecommend) {
+    patchState({
+      recommendRequest: recommend
     });
+
+    if (recommend) {
+      this.recommendApi
+        .updateRecommendations(recommend)
+        .subscribe({
+          error: error => {
+            this.store.dispatch(new ShowError("Unable to create recommend"))
+          }
+        });
+    }
   }
 
   @Action(UpdateRecipeRecommendations)
@@ -331,10 +323,10 @@ export class RecommendState {
   }
 
   @Action(ClearRecommend)
-  clearRecommendState({ patchState }: StateContext<RecommendStateModel>) {
-    patchState({
-      recipes: undefined,
-      recommendRequest: undefined,
+  clearRecommendState({ setState }: StateContext<RecommendStateModel>) {
+    setState({
+      recipes: null,
+      recommendRequest: null,
     });
   }
 }
