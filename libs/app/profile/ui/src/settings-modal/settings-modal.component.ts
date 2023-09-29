@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, take } from 'rxjs';
 import { ProfileState } from "@fridge-to-plate/app/profile/data-access";
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
+import { Navigate } from '@ngxs/router-plugin';
 
 
 
@@ -48,7 +49,7 @@ export class SettingsModalComponent {
   }
 
   openHelp(){
-    return;
+      this.store.dispatch(new Navigate(['/help']));
   }
 
   closeChangePassword() {
