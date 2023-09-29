@@ -1,34 +1,32 @@
 <ion-content>
 
-  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col h-full justify-center items-center">
+  <div class="lg:inline-grid lg:grid-cols-2 flex flex-col h-full justify-center items-center lg:mt-16 bg-background-light">
 
-    
+
     <div class="flex flex-col justify-center px-10 text-left main-cont md:text-center md:px-36 mx-auto">
-      
-        <img [src]="logoImage" alt="Logo" class="w-1/3 pb-4 sm:self-center lg:hidden">
 
-        <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold bg-dark">Create <br> New Account</h1>
+        <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold text-content-dark">Create <br> New Account</h1>
 
         <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
-          <p class="text-sm md:text-base text-gray-500 py-1">Already have an account? <a (click)="login()" class="text-black px-5 cursor-pointer">Login</a></p>
+          <p class="text-sm md:text-base text-gray-500 dark:text-gray-300 py-1">Already have an account? <a (click)="login()" class="text-black px-5 cursor-pointer">Login</a></p>
         </div>
 
         <form (submit)="onSignup(signupForm)" #signupForm="ngForm" class="w-full max-w-lg place-content-center">
 
-          <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input type="text" ngModel #usernameInput="ngModel" [(ngModel)]="username" placeholder="Username" name="username" id="username" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1 ">
 
-          <input type="email" ngModel #email_addressInput="ngModel" [(ngModel)]="email_address" placeholder="Email" name="email_address" id="email_address" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input type="email" ngModel #email_addressInput="ngModel" [(ngModel)]="email_address" placeholder="Email" name="email_address" id="email_address" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md dark:border-gray-500 text-base text-neutral-950 py-1 ">
 
-          <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Password" id="password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input type="password" name="password" ngModel minlength="8" #passwordInput="ngModel" [(ngModel)]="password" placeholder="Password" id="password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1 ">
 
-          <input type="password" name="confirm_password" ngModel minlength="8" #confirm_passwordInput="ngModel" [(ngModel)]="confirm_password" placeholder="Confirm Password" id="confirm_password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+          <input type="password" name="confirm_password" ngModel minlength="8" #confirm_passwordInput="ngModel" [(ngModel)]="confirm_password" placeholder="Confirm Password" id="confirm_password" required class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1 ">
 
           <button type="submit" class="bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-4 max-w-lg">Create Account</button>
 
       </form>
 
         <div class="text-center py-4">
-          <p><a (click)="guest()" class="text-gray-500 item cursor-pointer">Continue as guest</a></p>
+          <p><a (click)="guest()" class="text-gray-500 dark:text-gray-300 item cursor-pointer">Continue as guest</a></p>
         </div>
 
     </div>

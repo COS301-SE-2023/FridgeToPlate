@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
-import { 
-    IProfile, 
-    UpdateProfile, 
-    CreateNewProfile, 
-    RetrieveProfile, 
-    SaveRecipe, 
-    RemoveSavedRecipe, 
-    SortSavedByDifficulty, 
-    SortSavedByNameAsc, 
-    SortSavedByNameDesc, 
-    SortCreatedByDifficulty, 
-    SortCreatedByNameAsc, 
-    ResetProfile, 
+import {
+    IProfile,
+    UpdateProfile,
+    CreateNewProfile,
+    RetrieveProfile,
+    SaveRecipe,
+    RemoveSavedRecipe,
+    SortSavedByDifficulty,
+    SortSavedByNameAsc,
+    SortSavedByNameDesc,
+    SortCreatedByDifficulty,
+    SortCreatedByNameAsc,
+    ResetProfile,
     UndoRemoveSavedRecipe,
     UpdateMealPlan,
     RemoveFromMealPlan,
@@ -83,7 +83,7 @@ export interface SettingsStateModel {
 export class ProfileState {
 
     constructor(private profileAPI: ProfileAPI, private store: Store, private readonly mealPlanAPI: MealPlanAPI) {}
-    
+
     @Selector()
     static getProfile(state: ProfileStateModel) {
         return state.profile;
@@ -126,7 +126,7 @@ export class ProfileState {
                 });
             },
             error: error => {
-                this.store.dispatch(new ShowError(error));
+                this.store.dispatch(new ShowError("Unsuccessful"));
             }
         });
     }
@@ -152,7 +152,7 @@ export class ProfileState {
         if (updatedProfile) {
             for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
                 if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
-                    this.store.dispatch(new ShowError("Recipe Already Stored"));
+                    this.store.dispatch(new ShowInfo("Recipe Already Stored"));
                     return;
                 }
             }
@@ -163,8 +163,10 @@ export class ProfileState {
             });
 
             this.profileAPI.updateProfile(updatedProfile);
+            this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
+        } else {
+            this.store.dispatch(new ShowError('You Must Be Logged In To Save Recipes'));
         }
-        this.store.dispatch(new ShowInfo('Recipe Saved To Profile'));
     }
 
     @Action(RemoveSavedRecipe)
@@ -194,6 +196,8 @@ export class ProfileState {
             patchState({
                 profile: updatedProfile
             });
+
+            this.profileAPI.updateProfile(updatedProfile);
         }
     }
 
@@ -325,7 +329,7 @@ export class ProfileState {
     @Action(UpdateMealPlan)
     updateMealPlan({ patchState, getState } : StateContext<ProfileStateModel>, { mealPlan } : UpdateMealPlan) {
         const updatedProfile = getState().profile;
-        
+
         if (updatedProfile && mealPlan) {
             updatedProfile.currMealPlan = mealPlan;
 
@@ -339,29 +343,29 @@ export class ProfileState {
                 if (mealPlan.breakfast) {
                     values[0] = Math.floor(Math.random() * 100) + 350;
                 }
-        
+
                 if (mealPlan.lunch) {
                     values[1] = Math.floor(Math.random() * 200) + 450;
-                } 
-        
+                }
+
                 if (mealPlan.dinner) {
                     values[2] = Math.floor(Math.random() * 300) + 450;
-                } 
+                }
 
                 if (mealPlan.snack) {
                     values[3] = Math.floor(Math.random() * 150) + 100;
-                } 
+                }
 
-            } 
+            }
 
             this.store.dispatch(new UpdateMealPlanData(values));
 
             this.profileAPI.updateProfile(updatedProfile);
             this.mealPlanAPI.saveMealPlan(mealPlan);
             this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
-        }
 
-        this.store.dispatch(new ShowInfo('Meal Plan Has Been Added'));
+            this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
+        }
     }
 
     @Action(RemoveFromMealPlan)
@@ -386,17 +390,17 @@ export class ProfileState {
             if(mealPlan.snack && meal == "snack") {
                 mealPlan.snack = null;
             }
-            this.store.dispatch(new UpdateMealPlan(mealPlan))
-            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) )
+            this.store.dispatch(new UpdateMealPlan(mealPlan));
+            this.store.dispatch( new RetrieveMealPlanIngredients(mealPlan) );
+            this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
         }
-        this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
     }
 
     @Action(AddToMealPlan)
     async addToMealPlan({ getState } : StateContext<ProfileStateModel>, { recipe, mealType, date } : AddToMealPlan) {
         const profile = getState().profile;
         if(!profile){
-            this.store.dispatch(new ShowError("No profile: Not signed in."));
+            this.store.dispatch(new ShowError('You Must Be Logged In To Add To Meal Plan'));
             return;
         }
 
@@ -430,14 +434,14 @@ export class ProfileState {
                 this.store.dispatch(new ShowSuccess('Successfully Added To Meal Plan'));
             },
             error: error => {
-                this.store.dispatch(new ShowError(error.message));
+                this.store.dispatch(new ShowError("Couldn't Retrive Meal Plan"));
             }
         });
 
-        
+
     }
 
-    @Action(RetrieveMealPlan) 
+    @Action(RetrieveMealPlan)
     async retrieveMealPlan({ getState, patchState } : StateContext<ProfileStateModel>, { date } : RetrieveMealPlan) {
         const newProfile = getState().profile;
         if(!newProfile){
@@ -459,25 +463,26 @@ export class ProfileState {
                     if (data.breakfast) {
                         values[0] = Math.floor(Math.random() * 100) + 350;
                     }
-            
+
                     if (data.lunch) {
                         values[1] = Math.floor(Math.random() * 200) + 450;
-                    } 
-            
+                    }
+
                     if (data.dinner) {
                         values[2] = Math.floor(Math.random() * 300) + 450;
-                    } 
+                    }
 
                     if (data.snack) {
                         values[3] = Math.floor(Math.random() * 150) + 100;
-                    } 
+                    }
 
-                } 
+                }
 
                 this.store.dispatch(new UpdateMealPlanData(values));
+                this.store.dispatch( new RetrieveMealPlanIngredients(data) );
             },
             error: error => {
-                this.store.dispatch(new ShowError(error.message));
+                this.store.dispatch(new ShowError("Couldn't Retrive Meal Plan"));
             }
         });
     }
@@ -492,7 +497,7 @@ export class ProfileState {
 
     @Action(CloseSettings)
     closeSettings({ patchState } : StateContext<SettingsStateModel>) {
-            
+
             patchState({
                 settings: 'none'
             });

@@ -1,15 +1,15 @@
 <div
-  class="w-full h-full [&>*]:mx-5"
+  class="w-full h-full [&>*]:mx-5 "
   *ngIf="recipePreferences$ | async as recipePreferences"
 >
   <div>
-    <h3 class="text-xl font-bold my-2">Recipe Filters</h3>
-    <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3">
-      <label class="font-semibold mr-8 text-black">Difficulty</label>
+    <h3 class="text-xl font-bold my-2 text-content-dark">Recipe Filters</h3>
+    <div class="h-5 mt-2 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
+      <label class="font-semibold mr-8 text-content-dark">Difficulty</label>
       <select
         [(ngModel)]="editableRecipePreferences.difficulty"
         (change)="updateRecipePreferences()"
-        class="w-full rounded-md p-1"
+        class="w-full rounded-md p-1 flex"
       >
         <option></option>
         <option>Easy</option>
@@ -17,8 +17,8 @@
         <option>Hard</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
-      <label class="font-semibold mr-10 text-black">Meal Type</label>
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
+      <label class="font-semibold mr-10 text-content-dark">Meal Type</label>
       <select
         [(ngModel)]="editableRecipePreferences.meal"
         (change)="updateRecipePreferences()"
@@ -32,8 +32,8 @@
         <option>Dessert</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
-      <label class="font-semibold mr-10 text-black">Servings</label>
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
+      <label class="font-semibold mr-10 text-content-dark">Servings</label>
       <select
         [(ngModel)]="editableRecipePreferences.servings"
         (change)="updateRecipePreferences()"
@@ -45,8 +45,8 @@
         <option>4+</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
-      <label class="font-semibold mr-10 text-black">Prep Time</label>
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
+      <label class="font-semibold mr-10 text-content-dark">Prep Time</label>
       <select
         [(ngModel)]="editableRecipePreferences.prepTime"
         (change)="updateRecipePreferences()"
@@ -58,8 +58,8 @@
         <option>60+ Minutes</option>
       </select>
     </div>
-    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3">
-      <label class="font-semibold mr-14 text-black">Rating</label>
+    <div class="h-5 mb-6 columns-2 grid-flow-col mx-3 lg:mx-0">
+      <label class="font-semibold mr-14 text-content-dark">Rating</label>
       <select
         [(ngModel)]="editableRecipePreferences.rating"
         (change)="updateRecipePreferences()"
@@ -75,7 +75,7 @@
     </div>
   </div>
   <div class="mt-8">
-    <h3 class="text-xl font-bold my-2">Keywords</h3>
+    <h3 class="text-xl font-bold my-2 text-content-dark">Keywords</h3>
     <fridge-to-plate-dropdown-select
       [selectOptions]="keywordOptions"
       [selectedOptions]="selectedKeywords"

@@ -1,9 +1,11 @@
-<div class="w-full h-full overflow-y-auto justify-center">
+<div class="w-full h-full overflow-y-auto justify-center font-inter">
   <!-- Small to Medium Screen -->
   <div class="mx-auto md:max-w-screen-md lg:hidden">
     <div class="h-1/4">
       <div class="h-2/3">
-        <h2 class="text-3xl font-bold pt-24 pl-6 md:pl-12">{{stepContent}}</h2>
+        <h2 class="text-3xl font-black pt-24 pl-6 md:pl-4 font-inter text-content-dark">
+          {{stepContent}}
+        </h2>
       </div>
       <div class="w-full h-1/3 px-6 mt-6 mb-6">
         <nz-steps
@@ -18,7 +20,7 @@
       </div>
     </div>
 
-    <div class="step-action h-24 relative">
+    <div class="step-action h-24 relative md:-mx-8 md:pt-4">
       <ng-container>
         <button
           (click)="previousStep()"
@@ -30,7 +32,6 @@
         <ng-container *ngIf="currentStep < 2; else recommendButton">
           <button
             (click)="nextStep()"
-            *ngIf="currentStep < 3"
             class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12"
           >
             <span class="text-white">Next</span>
@@ -38,8 +39,16 @@
         </ng-container>
         <ng-template #recommendButton>
           <button
+            *ngIf="currentStep == 2"
             (click)="attemptRecommendation()"
-            class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12"
+            class="bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12 xl:hidden"
+          >
+            <span class="text-white">Done</span>
+          </button>
+          <button
+            *ngIf="currentStep == 1"
+            (click)="attemptRecommendation()"
+            class="hiddne bg-primary h-8 rounded-md w-32 absolute right-6 md:right-12 xl:block"
           >
             <span class="text-white">Done</span>
           </button>
@@ -63,7 +72,7 @@
   <div class="hidden mx-auto max-w-screen-xl lg:block">
     <div class="h-1/4">
       <div class="h-2/3">
-        <h2 class="text-3xl font-bold pt-24 pl-10">{{stepContentDesktop}}</h2>
+        <h2 class="text-3xl font-bold pt-24 pl-5 text-content-dark">{{stepContentDesktop}}</h2>
       </div>
       <div class="w-full h-1/3 px-6 mt-6 mb-6">
         <nz-steps
@@ -77,7 +86,7 @@
       </div>
     </div>
 
-    <div class="step-action h-24 relative">
+    <div class="step-action h-24 relative -mx-18 pt-4">
       <button
         (click)="previousStep()"
         *ngIf="currentStep > 1"

@@ -1,0 +1,7 @@
+.page-container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(12, minmax(0,1fr));
+  grid-template-columns: repeat(12, minmax(0,1fr));
+}

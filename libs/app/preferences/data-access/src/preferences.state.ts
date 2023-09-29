@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IPreferences, UpdatePreferences, ResetPreferences, RetrievePreferences, CreateNewPreferences } from "@fridge-to-plate/app/preferences/utils";
+import { IPreferences, ChangePreference, ResetPreferences, RetrievePreferences, CreateNewPreferences } from "@fridge-to-plate/app/preferences/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { PreferencesAPI } from "./preferences.api";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
@@ -38,12 +38,48 @@ export class PreferencesState {
     return state.preferences;
   }
 
-    @Action(UpdatePreferences)
-    updatePreference({ patchState } : StateContext<PreferencesStateModel>, { preferences } : UpdatePreferences) {
-        patchState({
-            preferences: preferences
-        });
-        this.api.updatePreference(preferences);
+    @Action(ChangePreference)
+    updatePreference({ patchState, getState } : StateContext<PreferencesStateModel>, { preferenceName } : ChangePreference) {
+        const preferences = getState().preferences;
+
+        if (preferences) {
+            
+            switch (preferenceName) {
+                case "darkMode":
+                    preferences.darkMode = !preferences.darkMode;
+                    // eslint-disable-next-line no-case-declarations
+                    const body = document.querySelector("html");
+		
+                    if (body) {
+
+                        if(preferences.darkMode == true){
+                            body.setAttribute('data-theme', "dark"); 
+                            body.classList.add("dark");
+                        } else {
+                            body.setAttribute('data-theme', "light");
+                            body.classList.remove("dark");
+                        }
+
+                    }
+
+                    break;
+                case "recommendNotif":
+                    preferences.recommendNotif = !preferences.recommendNotif;
+                    break;
+                case "reviewNotif":
+                    preferences.reviewNotif = !preferences.reviewNotif;
+                    break;
+                case "viewsNotif":
+                    preferences.viewsNotif = !preferences.viewsNotif;
+                    break;
+            }
+
+            patchState({
+                preferences: preferences
+            });
+            this.api.updatePreference(preferences);
+        }
+        
     }
 
     @Action(ResetPreferences)
@@ -52,7 +88,7 @@ export class PreferencesState {
             preferences: null
         })
     }
-    
+
     @Action(CreateNewPreferences)
     createNewPreferences({ setState } : StateContext<PreferencesStateModel>, { preferences } : CreateNewPreferences) {
         setState({
@@ -70,7 +106,7 @@ export class PreferencesState {
                 });
             },
             error: error => {
-                this.store.dispatch(new ShowError(error));
+                this.store.dispatch(new ShowError("An error occurred"));
             }
         });
     }

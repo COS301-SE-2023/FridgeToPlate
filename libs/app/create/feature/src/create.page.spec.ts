@@ -84,7 +84,7 @@ describe('CreatePagComponent', () => {
     // Assert
     expect(createObjectURLStringSpy).toHaveBeenCalledWith(file);
 
-    
+
 
   });
 
@@ -186,7 +186,7 @@ describe('CreatePagComponent', () => {
   }
   );
 
-  
+
 
 });
 
@@ -608,10 +608,10 @@ describe('Ingredients storing, deleting and returning', () => {
       const file = new File(['sample content'], 'sample.jpg', { type: 'image/jpeg' });
       const fileSizeSpy = jest.spyOn(File.prototype, 'size', 'get').mockReturnValue(400000); // Mock file size exceeding limit
       const event = { target: { files: [file] } };
-        
+
       // Act
       component.onFileChanged(event);
-    
+
       // Assert
       expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Can Not Upload Image Larger Than 300KB")); // You can refine this assertion if you know the exact ShowError action structure
     });
@@ -659,7 +659,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Ingredients"));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError("No Ingredients"));
 
     })
 
@@ -685,7 +685,7 @@ describe('Ingredients storing, deleting and returning', () => {
       component.recipeForm = formGroup;
       component.isFormValid();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("No Instructions"));
+      expect(dispatchSpy).toHaveBeenCalledWith(new ShowError("No Instructions"));
 
     })
 
@@ -713,7 +713,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.recipeForm = formGroup;
         component.selectedMeal = ""
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please select a meal"));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError("Please select a meal"));
 
       })
 
@@ -743,7 +743,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.selectedMeal = 'Breakfast';
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowInfo("Please login to create a recipe"));
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError("Please login to create a recipe"));
       })
 
 
@@ -785,7 +785,7 @@ describe('Ingredients storing, deleting and returning', () => {
         component.tags = ['Asian'];
         component.profile = testProfile;
         component.isFormValid();
-        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing fields or invalid ingredient amount was entered'))
+        expect(dispatchSpy).toHaveBeenCalledWith(new ShowError('Invalid Form. Missing instructions or Ingredient details.'))
       })
 
 

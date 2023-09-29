@@ -9,12 +9,11 @@ import {
 } from '@ngxs/store';
 import {
   AddIngredient,
-  AddRecommendation,
   ClearRecommend,
   GetRecipeRecommendations,
   GetUpdatedRecommendation,
   RemoveIngredient,
-  UpdateIngredients,
+  SetRecommend,
   UpdateRecipePreferences,
   UpdateRecipeRecommendations,
 } from '@fridge-to-plate/app/recommend/utils';
@@ -32,10 +31,11 @@ import { Observable } from 'rxjs';
 import {
   IProfile,
 } from '@fridge-to-plate/app/profile/utils';
+import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface RecommendStateModel {
   recommendRequest: IRecommend | null;
-  recipes: IRecipe[];
+  recipes: IRecipe[] | null;
 }
 @State<RecommendStateModel>({
   name: 'recommend',
@@ -136,7 +136,7 @@ export interface RecommendStateModel {
               prepTime: '30 - 60 Minutes',
             },
           },
-    recipes: [],
+    recipes: null,
   },
 })
 @Injectable()
@@ -176,7 +176,7 @@ export class RecommendState {
   }
 
   @Selector()
-  static getRecipes(state: RecommendStateModel): IRecipe[] {
+  static getRecipes(state: RecommendStateModel): IRecipe[] | null {
     return state.recipes;
   }
 
@@ -214,6 +214,7 @@ export class RecommendState {
       for (let i = 0; i < updatedRecommendRequest.ingredients.length; i++) {
         if (updatedRecommendRequest.ingredients[i].name === ingredient.name) {
           updatedRecommendRequest.ingredients[i].amount += ingredient.amount;
+          this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
           return;
         }
       }
@@ -227,6 +228,7 @@ export class RecommendState {
       this.store.dispatch(
         new UpdateRecipeRecommendations(updatedRecommendRequest)
       );
+      this.store.dispatch(new ShowInfo("Added " + ingredient.name + " to Ingredients"));
     }
   }
 
@@ -257,6 +259,10 @@ export class RecommendState {
   }: StateContext<RecommendStateModel>) {
     const recommendRequest = getState().recommendRequest;
 
+    patchState({
+      recipes: null
+    })
+
     if (recommendRequest) {
       this.recommendApi.getRecommendations(recommendRequest).subscribe({
         next: (data) => {
@@ -265,7 +271,7 @@ export class RecommendState {
           });
         },
         error: (error) => {
-          this.store.dispatch(new ShowError(error));
+          this.store.dispatch(new ShowError("An error occurred"));
         },
       });
     }
@@ -278,34 +284,27 @@ export class RecommendState {
     this.recommendApi
         .getUpdatedPreferences(username)
         .subscribe((updatedPreferences) => {
-          this.store.dispatch(
-            new UpdateIngredients(updatedPreferences.ingredients)
-          );
-
           patchState({
             recommendRequest: updatedPreferences,
           });
         });
   }
 
-  @Action(AddRecommendation)
-  addRecipePreferences({ setState }: StateContext<RecommendStateModel>, { recipePreference } : AddRecommendation) {
-    this.profile$.subscribe((currentUserProfile) => {
-
-        const newPreferences: IRecommend = {
-          ingredients: [],
-          username: currentUserProfile.username,
-          recipePreferences: recipePreference,
-        };
-
-        this.recommendApi
-          .addPreferences(newPreferences)
-          .subscribe({
-            error: error => {
-              this.store.dispatch(new ShowError("Unable to add recommend"))
-            }
-          });
+  @Action(SetRecommend) 
+  setRecommend({ patchState }: StateContext<RecommendStateModel>, { recommend }: SetRecommend) {
+    patchState({
+      recommendRequest: recommend
     });
+
+    if (recommend) {
+      this.recommendApi
+        .updateRecommendations(recommend)
+        .subscribe({
+          error: error => {
+            this.store.dispatch(new ShowError("Unable to create recommend"))
+          }
+        });
+    }
   }
 
   @Action(UpdateRecipeRecommendations)
@@ -324,10 +323,10 @@ export class RecommendState {
   }
 
   @Action(ClearRecommend)
-  clearRecommendState({ patchState }: StateContext<RecommendStateModel>) {
-    patchState({
-      recipes: undefined,
-      recommendRequest: undefined,
+  clearRecommendState({ setState }: StateContext<RecommendStateModel>) {
+    setState({
+      recipes: null,
+      recommendRequest: null,
     });
   }
 }

@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { RemoveIngredient } from '@fridge-to-plate/app/recommend/utils';
 import { FormsModule } from '@angular/forms';
-import { RecommendUIModule } from '../recommend.module';
 
 describe('ItemEditStep', () => {
   let component: ItemEditStep;
@@ -56,7 +55,7 @@ describe('ItemEditStep', () => {
     store = TestBed.inject(Store);
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-   
+
     const testIngredient: IIngredient = {
       name: 'Carrot',
       amount: 2,
@@ -74,16 +73,15 @@ describe('ItemEditStep', () => {
 
     const testIngredient: IIngredient = {
       name: 'Carrot',
-      amount: 2,
-      unit: 'g',
+      amount: 0,
+      unit: '',
     };
 
     component.ingredientName = testIngredient.name;
-    component.ingredientAmount = testIngredient.amount;
-    component.ingredientScale = testIngredient.unit;
 
     component.addIngredient();
     component.addIngredient();
     expect(dispatchSpy).toBeCalledWith(new RemoveIngredient(testIngredient));
   });
+
 });

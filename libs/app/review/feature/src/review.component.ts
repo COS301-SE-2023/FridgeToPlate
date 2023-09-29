@@ -32,7 +32,7 @@ export class Review implements OnInit {
 
   ngOnInit() {
     this.profile$.subscribe( (stateProfile) => {
-      this.stateUsername = stateProfile.displayName;
+      this.stateUsername = stateProfile.username;
     });
   }
 
@@ -48,6 +48,16 @@ export class Review implements OnInit {
 
     if (!this.description || this.description === '') {
       this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
+      return;
+    }
+
+    if (this.description.length >= 100) {
+      this.store.dispatch(new ShowError('Description must not be more than 100 characters'));
+      return;
+    }
+
+    if (!this.stateUsername || this.stateUsername === '') {
+      this.store.dispatch(new ShowError('You Must Be Logged In To Add A Review'));
       return;
     }
 

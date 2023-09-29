@@ -33,10 +33,11 @@ import {
 import { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { ConfirmForgotPasswordRequest } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 import {
-  AddRecommendation,
   ClearRecommend,
   GetUpdatedRecommendation,
   IRecipePreferences,
+  IRecommend,
+  SetRecommend,
 } from '@fridge-to-plate/app/recommend/utils';
 
 interface formDataInterface {
@@ -94,7 +95,7 @@ export class AuthState {
 
     await userPool.signUp(username, password, attributeList, [], (err, result) => {
       if (err) {
-        this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
+        this.store.dispatch(new ShowError("Unable to signup"));
         setState({
           accessToken: 'none',
         });
@@ -128,25 +129,29 @@ export class AuthState {
       const preference: IPreferences = {
         username: username,
         darkMode: false,
-        recommendNotif: false,
-        viewsNotif: false,
-        reviewNotif: false,
+        recommendNotif: true,
+        viewsNotif: true,
+        reviewNotif: true,
       };
 
-      const defaultRecommend: IRecipePreferences = {
-        difficulty: '',
-        meal: '',
-        keywords: [],
-        prepTime: '',
-        rating: '',
-        servings: '',
+      const defaultRecommend: IRecommend = {
+        username: username,
+        ingredients: [],
+        recipePreferences: { 
+          difficulty: '',
+          meal: '',
+          keywords: [],
+          prepTime: '',
+          rating: '',
+          servings: '',
+        }
       };
 
       this.store.dispatch(new CreateNewProfile(profile));
 
       this.store.dispatch(new CreateNewPreferences(preference));
 
-      this.store.dispatch(new AddRecommendation(defaultRecommend));
+      this.store.dispatch(new SetRecommend(defaultRecommend));
 
       this.store.dispatch(new ShowSuccess("Successfully Created An Account"));
 
@@ -179,7 +184,7 @@ export class AuthState {
         this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
-        this.store.dispatch(new ShowError(err.message || JSON.stringify(err)));
+        this.store.dispatch(new ShowError("Unsuccessful"));
         setState({
           accessToken: 'none',
         });
@@ -220,10 +225,8 @@ export class AuthState {
 
       cognito.changePassword(params, (err, data) => {
         if (err) {
-          console.error('Password change error:', err);
-          this.store.dispatch(new ShowError("An Error Occurred When Chanaging Password"));
+          this.store.dispatch(new ShowError("An Error Occurred When Changing Password"));
         } else {
-          console.log('Password changed successfully.');
           this.store.dispatch(new ShowSuccess("Password Changed Successfully"));
         }
       });

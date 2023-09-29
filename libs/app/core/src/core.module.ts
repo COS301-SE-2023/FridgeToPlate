@@ -16,6 +16,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ErrorState } from '@fridge-to-plate/app/error/data-access';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { AuthState } from '@fridge-to-plate/app/auth/data-access';
+import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { UndoState } from '@fridge-to-plate/app/undo/data-access';
 import { InfoState } from '@fridge-to-plate/app/info/data-access';
 import { environment } from '@fridge-to-plate/app/environments/utils';
@@ -33,6 +34,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -71,8 +73,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         },
         {
           key: RecommendState,
-          engine: LOCAL_STORAGE_ENGINE,
+          engine: LOCAL_STORAGE_ENGINE, 
         },
+        {
+          key: MealPlanState,
+          engine: LOCAL_STORAGE_ENGINE,
+        }
       ],
     }),
     NgxsRouterPluginModule.forRoot(),

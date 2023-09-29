@@ -12,4 +12,5 @@ export const measurementUnits = [
   'gal',
   'qt',
   'pt',
+  'whole',
 ];

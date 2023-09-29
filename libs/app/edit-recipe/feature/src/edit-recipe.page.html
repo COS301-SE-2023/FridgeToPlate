@@ -1,54 +1,85 @@
-  <div class="flex justify-between bg-primary sm:py-3 md:py-2 md:mt-16" *ngIf="recipe$ | async as recipe">
-    <div>
-      <h2 class="text-2xl font-bold ml-3"> {{ recipe.name }}</h2>
-    </div>
-    <div class="mr-5">
-      <button type="button" (click)="deleteRecipe()">
-        <ion-icon class="text-3xl" name="trash-outline"></ion-icon>
-      </button>
-    </div>
+<div
+  class="flex justify-between bg-primary sm:py-3 md:py-2 md:mt-16 font-inter"
+  *ngIf="recipe$ | async as recipe"
+>
+  <div>
+    <h2 class="text-2xl font-bold ml-3 text-content-dark">{{ recipe.name }}</h2>
   </div>
-  
-  <div class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6" *ngIf="recipe$ | async as recipe; else ErrorMessage"> 
-      <form [formGroup]="recipeForm" (ngSubmit)="updateRecipe()" class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20">
-        <div class="flex justify-center my-auto">
-          <img (click)="fileInput.click()"
-          [src]="imageUrl"
-          class="obect-cover max-h-96 rounded-md aspect-square cursor-pointer"
-          alt="Recipe Image"
-          />
-          <input style="display: none" type="file" (change)="onFileChanged($event)" accept="image/*" #fileInput>
-      
-        </div>
-    
-        <div>
-          <div class="mb-8">
-            <label for="name" class="block text-gray-700 font-bold mb-2">Recipe Name</label>
-            <input
-              type="text"
-              id="name"
-              formControlName="name"
-              placeholder="Name"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-              required
-            >
-          </div>
-          
-        
-          <div class="mb-7">
-            <label for="description" class="block text-gray-700 font-bold mb-2">Recipe Description</label>
-            <textarea
-              id="description"
-              placeholder="Description"
-              formControlName="description"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-              required
-            ></textarea>
-          </div>
-    
-          <div class="mb-8 lg:flex lg:space-x-4">
+  <div class="mr-5">
+    <button type="button" (click)="deleteRecipe()">
+      <ion-icon class="text-3xl" name="trash-outline"></ion-icon>
+    </button>
+  </div>
+</div>
+
+<div
+  class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6"
+  *ngIf="recipe$ | async as recipe; else ErrorMessage"
+>
+  <form
+    [formGroup]="recipeForm"
+    (ngSubmit)="updateRecipe()"
+    class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20"
+  >
+    <div class="flex justify-center my-auto">
+      <img
+        (click)="fileInput.click()"
+        [src]="imageUrl"
+        class="obect-cover max-h-96 rounded-md aspect-square cursor-pointer"
+        alt="Recipe Image"
+      />
+      <input
+        style="display: none"
+        type="file"
+        (change)="onFileChanged($event)"
+        accept="image/*"
+        #fileInput
+      />
+    </div>
+
+    <div>
+      <div class="mb-8">
+        <label for="name" class="block  font-bold mb-2 text-content-gray font-inter"
+          >Recipe Name</label
+        >
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Name"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+          required
+        />
+        <span
+          class="text-delete-highlight w-full h-auto"
+          *ngIf="this.recipeForm.controls?.['name']?.errors && this.recipeForm.controls?.['name']?.touched"
+        >
+          <p class="mt-2">Name is required</p>
+        </span>
+      </div>
+
+      <div class="mb-7">
+        <label for="description" class="block  font-bold mb-2 text-content-gray"
+          >Recipe Description</label
+        >
+        <textarea
+          id="description"
+          placeholder="Description"
+          formControlName="description"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+          required
+        ></textarea>
+        <span
+          class="text-delete-highlight w-full h-auto"
+          *ngIf="this.recipeForm.controls?.['description']?.errors && this.recipeForm.controls?.['description']?.touched"
+        >
+          <p class="mt-2">Description is required</p>
+        </span>
+      </div>
+
+      <div class="mb-8 lg:flex lg:space-x-4">
         <div class="lg:w-2/5">
-          <label for="servings" class="block text-gray-700 font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
+          <label for="servings" class="block  font-bold mb-2 text-content-gray">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="servings"
@@ -57,11 +88,17 @@
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             min="1"
             pattern="[1-9]+"
+          />
+          <span
+            class="text-delete-highlight w-full h-auto"
+            *ngIf="this.recipeForm.controls?.['servings']?.errors && this.recipeForm.controls?.['servings']?.touched"
           >
+            <p class="mt-2">Number of servings required</p>
+          </span>
         </div>
-        
+
         <div class="lg:w-3/5">
-          <label for="preparation-time" class="block text-gray-700 font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+          <label for="preparation-time" class="block  font-bold mb-2 text-content-gray">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="preparation-time"
@@ -71,216 +108,55 @@
             pattern="[1-9]+"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
+          />
+          <span
+            class="text-delete-highlight w-full h-auto"
+            *ngIf="this.recipeForm.controls?.['preparationTime']?.errors && this.recipeForm.controls?.['preparationTime']?.touched"
           >
+            <p class="mt-2">Preparation time required</p>
+          </span>
         </div>
       </div>
-      
-          <div class="mt-8">
-            <label class="block text-gray-700 font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
-            <div class="grid grid-flow-row grid-cols-3 gap-1">
-              <button
-                type="button"
-                [ngClass]="getDifficulty('Easy')"
-                (click)="toggleDifficulty('Easy')"
-                value="Easy"
-                class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-              >
-              Easy
-              </button>
-              <button
-                type="button"
-                [ngClass]="getDifficulty('Medium')"
-                (click)="toggleDifficulty('Medium')"
-                value="Medium"
-                class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-              >
-              Medium
-              </button>
-              <button
-                type="button"
-                [ngClass]="getDifficulty('Hard')"
-                (click)="toggleDifficulty('Hard')"
-                value="Hard"
-                class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-              >
-              Hard
-              </button>
-            </div>
-          </div>
-        </div>
-  
-        
-    
-        <div class="lg:hidden">
-          <label class="block text-gray-700 font-bold mb-2">Meal</label>
-          <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
-            <button
-              type="button"
-              [ngClass]="getMealPlan('breakfast')"
-              value="Breakfast"
-              (click)="toggleMeal('breakfast')"
-              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Breakfast
-            </button>
-            <button
-              type="button"
-              [ngClass]="getMealPlan('lunch')"
-              (click)="toggleMeal('lunch')"
-              value="Lunch"
-              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Lunch
-            </button>
-            <button
-              type="button"
-              [ngClass]="getMealPlan('dinner')"
-              (click)="toggleMeal('dinner')"
-              value="Dinner"
-              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Dinner
-            </button>
-            <button
-              type="button"
-              [ngClass]="getMealPlan('snack')"
-              (click)="toggleMeal('snack')"
-              value="Snack"
-              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-              >
-              Snack
-            </button>
-            <button
-            type="button"
-            [ngClass]="getMealPlan('dessert')"
-            (click)="toggleMeal('dessert')"
-            value="Snack"
-            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Dessert
-            </button>
 
-            <button
-            type="button"
-            [ngClass]="getMealPlan('drink')"
-            (click)="toggleMeal('drink')"
-            value="Drink"
-            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Drink
-          </button>
-    
+      <div class="mt-8">
+        <label class="block text-content-gray font-bold mb-2"
+          >Difficulty<span class="text-red-500">*</span></label
+        >
+        <div class="grid grid-flow-row grid-cols-3 gap-1">
           <button
             type="button"
-            [ngClass]="getMealPlan('salad')"
-            (click)="toggleMeal('salad')"
-            value="Salad"
+            [ngClass]="getDifficulty('Easy')"
+            (click)="toggleDifficulty('Easy')"
+            value="Easy"
             class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Salad
+          >
+            Easy
           </button>
-    
           <button
             type="button"
-            [ngClass]="getMealPlan('soup')"
-            (click)="toggleMeal('soup')"
-            value="Soup"
+            [ngClass]="getDifficulty('Medium')"
+            (click)="toggleDifficulty('Medium')"
+            value="Medium"
             class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-            >
-            Soup
+          >
+            Medium
           </button>
-          </div>
+          <button
+            type="button"
+            [ngClass]="getDifficulty('Hard')"
+            (click)="toggleDifficulty('Hard')"
+            value="Hard"
+            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          >
+            Hard
+          </button>
         </div>
-      
-        <div>
-          <div class="flex justify-between">
-            <label for="ingredients" class="block text-gray-700 font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
-            <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
-          </div>
-          <div formArrayName="ingredients" class="flex-shrink-0 max-h-40 overflow-y-auto">
-            <div *ngFor="let ingredientControl of ingredientControls; let i = index" >
-              <div [formGroupName]="i" class="flex mb-2 ">
-    
-                <div class="w-3/5">
-                  <input formControlName="name"
-                  placeholder="Ingredient Name"
-                  required
-                  type="text"
-                  class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-                </div>
-    
-                <div class="w-1/5 mx-2">
-                  <input formControlName="amount"
-                  type="number"
-                  [placeholder]="getAmountPlaceholderText()"
-                  required
-                  min="1"
-                  pattern="[1-9]+"
-                  class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md">
-    
-                </div>
-    
-                <div class="w-1/5 relative">
-                  <select formControlName="unit"
-                          required
-                          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none">
-                    <option value="" disabled selected class="text-gray-500">Units</option>
-                    <option value="tsp" class="text-black hover:bg-primary-highlight">Teaspoon (tsp)</option>
-                    <option value="tbsp" class="text-black hover:bg-primary-highlight">Tablespoon (tbsp)</option>
-                    <option value="c" class="text-black hover:bg-primary-highlight">Cup (c)</option>
-                    <option value="fl oz" class="text-black hover:bg-primary-highlight">Fluid Ounce (fl oz)</option>
-                    <option value="mL" class="text-black hover:bg-primary-highlight">Milliliter (mL)</option>
-                    <option value="L" class="text-black hover:bg-primary-highlight">Liter (L)</option>
-                    <option value="g" class="text-black hover:bg-primary-highlight">Gram (g)</option>
-                    <option value="kg" class="text-black hover:bg-primary-highlight">Kilogram (kg)</option>
-                    <option value="oz" class="text-black hover:bg-primary-highlight">Ounce (oz)</option>
-                    <option value="lb" class="text-black hover:bg-primary-highlight">Pound (lb)</option>
-                  </select>
-                </div>
-    
-    
-                <div class="mt-1">
-                  <button type="button" (click)="removeIngredient(i)" class="text-black text-3xl mx-4 font-medium rounded-lg text-center">
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </button>
-                </div>
-    
-              </div>
-            </div>
-          </div>
-    
-        </div>
-    
-    
-        <div>
-          <div class="flex justify-between">
-            <label for="instructions" class="block text-gray-700 font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
-            <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
-          </div>
-          <div formArrayName="instructions" class="flex-shrink-0 max-h-40 overflow-y-auto">
-            <div *ngFor="let instructionControl of instructionControls; let i = index" class="mb-2">
-              <div class="flex items-center space-x-4">
-                <span class="text-xl">{{ i+1 }}.</span>
-                <input type="text"
-                       placeholder="Add Instruction"
-                       id="instruction-{{i}}"
-                       [formControlName]="i"
-                       class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-                       required>
-                <button type="button"
-                        (click)="removeInstruction(i)"
-                        class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center">
-                  <ion-icon name="trash-outline"></ion-icon>
-                </button>
-              </div>
-    
-            </div>
-          </div>
-        </div>
-    
-        <div class="hidden lg:block">
-          <label class="block text-gray-700 font-bold mb-2">Meal<span class="text-red-500">*</span></label>
-      <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2">
+      </div>
+    </div>
+
+    <div class="lg:hidden font-inter">
+      <label class="block text-content-gray font-bold mb-2">Meal</label>
+      <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
         <button
           type="button"
           [ngClass]="getMealPlan('breakfast')"
@@ -288,7 +164,7 @@
           (click)="toggleMeal('breakfast')"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        BreakFast
+          Breakfast
         </button>
         <button
           type="button"
@@ -297,7 +173,257 @@
           value="Lunch"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Lunch
+          Lunch
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('dinner')"
+          (click)="toggleMeal('dinner')"
+          value="Dinner"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Dinner
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('snack')"
+          (click)="toggleMeal('snack')"
+          value="Snack"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Snack
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('dessert')"
+          (click)="toggleMeal('dessert')"
+          value="Snack"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Dessert
+        </button>
+
+        <button
+          type="button"
+          [ngClass]="getMealPlan('drink')"
+          (click)="toggleMeal('drink')"
+          value="Drink"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Drink
+        </button>
+
+        <button
+          type="button"
+          [ngClass]="getMealPlan('salad')"
+          (click)="toggleMeal('salad')"
+          value="Salad"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Salad
+        </button>
+
+        <button
+          type="button"
+          [ngClass]="getMealPlan('soup')"
+          (click)="toggleMeal('soup')"
+          value="Soup"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Soup
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex justify-between">
+        <label
+          for="ingredients"
+          class="block text-content-gray font-bold mr-2 font-inter"
+          >Ingredients<span class="text-red-500">*</span></label
+        >
+        <button
+          type="button"
+          (click)="addIngredient()"
+          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
+        >
+          Add
+        </button>
+      </div>
+      <div
+        formArrayName="ingredients"
+        class="flex-shrink-0 max-h-40 overflow-y-auto"
+      >
+        <div
+          *ngFor="let ingredientControl of ingredientControls; let i = index"
+        >
+          <div [formGroupName]="i" class="flex mb-2">
+            <div class="w-3/5">
+              <input
+                formControlName="name"
+                placeholder="Ingredient Name"
+                required
+                type="text"
+                class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+              />
+            </div>
+
+            <div class="w-1/5 mx-2">
+              <input
+                formControlName="amount"
+                type="number"
+                [placeholder]="getAmountPlaceholderText()"
+                required
+                min="1"
+                pattern="[1-9]+"
+                class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+              />
+            </div>
+
+            <div class="w-1/5 relative">
+              <select
+                formControlName="unit"
+                required
+                class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none"
+              >
+                <option value="" disabled selected class="text-content-gray">
+                  Units
+                </option>
+                <option
+                  value="tsp"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Teaspoon (tsp)
+                </option>
+                <option
+                  value="tbsp"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Tablespoon (tbsp)
+                </option>
+                <option value="c" class="text-black hover:bg-primary-highlight">
+                  Cup (c)
+                </option>
+                <option
+                  value="fl oz"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Fluid Ounce (fl oz)
+                </option>
+                <option
+                  value="mL"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Milliliter (mL)
+                </option>
+                <option value="L" class="text-black hover:bg-primary-highlight">
+                  Liter (L)
+                </option>
+                <option value="g" class="text-black hover:bg-primary-highlight">
+                  Gram (g)
+                </option>
+                <option
+                  value="kg"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Kilogram (kg)
+                </option>
+                <option
+                  value="oz"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Ounce (oz)
+                </option>
+                <option
+                  value="lb"
+                  class="text-black hover:bg-primary-highlight"
+                >
+                  Pound (lb)
+                </option>
+              </select>
+            </div>
+
+            <div class="mt-1">
+              <button
+                type="button"
+                (click)="removeIngredient(i)"
+                class="text-content-dark text-3xl mx-4 font-medium rounded-lg text-center"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex justify-between">
+        <label for="instructions" class="block text-content-gray font-bold mr-2"
+          >Instructions<span class="text-red-500">*</span></label
+        >
+        <button
+          type="button"
+          (click)="addInstruction()"
+          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
+        >
+          Add
+        </button>
+      </div>
+      <div
+        formArrayName="instructions"
+        class="flex-shrink-0 max-h-40 overflow-y-auto"
+      >
+        <div
+          *ngFor="let instructionControl of instructionControls; let i = index"
+          class="mb-2"
+        >
+          <div class="flex items-center space-x-4">
+            <span class="text-xl">{{ i+1 }}.</span>
+            <input
+              type="text"
+              placeholder="Add Instruction"
+              id="instruction-{{i}}"
+              [formControlName]="i"
+              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+              required
+            />
+            <button
+              type="button"
+              (click)="removeInstruction(i)"
+              class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center"
+            >
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden lg:block font-inter">
+      <label class="block text-content-gray font-bold mb-2"
+        >Meal<span class="text-red-500">*</span></label
+      >
+      <div
+        class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2 w-full"
+      >
+        <button
+          type="button"
+          [ngClass]="getMealPlan('breakfast')"
+          value="Breakfast"
+          (click)="toggleMeal('breakfast')"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          <p class="text-sm">Breakfast</p>
+        </button>
+        <button
+          type="button"
+          [ngClass]="getMealPlan('lunch')"
+          (click)="toggleMeal('lunch')"
+          value="Lunch"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        >
+          Lunch
         </button>
         <button
           type="button"
@@ -306,7 +432,7 @@
           value="Dinner"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Dinner
+          Dinner
         </button>
         <button
           type="button"
@@ -314,94 +440,116 @@
           (click)="toggleMeal('Snack')"
           value="Snack"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-          >
+        >
           Snack
         </button>
         <button
-        type="button"
-        [ngClass]="getMealPlan('dessert')"
-        (click)="toggleMeal('dessert')"
-        value="Snack"
-        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          type="button"
+          [ngClass]="getMealPlan('dessert')"
+          (click)="toggleMeal('dessert')"
+          value="Snack"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Dessert
+          Dessert
         </button>
 
         <button
-        type="button"
-        [ngClass]="getMealPlan('drink')"
-        (click)="toggleMeal('drink')"
-        value="Drink"
-        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          type="button"
+          [ngClass]="getMealPlan('drink')"
+          (click)="toggleMeal('drink')"
+          value="Drink"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Drink
-      </button>
+          Drink
+        </button>
 
-      <button
-        type="button"
-        [ngClass]="getMealPlan('salad')"
-        (click)="toggleMeal('salad')"
-        value="Salad"
-        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        <button
+          type="button"
+          [ngClass]="getMealPlan('salad')"
+          (click)="toggleMeal('salad')"
+          value="Salad"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Salad
-      </button>
+          Salad
+        </button>
 
-      <button
-        type="button"
-        [ngClass]="getMealPlan('soup')"
-        (click)="toggleMeal('soup')"
-        value="Soup"
-        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        <button
+          type="button"
+          [ngClass]="getMealPlan('soup')"
+          (click)="toggleMeal('soup')"
+          value="Soup"
+          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-        Soup
-      </button>
+          Soup
+        </button>
       </div>
-        </div>
-    
-        <div>
-          <label for="tag" class="block text-gray-700 font-bold mb-2">Tag</label>
-    
-          <div class="flex items-center space-x-4"> 
-            <input
-              id="tag"
-              type="text"
-              placeholder="e.g. Asian"
-              formControlName="tags"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
-            >
-            <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">
-              Add
-            </button>
-          </div>
-          <div class="py-2">
-            <ul class="flex">
-              <li *ngFor="let tag of tags; let i = index"
-              class=" cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-              (click)="deleteTag(i)">
-              {{ tag }}
-            </li>
-            </ul>
-          </div>
-          
-        </div>
-       
-        <div class="flex justify-between lg:col-span-2 lg:px-36">
-          <button type="button" (click)="cancelEdit()" class="bg-delete text-white hover:bg-delete-highlight font-medium py-2 px-10 rounded-md w-full mx-2">Cancel</button>
-          <button type="submit" class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full mx-2">Update Recipe</button>
-        </div>
-      </form>
-    
     </div>
 
-    <ng-template #ErrorMessage>
-      <div class="bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
-        <div class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10">
-            <p class="text-center">Unfortunately, No recipe available to be edited</p>
-            <div class="grid grid-flow-col columns-2 gap-3">
-                <button (click)="goHome()" class="mt-6 bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-3 max-w-lg">Home</button>
-            </div>
-        </div>
+    <div>
+      <label for="tag" class="block text-content-gray font-bold mb-2">Tag</label>
+
+      <div class="flex items-center space-x-4">
+        <input
+          id="tag"
+          type="text"
+          placeholder="e.g. Asian"
+          formControlName="tags"
+          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
+        />
+        <button
+          type="button"
+          (click)="addTag()"
+          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
+        >
+          Add
+        </button>
       </div>
-    </ng-template>
-  
+      <div class="py-2">
+        <ul class="flex">
+          <li
+            *ngFor="let tag of tags; let i = index"
+            class="cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            (click)="deleteTag(i)"
+          >
+            {{ tag }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex justify-between lg:col-span-2 lg:px-36">
+      <button
+        type="button"
+        (click)="cancelEdit()"
+        class="bg-delete text-white hover:bg-delete-highlight font-medium py-2 px-10 rounded-md w-full mx-2"
+      >
+        Cancel
+      </button>
+      <button
+        [disabled]="!this.recipeForm.valid"
+        type="submit"
+        class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full mx-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
+        Update Recipe
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #ErrorMessage>
+  <div class="bg-background-lights dark:bg-background-light lg:mt-16 lg:mb-0 sm:mb-10 md:mb-10 h-full">
+    <div
+      class="relative w-full max-w-md max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-10 "
+    >
+      <p class="text-center text-content-dark">Unfortunately, No recipe available to be edited</p>
+      <div class="grid grid-flow-col columns-2 gap-3">
+        <button
+          (click)="goHome()"
+          class="mt-6 bg-primary text-white py-3 px-6 rounded-md text-base w-full mb-3 max-w-lg"
+        >
+          Home
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

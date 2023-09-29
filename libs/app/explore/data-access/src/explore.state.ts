@@ -1,13 +1,11 @@
 import { Injectable } from "@angular/core";
-import { CategorySearch, RetrieveProfile, RetrieveRecipe } from "@fridge-to-plate/app/explore/utils";
+import { CategorySearch } from "@fridge-to-plate/app/explore/utils";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { ExploreAPI } from "./explore.api";
 import { IExplore } from "@fridge-to-plate/app/explore/utils";
-import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
 import { ShowError } from "@fridge-to-plate/app/error/utils";
-import { Navigate } from "@ngxs/router-plugin";
-import { ShowInfo } from "@fridge-to-plate/app/info/utils";
+import { patch } from "@ngxs/store/operators";
 
 export interface ExploreStateModel {
     explore: IExplore | null;
@@ -45,7 +43,7 @@ export class ExploreState {
     }
 
     @Action(CategorySearch)
-    async CategorySearch({ setState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
+    async CategorySearch({ setState, patchState } : StateContext<ExploreStateModel>, { search } : CategorySearch) {
 
         setState({
             explore: search,
@@ -55,14 +53,13 @@ export class ExploreState {
         (await this.exploreAPI.searchCategory(search)).subscribe({
             next: data => {
 
-              setState({
-                    explore: search,
+              patchState({
                     recipes: data
                 });
 
             },
             error: error => {
-                this.store.dispatch(new ShowError(error));
+                this.store.dispatch(new ShowError("Unable to Retrieve Search Results"));
                 console.log(error);
             }
         });

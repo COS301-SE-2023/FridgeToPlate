@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
+import com.fridgetoplate.interfaces.SpoonacularIngredientItem;
+import com.fridgetoplate.interfaces.SpoonacularRecipe;
 import com.fridgetoplate.interfaces.SpoonacularResponse;
 import com.fridgetoplate.interfaces.YoutubeVideosResponse;
 import com.fridgetoplate.model.Ingredient;
@@ -69,8 +71,6 @@ public class ExternalApiService {
     Set<String> cuisineSet = new HashSet<String>(cuisineList);
     
     
-    
-    
     List<String> mealTypeList = Arrays.asList(
         "main course",
         "side dish",
@@ -107,22 +107,22 @@ public class ExternalApiService {
             
             Set<String> dietSet = new HashSet<String>(dietList);
             
-    public SpoonacularResponse spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences,List<Ingredient> userIngredients){
+    public SpoonacularRecipe[] spoonacularRecipeSearch(RecipePreferencesFrontendModel recipePreferences,List<Ingredient> userIngredients){
 
-        String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/complexSearch?apiKey=" + spoonacularPrivateKey;
+        String recipeSearchEndpoint = spoonacularbaseUrl + "/recipes/findByIngredients?apiKey=" + spoonacularPrivateKey;
         
         if(recipePreferences.getPrepTime() != null && !recipePreferences.getPrepTime().equals(""))
             recipeSearchEndpoint += "&maxReadyTime=" + recipePreferences.getPrepTime().substring(0, 2);
 
         if(userIngredients != null && userIngredients.size() != 0){
             
-            String ingredientsListString = "&includeIngredients=";
+            String ingredientsListString = "&ingredients=";
              for(int i = 0; i < userIngredients.size(); i++){
                 
                 ingredientsListString += userIngredients.get(i).getName().toLowerCase();
                 
                  if(i < userIngredients.size() - 1)
-                    ingredientsListString += ",";
+                    ingredientsListString += ",+";
              }
 
              recipeSearchEndpoint += ingredientsListString;
@@ -187,10 +187,17 @@ public class ExternalApiService {
                 recipeSearchEndpoint += "&titleMatch=" + titlePreference;
         }
 
-        recipeSearchEndpoint += "&fillIngredients=true&addRecipeInformation=true&ranking=2&number=24&sort=min-missing-ingredients";
+        recipeSearchEndpoint += "&ignorePantry=true&ranking=2&number=24&sort=min-missing-ingredients";
 
-        System.out.println(recipeSearchEndpoint);
-        return template.getForObject( recipeSearchEndpoint , SpoonacularResponse.class);
+        SpoonacularIngredientItem[] recipesByIngredients = template.getForObject(recipeSearchEndpoint, SpoonacularIngredientItem[].class);
+
+        String recipeInfoSearchEndpoint = spoonacularbaseUrl + "/recipes/informationBulk?apiKey=" + spoonacularPrivateKey + "&ids=";
+        for (SpoonacularIngredientItem spoonacularIngredientItem : recipesByIngredients) {
+            recipeInfoSearchEndpoint += spoonacularIngredientItem.getId() + ",";
+        }
+
+        System.out.println(recipeInfoSearchEndpoint);
+        return template.getForObject( recipeInfoSearchEndpoint , SpoonacularRecipe[].class);
       
     }
 

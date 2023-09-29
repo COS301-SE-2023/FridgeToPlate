@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { Navigate } from '@ngxs/router-plugin';
 import {
@@ -40,18 +40,15 @@ export class RecipePage implements OnInit {
   ) {}
 
   hasTags = false;
-  isDescriptionExpanded = false;
+  isDescriptionUnexpanded = true;
   presentIngredients: IIngredient[] = [];
   missingIngredients: IIngredient[] = [];
-  toggleDescriptionExpanded() {
-    this.isDescriptionExpanded = !this.isDescriptionExpanded;
-  }
 
   ngOnInit(): void {
     this.forceLoading = true;
     setTimeout(() => {
       this.forceLoading = false;
-    }, 1000);
+    }, 2000);
     this.route.paramMap.subscribe((params) => {
       const recipeId = params.get('id');
       if (recipeId) {
@@ -73,8 +70,8 @@ export class RecipePage implements OnInit {
       this.recipe$.subscribe((stateRecipe) => {
         this.recipe = stateRecipe;
         if (this.recipe)  {
-          this.store.dispatch(new IncreaseViews());
-
+          this.store.dispatch(new IncreaseViews(`${this.recipe.recipeId}`));
+          
           if (stateRecipe.youtubeId) {
             this.safeUrl = this._sanitizer.bypassSecurityTrustResourceUrl(
               `https://www.youtube.com/embed/${this.recipe.youtubeId}`
@@ -85,8 +82,8 @@ export class RecipePage implements OnInit {
 
             if (this.recipe) {
               if (ingredients.length > 0) {
-                this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => ele.name == element.name));
-                this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => ele.name == element.name));
+                this.presentIngredients = this.recipe?.ingredients.filter(element => ingredients.some(ele => element.name.includes(ele.name)));
+                this.missingIngredients = this.recipe?.ingredients.filter(element => !ingredients.some(ele => element.name.includes(ele.name)));
               } else {
                   this.missingIngredients = this.recipe?.ingredients;
               }
@@ -112,4 +109,9 @@ export class RecipePage implements OnInit {
   changeIngredientUnits() {
     this.store.dispatch(new ChangeMeasurementType(this.measurementUnit));
   }
+  
+  toggleDescriptionExpanded() {
+    this.isDescriptionUnexpanded = !this.isDescriptionUnexpanded;
+  }
+
 }

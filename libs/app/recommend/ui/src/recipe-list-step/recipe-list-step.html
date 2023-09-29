@@ -14,53 +14,15 @@
       *ngIf="(recipes$ | async)?.length === 0"
       class="sm:px-8 md:px-14 md:mt-12 my-2 flex flex-col justify-center items-center sm:h-64"
     >
-      <p class="sm:text-2xl md:text-3xl sm:font-bold text-center">
+      <p class="sm:text-2xl md:text-3xl sm:font-bold text-center text-content-dark">
         We couldn't find a match for your preferences
       </p>
-      <p class="sm:mt-6 text-sm md:text-lg">
+      <p class="sm:mt-6 text-sm md:text-lg text-content-dark">
         Try searching for something else instead
       </p>
     </div>
   </ng-container>
   <ng-template #recommendationsLoading class="h-full w-full">
-    <div
-      class="w-full h-full sm:grid sm:grid-cols-1 sm:grid-rows-6 sm:gap-1 sm:px-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-4 md:px-8 md:pr-1 md:ml-2"
-    >
-      <div
-        *ngFor="let item of [].constructor(6); let i = index"
-        class="bg-gray-200 sm:mb-4 lg:my-6 p-8 m-2 rounded-lg overflow-hidden shadow-sm relative lg:h-4/6"
-      >
-        <div class="md:h-4/6 w-full bg-gray-300 sm:h-2/3 sm:w-full lg:h-2/5">
-          <div class="hidden sm:block sm:w-full h-full py-24 mb-8"></div>
-        </div>
-        <div class="sm:w-2/3 md:h-fit md:w-2/5 md:pt-8 sm:pt-6">
-          <ngx-skeleton-loader
-            appearance="line"
-            animation="pulse"
-            ngClass="h-16"
-          />
-        </div>
-        <div class="sm:w-2/5 md:h-fit md:w-4/5">
-          <ngx-skeleton-loader
-            appearance="line"
-            animation="pulse"
-            ngClass="h-16"
-          />
-        </div>
-        <div class="sm:hidden md:h-fit md:w-full md:flex md:flex-row">
-          <div
-            *ngFor="let item of [].constructor(6); let i = index"
-            class="md:w-16 mr-3"
-          >
-            <ngx-skeleton-loader
-              appearance="line"
-              animation="pulse"
-              ngClass="h-16"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <fridge-to-plate-custom-skeleton-loader/>
   </ng-template>
-  <ng-template #noRecipes></ng-template>
 </div>
