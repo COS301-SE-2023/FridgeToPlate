@@ -120,6 +120,16 @@ export class RecipeState {
     const updatedRecipe = getState().recipe;
 
     if (updatedRecipe) {
+
+      const isFound = updatedRecipe?.reviews?.find(
+        (currentReview) => currentReview.username === review.username
+      );
+
+      if (isFound !== undefined) {
+        this.store.dispatch(new ShowError("Can't Add More Than One Review"));
+        return;
+      }
+
       (await this.api.createNewReview(review)).subscribe({
         next: data => {
             updatedRecipe.reviews?.unshift(data);
