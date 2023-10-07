@@ -22,7 +22,9 @@ export class EditModalComponent {
   }
 
   save() {
-    this.editableProfile.profilePic = this.profileImage;
+    if(this.profileImage){
+      this.editableProfile.profilePic = this.profileImage;
+    }
     this.saveFunc.emit();
     this.closeFunc.emit();
   }
