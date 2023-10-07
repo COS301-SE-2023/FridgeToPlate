@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ShowSuccess } from '@fridge-to-plate/app/info/utils';
+import { ChangeEmail } from '@fridge-to-plate/app/auth/utils';
+import { ShowError, ShowSuccess } from '@fridge-to-plate/app/info/utils';
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
 import { Store } from '@ngxs/store';
 
@@ -25,6 +26,12 @@ export class EditModalComponent {
     if(this.profileImage){
       this.editableProfile.profilePic = this.profileImage;
     }
+
+
+    if(!this.validateEmail()){
+      this.store.dispatch(new ShowError("Invalid Email"));
+      return;  
+    }
     this.saveFunc.emit();
     this.closeFunc.emit();
   }
@@ -45,4 +52,12 @@ export class EditModalComponent {
     }
 
   }
+
+ validateEmail(): boolean {
+  const email: string = this.editableProfile.email;
+  const emailRegex  = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+  return emailRegex.test(email);
+}
+
+
 }

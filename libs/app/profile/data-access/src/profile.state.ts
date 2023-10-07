@@ -30,6 +30,7 @@ import { environment } from "@fridge-to-plate/app/environments/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { UpdateMealPlanData } from "@fridge-to-plate/app/meal-plan/utils";
 import { ShowInfo, ShowSuccess } from "@fridge-to-plate/app/info/utils";
+import { ChangeEmail } from "@fridge-to-plate/app/auth/utils";
 
 export interface ProfileStateModel {
     profile: IProfile | null;
@@ -95,11 +96,15 @@ export class ProfileState {
     }
 
     @Action(UpdateProfile)
-    updateProfile({ patchState } : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
+    updateProfile({ patchState, getState} : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
+        const oldProfile = getState().profile;
         patchState({
             profile: profile
         });
         this.profileAPI.updateProfile(profile);
+        if(oldProfile?.email && oldProfile.email != profile.email) {
+            this.store.dispatch( new ChangeEmail(profile.email));
+        }
     }
 
     @Action(ResetProfile)
