@@ -30,6 +30,24 @@ export class SignupPage {
   }
 
   onSignup(form: NgForm){
+
+    if (this.username.trim() == '') {
+      this.store.dispatch(new ShowError("Username Is Required"));
+      return;
+    }
+    if (this.email_address.trim() == '') {
+      this.store.dispatch(new ShowError("Email Is Required"));
+      return;
+    }
+    if (this.password.trim() == '') {
+      this.store.dispatch(new ShowError("Password Is Required"));
+      return;
+    }
+    if (this.confirm_password.trim() == '') {
+      this.store.dispatch(new ShowError("Confirm Your Password"));
+      return;
+    }
+
     if (form.valid && this.password == this.confirm_password) {
       this.store.dispatch(new SignUp(this.username, this.password, this.email_address));
     }
