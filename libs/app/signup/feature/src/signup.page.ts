@@ -43,8 +43,16 @@ export class SignupPage {
       this.store.dispatch(new ShowError("Password Is Required"));
       return;
     }
+    if (this.password.trim().length < 8) {
+      this.store.dispatch(new ShowError("Password Must Be At Least 8 Characters Long"));
+      return;
+    }
     if (this.confirm_password.trim() == '') {
       this.store.dispatch(new ShowError("Confirm Your Password"));
+      return;
+    }
+    if (this.confirm_password.trim().length < 8) {
+      this.store.dispatch(new ShowError("Confirm Password Must Be At Least 8 Characters Long"));
       return;
     }
 
