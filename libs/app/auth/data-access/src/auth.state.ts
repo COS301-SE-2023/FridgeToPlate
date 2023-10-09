@@ -96,7 +96,7 @@ export class AuthState {
     await userPool.signUp(username, password, attributeList, [], (err, result) => {
       if (err) {
 
-        this.store.dispatch(new ShowError("Invaild Email Address"));
+        this.store.dispatch(new ShowError(err.message));
         setState({
           accessToken: 'none',
         });
@@ -185,7 +185,7 @@ export class AuthState {
         this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
-        this.store.dispatch(new ShowError("Incorrect Username or Password"));
+        this.store.dispatch(new ShowError(err.message));
         setState({
           accessToken: 'none',
         });
