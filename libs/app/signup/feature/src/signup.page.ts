@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { SignUp } from "@fridge-to-plate/app/auth/utils";
 import { Navigate } from "@ngxs/router-plugin";
+import { ShowError } from "@fridge-to-plate/app/error/utils";
 
 @Component({
   selector: "signup-page",
@@ -31,6 +32,9 @@ export class SignupPage {
   onSignup(form: NgForm){
     if (form.valid && this.password == this.confirm_password) {
       this.store.dispatch(new SignUp(this.username, this.password, this.email_address));
+    }
+    else {
+      this.store.dispatch(new ShowError("Password And Confirm Password Must Be The Same"));
     }
  }
 }
