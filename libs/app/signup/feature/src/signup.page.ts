@@ -19,7 +19,14 @@ export class SignupPage {
   confirm_password = "";
   logoImage = "/assets/Fridge Logo Transparent.png";
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
+    this.username = "";
+    this.email_address = "";
+    this.password = "";
+    this.confirm_password = "";
+  }
 
   login() {
     this.store.dispatch(new Navigate(['/login']));
