@@ -417,8 +417,6 @@ export class ProfileState {
       this.profileAPI.updateProfile(updatedProfile);
       this.mealPlanAPI.saveMealPlan(mealPlan);
       this.store.dispatch(new RetrieveMealPlanIngredients(mealPlan));
-
-      this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
     }
   }
 
@@ -429,7 +427,7 @@ export class ProfileState {
   ) {
     const profile = getState().profile;
     if (!profile) {
-      this.store.dispatch(new ShowError('No profile: Not signed in'));
+      new ShowError('You Must Be Logged In To Update Meal Plan');
       return;
     }
     const mealPlan = profile?.currMealPlan;
@@ -448,6 +446,7 @@ export class ProfileState {
       }
       this.store.dispatch(new UpdateMealPlan(mealPlan));
       this.store.dispatch(new RetrieveMealPlanIngredients(mealPlan));
+
       this.store.dispatch(new ShowInfo('Recipe Removed From Meal Plan'));
     }
   }

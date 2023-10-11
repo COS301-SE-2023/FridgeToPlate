@@ -95,7 +95,8 @@ export class AuthState {
 
     await userPool.signUp(username, password, attributeList, [], (err, result) => {
       if (err) {
-        this.store.dispatch(new ShowError("Unable to signup"));
+
+        this.store.dispatch(new ShowError(err.message));
         setState({
           accessToken: 'none',
         });
@@ -137,7 +138,7 @@ export class AuthState {
       const defaultRecommend: IRecommend = {
         username: username,
         ingredients: [],
-        recipePreferences: { 
+        recipePreferences: {
           difficulty: '',
           meal: '',
           keywords: [],
@@ -184,7 +185,7 @@ export class AuthState {
         this.store.dispatch(new Navigate(['/home']));
       },
       onFailure: (err) => {
-        this.store.dispatch(new ShowError("Unsuccessful"));
+        this.store.dispatch(new ShowError(err.message));
         setState({
           accessToken: 'none',
         });
