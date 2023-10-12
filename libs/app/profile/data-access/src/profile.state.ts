@@ -1,35 +1,36 @@
 import { Injectable } from '@angular/core';
 import {
-  IProfile,
-  UpdateProfile,
-  CreateNewProfile,
-  RetrieveProfile,
-  SaveRecipe,
-  RemoveSavedRecipe,
-  SortSavedByDifficulty,
-  SortSavedByNameAsc,
-  SortSavedByNameDesc,
-  SortCreatedByDifficulty,
-  SortCreatedByNameAsc,
-  ResetProfile,
-  UndoRemoveSavedRecipe,
-  UpdateMealPlan,
-  RemoveFromMealPlan,
-  AddToMealPlan,
-  AddCreatedRecipe,
-  RetrieveMealPlan,
-  OpenSettings,
-  CloseSettings,
-} from '@fridge-to-plate/app/profile/utils';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { ProfileAPI } from './profile.api';
-import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { ShowUndo } from '@fridge-to-plate/app/undo/utils';
-import { MealPlanAPI } from '@fridge-to-plate/app/meal-plan/data-access';
-import { environment } from '@fridge-to-plate/app/environments/utils';
-import { RetrieveMealPlanIngredients } from '@fridge-to-plate/app/recipe/utils';
-import { UpdateMealPlanData } from '@fridge-to-plate/app/meal-plan/utils';
-import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
+    IProfile,
+    UpdateProfile,
+    CreateNewProfile,
+    RetrieveProfile,
+    SaveRecipe,
+    RemoveSavedRecipe,
+    SortSavedByDifficulty,
+    SortSavedByNameAsc,
+    SortSavedByNameDesc,
+    SortCreatedByDifficulty,
+    SortCreatedByNameAsc,
+    ResetProfile,
+    UndoRemoveSavedRecipe,
+    UpdateMealPlan,
+    RemoveFromMealPlan,
+    AddToMealPlan,
+    AddCreatedRecipe,
+    RetrieveMealPlan,
+    OpenSettings,
+    CloseSettings
+} from "@fridge-to-plate/app/profile/utils";
+import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
+import { ProfileAPI } from "./profile.api";
+import { ShowError } from "@fridge-to-plate/app/error/utils";
+import { ShowUndo } from "@fridge-to-plate/app/undo/utils";
+import { MealPlanAPI } from "@fridge-to-plate/app/meal-plan/data-access";
+import { environment } from "@fridge-to-plate/app/environments/utils";
+import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
+import { UpdateMealPlanData } from "@fridge-to-plate/app/meal-plan/utils";
+import { ShowInfo, ShowSuccess } from "@fridge-to-plate/app/info/utils";
+import { ChangeEmail } from "@fridge-to-plate/app/auth/utils";
 
 export interface ProfileStateModel {
   profile: IProfile | null;
@@ -98,16 +99,17 @@ export class ProfileState {
     return state.settings;
   }
 
-  @Action(UpdateProfile)
-  updateProfile(
-    { patchState }: StateContext<ProfileStateModel>,
-    { profile }: UpdateProfile
-  ) {
-    patchState({
-      profile: profile,
-    });
-    this.profileAPI.updateProfile(profile);
-  }
+    @Action(UpdateProfile)
+    updateProfile({ patchState, getState} : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
+        const oldProfile = getState().profile;
+        patchState({
+            profile: profile
+        });
+        this.profileAPI.updateProfile(profile);
+        if(oldProfile?.email && oldProfile.email != profile.email) {
+            this.store.dispatch( new ChangeEmail(profile.email));
+        }
+    }
 
   @Action(ResetProfile)
   resetProfile({ setState }: StateContext<ProfileStateModel>) {

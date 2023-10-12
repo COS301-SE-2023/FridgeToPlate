@@ -7,6 +7,7 @@ import {
   SignUp,
   Forgot,
   NewPassword,
+  ChangeEmail,
 } from '@fridge-to-plate/app/auth/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { ShowInfo, ShowSuccess } from '@fridge-to-plate/app/info/utils';
@@ -290,4 +291,33 @@ export class AuthState {
       throw err;
     }
   }
+
+  @Action(ChangeEmail)
+  changeEmail({ getState }: StateContext<AuthStateModel>, { newEmail }: ChangeEmail) {
+    if (getState().accessToken != 'none') {
+      const accessToken = getState().accessToken;
+      const params = {
+        AccessToken: accessToken,
+        UserAttributes: [
+          {
+            Name: 'email',
+            Value: newEmail,
+          },
+        ],
+      };
+
+      const region = 'eu-west-3';
+      const cognito = new CognitoIdentityServiceProvider({ region });
+
+      cognito.updateUserAttributes(params, (err, data) => {
+        if (err) {
+          this.store.dispatch(new ShowError("An Error Occurred When Changing Email"));
+        } else {
+          this.store.dispatch(new ShowSuccess("Email Changed Successfully"));
+        }
+      });
+    }
+  }
+
+
 }
