@@ -11,7 +11,7 @@
       Difficulty: {{ recipe.difficulty }}
     </p>
     <p class="mt-2 text-orange-700 font-bold">
-      {{ (recipe?.rating | number : '1-2.2') ?? '-' }}/5
+      {{ (recipe?.rating | number : '1.1-1') ?? '-' }}/5
     </p>
     <span *ngFor="let i of [1, 2, 3, 4, 5]">
       <ion-icon
