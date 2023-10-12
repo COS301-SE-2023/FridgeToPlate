@@ -6,7 +6,7 @@
 
         <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold text-content-dark">Hey, <br> Welcome Back.</h1>
 
-        <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+        <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 ">
           <p class="text-sm md:text-base text-gray-500 dark:text-gray-300">Do not have an account? <a (click)="create()" class="text-content-dark px-5 cursor-pointer">Create</a></p>
         </div>
 
@@ -16,7 +16,7 @@
 
           <input [(ngModel)]="password" ngModel type="password" minlength="8" #passwordInput="ngModel" required name="password" placeholder="Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1">
 
-          <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block">
+          <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20">
             <p class="text-sm md:text-base text-gray-500 dark:text-gray-300 py-1">Forgot Password? <a (click)="reset()" class="text-content-dark px-5 cursor-pointer">Reset</a></p>
           </div>
 
