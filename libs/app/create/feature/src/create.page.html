@@ -1,5 +1,5 @@
 <div
-  class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16 font-inter"
+  class="justify-center pt-8 bg-background-light h-full w-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16 font-inter"
 >
   <form
     [formGroup]="recipeForm"
@@ -62,7 +62,7 @@
       </div>
 
       <div class="mb-8 lg:flex lg:space-x-4">
-        <div class="lg:w-2/5">
+        <div class="mb-8 lg:w-2/5 lg:mb-0">
           <label for="servings" class="block text-content-gray font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"

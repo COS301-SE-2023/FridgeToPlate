@@ -1,5 +1,5 @@
 <div
-  class="h-full w-full px-8 sm:pt-12 md:pt-10 overflow-auto bg-background-light md:pb-5 sm:pb-4 font-inter lg:pt-18"
+  class="h-full w-full px-6 pt-8 md:px-7 md:pt-10 overflow-auto bg-background-light md:pb-5 sm:pb-4 font-inter lg:pt-18"
 >
   <div *ngIf="subpage === 'beforeSearchApplied'" class="md:pl-1">
     <div appClickedOutside (clickedOutsideFunc)="hideSearchOverlay()">
@@ -136,7 +136,7 @@
       {{retunedRecipes.length}} Result(s) for {{searchTerm}}
     </p>
     <div
-      class="pt-6 my-2 grid grid-flow-row gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
+      class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 [&>*]:mb-3 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
     >
       <recipe-card
         *ngFor="let recipe of retunedRecipes"

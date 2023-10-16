@@ -1,5 +1,5 @@
 <div
-  class="bg-background-light w-full h-full overflow-y-auto lg:mt-3 px-8 sm:pt-8 md:pt-10 lg:pt-9"
+  class="bg-background-light w-full h-full overflow-y-auto px-6 pt-5 md:px-7 lg:mt-3 lg:pt-9"
 >
   <div class="lg:mt-16 mt-8 text-content-dark">
     <h2
@@ -33,7 +33,7 @@
   >
     <div *ngIf="(featuredRecipes$ | async) as recipes">
       <div
-        class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
+        class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 [&>*]:mb-3 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
       >
         <div *ngFor="let recipe of recipes">
           <recipe-card [recipe]="recipe"></recipe-card>
