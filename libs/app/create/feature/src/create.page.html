@@ -72,7 +72,7 @@
             [ngClass]="(this.recipeForm.controls?.['servings']?.errors && this.recipeForm.controls?.['servings']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             min="1"
-            pattern="[1-9]+"
+            pattern="[1-9]+[0-9]*"
           />
           <span
             class="text-delete-highlight w-full h-auto"
@@ -91,7 +91,7 @@
             formControlName="preparationTime"
             [ngClass]="(this.recipeForm.controls?.['preparationTime']?.errors && this.recipeForm.controls?.['preparationTime']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
             min="1"
-            pattern="[1-9]+"
+            pattern="[1-9]+[0-9]*"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
           />

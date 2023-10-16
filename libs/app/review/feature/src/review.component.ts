@@ -46,7 +46,7 @@ export class Review implements OnInit {
       return;
     }
 
-    if (!this.description || this.description === '') {
+    if (!this.description || this.description.trim() === '') {
       this.store.dispatch(new ShowError('Please add a description before submitting your review!'));
       return;
     }

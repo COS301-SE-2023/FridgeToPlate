@@ -10,7 +10,7 @@
       (input)="filterOptions()"
       type="text"
       [placeholder]="placeholderText"
-      class="w-full bg-gray-200 border border-gray-400 rounded-md p-2"
+      class="w-full bg-gray-200 border border-gray-400 dark:border-gray-300  rounded-md p-2"
       [(ngModel)]="searchText"
     />
   </div>
@@ -20,7 +20,7 @@
   >
     <ng-container *ngIf="!isLoading; else loading">
       <div
-        class="w-full py-2 pl-4 hover:bg-gray-100 cursor-pointer"
+        class="w-full py-2 pl-4 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
         *ngFor="let option of selectOptions"
         (click)="onSelect(option)"
         [ngClass]="

@@ -26,3 +26,8 @@ export class NewPassword {
     static readonly type = '[Auth] NewPassword';
     constructor(public readonly verificationCode: string, public readonly newPassword: string) {}
 }
+
+export class ChangeEmail {
+    static readonly type = '[Auth] ChangeEmail';
+    constructor(public readonly newEmail: string) {}
+}

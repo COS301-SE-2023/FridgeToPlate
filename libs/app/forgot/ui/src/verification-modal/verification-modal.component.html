@@ -1,22 +1,22 @@
 
-    <div class=" flex flex-col justify-center">
+    <div class=" flex flex-col justify-center bg-background-light">
   
       <div class="flex flex-col justify-center min-h-screen px-10 text-left main-cont md:text-center md:px-36 mx-auto">
   
-          <h1 class="text-3xl text-center md:text-5xl text-left mb-4 font-extrabold bg-dark">New Password</h1>
+          <h1 class="text-3xl text-center md:text-5xl text-left mb-4 font-extrabold bg-dark text-content-dark">New Password</h1>
   
           <div class="text-left mb-6 py-1 grid grid-flow-col auto-cols-auto space-x-20 inline-block pb-6">
-            <p class="text-sm text-center md:text-base text-gray-500"> Please enter the verification code received and your new details </p>
+            <p class="text-sm text-center md:text-base text-content-gray"> Please enter the verification code received and your new details </p>
           </div>
   
-          <form class="w-full max-w-lg place-content-center">
+          <form class="w-full max-w-lg place-content-center text-content-dark">
   
             <label>Verification code</label>
-            <input [(ngModel)]="verification_code" type="verification_code"  required name="verification_code" placeholder="Verification code" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1 ">
+            <input [(ngModel)]="verification_code" type="verification_code"  required name="verification_code" placeholder="Verification code" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1 ">
             <label>New Password</label>
-            <input [(ngModel)]="new_password" type="password" minlength="8"  required name="new_password" placeholder="New Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
+            <input [(ngModel)]="new_password" type="password" minlength="8"  required name="new_password" placeholder="New Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1">
             <label>Confirm Password</label>
-            <input [(ngModel)]="confirm_password" type="password" minlength="8"  required name="confirm_password" placeholder="Confirm Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 rounded-md text-base text-neutral-950 py-1">
+            <input [(ngModel)]="confirm_password" type="password" minlength="8"  required name="confirm_password" placeholder="Confirm Password" class="mb-4 p-3 w-full border bg-gray-200 border-gray-300 dark:border-gray-500 rounded-md text-base text-neutral-950 py-1">
 
             <button (click)="onVerify()" class="bg-primary text-white py-4 px-6 rounded-md text-base w-full mb-4 max-w-lg">Confirm Details</button>
   
