@@ -29,19 +29,11 @@ public class RecipeService {
   @Autowired
   private ExternalApiService externalApiService;
 
-  public RecipeFrontendModel findById(String id) {
+  public RecipeFrontendModel findFullRecipeById(String id) {
+    
+    RecipeFrontendModel recipeFrontendModel = this.findById(id);
 
-    /*
-     * Getting the Recipe Response
-     */
-
-    // Declaring the Recipe Response object
-    RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
-
-    // Find the Recipe model
-    RecipeModel recipeModel = recipeRepository.findById(id);
-
-    if (recipeModel == null) {
+    if (recipeFrontendModel == null) {
       return null;
     }
 
@@ -63,6 +55,50 @@ public class RecipeService {
       ingredients.add(ingredient);
     }
 
+    // Add Ingredients to Recipe
+    recipeFrontendModel.setIngredients(ingredients);
+
+    /*
+     * Getting the Reviews
+     */
+
+    // Declaring the Reviews object
+    List<Review> reviews = reviewService.getReviewsById(id);
+
+    // Adding the reviews to the recipe response
+    recipeFrontendModel.setReviews(reviews);
+
+    if (recipeFrontendModel.getYoutubeId() == null) {
+      try {
+
+        YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipeFrontendModel.getName() + " Recipe").getItems();
+
+        if (videos.length > 0) {
+          recipeFrontendModel.setYoutubeId(videos[0].getId().videoId);
+          this.save(recipeFrontendModel);
+        }
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    return recipeFrontendModel;
+
+  }
+
+  public RecipeFrontendModel findById(String id) {
+
+    /*
+     * Getting the Recipe Response
+     */
+
+    // Declaring the Recipe Response object
+    RecipeFrontendModel recipeResponse = new RecipeFrontendModel();
+
+    // Find the Recipe model
+    RecipeModel recipeModel = recipeRepository.findById(id);
+
     // Getting recipe attributes
     String recipeId = recipeModel.getRecipeId();
     String difficulty = recipeModel.getDifficulty();
@@ -77,21 +113,6 @@ public class RecipeService {
     Integer servings = recipeModel.getServings();
     Double rating = recipeModel.getRating();
     String youtubeId = recipeModel.getYoutubeId();
-    if (youtubeId == null) {
-      try {
-
-        YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(name + " Recipe").getItems();
-
-        if (videos.length > 0) {
-          youtubeId = videos[0].getId().videoId;
-          recipeModel.setYoutubeId(youtubeId);
-          recipeRepository.saveRecipe(recipeModel);
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
 
     // Creating recipe response
     recipeResponse.setRecipeId(recipeId);
@@ -101,23 +122,12 @@ public class RecipeService {
     recipeResponse.setTags(tags);
     recipeResponse.setMeal(meal);
     recipeResponse.setDescription(description);
-    recipeResponse.setIngredients(ingredients);
     recipeResponse.setPrepTime(prepTime);
     recipeResponse.setSteps(instructions);
     recipeResponse.setCreator(creator);
     recipeResponse.setServings(servings);
     recipeResponse.setRating(rating);
     recipeResponse.setYoutubeId(youtubeId);
-
-    /*
-     * Getting the Reviews
-     */
-
-    // Declaring the Reviews object
-    List<Review> reviews = reviewService.getReviewsById(recipeId);
-
-    // Adding the reviews to the recipe response
-    recipeResponse.setReviews(reviews);
 
     return recipeResponse;
   }
@@ -290,7 +300,7 @@ public class RecipeService {
         ingredientModels = recipeRepository.getIngredientModels(ingredient.getName().toLowerCase());
 
         for (IngredientModel ingredientModel : ingredientModels) {
-          recipe = findById(ingredientModel.getRecipeId());
+          recipe = findFullRecipeById(ingredientModel.getRecipeId());
 
           if (recipes.contains(recipe) == false) {
             recipes.add(recipe);
