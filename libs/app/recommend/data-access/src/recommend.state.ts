@@ -271,7 +271,7 @@ export class RecommendState {
           });
         },
         error: (error) => {
-          this.store.dispatch(new ShowError("An error occurred"));
+          this.store.dispatch(new ShowError("An error occurred while retrieving recommendations, try again later."));
         },
       });
     }

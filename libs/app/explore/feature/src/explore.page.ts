@@ -27,7 +27,6 @@ export class ExplorePage {
   page = 'searching';
   retunedRecipes: IRecipe[];
   subpage = 'beforeSearchApplied';
-  loading = false;
   showRecipes = false;
   showCategories = true;
   currSearch = false;
@@ -99,33 +98,21 @@ export class ExplorePage {
   // eslint-disable-next-line @typescript-eslint/ban-types
   search(search: IExplore) {
     this.subpage = 'searchAppliedByCaterogry';
-    this.showRecipes = false;
-    this.loading = true;
+    this.showRecipes = true;
     this.currSearch = true;
 
     this.store.dispatch(new CategorySearch(search));
 
     this.searchTerm = search.type.charAt(0).toUpperCase() + search.type.slice(1);
-    
-    this.recipes$.subscribe((recipes) => {
-      if (recipes && recipes.length > 0 && this.currSearch) {
-        this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
-        this.currSearch = false;
-      }
-    });
   }
 
   explorer(searchText: string) {
     if (searchText.length > 0) {
       this.searchTerm = searchText;
       this.showCategories = false;
-      this.loading = true;
-      this.showRecipes = false;
+      this.showRecipes = true;
       this.currSearch = true;
     } else {
-      this.loading = false;
       this.showRecipes = false;
       this.showCategories = true;
       this.subpage = 'beforeSearchApplied';
@@ -147,14 +134,6 @@ export class ExplorePage {
 
     this.store.dispatch(new CategorySearch(this.searchObject));
 
-    this.recipes$.pipe().subscribe((recipes) => {
-      if (recipes && recipes.length > 0 && this.currSearch) {
-        this.retunedRecipes = recipes;
-        this.loading = false;
-        this.showRecipes = true;
-        this.currSearch = false;
-      }
-    });
     this.searchTerm = searchText;
   }
 
@@ -163,7 +142,6 @@ export class ExplorePage {
     this.subpage = 'beforeSearchApplied';
     this.showCategories = true;
     this.showRecipes = false;
-    this.loading = false;
     this.searchTerm = '';
   }
 
@@ -186,8 +164,7 @@ export class ExplorePage {
     if (pastTerm.length !== 0) {
       this.searchTerm = pastTerm;
       this.showCategories = false;
-      this.loading = true;
-      this.showRecipes = false;
+      this.showRecipes = true;
       this.currSearch = true;
 
       this.searchObject = {
@@ -198,15 +175,6 @@ export class ExplorePage {
       };
 
       this.store.dispatch(new CategorySearch(this.searchObject));
-
-      this.recipes$.pipe(take(1)).subscribe((recipes) => {
-        if (recipes && recipes.length > 0 && this.currSearch) {
-          this.retunedRecipes = recipes;
-          this.loading = false;
-          this.showRecipes = true;
-          this.currSearch = false;
-        }
-      });
     }
   }
 
