@@ -2,6 +2,7 @@
 package com.fridgetoplate.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fridgetoplate.model.*;
@@ -293,7 +294,7 @@ public class RecipeService {
     return recipes;
   }
 
-  public List<RecipeDesc> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
+  public List<List<RecipeDesc>> findAllByPreferences(RecipePreferencesFrontendModel recipePreferences, List<Ingredient> userIngredients) {
 
     List<IngredientModel> ingredientModels;
     RecipeFrontendModel recipe;
@@ -356,34 +357,63 @@ public class RecipeService {
       }
     }
 
+    Collections.shuffle(recipes);
+    List<RecipeDesc> recipesUnflitered = new ArrayList<>();
     for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if (numberIngredients(recipes.get(0), userIngredients) >= userIngredients.size() - 1 &&
-            (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
-            (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
-            (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 
-            (selectedRecipe.getServings().compareTo(preferredServingUpper) <= 0) && 
-            (selectedRecipe.getServings().compareTo(preferredServingLower) >= 0) &&
-            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeUpper) <= 0) && 
-            (selectedRecipe.getPrepTime().compareTo(preferredPrepTimeLower) >= 0)
-          ) {
+      if (recipesUnflitered.size() < 24) {
+        RecipeDesc recipeDesc = new RecipeDesc();
+        recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
+        recipeDesc.setName(selectedRecipe.getName());
+        recipeDesc.setRecipeImage(selectedRecipe.getRecipeImage());
+        recipeDesc.setTags(selectedRecipe.getTags());
+        recipeDesc.setDifficulty(selectedRecipe.getDifficulty());
+        recipeDesc.setRating(selectedRecipe.getRating());
+        recipesUnflitered.add(recipeDesc);
+      }
 
-        if (recipesSortByPreferences.size() < 24) {
-          RecipeDesc recipeDesc = new RecipeDesc();
-          recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
-          recipeDesc.setName(selectedRecipe.getName());
-          recipeDesc.setRecipeImage(selectedRecipe.getRecipeImage());
-          recipeDesc.setTags(selectedRecipe.getTags());
-          recipeDesc.setDifficulty(selectedRecipe.getDifficulty());
-          recipeDesc.setRating(selectedRecipe.getRating());
-          recipesSortByPreferences.add(recipeDesc);
-        } else {
-          break;
-        }
+      if (numberIngredients(selectedRecipe, userIngredients) < selectedRecipe.getIngredients().size() - 1) {
+        continue;
+      }
+
+      if (recipePreferences.getDifficulty() != null && !recipePreferences.getDifficulty().isEmpty() && !recipePreferences.getDifficulty().equals(selectedRecipe.getDifficulty())) {
+        continue;
+      }
+
+      if (recipePreferences.getMeal() != null && !recipePreferences.getMeal().isEmpty() && !recipePreferences.getMeal().equals(selectedRecipe.getMeal())) {
+        continue;
+      }
+
+      if (recipePreferences.getServings() != null && !recipePreferences.getServings().isEmpty() && (selectedRecipe.getServings() < preferredServingLower || selectedRecipe.getServings() > preferredServingUpper)) {
+        continue;
+      }
+
+      if (recipePreferences.getPrepTime() != null && !recipePreferences.getPrepTime().isEmpty() && (selectedRecipe.getPrepTime() < preferredPrepTimeLower || selectedRecipe.getPrepTime() > preferredPrepTimeUpper)) {
+        continue;
+      }
+
+      if (recipePreferences.getRating() != null && !recipePreferences.getRating().isEmpty() && selectedRecipe.getRating() != null && selectedRecipe.getRating() < preferredRating) {
+        continue;
+      }
+
+      if (recipesSortByPreferences.size() < 24) {
+        RecipeDesc recipeDesc = new RecipeDesc();
+        recipeDesc.setRecipeId(selectedRecipe.getRecipeId());
+        recipeDesc.setName(selectedRecipe.getName());
+        recipeDesc.setRecipeImage(selectedRecipe.getRecipeImage());
+        recipeDesc.setTags(selectedRecipe.getTags());
+        recipeDesc.setDifficulty(selectedRecipe.getDifficulty());
+        recipeDesc.setRating(selectedRecipe.getRating());
+        recipesSortByPreferences.add(recipeDesc);
+      } else {
+        break;
       }
     }
 
-    return recipesSortByPreferences;
+    List<List<RecipeDesc>> out = new ArrayList<>();
+    out.add(recipesSortByPreferences);
+    out.add(recipesUnflitered);
+    return out;
   }
 
   public RecipeFrontendModel[] saveBatch(RecipeFrontendModel[] recipeList) {

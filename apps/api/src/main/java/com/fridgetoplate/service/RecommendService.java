@@ -37,11 +37,14 @@ public class RecommendService {
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
+        List<List<RecipeDesc>> resultChoices;
         List<RecipeDesc> results;
         try {
-            results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+            resultChoices = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+            results = resultChoices.get(0);
         } catch (Exception e) {
             e.printStackTrace();
+            resultChoices = new ArrayList<>();
             results = new ArrayList<>();
         }
         
@@ -49,12 +52,16 @@ public class RecommendService {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 
             //2. Query External API and convert to Recipe
-            RecipeFrontendModel[] apiQueryResults;
+            RecipeFrontendModel[] apiQueryResults = new RecipeFrontendModel[0];
             try {
                 apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()));
             } catch (Exception e) {
                 e.printStackTrace();
                 apiQueryResults = new RecipeFrontendModel[0];
+                
+                if (results.size() <= 0) {
+                    results = resultChoices.get(1);
+                }
             }
             
             //3. Add External API recipes to DB
@@ -82,11 +89,6 @@ public class RecommendService {
                     results.add(0, recipeDesc);
                 }
             } 
-        } else {
-
-            while (results.size() > 24) {
-                results.remove(results.size() - 1);
-            }
         }
 
         return results;
