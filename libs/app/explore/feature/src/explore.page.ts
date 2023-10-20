@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
-import { BehaviorSubject, Observable, take } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
 

@@ -83,7 +83,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
@@ -128,7 +128,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
@@ -173,7 +173,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){

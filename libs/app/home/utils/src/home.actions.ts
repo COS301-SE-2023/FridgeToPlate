@@ -5,5 +5,4 @@ export class RetrieveFeaturedRecipes {
 
 export class ClearFeaturedRecipes {
   static readonly type = '[Home] ClearFeaturedRecipes';
-  constructor() {}
 }

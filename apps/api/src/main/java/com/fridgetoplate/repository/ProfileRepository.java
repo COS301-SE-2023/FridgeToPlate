@@ -1,6 +1,5 @@
 package com.fridgetoplate.repository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import com.fridgetoplate.frontendmodels.ProfileFrontendModel;
-import com.fridgetoplate.interfaces.Profile;
-import com.fridgetoplate.interfaces.RecipeDesc;
 import com.fridgetoplate.model.ProfileModel;
 import com.fridgetoplate.model.Review;
 

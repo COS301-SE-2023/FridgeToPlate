@@ -1,17 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgxsOnInit, Select, StateContext, Store } from '@ngxs/store';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { IReview } from '../../utils/src/interfaces';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { Select, Store } from '@ngxs/store';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
 import { Observable } from 'rxjs';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IProfile } from '@fridge-to-plate/app/profile/utils';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AddReview, DeleteReview, IRecipe } from '@fridge-to-plate/app/recipe/utils';
 
 @Component({

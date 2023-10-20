@@ -1,9 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TestBed } from "@angular/core/testing";
 import { ProfilePage } from "./profile.page";
 import { IonicModule } from "@ionic/angular";
 import { HttpClientModule } from "@angular/common/http";
 import { NavigationBarModule } from "@fridge-to-plate/app/navigation/feature";
-import { CloseSettings, IProfile, OpenSettings, RetrieveMealPlan, SortCreatedByDifficulty, SortCreatedByNameAsc, SortCreatedByNameDesc, SortSavedByDifficulty, SortSavedByNameAsc, SortSavedByNameDesc } from "@fridge-to-plate/app/profile/utils";
+import { 
+  CloseSettings, 
+  IProfile, 
+  OpenSettings, 
+  RetrieveMealPlan, 
+  SortCreatedByDifficulty, 
+  SortCreatedByNameAsc, 
+  SortCreatedByNameDesc, 
+  SortSavedByDifficulty, 
+  SortSavedByNameAsc, 
+  SortSavedByNameDesc 
+} from "@fridge-to-plate/app/profile/utils";
 import { NgxsModule, State, Store } from "@ngxs/store";
 import { take } from "rxjs";
 import { Injectable } from "@angular/core";

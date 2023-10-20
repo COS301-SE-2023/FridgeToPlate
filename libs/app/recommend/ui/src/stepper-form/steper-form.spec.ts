@@ -3,6 +3,7 @@ import { StepperForm } from './stepper-form';
 import { IonicModule } from '@ionic/angular';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import {
   RecommendDataAccessModule,
@@ -13,9 +14,8 @@ import { ItemEditStep } from '../item-edit-step/item-edit-step';
 import { RecipeListStep } from '../recipe-list-step/recipe-list-step';
 import { RecipePreferencesStep } from '../recipe-preferences-step/recipe-preferences-step';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxsModule, State, Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { IngredientUIModule } from '@fridge-to-plate/app/ingredient/ui';
-import { Injectable } from '@angular/core';
 import { BarcodeModalComponent } from '../barcode-modal/barcode-modal.component';
 import { DropdownSelectComponent } from '../dropdown-select/dropdown-select.component';
 describe('StepperForm', () => {
@@ -137,7 +137,6 @@ describe('StepperForm', () => {
     dispatchSpy = jest.spyOn(store, 'dispatch');
     const curerntStep = component.currentStep;
     const currentContent = component.stepContent;
-    const currentContentDesktop = component.stepContent;
 
     component.attemptRecommendation();
 

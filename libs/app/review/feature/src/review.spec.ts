@@ -3,9 +3,9 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { Review } from './review.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { IReview } from '../../utils/src/interfaces';
+import { IReview } from '@fridge-to-plate/app/review/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { AddReview, DeleteReview } from '@fridge-to-plate/app/recipe/utils';
+import { DeleteReview } from '@fridge-to-plate/app/recipe/utils';
 import { of } from 'rxjs';
 
 describe('Review Component', () => {

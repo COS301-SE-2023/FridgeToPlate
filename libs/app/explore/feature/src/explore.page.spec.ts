@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ExploreUIModule } from '@fridge-to-plate/app/explore/ui';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 
 // Create a mock of the Ngxs selector

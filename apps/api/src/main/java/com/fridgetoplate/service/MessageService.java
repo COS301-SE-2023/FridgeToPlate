@@ -19,12 +19,6 @@ import nl.martijndwars.webpush.PushService;
 import nl.martijndwars.webpush.Subscription;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-
-import org.apache.logging.log4j.message.Message;
-
 public class MessageService {
   @Value("${Vapid.VAPIDPublicKey}")
  private String vapidPublicKey;
