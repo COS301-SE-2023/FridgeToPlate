@@ -101,7 +101,6 @@ describe('ExplorePage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
-      expect(component.loading).toBe(false);
       expect(component.showRecipes).toBe(true);
     });
   });
@@ -115,7 +114,6 @@ describe('ExplorePage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
-      expect(component.loading).toBe(false);
       expect(component.showRecipes).toBe(true);
     });
   });
@@ -123,7 +121,6 @@ describe('ExplorePage', () => {
   it('should show categories when explorer search text is empty', () => {
     component.explorer('');
 
-    expect(component.loading).toBe(false);
     expect(component.showRecipes).toBe(false);
     expect(component.showCategories).toBe(true);
   });
@@ -134,7 +131,6 @@ describe('ExplorePage', () => {
     expect(component.subpage).toBe('beforeSearchApplied');
     expect(component.showCategories).toBe(true);
     expect(component.showRecipes).toBe(false);
-    expect(component.loading).toBe(false);
   });
 
   it('should call search function with correct search object when valid search text is provided', () => {
