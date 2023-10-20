@@ -99,6 +99,10 @@ public class RecipeService {
     // Find the Recipe model
     RecipeModel recipeModel = recipeRepository.findById(id);
 
+    if (recipeModel == null) {
+      return null;
+    }
+
     // Getting recipe attributes
     String recipeId = recipeModel.getRecipeId();
     String difficulty = recipeModel.getDifficulty();
@@ -354,7 +358,7 @@ public class RecipeService {
 
     for (RecipeFrontendModel selectedRecipe : recipes) {
 
-        if (numberIngredients(this.findById(recipes.get(0).getRecipeId()), userIngredients) >= userIngredients.size() - 1 &&
+        if (numberIngredients(recipes.get(0), userIngredients) >= userIngredients.size() - 1 &&
             (selectedRecipe.getDifficulty().equals(recipePreferences.getDifficulty())) && 
             (selectedRecipe.getMeal().equals(recipePreferences.getMeal())) &&
             (selectedRecipe.getRating() != null && selectedRecipe.getRating().compareTo(preferredRating) >= 0) && 

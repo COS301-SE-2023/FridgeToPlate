@@ -1,6 +1,6 @@
 <div
   (click)="navigateToRecipe()"
-  class="w-full font-inter rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300"
+  class="w-full font-inter rounded-lg overflow-hidden shadow-lg relative cursor-pointer lg:hover:-translate-y-1 lg:duration-300"
 >
   <img [src]="recipe.recipeImage" class="object-cover w-full aspect-square" />
   <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full">
@@ -19,7 +19,6 @@
         [ngClass]="getStarClass(getRatingValue(i))"
       ></ion-icon>
     </span>
-    <!-- <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span> -->
     <button
       *ngIf="!added"
       (click)="toggleMealPlan(); $event.stopPropagation()"

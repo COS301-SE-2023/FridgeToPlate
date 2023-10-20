@@ -32,18 +32,23 @@ public class RecommendService {
         if(userRecommendation.getUsername() == null || userRecommendation.getRecipePreferences() == null)
             return new ArrayList<RecipeDesc>();
     
-        //0. Store User recommendation object
+        //1. Store User recommendation object
         this.save(userRecommendation);
         
         RecipePreferencesFrontendModel recipePreferences = userRecommendation.getRecipePreferences();
 
-        // List<RecipeDesc> results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
-        List<RecipeDesc> results = new ArrayList<>();
+        List<RecipeDesc> results;
+        try {
+            results = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
+        } catch (Exception e) {
+            e.printStackTrace();
+            results = new ArrayList<>();
+        }
         
         if(results.size() < 24) {
             SpoonacularRecipeConverter converter = new SpoonacularRecipeConverter();
 
-            //1. Query External API and convert to Recipe
+            //2. Query External API and convert to Recipe
             RecipeFrontendModel[] apiQueryResults;
             try {
                 apiQueryResults = converter.unconvert(apiService.spoonacularRecipeSearch(recipePreferences, userRecommendation.getIngredients()));
@@ -52,18 +57,15 @@ public class RecommendService {
                 apiQueryResults = new RecipeFrontendModel[0];
             }
             
-            //2. Add External API recipes to DB
+            //3. Add External API recipes to DB
             if(apiQueryResults.length != 0)
                 recipeService.saveBatch( apiQueryResults );
-            
-            //.3 Query Database by prefrence
-            List<RecipeDesc> dbQueryResults = recipeService.findAllByPreferences(recipePreferences, userRecommendation.getIngredients());
 
-            results = new ArrayList<>(dbQueryResults);
+            //4. Send Results
             for (int i = 0; i < apiQueryResults.length && results.size() < 24; i++) {
                 boolean found = false;
-                for (int j = 0; j < dbQueryResults.size(); j++) {
-                    if (dbQueryResults.get(j).getRecipeId().equals(apiQueryResults[i].getRecipeId())) {
+                for (int j = 0; j < results.size(); j++) {
+                    if (results.get(j).getRecipeId().equals(apiQueryResults[i].getRecipeId())) {
                         found = true;
                         break;
                     }
