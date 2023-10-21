@@ -49,7 +49,7 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
 
   clearSearchTermEventObservable$: Observable<boolean>;
 
-  searchText: string;
+  searchText = '';
 
   ngAfterViewInit(): void {
     this.emitSearchTermEvent$ = fromEvent<KeyboardEvent>(
