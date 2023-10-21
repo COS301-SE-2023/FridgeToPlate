@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { ClearGeneralNotifications, ClearRecommendationNotifications, RefreshNotifications } from '@fridge-to-plate/app/notifications/utils';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
-import { INotification, INotificationResponse } from '@fridge-to-plate/app/notifications/utils';
+import { INotification } from '@fridge-to-plate/app/notifications/utils';
 import { Select, Store } from '@ngxs/store';
 import { NotificationsState } from '@fridge-to-plate/app/notifications/data-access';
 import { ProfileState } from '@fridge-to-plate/app/profile/data-access';
@@ -18,8 +17,6 @@ import { Navigate } from '@ngxs/router-plugin';
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class NotificationsPage {
-  @Select(NotificationsState.getGeneralNotifications)
-  notifications$!: Observable<INotificationResponse>;
 
   @Select(NotificationsState.getGeneralNotifications)
   generalNotifications$!: Observable<INotification[]>;

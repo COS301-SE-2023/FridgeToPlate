@@ -415,8 +415,6 @@ export class ProfileState {
       }
 
       this.store.dispatch(new UpdateMealPlanData(values));
-
-      this.profileAPI.updateProfile(updatedProfile);
       this.mealPlanAPI.saveMealPlan(mealPlan);
       this.store.dispatch(new RetrieveMealPlanIngredients(mealPlan));
     }

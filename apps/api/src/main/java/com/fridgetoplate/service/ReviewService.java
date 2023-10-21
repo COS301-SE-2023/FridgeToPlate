@@ -29,7 +29,7 @@ public class ReviewService {
 
         NotificationModel notif = new NotificationModel();
 
-        RecipeFrontendModel recipe = recipService.findById(review.getRecipeId());
+        RecipeFrontendModel recipe = recipService.findFullRecipeById(review.getRecipeId());
 
         //Update Rating
         List<Review> reviews = reviewRepository.getReviewsById(recipe.getRecipeId());
@@ -57,14 +57,18 @@ public class ReviewService {
         reviewRepository.delete(recipeId, reviewId);
 
         //Update Rating
-        RecipeFrontendModel recipe = recipService.findById(recipeId);
-        List<Review> reviews = reviewRepository.getReviewsById(recipe.getRecipeId());
+        RecipeFrontendModel recipe = recipService.findFullRecipeById(recipeId);
         Double totalRating = 0.0;
-        for (Review recipeReview : reviews) {
+        for (Review recipeReview : recipe.getReviews()) {
             totalRating += recipeReview.getRating();
         }
 
-        recipe.setRating(totalRating / reviews.size());
+        if (recipe.getReviews().size() > 0) {
+            recipe.setRating(totalRating / recipe.getReviews().size());
+        } else {
+            recipe.setRating(null);
+        }
+
         recipService.update(recipe);
 
         return "Deleted Review Successfully";

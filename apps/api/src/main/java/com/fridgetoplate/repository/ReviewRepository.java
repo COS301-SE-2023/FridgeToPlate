@@ -37,7 +37,7 @@ public class ReviewRepository {
     }
 
     public String delete(String recipeId, String reviewId){
-       Review review = dynamoDBMapper.load(Review.class, recipeId, reviewId);
+        Review review = dynamoDBMapper.load(Review.class, recipeId, reviewId);
         dynamoDBMapper.delete(review);
         return "SUCCESSFULLY DELETED";
     }

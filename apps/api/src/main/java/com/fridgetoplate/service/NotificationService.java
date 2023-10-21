@@ -67,15 +67,16 @@ public class NotificationService {
 
         List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
 
+        List<NotificationModel> deletableNotif = new ArrayList<>();
         for (NotificationModel notificationModel : notifications) {
             if (notificationModel.getType().equals(type)) {
-                System.out.println(notificationModel.toString());
-                notificationsRepository.delete(notificationModel);
+                deletableNotif.add(notificationModel);
             }
         }
         
+        notificationsRepository.deleteAll(deletableNotif);
+        
         return "Successfully cleared all " + type + " notifications";
-
     }
 
     @Scheduled(cron = "0 30 6 * * *")
