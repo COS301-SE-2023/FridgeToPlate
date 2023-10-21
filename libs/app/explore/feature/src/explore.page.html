@@ -7,13 +7,12 @@
         [clearSearchTermObservable$]="clearSearchTermObservable$"
         (newSearchEvent)="explorer($event)"
         (toggleSearchOverlayEvent)="showSearchOverlay()"
-        [searchTermFromParent]="searchTerm"
         [filterCount]="selectedFilters.length"
       ></searching-modal>
 
       <div
         *ngIf="isSearchOverlayVisible"
-        class="md:w-[95] h-full w-full mt-2 md:mt-8 md:mx-1 relative bg-blue-500 rounded-md"
+        class="md:w-[95] h-full w-full mt-2 md:mx-1 relative rounded-md"
       >
         <ng-container
           *ngTemplateOutlet="showAllFilters ? filtersContent : dropdownContent"
@@ -24,29 +23,31 @@
           >
             <div class="h-2/3 pt-3">
               <p class="ml-5 mt-2 font-semibold mb-3 text-content-dark">Recent searches</p>
-              <div
-                *ngFor="let pastSearch of searchHistoryArray.slice(searchHistoryArray.length < 3 ? 0 : searchHistoryArray.length - 3, searchHistoryArray.length)"
-                class="hover:bg-gray-100 py-2 cursor-pointer flex flex-row items-center"
-                (click)="searchFromHistory(pastSearch)"
-              >
-                <svg
-                  class="ml-5"
-                  stroke="currentColor"
-                  fill="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 1024 1024"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div *ngIf="pastSearches$ | async as pastSearches;">
+                <div
+                  *ngFor="let pastSearch of pastSearches"
+                  class="hover:bg-gray-100 py-2 cursor-pointer flex flex-row items-center"
+                  (click)="searchFromHistory(pastSearch)"
                 >
-                  <path
-                    d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
-                  ></path>
-                  <path
-                    d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"
-                  ></path>
-                </svg>
-                <p class="ml-3 font-light text-content-dark">{{pastSearch}}</p>
+                  <svg
+                    class="ml-5"
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 1024 1024"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+                    ></path>
+                    <path
+                      d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"
+                    ></path>
+                  </svg>
+                  <p class="ml-3 font-light text-content-dark">{{pastSearch}}</p>
+                </div>
               </div>
             </div>
             <div
@@ -136,7 +137,7 @@
       *ngIf="recipes$ | async as recipes; else exploreLoading"
     >
       <p class="font-bold pt-6 my-2 text-content-dark">
-        {{recipes.length}} Result(s) for {{searchTerm}}
+        {{recipes.length}} Result(s) for "{{searchTerm}}"
       </p>
       <div
         class="my-2 grid grid-flow-row mb-5 gap-3 grid-cols-1 [&>*]:mb-3 md:grid-cols-2 md:[&>*]:mb-1 md:gap-6 lg:grid-cols-4 lg:[&>*]:mb-2"
@@ -159,7 +160,9 @@
       </div>
     </ng-container>
     <ng-template #exploreLoading class="h-full w-full">
-      <fridge-to-plate-custom-skeleton-loader/>
+      <div class="mt-8"> 
+        <fridge-to-plate-custom-skeleton-loader/>
+      </div>
     </ng-template>
   </div>
 </div>

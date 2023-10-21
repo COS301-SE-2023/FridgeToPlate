@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 import { CategorySearch, IExplore } from '@fridge-to-plate/app/explore/utils';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
+import { SearchingModalComponent } from '../../ui/src/searching-modal/searching-modal.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -15,14 +16,13 @@ import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
 
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ExplorePage {
+  @Select(ExploreState.getPastSearches) pastSearches$!: Observable<string[]>;
   @Select(ExploreState.getExplore) explore$!: Observable<IExplore>;
   @Select(ExploreState.getRecipes) recipes$!: Observable<IRecipe[]>;
 
   clearSearchTermObservable$: BehaviorSubject<boolean> = new BehaviorSubject(
     false
   );
-
-  searchHistoryArray: string[] = [];
 
   page = 'searching';
   retunedRecipes: IRecipe[];
@@ -91,11 +91,12 @@ export class ExplorePage {
 
   protected readonly keywordsArray = keywordsArray;
 
+  @ViewChild(SearchingModalComponent) searchModal: SearchingModalComponent;
+
   constructor(private store: Store) {}
 
   displaySearch = 'block';
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   search(search: IExplore) {
     this.subpage = 'searchAppliedByCaterogry';
     this.showRecipes = true;
@@ -108,7 +109,6 @@ export class ExplorePage {
 
   explorer(searchText: string) {
     if (searchText.length > 0) {
-      this.searchTerm = searchText;
       this.showCategories = false;
       this.showRecipes = true;
       this.currSearch = true;
@@ -128,13 +128,10 @@ export class ExplorePage {
       difficulty: '',
     };
 
-    if (!this.searchHistoryArray.includes(searchText)) {
-      this.searchHistoryArray.push(searchText);
-    }
-
     this.store.dispatch(new CategorySearch(this.searchObject));
 
     this.searchTerm = searchText;
+    this.hideSearchOverlay();
   }
 
   clearSearch() {
@@ -143,6 +140,7 @@ export class ExplorePage {
     this.showCategories = true;
     this.showRecipes = false;
     this.searchTerm = '';
+    this.hideSearchOverlay();
   }
 
   showSearchOverlay() {
@@ -162,7 +160,7 @@ export class ExplorePage {
 
   searchFromHistory(pastTerm: string) {
     if (pastTerm.length !== 0) {
-      this.searchTerm = pastTerm;
+      this.searchModal.setText(pastTerm);
       this.showCategories = false;
       this.showRecipes = true;
       this.currSearch = true;
@@ -175,6 +173,8 @@ export class ExplorePage {
       };
 
       this.store.dispatch(new CategorySearch(this.searchObject));
+      this.searchTerm = pastTerm;
+      this.hideSearchOverlay();
     }
   }
 
@@ -217,6 +217,7 @@ export class ExplorePage {
       this.selectedFilters.push(filter);
     }
   }
+  
   clearFilters() {
     this.selectedFilters = [];
   }

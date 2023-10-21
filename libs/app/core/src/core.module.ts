@@ -34,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashUIModule } from '@fridge-to-plate/app/splash/ui';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
+import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
 
 @NgModule({
   declarations: [CoreShell, TabbedComponent],
@@ -76,6 +77,10 @@ import { MealPlanState } from '@fridge-to-plate/app/meal-plan/data-access';
         },
         {
           key: MealPlanState,
+          engine: LOCAL_STORAGE_ENGINE,
+        },
+        {
+          key: ExploreState,
           engine: LOCAL_STORAGE_ENGINE,
         }
       ],
