@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
     private store: Store
   ) {
     const currentTime = new Date();
-    const currentHour = currentTime.getHours();;
+    const currentHour = currentTime.getHours();
     if (currentHour >= 5 && currentHour < 12) {
       this.mealType = 'breakfast';
       this.messageHeader = `Good morning!\nWhat's on the menu for breakfast?`;
