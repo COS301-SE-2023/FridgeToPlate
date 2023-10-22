@@ -1,4 +1,4 @@
-<div class="h-full w-full bg-background-light font-inter">
+<div class="h-full w-full bg-background-light font-inter p-6 overflow-hidden block">
   <div class="h-1/5 w-full flex flex-col justify-center">
     <div class="h-1/3 mb-6 lg:hidden">
       <button
@@ -84,7 +84,7 @@
           <div
             (click)="{onNotificationClick}"
             *ngFor="let notification of (recommendationNotifications$ | async)"
-            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%] hover:bg-zinc-200 transition ease-in-out duration-200"
+            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%] hover:bg-zinc-200 dark:hover:bg-zinc-600 transition ease-in-out duration-200"
           >
             <div
               class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
