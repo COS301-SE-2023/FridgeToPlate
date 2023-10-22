@@ -188,13 +188,14 @@ export class EditRecipeComponent implements OnInit {
       prepTime: this.recipeForm.get('preparationTime')?.value as number,
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
-      rating: null,
+      rating: this.recipe?.rating,
       youtubeId: this.videoLink
     };
 
     const index = this.profile.createdRecipes.findIndex(
-      (recipe) => this.recipeId === recipe.recipeId
+      (recipe) => this.recipe?.recipeId === recipe.recipeId
     );
+    
     if (index === -1) {
       this.store.dispatch(new ShowError('Could not update recipe'));
       return;
@@ -203,7 +204,7 @@ export class EditRecipeComponent implements OnInit {
     this.store.dispatch(new UpdateRecipe(recipe));
     this.profile.createdRecipes[index] = recipe;
     this.store.dispatch(new UpdateProfile(this.profile));
-    this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]));
+    this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
