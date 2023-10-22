@@ -106,7 +106,7 @@ export class PreferencesState {
                 });
             },
             error: error => {
-                this.store.dispatch(new ShowError("An error occurred"));
+                this.store.dispatch(new ShowError("An Rrror Occurred While Retrieveing Your Preferences"));
             }
         });
     }

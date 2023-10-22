@@ -4,7 +4,6 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import {
   DeleteRecipe,
   IRecipe,
-  IRecipeDesc,
   UpdateRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';

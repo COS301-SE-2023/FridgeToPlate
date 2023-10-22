@@ -69,14 +69,14 @@ public class RecipeService {
     // Adding the reviews to the recipe response
     recipeFrontendModel.setReviews(reviews);
 
-    if (recipeFrontendModel.getYoutubeId() == null) {
+    if (recipeFrontendModel.getYoutubeId() == null || recipeFrontendModel.getYoutubeId().isEmpty()) {
       try {
 
         YoubuteItem[] videos = externalApiService.spoonacularVideoSearch(recipeFrontendModel.getName() + " Recipe").getItems();
 
         if (videos.length > 0) {
           recipeFrontendModel.setYoutubeId(videos[0].getId().videoId);
-          this.save(recipeFrontendModel);
+          this.update(recipeFrontendModel);
         }
 
       } catch (Exception e) {
@@ -167,12 +167,13 @@ public class RecipeService {
 
       int i = ytId.indexOf("v=");
       if (i > 0) {
-        int j = ytId.indexOf("&");
 
-        ytId = ytId.substring(i + 2, j);
+        ytId = ytId.substring(i + 2, i + 13);
+        model.setYoutubeId(ytId);
+      } else {
+        model.setYoutubeId(recipe.getYoutubeId());
       }
 
-      model.setYoutubeId(recipe.getYoutubeId());
     }
 
     recipeRepository.saveRecipe(model);
@@ -197,7 +198,7 @@ public class RecipeService {
     model.setRecipeId(recipe.getRecipeId());
     model.setDifficulty(recipe.getDifficulty());
     model.setRecipeImage(recipe.getRecipeImage());
-    model.setName(recipe.getName());
+    model.setName(recipe.getName().toLowerCase());
     model.setTags(recipe.getTags());
     model.setMeal(recipe.getMeal());
     model.setDescription(recipe.getDescription());
@@ -206,7 +207,20 @@ public class RecipeService {
     model.setCreator(recipe.getCreator());
     model.setServings(recipe.getServings());
     model.setRating(recipe.getRating());
-    model.setYoutubeId(recipe.getYoutubeId());
+    
+    if (recipe.getYoutubeId() != null && !recipe.getYoutubeId().isEmpty()) {
+      String ytId = recipe.getYoutubeId();
+
+      int i = ytId.indexOf("v=");
+      if (i > 0) {
+
+        ytId = ytId.substring(i + 2, i + 13);
+        model.setYoutubeId(ytId);
+      } else {
+        model.setYoutubeId(recipe.getYoutubeId());
+      }
+
+    }
 
     recipeRepository.saveRecipe(model);
 

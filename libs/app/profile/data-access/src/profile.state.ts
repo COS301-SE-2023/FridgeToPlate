@@ -143,7 +143,7 @@ export class ProfileState {
           this.store.dispatch(new UpdateMealPlan(data?.currMealPlan));
       },
       error: (error) => {
-        this.store.dispatch(new ShowError('Unsuccessful'));
+        this.store.dispatch(new ShowError('Error Occured While Retrieving Profile'));
       },
     });
   }
