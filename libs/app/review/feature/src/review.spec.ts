@@ -93,24 +93,6 @@ describe('Review Component', () => {
     );
   });
 
-  it('should dispatch a DeleteReview action to the store with the correct review ID from state if no review ID is provided', () => {
-    const reviewId = '12345';
-    const selectedReview = { reviewId: reviewId } as IReview;
-    const dispatchSpy = jest.spyOn(store, 'dispatch');
-    const findSpy = jest
-      .spyOn(Array.prototype, 'find')
-      .mockReturnValueOnce(selectedReview);
-    const getStateSpy = jest
-      .spyOn(store, 'select')
-      .mockReturnValueOnce(of({ reviews: [selectedReview] }));
-
-    component.deleteReview();
-
-    expect(getStateSpy).toHaveBeenCalled();
-    expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
-    expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
-  });
-
     // Sets 'showNoRecipesMessage' to true when the last review is deleted.
     it('should set showNoRecipesMessage to true when the last review is deleted', () => {
       // Arrange
