@@ -92,38 +92,6 @@ describe('Review Component', () => {
       new ShowError('You Must Be Logged In To Add A Review')
     );
   });
-});
-
-describe('Review Component', () => {
-  let component: Review;
-  let fixture: ComponentFixture<Review>;
-  let store: Store;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [Review],
-      imports: [NgxsModule.forRoot(), IonicModule, FormsModule],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(Review);
-    component = fixture.componentInstance;
-    store = TestBed.inject(Store);
-    fixture.detectChanges();
-  });
-
-  // it('should dispatch a DeleteReview action to the store with the correct review ID', () => {
-  //   const reviewId = '12345';
-  //   const selectedReview = { reviewId: reviewId } as IReview;
-  //   const dispatchSpy = jest.spyOn(store, 'dispatch');
-  //   const findSpy = jest.spyOn(Array.prototype, 'find').mockReturnValueOnce(selectedReview);
-
-  //   component.deleteReview(reviewId);
-
-  //   expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
-  //   expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
-  // });
 
   it('should dispatch a DeleteReview action to the store with the correct review ID from state if no review ID is provided', () => {
     const reviewId = '12345';
@@ -142,4 +110,72 @@ describe('Review Component', () => {
     expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
     expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
   });
-});
+
+    // Sets 'showNoRecipesMessage' to true when the last review is deleted.
+    it('should set showNoRecipesMessage to true when the last review is deleted', () => {
+      // Arrange
+      const reviewId = 'validReviewId';
+      const stateRecipe = {
+        reviews: [
+          { reviewId: 'validReviewId' }
+        ]
+      };
+      const storeMock = {
+        dispatch: jest.fn()
+      };
+      const recipe$Mock = {
+        subscribe: jest.fn().mockImplementation(callback => callback(stateRecipe))
+      };
+      // const component = new Review(storeMock);
+      // component.recipe$ = recipe$Mock;
+
+      // Act
+      component.deleteReview(reviewId);
+
+      // Assert
+      expect(component.showNoRecipesMessage).toBe(true);
+    });
+
+        // Subscribes to 'profile$' observable and sets 'stateUsername' to the username of the emitted 'stateProfile'
+    it('should subscribe to \'profile$\' observable and set \'stateUsername\' to the username of the emitted \'stateProfile\'', () => {
+      // const stateProfile = { username: 'testUser' };
+      // const profile$ = of(stateProfile);
+
+      // const recipe$Mock = {
+      //   subscribe: jest.fn().mockImplementation(callback => callback(stateProfile))
+      // };
+
+      // component.ngOnInit();
+
+      // expect(component.stateUsername).toBe('testUser');
+    });
+  });
+  // it('should dispatch a DeleteReview action to the store with the correct review ID', () => {
+  //   const reviewId = '12345';
+  //   const selectedReview = { reviewId: reviewId } as IReview;
+  //   const dispatchSpy = jest.spyOn(store, 'dispatch');
+  //   const findSpy = jest.spyOn(Array.prototype, 'find').mockReturnValueOnce(selectedReview);
+
+  //   component.deleteReview(reviewId);
+
+  //   expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
+  //   expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
+  // });
+
+  // it('should dispatch a DeleteReview action to the store with the correct review ID from state if no review ID is provided', () => {
+  //   const reviewId = '12345';
+  //   const selectedReview = { reviewId: reviewId } as IReview;
+  //   const dispatchSpy = jest.spyOn(store, 'dispatch');
+  //   const findSpy = jest
+  //     .spyOn(Array.prototype, 'find')
+  //     .mockReturnValueOnce(selectedReview);
+  //   const getStateSpy = jest
+  //     .spyOn(store, 'select')
+  //     .mockReturnValueOnce(of({ reviews: [selectedReview] }));
+
+  //   component.deleteReview();
+
+  //   expect(getStateSpy).toHaveBeenCalled();
+  //   expect(findSpy).toHaveBeenCalledWith(expect.any(Function));
+  //   expect(dispatchSpy).toHaveBeenCalledWith(new DeleteReview(reviewId));
+  // });

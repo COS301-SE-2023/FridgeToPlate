@@ -41,12 +41,12 @@
           </ion-card>
         </div>
       </div>
-      <!-- <div class="flex flex-col justify-center items-center pb-14 px-8 text-center">
+      <div *ngIf="showNoRecipesMessage === true" class="flex flex-col justify-center items-center pb-14 px-8 text-center">
         <h2 class="font-bold text-2xl mb-4 text-content-dark">No Reviews Have Been Added Yet</h2>
         <p class="text-md text-zinc-500">
           Rate the recipe and submit your review.
         </p>
-      </div> -->
+      </div>
     </div>
 
     <br/>
