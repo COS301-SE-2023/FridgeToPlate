@@ -23,6 +23,7 @@ export class Review implements OnInit {
   rating = 0;
   description = '';
   stateUsername = '';
+  showNoRecipesMessage:boolean ;
 
   @Input() reviews!: IReview[];
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
@@ -33,6 +34,16 @@ export class Review implements OnInit {
   ngOnInit() {
     this.profile$.subscribe( (stateProfile) => {
       this.stateUsername = stateProfile.username;
+    });
+    this.recipe$.subscribe( (stateRecipe) => {
+
+      if (stateRecipe.reviews && stateRecipe.reviews?.length > 0) {
+        this.showNoRecipesMessage = false;
+      }
+      else {
+        this.showNoRecipesMessage = true;
+      }
+
     });
   }
 
@@ -78,18 +89,29 @@ export class Review implements OnInit {
 
     this.rating = 0;
     this.description = '';
+    this.showNoRecipesMessage = false;
 
   }
 
   deleteReview(selectedReview: string | null = null) {
 
     let stateReviewId = '';
+    let numReviewsLeft = 0;
 
     this.recipe$.subscribe( (stateRecipe) => {
       stateReviewId = stateRecipe.reviews?.find((el) => el.reviewId === selectedReview)?.reviewId ?? "";
+
+      if (stateRecipe.reviews) {
+        numReviewsLeft = stateRecipe.reviews?.length - 1;
+      }
     });
 
     this.store.dispatch(new DeleteReview(stateReviewId));
+
+    if (numReviewsLeft <= 0) {
+      this.showNoRecipesMessage = true;
+    }
+
   }
 
 }

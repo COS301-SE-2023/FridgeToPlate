@@ -20,24 +20,32 @@
 
     <br/>
 
-    <h1 class="text-lg font-bold text-content-dark">Reviews</h1>
-    <div class="bg-background-lights h-full flex flex-row overflow-x-scroll pb-8 carousel-continer">
-      <div *ngFor="let review of reviews">
-        <ion-card class="custom-card w-48 mx-3 my-2">
-          <ion-card-content>
-            <div>
-              <button *ngIf="review.username === stateUsername" (click)="deleteReview(review.reviewId)" class="deleteButton"> <ion-icon name="trash-outline"></ion-icon> </button>
-              <br/>
-              <b class="dark:text-content-light"> {{review?.username}} </b>
-              <br/> <br/>
-                <span *ngFor="let i of [1, 2, 3, 4, 5]">
-                  <ion-icon name="star" [ngClass]="{'star-filled': i <= review.rating, 'ion-star': i > review.rating}"></ion-icon>
-                </span>
-              <br/>
-              {{review?.description ?? 'Just alright'}}
-            </div>
-          </ion-card-content>
-        </ion-card>
+    <div class="rounded-2xl bg-white  pt-4 px-4">
+      <h1 class="text-lg font-bold">Reviews</h1>
+      <div class="bg-background-lights h-full flex flex-row overflow-x-scroll pt-2 carousel-continer">
+        <div *ngFor="let review of reviews">
+          <ion-card class="custom-card w-48 mx-3 my-2">
+            <ion-card-content>
+              <div>
+                <button *ngIf="review.username === stateUsername" (click)="deleteReview(review.reviewId)" class="deleteButton"> <ion-icon name="trash-outline"></ion-icon> </button>
+                <br/>
+                <b> {{review?.username}} </b>
+                <br/> <br/>
+                  <span *ngFor="let i of [1, 2, 3, 4, 5]">
+                    <ion-icon name="star" [ngClass]="{'star-filled': i <= review.rating, 'ion-star': i > review.rating}"></ion-icon>
+                  </span>
+                <br/>
+                {{review?.description ?? 'Just alright'}}
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+      <div *ngIf="showNoRecipesMessage === true" class="flex flex-col justify-center items-center pb-14 px-8 text-center">
+        <h2 class="font-bold text-2xl mb-4">No Reviews Have Been Added Yet</h2>
+        <p class="text-md text-zinc-500">
+          Rate the recipe and submit your review.
+        </p>
       </div>
     </div>
 
