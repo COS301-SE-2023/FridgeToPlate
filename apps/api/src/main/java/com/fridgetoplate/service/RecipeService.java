@@ -207,7 +207,7 @@ public class RecipeService {
     model.setCreator(recipe.getCreator());
     model.setServings(recipe.getServings());
     
-    List<Reviews> reviews = reviewService.getReviewsById(recipeId);
+    List<Review> reviews = reviewService.getReviewsById(recipe.getRecipeId());
     Double totalRating = 0.0;
     for (Review recipeReview : reviews) {
         totalRating += recipeReview.getRating();
