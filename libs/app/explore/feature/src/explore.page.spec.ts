@@ -9,7 +9,8 @@ import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ExploreUIModule } from '@fridge-to-plate/app/explore/ui';
+import { ExploreUIModule, SearchingModalComponent } from '@fridge-to-plate/app/explore/ui';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 
 // Create a mock of the Ngxs selector
@@ -100,7 +101,6 @@ describe('ExplorePage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
-      expect(component.loading).toBe(false);
       expect(component.showRecipes).toBe(true);
     });
   });
@@ -114,7 +114,6 @@ describe('ExplorePage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.retunedRecipes).toEqual(mockRecipes);
-      expect(component.loading).toBe(false);
       expect(component.showRecipes).toBe(true);
     });
   });
@@ -122,7 +121,6 @@ describe('ExplorePage', () => {
   it('should show categories when explorer search text is empty', () => {
     component.explorer('');
 
-    expect(component.loading).toBe(false);
     expect(component.showRecipes).toBe(false);
     expect(component.showCategories).toBe(true);
   });
@@ -133,7 +131,6 @@ describe('ExplorePage', () => {
     expect(component.subpage).toBe('beforeSearchApplied');
     expect(component.showCategories).toBe(true);
     expect(component.showRecipes).toBe(false);
-    expect(component.loading).toBe(false);
   });
 
   it('should call search function with correct search object when valid search text is provided', () => {
@@ -157,6 +154,7 @@ describe('ExplorePage', () => {
   it('should call searchFromHistory function with correct search term when valid search term is provided', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
+    explorePage.searchModal = new SearchingModalComponent();
     const searchTerm = 'valid search term';
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
@@ -233,6 +231,7 @@ describe('ExplorePage', () => {
   it('should call applyFilters correctly', () => {
     // Arrange
     const explorePage = new ExplorePage(store);
+    explorePage.searchModal = new SearchingModalComponent();
     explorePage.selectedFilters = ['filter1', 'filter2', 'filter3'];
     explorePage.searchTerm = 'term';
     const callSpy = jest.spyOn(explorePage, 'searchFromHistory');

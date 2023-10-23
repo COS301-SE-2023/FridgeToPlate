@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomePage } from './home.page';
 import { Router } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 describe('HomePage', () => {
   let component: HomePage;
   let fixture: ComponentFixture<HomePage>;

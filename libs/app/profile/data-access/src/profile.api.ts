@@ -35,7 +35,7 @@ export class ProfileAPI {
     const url = `${this.baseUrl}/create`;
     this.http.post<IProfile>(url, profile).subscribe({
       error: error => {
-        this.store.dispatch(new ShowError("An error occurred"));
+        this.store.dispatch(new ShowError("An error occurred while saving your profile"));
       }
     });
   }

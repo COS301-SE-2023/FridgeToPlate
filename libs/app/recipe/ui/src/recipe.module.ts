@@ -7,10 +7,11 @@ import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-acces
 import { FormsModule } from '@angular/forms';
 import { MealPlanModalComponent } from './meal-plan-modal/meal-plan-modal.component';
 import { NgxsModule } from '@ngxs/store';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { RecipeState } from '../../data-access/src/recipe.state';
+import { RecipeState } from '@fridge-to-plate/app/recipe/data-access';
 import { CustomSkeletonLoaderComponent } from './custom-skeleton-loader/custom-skeleton-loader.component';
 import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ActualImageDirective } from 'libs/app/core/src/directives/img-load.directive';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
     TempRecipeCardComponent,
     MealPlanModalComponent,
     CustomSkeletonLoaderComponent,
+    ActualImageDirective
   ],
   exports: [RecipeCardComponent, TempRecipeCardComponent, CustomSkeletonLoaderComponent],
 })

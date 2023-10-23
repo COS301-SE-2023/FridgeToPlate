@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Observable, of, switchMap} from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { environment } from '@fridge-to-plate/app/environments/utils';
 import { IReview } from '@fridge-to-plate/app/review/utils';
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import {IDeleteRecipeResponse} from "../../utils/src/interfaces/delete.recipe.response";
+import  {IDeleteRecipeResponse } from "@fridge-to-plate/app/recipe/utils";
 
 @Injectable({
   providedIn: 'root',

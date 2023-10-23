@@ -204,7 +204,7 @@ export class AuthState {
     this.store.dispatch(new ResetPreferences());
     this.store.dispatch(new ClearRecommend());
     localStorage.clear();
-    this.store.dispatch(new ShowInfo("Account Has Logged Out"));
+    this.store.dispatch(new ShowInfo("Account Has Been Logged Out"));
     this.store.dispatch(new Navigate(['/login']));
   }
 

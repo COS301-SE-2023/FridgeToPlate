@@ -1,5 +1,5 @@
 <div
-  class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16 font-inter"
+  class="justify-center pt-8 bg-background-light h-full w-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16 font-inter"
 >
   <form
     [formGroup]="recipeForm"
@@ -62,7 +62,7 @@
       </div>
 
       <div class="mb-8 lg:flex lg:space-x-4">
-        <div class="lg:w-2/5">
+        <div class="mb-8 lg:w-2/5 lg:mb-0">
           <label for="servings" class="block text-content-gray font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"
@@ -241,126 +241,162 @@
                 name="name"
                 class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
               >
-                <option value="" disabled selected>Choose Ingredient</option>
-                <optgroup label="Dairy">
-                  <option value="butter">Butter</option>
-                  <option value="buttermilk">Buttermilk</option>
-                  <option value="cheddar cheese">Cheddar Cheese</option>
-                  <option value="cheese">Cheese</option>
-                  <option value="condensed milk">Condensed Milk</option>
-                  <option value="cream cheese">Cream Cheese</option>
-                  <option value="cottage cheese">Cottage Cheese</option>
-                  <option value="feta cheese">Feta Cheese</option>
-                  <option value="gouda cheese">Gouda Cheese</option>
-                  <option value="goat cheese">Goat Cheese</option>
-                  <option value="blue cheese">Blue Cheese</option>
-                  <option value="half and half">Half and Half</option>
-                  <option value="milk">Milk</option>
-                  <option value="mozzarella cheese">Mozzarella Cheese</option>
-                  <option value="parmesan cheese">Parmesan Cheese</option>
-                  <option value="ricotta cheese">Ricotta Cheese</option>
-                  <option value="sour cream">Sour Cream</option>
-                  <option value="whipped cream">Whipped Cream</option>
-                  <option value="yogurt">Yogurt</option>
-                </optgroup>
-                <optgroup label="Fruits">
-                  <option value="apricot">Apricot</option>
-                  <option value="banana">Banana</option>
-                  <option value="blackberries">Blackberries</option>
-                  <option value="blueberries">Blueberries</option>
-                  <option value="cherry">Cherry</option>
-                  <option value="cranberries">Cranberries</option>
-                  <option value="dragon fruit">Dragon Fruit</option>
-                  <option value="fig">Fig</option>
-                  <option value="grapefruit">Grapefruit</option>
-                  <option value="grapes">Grapes</option>
-                  <option value="guava">Guava</option>
-                  <option value="kiwi">Kiwi</option>
-                  <option value="lemon">Lemon</option>
-                  <option value="lime">Lime</option>
-                  <option value="mango">Mango</option>
-                  <option value="orange">Orange</option>
-                  <option value="papaya">Papaya</option>
-                  <option value="passion fruit">Passion Fruit</option>
-                  <option value="peach">Peach</option>
-                  <option value="pear">Pear</option>
-                  <option value="pineapple">Pineapple</option>
-                  <option value="plum">Plum</option>
-                  <option value="pomegranate">Pomegranate</option>
-                  <option value="raspberries">Raspberries</option>
-                  <option value="strawberries">Strawberries</option>
-                  <option value="watermelon">Watermelon</option>
-                </optgroup>
-                <optgroup label="Vegetables">
-                  <option value="artichokes">Artichokes</option>
-                  <option value="asparagus">Asparagus</option>
-                  <option value="avocado">Avocado</option>
-                  <option value="beets">Beets</option>
-                  <option value="bell peppers">Bell Peppers</option>
-                  <option value="broccoli">Broccoli</option>
-                  <option value="cabbage">Cabbage</option>
-                  <option value="carrots">Carrots</option>
-                  <option value="cauliflower">Cauliflower</option>
-                  <option value="celery">Celery</option>
-                  <option value="corn">Corn</option>
-                  <option value="cucumbers">Cucumbers</option>
-                  <option value="eggplant">Eggplant</option>
-                  <option value="green beans">Green Beans</option>
-                  <option value="kale">Kale</option>
-                  <option value="leeks">Leeks</option>
-                  <option value="lettuce">Lettuce</option>
-                  <option value="mushrooms">Mushrooms</option>
-                  <option value="onions">Onions</option>
-                  <option value="peas">Peas</option>
-                  <option value="potatoes">Potatoes</option>
-                  <option value="radishes">Radishes</option>
-                  <option value="spinach">Spinach</option>
-                  <option value="sweet potatoes">Sweet Potatoes</option>
-                  <option value="tomatoes">Tomatoes</option>
-                  <option value="zucchini">Zucchini</option>
-                </optgroup>
-                <optgroup label="Proteins">
-                  <option value="bacon">Bacon</option>
-                  <option value="beef mince">Beef Mince</option>
-                  <option value="beef ribs">Beef Ribs</option>
-                  <option value="chicken leg">Chicken</option>
-                  <option value="clams">Clams</option>
-                  <option value="crab">Crab</option>
-                  <option value="duck">Duck</option>
-                  <option value="fish">Fish</option>
-                  <option value="ham">Ham</option>
-                  <option value="lamb">Lamb</option>
-                  <option value="lobster">Lobster</option>
-                  <option value="mussels">Mussels</option>
-                  <option value="pork">Pork Chop</option>
-                  <option value="pork ribs">Pork Ribs</option>
-                  <option value="salmon">Salmon</option>
-                  <option value="shrimp">Shrimp</option>
-                  <option value="steak">Steak</option>
-                  <option value="tilapia">Tilapia</option>
-                  <option value="turkey">Turkey</option>
-                </optgroup>
-                <optgroup label="Grains">
-                  <option value="barley">Barley</option>
-                  <option value="bread">Bread</option>
-                  <option value="bulgur">Bulgur</option>
-                  <option value="cereal">Cereal</option>
-                  <option value="corn flakes">Corn Flakes</option>
-                  <option value="cornmeal">Cornmeal</option>
-                  <option value="couscous">Couscous</option>
-                  <option value="oats">Oats</option>
-                  <option value="pasta">Pasta</option>
-                  <option value="polenta">Polenta</option>
-                  <option value="quinoa">Quinoa</option>
-                  <option value="rice">Rice</option>
-                  <option value="rye">Rye</option>
-                  <option value="rye flour">Rye Flour</option>
-                  <option value="spelt">Spelt</option>
-                  <option value="wheat bran">Wheat Bran</option>
-                  <option value="wheat germ">Wheat Germ</option>
-                  <option value="white flour">White Flour</option>
-                  <option value="wild rice">Wild Rice</option>
-                </optgroup>
+              <option value="" disabled selected>Choose Ingredient to Add</option>
+              <optgroup label="Dairy">
+                <option value="butter">Butter</option>
+                <option value="buttermilk">Buttermilk</option>
+                <option value="cheddar cheese">Cheddar Cheese</option>
+                <option value="cheese">Cheese</option>
+                <option value="condensed milk">Condensed Milk</option>
+                <option value="cream cheese">Cream Cheese</option>
+                <option value="cottage cheese">Cottage Cheese</option>
+                <option value="feta cheese">Feta Cheese</option>
+                <option value="gouda cheese">Gouda Cheese</option>
+                <option value="goat cheese">Goat Cheese</option>
+                <option value="blue cheese">Blue Cheese</option>
+                <option value="half and half">Half and Half</option>
+                <option value="milk">Milk</option>
+                <option value="mozzarella cheese">Mozzarella Cheese</option>
+                <option value="parmesan cheese">Parmesan Cheese</option>
+                <option value="ricotta cheese">Ricotta Cheese</option>
+                <option value="sour cream">Sour Cream</option>
+                <option value="whipped cream">Whipped Cream</option>
+                <option value="yogurt">Yogurt</option>
+              </optgroup>
+              <optgroup label="Fruits">
+                <option value="apricot">Apricot</option>
+                <option value="banana">Banana</option>
+                <option value="blackberries">Blackberries</option>
+                <option value="blueberries">Blueberries</option>
+                <option value="cherry">Cherry</option>
+                <option value="cranberries">Cranberries</option>
+                <option value="dates">Dates</option>
+                <option value="dragon fruit">Dragon Fruit</option>
+                <option value="fig">Fig</option>
+                <option value="grapefruit">Grapefruit</option>
+                <option value="grapes">Grapes</option>
+                <option value="guava">Guava</option>
+                <option value="kiwi">Kiwi</option>
+                <option value="lemon">Lemon</option>
+                <option value="lime">Lime</option>
+                <option value="mango">Mango</option>
+                <option value="orange">Orange</option>
+                <option value="papaya">Papaya</option>
+                <option value="passion fruit">Passion Fruit</option>
+                <option value="peach">Peach</option>
+                <option value="pear">Pear</option>
+                <option value="pineapple">Pineapple</option>
+                <option value="plum">Plum</option>
+                <option value="pomegranate">Pomegranate</option>
+                <option value="raspberries">Raspberries</option>
+                <option value="strawberries">Strawberries</option>
+                <option value="watermelon">Watermelon</option>
+              </optgroup>
+              <optgroup label="Vegetables">
+                <option value="artichokes">Artichokes</option>
+                <option value="asparagus">Asparagus</option>
+                <option value="avocado">Avocado</option>
+                <option value="beets">Beets</option>
+                <option value="bell peppers">Bell Peppers</option>
+                <option value="broccoli">Broccoli</option>
+                <option value="cabbage">Cabbage</option>
+                <option value="carrots">Carrots</option>
+                <option value="cauliflower">Cauliflower</option>
+                <option value="celery">Celery</option>
+                <option value="corn">Corn</option>
+                <option value="cucumbers">Cucumbers</option>
+                <option value="eggplant">Eggplant</option>
+                <option value="green beans">Green Beans</option>
+                <option value="kale">Kale</option>
+                <option value="leeks">Leeks</option>
+                <option value="lettuce">Lettuce</option>
+                <option value="mushrooms">Mushrooms</option>
+                <option value="onions">Onions</option>
+                <option value="peas">Peas</option>
+                <option value="potatoes">Potatoes</option>
+                <option value="radishes">Radishes</option>
+                <option value="spinach">Spinach</option>
+                <option value="spring onions">Spring Onions</option>
+                <option value="sweet potatoes">Sweet Potatoes</option>
+                <option value="tomatoes">Tomatoes</option>
+                <option value="zucchini">Zucchini</option>
+              </optgroup>
+              <optgroup label="Meat">
+                <option value="bacon">Bacon</option>
+                <option value="beef mince">Beef Mince</option>
+                <option value="beef ribs">Beef Ribs</option>
+                <option value="chicken">Chicken</option>
+                <option value="clams">Clams</option>
+                <option value="crab">Crab</option>
+                <option value="duck">Duck</option>
+                <option value="fish">Fish</option>
+                <option value="ham">Ham</option>
+                <option value="lamb">Lamb</option>
+                <option value="lobster">Lobster</option>
+                <option value="mussels">Mussels</option>
+                <option value="pork">Pork Chop</option>
+                <option value="pork ribs">Pork Ribs</option>
+                <option value="salmon">Salmon</option>
+                <option value="shrimp">Shrimp</option>
+                <option value="steak">Steak</option>
+                <option value="tilapia">Tilapia</option>
+                <option value="turkey">Turkey</option>
+              </optgroup>
+              <optgroup label="Grains">
+                <option value="barley">Barley</option>
+                <option value="bread">Bread</option>
+                <option value="bulgur">Bulgur</option>
+                <option value="cereal">Cereal</option>
+                <option value="corn flakes">Corn Flakes</option>
+                <option value="cornmeal">Cornmeal</option>
+                <option value="couscous">Couscous</option>
+                <option value="crackers">Crackers</option>
+                <option value="flour">Flour</option>
+                <option value="oats">Oats</option>
+                <option value="pasta">Pasta</option>
+                <option value="polenta">Polenta</option>
+                <option value="quinoa">Quinoa</option>
+                <option value="rice">Rice</option>
+                <option value="rye">Rye</option>
+                <option value="rye flour">Rye Flour</option>
+                <option value="spelt">Spelt</option>
+                <option value="wheat bran">Wheat Bran</option>
+                <option value="wheat germ">Wheat Germ</option>
+                <option value="wild rice">Wild Rice</option>
+              </optgroup>
+              <optgroup label="Spreads and Condiments">
+                <option value="barbecue_sauce">Barbecue Sauce</option>
+                <option value="honey">Honey</option>
+                <option value="hot sauce">Hot Sauce</option>
+                <option value="jam">Jam</option>
+                <option value="ketchup">Ketchup</option>
+                <option value="maple syrup">Maple Syrup</option>
+                <option value="mayonnaise">Mayonnaise</option>
+                <option value="mustard">Mustard</option>
+                <option value="nutella">Nutella</option>
+                <option value="peanut butter">Peanut Butter</option>
+                <option value="relish">Relish</option>
+                <option value="salsa">Salsa</option>
+                <option value="soy sauce">Soy Sauce</option>
+              </optgroup>
+              <optgroup label="Herbs and Spices">
+                <option value="basil">Basil</option>
+                <option value="cayenne">Cayenne</option>
+                <option value="cilantro">Cilantro</option>
+                <option value="cinnamon">Cinnamon</option>
+                <option value="coriander">Coriander</option>
+                <option value="cumin">Cumin</option>
+                <option value="ginger">Ginger</option>
+                <option value="mint">Mint</option>
+                <option value="nutmeg">Nutmeg</option>
+                <option value="oregano">Oregano</option>
+                <option value="paprika">Paprika</option>
+                <option value="parsley">Parsley</option>
+                <option value="rosemary">Rosemary</option>
+                <option value="sage">Sage</option>
+                <option value="thyme">Thyme</option>
+                <option value="turmeric">Turmeric</option>
+              </optgroup>
               </select>
             </div>
 
@@ -389,46 +425,46 @@
                   value="tsp"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Teaspoon (tsp)
+                  tsp
                 </option>
                 <option
                   value="tbsp"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Tablespoon (Tbsp)
+                  tbsp
                 </option>
                 <option
                   value="cup"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Cup (cup)
+                  cup
                 </option>
                 <option
-                  value="mL"
+                  value="ml"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Milliliter (mL)
+                  ml
                 </option>
-                <option value="L" class="text-black hover:bg-primary-highlight">
-                  Liter (L)
+                <option value="l" class="text-black hover:bg-primary-highlight">
+                  l
                 </option>
                 <option value="g" class="text-black hover:bg-primary-highlight">
-                  Gram (g)
+                  g
                 </option>
                 <option value="kg" class="text-black hover:bg-primary-highlight">
-                  Kilogram (kg)
+                  kg
                 </option>
                 <option
                   value="oz"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Ounce (oz)
+                  oz
                 </option>
                 <option
                   value="lb"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Pound (lb)
+                  lb
                 </option>
               </select>
             </div>
@@ -463,7 +499,7 @@
           class="mb-2"
         >
           <div class="flex items-center space-x-4">
-            <span class="text-xl">{{ i+1 }}.</span>
+            <span class="text-xl text-content-dark">{{ i+1 }}.</span>
             <input type="text"
                    placeholder="Add Instruction"
                    id="instruction-{{i}}"
@@ -581,7 +617,7 @@
         <ul class="flex">
           <li
             *ngFor="let tag of tags; let i = index"
-            class="cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            class="cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2 hover:bg-primary hover:text-white"
             (click)="deleteTag(i)"
           >
             {{ tag }}
@@ -590,7 +626,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col block lg:col-span-2 lg:px-36  w-full mx-auto">
+    <div class="flex flex-col lg:col-span-2 lg:px-36  w-full mx-auto">
       <label for="instructions" class="block text-content-gray font-bold mb-2 lg:text-center">Video</label>
       <input id="videoLink" type="text" [(ngModel)]="videoLink" [ngModelOptions]="{standalone: true}" placeholder="Please Paste Youtube Link Here" class="w-full bg-gray-200 border border-gray-400 p-2 text-gray-900 text-sm rounded-md ">
 

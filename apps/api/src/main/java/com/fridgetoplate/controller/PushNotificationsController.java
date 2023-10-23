@@ -7,8 +7,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 @Controller
 public class PushNotificationsController {
@@ -24,7 +22,7 @@ public class PushNotificationsController {
   //Mapped as app/application
     @MessageMapping("/application")
     @SendTo("/all/messages")
-    public Message send(final Message message) throws Exception{
+    public Message<String> send(final Message<String> message) throws Exception{
         System.out.println("Message: " + message);
 
         return message;
@@ -32,7 +30,7 @@ public class PushNotificationsController {
 
     // app/private
     @MessageMapping("/private")
-    public void sendToSpecificUser(@Payload Message message){
+    public void sendToSpecificUser(@Payload Message<String> message){
         simpMessagingTemplate.convertAndSendToUser("ToReplaceLater", "/specific", message);
     }
 

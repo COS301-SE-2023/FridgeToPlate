@@ -127,6 +127,7 @@ export class CreatePagComponent implements OnInit {
       servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
       rating: null,
+      youtubeId: this.videoLink
     };
 
     this.store.dispatch(new CreateRecipe(recipe));

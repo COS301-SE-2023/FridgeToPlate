@@ -38,8 +38,7 @@ export interface EditRecipeStateModel {
             this.store.dispatch(new Navigate(['/edit-recipe']));
           },
           (error: Error) => {
-            console.error('Failed to load recipe:', error);
-            this.store.dispatch(new ShowError("An error occurred"));
+            this.store.dispatch(new ShowError("An Error Occurred While Loading Recipe"));
           }
         );
     }

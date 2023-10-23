@@ -4,10 +4,12 @@ import { GetRecipeRecommendations } from '@fridge-to-plate/app/recommend/utils';
 import { Store } from '@ngxs/store';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'stepper-form',
   templateUrl: './stepper-form.html',
   styleUrls: ['./stepper-form.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class StepperForm {
   currentStep = 1;
 

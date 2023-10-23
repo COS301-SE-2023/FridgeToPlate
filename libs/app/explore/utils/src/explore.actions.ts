@@ -1,6 +1,4 @@
-import { IProfile } from "@fridge-to-plate/app/profile/utils";
-import { IRecipe } from "@fridge-to-plate/app/recipe/utils";
-import { IExplore } from "@fridge-to-plate/app/explore/utils";
+import { IExplore } from "./interfaces";
 
 
 export class RetrieveProfile {

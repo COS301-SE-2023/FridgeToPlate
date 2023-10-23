@@ -3,11 +3,10 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   DeleteRecipe,
   IRecipe,
-  RetrieveRecipe,
   UpdateRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
-import { Select, Store, ofActionSuccessful, Actions } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
 import { Location } from '@angular/common';
@@ -32,6 +31,10 @@ export class EditRecipeComponent implements OnInit {
   profile!: IProfile;
   recipeId!: string;
   recipe!: IRecipe;
+  selectedVideo: File | null = null;
+  displayVideo = 'none';
+  displayImage = 'block';
+  videoLink: string;
 
   @Select(RecipeState.getEditRecipe) recipe$!: Observable<IRecipe>;
   @Select(ProfileState.getProfile) profile$!: Observable<IProfile>;
@@ -40,8 +43,7 @@ export class EditRecipeComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private location: Location,
-    public route: ActivatedRoute,
-    private actions$: Actions
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -54,13 +56,13 @@ export class EditRecipeComponent implements OnInit {
   createForm(): void {
     this.initialize();
     this.recipeForm = this.fb.group({
-      name: [this.recipe?.name, Validators.required],
-      description: [this.recipe?.description, Validators.required],
-      servings: [this.recipe?.servings, Validators.required],
-      preparationTime: [this.recipe?.prepTime, Validators.required],
-      ingredients: this.fb.array([]),
-      instructions: this.fb.array([]),
-      tags: [''],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      servings: ['', Validators.required],
+      preparationTime: ['', Validators.required],
+      ingredients: this.fb.array([], Validators.required),
+      instructions: this.fb.array([], Validators.required),
+      tag: [''],
     });
     this.populateForm();
   }
@@ -68,13 +70,32 @@ export class EditRecipeComponent implements OnInit {
   initialize(): void {
     this.recipe$.pipe(take(1)).subscribe((recipe) => {
       this.recipe = recipe;
-      if (recipe.recipeId) {
+      if (recipe && recipe.recipeId) {
         this.recipeId = recipe.recipeId;
       }
     });
   }
 
   populateForm(): void {
+
+    if (!this.recipe) {
+      return;
+    }
+
+    this.recipeForm = this.fb.group({
+      name: [
+        this.recipe.name.split(" ").map((word) => { 
+            return word[0].toUpperCase() + word.substring(1); 
+        }).join(" "), 
+        Validators.required],
+      description: [this.recipe.description, Validators.required],
+      servings: [this.recipe.servings, Validators.required],
+      preparationTime: [this.recipe.prepTime, Validators.required],
+      ingredients: this.fb.array([], Validators.required),
+      instructions: this.fb.array([], Validators.required),
+      tag: [''],
+    });
+
     this.recipe?.ingredients.forEach((ingredient) => {
       const ingredientGroup = this.fb.group({
         name: [ingredient.name, Validators.required],
@@ -88,10 +109,12 @@ export class EditRecipeComponent implements OnInit {
     this.recipe?.steps.forEach((step) => {
       this.instructionControls.push(this.fb.control(step, Validators.required));
     });
-    this.tags = this.recipe?.tags ?? this.tags;
-    this.selectedMeal = this.recipe?.meal ?? this.selectedMeal;
-    this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl;
-    this.difficulty = this.recipe?.difficulty ?? this.difficulty;
+
+    this.tags = this.recipe.tags;
+    this.selectedMeal = this.recipe.meal;
+    this.imageUrl = this.recipe.recipeImage;
+    this.difficulty = this.recipe.difficulty;
+    this.videoLink = "https://www.youtube.com/watch?v=" + this.recipe.youtubeId;
   }
 
   get ingredientControls() {
@@ -154,24 +177,25 @@ export class EditRecipeComponent implements OnInit {
     // Create Recipe details
     const recipe: IRecipe = {
       recipeId: this.recipe?.recipeId,
-      name: this.recipeForm.value.name,
+      name: this.recipeForm.get('name')?.value,
       recipeImage: this.imageUrl,
-      description: this.recipeForm.value.description,
+      description: this.recipeForm.get('description')?.value,
       meal: this.selectedMeal,
-      creator: this.recipe?.creator ?? '',
+      creator: this.profile.username,
       ingredients: ingredients,
       steps: instructions,
       difficulty: this.difficulty,
-      prepTime: this.recipeForm.value.preparationTime as number,
-      servings: this.recipeForm.value.servings as number,
+      prepTime: this.recipeForm.get('preparationTime')?.value as number,
+      servings: this.recipeForm.get('servings')?.value as number,
       tags: this.tags,
-      rating: this.recipe?.rating as number | null,
-      reviews: this.recipe?.reviews ?? [],
+      rating: this.recipe?.rating,
+      youtubeId: this.videoLink
     };
 
     const index = this.profile.createdRecipes.findIndex(
-      (recipe) => this.recipeId === recipe.recipeId
+      (recipe) => this.recipe?.recipeId === recipe.recipeId
     );
+    
     if (index === -1) {
       this.store.dispatch(new ShowError('Could not update recipe'));
       return;
@@ -180,7 +204,7 @@ export class EditRecipeComponent implements OnInit {
     this.store.dispatch(new UpdateRecipe(recipe));
     this.profile.createdRecipes[index] = recipe;
     this.store.dispatch(new UpdateProfile(this.profile));
-    this.store.dispatch(new Navigate([`/recipe/${this.recipeId}`]));
+    this.store.dispatch(new Navigate([`/recipe/${this.recipe.recipeId}`]));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -208,7 +232,8 @@ export class EditRecipeComponent implements OnInit {
       );
       this.store.dispatch(new UpdateProfile(profile));
     });
-    this.location.back();
+    
+    this.store.dispatch(new Navigate(['/profile']));
   }
 
   toggleMeal(option: string) {

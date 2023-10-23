@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownSelectComponent } from '../dropdown-select/dropdown-select.component';
 import { StepperForm } from '../stepper-form/stepper-form';
 import { BarcodeModalComponent } from '../barcode-modal/barcode-modal.component';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { ProfileModule } from '@fridge-to-plate/app/profile/feature';
 
 describe('RecipePreferencesStep', () => {

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 import com.fridgetoplate.interfaces.ExtendedIngredient;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
@@ -14,7 +13,6 @@ import com.fridgetoplate.model.Ingredient;
 import com.fridgetoplate.model.Review;
 
 public class SpoonacularRecipeConverter implements DynamoDBTypeConverter<SpoonacularRecipe[], RecipeFrontendModel[]> {
-    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public SpoonacularRecipe[] convert(RecipeFrontendModel[] object) {

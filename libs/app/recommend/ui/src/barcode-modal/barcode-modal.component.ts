@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import Quagga from '@ericblade/quagga2';
 import { ShowError } from '@fridge-to-plate/app/error/utils';

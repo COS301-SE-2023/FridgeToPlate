@@ -6,9 +6,6 @@ import com.fridgetoplate.model.RecipeDeleteResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.RecipeModel;
-import com.fridgetoplate.repository.RecipeRepository;
 import com.fridgetoplate.service.RecipeService;
 import com.fridgetoplate.frontendmodels.RecipeFrontendModel;
 
@@ -27,8 +24,8 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public RecipeFrontendModel findById(@PathVariable(value = "id") String id){
-        return recipeService.findById(id);
+    public RecipeFrontendModel findFullRecipeById(@PathVariable(value = "id") String id){
+        return recipeService.findFullRecipeById(id);
     }
 
     @GetMapping("/name/{recipename}")

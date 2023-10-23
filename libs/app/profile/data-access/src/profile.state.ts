@@ -99,17 +99,17 @@ export class ProfileState {
     return state.settings;
   }
 
-    @Action(UpdateProfile)
-    updateProfile({ patchState, getState} : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
-        const oldProfile = getState().profile;
-        patchState({
-            profile: profile
-        });
-        this.profileAPI.updateProfile(profile);
-        if(oldProfile?.email && oldProfile.email != profile.email) {
-            this.store.dispatch( new ChangeEmail(profile.email));
-        }
-    }
+  @Action(UpdateProfile)
+  updateProfile({ patchState, getState} : StateContext<ProfileStateModel>, { profile } : UpdateProfile) {
+      const oldProfile = getState().profile;
+      patchState({
+          profile: profile
+      });
+      this.profileAPI.updateProfile(profile);
+      if(oldProfile?.email && oldProfile.email != profile.email) {
+          this.store.dispatch( new ChangeEmail(profile.email));
+      }
+  }
 
   @Action(ResetProfile)
   resetProfile({ setState }: StateContext<ProfileStateModel>) {
@@ -143,7 +143,7 @@ export class ProfileState {
           this.store.dispatch(new UpdateMealPlan(data?.currMealPlan));
       },
       error: (error) => {
-        this.store.dispatch(new ShowError('Unsuccessful'));
+        this.store.dispatch(new ShowError('Error Occured While Retrieving Profile'));
       },
     });
   }
@@ -175,7 +175,7 @@ export class ProfileState {
     if (updatedProfile) {
       for (let i = 0; i < updatedProfile.savedRecipes.length; i++) {
         if (updatedProfile.savedRecipes[i].recipeId === recipe.recipeId) {
-          this.store.dispatch(new ShowInfo('Recipe Already Stored'));
+          this.store.dispatch(new ShowInfo('Recipe Already Saved To Profile'));
           return;
         }
       }
@@ -415,8 +415,6 @@ export class ProfileState {
       }
 
       this.store.dispatch(new UpdateMealPlanData(values));
-
-      this.profileAPI.updateProfile(updatedProfile);
       this.mealPlanAPI.saveMealPlan(mealPlan);
       this.store.dispatch(new RetrieveMealPlanIngredients(mealPlan));
     }

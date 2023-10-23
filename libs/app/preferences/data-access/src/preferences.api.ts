@@ -35,7 +35,7 @@ export class PreferencesAPI {
 
     this.http.post<IPreferences>(url, preferences).subscribe({
       error: error => {
-        this.store.dispatch(new ShowError("An error occurred"));
+        this.store.dispatch(new ShowError("An Error Occurred While Saving Your Preferences"));
       }
     });
   }

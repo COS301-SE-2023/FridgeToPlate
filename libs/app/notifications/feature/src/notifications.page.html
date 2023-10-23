@@ -35,42 +35,51 @@
         [active]="true"
         class="h-full"
       >
-        <ng-container
-          *ngIf="generalNotifications$ | async; else noNotifications"
+        <div
+          *ngIf="generalNotifications$ | async as generalNotifications;"
         >
-          <div
-            (click)="{onNotificationClick}"
-            *ngFor="let notification of (generalNotifications$ | async)"
-            class="w-full h-31 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
-          >
+          <div *ngIf="generalNotifications.length > 0; else noNotifications">
             <div
-              class="w-1/4 flex flex-row flex-grow-0 flex-shrink-0 justify-center items-center px-2 py-2 md:px-0"
+              (click)="{onNotificationClick}"
+              *ngFor="let notification of generalNotifications"
+              class="w-full h-31 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%]"
             >
-              <img
-                class="rounded-full md:h-24 md:w-24 md:-ml-10 lg:-ml-48 w-16 h-16"
-                [src]="notification.notificationPic"
-              />
-            </div>
-            <div
-              (click)="onNotificationClick(notification?.metadata ?? '')"
-              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
-            >
-              <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
-                <p class="text-md line-clamp-1 w-full font-semibold text-content-dark">
-                  {{ notification.title }}
-                </p>
+              <div
+                class="w-1/4 flex flex-row flex-grow-0 flex-shrink-0 justify-center items-center px-2 py-2 md:px-0"
+              >
+                <img
+                  class="rounded-full md:h-24 md:w-24 md:-ml-10 lg:-ml-48 w-16 h-16"
+                  [src]="notification.notificationPic"
+                />
               </div>
-              <div class="w-full h-1/2 font-semibold text-content-gray lg:text-lg mt-4">
-                <p class="line-clamp-4">{{ notification.body }}</p>
+              <div
+                (click)="onNotificationClick(notification?.metadata ?? '')"
+                class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
+              >
+                <div class="w-full h-1/2 pt-5 font-bold lg:text-xl">
+                  <p class="text-md line-clamp-1 w-full font-semibold text-content-dark">
+                    {{ notification.title }}
+                  </p>
+                </div>
+                <div class="w-full h-1/2 font-semibold text-content-gray lg:text-lg mt-4">
+                  <p class="line-clamp-4">{{ notification.body }}</p>
+                </div>
               </div>
             </div>
           </div>
-        </ng-container>
-        <ng-template #noNotifications>
-          <div>
-            <h2 class="text-content-dark">No notifications yet</h2>
-          </div>
-        </ng-template>
+          <ng-template #noNotifications>
+            <div
+              class="sm:px-8 md:px-14 md:mt-12 my-2 flex flex-col justify-center items-center sm:h-64"
+            >
+              <p class="sm:text-2xl md:text-3xl sm:font-bold text-center text-content-dark">
+                You do not have any general notifications
+              </p>
+              <p class="sm:mt-6 text-sm md:text-lg text-center text-content-dark">
+                These notifications are interaction with your created recipes
+              </p>
+            </div>
+          </ng-template>
+        </div>
       </fridge-to-plate-tab>
       <fridge-to-plate-tab
         tabName="Recommendations"
@@ -78,42 +87,51 @@
         [active]="false"
         class="h-full"
       >
-        <ng-container
-          *ngIf="recommendationNotifications$ | async; else noNotifications"
+        <div
+          *ngIf="recommendationNotifications$ | async as recommendationNotifications;"
         >
-          <div
-            (click)="{onNotificationClick}"
-            *ngFor="let notification of (recommendationNotifications$ | async)"
-            class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%] hover:bg-zinc-200 dark:hover:bg-zinc-600 transition ease-in-out duration-200"
-          >
+          <div *ngIf="recommendationNotifications.length > 0; else noNotifications">
             <div
-              class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
+              (click)="{onNotificationClick}"
+              *ngFor="let notification of recommendationNotifications"
+              class="w-full h-28 flex flex-row border-b lg:pb-4 cursor-pointer lg:w-[90%] hover:bg-zinc-200 dark:hover:bg-zinc-600 transition ease-in-out duration-200"
             >
-              <img
-                class="rounded-full md:h-24 md:w-24 md:-ml-10 lg:-ml-48 w-16 h-16"
-                [src]="notification.notificationPic"
-              />
-            </div>
-            <div
-              (click)="onNotificationClick(notification?.metadata ?? '')"
-              class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
-            >
-              <div class="w-full h-1/2 pt-5 lg:text-xl">
-                <p class="text-md line-clamp-1 w-full font-semibold text-content-dark">
-                  {{ notification.title }}
-                </p>
+              <div
+                class="w-1/4 flex flex-row justify-center items-center px-2 py-2 md:px-0"
+              >
+                <img
+                  class="rounded-full md:h-24 md:w-24 md:-ml-10 lg:-ml-48 w-16 h-16"
+                  [src]="notification.notificationPic"
+                />
               </div>
-              <div class="w-full h-1/2 font-medium text-content-dark gray lg:text-lg">
-                <p class="line-clamp-1">{{ notification.body }}</p>
+              <div
+                (click)="onNotificationClick(notification?.metadata ?? '')"
+                class="w-3/4 flex flex-col justify-center ml-3 md:-ml-8 lg:-ml-40"
+              >
+                <div class="w-full h-1/2 pt-5 lg:text-xl">
+                  <p class="text-md line-clamp-1 w-full font-semibold text-content-dark">
+                    {{ notification.title }}
+                  </p>
+                </div>
+                <div class="w-full h-1/2 font-medium text-content-dark gray lg:text-lg">
+                  <p class="line-clamp-1">{{ notification.body }}</p>
+                </div>
               </div>
             </div>
           </div>
-        </ng-container>
-        <ng-template #noNotifications>
-          <div>
-            <h2 class="text-content-dark">No notifications yet</h2>
-          </div>
-        </ng-template>
+          <ng-template #noNotifications>
+            <div
+              class="sm:px-8 md:px-14 md:mt-12 my-2 flex flex-col justify-center items-center sm:h-64"
+            >
+              <p class="sm:text-2xl md:text-3xl sm:font-bold text-center text-content-dark">
+                You do not have any recommendation notifications
+              </p>
+              <p class="sm:mt-6 text-sm md:text-lg text-center text-content-dark">
+                You will be recommended recipes throughout the day
+              </p>
+            </div>
+          </ng-template>
+        </div>
       </fridge-to-plate-tab>
     </fridge-to-plate-tabbed>
   </div>

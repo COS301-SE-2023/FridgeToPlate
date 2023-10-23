@@ -5,11 +5,11 @@ import { Select, Store } from '@ngxs/store';
 import { delay, Observable } from 'rxjs';
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Router } from '@angular/router';
-import { HomeState } from '../../data-access/src/home.state';
+import { HomeState } from '@fridge-to-plate/app/home/data-access';
 import {
   ClearFeaturedRecipes,
   RetrieveFeaturedRecipes,
-} from '../../utils/src/home.actions';
+} from '@fridge-to-plate/app/home/utils';
 
 @Component({
   selector: 'fridge-to-plate-home',

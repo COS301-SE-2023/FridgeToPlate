@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NavigationBar } from '@fridge-to-plate/app/navigation/feature';
-import { Store } from '@ngxs/store';
-import { GetUpdatedRecommendation } from '@fridge-to-plate/app/recommend/utils';
+import { Component } from '@angular/core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,6 +7,4 @@ import { GetUpdatedRecommendation } from '@fridge-to-plate/app/recommend/utils';
   styleUrls: ['./recommend.page.scss'],
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class RecommendPage {
-  constructor(private store: Store) {}
-}
+export class RecommendPage {}

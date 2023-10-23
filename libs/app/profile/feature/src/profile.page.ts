@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { Component } from "@angular/core";
 import { IProfile,
   RetrieveMealPlan,
   SortCreatedByDifficulty,
@@ -18,7 +18,7 @@ import { Navigate } from "@ngxs/router-plugin";
 import { IIngredient } from "@fridge-to-plate/app/ingredient/utils";
 import { RetrieveMealPlanIngredients } from "@fridge-to-plate/app/recipe/utils";
 import { RecipeState } from "@fridge-to-plate/app/recipe/data-access";
-import { Chart, ChartData } from "chart.js";
+import { ChartData } from "chart.js";
 import { MealPlanState } from "@fridge-to-plate/app/meal-plan/data-access";
 
 @Component({

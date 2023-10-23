@@ -8,10 +8,12 @@ import {
 } from '@fridge-to-plate/app/recommend/utils';
 import { keywordsArray } from '@fridge-to-plate/app/recommend/utils';
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'recipe-preferences-step',
   templateUrl: './recipe-preferences-step.html',
   styleUrls: ['recipe-preferences-step.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class RecipePreferencesStep {
   @Select(RecommendState.getRecipePreferences) recipePreferences$!: Observable<IRecipePreferences>;
   keywordOptions = keywordsArray;

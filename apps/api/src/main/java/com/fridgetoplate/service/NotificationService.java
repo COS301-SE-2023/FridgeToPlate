@@ -67,15 +67,16 @@ public class NotificationService {
 
         List<NotificationModel> notifications = notificationsRepository.findAllByUser(userId);
 
+        List<NotificationModel> deletableNotif = new ArrayList<>();
         for (NotificationModel notificationModel : notifications) {
             if (notificationModel.getType().equals(type)) {
-                System.out.println(notificationModel.toString());
-                notificationsRepository.delete(notificationModel);
+                deletableNotif.add(notificationModel);
             }
         }
         
+        notificationsRepository.deleteAll(deletableNotif);
+        
         return "Successfully cleared all " + type + " notifications";
-
     }
 
     @Scheduled(cron = "0 30 6 * * *")
@@ -83,7 +84,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
@@ -128,7 +129,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){
@@ -173,7 +174,7 @@ public class NotificationService {
         random.setSeed(System.currentTimeMillis());
         
         List<ProfileModel> allUsers =  profileService.findAllUsers();
-        List<ProfileModel> selectedUsers = new ArrayList();
+        List<ProfileModel> selectedUsers = new ArrayList<>();
         
         //1. Get random users
         for(; selectedUsers.size() < allUsers.size() * 0.6 ;){

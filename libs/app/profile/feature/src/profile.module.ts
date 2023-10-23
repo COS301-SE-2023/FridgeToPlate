@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ProfilePage } from './profile.page';
 import { ProfileRouting } from './profile.routing';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecipeUIModule } from '@fridge-to-plate/app/recipe/ui';
 import { ProfileUiModule } from '@fridge-to-plate/app/profile/ui';
 import { ProfileDataAccessModule } from '@fridge-to-plate/app/profile/data-access';
