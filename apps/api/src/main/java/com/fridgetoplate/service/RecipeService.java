@@ -160,7 +160,7 @@ public class RecipeService {
     model.setCreator(recipe.getCreator());
     model.setServings(recipe.getServings());
     model.setViews(0);
-    model.setRating(recipe.getRating());
+    model.setRating(null);
 
     if (recipe.getYoutubeId() != null && !recipe.getYoutubeId().isEmpty()) {
       String ytId = recipe.getYoutubeId();
@@ -206,7 +206,18 @@ public class RecipeService {
     model.setSteps(recipe.getSteps());
     model.setCreator(recipe.getCreator());
     model.setServings(recipe.getServings());
-    model.setRating(recipe.getRating());
+    
+    List<Reviews> reviews = reviewService.getReviewsById(recipeId);
+    Double totalRating = 0.0;
+    for (Review recipeReview : reviews) {
+        totalRating += recipeReview.getRating();
+    }
+
+    if (reviews.size() > 0) {
+        model.setRating(totalRating / reviews.size());
+    } else {
+        model.setRating(null);
+    }
     
     if (recipe.getYoutubeId() != null && !recipe.getYoutubeId().isEmpty()) {
       String ytId = recipe.getYoutubeId();

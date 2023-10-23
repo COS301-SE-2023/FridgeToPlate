@@ -88,9 +88,9 @@ export class EditRecipeComponent implements OnInit {
             return word[0].toUpperCase() + word.substring(1); 
         }).join(" "), 
         Validators.required],
-      description: [this.recipe?.description, Validators.required],
-      servings: [this.recipe?.servings, Validators.required],
-      preparationTime: [this.recipe?.prepTime, Validators.required],
+      description: [this.recipe.description, Validators.required],
+      servings: [this.recipe.servings, Validators.required],
+      preparationTime: [this.recipe.prepTime, Validators.required],
       ingredients: this.fb.array([], Validators.required),
       instructions: this.fb.array([], Validators.required),
       tag: [''],
@@ -110,11 +110,11 @@ export class EditRecipeComponent implements OnInit {
       this.instructionControls.push(this.fb.control(step, Validators.required));
     });
 
-    this.tags = this.recipe?.tags ?? this.tags;
-    this.selectedMeal = this.recipe?.meal ?? this.selectedMeal;
-    this.imageUrl = this.recipe?.recipeImage ?? this.imageUrl;
-    this.difficulty = this.recipe?.difficulty ?? this.difficulty;
-    this.videoLink = "https://www.youtube.com/watch?v=" + this.recipe?.youtubeId;
+    this.tags = this.recipe.tags;
+    this.selectedMeal = this.recipe.meal;
+    this.imageUrl = this.recipe.recipeImage;
+    this.difficulty = this.recipe.difficulty;
+    this.videoLink = "https://www.youtube.com/watch?v=" + this.recipe.youtubeId;
   }
 
   get ingredientControls() {
