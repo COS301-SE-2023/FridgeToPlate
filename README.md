@@ -24,36 +24,42 @@ COS301 Capstone Project for [Amazon Web Services](https://aws.amazon.com/).
 ## Development Team
 
 ### Ryan Trickett (Team Lead)
+
 A final year Computer Science student at the University of Pretoria. I am a fast learning and passionate developer with interests in DevOps, Backend Technologies and Data Security. Technology and innovation inspire me to develop and create software that impacts peoples lives positively.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Shojiki-Lukhozi)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/azola-lukhozi/)
 
 ### Azola Lukhozi
+
 Final year Computer Science student at the University of Pretoria. I'm an enthusiastic and compassionate engineer with the desire to thrive in areas such as Software Engineering, Application and Web Develpment. I'm always up for an intellectually stimulating challenge.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ryanbasiltrickett)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ryan-trickett/)
 
 ### Paul Pilane
-I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing environments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation. 
+
+I am a Final-Year Computer Science student at the University of Pretoria. I am a young, exquisitive individual who yearns and seeks knowledge through consistent, tireless efforts to equip myself for the changing environments and have a strong passion for technology and innovation, and aim to solve a class of problems through the lenses of technological innovation.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/PaulPilane)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/paul-pilane/)
 
 ### Kopano Phutiyagae
+
 I am a final year computer science student with a burning passion for learning more about technology. I am motivated to solve problems through efficient solutions and aim to provide modern solutions to modern problems.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kphutiyagae)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kopano-phutiyagae/)
 
 ### Simphiwe Nonabe
+
 I am a 3rd year Computer Science student who constantly seeks opportunities wherein I can improve my knowledge and skillset for the betterment of myself, those around me and my environment. I can work by myself and with a team, even when under immense pressure. I believe that I possess exceptional qualities which make me extremely helpful and useful in different working environments.
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/simphiwe-nonabe)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/simphiwe-nonabe/)
 
 ## Contact Us:
+
 <a href="mailto: spicegirlsincorp@gmail.com">
     <img alt="ion" src="https://img.shields.io/badge/Contact%20Us-Email-red?style=for-the-badge" />
 </a><br>
@@ -70,15 +76,19 @@ I am a 3rd year Computer Science student who constantly seeks opportunities wher
 [![AWS](https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 
 ## Project Information
+
 ### Branching Technique:
+
 **Git Flow** is a branching technique that uses two main branches, master and develop, to manage software development. Feature branches are created from develop for new features, release branches for preparing releases, and hotfix branches for critical production issues. This approach ensures a structured workflow and allows for parallel development while maintaining stability in the master branch.
 
- ### Resources:
+### Resources:
 
 [![Documentation](https://img.shields.io/badge/View-Project%20Documentation-blue?style=for-the-badge)](https://linktr.ee/fridgetoplate)&ensp;
 
 ### Demo Videos:
- [![Demo One](https://img.shields.io/badge/View-Demo%20One-crimson?style=for-the-badge)](https://youtu.be/Q8OAO0uY0jg)
 
- [![Demo Two](https://img.shields.io/badge/View-Demo%20Two-crimson?style=for-the-badge)](https://youtu.be/3451jc1XmUc)
+[![Demo One](https://img.shields.io/badge/View-Demo%20One-crimson?style=for-the-badge)](https://youtu.be/Q8OAO0uY0jg)
 
+[![Demo Two](https://img.shields.io/badge/View-Demo%20Two-crimson?style=for-the-badge)](https://youtu.be/3451jc1XmUc)
+
+[![Project Day](https://img.shields.io/badge/View-Project%20Day-crimson?style=for-the-badge)](https://youtu.be/DfeWlJq5Ya8)
