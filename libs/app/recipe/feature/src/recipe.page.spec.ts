@@ -6,8 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
-import { ChangeMeasurementType, IRecipe, RetrieveRecipe } from '@fridge-to-plate/app/recipe/utils';
-import { Observable, of } from 'rxjs';
+import { ChangeMeasurementType, IRecipe } from '@fridge-to-plate/app/recipe/utils';
+import { of } from 'rxjs';
 import { Location } from '@angular/common';
 import { RecipeAPI } from '@fridge-to-plate/app/recipe/data-access';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
@@ -16,7 +16,6 @@ import { ReviewModule } from '@fridge-to-plate/app/review/feature';
 import { Navigate } from '@ngxs/router-plugin';
 import { Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 
 describe('RecipeDetailPageComponent', () => {
   @State({
@@ -87,7 +86,7 @@ describe('RecipeDetailPageComponent', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     jest
       .spyOn(component, 'setRecipe')
-      .mockImplementation((id: string) => (component.recipe = testRecipe));
+      .mockImplementation(() => (component.recipe = testRecipe));
     component.setRecipe('test-id');
     expect(component.recipe).toEqual(testRecipe);
     expect(component.safeUrl).toBe(undefined);

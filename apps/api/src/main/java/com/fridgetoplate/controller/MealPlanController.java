@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fridgetoplate.frontendmodels.MealPlanFrontendModel;
 import com.fridgetoplate.model.Ingredient;
-import com.fridgetoplate.model.MealPlanModel;
 import com.fridgetoplate.service.MealPlanService;
 
 @RestController

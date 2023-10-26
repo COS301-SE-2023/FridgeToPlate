@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import com.fridgetoplate.frontendmodels.RecipePreferencesFrontendModel;
 import com.fridgetoplate.interfaces.SpoonacularIngredientItem;
 import com.fridgetoplate.interfaces.SpoonacularRecipe;
-import com.fridgetoplate.interfaces.SpoonacularResponse;
 import com.fridgetoplate.interfaces.YoutubeVideosResponse;
 import com.fridgetoplate.model.Ingredient;
 

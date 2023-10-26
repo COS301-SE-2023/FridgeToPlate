@@ -186,4 +186,10 @@ describe('SearchingModalComponent', () => {
       expect(next).toBe(true);
     });
   });
+
+  it('should set search text', () => {
+    component.setText('test');
+
+    expect(component.searchText).toBe('test');
+  });
 });

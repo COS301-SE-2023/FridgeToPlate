@@ -9,14 +9,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ExploreState } from '@fridge-to-plate/app/explore/data-access';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import {
-  pipe,
   Observable,
   Subject,
+  distinct,
   distinctUntilChanged,
   filter,
+  first,
   fromEvent,
+  take,
   takeUntil,
   tap,
 } from 'rxjs';
@@ -29,14 +31,11 @@ import { IExplore } from '@fridge-to-plate/app/explore/utils';
   styleUrls: ['./searching-modal.component.scss'],
 })
 export class SearchingModalComponent implements AfterViewInit, OnDestroy {
-  @Input() searchTermFromParent: string;
-
   @Input() filterCount: number;
 
   @Input() clearSearchTermObservable$: Observable<boolean>;
 
   @Select(ExploreState.getExplore) explore$!: Observable<IExplore>;
-  searchText = '';
 
   result = '';
 
@@ -52,15 +51,14 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
 
   clearSearchTermEventObservable$: Observable<boolean>;
 
-  constructor(private store: Store) {
-    this.searchText = this.searchTermFromParent ?? '';
-  }
+  searchText = '';
 
   ngAfterViewInit(): void {
     this.emitSearchTermEvent$ = fromEvent<KeyboardEvent>(
       this.input.nativeElement,
-      'keyup'
+      'keydown'
     ).pipe(
+      take(1),
       filter((e: KeyboardEvent) => e.key === 'Enter'),
       distinctUntilChanged(),
       tap(() => {
@@ -77,6 +75,7 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
       this.searchText = '';
     });
   }
+
   explorer() {
     this.emitSearchTermEvent$.subscribe();
   }
@@ -86,6 +85,7 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
       this.newSearchEvent.emit(this.searchText);
     }
   }
+
   showSearchOverlay() {
     this.toggleSearchOverlayEvent.emit(true);
   }
@@ -93,5 +93,9 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  setText(text: string) {
+    this.searchText = text;
   }
 }

@@ -1,15 +1,17 @@
 <div
   (click)="navigateToRecipe()"
-  class="w-full font-inter rounded-lg overflow-hidden shadow-lg relative cursor-pointer hover:-translate-y-1 duration-300"
+  class="w-full font-inter rounded-lg overflow-hidden shadow-lg relative cursor-pointer lg:hover:-translate-y-1 lg:duration-300"
 >
-  <img [src]="recipe.recipeImage" class="object-cover w-full aspect-square" />
+  <img src="/assets/no-image-icon.avif" appActualImage="{{recipe.recipeImage}}" class="object-cover w-full aspect-square" />
   <div class="absolute bottom-0 px-4 py-3 bg-recipe-card-overlay w-full">
-    <h1 class="text-white font-semibold text-sm ion-text-capitalize">{{ recipe.name }}</h1>
+    <h1 class="text-white font-semibold text-sm ion-text-capitalize">
+      {{ recipe.name }}
+    </h1>
     <p class="text-gray-200 text-xs mb-1">
       Difficulty: {{ recipe.difficulty }}
     </p>
     <p class="mt-2 text-orange-700 font-bold">
-      {{ recipe?.rating ?? '...' }}/5
+      {{ (recipe?.rating | number : '1.1-1') ?? '-' }}/5
     </p>
     <span *ngFor="let i of [1, 2, 3, 4, 5]">
       <ion-icon
@@ -17,7 +19,6 @@
         [ngClass]="getStarClass(getRatingValue(i))"
       ></ion-icon>
     </span>
-    <!-- <span *ngFor="let tag of recipe.tags | slice:0:2" class="bg-primary text-white text-xs font-normal mr-2 px-2.5 py-0.5 rounded"> {{ tag }} </span> -->
     <button
       *ngIf="!added"
       (click)="toggleMealPlan(); $event.stopPropagation()"

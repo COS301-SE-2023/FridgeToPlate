@@ -4,7 +4,6 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import {
   DeleteRecipe,
   IRecipe,
-  IRecipeDesc,
   UpdateRecipe,
 } from '@fridge-to-plate/app/recipe/utils';
 import { IProfile, UpdateProfile } from '@fridge-to-plate/app/profile/utils';
@@ -28,7 +27,6 @@ import {
 } from '@angular/forms';
 import { IIngredient } from '@fridge-to-plate/app/ingredient/utils';
 import { Navigate } from '@ngxs/router-plugin';
-import { IReview } from '@fridge-to-plate/app/review/utils';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -147,7 +145,6 @@ describe('EditRecipeComponent', () => {
     const storeDispatchSpy = jest
       .spyOn(TestBed.inject(Store), 'dispatch')
       .mockReturnValue(of(null));
-    const locationBackSpy = jest.spyOn(TestBed.inject(Location), 'back');
     const component = fixture.componentInstance;
     component.recipe = { recipeId } as IRecipe;
     fixture.detectChanges();
@@ -155,7 +152,7 @@ describe('EditRecipeComponent', () => {
     component.deleteRecipe();
 
     expect(storeDispatchSpy).toHaveBeenCalledWith(new DeleteRecipe(recipeId));
-    expect(locationBackSpy).toHaveBeenCalled();
+    expect(storeDispatchSpy).toHaveBeenCalledWith(new Navigate(['/profile']));
   });
 
   it('test cancel edit calls location back', () => {
@@ -1031,14 +1028,6 @@ describe('Testing Recipe Update ', () => {
   it('Should dispatch Update Recipe Action', async () => {
     jest.spyOn(component, 'isFormValid');
 
-    const review: IReview = {
-      reviewId: 'reviewId',
-      recipeId: 'recipeId',
-      username: '',
-      rating: 2,
-      description: 'It was fun while it lasted',
-    };
-
     // Mock the recipe data
     const recipe: IRecipe = {
       recipeId: '123',
@@ -1046,7 +1035,7 @@ describe('Testing Recipe Update ', () => {
       recipeImage: 'https://example.com/image.jpg',
       description: 'Amazing meal for a family',
       meal: 'Dinner',
-      creator: '',
+      creator: 'jdoe',
       ingredients: [
         { name: 'ingredient1', amount: 5, unit: 'L' },
         { name: 'ingredient2', amount: 3, unit: 'g' },
@@ -1056,8 +1045,8 @@ describe('Testing Recipe Update ', () => {
       prepTime: 30,
       servings: 4,
       tags: ['mock', 'recipe'],
-      rating: null,
-      reviews: [review],
+      rating: 3,
+      youtubeId: "12345678901"
     };
 
     component.imageUrl = recipe.recipeImage;
@@ -1077,16 +1066,12 @@ describe('Testing Recipe Update ', () => {
       dietaryPlans: fb.array((recipe.tags || []).map((tag) => fb.control(tag))),
     });
 
-    component.recipe = {
-      recipeId: '123',
-      rating: null,
-      reviews: [review],
-    } as IRecipe;
+    component.recipe = recipe;
     component.tags = recipe.tags;
+    component.videoLink = "12345678901";
     component.selectedMeal = recipe.meal;
     component.profile = testProfile;
     component.profile.createdRecipes = [recipe];
-    component.recipeId = '123';
     // Call the createRecipe method
     component.updateRecipe();
     expect(component.isFormValid).toHaveBeenCalled();
@@ -1109,7 +1094,7 @@ describe('Testing Recipe Update ', () => {
       recipeImage: 'https://example.com/image.jpg',
       description: 'Amazing meal for a family',
       meal: 'Dinner',
-      creator: '',
+      creator: 'jdoe',
       ingredients: [
         { name: 'ingredient1', amount: 5, unit: 'L' },
         { name: 'ingredient2', amount: 3, unit: 'g' },

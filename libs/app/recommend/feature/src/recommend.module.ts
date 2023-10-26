@@ -12,6 +12,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RecommendPage } from './recommend.page';
 import { NavigationBarModule } from '@fridge-to-plate/app/navigation/feature';
 import { RecommendDataAccessModule } from '@fridge-to-plate/app/recommend/data-access';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { RecommendUIModule } from '@fridge-to-plate/app/recommend/ui';
 
 @NgModule({

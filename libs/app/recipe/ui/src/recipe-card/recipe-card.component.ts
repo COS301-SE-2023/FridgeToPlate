@@ -26,7 +26,7 @@ export class RecipeCardComponent implements OnInit {
   @Input() mealPlanType = "";
 
   constructor(private store: Store) {}
-  
+
   ngOnInit(): void {
     this.profile$.subscribe(profile => {
       if (profile !== null && this.recipe !== undefined) {
@@ -90,7 +90,7 @@ export class RecipeCardComponent implements OnInit {
   }
 
   getStarName(rating: number): string {
-    if (rating >= 1 || rating <= 0) {
+    if (rating >= 1 || rating <= 0 || Number.isNaN(rating)) {
       return 'star';
     }
     else {

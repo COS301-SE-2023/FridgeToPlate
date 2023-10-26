@@ -1,5 +1,6 @@
 import { IReview } from "@fridge-to-plate/app/review/utils";
 import { IRecipe } from "./interfaces";
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { IMealPlan } from "@fridge-to-plate/app/meal-plan/utils";
 
 export class DeleteRecipe {

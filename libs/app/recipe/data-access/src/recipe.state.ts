@@ -120,6 +120,16 @@ export class RecipeState {
     const updatedRecipe = getState().recipe;
 
     if (updatedRecipe) {
+
+      const isFound = updatedRecipe?.reviews?.find(
+        (currentReview) => currentReview.username === review.username
+      );
+
+      if (isFound !== undefined) {
+        this.store.dispatch(new ShowError("Can't Add More Than One Review"));
+        return;
+      }
+
       (await this.api.createNewReview(review)).subscribe({
         next: data => {
             updatedRecipe.reviews?.unshift(data);
@@ -190,11 +200,10 @@ export class RecipeState {
     this.api.deleteRecipe(recipeId).pipe(
       tap(
         (response: string) => {
-          console.log(response)
           this.store.dispatch(new ShowInfo('Recipe Deleted'));
         },
         catchError(
-          () => this.store.dispatch(new ShowError('Unfortunately, the recipe was not deleted successfully'))
+          () => this.store.dispatch(new ShowError('Error Occured While Deleting Recipe'))
         )
       )).subscribe()
   }
@@ -231,8 +240,7 @@ export class RecipeState {
         }
       },
       (error: Error) => {
-        console.error('Failed to retrieve ingredients:', error);
-        this.store.dispatch(new ShowError("An error occurred"));
+        this.store.dispatch(new ShowError("An Error Occured While Retrieving Shopping List"));
       }
     );
   }

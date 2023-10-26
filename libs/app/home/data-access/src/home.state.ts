@@ -1,11 +1,10 @@
 import { IRecipe } from '@fridge-to-plate/app/recipe/utils';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import {ClearFeaturedRecipes, RetrieveFeaturedRecipes} from '../../utils/src/home.actions';
+import { ClearFeaturedRecipes, RetrieveFeaturedRecipes } from '@fridge-to-plate/app/home/utils';
 import { ExploreAPI } from '@fridge-to-plate/app/explore/data-access';
 import { IExplore } from '@fridge-to-plate/app/explore/utils';
 import { ShowError } from '@fridge-to-plate/app/error/utils';
-import { ShowInfo } from '@fridge-to-plate/app/info/utils';
 
 export interface HomeStateModel {
   meal: string

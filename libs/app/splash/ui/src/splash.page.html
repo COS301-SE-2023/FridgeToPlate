@@ -1,21 +1,18 @@
 <div 
-class="lg:grid lg:grid-rows-2 lg:pt-20  flex flex-col min-h-screen max-h-screen h-full w-full bg-background-dark space-y-72 lg:space-y-40 relative z-50 transition-opacity 
-ease-out duration-300 opacity-100"
-[ngClass]="hidden ? 'opacity-0' : 'opacity-100'"
-*ngIf="!hide">
+  class="lg:grid lg:grid-rows-2 lg:pt-20  flex flex-col min-h-screen max-h-screen h-full w-full bg-background-dark space-y-72 lg:space-y-40 relative z-50 transition-opacity 
+  ease-out duration-300 opacity-100"
+  [ngClass]="hidden ? 'opacity-0' : 'opacity-100'"
+  *ngIf="!hide"
+>
 
-  <div class="flex mx-auto items-center justify-center w-2/5 pb-2 md:w-1/3 md:pb-16 block rounded-lg text-white mt-auto  lg:w-1/6">
+  <div class="flex mx-auto items-center justify-center w-2/5 pb-2 md:w-1/3 md:pb-16 rounded-lg text-white mt-auto  lg:w-1/6">
     <img class="max-w-full h-auto lg:pt-32" [src]="splashLogoImage" alt="Splash2 Photo">
   </div>
+
+  <footer>
+    <div class=" container mx-auto flex justify-center items-end rounded-lg h-2/5 w-2/5 my-4 pb-12 lg:mt-32">
+      <img class=" max-w-full h-auto" [src]="splashFooterImage" alt="Footer Photo">
+    </div>
+  </footer>
     
-
-    <!-- <h1 class="text-3xl md:text-5xl text-left mb-4 font-extrabold text-white font-serif">Fridge To Plate</h1> -->
-
-    <footer>
-      <div class=" container mx-auto flex justify-center items-end rounded-lg h-2/5 w-2/5 my-4 pb-12 lg:mt-32">
-        <img class=" max-w-full h-auto" [src]="splashFooterImage" alt="Footer Photo">
-      </div>
-    </footer>
-    
-
 </div>

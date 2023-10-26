@@ -1,33 +1,20 @@
 <div
-  class="flex justify-between bg-primary sm:py-3 md:py-2 md:mt-16 font-inter"
-  *ngIf="recipe$ | async as recipe"
->
-  <div>
-    <h2 class="text-2xl font-bold ml-3 text-content-dark">{{ recipe.name }}</h2>
-  </div>
-  <div class="mr-5">
-    <button type="button" (click)="deleteRecipe()">
-      <ion-icon class="text-3xl" name="trash-outline"></ion-icon>
-    </button>
-  </div>
-</div>
-
-<div
-  class="justify-center pt-8 bg-background-light h-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-6"
+  class="justify-center pt-8 bg-background-light h-full w-full overflow-y-scroll [&>*]:max-w-screen-sm lg:[&>*]:max-w-screen-lg lg:pt-9 lg:mt-16 font-inter"
   *ngIf="recipe$ | async as recipe; else ErrorMessage"
 >
   <form
     [formGroup]="recipeForm"
     (ngSubmit)="updateRecipe()"
-    class="[&>*]:mb-8 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20"
+    class="[&>*]:mb-7 justify-center mx-auto overflow-y-visible lg:grid lg:grid-cols-2 lg:gap-x-20"
   >
     <div class="flex justify-center my-auto">
       <img
         (click)="fileInput.click()"
         [src]="imageUrl"
-        class="obect-cover max-h-96 rounded-md aspect-square cursor-pointer"
+        class="object-cover rounded-md aspect-square cursor-pointer"
         alt="Recipe Image"
       />
+
       <input
         style="display: none"
         type="file"
@@ -39,14 +26,13 @@
 
     <div>
       <div class="mb-8">
-        <label for="name" class="block  font-bold mb-2 text-content-gray font-inter"
-          >Recipe Name</label
-        >
+        <label for="name" class="block text-content-gray font-bold mb-2">Recipe Name<span class="text-orange-500">*</span></label>
         <input
           type="text"
           id="name"
           formControlName="name"
           placeholder="Name"
+          [ngClass]="(this.recipeForm.controls?.['name']?.errors && this.recipeForm.controls?.['name']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
           required
         />
@@ -59,13 +45,12 @@
       </div>
 
       <div class="mb-7">
-        <label for="description" class="block  font-bold mb-2 text-content-gray"
-          >Recipe Description</label
-        >
+        <label for="description" class="block text-content-gray font-bold mb-2">Recipe Description<span class="text-red-500">*</span></label>
         <textarea
           id="description"
           placeholder="Description"
           formControlName="description"
+          [ngClass]="(this.recipeForm.controls?.['description']?.errors && this.recipeForm.controls?.['description']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
           class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
           required
         ></textarea>
@@ -78,16 +63,17 @@
       </div>
 
       <div class="mb-8 lg:flex lg:space-x-4">
-        <div class="lg:w-2/5">
-          <label for="servings" class="block  font-bold mb-2 text-content-gray">Number of Servings<span class="text-red-500">*</span></label>
+        <div class="mb-8 lg:w-2/5 lg:mb-0">
+          <label for="servings" class="block text-content-gray font-bold mb-2">Number of Servings<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="servings"
             placeholder="e.g 10"
             formControlName="servings"
+            [ngClass]="(this.recipeForm.controls?.['servings']?.errors && this.recipeForm.controls?.['servings']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             min="1"
-            pattern="[1-9]+"
+            pattern="[1-9]+[0-9]*"
           />
           <span
             class="text-delete-highlight w-full h-auto"
@@ -98,14 +84,15 @@
         </div>
 
         <div class="lg:w-3/5">
-          <label for="preparation-time" class="block  font-bold mb-2 text-content-gray">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
+          <label for="preparation-time" class="block text-content-gray font-bold mb-2">Preparation Time (in minutes)<span class="text-red-500">*</span></label>
           <input
             type="number"
             id="preparation-time"
             placeholder="e.g 10"
             formControlName="preparationTime"
+            [ngClass]="(this.recipeForm.controls?.['preparationTime']?.errors && this.recipeForm.controls?.['preparationTime']?.touched) ? 'border-none outline outline-2 outline-delete-highlight' : '' "
             min="1"
-            pattern="[1-9]+"
+            pattern="[1-9]+[0-9]*"
             class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
             required
           />
@@ -118,10 +105,8 @@
         </div>
       </div>
 
-      <div class="mt-8">
-        <label class="block text-content-gray font-bold mb-2"
-          >Difficulty<span class="text-red-500">*</span></label
-        >
+      <div>
+        <label class="block text-content-gray font-bold mb-2">Difficulty<span class="text-red-500">*</span></label>
         <div class="grid grid-flow-row grid-cols-3 gap-1">
           <button
             type="button"
@@ -154,8 +139,8 @@
       </div>
     </div>
 
-    <div class="lg:hidden font-inter">
-      <label class="block text-content-gray font-bold mb-2">Meal</label>
+    <div class="lg:hidden">
+      <label class="block text-content-gray font-bold mb-2">Meal<span class="text-red-500">*</span></label>
       <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-2 gap-1 mb-2 mr-2">
         <button
           type="button"
@@ -164,7 +149,7 @@
           (click)="toggleMeal('breakfast')"
           class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
         >
-          Breakfast
+          BreakFast
         </button>
         <button
           type="button"
@@ -237,18 +222,8 @@
 
     <div>
       <div class="flex justify-between">
-        <label
-          for="ingredients"
-          class="block text-content-gray font-bold mr-2 font-inter"
-          >Ingredients<span class="text-red-500">*</span></label
-        >
-        <button
-          type="button"
-          (click)="addIngredient()"
-          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
-        >
-          Add
-        </button>
+        <label for="ingredients" class="block text-content-gray font-bold mr-2">Ingredients<span class="text-red-500">*</span></label>
+        <button type="button" (click)="addIngredient()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
       <div
         formArrayName="ingredients"
@@ -259,13 +234,174 @@
         >
           <div [formGroupName]="i" class="flex mb-2">
             <div class="w-3/5">
-              <input
+              <select
                 formControlName="name"
-                placeholder="Ingredient Name"
+                value=""
                 required
                 type="text"
+                name="name"
                 class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-              />
+              >
+              <option value="" disabled selected>Choose Ingredient to Add</option>
+              <optgroup label="Dairy">
+                <option value="butter">Butter</option>
+                <option value="buttermilk">Buttermilk</option>
+                <option value="cheddar cheese">Cheddar Cheese</option>
+                <option value="cheese">Cheese</option>
+                <option value="condensed milk">Condensed Milk</option>
+                <option value="cream">Cream</option>
+                <option value="cream cheese">Cream Cheese</option>
+                <option value="cottage cheese">Cottage Cheese</option>
+                <option value="feta cheese">Feta Cheese</option>
+                <option value="gouda cheese">Gouda Cheese</option>
+                <option value="goat cheese">Goat Cheese</option>
+                <option value="blue cheese">Blue Cheese</option>
+                <option value="half and half">Half and Half</option>
+                <option value="milk">Milk</option>
+                <option value="mozzarella cheese">Mozzarella Cheese</option>
+                <option value="parmesan cheese">Parmesan Cheese</option>
+                <option value="ricotta cheese">Ricotta Cheese</option>
+                <option value="sour cream">Sour Cream</option>
+                <option value="whipped cream">Whipped Cream</option>
+                <option value="yogurt">Yogurt</option>
+              </optgroup>
+              <optgroup label="Fruits">
+                <option value="apricot">Apricot</option>
+                <option value="banana">Banana</option>
+                <option value="blackberries">Blackberries</option>
+                <option value="blueberries">Blueberries</option>
+                <option value="cherry">Cherry</option>
+                <option value="cranberries">Cranberries</option>
+                <option value="dates">Dates</option>
+                <option value="dragon fruit">Dragon Fruit</option>
+                <option value="fig">Fig</option>
+                <option value="grapefruit">Grapefruit</option>
+                <option value="grapes">Grapes</option>
+                <option value="guava">Guava</option>
+                <option value="kiwi">Kiwi</option>
+                <option value="lemon">Lemon</option>
+                <option value="lemon peel">Lemon Peel</option>
+                <option value="lime">Lime</option>
+                <option value="mango">Mango</option>
+                <option value="orange">Orange</option>
+                <option value="orange peel">Orange Peel</option>
+                <option value="papaya">Papaya</option>
+                <option value="passion fruit">Passion Fruit</option>
+                <option value="peach">Peach</option>
+                <option value="pear">Pear</option>
+                <option value="pineapple">Pineapple</option>
+                <option value="plum">Plum</option>
+                <option value="pomegranate">Pomegranate</option>
+                <option value="raspberries">Raspberries</option>
+                <option value="strawberries">Strawberries</option>
+                <option value="watermelon">Watermelon</option>
+              </optgroup>
+              <optgroup label="Vegetables">
+                <option value="artichokes">Artichokes</option>
+                <option value="asparagus">Asparagus</option>
+                <option value="avocado">Avocado</option>
+                <option value="beets">Beets</option>
+                <option value="bell peppers">Bell Peppers</option>
+                <option value="broccoli">Broccoli</option>
+                <option value="cabbage">Cabbage</option>
+                <option value="carrots">Carrots</option>
+                <option value="cauliflower">Cauliflower</option>
+                <option value="celery">Celery</option>
+                <option value="corn">Corn</option>
+                <option value="cucumbers">Cucumbers</option>
+                <option value="eggplant">Eggplant</option>
+                <option value="green beans">Green Beans</option>
+                <option value="kale">Kale</option>
+                <option value="leeks">Leeks</option>
+                <option value="lettuce">Lettuce</option>
+                <option value="mushrooms">Mushrooms</option>
+                <option value="onions">Onions</option>
+                <option value="peas">Peas</option>
+                <option value="potatoes">Potatoes</option>
+                <option value="radishes">Radishes</option>
+                <option value="spinach">Spinach</option>
+                <option value="spring onions">Spring Onions</option>
+                <option value="sweet potatoes">Sweet Potatoes</option>
+                <option value="tomatoes">Tomatoes</option>
+                <option value="zucchini">Zucchini</option>
+              </optgroup>
+              <optgroup label="Meat">
+                <option value="bacon">Bacon</option>
+                <option value="beef mince">Beef Mince</option>
+                <option value="beef ribs">Beef Ribs</option>
+                <option value="chicken">Chicken</option>
+                <option value="clams">Clams</option>
+                <option value="crab">Crab</option>
+                <option value="duck">Duck</option>
+                <option value="fish">Fish</option>
+                <option value="ham">Ham</option>
+                <option value="lamb">Lamb</option>
+                <option value="lobster">Lobster</option>
+                <option value="mussels">Mussels</option>
+                <option value="pork">Pork Chop</option>
+                <option value="pork ribs">Pork Ribs</option>
+                <option value="salmon">Salmon</option>
+                <option value="shrimp">Shrimp</option>
+                <option value="steak">Steak</option>
+                <option value="tilapia">Tilapia</option>
+                <option value="turkey">Turkey</option>
+              </optgroup>
+              <optgroup label="Grains">
+                <option value="barley">Barley</option>
+                <option value="bread">Bread</option>
+                <option value="bulgur">Bulgur</option>
+                <option value="cereal">Cereal</option>
+                <option value="corn flakes">Corn Flakes</option>
+                <option value="cornmeal">Cornmeal</option>
+                <option value="couscous">Couscous</option>
+                <option value="crackers">Crackers</option>
+                <option value="flour">Flour</option>
+                <option value="oats">Oats</option>
+                <option value="pasta">Pasta</option>
+                <option value="polenta">Polenta</option>
+                <option value="quinoa">Quinoa</option>
+                <option value="rice">Rice</option>
+                <option value="rye">Rye</option>
+                <option value="rye flour">Rye Flour</option>
+                <option value="spelt">Spelt</option>
+                <option value="wheat bran">Wheat Bran</option>
+                <option value="wheat germ">Wheat Germ</option>
+                <option value="wild rice">Wild Rice</option>
+              </optgroup>
+              <optgroup label="Spreads and Condiments">
+                <option value="barbecue_sauce">Barbecue Sauce</option>
+                <option value="honey">Honey</option>
+                <option value="hot sauce">Hot Sauce</option>
+                <option value="jam">Jam</option>
+                <option value="ketchup">Ketchup</option>
+                <option value="maple syrup">Maple Syrup</option>
+                <option value="mayonnaise">Mayonnaise</option>
+                <option value="mustard">Mustard</option>
+                <option value="nutella">Nutella</option>
+                <option value="peanut butter">Peanut Butter</option>
+                <option value="relish">Relish</option>
+                <option value="salsa">Salsa</option>
+                <option value="soy sauce">Soy Sauce</option>
+              </optgroup>
+              <optgroup label="Herbs and Spices">
+                <option value="basil">Basil</option>
+                <option value="cayenne">Cayenne</option>
+                <option value="cilantro">Cilantro</option>
+                <option value="cinnamon">Cinnamon</option>
+                <option value="coriander">Coriander</option>
+                <option value="cumin">Cumin</option>
+                <option value="ginger">Ginger</option>
+                <option value="mint">Mint</option>
+                <option value="nutmeg">Nutmeg</option>
+                <option value="oregano">Oregano</option>
+                <option value="paprika">Paprika</option>
+                <option value="parsley">Parsley</option>
+                <option value="rosemary">Rosemary</option>
+                <option value="sage">Sage</option>
+                <option value="thyme">Thyme</option>
+                <option value="turmeric">Turmeric</option>
+              </optgroup>
+              </select>
             </div>
 
             <div class="w-1/5 mx-2">
@@ -286,72 +422,68 @@
                 required
                 class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-black-400 appearance-none"
               >
-                <option value="" disabled selected class="text-content-gray">
+                <option value="" disabled selected class="text-gray-500">
                   Units
                 </option>
                 <option
                   value="tsp"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Teaspoon (tsp)
+                  tsp
                 </option>
                 <option
                   value="tbsp"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Tablespoon (tbsp)
-                </option>
-                <option value="c" class="text-black hover:bg-primary-highlight">
-                  Cup (c)
+                  tbsp
                 </option>
                 <option
-                  value="fl oz"
+                  value="cup"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Fluid Ounce (fl oz)
+                  cup
                 </option>
                 <option
-                  value="mL"
+                  value="ml"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Milliliter (mL)
+                  ml
                 </option>
-                <option value="L" class="text-black hover:bg-primary-highlight">
-                  Liter (L)
+                <option value="l" class="text-black hover:bg-primary-highlight">
+                  l
                 </option>
                 <option value="g" class="text-black hover:bg-primary-highlight">
-                  Gram (g)
+                  g
                 </option>
-                <option
-                  value="kg"
-                  class="text-black hover:bg-primary-highlight"
-                >
-                  Kilogram (kg)
+                <option value="kg" class="text-black hover:bg-primary-highlight">
+                  kg
                 </option>
                 <option
                   value="oz"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Ounce (oz)
+                  oz
                 </option>
                 <option
                   value="lb"
                   class="text-black hover:bg-primary-highlight"
                 >
-                  Pound (lb)
+                  lb
                 </option>
               </select>
             </div>
 
             <div class="mt-1">
-              <button
-                type="button"
-                (click)="removeIngredient(i)"
-                class="text-content-dark text-3xl mx-4 font-medium rounded-lg text-center"
-              >
+              <button type="button" (click)="removeIngredient(i)" class="text-content-dark text-3xl mx-4 font-medium rounded-lg text-center">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>
+            <span
+              class="text-delete-highlight w-full h-auto"
+              *ngIf="this.recipeForm.controls?.['ingredients']?.errors && this.recipeForm.controls?.['ingredients']?.touched"
+            >
+              <p class="mt-2">Minimum one ingredient is required</p>
+            </span>
           </div>
         </div>
       </div>
@@ -359,16 +491,8 @@
 
     <div>
       <div class="flex justify-between">
-        <label for="instructions" class="block text-content-gray font-bold mr-2"
-          >Instructions<span class="text-red-500">*</span></label
-        >
-        <button
-          type="button"
-          (click)="addInstruction()"
-          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
-        >
-          Add
-        </button>
+        <label for="instructions" class="block text-content-gray font-bold mr-2">Instructions<span class="text-red-500">*</span></label>
+        <button type="button" (click)="addInstruction()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3">Add</button>
       </div>
       <div
         formArrayName="instructions"
@@ -379,20 +503,16 @@
           class="mb-2"
         >
           <div class="flex items-center space-x-4">
-            <span class="text-xl">{{ i+1 }}.</span>
-            <input
-              type="text"
-              placeholder="Add Instruction"
-              id="instruction-{{i}}"
-              [formControlName]="i"
-              class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
-              required
-            />
-            <button
-              type="button"
-              (click)="removeInstruction(i)"
-              class="text-black text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center"
-            >
+            <span class="text-xl text-content-dark">{{ i+1 }}.</span>
+            <input type="text"
+                  placeholder="Add Instruction"
+                  id="instruction-{{i}}"
+                  [formControlName]="i"
+                  class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md"
+                  required>
+            <button type="button"
+                    (click)="removeInstruction(i)"
+                    class="text-content-dark text-3xl mx-4 font-medium rounded-lg mb-1 text-center inline-flex items-center">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
@@ -400,85 +520,81 @@
       </div>
     </div>
 
-    <div class="hidden lg:block font-inter">
-      <label class="block text-content-gray font-bold mb-2"
-        >Meal<span class="text-red-500">*</span></label
-      >
-      <div
-        class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2 w-full"
-      >
+    <div class="hidden lg:block">
+      <label class="block text-content-gray font-bold mb-2">Meal<span class="text-red-500">*</span></label>
+      <div class="[&>*]:mb-2 grid grid-flow-row grid-cols-4 gap-1 mb-2 mr-2">
         <button
           type="button"
           [ngClass]="getMealPlan('breakfast')"
           value="Breakfast"
           (click)="toggleMeal('breakfast')"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
-          <p class="text-sm">Breakfast</p>
+          Breakfast
         </button>
         <button
           type="button"
           [ngClass]="getMealPlan('lunch')"
           (click)="toggleMeal('lunch')"
           value="Lunch"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Lunch
         </button>
         <button
           type="button"
-          [ngClass]="getMealPlan('Dinner')"
-          (click)="toggleMeal('Dinner')"
+          [ngClass]="getMealPlan('dinner')"
+          (click)="toggleMeal('dinner')"
           value="Dinner"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+          class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Dinner
         </button>
         <button
           type="button"
-          [ngClass]="getMealPlan('Snack')"
-          (click)="toggleMeal('Snack')"
+          [ngClass]="getMealPlan('snack')"
+          (click)="toggleMeal('snack')"
           value="Snack"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
-        >
+          class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
+          >
           Snack
         </button>
         <button
-          type="button"
-          [ngClass]="getMealPlan('dessert')"
-          (click)="toggleMeal('dessert')"
-          value="Snack"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        type="button"
+        [ngClass]="getMealPlan('dessert')"
+        (click)="toggleMeal('dessert')"
+        value="Snack"
+        class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Dessert
         </button>
 
         <button
-          type="button"
-          [ngClass]="getMealPlan('drink')"
-          (click)="toggleMeal('drink')"
-          value="Drink"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+        type="button"
+        [ngClass]="getMealPlan('drink')"
+        (click)="toggleMeal('drink')"
+        value="Drink"
+        class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Drink
         </button>
 
-        <button
-          type="button"
-          [ngClass]="getMealPlan('salad')"
-          (click)="toggleMeal('salad')"
-          value="Salad"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+      <button
+        type="button"
+        [ngClass]="getMealPlan('salad')"
+        (click)="toggleMeal('salad')"
+        value="Salad"
+        class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Salad
         </button>
 
-        <button
-          type="button"
-          [ngClass]="getMealPlan('soup')"
-          (click)="toggleMeal('soup')"
-          value="Soup"
-          class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+      <button
+        type="button"
+        [ngClass]="getMealPlan('soup')"
+        (click)="toggleMeal('soup')"
+        value="Soup"
+        class="bg-gray-200 text-content-gray py-2 px-4 rounded-md mr-2"
         >
           Soup
         </button>
@@ -486,29 +602,26 @@
     </div>
 
     <div>
-      <label for="tag" class="block text-content-gray font-bold mb-2">Tag</label>
-
+      <div class="flex justify-between">
+        <label for="tag" class="block text-content-gray font-bold mb-2">Tag</label>
+        <button type="button" (click)="addTag()" class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-2">
+          Add
+        </button>
+      </div>
       <div class="flex items-center space-x-4">
         <input
           id="tag"
           type="text"
           placeholder="e.g. Asian"
-          formControlName="tags"
-          class="w-full bg-gray-200 border border-gray-400 p-2 rounded-md mr-2"
+          formControlName="tag"
+          class="w-full bg-gray-200 border border-gray-400 mt- p-2 rounded-md"
         />
-        <button
-          type="button"
-          (click)="addTag()"
-          class="text-white bg-primary hover:bg-primary-highlight font-medium rounded-md text-sm px-10 py-1 text-center inline-flex items-center mb-3"
-        >
-          Add
-        </button>
       </div>
       <div class="py-2">
         <ul class="flex">
           <li
             *ngFor="let tag of tags; let i = index"
-            class="cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2"
+            class="cursor-pointer bg-gray-200 text-gray-700 py-2 px-4 rounded-md mr-2 hover:bg-primary hover:text-white"
             (click)="deleteTag(i)"
           >
             {{ tag }}
@@ -517,20 +630,40 @@
       </div>
     </div>
 
-    <div class="flex justify-between lg:col-span-2 lg:px-36">
+    <div class="flex flex-col lg:col-span-2 lg:px-36  w-full mx-auto">
+      <label for="instructions" class="block text-content-gray font-bold mb-2 lg:text-center">Video</label>
+      <input id="videoLink" type="text" [(ngModel)]="videoLink" [ngModelOptions]="{standalone: true}" placeholder="Please Paste Youtube Link Here" class="w-full bg-gray-200 border border-gray-400 p-2 text-gray-900 text-sm rounded-md ">
+
+      <video
+        id="video-player"
+        controls
+        autoplay
+        class="flex justify-center rounded-lg"
+        [ngStyle]="{ 'display': displayVideo }"
+      ></video>
+    </div>
+
+    <div class="flex justify-center lg:col-span-2 lg:px-36">
       <button
-        type="button"
-        (click)="cancelEdit()"
-        class="bg-delete text-white hover:bg-delete-highlight font-medium py-2 px-10 rounded-md w-full mx-2"
+        type="submit"
+        [disabled]="!this.recipeForm.valid"
+        class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full disabled:bg-gray-400 disabled:cursor-not-allowed md:mr-2"
       >
-        Cancel
+        Save Recipe
       </button>
       <button
-        [disabled]="!this.recipeForm.valid"
-        type="submit"
-        class="bg-primary text-white hover:bg-primary-highlight font-medium py-2 px-10 rounded-md w-full mx-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        (click)="deleteRecipe()"
+        class="bg-delete text-white hover:bg-delete-highlight font-medium py-2 px-10 rounded-md w-full md:ml-2"
       >
-        Update Recipe
+        Delete Recipe
+      </button>
+    </div>
+    <div class="flex justify-center lg:col-span-2 lg:px-36">
+      <button
+        (click)="cancelEdit()"
+        class="bg-delete text-white hover:bg-delete-highlight font-medium py-2 px-10 rounded-md w-full"
+      >
+        Cancel Changes
       </button>
     </div>
   </form>
