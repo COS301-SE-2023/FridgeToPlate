@@ -13,9 +13,12 @@ import { Select } from '@ngxs/store';
 import {
   Observable,
   Subject,
+  distinct,
   distinctUntilChanged,
   filter,
+  first,
   fromEvent,
+  take,
   takeUntil,
   tap,
 } from 'rxjs';
@@ -28,7 +31,6 @@ import { IExplore } from '@fridge-to-plate/app/explore/utils';
   styleUrls: ['./searching-modal.component.scss'],
 })
 export class SearchingModalComponent implements AfterViewInit, OnDestroy {
-
   @Input() filterCount: number;
 
   @Input() clearSearchTermObservable$: Observable<boolean>;
@@ -54,8 +56,9 @@ export class SearchingModalComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.emitSearchTermEvent$ = fromEvent<KeyboardEvent>(
       this.input.nativeElement,
-      'keyup'
+      'keydown'
     ).pipe(
+      take(1),
       filter((e: KeyboardEvent) => e.key === 'Enter'),
       distinctUntilChanged(),
       tap(() => {
